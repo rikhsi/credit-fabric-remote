@@ -1,0 +1,24 @@
+<ng-container *transloco="let t">
+  <nz-form-item>
+    <nz-form-control
+      [nzValidateStatus]="firstError() | validationStatus: dirty()"
+      [nzHasFeedback]="isFeedback()"
+      [nzErrorTip]="t(firstError() | validationMsg: dirty(), { count: errorCount() })"
+      [nzValidatingTip]="t(firstError() | validationMsg: dirty(), { count: errorCount() })"
+      [nzWarningTip]="t(firstError() | validationMsg: dirty(), { count: errorCount() })"
+      [nzSuccessTip]="t(firstError() | validationMsg: dirty(), { count: errorCount() })"
+    >
+      <nz-date-picker
+        [(ngModel)]="value"
+        [nzFormat]="format()"
+        [nzPlaceHolder]="placeholder() ?? t('control.input.placeholder')"
+        [nzDisabledDate]="disabledDate"
+        [id]="id()"
+        [nzSize]="size()"
+        [disabled]="disabled()"
+        (blur)="blurChange.emit()"
+        (click)="clicked.emit()"
+      />
+    </nz-form-control>
+  </nz-form-item>
+</ng-container>

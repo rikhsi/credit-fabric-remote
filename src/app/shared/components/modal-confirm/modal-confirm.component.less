@@ -1,0 +1,54 @@
+@import 'mixins';
+
+.themeMixin({
+  :host {
+    .modal-confirm {
+      background: @component-background;
+    }
+  }
+});
+
+.modal-confirm {
+  width: 450px;
+  border-radius: 16px;
+  padding: 16px 24px;
+
+  .media(@media-sm, {
+        width: 100%;
+        padding: 16px;
+    });
+
+  .title {
+    .textMixin(600,18px,100%);
+    margin-bottom: 8px;
+
+    .media(@media-sm, {
+            font-size: 16px;
+        });
+  }
+
+  .description {
+    .textMixin(400,14px,100%);
+    margin-bottom: 30px;
+
+    .media(@media-sm, {
+            margin-bottom: 20px;
+        });
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 12px;
+
+    .media(@media-sm, {
+            flex-direction: column;
+            gap: 8px;
+
+            button {
+                width: 100%;
+            }
+        });
+  }
+}

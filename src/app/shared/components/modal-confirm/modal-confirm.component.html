@@ -1,0 +1,16 @@
+<ng-container *transloco="let t">
+  <div class="modal-confirm">
+    <p class="title">{{ t(config()?.title) }}</p>
+    <p class="description">{{ t(config()?.description) }}</p>
+
+    <div class="footer">
+      <button nz-button nzSize="large" [nzDanger]="config()?.cancel?.danger" class="w-min" (click)="cancel()">
+        {{ t(config()?.cancel?.title) }}
+      </button>
+
+      <button nz-button nzType="primary" nzSize="large" [nzDanger]="config()?.submit?.danger" class="w-min" (click)="submit()">
+        {{ t(config()?.submit?.title) }}
+      </button>
+    </div>
+  </div>
+</ng-container>

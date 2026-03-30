@@ -1,0 +1,30 @@
+@import 'mixins';
+
+.themeMixin({
+    .splash {
+        background: @component-background;
+    } 
+});
+
+.splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: 0.3s all;
+  z-index: 1000000000000000000000000000;
+
+  &.none {
+    display: none;
+  }
+
+  img {
+    object-fit: contain;
+  }
+}

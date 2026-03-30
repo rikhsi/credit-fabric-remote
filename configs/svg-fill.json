@@ -1,0 +1,26 @@
+{
+  "srcFiles": ["./public/icons/fill/*.svg"],
+  "outputDirectory": "./src/app/constants",
+  "fileName": "svg-fill",
+  "objectName": "SVG_FILL_ICONS",
+  "svgoConfig": {
+    "plugins": [
+      "cleanupAttrs",
+      {
+        "name": "removeAttrs",
+        "params": {
+          "attrs": "(width|height|fill|stroke|clip-path)"
+        }
+      },
+      {
+        "name": "addAttributesToSVGElement",
+        "params": {
+          "attributes": [{ "class": "svg-fill" }]
+        }
+      }
+    ]
+  },
+  "generateType": false,
+  "generateTypeObject": false,
+  "compileSources": false
+}

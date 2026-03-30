@@ -1,0 +1,17 @@
+@import 'mixins';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    .textMixin(600, 14px, 100%);
+    
+    &.required::before {
+      content: '*';
+      color: @cf-red-600;
+      font-size: 12px;
+    }
+  }
+}

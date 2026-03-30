@@ -1,0 +1,26 @@
+{
+  "srcFiles": ["./public/icons/outline/*.svg"],
+  "outputDirectory": "./src/app/constants",
+  "fileName": "svg-outline",
+  "objectName": "SVG_OUTLINE_ICONS",
+  "svgoConfig": {
+    "plugins": [
+      "cleanupAttrs",
+      {
+        "name": "removeAttrs",
+        "params": {
+          "attrs": "(width|height|fill|stroke|clip-path)"
+        }
+      },
+      {
+        "name": "addAttributesToSVGElement",
+        "params": {
+          "attributes": [{ "class": "svg-outline" }]
+        }
+      }
+    ]
+  },
+  "generateType": false,
+  "generateTypeObject": false,
+  "compileSources": false
+}

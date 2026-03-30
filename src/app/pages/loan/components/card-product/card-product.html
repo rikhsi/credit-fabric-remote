@@ -1,0 +1,20 @@
+<ng-container *transloco="let t">
+  <cf-card class="card">
+    <div class="box">
+      <div class="content">
+        <nz-tag nzColor="#DCF9F9" class="tag">Потоковое кредитование</nz-tag>
+
+        <div class="infos">
+          <cf-label-control [label]="'До 300 млн сум'">Сумма кредита</cf-label-control>
+          <cf-label-control [label]="'До 5 лет'">Срок кредита</cf-label-control>
+          <cf-label-control [label]="'от 18%'">Процентная ставка</cf-label-control>
+        </div>
+
+        <button nz-button nzType="primary" routerLink="../details/2" class="gray more">{{t('action.detail')}}</button>
+      </div>
+      <div class="img">
+        <img ngSrc="images/loan.png" height="171" width="242" alt="loan" />
+      </div>
+    </div>
+  </cf-card>
+</ng-container>

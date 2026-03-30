@@ -1,0 +1,74 @@
+@import 'mixins';
+
+.themeMixin({
+  :host {
+    background: @component-background;
+
+    .content {
+      border-color: @border-color;
+    }
+  }
+});
+
+:host {
+  width: 450px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .media(@media-xs, {
+    width: 100%;
+  });
+
+  .top {
+    display: flex;
+    column-gap: 20px;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+
+    .form-box__toolbar {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      flex-shrink: 0;
+    }
+  }
+
+  .media(@media-sm, {
+    .top .form-box__toolbar .cf-form-box__icon-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .top .form-box__toolbar button[nz-button] {
+      position: relative;
+    }
+  });
+
+  .content {
+    flex: 1;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding: 20px;
+  }
+
+  .footer {
+    display: flex;
+    column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+:host.form-box--full-width {
+  width: 100%;
+  max-width: none;
+}

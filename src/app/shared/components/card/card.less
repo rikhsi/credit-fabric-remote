@@ -1,0 +1,42 @@
+@import 'mixins';
+
+.themeMixin({
+    :host {
+        background: @component-background;
+    }
+});
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: 16px;
+  padding: 20px;
+
+  .media(@media-sm, {
+        padding: 12px 16px;
+    });
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+
+    &.space {
+      margin-bottom: 16px;
+    }
+
+    .actions {
+      display: flex;
+      column-gap: 16px;
+      align-items: center;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}

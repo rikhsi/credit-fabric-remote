@@ -1,0 +1,27 @@
+{
+  "srcFiles": ["./public/icons/colorful/*.svg"],
+  "outputDirectory": "./src/app/constants",
+  "fileName": "svg-colorful",
+  "objectName": "SVG_COLORFUL_ICONS",
+  "svgoConfig": {
+    "plugins": [
+      "cleanupAttrs",
+      {
+        "name": "removeAttrs",
+        "params": {
+          "attrs": "(width|height|clip-path)"
+        }
+      },
+      {
+        "name": "addAttributesToSVGElement",
+        "params": {
+          "attributes": [{ "class": "svg-colorful" }]
+        }
+      },
+      "removeUselessDefs"
+    ]
+  },
+  "generateType": false,
+  "generateTypeObject": false,
+  "compileSources": false
+}

@@ -1,0 +1,12 @@
+@if (isFull()) {
+<span class="logo logo--full" role="img" aria-label="Blix" (click)="clicked.emit()">
+  <img ngSrc="images/logo-short.svg" width="42" height="46" priority alt="" role="presentation" />
+  <span class="logo__word" aria-hidden="true">
+    @for (ch of brandLetters; track $index) {
+    <span class="logo__letter" [style.--i]="$index">{{ ch }}</span>
+    }
+  </span>
+</span>
+} @else {
+<img ngSrc="images/logo-short.svg" width="42" height="46" priority alt="Blix" (click)="clicked.emit()" />
+}

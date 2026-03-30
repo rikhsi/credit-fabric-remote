@@ -1,0 +1,68 @@
+@import 'mixins';
+
+:host {
+  user-select: none;
+  pointer-events: none;
+
+  &.selectable {
+    pointer-events: all;
+    cursor: pointer;
+  }
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.logo--full {
+  vertical-align: middle;
+}
+
+.logo__word {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  animation: logo-blix-breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes logo-blix-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.86;
+  }
+}
+
+.logo__letter {
+  display: inline-block;
+  will-change: transform;
+  animation: logo-blix-wave 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.14s);
+}
+
+@keyframes logo-blix-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo__word,
+  .logo__letter {
+    animation: none !important;
+  }
+}

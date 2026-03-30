@@ -1,0 +1,73 @@
+@import 'mixins';
+
+.themeMixin({
+  strong {
+    color: @text-color-secondary
+  }
+});
+
+@font-family:
+  'Inter',
+  -apple-system,
+  BlinkMacSystemFont,
+  sans-serif;
+
+@font-size-base: 14px;
+@font-size-lg: 16px;
+@font-size-sm: 12px;
+@font-size-icon: 14px;
+
+@heading-1-size: 28px;
+@heading-2-size: 22px;
+@heading-3-size: 18px;
+@heading-4-size: 16px;
+@heading-5-size: 14px;
+
+@line-height-base: 1.6;
+@line-height-lg: 1.6;
+
+@line-width: 1px;
+@line-width-focus: 3px;
+
+h1.ant-typography,
+div.ant-typography-h1,
+div.ant-typography-h1 > textarea,
+.ant-typography h1 {
+  margin: 0;
+}
+
+h2.ant-typography,
+div.ant-typography-h2,
+div.ant-typography-h2 > textarea,
+.ant-typography h2 {
+  margin: 0;
+}
+
+.ant-typography + h1.ant-typography,
+.ant-typography + h2.ant-typography,
+.ant-typography + h3.ant-typography,
+.ant-typography + h4.ant-typography,
+.ant-typography + h5.ant-typography {
+  margin: 0;
+}
+
+h3.ant-typography,
+div.ant-typography-h3,
+div.ant-typography-h3 > textarea,
+.ant-typography h3 {
+  margin: 0;
+}
+
+h4.ant-typography,
+div.ant-typography-h4,
+div.ant-typography-h4 > textarea,
+.ant-typography h4 {
+  margin: 0;
+}
+
+h5.ant-typography,
+div.ant-typography-h5,
+div.ant-typography-h5 > textarea,
+.ant-typography h5 {
+  margin: 0;
+}

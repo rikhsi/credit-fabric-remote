@@ -1,0 +1,26 @@
+<ng-container *transloco="let t">
+  <div class="top">
+    <h3 nz-typography>{{t(title())}}</h3>
+    <div class="form-box__toolbar">
+      <button nz-button type="button" (click)="resetClick.emit()">
+        <nz-icon nzType="clear" />
+        <span class="cf-form-box__icon-label">{{ t('action.reset') }}</span>
+      </button>
+      @if (showDelete()) {
+      <button nz-button nzDanger type="button" (click)="onDeleteClick()">
+        <nz-icon nzType="delete" />
+        <span class="cf-form-box__icon-label">{{ t('action.delete') }}</span>
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="content">
+    <ng-content />
+  </div>
+
+  <div class="footer">
+    <button nz-button nzType="primary" nzBlock (click)="submitClick.emit()">{{t('action.save')}}</button>
+    <button nz-button nzBlock (click)="closeClick.emit()">{{t('action.cancel')}}</button>
+  </div>
+</ng-container>

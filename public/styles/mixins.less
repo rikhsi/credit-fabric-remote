@@ -1,0 +1,31 @@
+@media-xs: ~'(max-width: 576px)';
+@media-sm: ~'(max-width: 768px)';
+@media-md: ~'(max-width: 992px)';
+@media-lg: ~'(max-width: 1199px)';
+@media-xl: ~'(min-width: 1200px)';
+@media-xxl: ~'(max-width: 1400px)';
+
+.themeMixin(@rules) {
+  html {
+    &.light {
+      @import './theme/light.less';
+      @rules();
+    }
+    &.dark {
+      @import './theme/dark.less';
+      @rules();
+    }
+  }
+}
+
+.textMixin( @fw, @fz, @lh) {
+  font-weight: @fw;
+  font-size: @fz;
+  line-height: @lh;
+}
+
+.media(@bp,@rules) {
+  @media @bp {
+    @rules();
+  }
+}

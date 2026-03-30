@@ -1,0 +1,84 @@
+{
+  "name": "credit-fabric-remote",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start:development": "ng serve --configuration development",
+    "start:testing": "ng serve --configuration testing",
+    "start:production": "ng serve --configuration production",
+    "build:development-server": "ng build --configuration development-server",
+    "build:testing": "ng build --configuration testing",
+    "build:production": "ng build --configuration production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "prepare": "husky install",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "stylelint": "stylelint \"**/*.{css,less}\"",
+    "stylelint:fix": "stylelint \"**/*.{css,less}\" --fix",
+    "generate:outline": "svg-to-ts-object --config ./configs/svg-outline.json",
+    "generate:fill": "svg-to-ts-object --config ./configs/svg-fill.json",
+    "generate:colorful": "svg-to-ts-object --config ./configs/svg-colorful.json",
+    "postinstall": "npm run generate:outline && npm run generate:fill && npm run generate:colorful"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,less}": [
+      "prettier --write"
+    ],
+    "*.html": [
+      "prettier --write"
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@10.9.4",
+  "dependencies": {
+    "@angular/common": "^21.1.0",
+    "@angular/compiler": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@angular/platform-browser": "^21.1.0",
+    "@angular/router": "^21.1.0",
+    "@auth0/angular-jwt": "^5.2.0",
+    "@jsverse/transloco": "^8.2.1",
+    "ng-zorro-antd": "^21.1.0",
+    "ngx-mask": "^19.0.6",
+    "postinstall": "^0.11.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.1.2",
+    "@angular/cli": "^21.1.2",
+    "@angular/compiler-cli": "^21.1.0",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
+    "angular-eslint": "21.2.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "husky": "^9.1.7",
+    "jsdom": "^27.1.0",
+    "less": "^4.2.0",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "svg-to-ts": "^12.0.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.50.1",
+    "vitest": "^4.0.8"
+  }
+}
