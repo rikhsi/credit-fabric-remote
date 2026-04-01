@@ -1,0 +1,77 @@
+@import 'mixins';
+@import 'colors';
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    [nz-button] {
+      font-weight: 600;
+    }
+  }
+
+  &__section-title {
+    .textMixin(600, 18px, 130%);
+
+    .media(@media-sm, {
+      font-size: 16px;
+    });
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &-head {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    .textMixin(700, 16px, 130%);
+  }
+
+  &__edit {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: @cf-green-500;
+  }
+
+  &__details {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    li {
+      .textMixin(400, 14px, 140%);
+      color: @cf-gray-600;
+    }
+  }
+}

@@ -1,1 +1,22 @@
-<p>extra-contacts works!</p>
+<div class="extra">
+  <div class="extra__head">
+    <h2 class="extra__section-title">Дополнительные контакты</h2>
+  </div>
+
+  <cf-card>
+    <div class="extra__body">
+      <div class="extra__block">
+        <div class="extra__block-head">
+          <h3 class="extra__title">Омонбек Рихсимбоев</h3>
+          <button nz-button nzType="default" nzGhost class="extra__edit" type="button" (click)="edit.emit(null)">
+            <nz-icon nzType="edit" nzTheme="fill" />
+          </button>
+        </div>
+        <ul class="extra__details">
+          <li>Менеджер</li>
+          <li>+998 99 003 14 97</li>
+        </ul>
+      </div>
+    </div>
+  </cf-card>
+</div>
