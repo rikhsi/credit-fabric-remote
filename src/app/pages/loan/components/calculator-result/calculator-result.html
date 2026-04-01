@@ -3,11 +3,15 @@
     <div class="calculator-result__metrics">
       <div class="calculator-result__row">
         <span class="calculator-result__label">Сумма кредита:</span>
-        <span class="calculator-result__value">{{ $any(loanAmount() | number) | pluralize: 'money' | transloco }}</span>
+        <span class="calculator-result__value">
+          {{ $any(loanAmount() | number) }} {{$any(loanAmount()) | pluralize: 'money' : false | transloco}}
+        </span>
       </div>
       <div class="calculator-result__row">
         <span class="calculator-result__label">Ежемесячный платеж:</span>
-        <span class="calculator-result__value">{{ $any(monthlyPayment() | number) | pluralize: 'money' | transloco }}</span>
+        <span class="calculator-result__value">
+          {{ $any(monthlyPayment() | number) }} {{$any(loanAmount()) | pluralize: 'money' : false | transloco}}
+        </span>
       </div>
       <div class="calculator-result__row">
         <span class="calculator-result__label">Процентная ставка:</span>
