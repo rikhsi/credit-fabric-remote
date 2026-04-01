@@ -1,9 +1,15 @@
 <ng-container *transloco="let t">
   <cf-card [title]="t(title())">
-    <div actions>
+    <div actions class="actions">
+      @if (showStep()) {
+      <cf-step [steps]="steps()" />
+      }
+
       <button nz-button nzShape="circle" nzType="primary" nzSize="small" class="close gray">
         <nz-icon nzType="close" />
       </button>
     </div>
+
+    <ng-content />
   </cf-card>
 </ng-container>

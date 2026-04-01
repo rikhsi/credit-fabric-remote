@@ -1,27 +1,7 @@
 @import 'mixins';
 @import 'colors';
 
-.themeMixin({
-  :host {
-    .step__rail {
-      background: @cf-gray-100;
-    }
-
-    .step__mark--active {
-      background: @primary-color;
-    }
-
-    .step__mark:not(.step__mark--active) {
-      background: @text-color;
-    }
-  }
-});
-
-:host {
-  display: inline-block;
-}
-
-.step__rail {
+.step {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -29,25 +9,27 @@
   gap: 10px;
   padding: 8px 14px;
   border-radius: 999px;
-}
+  background: @cf-gray-100;
 
-.step__mark {
-  flex-shrink: 0;
-  display: block;
-  border-radius: 999px;
-  transition:
-    width 0.2s ease,
-    background 0.2s ease;
+  &__mark {
+    flex-shrink: 0;
+    display: block;
+    border-radius: 999px;
+    transition:
+      width 0.2s ease,
+      background 0.2s ease;
+    cursor: pointer;
 
-  &:not(.step__mark--active) {
-    width: 8px;
-    height: 8px;
-    background: @cf-black-800;
-  }
+    &:not(.step__mark--active) {
+      width: 8px;
+      height: 8px;
+      background: @cf-black-800;
+    }
 
-  &.step__mark--active {
-    width: 28px;
-    height: 8px;
-    background: @cf-green-500;
+    &.active {
+      width: 28px;
+      height: 8px;
+      background: @cf-green-500;
+    }
   }
 }
