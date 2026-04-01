@@ -1,1 +1,11 @@
-<p>card-advantage works!</p>
+<cf-card>
+  <div class="card-advantage">
+    <div class="card-advantage__text">
+      <p class="card-advantage__title">{{ title() }}</p>
+      <p class="card-advantage__description">{{ description() }}</p>
+    </div>
+    <div class="card-advantage__media">
+      <img class="card-advantage__photo" [ngSrc]="photo()" [alt]="title()" loading="lazy" width="40" height="40" />
+    </div>
+  </div>
+</cf-card>

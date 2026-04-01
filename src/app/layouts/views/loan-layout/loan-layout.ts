@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { LayoutHeader } from '@layouts/components';
 import { LoanLayoutService } from '@layouts/services';
 
@@ -13,7 +13,6 @@ import { LoanLayoutService } from '@layouts/services';
   providers: [LoanLayoutService],
 })
 export class LoanLayout implements OnInit {
-  private router = inject(Router);
   private loanLayoutService = inject(LoanLayoutService);
   private destroyRef = inject(DestroyRef);
 
@@ -21,7 +20,5 @@ export class LoanLayout implements OnInit {
 
   ngOnInit(): void {
     this.loanLayoutService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-
-    this.router.navigate([], { onSameUrlNavigation: 'reload', queryParamsHandling: 'preserve' });
   }
 }

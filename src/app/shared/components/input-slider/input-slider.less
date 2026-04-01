@@ -1,0 +1,44 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+  :host {
+    .input-slider__value {
+      background: @component-background;
+    }
+  }
+});
+
+:host {
+  display: block;
+}
+
+.input-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.input-slider__value {
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid @cf-gray-200;
+  .textMixin(600, 20px, 130%);
+  margin-bottom: 4px;
+}
+
+.input-slider__control {
+  width: 100%;
+  margin-top: 0;
+
+  &::ng-deep {
+    .ant-slider-rail {
+      background: @cf-gray-200 !important;
+    }
+
+    .ant-slider-mark-text {
+      .textMixin(400, 12px, 130%);
+      color: @cf-gray-600;
+    }
+  }
+}

@@ -1,1 +1,59 @@
-{}
+{
+  "prefix": {
+    "age": {
+      "one": "yosh",
+      "second": "yosh",
+      "third": "yosh"
+    },
+    "year": {
+      "one": "yil",
+      "second": "yil",
+      "third": "yil"
+    },
+    "month": {
+      "one": "oy",
+      "second": "oy",
+      "third": "oy"
+    },
+    "day": {
+      "one": "kun",
+      "second": "kun",
+      "third": "kun"
+    },
+    "user": {
+      "one": "foydalanuvchi",
+      "second": "foydalanuvchi",
+      "third": "foydalanuvchi"
+    },
+    "school": {
+      "one": "maktab",
+      "second": "maktab",
+      "third": "maktab"
+    },
+    "region": {
+      "one": "viloyat",
+      "second": "viloyat",
+      "third": "viloyat"
+    },
+    "district": {
+      "one": "tuman",
+      "second": "tuman",
+      "third": "tuman"
+    },
+    "subject": {
+      "one": "fan",
+      "second": "fan",
+      "third": "fan"
+    },
+    "money": {
+      "one": "so'm",
+      "second": "so'm",
+      "third": "so'm"
+    },
+    "ball": {
+      "one": "ball",
+      "second": "ball",
+      "third": "ball"
+    }
+  }
+}

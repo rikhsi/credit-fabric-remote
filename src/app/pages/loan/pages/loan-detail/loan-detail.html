@@ -1,10 +1,22 @@
 <cf-product-info />
 
-<cf-card-advantage />
+<div>
+  <h2 class="heading">Преимущества онлайн кредита</h2>
+  <div class="advantages">
+    @for (item of advantages; track item.title) {
+    <cf-card-advantage [title]="item.title" [description]="item.description" [photo]="advantagePhoto" />
+    }
+  </div>
+</div>
 
-<div class="calculator">
-  <cf-calculator-form />
-  <cf-calculator-result />
+<div>
+  <h2 class="heading">Рассчитать онлайн-кредит</h2>
+  <cf-card>
+    <div class="calculator">
+      <cf-calculator-form />
+      <cf-calculator-result [loanAmount]="1000000" [monthlyPayment]="100000" [interestRate]="10" [documents]="['Паспорт']" />
+    </div>
+  </cf-card>
 </div>
 
 <cf-product-acception />

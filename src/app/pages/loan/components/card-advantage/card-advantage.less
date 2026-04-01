@@ -1,0 +1,61 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+  .card-advantage__title {
+    color: @text-color;
+  }
+
+  .card-advantage__description {
+    color: @text-color-secondary;
+  }
+});
+
+:host {
+  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+cf-card {
+  border: 1px solid @cf-gray-200;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+  flex: 1;
+}
+
+.card-advantage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+  min-height: 100%;
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    .textMixin(700, 16px, 130%);
+  }
+
+  &__description {
+    margin: 0;
+    .textMixin(400, 14px, 140%);
+  }
+
+  &__media {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__photo {
+    display: block;
+    object-fit: contain;
+  }
+}

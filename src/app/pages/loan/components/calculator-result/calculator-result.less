@@ -1,0 +1,82 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+    :host {
+        .tag {
+            color: @text-color;
+        }
+    }
+});
+
+:host {
+  display: block;
+  flex: 1;
+
+  cf-card {
+    display: block;
+    background: @cf-gray-300;
+  }
+}
+
+.calculator-result {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  column-gap: 32px;
+  row-gap: 24px;
+
+  .media(@media-sm, {
+        flex-direction: column;
+    });
+
+  &__metrics {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__label {
+    .textMixin(400, 14px, 140%);
+    color: @cf-gray-600;
+  }
+
+  &__value {
+    .textMixin(700, 20px, 130%);
+  }
+
+  &__documents {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .calculator-result__label {
+      margin: 0;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .tag {
+      width: fit-content;
+      padding: 9px 11px;
+      border-radius: 16px;
+      margin-bottom: 4px;
+
+      .textMixin(600, 12px, 100%);
+    }
+  }
+}

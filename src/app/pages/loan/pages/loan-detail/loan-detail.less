@@ -1,0 +1,34 @@
+@import 'mixins';
+@import 'colors';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heading {
+  margin: 0 0 16px;
+  .textMixin(700, 22px, 130%);
+
+  .media(@media-sm, {
+    font-size: 18px;
+  });
+}
+
+.advantages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+
+  .media(@media-sm, {
+    grid-template-columns: 1fr;
+  });
+}
+
+.calculator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+}

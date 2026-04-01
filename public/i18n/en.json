@@ -1,1 +1,59 @@
-{}
+{
+  "prefix": {
+    "age": {
+      "one": "year old",
+      "second": "years old",
+      "third": "years old"
+    },
+    "year": {
+      "one": "year",
+      "second": "years",
+      "third": "years"
+    },
+    "month": {
+      "one": "month",
+      "second": "months",
+      "third": "months"
+    },
+    "day": {
+      "one": "day",
+      "second": "days",
+      "third": "days"
+    },
+    "user": {
+      "one": "user",
+      "second": "users",
+      "third": "users"
+    },
+    "school": {
+      "one": "school",
+      "second": "schools",
+      "third": "schools"
+    },
+    "region": {
+      "one": "region",
+      "second": "regions",
+      "third": "regions"
+    },
+    "district": {
+      "one": "district",
+      "second": "districts",
+      "third": "districts"
+    },
+    "subject": {
+      "one": "subject",
+      "second": "subjects",
+      "third": "subjects"
+    },
+    "money": {
+      "one": "som",
+      "second": "som",
+      "third": "som"
+    },
+    "ball": {
+      "one": "point",
+      "second": "points",
+      "third": "points"
+    }
+  }
+}

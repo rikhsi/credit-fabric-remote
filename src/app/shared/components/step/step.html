@@ -1,0 +1,12 @@
+<nav class="step" [attr.aria-label]="ariaLabel()">
+  <div class="step__rail" role="list">
+    @for (item of steps(); track $index) {
+    <span
+      class="step__mark"
+      [class.step__mark--active]="activeIndex() === $index"
+      role="listitem"
+      [attr.aria-current]="activeIndex() === $index ? 'step' : null"
+    ></span>
+    }
+  </div>
+</nav>

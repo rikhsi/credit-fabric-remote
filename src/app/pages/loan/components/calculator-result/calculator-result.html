@@ -1,1 +1,27 @@
-<p>calculator-result works!</p>
+<cf-card>
+  <div class="calculator-result">
+    <div class="calculator-result__metrics">
+      <div class="calculator-result__row">
+        <span class="calculator-result__label">Сумма кредита:</span>
+        <span class="calculator-result__value">{{ $any(loanAmount() | number) | pluralize: 'money' | transloco }}</span>
+      </div>
+      <div class="calculator-result__row">
+        <span class="calculator-result__label">Ежемесячный платеж:</span>
+        <span class="calculator-result__value">{{ $any(monthlyPayment() | number) | pluralize: 'money' | transloco }}</span>
+      </div>
+      <div class="calculator-result__row">
+        <span class="calculator-result__label">Процентная ставка:</span>
+        <span class="calculator-result__value">{{ interestRate() ?? 0 }}%</span>
+      </div>
+    </div>
+
+    <div class="calculator-result__documents">
+      <span class="calculator-result__label">Необходимые документы:</span>
+      <div class="calculator-result__tags">
+        @for (doc of documents(); track doc) {
+        <nz-tag nzColor="#DCF9F9" class="tag">{{ doc }}</nz-tag>
+        }
+      </div>
+    </div>
+  </div>
+</cf-card>
