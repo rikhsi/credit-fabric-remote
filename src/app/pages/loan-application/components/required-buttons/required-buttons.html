@@ -1,0 +1,19 @@
+<ng-container *transloco="let t">
+  <h2 class="section-title">Данные для заполнения</h2>
+
+  <cf-card>
+    <div class="buttons">
+      @if (showExtraContacts()) {
+      <button nz-button nzType="primary" class="gray" (click)="extraContactClick.emit()">
+        <nz-icon nzType="plus" />
+        Дополнительные контакты
+      </button>
+      } @if (showExtraInfo()) {
+      <button nz-button nzType="primary" class="gray" (click)="extraInfoClick.emit()">
+        <nz-icon nzType="plus" />
+        Дополнительные параметры
+      </button>
+      }
+    </div>
+  </cf-card>
+</ng-container>

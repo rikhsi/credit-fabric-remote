@@ -12,4 +12,8 @@ export const routes: Routes = [
     data: { title: 'pages.loan-application.finance.title' },
     loadComponent: () => import('./pages/l-a-finance/l-a-finance').then((c) => c.LAFinance),
   },
+  {
+    path: '**',
+    redirectTo: LoanApplicationRoute.General,
+  },
 ];

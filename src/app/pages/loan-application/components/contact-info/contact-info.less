@@ -1,0 +1,31 @@
+@import 'mixins';
+
+:host {
+  .section-title {
+    margin: 0 0 16px;
+    .textMixin(600, 18px, 130%);
+
+    .media(@media-sm, {
+      font-size: 16px;
+    });
+  }
+
+  cf-card {
+    padding: 30px;
+
+    .media(@media-sm, {
+    padding: 20px;
+  });
+  }
+
+  .contact-info__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 28px;
+
+    .media(@media-sm, {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  });
+  }
+}
