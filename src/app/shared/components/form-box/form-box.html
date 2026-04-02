@@ -2,7 +2,7 @@
   <div class="top">
     <h3 nz-typography>{{t(title())}}</h3>
     <div class="form-box__toolbar">
-      <button nz-button type="button" nzType="default" nzShape="circle" (click)="closeClick.emit()">
+      <button nz-button nzShape="circle" nzType="primary" nzSize="small" class="close gray" (click)="closeClick.emit()">
         <nz-icon nzType="close" />
       </button>
     </div>
@@ -13,7 +13,7 @@
   </div>
 
   <div class="footer">
-    <button nz-button nzSize="large" (click)="closeClick.emit()">{{t('action.cancel')}}</button>
-    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">{{t('action.save')}}</button>
+    <button nz-button nzSize="large" (click)="closeClick.emit()">Отменить</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">Сохранить</button>
   </div>
 </ng-container>

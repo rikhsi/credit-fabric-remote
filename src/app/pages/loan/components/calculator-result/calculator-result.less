@@ -29,6 +29,7 @@
 
   .media(@media-sm, {
         flex-direction: column;
+        row-gap: 16px;
     });
 
   &__metrics {
@@ -37,6 +38,10 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    .media(@media-sm, {
+      gap: 16px;
+    });
   }
 
   &__row {

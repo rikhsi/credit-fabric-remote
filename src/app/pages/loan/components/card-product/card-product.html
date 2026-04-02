@@ -10,11 +10,13 @@
           <cf-label-control [label]="'от 18%'">Процентная ставка</cf-label-control>
         </div>
 
-        <button nz-button nzType="primary" routerLink="../details/2" class="gray more">{{t('action.detail')}}</button>
+        <button nz-button nzType="primary" routerLink="../details/2" class="gray more desktop">Подробнее</button>
       </div>
       <div class="img">
         <img ngSrc="images/loan.png" height="171" width="242" alt="loan" />
       </div>
+
+      <button nz-button nzType="primary" routerLink="../details/2" class="gray more mobile">Подробнее</button>
     </div>
   </cf-card>
 </ng-container>
