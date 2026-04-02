@@ -1,6 +1,18 @@
-<!-- <div>
-    <cf-label-control>
-        Сумма кредита:
-    </cf-label-control>
-    <cf-input-slider [max]="1000000" [min]="100000" [step]="10000" [prefixType]="'money'" />
-</div> -->
+<div>
+  <cf-label-control>Сумма:</cf-label-control>
+  <cf-input-slider [value]="100000" [max]="1000000" [min]="100000" [step]="10000" [prefixType]="'money'" />
+</div>
+
+<div>
+  <cf-label-control>Срок:</cf-label-control>
+  <cf-input-slider [value]="18" [max]="36" [min]="18" [step]="1" [prefixType]="'month'" />
+</div>
+
+<div>
+  <cf-label-control>Рассчет кредита:</cf-label-control>
+
+  <nz-radio-group [(ngModel)]="creditType">
+    <label nz-radio nzValue="annuity">Аннуитетный</label>
+    <label nz-radio nzValue="differentiated">Дифференцированный</label>
+  </nz-radio-group>
+</div>

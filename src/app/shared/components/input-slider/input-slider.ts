@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NzInputDirective } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { NzSliderModule, NzMarks } from 'ng-zorro-antd/slider';
 import { startWith } from 'rxjs';
-import { InputDefault } from '../input-default/input-default';
 import { PLURALIZE_FORMS_BY_TYPE } from '@constants';
 import { pluralize } from '@shared/utils';
 import { PluralizeType } from '@typings';
 
 @Component({
   selector: 'cf-input-slider',
-  imports: [FormsModule, NzSliderModule, InputDefault],
+  imports: [FormsModule, NzSliderModule, NzInputDirective, FormsModule],
   templateUrl: './input-slider.html',
   styleUrl: './input-slider.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +36,7 @@ export class InputSlider {
   readonly disabled = input<boolean>(false);
 
   /** Текущее значение ползунка. Пока не задано — используется середина диапазона. */
-  readonly value = model<number | undefined>(undefined);
+  readonly value = model<number | undefined>(0);
 
   readonly effectiveStep = computed(() => {
     const step = this.step();

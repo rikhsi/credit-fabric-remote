@@ -13,6 +13,12 @@
   display: block;
 }
 
+.input {
+  border: 1px solid @cf-gray-200;
+  border-bottom: none;
+  height: 56px;
+}
+
 .input-slider {
   display: flex;
   flex-direction: column;
@@ -30,6 +36,9 @@
 .input-slider__control {
   width: 100%;
   margin-top: 0;
+  position: relative;
+  top: -8px;
+  left: -5px;
 
   &::ng-deep {
     .ant-slider-rail {

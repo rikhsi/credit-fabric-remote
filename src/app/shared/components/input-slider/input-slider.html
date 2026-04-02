@@ -1,12 +1,11 @@
 <div class="input-slider">
-  <cf-input-default [value]="displayPrimary()"></cf-input-default>
+  <input nz-input [(ngModel)]="value" class="input"/>
 
   <nz-slider
     class="input-slider__control"
     [nzMin]="min()"
     [nzMax]="max()"
     [nzStep]="effectiveStep()"
-    [nzMarks]="nzMarks()"
     [nzDisabled]="disabled()"
     nzTooltipVisible="never"
     [ngModel]="boundValue()"
