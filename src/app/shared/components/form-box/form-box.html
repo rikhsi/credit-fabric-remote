@@ -2,16 +2,9 @@
   <div class="top">
     <h3 nz-typography>{{t(title())}}</h3>
     <div class="form-box__toolbar">
-      <button nz-button type="button" (click)="resetClick.emit()">
-        <nz-icon nzType="clear" />
-        <span class="cf-form-box__icon-label">{{ t('action.reset') }}</span>
+      <button nz-button type="button" nzType="default" nzShape="circle" (click)="closeClick.emit()">
+        <nz-icon nzType="close" />
       </button>
-      @if (showDelete()) {
-      <button nz-button nzDanger type="button" (click)="onDeleteClick()">
-        <nz-icon nzType="delete" />
-        <span class="cf-form-box__icon-label">{{ t('action.delete') }}</span>
-      </button>
-      }
     </div>
   </div>
 
@@ -20,7 +13,7 @@
   </div>
 
   <div class="footer">
-    <button nz-button nzType="primary" nzBlock (click)="submitClick.emit()">{{t('action.save')}}</button>
-    <button nz-button nzBlock (click)="closeClick.emit()">{{t('action.cancel')}}</button>
+    <button nz-button nzSize="large" (click)="closeClick.emit()">{{t('action.cancel')}}</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">{{t('action.save')}}</button>
   </div>
 </ng-container>

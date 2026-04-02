@@ -1,7 +1,7 @@
 <cf-general-info />
 <cf-contact-info />
-<cf-required-buttons />
-<cf-extra-info />
-<cf-extra-contacts />
+<cf-required-buttons (extraInfoClick)="openGeneralForm()" (extraContactClick)="openContactForm()" />
+<cf-extra-info (edit)="openGeneralForm()" />
+<cf-extra-contacts (edit)="openContactForm()" />
 
 <button nz-button nzType="primary" nzSize="large" routerLink="/loan-application/finance" class="submit">Продолжить</button>

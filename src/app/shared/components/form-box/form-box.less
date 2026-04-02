@@ -11,11 +11,15 @@
 });
 
 :host {
-  width: 450px;
+  width: 640px;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  .media(@media-sm, {
+    width: 500px;
+  });
 
   .media(@media-xs, {
     width: 100%;
@@ -63,6 +67,7 @@
 
   .footer {
     display: flex;
+    justify-content: flex-end;
     column-gap: 20px;
     padding: 20px;
   }
