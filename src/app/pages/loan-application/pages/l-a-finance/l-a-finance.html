@@ -7,10 +7,14 @@
     Добавить финансовые данные
   </button>
 
-  <button nz-button nzType="default" nzSize="large" class="back" routerLink="../general">
-    Назад
-  </button>
+  <button nz-button nzType="default" nzSize="large" class="back" routerLink="../general">Назад</button>
 </div>
 } @else {
-    <cf-finance-info/>
+<cf-finance-info (add)="openFinanceForm()" (edit)="openFinanceForm()" />
+
+<div class="actions">
+  <button nz-button nzType="default" nzSize="large" class="back" routerLink="../general">Назад</button>
+
+  <button nz-button nzType="primary" nzSize="large" (click)="finish()">Завершить</button>
+</div>
 }

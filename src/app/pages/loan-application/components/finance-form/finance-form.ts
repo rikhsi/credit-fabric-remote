@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 
 @Component({
   selector: 'cf-finance-form',
-  imports: [],
+  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent],
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FinanceForm {}
+export class FinanceForm {
+  modalRef = inject(NzModalRef);
+}

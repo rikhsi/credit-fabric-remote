@@ -1,1 +1,45 @@
-<p>finance-form works!</p>
+<cf-form-box title="Добавить финансовые данные" (closeClick)="modalRef.close()">
+  <cf-select-default placeholder="Фактический вид направления деятельности" size="large">
+    <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+    <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+  </cf-select-default>
+
+  <cf-input-default placeholder="Фактический срок работы по данному виду деятельности (мин. 3 мес.)" size="large" />
+
+  <p class="title">Информация о деятельности за последние 3 полных месяца</p>
+
+  <div class="scroll">
+    <div class="box">
+      <cf-select-default placeholder="Месяц" size="large">
+        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+      </cf-select-default>
+
+      <cf-input-default placeholder="Выручка, сумм" size="large" />
+
+      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
+    </div>
+
+    <div class="box">
+      <cf-select-default placeholder="Месяц" size="large">
+        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+      </cf-select-default>
+
+      <cf-input-default placeholder="Выручка, сумм" size="large" />
+
+      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
+    </div>
+
+    <div class="box">
+      <cf-select-default placeholder="Месяц" size="large">
+        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+      </cf-select-default>
+
+      <cf-input-default placeholder="Выручка, сумм" size="large" />
+
+      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
+    </div>
+  </div>
+</cf-form-box>

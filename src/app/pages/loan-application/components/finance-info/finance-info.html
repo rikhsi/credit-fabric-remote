@@ -1,1 +1,41 @@
-<p>finance-info works!</p>
+<div class="extra">
+  <button nz-button nzType="link" class="add" (click)="add.emit()">
+    <nz-icon nzType="plus" nzTheme="outline" />
+    Добавить
+  </button>
+  <cf-card>
+    <div class="extra__body">
+      <div class="extra__block">
+        <div class="extra__block-head">
+          <h3 class="extra__title">Розничная торговля: Одежда,обувь</h3>
+          <button nz-button nzType="default" nzGhost class="extra__edit" type="button" (click)="edit.emit(null)">
+            <nz-icon nzType="edit" nzTheme="fill" />
+          </button>
+        </div>
+        <ul class="extra__details">
+          <li>50 месяцев</li>
+          <li>Январь - 15 000 000 - 10 000 000</li>
+          <li>Декабрь - 15 000 000 - 10 000 000</li>
+          <li>Ноябрь - 15 000 000 - 10 000 000</li>
+        </ul>
+      </div>
+
+      <nz-divider />
+
+      <div class="extra__block">
+        <div class="extra__block-head">
+          <h3 class="extra__title">Розничная торговля: Одежда,обувь</h3>
+          <button nz-button nzType="default" nzGhost class="extra__edit" type="button" (click)="edit.emit(null)">
+            <nz-icon nzType="edit" nzTheme="fill" />
+          </button>
+        </div>
+        <ul class="extra__details">
+          <li>50 месяцев</li>
+          <li>Январь - 15 000 000 - 10 000 000</li>
+          <li>Декабрь - 15 000 000 - 10 000 000</li>
+          <li>Ноябрь - 15 000 000 - 10 000 000</li>
+        </ul>
+      </div>
+    </div>
+  </cf-card>
+</div>
