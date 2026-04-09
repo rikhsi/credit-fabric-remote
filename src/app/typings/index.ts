@@ -4,4 +4,3 @@ export * from './base';
 export * from './pluralize';
 export * from './modal';
 export * from './validation';
-

@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { LayoutHeader } from '@layouts/components';
-import { STEPS } from '@layouts/data';
 import { LoanApplicationLayoutService } from '@layouts/services';
 
 @Component({
@@ -20,8 +19,6 @@ export class LoanApplicationLayout implements OnInit {
   destroyRef = inject(DestroyRef);
 
   title = computed(() => this.lalService.title());
-
-  steps = STEPS;
 
   ngOnInit(): void {
     this.lalService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();

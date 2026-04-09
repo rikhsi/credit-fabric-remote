@@ -8,4 +8,3 @@ export * from './select-date/select-date';
 export * from './card/card';
 export * from './form-box/form-box';
 export * from './input-slider/input-slider';
-export * from './step/step';
