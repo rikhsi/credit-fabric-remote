@@ -1,4 +1,4 @@
-<cf-layout-header [title]="title()" />
+<cf-layout-header [title]="data()?.title" [backConfig]="data()?.backConfig" />
 
 <main class="main">
   <router-outlet />

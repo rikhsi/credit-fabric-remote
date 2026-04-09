@@ -1,22 +1,20 @@
-<cf-product-info />
+<ng-container *transloco="let t">
+  <cf-product-info />
 
-<div>
-  <h2 class="heading">Преимущества онлайн кредита</h2>
-  <div class="advantages">
-    @for (item of advantages; track item.title) {
-    <cf-card-advantage [title]="item.title" [description]="item.description" [photo]="advantagePhoto" />
-    }
-  </div>
-</div>
+  <cf-card [title]="t('prop.online_credit_advantages')">
+    <div class="advantages">
+      @for (item of advantages; track item.title) {
+      <cf-card-advantage [title]="item.title" [description]="item.description" [photo]="advantagePhoto" />
+      }
+    </div>
+  </cf-card>
 
-<div>
-  <h2 class="heading">Рассчитать онлайн-кредит</h2>
-  <cf-card>
+  <cf-card [title]="t('prop.online_credit_calc')">
     <div class="calculator">
       <cf-calculator-form />
       <cf-calculator-result [loanAmount]="1000000" [monthlyPayment]="100000" [interestRate]="10" [documents]="['Паспорт']" />
     </div>
-  </cf-card>
-</div>
 
-<cf-product-acception />
+    <cf-product-acception />
+  </cf-card>
+</ng-container>

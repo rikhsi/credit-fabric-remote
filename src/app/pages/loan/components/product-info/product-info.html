@@ -1,8 +1,28 @@
-<cf-card>
-  <div class="product-info__row">
-    <cf-label-control label="До 300 млн сум">Сумма кредита</cf-label-control>
-    <cf-label-control label=" До 5 лет">Срок кредита</cf-label-control>
-    <cf-label-control label=" от 18%">Процентная ставка</cf-label-control>
-    <cf-label-control label="Без залога">Какой то текст</cf-label-control>
-  </div>
-</cf-card>
+<ng-container *transloco="let t">
+  <cf-card [title]="t('prop.conditions')" [showSpace]="true" class="bordered">
+    <div class="product-info__row">
+      <cf-label-control
+        [icon]="'f:money'"
+        [label]="t('prop.loan_amount', { amount: loanAmount() | number, prefix: loanAmount() | pluralize: 'money': false})"
+      >
+        {{t('prop.loan_amount_full')}}
+      </cf-label-control>
+
+      <cf-label-control
+        [icon]="'f:calendar'"
+        [label]="t('prop.loan_term', { years: loanTerm() | number ,prefix: loanAmount() | pluralize: 'year': false })"
+      >
+        {{t('prop.loan_term_full')}}
+      </cf-label-control>
+
+      <cf-label-control
+        [icon]="'f:percent'"
+        [label]="t('prop.loan_percent', { percent: interestRate() | number, prefix: loanAmount() | pluralize: 'money'})"
+      >
+        {{t('prop.loan_percent_full')}}
+      </cf-label-control>
+
+      <cf-label-control [icon]="'f:shield'" [label]="t('prop.guarant')">{{t('prop.no_collateral')}}</cf-label-control>
+    </div>
+  </cf-card>
+</ng-container>

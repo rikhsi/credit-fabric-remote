@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: `${LoanRoute.Details}/:${RouteParam.LoanId}`,
-    data: { title: 'Потоковое кредитование' },
+    data: { title: 'Потоковое кредитование', backConfig: { link: '../list' } },
     loadComponent: () => import('./pages/loan-detail/loan-detail').then((c) => c.LoanDetail),
   },
   {

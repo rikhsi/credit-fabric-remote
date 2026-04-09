@@ -3,6 +3,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { Card } from '@shared/components';
+import { LoanLayoutBackConfig } from '@layouts/models';
 
 @Component({
   selector: 'cf-layout-header',
@@ -13,4 +14,5 @@ import { Card } from '@shared/components';
 })
 export class LayoutHeader {
   title = input<string>();
+  backConfig = input<LoanLayoutBackConfig>();
 }

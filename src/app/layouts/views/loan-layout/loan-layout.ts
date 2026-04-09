@@ -16,7 +16,7 @@ export class LoanLayout implements OnInit {
   private loanLayoutService = inject(LoanLayoutService);
   private destroyRef = inject(DestroyRef);
 
-  public title = computed(() => this.loanLayoutService.title());
+  public data = computed(() => this.loanLayoutService.routData());
 
   ngOnInit(): void {
     this.loanLayoutService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();

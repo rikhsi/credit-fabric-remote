@@ -1,7 +1,13 @@
 <ng-container *transloco="let t">
   <div class="top" [ngClass]="{space: showSpace()}">
-    <h2 nz-typography>@if (title(); as title) { {{t(title)}} }</h2>
-
+    @if (link(); as link) {
+    <a nz-button nzType="link" [routerLink]="link" class="link default">
+      <nz-icon nzType="f:backLine" />
+      <ng-container [ngTemplateOutlet]="titleRef"></ng-container>
+    </a>
+    } @else {
+    <ng-container [ngTemplateOutlet]="titleRef"></ng-container>
+    }
     <div class="actions">
       <ng-content select="[actions]" />
     </div>
@@ -10,4 +16,8 @@
   <div class="content">
     <ng-content />
   </div>
+
+  <ng-template #titleRef>
+    <h2 nz-typography>@if (title(); as title) { {{t(title)}} }</h2>
+  </ng-template>
 </ng-container>

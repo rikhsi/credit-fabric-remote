@@ -66,6 +66,9 @@
     "loan_term_full": "Loan term",
     "loan_percent": "from {{percent}}%",
     "loan_percent_full": "Loan percent",
-    "credits": "Credits"
+    "credits": "Credits",
+    "conditions": "Conditions",
+    "guarant": "Pledge",
+    "no_collateral": "Without collateral"
   }
 }

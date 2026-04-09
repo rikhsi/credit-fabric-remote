@@ -1,11 +1,18 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { Card, LabelControl } from '@shared/components';
+import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-product-info',
-  imports: [LabelControl, Card],
+  imports: [LabelControl, Card, TranslocoDirective, DecimalPipe, PluralizePipe],
   templateUrl: './product-info.html',
   styleUrl: './product-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductInfo {}
+export class ProductInfo {
+  interestRate = input<number>(18);
+  loanAmount = input<number>(30);
+  loanTerm = input<number>(3);
+}

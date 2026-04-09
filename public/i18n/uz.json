@@ -66,6 +66,9 @@
     "loan_term_full": "Kredit muddati",
     "loan_percent": "{{percent}}% dan",
     "loan_percent_full": "Foiz miqdori",
-    "credits": "Kreditlar"
+    "credits": "Kreditlar",
+    "conditions": "Shartlar",
+    "guarant": "Kafolat",
+    "no_collateral": "Zalogsiz"
   }
 }
