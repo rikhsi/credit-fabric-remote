@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <div class="top" [ngClass]="{space: showSpace()}">
-    <h3 nz-typography class="title">@if (title(); as title) { {{t(title)}} }</h3>
+    <h2 nz-typography>@if (title(); as title) { {{t(title)}} }</h2>
 
     <div class="actions">
       <ng-content select="[actions]" />

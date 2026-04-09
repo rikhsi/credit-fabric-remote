@@ -2,21 +2,48 @@
   <cf-card class="card">
     <div class="box">
       <div class="content">
-        <nz-tag nzColor="#DCF9F9" class="tag">Потоковое кредитование</nz-tag>
-
-        <div class="infos">
-          <cf-label-control [label]="'До 300 млн сум'">Сумма кредита</cf-label-control>
-          <cf-label-control [label]="'До 5 лет'">Срок кредита</cf-label-control>
-          <cf-label-control [label]="'от 18%'">Процентная ставка</cf-label-control>
+        <div class="row">
+          <h2 nz-typography class="title">{{title()}}</h2>
+          <nz-tag class="tag">{{description()}}</nz-tag>
         </div>
 
-        <button nz-button nzType="primary" routerLink="../details/2" class="gray more desktop">Подробнее</button>
-      </div>
-      <div class="img">
-        <img ngSrc="images/loan.png" height="171" width="242" alt="loan" />
+        <div class="infos">
+          <cf-label-control
+            [icon]="'f:money'"
+            [label]="t('prop.loan_amount', { amount: loanAmount() | number, prefix: loanAmount() | pluralize: 'money': false})"
+          >
+            {{t('prop.loan_amount_full')}}
+          </cf-label-control>
+
+          <cf-label-control
+            [icon]="'f:calendar'"
+            [label]="t('prop.loan_term', { years: loanTerm() | number ,prefix: loanAmount() | pluralize: 'year': false })"
+          >
+            {{t('prop.loan_term_full')}}
+          </cf-label-control>
+
+          <cf-label-control
+            [icon]="'f:percent'"
+            [label]="t('prop.loan_percent', { percent: interestRate() | number, prefix: loanAmount() | pluralize: 'money'})"
+          >
+            {{t('prop.loan_percent_full')}}
+          </cf-label-control>
+        </div>
+
+        <div class="more desktop">
+          <ng-container [ngTemplateOutlet]="applyBtnRef"></ng-container>
+        </div>
       </div>
 
-      <button nz-button nzType="primary" routerLink="../details/2" class="gray more mobile">Подробнее</button>
+      <img [ngSrc]="image()" height="196" width="282" alt="loan" />
+
+      <div class="more mobile">
+        <ng-container [ngTemplateOutlet]="applyBtnRef"></ng-container>
+      </div>
     </div>
   </cf-card>
+
+  <ng-template #applyBtnRef>
+    <button nz-button [routerLink]="['../','details', id()]">{{t('action.apply')}}</button>
+  </ng-template>
 </ng-container>

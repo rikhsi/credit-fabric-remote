@@ -55,5 +55,17 @@
       "second": "балла",
       "third": "баллов"
     }
+  },
+  "action": {
+    "apply": "Подать заявку"
+  },
+  "prop": {
+    "loan_amount": "До {{amount}} млн {{prefix}}",
+    "loan_amount_full": "Сумма кредита",
+    "loan_term": "До {{years}} {{prefix}}",
+    "loan_term_full": "Срок кредита",
+    "loan_percent": "от {{percent}}%",
+    "loan_percent_full": "Процентная ставка",
+    "credits": "Кредиты"
   }
 }

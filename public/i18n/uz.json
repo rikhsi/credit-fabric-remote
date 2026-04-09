@@ -55,5 +55,17 @@
       "second": "ball",
       "third": "ball"
     }
+  },
+  "action": {
+    "apply": "Ariza berish"
+  },
+  "prop": {
+    "loan_amount": "{{amount}} mln soʻmgacha",
+    "loan_amount_full": "Kredit miqdori",
+    "loan_term": "{{years}} yilgacha",
+    "loan_term_full": "Kredit muddati",
+    "loan_percent": "{{percent}}% dan",
+    "loan_percent_full": "Foiz miqdori",
+    "credits": "Kreditlar"
   }
 }

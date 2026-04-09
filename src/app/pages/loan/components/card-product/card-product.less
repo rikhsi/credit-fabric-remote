@@ -1,16 +1,7 @@
 @import 'mixins';
 
-.themeMixin({
-    :host {
-        .tag {
-            color: @text-color;
-        }
-    }
-});
-
 .card {
-  padding-bottom: 0;
-  padding-right: 0;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -24,51 +15,33 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
+  padding: 20px;
 
-  .tag {
-    width: fit-content;
-    padding: 9px 11px;
-    border-radius: 16px;
-    margin-bottom: 4px;
-
-    .textMixin(600,12px,100%);
+  .row {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    margin-bottom: 20px;
   }
 
   .infos {
     display: flex;
-    column-gap: 12%;
-    margin-left: 6px;
-  }
-
-  .more {
-    width: fit-content;
-    .textMixin(500,14px,100%);
+    column-gap: 9%;
+    margin-bottom: 20px;
   }
 }
 
-.desktop {
-  .media(@media-sm, {
-        display: none;
-      });
-}
+.more {
+  width: fit-content;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
 
-.mobile {
-  display: none;
-
-  .media(@media-sm, {
-        display: block;
-      });
-}
-
-.img {
-  img {
-    display: block;
-    object-fit: contain;
+  &.mobile {
+    display: none;
   }
 }
 
-/* 📱 АДАПТИВ */
 .media(@media-sm, {
   .card {
     padding-bottom: 20px;
@@ -84,15 +57,12 @@
     order: 1;
   }
 
-  .img {
+  img {
     order: 2;
     display: flex;
     justify-content: center;
-
-    img {
-      width: 70%;
-      height: auto;
-    }
+    width: 70%;
+    height: auto;
   }
 
   .infos {
@@ -105,5 +75,13 @@
     width: 100%;
     text-align: center;
     order: 4;
+
+    &.desktop {
+      display: none;
+    }
+
+    &.mobile {
+      display: block;
+    }
   }
 });

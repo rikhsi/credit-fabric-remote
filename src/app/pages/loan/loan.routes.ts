@@ -4,7 +4,7 @@ import { LoanRoute, RouteParam } from '@constants';
 export const routes: Routes = [
   {
     path: LoanRoute.List,
-    data: { title: 'Кредиты' },
+    data: { title: 'prop.credits' },
     loadComponent: () => import('./pages/loan-list/loan-list').then((c) => c.LoanList),
   },
   {

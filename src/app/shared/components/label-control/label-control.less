@@ -1,16 +1,49 @@
 @import 'mixins';
-@import 'colors';
+@import 'custom';
+
+.themeMixin({
+  :host {
+    .box {
+      color: @text-color-secondary;
+    }
+
+    .icon {
+      background: @component-background-secondary;
+    }
+
+    label {
+      color: @text-color;
+
+      &.required::before {
+        color: @error-color;
+      }
+    }
+  }
+});
 
 :host {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  column-gap: 8px;
+
+  .icon {
+    padding: 10px;
+    border-radius: 50%;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+
+    .textMixin(@font-weight-medium, @font-size-sm, @line-height-sm);
+  }
 
   label {
-    .textMixin(600, 14px, 100%);
-    
+    .textMixin(@font-weight-strong, @font-size-base, @line-height-base);
+
     &.required::before {
       content: '*';
-      color: @cf-red-600;
       font-size: 12px;
     }
   }
