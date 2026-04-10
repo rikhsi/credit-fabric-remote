@@ -1,5 +1,11 @@
 {
   "prefix": {
+    "scale": {
+      "none": "",
+      "thousand": "тыс",
+      "million": "млн",
+      "billion": "млрд"
+    },
     "age": {
       "one": "год",
       "second": "года",
@@ -14,6 +20,11 @@
       "one": "месяц",
       "second": "месяца",
       "third": "месяцев"
+    },
+    "month_short": {
+      "one": "мес.",
+      "second": "мес.",
+      "third": "мес."
     },
     "day": {
       "one": "день",

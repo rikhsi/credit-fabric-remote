@@ -12,6 +12,10 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 
+  .media(@media-lg, {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  });
+
   .media(@media-sm, {
     grid-template-columns: 1fr;
   });
@@ -20,7 +24,6 @@
 .calculator {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   column-gap: 5%;
   margin-bottom: 28px;
 

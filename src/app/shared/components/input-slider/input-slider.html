@@ -3,19 +3,31 @@
     nz-input
     mask="separator.0"
     thousandSeparator=" "
-    [suffix]="' ' + (value() | pluralize: prefixType() : false)"
+    [suffix]="' ' + (value() | pluralize: prefixInputType() : false)"
     [(ngModel)]="value"
     (blur)="onBlur()"
     class="input"
   />
 
-  <nz-slider
-    class="input-slider__control"
-    [nzMin]="min()"
-    [nzMax]="max()"
-    [nzStep]="step()"
-    [nzDisabled]="disabled()"
-    nzTooltipVisible="never"
-    [(ngModel)]="value"
-  />
+  <div class="box">
+    <nz-slider
+      class="input-slider__control"
+      [nzMin]="min()"
+      [nzMax]="max()"
+      [nzStep]="step()"
+      [nzDisabled]="disabled()"
+      nzTooltipVisible="never"
+      [(ngModel)]="value"
+    />
+
+    @if (marksArray()?.length) {
+    <div class="marks">
+      @for (mark of marksArray(); track mark.value) {
+      <div class="mark">
+        <div class="mark__label">{{ mark.label }}</div>
+      </div>
+      }
+    </div>
+    }
+  </div>
 </div>

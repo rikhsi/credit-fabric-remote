@@ -22,3 +22,5 @@ export interface BaseFileItem {
   fileId: string;
   fileName: string;
 }
+
+export type Scale = 'none' | 'thousand' | 'million' | 'billion';

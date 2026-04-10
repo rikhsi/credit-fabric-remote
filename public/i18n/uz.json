@@ -1,5 +1,11 @@
 {
   "prefix": {
+    "scale": {
+      "none": "",
+      "thousand": "ming",
+      "million": "mln",
+      "billion": "mlrd"
+    },
     "age": {
       "one": "yosh",
       "second": "yosh",
@@ -11,6 +17,11 @@
       "third": "yil"
     },
     "month": {
+      "one": "oy",
+      "second": "oy",
+      "third": "oy"
+    },
+    "month_short": {
       "one": "oy",
       "second": "oy",
       "third": "oy"

@@ -7,11 +7,12 @@
   .product-info__row {
     display: flex;
     column-gap: 9%;
+    row-gap: 8px;
   }
 
   .media(@media-sm, {
-        .product-info__row {
-            flex-direction: column;
-        }
-    });
+    .product-info__row {
+        flex-direction: column;
+    }
+  });
 }
