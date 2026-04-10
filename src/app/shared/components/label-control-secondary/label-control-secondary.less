@@ -1,0 +1,50 @@
+@import 'mixins';
+@import 'custom';
+
+.themeMixin({
+  :host {
+    .box {
+      color: @text-color;
+    }
+
+    .icon {
+      background: @component-background-secondary;
+    }
+
+    label {
+      color: @text-color-secondary;
+
+      &.required::before {
+        color: @error-color;
+      }
+    }
+  }
+});
+
+:host {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+
+  .icon {
+    padding: 10px;
+    border-radius: 50%;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+
+    .textMixin(@font-weight-strong, @font-size-lg, @line-height-sm);
+  }
+
+  label {
+    margin-bottom: 6px;
+    .textMixin(@font-weight-medium, @font-size-base, @line-height-base);
+
+    &.required::before {
+      content: '*';
+      font-size: 12px;
+    }
+  }
+}

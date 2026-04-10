@@ -1,0 +1,8 @@
+@if (icon(); as icon) {
+<nz-icon [nzType]="icon" class="icon" />
+}
+<div class="box">
+  <label [for]="id()" [ngClass]="{required: required()}">{{label()}}</label>
+
+  <ng-content />
+</div>

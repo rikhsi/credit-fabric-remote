@@ -69,6 +69,29 @@
     "credits": "Kreditlar",
     "conditions": "Shartlar",
     "guarant": "Kafolat",
-    "no_collateral": "Zalogsiz"
+    "no_collateral": "Zalogsiz",
+    "online_credit_advantages": "Onlayn kredit qulayliklari",
+    "online_credit_calc": "Onlayn kreditni hisoblash",
+    "loan_monthly_payment": "Oylik to`lov",
+    "loan_needed_docs": "Keraklik xujjatlar"
+  },
+  "benefit": {
+    "title": "Onlayn kredit afzalliklari",
+    "percent": {
+      "title": "Past foiz stavkasi",
+      "description": "Qulay shartlarda kredit oling"
+    },
+    "pay": {
+      "title": "Qulay to‘lov",
+      "description": "Oylik to‘lovni Hamkor mobil ilovasida amalga oshiring"
+    },
+    "fast": {
+      "title": "Tezkor qaror",
+      "description": "Natijani onlayn 1 daqiqada bilib oling"
+    },
+    "goal": {
+      "title": "Har qanday maqsad uchun",
+      "description": "Puldan istalgan maqsadda foydalaning"
+    }
   }
 }

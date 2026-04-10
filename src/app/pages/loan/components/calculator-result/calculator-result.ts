@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { DecimalPipe } from '@angular/common';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { Card } from '@shared/components';
+import { TranslocoPipe, TranslocoDirective } from '@jsverse/transloco';
+import { Card, LabelControlSecondary } from '@shared/components';
 import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-calculator-result',
-  imports: [Card, NzTagComponent, DecimalPipe, PluralizePipe, TranslocoPipe],
+  imports: [Card, NzTagComponent, DecimalPipe, PluralizePipe, TranslocoPipe, LabelControlSecondary, TranslocoDirective],
   templateUrl: './calculator-result.html',
   styleUrl: './calculator-result.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

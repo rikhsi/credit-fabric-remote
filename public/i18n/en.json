@@ -69,6 +69,28 @@
     "credits": "Credits",
     "conditions": "Conditions",
     "guarant": "Pledge",
-    "no_collateral": "Without collateral"
+    "no_collateral": "Without collateral",
+    "online_credit_calc": "Calculate online credit",
+    "loan_monthly_payment": "Monthly payment",
+    "loan_needed_docs": "Needed docs"
+  },
+  "benefit": {
+    "title": "Advantages of online loan",
+    "percent": {
+      "title": "Low interest rate",
+      "description": "Get a loan on favorable terms"
+    },
+    "pay": {
+      "title": "Convenient repayment",
+      "description": "Make monthly payments in the Hamkor mobile app"
+    },
+    "fast": {
+      "title": "Fast decision",
+      "description": "Find out the decision online in 1 minute"
+    },
+    "goal": {
+      "title": "For any purpose",
+      "description": "Use the money for any purpose"
+    }
   }
 }
