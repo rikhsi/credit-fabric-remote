@@ -1,10 +1,10 @@
 @import 'mixins';
-@import 'colors';
+@import 'custom';
 
 .themeMixin({
   :host {
-    .input-slider__value {
-      background: @component-background;
+    .input {
+      border-color: @border-color;
     }
   }
 });
@@ -14,23 +14,10 @@
 }
 
 .input {
-  border: 1px solid @cf-gray-200;
+  border: 1px solid;
   border-bottom: none;
   height: 56px;
-}
-
-.input-slider {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.input-slider__value {
-  padding: 16px 20px;
-  border-radius: 16px;
-  border: 1px solid @cf-gray-200;
-  .textMixin(600, 20px, 130%);
-  margin-bottom: 4px;
+  font-weight: @font-weight-medium;
 }
 
 .input-slider__control {
@@ -39,15 +26,4 @@
   position: relative;
   top: -8px;
   left: -5px;
-
-  &::ng-deep {
-    .ant-slider-rail {
-      background: @cf-gray-200 !important;
-    }
-
-    .ant-slider-mark-text {
-      .textMixin(400, 12px, 130%);
-      color: @cf-gray-500;
-    }
-  }
 }

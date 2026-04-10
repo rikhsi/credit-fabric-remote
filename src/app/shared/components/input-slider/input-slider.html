@@ -1,14 +1,21 @@
 <div class="input-slider">
-  <input nz-input [(ngModel)]="value" class="input"/>
+  <input
+    nz-input
+    mask="separator.0"
+    thousandSeparator=" "
+    [suffix]="' ' + (value() | pluralize: prefixType() : false)"
+    [(ngModel)]="value"
+    (blur)="onBlur()"
+    class="input"
+  />
 
   <nz-slider
     class="input-slider__control"
     [nzMin]="min()"
     [nzMax]="max()"
-    [nzStep]="effectiveStep()"
+    [nzStep]="step()"
     [nzDisabled]="disabled()"
     nzTooltipVisible="never"
-    [ngModel]="boundValue()"
-    (ngModelChange)="onSliderChange($event)"
+    [(ngModel)]="value"
   />
 </div>
