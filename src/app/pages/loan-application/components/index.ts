@@ -5,3 +5,4 @@ export * from './general-form/general-form';
 export * from './finance-form/finance-form';
 export * from './finance-info/finance-info';
 export * from './address-info/address-info';
+export * from './address-form/address-form';

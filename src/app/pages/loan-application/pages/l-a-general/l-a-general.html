@@ -1,6 +1,6 @@
 <cf-general-info />
 <cf-contact-info />
-<cf-address-info />
+<cf-address-info (edit)="openAddressForm()" />
 <cf-extra-info (edit)="openGeneralForm()" (add)="openGeneralForm()" />
 
 <button nz-button nzType="primary" nzSize="large" routerLink="/loan-application/finance" class="submit">Продолжить</button>

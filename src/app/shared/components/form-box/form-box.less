@@ -16,19 +16,24 @@
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
+  min-width: 550px;
   max-width: 550px;
   border-radius: 42px;
   height: 80svh;
 
   .media(@media-sm, {
+    min-width: 90vw;
+    max-width: 90vw;
     border-radius: 28px;
     height: 80svh;
   });
 
   .media(@media-xs, {
-    border-radius: 20px;
-    height: 90svh;
-  });
+  min-width: 95vw;
+  max-width: 95vw;
+  border-radius: 20px;
+  height: 90svh;
+});
 
   .header {
     display: flex;
@@ -36,8 +41,8 @@
     padding: 32px 32px 8px 32px;
 
     .media(@media-sm, {
-      padding: 20px 20px 8px 20px;
-    });
+    padding: 20px 20px 8px 20px;
+  });
   }
 
   .content {
@@ -47,8 +52,8 @@
     flex: 1;
 
     .media(@media-sm, {
-      row-gap: 20px;
-    });
+    row-gap: 20px;
+  });
 
     .text {
       display: flex;
@@ -62,8 +67,8 @@
         line-height: @line-height-sm;
 
         .media(@media-sm, {
-          font-size: @heading-1-size-sm;
-        });
+      font-size: @heading-1-size-sm;
+    });
       }
     }
 
@@ -79,8 +84,8 @@
     padding: 32px;
 
     .media(@media-sm, {
-      padding: 24px;
-    });
+    padding: 24px;
+  });
 
     [nz-button] {
       width: 100%;

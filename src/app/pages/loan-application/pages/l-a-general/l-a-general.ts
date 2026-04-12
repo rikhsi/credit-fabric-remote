@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { AddressInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/loan-application/components';
+import { AddressForm, AddressInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/loan-application/components';
 
 @Component({
   selector: 'cf-l-a-general',
@@ -20,6 +20,18 @@ export class LAGeneral {
       nzClosable: false,
       nzCloseIcon: null,
       nzContent: GeneralForm,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
+  }
+
+  openAddressForm(): void {
+    this.nzModalService.create({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: AddressForm,
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',
