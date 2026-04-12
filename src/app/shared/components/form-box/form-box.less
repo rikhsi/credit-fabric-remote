@@ -1,83 +1,89 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
     background: @component-background;
 
-    .content {
-      border-color: @border-color;
+    .text p {
+      color: @text-color-tertiary;
     }
   }
 });
 
 :host {
-  width: 640px;
-  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 550px;
+  border-radius: 42px;
+  height: 80svh;
 
   .media(@media-sm, {
-    width: 500px;
+    border-radius: 28px;
+    height: 80svh;
   });
 
   .media(@media-xs, {
-    width: 100%;
+    border-radius: 20px;
+    height: 90svh;
   });
 
-  .close {
-    border: none;
-  }
-
-  .top {
+  .header {
     display: flex;
-    column-gap: 20px;
-    padding: 20px;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+    padding: 32px 32px 8px 32px;
 
-    .form-box__toolbar {
-      display: flex;
-      align-items: center;
-      column-gap: 10px;
-      flex-shrink: 0;
-    }
+    .media(@media-sm, {
+      padding: 20px 20px 8px 20px;
+    });
   }
-
-  .media(@media-sm, {
-    .top .form-box__toolbar .cf-form-box__icon-label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    .top .form-box__toolbar button[nz-button] {
-      position: relative;
-    }
-  });
 
   .content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 32px;
     flex: 1;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    padding: 20px;
+
+    .media(@media-sm, {
+      row-gap: 20px;
+    });
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+      padding: 0 32px;
+
+      h1 {
+        margin: 0;
+        font-size: @heading-1-size;
+        line-height: @line-height-sm;
+
+        .media(@media-sm, {
+          font-size: @heading-1-size-sm;
+        });
+      }
+    }
+
+    .body {
+      padding: 0 24px;
+    }
   }
 
   .footer {
     display: flex;
-    justify-content: flex-end;
-    column-gap: 20px;
-    padding: 20px;
-  }
-}
+    align-items: center;
+    column-gap: 8px;
+    padding: 32px;
 
-:host.form-box--full-width {
-  width: 100%;
-  max-width: none;
+    .media(@media-sm, {
+      padding: 24px;
+    });
+
+    [nz-button] {
+      width: 100%;
+    }
+  }
 }

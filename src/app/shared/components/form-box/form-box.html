@@ -1,19 +1,22 @@
 <ng-container *transloco="let t">
-  <div class="top">
-    <h3 nz-typography>{{t(title())}}</h3>
-    <div class="form-box__toolbar">
-      <button nz-button nzShape="circle" nzType="primary" nzSize="small" class="close gray" (click)="closeClick.emit()">
-        <nz-icon nzType="close" />
-      </button>
-    </div>
+  <div class="header">
+    <button nz-button nzShape="round" nzSize="small" class="close" (click)="closeClick.emit()">
+      <nz-icon nzType="close" />
+    </button>
   </div>
 
   <div class="content">
-    <ng-content />
+    <div class="text">
+      <h1 nz-typography>{{t(title())}}</h1>
+    </div>
+
+    <div class="body">
+      <ng-content />
+    </div>
   </div>
 
   <div class="footer">
-    <button nz-button nzSize="large" (click)="closeClick.emit()">Отменить</button>
-    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">Сохранить</button>
+    <button nz-button nzType="default" nzSize="large" (click)="closeClick.emit()">Отменить</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">Добавить</button>
   </div>
 </ng-container>

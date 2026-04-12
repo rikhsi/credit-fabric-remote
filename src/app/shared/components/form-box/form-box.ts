@@ -10,14 +10,9 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
   templateUrl: './form-box.html',
   styleUrl: './form-box.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.form-box--full-width]': 'fullWidth()',
-  },
 })
 export class FormBox {
   public title = input<string>();
-
-  public fullWidth = input<boolean>(false);
 
   public closeClick = output<void>();
   public submitClick = output<void>();
