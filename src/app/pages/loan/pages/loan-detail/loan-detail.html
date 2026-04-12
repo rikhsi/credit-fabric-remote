@@ -15,6 +15,6 @@
       <cf-calculator-result [loanAmount]="1000000" [monthlyPayment]="100000" [interestRate]="10" [documents]="['Паспорт']" />
     </div>
 
-    <cf-product-acception />
+    <cf-product-acception (clicked)="openConfirm()" />
   </cf-card>
 </ng-container>

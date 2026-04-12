@@ -3,7 +3,7 @@
   <a>с публичной офертой</a>
 </label>
 
-<button nz-button nzType="primary" nzSize="large" routerLink="/loan-application">
+<button nz-button nzType="primary" nzSize="large" (click)="clicked.emit(true)">
   <nz-icon nzType="f:arrowUpRight" />
   Подать заявку
 </button>
