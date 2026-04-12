@@ -5,13 +5,12 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 
 @Component({
-  selector: 'cf-extra-info',
+  selector: 'cf-address-info',
   imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent],
-  templateUrl: './extra-info.html',
-  styleUrl: './extra-info.less',
+  templateUrl: './address-info.html',
+  styleUrl: './address-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExtraInfo {
-  readonly add = output<void>();
+export class AddressInfo {
   readonly edit = output<void>();
 }

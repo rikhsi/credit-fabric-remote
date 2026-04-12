@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/loan-application/components';
+import { AddressInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/loan-application/components';
 
 @Component({
   selector: 'cf-l-a-general',
-  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, RouterLink],
+  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, RouterLink, AddressInfo],
   templateUrl: './l-a-general.html',
   styleUrl: './l-a-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -8,6 +8,10 @@
         &.bordered {
           border-color: @border-color;
         }
+
+        &.gray {
+          background: @component-background-secondary;
+        }
     }
 });
 
@@ -17,6 +21,11 @@
   flex: 1;
   border-radius: @border-radius-xl;
   padding: 20px;
+
+  &.lg {
+    padding: 16px;
+    border-radius: @border-radius-lg;
+  }
 
   &.bordered {
     border: 1px solid;
@@ -45,8 +54,8 @@
       display: flex;
       column-gap: 4px;
       text-align: start;
-      white-space:normal;
-      
+      white-space: normal;
+
       nz-icon {
         margin-right: 8px;
       }
