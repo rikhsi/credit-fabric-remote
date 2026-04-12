@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { FinanceForm, FinanceInfo } from '@pages/loan-application/components';
 import { ModalConfirmComponent } from '@shared/components';
@@ -9,15 +7,13 @@ import { ConfirmModal } from '@typings';
 
 @Component({
   selector: 'cf-l-a-finance',
-  imports: [NzButtonComponent, NzIconDirective, RouterLink, FinanceInfo],
+  imports: [NzButtonComponent, FinanceInfo],
   templateUrl: './l-a-finance.html',
   styleUrl: './l-a-finance.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LAFinance {
   private nzModalService = inject(NzModalService);
-
-  isEmpty = signal<boolean>(false);
 
   openFinanceForm(): void {
     this.nzModalService.create({

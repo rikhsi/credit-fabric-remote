@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: LoanApplicationRoute.Finance,
-    data: { title: 'Заявка на кредит', backConfig: { link: '../general' } },
+    data: { title: 'Заявка на кредит', backConfig: { link: '/loan-application/general' } },
     loadComponent: () => import('./pages/l-a-finance/l-a-finance').then((c) => c.LAFinance),
   },
   {
