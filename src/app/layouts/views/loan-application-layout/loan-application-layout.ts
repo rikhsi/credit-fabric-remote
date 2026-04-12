@@ -2,25 +2,24 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnIni
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { LayoutHeader } from '@layouts/components';
 import { LoanApplicationLayoutService } from '@layouts/services';
 
 @Component({
   selector: 'cf-loan-application-layout',
-  imports: [LayoutHeader, RouterOutlet, NzTagComponent, TranslocoDirective],
+  imports: [LayoutHeader, RouterOutlet, TranslocoDirective],
   templateUrl: './loan-application-layout.html',
   styleUrl: './loan-application-layout.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LoanApplicationLayoutService],
 })
 export class LoanApplicationLayout implements OnInit {
-  lalService = inject(LoanApplicationLayoutService);
-  destroyRef = inject(DestroyRef);
+  private loanLayoutService = inject(LoanApplicationLayoutService);
+  private destroyRef = inject(DestroyRef);
 
-  title = computed(() => this.lalService.title());
+  public data = computed(() => this.loanLayoutService.routData());
 
   ngOnInit(): void {
-    this.lalService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.loanLayoutService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }

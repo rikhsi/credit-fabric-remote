@@ -1,36 +1,6 @@
-@import 'colors';
-@import 'mixins';
-
-.themeMixin({
-  :host {
-    .step-content {
-      border-color: @border-color;
-    }
-
-    .tag {
-      border-color: @border-color;
-      color: @text-color;
-    }
-  }
-});
-
 :host {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 18px;
   padding: 20px;
-}
-
-.step-content {
-  width: 100%;
-  border-top: 1px solid;
-  padding-top: 20px;
-  margin-top: 20px;
-}
-
-.tag {
-  width: fit-content;
-  padding: 10px 25px;
-
-  .textMixin(600,16px,100%);
 }

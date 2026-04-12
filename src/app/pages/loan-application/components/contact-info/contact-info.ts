@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Card, LabelControl } from '@shared/components';
+import { Card, LabelControlSecondary } from '@shared/components';
 
 @Component({
   selector: 'cf-contact-info',
-  imports: [Card, LabelControl],
+  imports: [Card, LabelControlSecondary],
   templateUrl: './contact-info.html',
   styleUrl: './contact-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

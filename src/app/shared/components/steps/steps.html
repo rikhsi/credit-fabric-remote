@@ -1,0 +1,5 @@
+<div class="steps">
+  @for (item of steps(); track item) {
+  <div class="line" [ngClass]="{'active': item === currentStep()}"></div>
+  }
+</div>

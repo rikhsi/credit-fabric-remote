@@ -3,31 +3,35 @@
 :host {
   display: block;
 
-  .section-title {
-    margin: 0 0 16px;
-    .textMixin(600, 18px, 130%);
-
-    .media(@media-sm, {
-      font-size: 16px;
-    });
+  .bottom {
+    padding-bottom: 0;
   }
 
-  cf-card {
-    padding: 30px;
-
-    .media(@media-sm, {
-    padding: 20px;
-  });
+  .step {
+    margin-bottom: 32px;
   }
 
-  .general-info__grid {
+  .col {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  .row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px 28px;
+    gap: 20px;
+
+    .media(@media-md, {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    });
 
     .media(@media-sm, {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  });
+      grid-template-columns: 1fr;
+    });
+
+    &.bottom-gap {
+      row-gap: 0;
+    }
   }
 }

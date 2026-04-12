@@ -1,9 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-layout-header [title]="'Заявка на кредит'">
-    <div class="step-content">
-      <nz-tag nzColor="#fff" class="tag">{{t(title())}}</nz-tag>
-    </div>
-  </cf-layout-header>
+  <cf-layout-header [title]="data()?.title" [backConfig]="data()?.backConfig" />
 
   <main class="main">
     <router-outlet />

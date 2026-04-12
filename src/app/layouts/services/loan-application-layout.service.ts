@@ -3,13 +3,14 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, Observable, tap } from 'rxjs';
 import { SplashService } from '@core/services';
 import { getCurrentRouteData, getRootSnapshot } from '@layouts/utils';
+import { LoanLayoutData } from '@layouts/models';
 
 @Injectable()
 export class LoanApplicationLayoutService {
   private router = inject(Router);
   private splashService = inject(SplashService);
 
-  readonly title = signal<string>(null);
+  readonly routData = signal<LoanLayoutData>(null);
 
   public initRouterEvents(): Observable<NavigationEnd> {
     queueMicrotask(() => {
@@ -27,8 +28,8 @@ export class LoanApplicationLayoutService {
 
   private updateActions(): void {
     const snapshot = getRootSnapshot(this.router);
-    const currentSnapshot = getCurrentRouteData(snapshot);
+    const currentSnapshot = getCurrentRouteData<LoanLayoutData>(snapshot);
 
-    this.title.set((currentSnapshot['title'] as string) ?? null);
+    this.routData.set(currentSnapshot);
   }
 }
