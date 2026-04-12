@@ -1,24 +1,30 @@
 @import 'colors';
 @import 'mixins';
 
+.themeMixin({
+    :host {
+        .box {
+            background: @component-background-secondary;
+        }
+    }
+});
+
 .title {
-    .textMixin(600,14px,100%);
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .scroll {
-    height: 40svh;
-    overflow-x: hidden;
-    overflow-y: auto;
+  height: 45svh;
+  overflow-x: hidden;
+  overflow-y: auto;
 
-    .media(@media-sm, {
+  .media(@media-sm, {
         height: 30svh;
     });
 }
 
 .box {
-    background: @cf-gray-500;
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 20px;
 }

@@ -11,5 +11,13 @@ import { FormBox, InputDefault, SelectDefault } from '@shared/components';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinanceForm {
-  modalRef = inject(NzModalRef);
+  private modalRef = inject(NzModalRef);
+
+  onSubmit(): void {
+    this.modalRef.close(true);
+  }
+
+  onClose(): void {
+    this.modalRef.close(false);
+  }
 }

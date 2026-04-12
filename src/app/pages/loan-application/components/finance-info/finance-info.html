@@ -3,7 +3,7 @@
 
   <cf-card [title]="'Финансовые данные'" [showSpace]="true" class="padding">
     <div actions>
-      <button nz-button nzType="default" nzSize="default" nzGhost>
+      <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>Добавить</strong>
 
         <nz-icon nzType="plus" class="primary" />
@@ -17,7 +17,7 @@
           <div class="col">
             <h4 nz-typography>Розничная торговля: Одежда,обувь</h4>
 
-            <a nz-button nzType="link" nzSize="large">
+            <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
               <nz-icon nzType="f:pencil" />
             </a>
           </div>
