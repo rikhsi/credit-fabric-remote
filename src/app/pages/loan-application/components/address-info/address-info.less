@@ -7,6 +7,17 @@
                 color: @text-color-secondary;
             }
         }
+
+        .titleRef {
+          nz-tag {
+            background: @error-bg-color;
+            color: @error-color;
+          }
+
+          nz-icon {
+            color: @error-color;
+          }
+        }
     }
 });
 
@@ -38,5 +49,16 @@
     justify-content: space-between;
     align-items: center;
     column-gap: 20px;
+  }
+}
+
+.titleRef {
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
+
+  nz-icon {
+    margin-right: 4px;
+    font-size: 14px;
   }
 }
