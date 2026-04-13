@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { FinanceForm, FinanceInfo } from '@pages/loan-application/components';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/loan-application/components';
 import { ModalConfirmComponent } from '@shared/components';
 import { ConfirmModal } from '@typings';
+import { SuccessModalData } from '@pages/loan-application/models';
 
 @Component({
   selector: 'cf-l-a-finance',
@@ -28,20 +29,83 @@ export class LAFinance {
   }
 
   finish(): void {
-    this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+    this.successModal();
+  }
+
+  private successModal(): NzModalRef {
+    return this.nzModalService.create<SuccessModal, SuccessModalData, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzFooter: null,
+      nzCentered: true,
+      nzWidth: 'auto',
+      nzData: {
+        id: 23,
+        amount: 50000000,
+      },
+      nzContent: SuccessModal,
+    });
+  }
+
+  private errorModal(): NzModalRef {
+    return this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
       nzContent: ModalConfirmComponent,
       nzData: {
-        title: 'Вы уверены завершить?',
-        description: 'Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.',
-        cancel: {
-          title: 'Нет',
+        icon: 'close',
+        title: 'Не удалось создать заявку',
+        description: 'Попробуйте позже. Сервер временно недоступен.',
+        submit: {
+          title: 'Вернуться на Главную',
           danger: false,
         },
+      },
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
+  }
+
+  private hasApplicationModal(): NzModalRef {
+    return this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalConfirmComponent,
+      nzData: {
+        icon: 'close',
+        title: 'У вас уже есть одобренная заявка',
+        description: 'У вас есть одобренная заявка. Примите по ней решение',
         submit: {
-          title: 'Да',
+          title: 'Перейти в Мои заявки',
+          danger: false,
+        },
+      },
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
+  }
+
+  private goToBankModal(): NzModalRef {
+    return this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalConfirmComponent,
+      nzData: {
+        icon: 'close',
+        title: 'Нужно посетить филиал банка',
+        description: 'Для вашей компании требуется индивидуальное оформление. Пожалуйста, обратитесь в филиал банка.',
+        submit: {
+          title: 'Найти филиал',
+          danger: false,
+        },
+        cancel: {
+          title: 'Вернуться на Главную',
           danger: false,
         },
       },

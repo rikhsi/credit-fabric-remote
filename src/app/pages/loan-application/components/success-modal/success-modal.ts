@@ -1,23 +1,24 @@
-import { ChangeDetectionStrategy, Component, Inject, model, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, model } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { ConfirmModal } from '@typings';
+import { DecimalPipe } from '@angular/common';
+import { SuccessModalData } from '@pages/loan-application/models';
 
 @Component({
-  selector: 'cf-modal-confirm',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective],
-  templateUrl: './modal-confirm.component.html',
-  styleUrl: './modal-confirm.component.less',
+  selector: 'cf-success-modal',
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, DecimalPipe],
+  templateUrl: './success-modal.html',
+  styleUrl: './success-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalConfirmComponent implements OnInit {
-  config = model<ConfirmModal>();
+export class SuccessModal implements OnInit {
+  config = model<SuccessModalData>();
 
   constructor(
     private modalRef: NzModalRef,
-    @Inject(NZ_MODAL_DATA) private modalData: ConfirmModal,
+    @Inject(NZ_MODAL_DATA) private modalData: SuccessModalData,
   ) {}
 
   ngOnInit(): void {

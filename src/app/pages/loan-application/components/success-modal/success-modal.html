@@ -1,0 +1,26 @@
+<ng-container *transloco="let t">
+  <div class="header">
+    <button nz-button nzShape="round" nzSize="small" class="close" (click)="cancel()">
+      <nz-icon nzType="close" />
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="text">
+      <h1 nz-typography>Заявка отправлена</h1>
+
+      <p nz-typography>Заявка № {{ config()?.id }}</p>
+
+      <h2 nz-typography>{{ config()?.amount | number }} UZS</h2>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button nz-button nzShape="round" nzSize="large">
+      <nz-icon nzType="info-circle" />
+    </button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submit()">
+      <strong>{{ t('Вернуться в Кредиты') }}</strong>
+    </button>
+  </div>
+</ng-container>

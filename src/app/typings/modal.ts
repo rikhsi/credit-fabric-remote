@@ -10,6 +10,7 @@ export interface ModalButtonBase {
 }
 
 export interface ConfirmModal extends BaseModal {
-  cancel: ModalButtonBase;
+  cancel?: ModalButtonBase;
   submit: ModalButtonBase;
+  icon?: string;
 }

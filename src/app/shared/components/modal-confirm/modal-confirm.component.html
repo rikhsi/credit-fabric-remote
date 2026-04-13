@@ -1,16 +1,34 @@
 <ng-container *transloco="let t">
-  <div class="modal-confirm">
-    <p class="title">{{ t(config()?.title) }}</p>
-    <p class="description">{{ t(config()?.description) }}</p>
+  <div class="header">
+    <button nz-button nzShape="round" nzSize="small" class="close" (click)="cancel()">
+      <nz-icon nzType="close" />
+    </button>
+  </div>
 
-    <div class="footer">
-      <button nz-button nzSize="large" [nzDanger]="config()?.cancel?.danger" class="w-min" (click)="cancel()">
-        {{ t(config()?.cancel?.title) }}
-      </button>
+  <div class="content">
+    @if (config()?.icon; as icon) {
+      <div class="icon">
+        <nz-icon [nzType]="icon" />
+      </div>
+    }
+    <div class="text">
+      <h1 nz-typography>{{ t(config()?.title) }}</h1>
 
-      <button nz-button nzType="primary" nzSize="large" [nzDanger]="config()?.submit?.danger" class="w-min" (click)="submit()">
-        {{ t(config()?.submit?.title) }}
-      </button>
+      @if (config()?.description; as description) {
+        <p nz-typography>{{ t(description) }}</p>
+      }
     </div>
+  </div>
+
+  <div class="footer">
+    <button nz-button nzType="primary" nzSize="large" [nzDanger]="config()?.submit?.danger" (click)="submit()">
+      <strong>{{ t(config()?.submit?.title) }}</strong>
+    </button>
+
+    @if (config()?.cancel; as cancelBtn) {
+      <button nz-button nzType="default" nzSize="large" [nzDanger]="cancelBtn?.danger" (click)="cancel()">
+        <strong>{{ t(cancelBtn?.title) }}</strong>
+      </button>
+    }
   </div>
 </ng-container>

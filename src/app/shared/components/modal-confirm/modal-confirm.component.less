@@ -1,54 +1,120 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
-    .modal-confirm {
-      background: @component-background;
+    background: @component-background;
+
+    .icon {
+      background: @component-background-secondary;
+    }
+
+    .text p {
+      color: @text-color-tertiary;
     }
   }
 });
 
-.modal-confirm {
-  width: 450px;
-  border-radius: 16px;
-  padding: 16px 24px;
+:host {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 42px;
 
   .media(@media-sm, {
-        width: 100%;
-        padding: 16px;
-    });
+    min-width: 90vw;
+    max-width: 90vw;
+    border-radius: 28px;
+  });
 
-  .title {
-    .textMixin(600,18px,100%);
-    margin-bottom: 8px;
+  .media(@media-xs, {
+  min-width: 95vw;
+  max-width: 95vw;
+  border-radius: 20px;
+});
+
+  .header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 32px 32px 8px 32px;
 
     .media(@media-sm, {
-            font-size: 16px;
-        });
+    padding: 20px 20px 8px 20px;
+  });
   }
 
-  .description {
-    .textMixin(400,14px,100%);
-    margin-bottom: 30px;
+  .content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+    flex: 1;
+    padding: 32px 32px 24px 32px;
 
     .media(@media-sm, {
-            margin-bottom: 20px;
-        });
+    padding: 24px;
+  });
+  }
+
+  .icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    nz-icon {
+      font-size: 36px;
+    }
+
+    .media(@media-md, {
+    width: 56px;
+    height: 56px;
+
+    nz-icon {
+      font-size: 28px;
+    }
+  });
+
+    .media(@media-sm, {
+  width: 48px;
+  height: 48px;
+
+  nz-icon {
+    font-size: 24px;
+  }
+});
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+
+    h1 {
+      margin: 0;
+      font-size: @heading-1-size;
+      line-height: @line-height-sm;
+
+      .media(@media-sm, {
+      font-size: @heading-1-size-sm;
+    });
+    }
   }
 
   .footer {
+    padding: 32px;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    column-gap: 12px;
+    flex-direction: column;
+    row-gap: 8px;
 
     .media(@media-sm, {
-            flex-direction: column;
-            gap: 8px;
+    padding: 24px;
+  });
 
-            button {
-                width: 100%;
-            }
-        });
+    [nz-button] {
+      width: 100%;
+    }
   }
 }
