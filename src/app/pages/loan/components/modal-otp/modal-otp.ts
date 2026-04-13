@@ -8,7 +8,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'cf-modal-otp',
-  imports: [NzButtonComponent, NzIconDirective, TranslocoDirective, NzInputOtpComponent, NzTypographyComponent],
+  imports: [NzButtonComponent, NzIconDirective, TranslocoDirective, NzInputOtpComponent, NzTypographyComponent, TranslocoDirective],
   templateUrl: './modal-otp.html',
   styleUrl: './modal-otp.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

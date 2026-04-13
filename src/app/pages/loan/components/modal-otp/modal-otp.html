@@ -7,19 +7,19 @@
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>Введите код из СМС</h1>
-      <p nz-typography>Отправили на номер +998 (91) ••• ••-67. Вводя код, вы подтверждаете согласие с условиями [название документа]</p>
+      <h1 nz-typography>{{t('prop.write_otp')}}</h1>
+      <p nz-typography>{{t('prop.wirte_otp_desc')}}</p>
     </div>
 
     <nz-input-otp [nzLength]="6" class="otp" />
 
     <div class="actions">
-      <button nz-button nzType="default" nzSize="large"><strong>Отправить код 00:51</strong></button>
-      <button nz-button nzType="default" nzSize="large" nzGhost><strong>Нет доступа к номеру?</strong></button>
+      <button nz-button nzType="default" nzSize="large"><strong>{{t('action.send_code')}}</strong></button>
+      <button nz-button nzType="default" nzSize="large" nzGhost><strong>{{t('question.no_phone')}}</strong></button>
     </div>
   </div>
 
   <div class="footer">
-    <button nz-button nzType="primary" nzSize="large" (click)="submit()">Подтвердить</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submit()">{{t('action.confirm')}}</button>
   </div>
 </ng-container>
