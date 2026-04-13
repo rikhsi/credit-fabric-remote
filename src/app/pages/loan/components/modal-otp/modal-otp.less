@@ -15,14 +15,19 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
+  min-width: 550px;
   max-width: 550px;
   border-radius: 42px;
 
   .media(@media-sm, {
+    min-width: 90vw;
+    max-width: 90vw;
     border-radius: 28px;
   });
 
   .media(@media-xs, {
+    min-width: 95vw;
+    max-width: 95vw;
     border-radius: 20px;
   });
 

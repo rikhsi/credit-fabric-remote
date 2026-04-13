@@ -7,14 +7,14 @@
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>{{t('prop.write_otp')}}</h1>
-      <p nz-typography>{{t('prop.wirte_otp_desc')}}</p>
+      <h1 nz-typography>{{t('otp.title')}}</h1>
+      <p nz-typography>{{t('otp.description', {phone: "+998 (91) ••• ••-67", document_name: '[название документа]'})}}</p>
     </div>
 
     <nz-input-otp [nzLength]="6" class="otp" />
 
     <div class="actions">
-      <button nz-button nzType="default" nzSize="large"><strong>{{t('action.send_code')}}</strong></button>
+      <button nz-button nzType="default" nzSize="large"><strong>{{t('action.send_code', {time: '00:51'})}}</strong></button>
       <button nz-button nzType="default" nzSize="large" nzGhost><strong>{{t('question.no_phone')}}</strong></button>
     </div>
   </div>

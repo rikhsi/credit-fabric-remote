@@ -1,10 +1,10 @@
 <ng-container *transloco="let t">
   <label nz-checkbox>
-    {{t('prop.public_requirements')}}
+    <span [innerHTML]="t('prop.public_offer')"></span>
   </label>
 
   <button nz-button nzType="primary" nzSize="large" (click)="clicked.emit(true)">
     <nz-icon nzType="f:arrowUpRight" />
-    {{t('action.create_application')}}
+    {{t('action.apply')}}
   </button>
 </ng-container>

@@ -68,7 +68,12 @@
     }
   },
   "action": {
-    "apply": "Подать заявку"
+    "apply": "Подать заявку",
+    "send_code": "Отправить код {{time}}",
+    "confirm": "Подтвердить"
+  },
+  "question": {
+    "no_phone": "Нет доступа к номеру?"
   },
   "prop": {
     "loan_amount": "До {{amount}} млн {{prefix}}",
@@ -83,7 +88,15 @@
     "no_collateral": "Без залога",
     "online_credit_calc": "Рассчитать онлайн-кредит",
     "loan_monthly_payment": "Ежемесячный платеж",
-    "loan_needed_docs": "Необходимые документы"
+    "loan_needed_docs": "Необходимые документы",
+    "annuity": "Равными частями",
+    "differentiated": "По убыванию",
+    "public_offer": "Заполняя форму, соглашаюсь <a>с публичной офертой</a>",
+    "loan_calculation_type": "Тип рассчета"
+  },
+  "otp": {
+    "title": "Введите код из СМС",
+    "description": "Отправили на номер {{phone}}. Вводя код, вы подтверждаете согласие с условиями {{document_name}}"
   },
   "benefit": {
     "title": "Преимущества онлайн кредита",
