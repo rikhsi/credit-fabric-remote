@@ -5,10 +5,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { DecimalPipe } from '@angular/common';
 import { SuccessModalData } from '@pages/application/models';
+import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-success-modal',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, DecimalPipe],
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, DecimalPipe, PluralizePipe],
   templateUrl: './success-modal.html',
   styleUrl: './success-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

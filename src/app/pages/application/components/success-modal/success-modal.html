@@ -7,11 +7,11 @@
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>{{t('prop.application_sended')}}</h1>
+      <h1 nz-typography>{{t('modal.application_success.title')}}</h1>
 
-      <p nz-typography>{{t('prop.application')}} № {{ config()?.id }}</p>
+      <p nz-typography>{{t('modal.application_success.description')}} № {{ config()?.id }}</p>
 
-      <h2 nz-typography>{{ config()?.amount | number }}</h2>
+      <h2 nz-typography>{{ config()?.amount | number }} {{config()?.amount | pluralize: 'money': false}}</h2>
     </div>
   </div>
 

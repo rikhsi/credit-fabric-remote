@@ -1,20 +1,92 @@
 {
-  "prefix": {
-    "scale": {
-      "none": "",
-      "thousand": "тыс",
-      "million": "млн",
-      "billion": "млрд"
+  "action": {
+    "add": "Добавить",
+    "add_address": "Добавьте адрес",
+    "add_extra_params": "Добавьте дополнительные параметры",
+    "add_finance_info": "Добавьте финансовые данные",
+    "apply": "Подать заявку",
+    "back_home": "Вернуться на Главную",
+    "back_to_loan": "Вернуться в Кредиты",
+    "cancel": "Отменить",
+    "confirm": "Подтвердить",
+    "continue": "Продолжить",
+    "finish": "Завершить",
+    "find_place": "Найти филиал",
+    "go_my_applications": "Перейти в Мои заявки",
+    "send_code": "Отправить код {{time}}"
+  },
+  "alert": {
+    "fill_fields": "Заполните данные"
+  },
+  "benefit": {
+    "fast": {
+      "description": "Узнайте о решении онлайн за 1 минуту",
+      "title": "Быстрое решение"
     },
+    "goal": {
+      "description": "Используйте деньги на любые цели",
+      "title": "На любые цели"
+    },
+    "pay": {
+      "description": "Вносите ежемесячный платеж в мобильном приложении Hamkor",
+      "title": "Удобно погашать"
+    },
+    "percent": {
+      "description": "Получите кредит на выгодных условиях",
+      "title": "Низкий процент"
+    },
+    "title": "Преимущества онлайн кредита"
+  },
+  "modal": {
+    "application_confirm": {
+      "title": "Подтвердите завершение заявки"
+    },
+    "application_success": {
+      "description": "Заявка",
+      "title": "Заявка отправлена"
+    },
+    "error_application": {
+      "description": "Попробуйте позже. Сервер временно недоступен.",
+      "title": "Не удалось создать заявку"
+    },
+    "error_bank_office_application": {
+      "description": "Для вашей компании требуется индивидуальное оформление. Пожалуйста, обратитесь в филиал банка.",
+      "title": "Нужно посетить филиал банка"
+    },
+    "error_exist_application": {
+      "description": "У вас есть одобренная заявка. Примите по ней решение",
+      "title": "У вас уже есть одобренная заявка"
+    }
+  },
+  "otp": {
+    "description": "Отправили на номер {{phone}}. Вводя код, вы подтверждаете согласие с условиями {{document_name}}",
+    "title": "Введите код из СМС"
+  },
+  "prefix": {
     "age": {
       "one": "год",
       "second": "года",
       "third": "лет"
     },
-    "year": {
-      "one": "год",
-      "second": "года",
-      "third": "лет"
+    "ball": {
+      "one": "балл",
+      "second": "балла",
+      "third": "баллов"
+    },
+    "day": {
+      "one": "день",
+      "second": "дня",
+      "third": "дней"
+    },
+    "district": {
+      "one": "район",
+      "second": "района",
+      "third": "районов"
+    },
+    "money": {
+      "one": "сум",
+      "second": "сум",
+      "third": "сум"
     },
     "month": {
       "one": "месяц",
@@ -26,95 +98,85 @@
       "second": "мес.",
       "third": "мес."
     },
-    "day": {
-      "one": "день",
-      "second": "дня",
-      "third": "дней"
-    },
-    "user": {
-      "one": "пользователь",
-      "second": "пользователя",
-      "third": "пользователей"
+    "region": {
+      "one": "регион",
+      "second": "региона",
+      "third": "регионов"
     },
     "school": {
       "one": "школа",
       "second": "школы",
       "third": "школ"
     },
-    "region": {
-      "one": "регион",
-      "second": "региона",
-      "third": "регионов"
-    },
-    "district": {
-      "one": "район",
-      "second": "района",
-      "third": "районов"
+    "scale": {
+      "billion": "млрд",
+      "million": "млн",
+      "none": "",
+      "thousand": "тыс"
     },
     "subject": {
       "one": "предмет",
       "second": "предмета",
       "third": "предметов"
     },
-    "money": {
-      "one": "сум",
-      "second": "сум",
-      "third": "сум"
+    "user": {
+      "one": "пользователь",
+      "second": "пользователя",
+      "third": "пользователей"
     },
-    "ball": {
-      "one": "балл",
-      "second": "балла",
-      "third": "баллов"
+    "year": {
+      "one": "год",
+      "second": "года",
+      "third": "лет"
     }
-  },
-  "action": {
-    "apply": "Подать заявку",
-    "send_code": "Отправить код {{time}}",
-    "confirm": "Подтвердить"
-  },
-  "question": {
-    "no_phone": "Нет доступа к номеру?"
   },
   "prop": {
+    "actual_business_activity": "Фактический вид направления деятельности",
+    "address": "Адрес",
+    "address_type": "Тип адреса",
+    "addresses": "Адреса",
+    "annuity": "Равными частями",
+    "application_to_loan": "Заявка на кредит",
+    "business_classification": "Признак новообразования объекта",
+    "contacts": "Контакты",
+    "credits": "Кредиты",
+    "debit_account": "Счёт зачисления",
+    "employee_count": "Количество работников",
+    "environmental_impact_classification": "Классификатор экологического влияния предприятия",
+    "experience_in_business_activity": "Фактический срок работы по данному виду деятельности (мин. 3 мес.)",
+    "extra_params": "Дополнительные параметры",
+    "finance_info": "Финансовые данные",
+    "finances": "Финансы",
+    "financial_activity_over": "Информация о деятельности за последние 3 полных месяца",
+    "general_info": "Общая информация",
+    "guarant": "Гарант",
+    "industry_sector": "Сектор экономики",
+    "legal_form": "Организационно-правовая форма",
     "loan_amount": "До {{amount}} млн {{prefix}}",
     "loan_amount_full": "Сумма кредита",
-    "loan_term": "До {{years}} {{prefix}}",
-    "loan_term_full": "Срок кредита",
-    "loan_percent": "от {{percent}}%",
-    "loan_percent_full": "Процентная ставка",
-    "credits": "Кредиты",
-    "conditions": "Условия",
-    "guarant": "Гарант",
-    "no_collateral": "Без залога",
-    "online_credit_calc": "Рассчитать онлайн-кредит",
+    "loan_calculation_type": "Тип рассчета",
     "loan_monthly_payment": "Ежемесячный платеж",
     "loan_needed_docs": "Необходимые документы",
-    "annuity": "Равными частями",
-    "differentiated": "По убыванию",
-    "public_offer": "Заполняя форму, соглашаюсь <a>с публичной офертой</a>",
-    "loan_calculation_type": "Тип рассчета"
+    "loan_percent": "от {{percent}}%",
+    "loan_percent_full": "Процентная ставка",
+    "loan_term": "До {{years}} {{prefix}}",
+    "loan_term_full": "Срок кредита",
+    "name": "Наименование ЮЛ/ИП",
+    "new_entity_indicator": "Классификатор предприятия",
+    "new_jobs_count": "Количество новых рабочих мест",
+    "no_collateral": "Без залога",
+    "online_credit_calc": "Рассчитать онлайн-кредит",
+    "oked": "ОКЭД",
+    "ownership_form": "Форма собственности",
+    "phone_number": "Номер телефона",
+    "phone_number_iabs": "Номер телефона (карточка клиента в iABS)",
+    "pinfl": "ИНН/ПИНФЛ",
+    "postal_code": "Почтовый индекс",
+    "registration_authority": "Орган регистрации",
+    "registration_date": "Дата регистрации",
+    "registration_number": "Регистрационный номер"
   },
-  "otp": {
-    "title": "Введите код из СМС",
-    "description": "Отправили на номер {{phone}}. Вводя код, вы подтверждаете согласие с условиями {{document_name}}"
-  },
-  "benefit": {
-    "title": "Преимущества онлайн кредита",
-    "percent": {
-      "title": "Низкий процент",
-      "description": "Получите кредит на выгодных условиях"
-    },
-    "pay": {
-      "title": "Удобно погашать",
-      "description": "Вносите ежемесячный платеж в мобильном приложении Hamkor"
-    },
-    "fast": {
-      "title": "Быстрое решение",
-      "description": "Узнайте о решении онлайн за 1 минуту"
-    },
-    "goal": {
-      "title": "На любые цели",
-      "description": "Используйте деньги на любые цели"
-    }
+  "question": {
+    "no_phone": "Нет доступа к номеру?"
   }
 }

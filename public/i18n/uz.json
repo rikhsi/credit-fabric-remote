@@ -1,20 +1,92 @@
 {
+  "action": {
+    "add": "Qo‘shish",
+    "add_address": "Manzil qo‘shing",
+    "add_extra_params": "Qo‘shimcha parametrlarni qo‘shing",
+    "add_finance_info": "Moliyaviy ma’lumotlarni qo‘shing",
+    "apply": "Ariza yuborish",
+    "back_home": "Bosh sahifaga qaytish",
+    "back_to_loan": "Kreditlarga qaytish",
+    "cancel": "Bekor qilish",
+    "confirm": "Tasdiqlash",
+    "continue": "Davom etish",
+    "finish": "Yakunlash",
+    "find_place": "Filialni topish",
+    "go_my_applications": "Mening arizalarimga o‘tish",
+    "send_code": "Kod yuborish {{time}}"
+  },
+  "alert": {
+    "fill_fields": "Maydonlarni to‘ldiring"
+  },
+  "benefit": {
+    "fast": {
+      "description": "Qarorni 1 daqiqada onlayn bilib oling",
+      "title": "Tez qaror"
+    },
+    "goal": {
+      "description": "Pulni istalgan maqsadda ishlating",
+      "title": "Istalgan maqsad uchun"
+    },
+    "pay": {
+      "description": "Oylik to‘lovni Hamkor mobil ilovasida amalga oshiring",
+      "title": "Qulay to‘lov"
+    },
+    "percent": {
+      "description": "Foydali shartlarda kredit oling",
+      "title": "Past foiz stavkasi"
+    },
+    "title": "Onlayn kredit afzalliklari"
+  },
+  "modal": {
+    "application_confirm": {
+      "title": "Arizani yakunlashni tasdiqlang"
+    },
+    "application_success": {
+      "description": "Ariza",
+      "title": "Ariza yuborildi"
+    },
+    "error_application": {
+      "description": "Iltimos, keyinroq urinib ko‘ring. Server vaqtincha ishlamayapti.",
+      "title": "Ariza yaratib bo‘lmadi"
+    },
+    "error_bank_office_application": {
+      "description": "Sizning kompaniyangiz uchun individual rasmiylashtirish talab qilinadi. Bank filialiga murojaat qiling.",
+      "title": "Bank filialiga tashrif buyurish kerak"
+    },
+    "error_exist_application": {
+      "description": "Sizda allaqachon tasdiqlangan ariza mavjud. U bo‘yicha qaror qabul qiling",
+      "title": "Sizda allaqachon tasdiqlangan ariza bor"
+    }
+  },
+  "otp": {
+    "description": "{{phone}} raqamiga yuborildi. Kodni kiritish orqali siz {{document_name}} shartlariga rozilik bildirasiz",
+    "title": "SMS kodni kiriting"
+  },
   "prefix": {
-    "scale": {
-      "none": "",
-      "thousand": "ming",
-      "million": "mln",
-      "billion": "mlrd"
-    },
     "age": {
-      "one": "yosh",
-      "second": "yosh",
-      "third": "yosh"
-    },
-    "year": {
       "one": "yil",
       "second": "yil",
       "third": "yil"
+    },
+    "ball": {
+      "one": "ball",
+      "second": "ball",
+      "third": "ball"
+    },
+    "day": {
+      "one": "kun",
+      "second": "kun",
+      "third": "kun"
+    },
+    "district": {
+      "one": "tuman",
+      "second": "tuman",
+      "third": "tuman"
+    },
+    "money": {
+      "one": "so‘m",
+      "second": "so‘m",
+      "third": "so‘m"
     },
     "month": {
       "one": "oy",
@@ -26,83 +98,85 @@
       "second": "oy",
       "third": "oy"
     },
-    "day": {
-      "one": "kun",
-      "second": "kun",
-      "third": "kun"
-    },
-    "user": {
-      "one": "foydalanuvchi",
-      "second": "foydalanuvchi",
-      "third": "foydalanuvchi"
+    "region": {
+      "one": "viloyat",
+      "second": "viloyat",
+      "third": "viloyat"
     },
     "school": {
       "one": "maktab",
       "second": "maktab",
       "third": "maktab"
     },
-    "region": {
-      "one": "viloyat",
-      "second": "viloyat",
-      "third": "viloyat"
-    },
-    "district": {
-      "one": "tuman",
-      "second": "tuman",
-      "third": "tuman"
+    "scale": {
+      "billion": "mlrd",
+      "million": "mln",
+      "none": "",
+      "thousand": "ming"
     },
     "subject": {
       "one": "fan",
       "second": "fan",
       "third": "fan"
     },
-    "money": {
-      "one": "so'm",
-      "second": "so'm",
-      "third": "so'm"
+    "user": {
+      "one": "foydalanuvchi",
+      "second": "foydalanuvchilar",
+      "third": "foydalanuvchilar"
     },
-    "ball": {
-      "one": "ball",
-      "second": "ball",
-      "third": "ball"
+    "year": {
+      "one": "yil",
+      "second": "yil",
+      "third": "yil"
     }
-  },
-  "action": {
-    "apply": "Ariza berish"
   },
   "prop": {
-    "loan_amount": "{{amount}} mln soʻmgacha",
-    "loan_amount_full": "Kredit miqdori",
-    "loan_term": "{{years}} yilgacha",
-    "loan_term_full": "Kredit muddati",
-    "loan_percent": "{{percent}}% dan",
-    "loan_percent_full": "Foiz miqdori",
+    "actual_business_activity": "Amaldagi faoliyat turi",
+    "address": "Manzil",
+    "address_type": "Manzil turi",
+    "addresses": "Manzillar",
+    "annuity": "Teng to‘lovlar",
+    "application_to_loan": "Kredit arizasi",
+    "business_classification": "Obyekt yangilik belgisi",
+    "contacts": "Kontaktlar",
     "credits": "Kreditlar",
-    "conditions": "Shartlar",
+    "debit_account": "Hisob raqami",
+    "employee_count": "Xodimlar soni",
+    "environmental_impact_classification": "Korxonaning ekologik ta’siri klassifikatori",
+    "experience_in_business_activity": "Mazkur faoliyat bo‘yicha ish tajribasi (kamida 3 oy)",
+    "extra_params": "Qo‘shimcha parametrlar",
+    "finance_info": "Moliyaviy ma’lumotlar",
+    "finances": "Moliya",
+    "financial_activity_over": "So‘nggi 3 to‘liq oy faoliyati haqida ma’lumot",
+    "general_info": "Umumiy ma’lumot",
     "guarant": "Kafolat",
-    "no_collateral": "Zalogsiz",
-    "online_credit_advantages": "Onlayn kredit qulayliklari",
-    "online_credit_calc": "Onlayn kreditni hisoblash",
-    "loan_monthly_payment": "Oylik to`lov",
-    "loan_needed_docs": "Keraklik xujjatlar"
+    "industry_sector": "Iqtisodiyot sektori",
+    "legal_form": "Tashkiliy-huquqiy shakl",
+    "loan_amount": "{{amount}} mln {{prefix}} gacha",
+    "loan_amount_full": "Kredit miqdori",
+    "loan_calculation_type": "Hisoblash turi",
+    "loan_monthly_payment": "Oylik to‘lov",
+    "loan_needed_docs": "Kerakli hujjatlar",
+    "loan_percent": "{{percent}}% dan",
+    "loan_percent_full": "Foiz stavkasi",
+    "loan_term": "{{years}} {{prefix}} gacha",
+    "loan_term_full": "Kredit muddati",
+    "name": "Yuridik shaxs/YTT nomi",
+    "new_entity_indicator": "Korxona klassifikatori",
+    "new_jobs_count": "Yangi ish o‘rinlari soni",
+    "no_collateral": "Garovsiz",
+    "online_credit_calc": "Onlayn kredit hisoblash",
+    "oked": "OKED",
+    "ownership_form": "Mulk shakli",
+    "phone_number": "Telefon raqami",
+    "phone_number_iabs": "Telefon raqami (iABS mijoz kartasi)",
+    "pinfl": "STIR/PINFL",
+    "postal_code": "Pochta indeksi",
+    "registration_authority": "Ro‘yxatdan o‘tkazuvchi organ",
+    "registration_date": "Ro‘yxatdan o‘tgan sana",
+    "registration_number": "Ro‘yxat raqami"
   },
-  "benefit": {
-    "title": "Onlayn kredit afzalliklari",
-    "percent": {
-      "title": "Past foiz stavkasi",
-      "description": "Qulay shartlarda kredit oling"
-    },
-    "pay": {
-      "title": "Qulay to‘lov",
-      "description": "Oylik to‘lovni Hamkor mobil ilovasida amalga oshiring"
-    },
-    "fast": {
-      "title": "Tezkor qaror",
-      "description": "Natijani onlayn 1 daqiqada bilib oling"
-    },
-    "goal": {
-      "title": "Har qanday maqsad uchun",
-      "description": "Puldan istalgan maqsadda foydalaning"
-    }
+  "question": {
+    "no_phone": "Telefon raqamga kirish yo‘qmi?"
   }
 }

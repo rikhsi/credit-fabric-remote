@@ -1,20 +1,92 @@
 {
+  "action": {
+    "add": "Add",
+    "add_address": "Add address",
+    "add_extra_params": "Add additional parameters",
+    "add_finance_info": "Add financial data",
+    "apply": "Apply",
+    "back_home": "Back to Home",
+    "back_to_loan": "Back to Loans",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "finish": "Finish",
+    "find_place": "Find branch",
+    "go_my_applications": "Go to My Applications",
+    "send_code": "Send code {{time}}"
+  },
+  "alert": {
+    "fill_fields": "Fill in the fields"
+  },
+  "benefit": {
+    "fast": {
+      "description": "Learn about the decision online in 1 minute",
+      "title": "Fast decision"
+    },
+    "goal": {
+      "description": "Use money for any purpose",
+      "title": "For any purpose"
+    },
+    "pay": {
+      "description": "Make monthly payments in the Hamkor mobile app",
+      "title": "Easy repayment"
+    },
+    "percent": {
+      "description": "Get a loan on favorable terms",
+      "title": "Low interest rate"
+    },
+    "title": "Benefits of online loan"
+  },
+  "modal": {
+    "application_confirm": {
+      "title": "Confirm application completion"
+    },
+    "application_success": {
+      "description": "Application",
+      "title": "Application submitted"
+    },
+    "error_application": {
+      "description": "Please try again later. The server is temporarily unavailable.",
+      "title": "Failed to create application"
+    },
+    "error_bank_office_application": {
+      "description": "Your company requires individual processing. Please visit the bank branch.",
+      "title": "Bank branch visit required"
+    },
+    "error_exist_application": {
+      "description": "You already have an approved application. Please make a decision on it",
+      "title": "You already have an approved application"
+    }
+  },
+  "otp": {
+    "description": "We sent it to {{phone}}. By entering the code, you agree to the terms of {{document_name}}",
+    "title": "Enter SMS code"
+  },
   "prefix": {
-    "scale": {
-      "none": "",
-      "thousand": "k",
-      "million": "m",
-      "billion": "b"
-    },
     "age": {
-      "one": "year old",
-      "second": "years old",
-      "third": "years old"
-    },
-    "year": {
       "one": "year",
       "second": "years",
       "third": "years"
+    },
+    "ball": {
+      "one": "point",
+      "second": "points",
+      "third": "points"
+    },
+    "day": {
+      "one": "day",
+      "second": "days",
+      "third": "days"
+    },
+    "district": {
+      "one": "district",
+      "second": "districts",
+      "third": "districts"
+    },
+    "money": {
+      "one": "sum",
+      "second": "sum",
+      "third": "sum"
     },
     "month": {
       "one": "month",
@@ -22,86 +94,89 @@
       "third": "months"
     },
     "month_short": {
-      "one": "month",
-      "second": "months",
-      "third": "months"
-    },
-    "day": {
-      "one": "day",
-      "second": "days",
-      "third": "days"
-    },
-    "user": {
-      "one": "user",
-      "second": "users",
-      "third": "users"
-    },
-    "school": {
-      "one": "school",
-      "second": "schools",
-      "third": "schools"
+      "one": "mo.",
+      "second": "mo.",
+      "third": "mo."
     },
     "region": {
       "one": "region",
       "second": "regions",
       "third": "regions"
     },
-    "district": {
-      "one": "district",
-      "second": "districts",
-      "third": "districts"
+    "school": {
+      "one": "school",
+      "second": "schools",
+      "third": "schools"
+    },
+    "scale": {
+      "billion": "bln",
+      "million": "mln",
+      "none": "",
+      "thousand": "k"
     },
     "subject": {
       "one": "subject",
       "second": "subjects",
       "third": "subjects"
     },
-    "money": {
-      "one": "som",
-      "second": "som",
-      "third": "som"
+    "user": {
+      "one": "user",
+      "second": "users",
+      "third": "users"
     },
-    "ball": {
-      "one": "point",
-      "second": "points",
-      "third": "points"
+    "year": {
+      "one": "year",
+      "second": "years",
+      "third": "years"
     }
-  },
-  "action": {
-    "apply": "Apply"
   },
   "prop": {
-    "loan_amount": "Up to {{amount}} mln UZS",
+    "actual_business_activity": "Actual business activity",
+    "address": "Address",
+    "address_type": "Address type",
+    "addresses": "Addresses",
+    "annuity": "Equal installments",
+    "application_to_loan": "Loan application",
+    "business_classification": "Entity newness indicator",
+    "contacts": "Contacts",
+    "credits": "Loans",
+    "debit_account": "Credit account",
+    "employee_count": "Number of employees",
+    "environmental_impact_classification": "Enterprise environmental impact classification",
+    "experience_in_business_activity": "Actual duration in this activity (min. 3 months)",
+    "extra_params": "Additional parameters",
+    "finance_info": "Financial data",
+    "finances": "Finances",
+    "financial_activity_over": "Activity information for the last 3 full months",
+    "general_info": "General information",
+    "guarant": "Guarantor",
+    "industry_sector": "Economic sector",
+    "legal_form": "Legal form",
+    "loan_amount": "Up to {{amount}} mln {{prefix}}",
     "loan_amount_full": "Loan amount",
-    "loan_term": "Up to {{years}} years",
-    "loan_term_full": "Loan term",
-    "loan_percent": "from {{percent}}%",
-    "loan_percent_full": "Loan percent",
-    "credits": "Credits",
-    "conditions": "Conditions",
-    "guarant": "Pledge",
-    "no_collateral": "Without collateral",
-    "online_credit_calc": "Calculate online credit",
+    "loan_calculation_type": "Calculation type",
     "loan_monthly_payment": "Monthly payment",
-    "loan_needed_docs": "Needed docs"
+    "loan_needed_docs": "Required documents",
+    "loan_percent": "from {{percent}}%",
+    "loan_percent_full": "Interest rate",
+    "loan_term": "Up to {{years}} {{prefix}}",
+    "loan_term_full": "Loan term",
+    "name": "Legal entity/IE name",
+    "new_entity_indicator": "Enterprise classifier",
+    "new_jobs_count": "Number of new jobs",
+    "no_collateral": "No collateral",
+    "online_credit_calc": "Online loan calculator",
+    "oked": "OKED",
+    "ownership_form": "Ownership form",
+    "phone_number": "Phone number",
+    "phone_number_iabs": "Phone number (iABS client card)",
+    "pinfl": "TIN/PINFL",
+    "postal_code": "Postal code",
+    "registration_authority": "Registration authority",
+    "registration_date": "Registration date",
+    "registration_number": "Registration number"
   },
-  "benefit": {
-    "title": "Advantages of online loan",
-    "percent": {
-      "title": "Low interest rate",
-      "description": "Get a loan on favorable terms"
-    },
-    "pay": {
-      "title": "Convenient repayment",
-      "description": "Make monthly payments in the Hamkor mobile app"
-    },
-    "fast": {
-      "title": "Fast decision",
-      "description": "Find out the decision online in 1 minute"
-    },
-    "goal": {
-      "title": "For any purpose",
-      "description": "Use the money for any purpose"
-    }
+  "question": {
+    "no_phone": "No access to the phone number?"
   }
 }
