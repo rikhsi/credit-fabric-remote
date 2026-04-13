@@ -23,6 +23,12 @@
   display: flex;
   column-gap: 8px;
   align-items: center;
+
+  .media(@media-sm, {
+    align-items: stretch;
+    flex-direction: column;
+    row-gap: 8px;
+  });
 }
 
 .infos {
