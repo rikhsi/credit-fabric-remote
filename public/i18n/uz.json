@@ -180,7 +180,9 @@
     "month": "Oy",
     "benefit": "Tushum, so‘m",
     "pure_benefit": "Sof foyda, so‘m",
-    "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman"
+    "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman",
+    "empty_finance_info": "Moliyaviy ma’lumotlar mavjud emas",
+    "add_finance_info": "Arizani yuborish uchun moliyaviy ma’lumotlarni qo‘shing"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"

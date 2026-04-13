@@ -12,7 +12,7 @@
       </div>
 
       <div class="list">
-        @for (item of [1,2]; track $index) {
+        @for (item of $any([1,2]); track $index) {
         <cf-card class="gray lg">
           <div class="row">
             <div class="col">
@@ -29,6 +29,11 @@
             <p nz-typography>Ноябрь — 15 000 000–10 000 000</p>
           </div>
         </cf-card>
+        } @empty {
+        <div class="empty">
+          <h3 nz-typography>{{t('prop.empty_finance_info')}}</h3>
+          <p>{{t('prop.add_finance_info')}}</p>
+        </div>
         }
       </div>
     </cf-card>

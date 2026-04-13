@@ -180,7 +180,9 @@
     "month": "Month",
     "benefit": "Revenue, sum",
     "pure_benefit": "Net profit, sum",
-    "public_offer": "By filling out the form, I agree to the <a>public offer</a>"
+    "public_offer": "By filling out the form, I agree to the <a>public offer</a>",
+    "empty_finance_info": "No financial data available",
+    "add_finance_info": "Add financial data to submit the application"
   },
   "question": {
     "no_phone": "No access to the phone number?"
