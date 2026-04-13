@@ -182,7 +182,9 @@
     "pure_benefit": "Sof foyda, so‘m",
     "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman",
     "empty_finance_info": "Moliyaviy ma’lumotlar mavjud emas",
-    "add_finance_info": "Arizani yuborish uchun moliyaviy ma’lumotlarni qo‘shing"
+    "add_finance_info": "Arizani yuborish uchun moliyaviy ma’lumotlarni qo‘shing",
+    "email": "Email",
+    "conditions": "Shartlar"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"
