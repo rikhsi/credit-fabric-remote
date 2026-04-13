@@ -1,0 +1,48 @@
+<a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="select">
+  <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+
+  <nz-icon nzType="f:down" class="down" />
+</a>
+
+<ng-template #billInfoRef>
+  <div class="info">
+    <div class="flag">
+      <nz-icon nzType="c:uzFlag" />
+    </div>
+
+    <div class="text">
+      <h2 nz-typography>56 321 916 .44 UZS</h2>
+
+      <b class="name">Основной, Расчётный счёт</b>
+      <b class="number">20208・・001</b>
+    </div>
+  </div>
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="list">
+    <div class="item">
+      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+
+      @if (true) {
+      <nz-icon nzType="check" />
+      }
+    </div>
+
+    <div class="item">
+      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+
+      @if (false) {
+      <nz-icon nzType="check" />
+      }
+    </div>
+
+    <div class="item">
+      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+
+      @if (false) {
+      <nz-icon nzType="check" />
+      }
+    </div>
+  </div>
+</nz-dropdown-menu>

@@ -7,3 +7,4 @@ export * from './finance-info/finance-info';
 export * from './address-info/address-info';
 export * from './address-form/address-form';
 export * from './success-modal/success-modal';
+export * from './bill-info/bill-info';

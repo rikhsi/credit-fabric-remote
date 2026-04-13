@@ -1,0 +1,92 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+    :host {
+        .select {
+            border-color: @border-color;
+        }
+
+        .name {
+            color: @text-color-tertiary;
+        }
+
+        .number {
+            color: @text-color-secondary;
+        }
+
+        .down {
+            color: @text-color;
+        }
+    }
+});
+
+:host {
+  display: block;
+}
+
+.select {
+  display: flex;
+  border: 1px solid;
+  padding: 20px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 495px;
+  transition: 0.3s all;
+
+  &:hover {
+    background: fade(@cf-black-900, 5%);
+  }
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  flex: 1;
+
+  .flag {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    nz-icon {
+      font-size: 36px;
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+
+    h2 {
+      margin-bottom: 2px;
+    }
+  }
+}
+
+.list {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 495px;
+    transition: 0.3s all;
+    cursor: pointer;
+
+    &:hover {
+      background: fade(@cf-black-900, 5%);
+    }
+  }
+}
