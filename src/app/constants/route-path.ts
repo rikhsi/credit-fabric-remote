@@ -9,7 +9,11 @@ export enum LoanRoute {
   Details = 'details',
 }
 
-export enum LoanApplicationRoute {
+export enum ApplicationRoute {
+  Flow = 'flow',
+}
+
+export enum ApplicationFlowRoute {
   General = 'general',
   Finance = 'finance',
 }

@@ -1,19 +1,28 @@
 import { Routes } from '@angular/router';
-import { LoanApplicationRoute } from '@constants';
+import { ApplicationRoute, ApplicationFlowRoute } from '@constants';
 
 export const routes: Routes = [
   {
-    path: LoanApplicationRoute.General,
-    data: { title: 'Заявка на кредит', backConfig: { link: '/loan/details/2' } },
-    loadComponent: () => import('./pages/a-general/a-general').then((c) => c.AGeneral),
-  },
-  {
-    path: LoanApplicationRoute.Finance,
-    data: { title: 'Заявка на кредит', backConfig: { link: '/application/general' } },
-    loadComponent: () => import('./pages/a-finance/a-finance').then((c) => c.AFinance),
+    path: ApplicationRoute.Flow,
+    children: [
+      {
+        path: ApplicationFlowRoute.General,
+        data: { title: 'Заявка на кредит', backConfig: { link: '/loan/details/2' } },
+        loadComponent: () => import('./pages/a-general/a-general').then((c) => c.AGeneral),
+      },
+      {
+        path: ApplicationFlowRoute.Finance,
+        data: { title: 'Заявка на кредит', backConfig: { link: '/application/flow/general' } },
+        loadComponent: () => import('./pages/a-finance/a-finance').then((c) => c.AFinance),
+      },
+      {
+        path: '**',
+        redirectTo: ApplicationFlowRoute.General,
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: LoanApplicationRoute.General,
+    redirectTo: ApplicationRoute.Flow,
   },
 ];

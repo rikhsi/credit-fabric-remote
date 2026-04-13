@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { filter } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
 import { ModalConfirmComponent } from '@shared/components';
@@ -29,7 +30,35 @@ export class AFinance {
   }
 
   finish(): void {
-    this.successModal();
+    this.confirmModal()
+      .afterClose.pipe(filter((state) => state))
+      .subscribe(() => {
+        this.successModal();
+      });
+  }
+
+  private confirmModal(): NzModalRef {
+    return this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalConfirmComponent,
+      nzData: {
+        icon: 'check',
+        title: 'Подтвердите завершение заявки',
+        submit: {
+          title: 'Подтвердить',
+          danger: false,
+        },
+        cancel: {
+          title: 'Отменить',
+          danger: false,
+        },
+      },
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
   }
 
   private successModal(): NzModalRef {
