@@ -174,7 +174,9 @@
     "postal_code": "Почтовый индекс",
     "registration_authority": "Орган регистрации",
     "registration_date": "Дата регистрации",
-    "registration_number": "Регистрационный номер"
+    "registration_number": "Регистрационный номер",
+    "region": "Район/Город",
+    "street": "Махаля"
   },
   "question": {
     "no_phone": "Нет доступа к номеру?"

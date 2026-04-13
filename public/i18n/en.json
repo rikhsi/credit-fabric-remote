@@ -174,7 +174,9 @@
     "postal_code": "Postal code",
     "registration_authority": "Registration authority",
     "registration_date": "Registration date",
-    "registration_number": "Registration number"
+    "registration_number": "Registration number",
+    "region": "Region",
+    "street": "Street"
   },
   "question": {
     "no_phone": "No access to the phone number?"
