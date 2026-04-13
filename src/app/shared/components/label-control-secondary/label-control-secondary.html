@@ -2,7 +2,7 @@
 <nz-icon [nzType]="icon" class="icon" />
 }
 <div class="box">
-  <label [for]="id()" [ngClass]="{required: required()}">{{label()}}</label>
+  <label [for]="id()" [ngClass]="{required: required(), small: size() === 'small'}">{{label()}}</label>
 
   <ng-content />
 </div>

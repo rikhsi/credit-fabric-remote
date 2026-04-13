@@ -1,0 +1,35 @@
+<cf-card [showSpace]="true" [titleRef]="baseRef" class="bordered card">
+  <div actions>
+    <nz-tag class="tag">Рассматриваем вашу заявку</nz-tag>
+  </div>
+
+  <div class="infos">
+    <cf-label-control-secondary [label]="'Продукт'" [size]="'small'">
+      <h6 nz-typography>Biznesga qadam</h6>
+    </cf-label-control-secondary>
+
+    <cf-label-control-secondary [label]="'Сумма кредита'" [size]="'small'">
+      <h6 nz-typography>50 000 000 UZS</h6>
+    </cf-label-control-secondary>
+
+    <cf-label-control-secondary [label]="'Срок кредита'" [size]="'small'">
+      <h6 nz-typography>18 мес</h6>
+    </cf-label-control-secondary>
+
+    <cf-label-control-secondary [label]="'Процентная ставка'" [size]="'small'">
+      <h6 nz-typography>25%</h6>
+    </cf-label-control-secondary>
+
+    <cf-label-control-secondary [label]="'Тип расчёта'" [size]="'small'">
+      <h6 nz-typography>Равными частями</h6>
+    </cf-label-control-secondary>
+  </div>
+</cf-card>
+
+<ng-template #baseRef>
+  <div class="base">
+    <h5 nz-typography>Заявка №1</h5>
+
+    <cf-status-application status="На рассмотрении"/>
+  </div>
+</ng-template>

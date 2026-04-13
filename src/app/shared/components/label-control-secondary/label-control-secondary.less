@@ -42,6 +42,10 @@
     margin-bottom: 6px;
     .textMixin(@font-weight-medium, @font-size-base, @line-height-base);
 
+    &.small {
+      font-size: @font-size-sm;
+    }
+
     &.required::before {
       content: '*';
       font-size: 12px;

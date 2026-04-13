@@ -1,0 +1,31 @@
+@import 'colors';
+@import 'custom';
+@import 'mixins';
+
+.themeMixin({
+    :host {
+        .icon {
+            background: @body-background;
+        }
+    }
+});
+
+:host {
+  display: flex;
+  column-gap: 4px;
+  align-items: center;
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    nz-icon {
+      color: @cf-orange-50;
+      font-size: @font-size-sm;
+    }
+  }
+}

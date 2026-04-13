@@ -1,0 +1,33 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+    :host {
+        .tag {
+            background: @warning-color;
+        }
+    }
+});
+
+.card {
+  cursor: pointer;
+  transition: 0.3s all;
+  user-select: none;
+
+  &:hover {
+    background: fade(@cf-black-900, 5%);
+  }
+}
+
+.base {
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.infos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px 24px;
+  max-width: 70vw;
+}
