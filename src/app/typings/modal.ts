@@ -1,6 +1,6 @@
 export interface BaseModal {
   title: string;
-  description: string;
+  description?: string;
 }
 
 export interface ModalButtonBase {

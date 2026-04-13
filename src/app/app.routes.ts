@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { RootRoute } from '@constants';
-import { LoanApplicationLayout, LoanLayout } from '@layouts/views';
+import { LoanLayout } from '@layouts/views';
 
 export const routes: Routes = [
   {
@@ -9,9 +9,19 @@ export const routes: Routes = [
     loadChildren: () => import('@pages/loan/loan.routes').then((r) => r.routes),
   },
   {
-    path: RootRoute.LoanApplication,
-    component: LoanApplicationLayout,
-    loadChildren: () => import('@pages/loan-application/loan-application.routes').then((r) => r.routes),
+    path: RootRoute.Application,
+    component: LoanLayout,
+    loadChildren: () => import('@pages/application/application.routes').then((r) => r.routes),
+  },
+  {
+    path: RootRoute.Applications,
+    component: LoanLayout,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('@pages/applications/applications').then((c) => c.Applications),
+      },
+    ],
   },
   {
     path: '**',

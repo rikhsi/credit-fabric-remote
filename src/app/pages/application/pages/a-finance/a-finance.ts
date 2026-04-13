@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/loan-application/components';
+import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
 import { ModalConfirmComponent } from '@shared/components';
 import { ConfirmModal } from '@typings';
-import { SuccessModalData } from '@pages/loan-application/models';
+import { SuccessModalData } from '@pages/application/models';
 
 @Component({
-  selector: 'cf-l-a-finance',
+  selector: 'cf-a-finance',
   imports: [NzButtonComponent, FinanceInfo],
-  templateUrl: './l-a-finance.html',
-  styleUrl: './l-a-finance.less',
+  templateUrl: './a-finance.html',
+  styleUrl: './a-finance.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LAFinance {
+export class AFinance {
   private nzModalService = inject(NzModalService);
 
   openFinanceForm(): void {

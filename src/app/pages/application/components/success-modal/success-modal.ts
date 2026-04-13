@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, Inject, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, model, OnInit } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { DecimalPipe } from '@angular/common';
-import { SuccessModalData } from '@pages/loan-application/models';
+import { SuccessModalData } from '@pages/application/models';
 
 @Component({
   selector: 'cf-success-modal',

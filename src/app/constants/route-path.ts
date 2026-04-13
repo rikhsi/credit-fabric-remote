@@ -1,6 +1,7 @@
 export enum RootRoute {
   Loan = 'loan',
-  LoanApplication = 'loan-application',
+  Application = 'application',
+  Applications = 'applications',
 }
 
 export enum LoanRoute {

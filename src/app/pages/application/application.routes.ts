@@ -5,12 +5,12 @@ export const routes: Routes = [
   {
     path: LoanApplicationRoute.General,
     data: { title: 'Заявка на кредит', backConfig: { link: '/loan/details/2' } },
-    loadComponent: () => import('./pages/l-a-general/l-a-general').then((c) => c.LAGeneral),
+    loadComponent: () => import('./pages/a-general/a-general').then((c) => c.AGeneral),
   },
   {
     path: LoanApplicationRoute.Finance,
-    data: { title: 'Заявка на кредит', backConfig: { link: '/loan-application/general' } },
-    loadComponent: () => import('./pages/l-a-finance/l-a-finance').then((c) => c.LAFinance),
+    data: { title: 'Заявка на кредит', backConfig: { link: '/application/general' } },
+    loadComponent: () => import('./pages/a-finance/a-finance').then((c) => c.AFinance),
   },
   {
     path: '**',

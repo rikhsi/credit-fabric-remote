@@ -6,6 +6,7 @@ import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAccep
 import { LOAN_ADVANTAGES_LIST } from '@pages/loan/data';
 import { LoanAdvantageItem } from '@pages/loan/models';
 import { Card } from '@shared/components';
+import { RootRoute } from '@constants';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -32,7 +33,7 @@ export class LoanDetail {
         nzWidth: 'auto',
       })
       .afterClose.subscribe(() => {
-        this.router.navigate(['/loan-application/general']);
+        this.router.navigate([RootRoute.Application]);
       });
   }
 }
