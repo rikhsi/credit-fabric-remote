@@ -176,7 +176,11 @@
     "registration_date": "Registration date",
     "registration_number": "Registration number",
     "region": "Region",
-    "street": "Street"
+    "street": "Street",
+    "month": "Month",
+    "benefit": "Revenue, sum",
+    "pure_benefit": "Net profit, sum",
+    "public_offer": "By filling out the form, I agree to the <a>public offer</a>"
   },
   "question": {
     "no_phone": "No access to the phone number?"

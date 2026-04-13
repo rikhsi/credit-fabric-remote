@@ -176,7 +176,11 @@
     "registration_date": "Ro‘yxatdan o‘tgan sana",
     "registration_number": "Ro‘yxat raqami",
     "region": "Shahar/tuman",
-    "street": "Mahalla"
+    "street": "Mahalla",
+    "month": "Oy",
+    "benefit": "Tushum, so‘m",
+    "pure_benefit": "Sof foyda, so‘m",
+    "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"
