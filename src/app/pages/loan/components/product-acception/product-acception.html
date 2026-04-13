@@ -1,9 +1,10 @@
-<label nz-checkbox>
-  Заполняя форму, соглашаюсь 
-  <a>с публичной офертой</a>
-</label>
+<ng-container *transloco="let t">
+  <label nz-checkbox>
+    {{t('prop.public_requirements')}}
+  </label>
 
-<button nz-button nzType="primary" nzSize="large" (click)="clicked.emit(true)">
-  <nz-icon nzType="f:arrowUpRight" />
-  Подать заявку
-</button>
+  <button nz-button nzType="primary" nzSize="large" (click)="clicked.emit(true)">
+    <nz-icon nzType="f:arrowUpRight" />
+    {{t('action.create_application')}}
+  </button>
+</ng-container>

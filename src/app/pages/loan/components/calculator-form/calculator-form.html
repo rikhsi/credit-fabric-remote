@@ -1,18 +1,20 @@
-<div>
-  <cf-label-control-secondary [label]="'Сумма'"></cf-label-control-secondary>
-  <cf-input-slider [value]="100000" [max]="1000000" [min]="100000" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
-</div>
+<ng-container *transloco="let t">
+  <div>
+    <cf-label-control-secondary [label]="t('prop.total_amount')"></cf-label-control-secondary>
+    <cf-input-slider [value]="100000" [max]="1000000" [min]="100000" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
+  </div>
 
-<div>
-  <cf-label-control-secondary [label]="'Срок'"></cf-label-control-secondary>
-  <cf-input-slider [value]="18" [max]="36" [min]="18" [step]="1" [prefixType]="'month_short'" [prefixInputType]="'month'" />
-</div>
+  <div>
+    <cf-label-control-secondary [label]="t('prop.term')"></cf-label-control-secondary>
+    <cf-input-slider [value]="18" [max]="36" [min]="18" [step]="1" [prefixType]="'month_short'" [prefixInputType]="'month'" />
+  </div>
 
-<div>
-  <cf-label-control-secondary [label]="'Рассчет кредита'"></cf-label-control-secondary>
+  <div>
+    <cf-label-control-secondary [label]="t('prop.loan_calculation')"></cf-label-control-secondary>
 
-  <nz-radio-group [(ngModel)]="creditType">
-    <label nz-radio nzValue="annuity">Аннуитетный</label>
-    <label nz-radio nzValue="differentiated">Дифференцированный</label>
-  </nz-radio-group>
-</div>
+    <nz-radio-group [(ngModel)]="creditType">
+      <label nz-radio nzValue="annuity">{{t('prop.annuniet')}}</label>
+      <label nz-radio nzValue="differentiated">{{t('prop.differencial')}}</label>
+    </nz-radio-group>
+  </div>
+</ng-container>
