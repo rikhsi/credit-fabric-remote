@@ -1,23 +1,21 @@
-<ng-container *transloco="let t">
-  <div class="top" [ngClass]="{space: showSpace()}">
-    @if (link(); as link) {
-    <a nz-button nzType="link" [routerLink]="link" class="link default">
-      <nz-icon nzType="f:backLine" />
-      <ng-container [ngTemplateOutlet]="titleRef() ?? titleTmp"></ng-container>
-    </a>
-    } @else {
+<div class="top" [ngClass]="{space: showSpace()}">
+  @if (link(); as link) {
+  <a nz-button nzType="link" [routerLink]="link" class="link default">
+    <nz-icon nzType="f:backLine" />
     <ng-container [ngTemplateOutlet]="titleRef() ?? titleTmp"></ng-container>
-    }
-    <div class="actions">
-      <ng-content select="[actions]" />
-    </div>
+  </a>
+  } @else {
+  <ng-container [ngTemplateOutlet]="titleRef() ?? titleTmp"></ng-container>
+  }
+  <div class="actions">
+    <ng-content select="[actions]" />
   </div>
+</div>
 
-  <div class="content">
-    <ng-content />
-  </div>
+<div class="content">
+  <ng-content />
+</div>
 
-  <ng-template #titleTmp>
-    <h2 nz-typography>@if (title(); as title) { {{t(title)}} }</h2>
-  </ng-template>
-</ng-container>
+<ng-template #titleTmp>
+  <h2 nz-typography>@if (title(); as title) { {{title}} }</h2>
+</ng-template>

@@ -7,12 +7,12 @@ export const routes: Routes = [
     children: [
       {
         path: ApplicationFlowRoute.General,
-        data: { title: 'Заявка на кредит', backConfig: { link: '/loan/details/2' } },
+        data: { title: 'prop.application_to_loan', backConfig: { link: '/loan/details/2' } },
         loadComponent: () => import('./pages/a-general/a-general').then((c) => c.AGeneral),
       },
       {
         path: ApplicationFlowRoute.Finance,
-        data: { title: 'Заявка на кредит', backConfig: { link: '/application/flow/general' } },
+        data: { title: 'prop.application_to_loan', backConfig: { link: '/application/flow/general' } },
         loadComponent: () => import('./pages/a-finance/a-finance').then((c) => c.AFinance),
       },
       {

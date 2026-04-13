@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 
 @Component({
   selector: 'cf-finance-form',
-  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent],
+  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective],
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

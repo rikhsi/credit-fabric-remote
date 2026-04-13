@@ -1,7 +1,9 @@
-<cf-general-info />
-<cf-contact-info />
-<cf-address-info (edit)="openAddressForm()" />
-<cf-extra-info (edit)="openGeneralForm()" (add)="openGeneralForm()" />
-<cf-bill-info/>
+<ng-container *transloco="let t">
+  <cf-general-info />
+  <cf-contact-info />
+  <cf-address-info (edit)="openAddressForm()" />
+  <cf-extra-info (edit)="openGeneralForm()" (add)="openGeneralForm()" />
+  <cf-bill-info />
 
-<button nz-button nzType="primary" nzSize="large" routerLink="../finance" class="submit">Продолжить</button>
+  <button nz-button nzType="primary" nzSize="large" routerLink="../finance" class="submit">{{t('action.continue')}}</button>
+</ng-container>

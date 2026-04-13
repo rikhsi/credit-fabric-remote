@@ -7,7 +7,7 @@
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>{{t(title())}}</h1>
+      <h1 nz-typography>{{title()}}</h1>
     </div>
 
     <div class="body">
@@ -16,7 +16,7 @@
   </div>
 
   <div class="footer">
-    <button nz-button nzType="default" nzSize="large" (click)="closeClick.emit()">Отменить</button>
-    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">Добавить</button>
+    <button nz-button nzType="default" nzSize="large" (click)="closeClick.emit()">{{t('action.cancel')}}</button>
+    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">{{t('action.add')}}</button>
   </div>
 </ng-container>

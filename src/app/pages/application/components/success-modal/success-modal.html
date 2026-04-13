@@ -7,11 +7,11 @@
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>Заявка отправлена</h1>
+      <h1 nz-typography>{{t('prop.application_sended')}}</h1>
 
-      <p nz-typography>Заявка № {{ config()?.id }}</p>
+      <p nz-typography>{{t('prop.application')}} № {{ config()?.id }}</p>
 
-      <h2 nz-typography>{{ config()?.amount | number }} UZS</h2>
+      <h2 nz-typography>{{ config()?.amount | number }}</h2>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
       <nz-icon nzType="info-circle" />
     </button>
     <button nz-button nzType="primary" nzSize="large" (click)="submit()">
-      <strong>{{ t('Вернуться в Кредиты') }}</strong>
+      <strong>{{ t('action.back_to_loan') }}</strong>
     </button>
   </div>
 </ng-container>

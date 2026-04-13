@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { filter } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
@@ -9,7 +10,7 @@ import { SuccessModalData } from '@pages/application/models';
 
 @Component({
   selector: 'cf-a-finance',
-  imports: [NzButtonComponent, FinanceInfo],
+  imports: [NzButtonComponent, FinanceInfo, TranslocoDirective],
   templateUrl: './a-finance.html',
   styleUrl: './a-finance.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,13 +46,13 @@ export class AFinance {
       nzContent: ModalConfirmComponent,
       nzData: {
         icon: 'check',
-        title: 'Подтвердите завершение заявки',
+        title: 'modal.application_confirm.title',
         submit: {
-          title: 'Подтвердить',
+          title: 'action.confirm',
           danger: false,
         },
         cancel: {
-          title: 'Отменить',
+          title: 'action.cancel',
           danger: false,
         },
       },
@@ -85,10 +86,10 @@ export class AFinance {
       nzContent: ModalConfirmComponent,
       nzData: {
         icon: 'close',
-        title: 'Не удалось создать заявку',
-        description: 'Попробуйте позже. Сервер временно недоступен.',
+        title: 'modal.error_application.title',
+        description: 'modal.error_application.description',
         submit: {
-          title: 'Вернуться на Главную',
+          title: 'action.back_home',
           danger: false,
         },
       },
@@ -106,10 +107,10 @@ export class AFinance {
       nzContent: ModalConfirmComponent,
       nzData: {
         icon: 'close',
-        title: 'У вас уже есть одобренная заявка',
-        description: 'У вас есть одобренная заявка. Примите по ней решение',
+        title: 'modal.error_exist_application.title',
+        description: 'modal.error_exist_application.description',
         submit: {
-          title: 'Перейти в Мои заявки',
+          title: 'action.go_my_applications',
           danger: false,
         },
       },
@@ -127,14 +128,14 @@ export class AFinance {
       nzContent: ModalConfirmComponent,
       nzData: {
         icon: 'close',
-        title: 'Нужно посетить филиал банка',
-        description: 'Для вашей компании требуется индивидуальное оформление. Пожалуйста, обратитесь в филиал банка.',
+        title: 'modal.error_bank_office_application.title',
+        description: 'modal.error_bank_office_application.description',
         submit: {
-          title: 'Найти филиал',
+          title: 'action.find_place',
           danger: false,
         },
         cancel: {
-          title: 'Вернуться на Главную',
+          title: 'action.back_home',
           danger: false,
         },
       },

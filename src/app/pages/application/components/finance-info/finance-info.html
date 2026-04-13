@@ -1,34 +1,36 @@
-<cf-card title="Финансы" [showSpace]="true" class="bordered">
-  <cf-steps [stepsLength]="2" [currentStep]="2" class="step" />
+<ng-container *transloco="let t">
+  <cf-card [title]="t('prop.finances')" [showSpace]="true" class="bordered">
+    <cf-steps [stepsLength]="2" [currentStep]="2" class="step" />
 
-  <cf-card [title]="'Финансовые данные'" [showSpace]="true" class="padding">
-    <div actions>
-      <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
-        <strong>Добавить</strong>
+    <cf-card [title]="t('prop.finance_info')" [showSpace]="true" class="padding">
+      <div actions>
+        <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
+          <strong>{{t('prop.add')}}</strong>
 
-        <nz-icon nzType="plus" class="primary" />
-      </button>
-    </div>
+          <nz-icon nzType="plus" class="primary" />
+        </button>
+      </div>
 
-    <div class="list">
-      @for (item of [1,2]; track $index) {
-      <cf-card class="gray lg">
-        <div class="row">
-          <div class="col">
-            <h4 nz-typography>Розничная торговля: Одежда,обувь</h4>
+      <div class="list">
+        @for (item of [1,2]; track $index) {
+        <cf-card class="gray lg">
+          <div class="row">
+            <div class="col">
+              <h4 nz-typography>Розничная торговля: Одежда,обувь</h4>
 
-            <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
-              <nz-icon nzType="f:pencil" />
-            </a>
+              <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
+                <nz-icon nzType="f:pencil" />
+              </a>
+            </div>
+
+            <h5>50 месяцев</h5>
+            <p nz-typography>Январь — 15 000 000–10 000 000</p>
+            <p nz-typography>Декабрь — 15 000 000–10 000 000</p>
+            <p nz-typography>Ноябрь — 15 000 000–10 000 000</p>
           </div>
-
-          <h5>50 месяцев</h5>
-          <p nz-typography>Январь — 15 000 000–10 000 000</p>
-          <p nz-typography>Декабрь — 15 000 000–10 000 000</p>
-          <p nz-typography>Ноябрь — 15 000 000–10 000 000</p>
-        </div>
-      </cf-card>
-      }
-    </div>
+        </cf-card>
+        }
+      </div>
+    </cf-card>
   </cf-card>
-</cf-card>
+</ng-container>

@@ -1,5 +1,7 @@
-<cf-finance-info (add)="openFinanceForm()" (edit)="openFinanceForm()" />
+<ng-container *transloco="let t">
+  <cf-finance-info (add)="openFinanceForm()" (edit)="openFinanceForm()" />
 
-<div class="actions">
-  <button nz-button nzType="primary" nzSize="large" (click)="finish()">Завершить</button>
-</div>
+  <div class="actions">
+    <button nz-button nzType="primary" nzSize="large" (click)="finish()">{{t('action.finish')}}</button>
+  </div>
+</ng-container>

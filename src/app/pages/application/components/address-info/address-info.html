@@ -1,46 +1,48 @@
-<cf-card [titleRef]="titleRef" [showSpace]="true" class="bordered">
-  <div class="list">
-    <cf-card class="gray lg bordered error">
-      <div class="row">
-        <div class="col">
-          <h4 nz-typography>Юридический адрес</h4>
+<ng-container *transloco="let t">
+  <cf-card [titleRef]="titleRef" [showSpace]="true" class="bordered">
+    <div class="list">
+      <cf-card class="gray lg bordered error">
+        <div class="row">
+          <div class="col">
+            <h4 nz-typography>Юридический адрес</h4>
 
-          <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
-            <nz-icon nzType="f:pencil" />
-          </button>
+            <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
+              <nz-icon nzType="f:pencil" />
+            </button>
+          </div>
+          <p nz-typography>Для существующего объекта</p>
+          <p nz-typography>Малое предприятие</p>
+          <p nz-typography>Высокоопасный уровень</p>
         </div>
-        <p nz-typography>Для существующего объекта</p>
-        <p nz-typography>Малое предприятие</p>
-        <p nz-typography>Высокоопасный уровень</p>
-      </div>
-    </cf-card>
+      </cf-card>
 
-    @for (item of [1,2]; track $index) {
-    <cf-card class="gray lg">
-      <div class="row">
-        <div class="col">
-          <h4 nz-typography>Юридический адрес</h4>
+      @for (item of [1,2]; track $index) {
+      <cf-card class="gray lg">
+        <div class="row">
+          <div class="col">
+            <h4 nz-typography>Юридический адрес</h4>
 
-          <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
-            <nz-icon nzType="f:pencil" />
-          </button>
+            <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
+              <nz-icon nzType="f:pencil" />
+            </button>
+          </div>
+          <p nz-typography>Для существующего объекта</p>
+          <p nz-typography>Малое предприятие</p>
+          <p nz-typography>Высокоопасный уровень</p>
         </div>
-        <p nz-typography>Для существующего объекта</p>
-        <p nz-typography>Малое предприятие</p>
-        <p nz-typography>Высокоопасный уровень</p>
-      </div>
-    </cf-card>
-    }
-  </div>
-</cf-card>
+      </cf-card>
+      }
+    </div>
+  </cf-card>
 
-<ng-template #titleRef>
-  <div class="titleRef">
-    <h2 nz-typography>Адреса</h2>
+  <ng-template #titleRef>
+    <div class="titleRef">
+      <h2 nz-typography>{{t('prop.addresses')}}</h2>
 
-    <nz-tag>
-      <nz-icon nzType="info-circle" />
-      Заполните данные
-    </nz-tag>
-  </div>
-</ng-template>
+      <nz-tag>
+        <nz-icon nzType="info-circle" />
+        {{t('prop.fill_fields')}}
+      </nz-tag>
+    </div>
+  </ng-template>
+</ng-container>

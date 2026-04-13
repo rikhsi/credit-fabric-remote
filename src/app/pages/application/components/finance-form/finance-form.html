@@ -1,45 +1,47 @@
-<cf-form-box title="Добавить финансовые данные" (closeClick)="onClose()" (submitClick)="onSubmit()">
-  <div class="scroll">
-    <cf-select-default placeholder="Фактический вид направления деятельности" size="large">
-      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-    </cf-select-default>
-
-    <cf-input-default placeholder="Фактический срок работы по данному виду деятельности (мин. 3 мес.)" size="large" />
-
-    <h4 class="title">Информация о деятельности за последние 3 полных месяца</h4>
-
-    <div class="box">
-      <cf-select-default placeholder="Месяц" size="large">
+<ng-container *transloco="let t">
+  <cf-form-box [title]="t('prop.finance_info')" (closeClick)="onClose()" (submitClick)="onSubmit()">
+    <div class="scroll">
+      <cf-select-default [placeholder]="t('prop.actual_business_activity')" size="large">
         <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
         <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
       </cf-select-default>
 
-      <cf-input-default placeholder="Выручка, сумм" size="large" />
+      <cf-input-default [placeholder]="t('prop.experience_in_business_activity')" size="large" />
 
-      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
+      <h4 class="title">{{t('prop.financial_activity_over')}}</h4>
+
+      <div class="box">
+        <cf-select-default [placeholder]="t('prop.month')" size="large">
+          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+        </cf-select-default>
+
+        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+
+        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+      </div>
+
+      <div class="box">
+        <cf-select-default [placeholder]="t('prop.month')" size="large">
+          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+        </cf-select-default>
+
+        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+
+        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+      </div>
+
+      <div class="box">
+        <cf-select-default [placeholder]="t('prop.month')" size="large">
+          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+        </cf-select-default>
+
+        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+
+        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+      </div>
     </div>
-
-    <div class="box">
-      <cf-select-default placeholder="Месяц" size="large">
-        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-      </cf-select-default>
-
-      <cf-input-default placeholder="Выручка, сумм" size="large" />
-
-      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
-    </div>
-
-    <div class="box">
-      <cf-select-default placeholder="Месяц" size="large">
-        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-      </cf-select-default>
-
-      <cf-input-default placeholder="Выручка, сумм" size="large" />
-
-      <cf-input-default placeholder="Чистая прибыль, сумм" size="large" />
-    </div>
-  </div>
-</cf-form-box>
+  </cf-form-box>
+</ng-container>

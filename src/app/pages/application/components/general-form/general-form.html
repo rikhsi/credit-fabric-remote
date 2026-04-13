@@ -1,21 +1,23 @@
-<cf-form-box title="Добавить дополнительные параметры" (closeClick)="modalRef.close()">
-  <cf-select-default placeholder="Сектор экономики" size="large">
-    <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-    <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-  </cf-select-default>
+<ng-container *transloco="let t">
+  <cf-form-box [title]="'action.add_extra_params'" (closeClick)="modalRef.close()">
+    <cf-select-default [placeholder]="t('prop.industry_sector')" size="large">
+      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+    </cf-select-default>
 
-  <cf-select-default placeholder="Признак новообразования объекта" size="large">
-    <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-    <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-  </cf-select-default>
+    <cf-select-default [placeholder]="t('prop.business_classification')" size="large">
+      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+    </cf-select-default>
 
-  <cf-select-default placeholder="Классификатор предприятия" size="large">
-    <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-    <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-  </cf-select-default>
+    <cf-select-default [placeholder]="t('prop.new_entity_indicator')" size="large">
+      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+    </cf-select-default>
 
-  <cf-select-default placeholder="Классификатор экологического влияния предприятия" size="large">
-    <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-    <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
-  </cf-select-default>
-</cf-form-box>
+    <cf-select-default [placeholder]="t('prop.environmental_impact_classification')" size="large">
+      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
+      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+    </cf-select-default>
+  </cf-form-box>
+</ng-container>

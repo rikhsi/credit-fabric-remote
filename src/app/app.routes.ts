@@ -16,7 +16,7 @@ export const routes: Routes = [
   {
     path: RootRoute.Applications,
     component: LoanLayout,
-    data: { title: 'Мои заявки' },
+    data: { title: 'prop.my_applications' },
     children: [
       {
         path: '',

@@ -1,28 +1,30 @@
-<cf-card [title]="'Дополнительные параметры'" [showSpace]="true" class="bordered">
-  <div actions>
-    <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
-      <strong>Добавить</strong>
+<ng-container *transloco="let t">
+  <cf-card [title]="t('prop.extra_params')" [showSpace]="true" class="bordered">
+    <div actions>
+      <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
+        <strong>{{t('prop.add')}}</strong>
 
-      <nz-icon nzType="plus" class="primary" />
-    </button>
-  </div>
+        <nz-icon nzType="plus" class="primary" />
+      </button>
+    </div>
 
-  <div class="list">
-    @for (item of [1,2]; track $index) {
-    <cf-card class="gray lg">
-      <div class="row">
-        <div class="col">
-          <h4 nz-typography>51300 — Авиационный транспорт</h4>
+    <div class="list">
+      @for (item of [1,2]; track $index) {
+      <cf-card class="gray lg">
+        <div class="row">
+          <div class="col">
+            <h4 nz-typography>51300 — Авиационный транспорт</h4>
 
-          <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
-            <nz-icon nzType="f:pencil" />
-          </a>
+            <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
+              <nz-icon nzType="f:pencil" />
+            </a>
+          </div>
+          <p nz-typography>Для существующего объекта</p>
+          <p nz-typography>Малое предприятие</p>
+          <p nz-typography>Высокоопасный уровень</p>
         </div>
-        <p nz-typography>Для существующего объекта</p>
-        <p nz-typography>Малое предприятие</p>
-        <p nz-typography>Высокоопасный уровень</p>
-      </div>
-    </cf-card>
-    }
-  </div>
-</cf-card>
+      </cf-card>
+      }
+    </div>
+  </cf-card>
+</ng-container>
