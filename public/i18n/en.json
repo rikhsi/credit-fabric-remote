@@ -184,7 +184,10 @@
     "empty_finance_info": "No financial data available",
     "add_finance_info": "Add financial data to submit the application",
     "email": "Email",
-    "conditions": "Conditions"
+    "conditions": "Conditions",
+    "total_amount": "Amount",
+    "term": "Term",
+    "differentiated": "Decreasing"
   },
   "question": {
     "no_phone": "No access to the phone number?"

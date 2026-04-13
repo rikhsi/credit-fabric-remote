@@ -184,7 +184,10 @@
     "empty_finance_info": "Moliyaviy ma’lumotlar mavjud emas",
     "add_finance_info": "Arizani yuborish uchun moliyaviy ma’lumotlarni qo‘shing",
     "email": "Email",
-    "conditions": "Shartlar"
+    "conditions": "Shartlar",
+    "total_amount": "Miqdor",
+    "term": "Muddat",
+    "differentiated": "Kamayib boruvchi"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"
