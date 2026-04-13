@@ -2,23 +2,27 @@
 @import 'colors';
 
 .themeMixin({
-    :host {
-        .select {
-            border-color: @border-color;
-        }
-
-        .name {
-            color: @text-color-tertiary;
-        }
-
-        .number {
-            color: @text-color-secondary;
-        }
-
-        .down {
-            color: @text-color;
-        }
+  :host {
+    .select {
+      border-color: @border-color;
     }
+
+    .name {
+      color: @text-color-tertiary;
+    }
+
+    .number {
+      color: @text-color-secondary;
+    }
+
+    .down {
+      color: @text-color;
+    }
+
+    .list {
+        background: @component-background;
+    }
+  }
 });
 
 :host {
@@ -27,23 +31,42 @@
 
 .select {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   border: 1px solid;
-  padding: 20px;
+  padding: 16px;
   border-radius: 16px;
+
   width: 100%;
   max-width: 495px;
+
   transition: 0.3s all;
 
   &:hover {
     background: fade(@cf-black-900, 5%);
   }
+
+  .media(@media-sm, {
+    padding: 12px;
+    border-radius: 12px;
+  });
+
+  .media(@media-xs, {
+    padding: 10px;
+  });
 }
 
 .info {
   display: flex;
   align-items: center;
-  column-gap: 20px;
+  column-gap: 16px;
   flex: 1;
+  min-width: 0;
+
+  .media(@media-xs, {
+       column-gap: 12px
+    });
 
   .flag {
     width: 36px;
@@ -54,36 +77,75 @@
     nz-icon {
       font-size: 36px;
     }
+
+    .media(@media-xs, {
+          width: 28px;
+      height: 28px;
+
+      nz-icon {
+        font-size: 28px;
+      }
+    });
   }
 
   .text {
     display: flex;
     flex-direction: column;
-    row-gap: 4px;
+    row-gap: 2px;
+    min-width: 0;
+
+    h2,
+    .name,
+    .number {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     h2 {
       margin-bottom: 2px;
+      font-size: 16px;
+
+      .media(@media-xs, {
+             font-size: 14px;
+    });
     }
   }
 }
 
 .list {
   width: 100%;
-  background: #fff;
+  max-width: 495px;
+
   border-radius: 16px;
   padding: 8px;
+
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  .media(@media-sm, {
+  max-width: 100%;
+  });
+
+  .media(@media-xs, {
+   border-radius: 12px;
+    padding: 6px;
+ });
 
   .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 16px;
-    border-radius: 16px;
+
+    padding: 10px 12px;
+    border-radius: 12px;
     width: 100%;
-    max-width: 495px;
+
     transition: 0.3s all;
     cursor: pointer;
+
+    .media(@media-xs, {
+        padding: 8px;
+    });
 
     &:hover {
       background: fade(@cf-black-900, 5%);
