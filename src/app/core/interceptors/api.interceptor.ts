@@ -12,8 +12,16 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   let baseUrl: string;
 
   switch (apiType) {
-    default:
+    case 'core':
       baseUrl = environment.coreUrl;
+      break;
+
+    case 'handbook':
+      baseUrl = environment.handbookUrl;
+      break;
+
+    default:
+      baseUrl = environment.losUrl;
   }
 
   const updatedReq = req.clone({

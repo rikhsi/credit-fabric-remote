@@ -8,7 +8,6 @@ export * from './prefix';
 export * from './route-path';
 export * from './enum-items';
 export * from './validation';
-export * from './modal';
 export * from './breakpoint';
 export * from './base';
 export * from './route-param';

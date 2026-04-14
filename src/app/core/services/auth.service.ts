@@ -1,17 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { filter, Observable, tap } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from './local-storage.service';
-import { LocalStorageItem, LOGOUT_MODAL_DATA } from '@constants';
-import { ModalConfirmComponent } from '@shared/components';
-import { ConfirmModal } from '@typings';
+import { AuthSignInResult, UserItem } from '@api/models/base';
+import { LocalStorageItem, RootRoute } from '@constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly user = signal<unknown>(null);
+  readonly user = signal<UserItem>(null);
 
   get token() {
     return this.lsService.getItem(LocalStorageItem.AccessToken) as string;
@@ -28,30 +25,22 @@ export class AuthService {
     private router: Router,
   ) {}
 
-  public login({ accessToken, refreshToken }: NzSafeAny): void {
-   
+  public login({ accessToken, refreshToken }: AuthSignInResult): void {
+    this.user.set(null);
+    this.lsService.setItem(LocalStorageItem.AccessToken, accessToken);
+    this.lsService.setItem(LocalStorageItem.RefreshToken, refreshToken);
+
+    this.router.navigate([RootRoute.Loan], { replaceUrl: true });
   }
 
   public logout(withNavigate: boolean = true): void {
-   
-  }
+    this.user.set(null);
+    this.lsService.removeItem(LocalStorageItem.AccessToken);
+    this.lsService.removeItem(LocalStorageItem.RefreshToken);
 
-  public logout$(): Observable<boolean> {
-    return this.nmService
-      .create<ModalConfirmComponent, ConfirmModal, boolean>({
-        ...LOGOUT_MODAL_DATA,
-        nzContent: ModalConfirmComponent,
-        nzData: {
-          title: 'modal.logout.title',
-          description: 'modal.logout.desc',
-          cancel: { title: 'action.cancel', danger: false },
-          submit: { title: 'action.submit', danger: false },
-        },
-      })
-      .afterClose.pipe(
-        filter((state) => state),
-        tap(() => this.logout()),
-      );
+    if (withNavigate) {
+      this.router.navigate([RootRoute.Auth], { replaceUrl: true });
+    }
   }
 
   private checkValidity(token: string): boolean {

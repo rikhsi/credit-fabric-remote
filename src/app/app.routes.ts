@@ -1,31 +1,49 @@
 import { Routes } from '@angular/router';
 import { RootRoute } from '@constants';
-import { LoanLayout } from '@layouts/views';
+import { authGuard, mainGuard } from '@core/guards';
+import { AuthLayout, LoanLayout } from '@layouts/views';
 
 export const routes: Routes = [
   {
-    path: RootRoute.Loan,
-    component: LoanLayout,
-    loadChildren: () => import('@pages/loan/loan.routes').then((r) => r.routes),
+    path: RootRoute.Auth,
+    component: AuthLayout,
+    canActivate: [authGuard],
+    loadChildren: () => import('@pages/auth/auth.routes').then((r) => r.routes),
   },
   {
-    path: RootRoute.Application,
-    component: LoanLayout,
-    loadChildren: () => import('@pages/application/application.routes').then((r) => r.routes),
-  },
-  {
-    path: RootRoute.Applications,
-    component: LoanLayout,
-    data: { title: 'prop.my_applications' },
+    path: '',
+    canActivate: [mainGuard],
     children: [
       {
-        path: '',
-        loadComponent: () => import('@pages/applications/applications').then((c) => c.Applications),
+        path: RootRoute.Loan,
+        component: LoanLayout,
+        loadChildren: () => import('@pages/loan/loan.routes').then((r) => r.routes),
+      },
+      {
+        path: RootRoute.Application,
+        component: LoanLayout,
+        loadChildren: () => import('@pages/application/application.routes').then((r) => r.routes),
+      },
+      {
+        path: RootRoute.Applications,
+        component: LoanLayout,
+        data: { title: 'prop.my_applications' },
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('@pages/applications/applications').then((c) => c.Applications),
+          },
+        ],
+      },
+      {
+        path: '**',
+        redirectTo: RootRoute.Loan,
       },
     ],
   },
   {
     path: '**',
-    redirectTo: RootRoute.Loan,
+    pathMatch: 'full',
+    redirectTo: RootRoute.Auth,
   },
 ];

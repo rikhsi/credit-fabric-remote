@@ -1,0 +1,20 @@
+@let loginId = 'control.login'; @let passwordId = 'control.password'; @let submitId = 'action.enter';
+
+<ng-container *transloco="let t">
+  <h1 nz-typography class="title">{{t('auth.welcome')}}</h1>
+  <p nz-typography class="description">{{t('auth.description.login')}}</p>
+
+  <form class="form">
+    <cf-label-control [required]="true" [id]="loginId" [label]="t('control.login.label')" class="full">
+      <cf-input-default [formField]="authForm.username" size="large" [id]="loginId" />
+    </cf-label-control>
+
+    <cf-label-control [required]="true" [id]="passwordId" [label]="t('control.password.label')" class="full">
+      <cf-input-password [formField]="authForm.password" size="large" [id]="passwordId" />
+    </cf-label-control>
+  </form>
+
+  <button [id]="submitId" nz-button nzType="primary" nzSize="large" nzBlock [nzLoading]="authForm().disabled()" (click)="onSubmit()">
+    {{t('action.confirm')}}
+  </button>
+</ng-container>

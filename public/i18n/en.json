@@ -191,5 +191,26 @@
   },
   "question": {
     "no_phone": "No access to the phone number?"
+  },
+  "control": {
+    "input": {
+      "placeholder": "Fill the field"
+    },
+    "login": {
+      "label": "Login"
+    },
+    "password": {
+      "label": "Password"
+    },
+    "select": {
+      "placeholder": "Select the field"
+    }
+  },
+  "auth": {
+    "welcome": "Welcome!",
+    "description": {
+      "login": "Write login and password",
+      "one_id": "Go to OneId to enter the system"
+    }
   }
 }

@@ -191,5 +191,26 @@
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"
+  },
+  "control": {
+    "input": {
+      "placeholder": "Ma`lumotni kiriting"
+    },
+    "login": {
+      "label": "Login"
+    },
+    "password": {
+      "label": "Parol"
+    },
+    "select": {
+      "placeholder": "Ma`lumotni tanlang"
+    }
+  },
+  "auth": {
+    "welcome": "Xush kelibsiz!",
+    "description": {
+      "login": "Kirish uchun login va parolni kiriting",
+      "one_id": "Kirish uchun OneId ga o`ting"
+    }
   }
 }

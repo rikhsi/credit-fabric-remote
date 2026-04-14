@@ -16,7 +16,7 @@ import { ngZorroConfig } from './nz.config';
 import { provideIcon, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
 import { DEFAULT_LANGUAGE } from '@constants';
 import { routes } from '@app/app.routes';
-import { apiInterceptor, errorInterceptor, langInterceptor, tokenInterceptor } from '@core/interceptors';
+import { apiInterceptor, errorInterceptor, headersInterceptor, langInterceptor, tokenInterceptor } from '@core/interceptors';
 
 registerLocaleData(ru, 'ru');
 registerLocaleData(en, 'en');
@@ -38,7 +38,10 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled',
       }),
     ),
-    provideHttpClient(withInterceptors([apiInterceptor, errorInterceptor, tokenInterceptor, langInterceptor]), withFetch()),
+    provideHttpClient(
+      withInterceptors([apiInterceptor, errorInterceptor, tokenInterceptor, langInterceptor, headersInterceptor]),
+      withFetch(),
+    ),
     provideTransloco({
       config: {
         availableLangs: ['uz', 'ru', 'en'],

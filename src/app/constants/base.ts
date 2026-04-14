@@ -9,4 +9,4 @@ export interface CoreError {
   error: string;
 }
 
-export type QueueType = 'core';
+export type QueueType = 'core' | 'handbook' | 'los';

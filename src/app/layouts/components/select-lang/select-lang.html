@@ -1,0 +1,16 @@
+<ng-container *transloco="let t">
+  <a id="select-lang" nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" nz-button nzShape="circle" nzType="default" nzGhost>
+    <nz-icon [nzType]="currentLang() | langFlag" />
+  </a>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+      @for (item of [] | enumItems: 'language'; track item.value) {
+      <li nz-menu-item [nzSelected]="item?.value === currentLang()" (click)="changeLang.emit(item.value)">
+        <nz-icon [nzType]="item.value | langFlag" />
+        {{t(item?.key)}}
+      </li>
+      }
+    </ul>
+  </nz-dropdown-menu>
+</ng-container>

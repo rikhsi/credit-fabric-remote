@@ -191,5 +191,26 @@
   },
   "question": {
     "no_phone": "Нет доступа к номеру?"
+  },
+  "control": {
+    "input": {
+      "placeholder": "Введите данные"
+    },
+    "login": {
+      "label": "Логин"
+    },
+    "password": {
+      "label": "Пароль"
+    },
+    "select": {
+      "placeholder": "Выберите данные"
+    }
+  },
+  "auth": {
+    "welcome": "Добро пожаловать!",
+    "description": {
+      "login": "Чтобы войти введите логин и пароль",
+      "one_id": "Перейдите к OneId чтобы войти"
+    }
   }
 }
