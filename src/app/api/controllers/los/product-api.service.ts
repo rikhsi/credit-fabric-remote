@@ -11,11 +11,7 @@ export class ProductApiService {
   constructor(private http: HttpClient) {}
 
   public productsAll$(filters?: ProductFilter) {
-    return this.getQueue$<TableOverview<ProductItem>>('product', filters);
-  }
-
-  private getQueue$<T>(url: string, filters?: ProductFilter) {
-    return this.http.get<TableOverview<T>>(url, {
+    return this.http.get<TableOverview<ProductItem>>('product', {
       params: filters ? buildHttpParams(filters) : undefined,
     });
   }

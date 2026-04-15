@@ -1,3 +1,10 @@
-@for (item of [1,2,3]; track $index) {
-<cf-card-product />
+@for (item of items(); track $index) {
+<cf-card-product 
+    [title]="item.name"
+    [description]=""
+    [image]=""
+    [interestRate]=""
+    [loanAmount]=""
+    [loanTerm]=""
+/>
 }

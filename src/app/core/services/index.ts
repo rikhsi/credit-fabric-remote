@@ -4,3 +4,4 @@ export * from './auth.service';
 export * from './language.service';
 export * from './bp.service';
 export * from './splash.service';
+export * from './cache.service';
