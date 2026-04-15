@@ -1,41 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, shareReplay } from 'rxjs';
-import { HttpEvent } from '@angular/common/http';
+import { Observable, finalize, of, shareReplay, tap } from 'rxjs';
+import { HttpEvent, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CacheService {
-  private responseCache = new Map<string, HttpEvent<unknown>>();
+  private responseCache = new Map<string, HttpResponse<unknown>>();
   private inFlightCache = new Map<string, Observable<HttpEvent<unknown>>>();
 
+  buildKey(req: HttpRequest<unknown>): string {
+    const params = this.serializeParams(req.params);
+    const headers = this.serializeHeaders(req.headers);
+    const query = params ? `?${params}` : '';
+    const headerBlock = headers ? `::${headers}` : '';
+
+    return `${req.method}:${req.url}${query}${headerBlock}`;
+  }
+
   get(key: string, factory: () => Observable<HttpEvent<unknown>>) {
-    // 1. cache hit
     const cached = this.responseCache.get(key);
     if (cached) {
-      return of(cached);
+      return of(cached.clone());
     }
 
-    // 2. in-flight dedupe (🔥 VERY IMPORTANT)
     const inFlight = this.inFlightCache.get(key);
     if (inFlight) {
       return inFlight;
     }
 
-    // 3. create request
-    const request$ = factory().pipe(shareReplay(1));
+    const request$ = factory().pipe(
+      tap((event) => {
+        if (event instanceof HttpResponse) {
+          this.responseCache.set(key, event);
+        }
+      }),
+      finalize(() => {
+        this.inFlightCache.delete(key);
+      }),
+      shareReplay(1),
+    );
 
     this.inFlightCache.set(key, request$);
-
-    request$.subscribe({
-      next: (res) => {
-        this.responseCache.set(key, res);
-      },
-      complete: () => {
-        this.inFlightCache.delete(key);
-      },
-      error: () => {
-        this.inFlightCache.delete(key);
-      },
-    });
 
     return request$;
   }
@@ -56,5 +60,39 @@ export class CacheService {
   clearAll() {
     this.responseCache.clear();
     this.inFlightCache.clear();
+  }
+
+  private serializeParams(params: HttpParams): string {
+    const keys = params.keys().sort();
+    const normalized: string[] = [];
+
+    for (const key of keys) {
+      const values = (params.getAll(key) ?? []).map((value) => value ?? '').sort();
+
+      for (const value of values) {
+        normalized.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+      }
+    }
+
+    return normalized.join('&');
+  }
+
+  private serializeHeaders(headers: HttpHeaders): string {
+    const dynamicHeaders = ['accept-language'];
+    const normalized: string[] = [];
+
+    for (const header of dynamicHeaders) {
+      const values = headers.getAll(header);
+
+      if (!values?.length) {
+        continue;
+      }
+
+      for (const value of [...values].sort()) {
+        normalized.push(`${header}=${value}`);
+      }
+    }
+
+    return normalized.join('&');
   }
 }

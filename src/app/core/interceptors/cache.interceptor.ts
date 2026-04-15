@@ -14,7 +14,7 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  const key = req.urlWithParams;
+  const key = cache.buildKey(req);
 
   return cache.get(key, () => next(req));
 };
