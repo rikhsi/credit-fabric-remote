@@ -1,18 +1,27 @@
 <ng-container *transloco="let t">
   <cf-form-box [title]="t('action.add_address')" (closeClick)="modalRef.close()" (submitClick)="modalRef.close()">
     <cf-select-default [placeholder]="t('prop.address_type')" size="large">
-      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+      <ng-container *cfHandbook="{url: 'sys-address-type'}; let items">
+        @for (item of items; track item.id) {
+        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        }
+      </ng-container>
     </cf-select-default>
 
-    <cf-select-default [placeholder]="t('prop.region')" size="large">
-      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+    <cf-select-default [formField]="form.city" [placeholder]="t('prop.city')" size="large">
+      <ng-container *cfHandbook="{url: 'dir-city'}; let items">
+        @for (item of items; track item.id) {
+        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        }
+      </ng-container>
     </cf-select-default>
 
     <cf-select-default [placeholder]="t('prop.street')" size="large">
-      <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-      <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+      <ng-container *cfHandbook="{ url: 'dir-village' , params: {dir_city_id: form.city().value()}}; let items">
+        @for (item of items; track item.id) {
+        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        }
+      </ng-container>
     </cf-select-default>
 
     <cf-input-default [placeholder]="t('prop.address')" size="large" />

@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Card, InputNumber, LabelControlSecondary, SelectDefault, Steps } from '@shared/components';
+import { HandbookDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-general-info',
-  imports: [Card, LabelControlSecondary, Steps, InputNumber, SelectDefault, NzOptionComponent, TranslocoDirective],
+  imports: [Card, LabelControlSecondary, Steps, InputNumber, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective],
   templateUrl: './general-info.html',
   styleUrl: './general-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

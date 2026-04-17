@@ -11,10 +11,10 @@ import { USE_HTTP_CACHE } from '@constants';
 export class ProductApiService {
   constructor(private http: HttpClient) {}
 
-  public productsAll$(filters?: ProductFilter, options?: { cache?: boolean }) {
+  public productsAll$(filters?: ProductFilter) {
     return this.http.get<TableOverview<ProductItem>>('product', {
       params: filters ? buildHttpParams(filters) : undefined,
-      context: new HttpContext().set(USE_HTTP_CACHE, options?.cache ?? false),
+      context: new HttpContext().set(USE_HTTP_CACHE, true),
     });
   }
 }

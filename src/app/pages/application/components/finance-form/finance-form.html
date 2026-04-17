@@ -2,8 +2,11 @@
   <cf-form-box [title]="t('action.add_finance_info')" (closeClick)="onClose()" (submitClick)="onSubmit()">
     <div class="scroll">
       <cf-select-default [placeholder]="t('prop.actual_business_activity')" size="large">
-        <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-        <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+        <ng-container *cfHandbook="{url: 'dir-company-activity'}; let items">
+          @for (item of items; track item.id) {
+          <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+          }
+        </ng-container>
       </cf-select-default>
 
       <cf-input-default [placeholder]="t('prop.experience_in_business_activity')" size="large" />
