@@ -1,4 +1,4 @@
-<div class="top" [ngClass]="{space: showSpace()}">
+<div class="top" [ngClass]="{space: showSpace(), noWrap: !topWrap()}">
   @if (link(); as link) {
   <a nz-button nzType="link" [routerLink]="link" class="link default">
     <nz-icon nzType="f:backLine" />

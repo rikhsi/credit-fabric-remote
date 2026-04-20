@@ -16,6 +16,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 export class Card {
   title = input<string>();
   titleRef = input<TemplateRef<NzSafeAny>>();
+  topWrap = input<boolean>(true);
 
   link = input<UrlTree | string | string[]>();
   showSpace = input<boolean>(false);
