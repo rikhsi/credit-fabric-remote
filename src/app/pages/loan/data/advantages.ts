@@ -1,6 +1,6 @@
 import { LoanAdvantageItem } from '../models';
 
-export const LOAN_ADVANTAGES_LIST: LoanAdvantageItem[] = [
+export const LOAN_FLOW_ADVANTAGES_LIST: LoanAdvantageItem[] = [
   {
     title: 'benefit.percent.title',
     description: 'benefit.percent.description',

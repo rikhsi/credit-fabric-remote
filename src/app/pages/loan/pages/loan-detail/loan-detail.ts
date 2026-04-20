@@ -4,7 +4,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
-import { LOAN_ADVANTAGES_LIST } from '@pages/loan/data';
 import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
 import { ApplicationFlowRoute, RootRoute, RouteParam } from '@constants';
@@ -28,7 +27,9 @@ export class LoanDetail {
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
 
-  readonly advantages: readonly LoanAdvantageItem[] = LOAN_ADVANTAGES_LIST;
+  get advantages(): LoanAdvantageItem[] {
+    return this.route.snapshot.data['advantages'] || [];
+  }
 
   get loanId(): string {
     return this.route.snapshot.params[RouteParam.LoanId];

@@ -1,6 +1,7 @@
 <ng-container *transloco="let t">
   <cf-product-info />
 
+  @if (advantages?.length) {
   <cf-card [showSpace]="true" [title]="t('benefit.title')" class="bordered">
     <div class="advantages">
       @for (item of advantages; track item.title) {
@@ -8,6 +9,7 @@
       }
     </div>
   </cf-card>
+  }
 
   <cf-card [title]="t('prop.online_credit_calc')" [showSpace]="true" class="bordered">
     <div class="calculator">

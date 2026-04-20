@@ -1,16 +1,15 @@
-import { signal } from '@angular/core';
 import { AgreementFormModel, CalculatorFormModel, OtpFormModel } from '../models';
 
-export const calculatorFormModel = signal<CalculatorFormModel>({
+export const calculatorFormModel: CalculatorFormModel = {
   amount: 0,
   term: 0,
   type: 'annuity',
-});
+};
 
-export const agreementFormModel = signal<AgreementFormModel>({
+export const agreementFormModel: AgreementFormModel = {
   offer: false,
-});
+};
 
-export const otpFormModel = signal<OtpFormModel>({
+export const otpFormModel: OtpFormModel = {
   code: null,
-});
+};
