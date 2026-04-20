@@ -16,7 +16,9 @@
     </div>
 
     <div class="actions">
-      <button nz-button nzType="default" nzSize="large"><strong>{{t('action.send_code', {time: '00:51'})}}</strong></button>
+      <button nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (click)="resendOtp()">
+        <strong>{{t('action.send_code', {time: running() ? (leftTime() | secondsToTime) : null})}}</strong>
+      </button>
       <button nz-button nzType="default" nzSize="large" nzGhost><strong>{{t('question.no_phone')}}</strong></button>
     </div>
   </div>
