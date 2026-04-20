@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoanRoute, RouteParam } from '@constants';
+import { checkLoanIdGuard } from '@core/guards';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,7 @@ export const routes: Routes = [
   {
     path: `${LoanRoute.Details}/:${RouteParam.LoanId}`,
     data: { title: 'Потоковое кредитование', backConfig: { link: '../list' } },
+    canActivate: [checkLoanIdGuard],
     loadComponent: () => import('./pages/loan-detail/loan-detail').then((c) => c.LoanDetail),
   },
   {

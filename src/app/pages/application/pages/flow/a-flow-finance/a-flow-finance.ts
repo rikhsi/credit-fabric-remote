@@ -9,13 +9,13 @@ import { ConfirmModal } from '@typings';
 import { SuccessModalData } from '@pages/application/models';
 
 @Component({
-  selector: 'cf-a-finance',
+  selector: 'cf-a-flow-finance',
   imports: [NzButtonComponent, FinanceInfo, TranslocoDirective],
-  templateUrl: './a-finance.html',
-  styleUrl: './a-finance.less',
+  templateUrl: './a-flow-finance.html',
+  styleUrl: './a-flow-finance.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AFinance {
+export class AFlowFinance {
   private nzModalService = inject(NzModalService);
 
   openFinanceForm(): void {

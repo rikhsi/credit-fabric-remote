@@ -11,3 +11,4 @@ export * from './validation';
 export * from './breakpoint';
 export * from './base';
 export * from './route-param';
+export * from './loan';

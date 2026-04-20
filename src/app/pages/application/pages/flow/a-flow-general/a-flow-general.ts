@@ -6,13 +6,13 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { AddressForm, AddressInfo, BillInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/application/components';
 
 @Component({
-  selector: 'cf-a-general',
+  selector: 'cf-a-flow-general',
   imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, RouterLink, AddressInfo, BillInfo, TranslocoDirective],
-  templateUrl: './a-general.html',
-  styleUrl: './a-general.less',
+  templateUrl: './a-flow-general.html',
+  styleUrl: './a-flow-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AGeneral {
+export class AFlowGeneral {
   private nzModalService = inject(NzModalService);
 
   openGeneralForm(): void {

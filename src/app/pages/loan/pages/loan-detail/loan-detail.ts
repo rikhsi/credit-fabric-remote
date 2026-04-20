@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainer
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
 import { LOAN_ADVANTAGES_LIST } from '@pages/loan/data';
 import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
-import { ApplicationFlowRoute, RootRoute } from '@constants';
+import { ApplicationFlowRoute, RootRoute, RouteParam } from '@constants';
 import { LoanDetailService } from '@pages/loan/services';
 
 @Component({
@@ -23,11 +23,16 @@ export class LoanDetail {
   private router = inject(Router);
   private ldService = inject(LoanDetailService);
   private vcRef = inject(ViewContainerRef);
+  private route = inject(ActivatedRoute);
 
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
 
   readonly advantages: readonly LoanAdvantageItem[] = LOAN_ADVANTAGES_LIST;
+
+  get loanId(): string {
+    return this.route.snapshot.params[RouteParam.LoanId];
+  }
 
   openConfirm(): void {
     this.nmService
@@ -43,12 +48,12 @@ export class LoanDetail {
         nzViewContainerRef: this.vcRef,
         nzData: {
           phoneNumber: '998990031497',
-          documentName: 'Публичный документ',
+          documentName: 'публичный документ',
         },
       })
       .afterClose.pipe(filter((result) => !!result))
       .subscribe(() => {
-        this.router.navigate([RootRoute.Application, ApplicationFlowRoute.General]);
+        this.router.navigate([RootRoute.Application, this.loanId, ApplicationFlowRoute.General]);
       });
   }
 }

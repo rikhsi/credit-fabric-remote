@@ -7,13 +7,13 @@ export const routes: Routes = [
     children: [
       {
         path: ApplicationFlowRoute.General,
-        data: { title: 'prop.application_to_loan', backConfig: { link: '/loan/details/2' } },
-        loadComponent: () => import('./pages/a-general/a-general').then((c) => c.AGeneral),
+        data: { title: 'prop.application_to_loan', backConfig: { link: `/loan/details/${ApplicationRoute.Flow}` } },
+        loadComponent: () => import('./pages/flow/a-flow-general/a-flow-general').then((c) => c.AFlowGeneral),
       },
       {
         path: ApplicationFlowRoute.Finance,
-        data: { title: 'prop.application_to_loan', backConfig: { link: '/application/flow/general' } },
-        loadComponent: () => import('./pages/a-finance/a-finance').then((c) => c.AFinance),
+        data: { title: 'prop.application_to_loan', backConfig: { link: `/application/${ApplicationRoute.Flow}/general` } },
+        loadComponent: () => import('./pages/flow/a-flow-finance/a-flow-finance').then((c) => c.AFlowFinance),
       },
       {
         path: '**',
@@ -23,6 +23,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ApplicationRoute.Flow,
+    redirectTo: '/loan/list',
   },
 ];

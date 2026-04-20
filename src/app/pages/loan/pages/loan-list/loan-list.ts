@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ProductApiService } from '@api/controllers/los';
 import { ProductItem } from '@api/models/los';
 import { CardProduct } from '@pages/loan/components';
+import { filterEnableLoans } from '@pages/loan/utils';
 
 @Component({
   selector: 'cf-loan-list',
@@ -23,7 +24,7 @@ export class LoanList implements OnInit {
       .productsAll$()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(({ data }) => {
-        this.items.set(data);
+        this.items.set(filterEnableLoans(data));
         this.isLoading.set(false);
       });
   }
