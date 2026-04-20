@@ -1,9 +1,6 @@
 <ng-container *transloco="let t">
   <nz-form-item>
-    <nz-form-control
-      [nzValidateStatus]="firstError() | validationStatus: dirty()"
-      [nzHasFeedback]="isFeedback()"
-    >
+    <nz-form-control [nzValidateStatus]="firstError() | validationStatus: dirty()">
       <nz-input-otp
         [(ngModel)]="value"
         [id]="id()"

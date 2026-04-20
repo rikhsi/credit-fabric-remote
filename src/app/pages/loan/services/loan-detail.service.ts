@@ -18,6 +18,7 @@ export class LoanDetailService {
   });
 
   public readonly otpForm = form(otpFormModel, (schemaPath) => {
+    required(schemaPath.code);
     minLength(schemaPath.code, 6);
     maxLength(schemaPath.code, 6);
     validate(schemaPath.code, () => (this.otpError() ? { kind: 'invalidOtp' } : null));
