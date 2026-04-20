@@ -1,0 +1,19 @@
+<ng-container *transloco="let t">
+  <nz-form-item>
+    <nz-form-control
+      [nzValidateStatus]="firstError() | validationStatus: dirty()"
+      [nzHasFeedback]="isFeedback()"
+    >
+      <nz-input-otp
+        [(ngModel)]="value"
+        [id]="id()"
+        [nzLength]="6"
+        [disabled]="disabled()"
+        (blur)="blurChange.emit()"
+        (focus)="focusChange.emit()"
+        [nzSize]="size()"
+        (click)="clicked.emit()"
+      />
+    </nz-form-control>
+  </nz-form-item>
+</ng-container>

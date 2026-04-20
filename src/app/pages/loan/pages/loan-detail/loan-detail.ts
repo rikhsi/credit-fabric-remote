@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { filter } from 'rxjs';
 import { Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
 import { LOAN_ADVANTAGES_LIST } from '@pages/loan/data';
-import { LoanAdvantageItem } from '@pages/loan/models';
+import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
 import { ApplicationFlowRoute, RootRoute } from '@constants';
 import { LoanDetailService } from '@pages/loan/services';
@@ -21,6 +22,7 @@ export class LoanDetail {
   private nmService = inject(NzModalService);
   private router = inject(Router);
   private ldService = inject(LoanDetailService);
+  private vcRef = inject(ViewContainerRef);
 
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -29,7 +31,7 @@ export class LoanDetail {
 
   openConfirm(): void {
     this.nmService
-      .create<ModalOtp, null, boolean>({
+      .create<ModalOtp, OtpModalData, boolean>({
         nzContent: ModalOtp,
         nzFooter: null,
         nzTitle: null,
@@ -37,8 +39,15 @@ export class LoanDetail {
         nzCentered: true,
         nzCloseIcon: null,
         nzWidth: 'auto',
+        nzMaskClosable: false,
+        nzViewContainerRef: this.vcRef,
+        nzData: {
+          phoneNumber: '998990031497',
+          documentName: 'Публичный документ',
+        },
       })
-      .afterClose.subscribe(() => {
+      .afterClose.pipe(filter((result) => !!result))
+      .subscribe(() => {
         this.router.navigate([RootRoute.Application, ApplicationFlowRoute.General]);
       });
   }

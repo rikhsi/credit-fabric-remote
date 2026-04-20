@@ -12,3 +12,4 @@ export * from './label-control-secondary/label-control-secondary';
 export * from './steps/steps';
 export * from './select-bill/select-bill';
 export * from './input-password/input-password';
+export * from './input-otp/input-otp';

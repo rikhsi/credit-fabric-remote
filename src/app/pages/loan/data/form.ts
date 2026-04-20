@@ -1,5 +1,5 @@
 import { signal } from '@angular/core';
-import { AgreementFormModel, CalculatorFormModel } from '../models';
+import { AgreementFormModel, CalculatorFormModel, OtpFormModel } from '../models';
 
 export const calculatorFormModel = signal<CalculatorFormModel>({
   amount: 0,
@@ -9,4 +9,8 @@ export const calculatorFormModel = signal<CalculatorFormModel>({
 
 export const agreementFormModel = signal<AgreementFormModel>({
   offer: false,
+});
+
+export const otpFormModel = signal<OtpFormModel>({
+  code: null,
 });

@@ -8,10 +8,12 @@
   <div class="content">
     <div class="text">
       <h1 nz-typography>{{t('otp.title')}}</h1>
-      <p nz-typography>{{t('otp.description', {phone: "+998 (91) ••• ••-67", document_name: '[название документа]'})}}</p>
+      <p nz-typography>{{t('otp.description', {phone: modalData.phoneNumber | phoneNumber: true})}}</p>
     </div>
 
-    <nz-input-otp [nzLength]="6" class="otp" />
+    <div class="otp">
+      <cf-input-otp [formField]="form().code" (valueChange)="clearOtpError()" />
+    </div>
 
     <div class="actions">
       <button nz-button nzType="default" nzSize="large"><strong>{{t('action.send_code', {time: '00:51'})}}</strong></button>
@@ -20,6 +22,8 @@
   </div>
 
   <div class="footer">
-    <button nz-button nzType="primary" nzSize="large" (click)="submit()">{{t('action.confirm')}}</button>
+    <button nz-button [disabled]="form().code().invalid()" [nzLoading]="isLoading()" nzType="primary" nzSize="large" (click)="submit()">
+      {{t('action.confirm')}}
+    </button>
   </div>
 </ng-container>

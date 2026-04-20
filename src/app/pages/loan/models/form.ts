@@ -9,3 +9,7 @@ export interface CalculatorFormModel {
 export interface AgreementFormModel {
   offer: boolean;
 }
+
+export interface OtpFormModel {
+  code: string;
+}
