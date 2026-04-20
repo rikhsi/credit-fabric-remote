@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { LOAN_ADVANTAGES_LIST } from '@pages/loan/data';
 import { LoanAdvantageItem } from '@pages/loan/models';
 import { Card } from '@shared/components';
 import { ApplicationFlowRoute, RootRoute } from '@constants';
+import { LoanDetailService } from '@pages/loan/services';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -14,10 +15,15 @@ import { ApplicationFlowRoute, RootRoute } from '@constants';
   templateUrl: './loan-detail.html',
   styleUrl: './loan-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [LoanDetailService],
 })
 export class LoanDetail {
-  nmService = inject(NzModalService);
-  router = inject(Router);
+  private nmService = inject(NzModalService);
+  private router = inject(Router);
+  private ldService = inject(LoanDetailService);
+
+  public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
+  public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
 
   readonly advantages: readonly LoanAdvantageItem[] = LOAN_ADVANTAGES_LIST;
 

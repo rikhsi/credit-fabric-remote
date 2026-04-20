@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { InputSlider, LabelControlSecondary } from '@shared/components';
+import { CalculatorFormModel } from '@pages/loan/models';
 
 @Component({
   selector: 'cf-calculator-form',
-  imports: [InputSlider, LabelControlSecondary, NzRadioComponent, NzRadioGroupComponent, FormsModule, TranslocoDirective],
+  imports: [InputSlider, LabelControlSecondary, NzRadioComponent, NzRadioGroupComponent, FormField, TranslocoDirective],
   templateUrl: './calculator-form.html',
   styleUrl: './calculator-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatorForm {
-  creditType = signal<string>('annuity');
+  public readonly form = input<FieldTree<CalculatorFormModel>>();
 }

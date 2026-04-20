@@ -1,18 +1,18 @@
 <ng-container *transloco="let t">
   <div>
     <cf-label-control-secondary [label]="t('prop.total_amount')"></cf-label-control-secondary>
-    <cf-input-slider [value]="100000" [max]="1000000" [min]="100000" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
+    <cf-input-slider [formField]="form().amount" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
   </div>
 
   <div>
     <cf-label-control-secondary [label]="t('prop.term')"></cf-label-control-secondary>
-    <cf-input-slider [value]="18" [max]="36" [min]="18" [step]="1" [prefixType]="'month_short'" [prefixInputType]="'month'" />
+    <cf-input-slider [formField]="form().term" [step]="1" [prefixType]="'month_short'" [prefixInputType]="'month'" />
   </div>
 
   <div>
     <cf-label-control-secondary [label]="t('prop.loan_calculation_type')"></cf-label-control-secondary>
 
-    <nz-radio-group [(ngModel)]="creditType">
+    <nz-radio-group [formField]="form().type">
       <label nz-radio nzValue="annuity">{{t('prop.annuity')}}</label>
       <label nz-radio nzValue="differentiated">{{t('prop.differentiated')}}</label>
     </nz-radio-group>

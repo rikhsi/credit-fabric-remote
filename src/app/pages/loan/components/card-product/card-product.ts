@@ -28,7 +28,7 @@ import { PluralizePipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardProduct {
-  id = input<number>(2);
+  id = input<string>();
   title = input<string>('Потоковое кредитование');
   description = input<string>('Для начинающих предпринимателей');
   image = input<string>('images/loan.png');

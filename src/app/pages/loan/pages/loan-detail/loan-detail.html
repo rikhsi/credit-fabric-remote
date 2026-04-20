@@ -11,10 +11,11 @@
 
   <cf-card [title]="t('prop.online_credit_calc')" [showSpace]="true" class="bordered">
     <div class="calculator">
-      <cf-calculator-form />
+      <cf-calculator-form [form]="calculatorForm()" />
+
       <cf-calculator-result [loanAmount]="1000000" [monthlyPayment]="100000" [interestRate]="10" [documents]="['Паспорт']" />
     </div>
 
-    <cf-product-acception (clicked)="openConfirm()" />
+    <cf-product-acception [form]="agreementForm()" (clicked)="openConfirm()" />
   </cf-card>
 </ng-container>

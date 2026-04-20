@@ -1,10 +1,3 @@
 @for (item of items(); track $index) {
-<cf-card-product 
-    [title]="item.name"
-    [description]=""
-    [image]=""
-    [interestRate]=""
-    [loanAmount]=""
-    [loanTerm]=""
-/>
+<cf-card-product [id]="item.id" [title]="item.name" [description]="" [image]="" [interestRate]="" [loanAmount]="" [loanTerm]="" />
 }

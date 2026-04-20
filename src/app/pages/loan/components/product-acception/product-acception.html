@@ -1,9 +1,9 @@
 <ng-container *transloco="let t">
-  <label nz-checkbox>
+  <label nz-checkbox [formField]="form().offer">
     <span [innerHTML]="t('prop.public_offer')"></span>
   </label>
 
-  <button nz-button nzType="primary" nzSize="large" (click)="clicked.emit(true)">
+  <button nz-button nzType="primary" nzSize="large" [disabled]="!form().offer().value()" (click)="clicked.emit(true)">
     <nz-icon nzType="f:arrowUpRight" />
     {{t('action.apply')}}
   </button>

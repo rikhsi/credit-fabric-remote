@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, untracked } from '@angular/core';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NgxMaskDirective } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
@@ -46,6 +46,28 @@ export class InputSlider extends ControlBaseDirective<number> {
       { value: max, label: make(max), pos: 100 },
     ];
   });
+
+  constructor() {
+    effect(() => {
+      const min = this.min();
+      const max = this.max();
+
+      const val = untracked(() => this.value());
+
+      if (val === null) return;
+
+      let newVal = val;
+
+      if (min !== null && val < min) newVal = min;
+      if (max !== null && val > max) newVal = max;
+
+      if (newVal !== val) {
+        this.value.set(newVal);
+      }
+    });
+
+    super();
+  }
 
   onBlur() {
     const val = this.value();
