@@ -187,7 +187,8 @@
     "conditions": "Shartlar",
     "total_amount": "Miqdor",
     "term": "Muddat",
-    "differentiated": "Kamayib boruvchi"
+    "differentiated": "Kamayib boruvchi",
+    "from": "{{amount}} dan"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"

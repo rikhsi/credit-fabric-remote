@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, ViewContainerRef } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter } from 'rxjs';
@@ -8,6 +8,10 @@ import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
 import { ApplicationFlowRoute, RootRoute, RouteParam } from '@constants';
 import { LoanDetailService } from '@pages/loan/services';
+import { calculateAnnuity, calculateDifferential } from '@shared/utils';
+import { CreditInput, CreditOutput } from '@app/typings/calculator';
+
+const ANNUAL_RATE = 0.18;
 
 @Component({
   selector: 'cf-loan-detail',
@@ -26,6 +30,23 @@ export class LoanDetail {
 
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
+
+  public readonly calculationResult = computed<CreditOutput>(() => {
+    const form = this.calculatorForm();
+    const type = form.type().value();
+
+    const input: CreditInput = {
+      amount: form.amount().value(),
+      term: form.term().value(),
+      annualRate: ANNUAL_RATE,
+    };
+
+    if (type === 'annuity') {
+      return calculateAnnuity(input);
+    }
+
+    return calculateDifferential(input);
+  });
 
   get advantages(): LoanAdvantageItem[] {
     return this.route.snapshot.data['advantages'] || [];

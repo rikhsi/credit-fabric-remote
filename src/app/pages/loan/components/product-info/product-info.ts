@@ -12,7 +12,7 @@ import { PluralizePipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfo {
-  interestRate = input<number>(18);
+  annualRate = input<number>(18);
   loanAmount = input<number>(30);
   loanTerm = input<number>(3);
 }

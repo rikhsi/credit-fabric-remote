@@ -27,6 +27,7 @@ module.exports = defineConfig([
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-vars': 'off',
       '@angular-eslint/prefer-inject': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
       'prettier/prettier': [
         'error',
         {

@@ -1,5 +1,6 @@
 @if (isLoading()) { @for (item of [] | emptyList:8; track $index) {
 <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
 } } @else { @for (item of items(); track $index) {
-<cf-card-product [id]="item.id" [title]="item.name" [description]="" [image]="" [interestRate]="" [loanAmount]="" [loanTerm]="" />
+<cf-card-product [id]="item.id" [title]="item.name" [description]="" [image]="" [annualRate]="" [loanAmount]="" [loanTerm]="" />
 } }
+    

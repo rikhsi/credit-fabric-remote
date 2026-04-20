@@ -1,8 +1,8 @@
-import { CreditPaymentType } from './term';
+import { CreditType } from '@app/typings/calculator';
 
 export interface CalculatorFormModel {
   amount: number;
-  type: CreditPaymentType;
+  type: CreditType;
   term: number;
 }
 

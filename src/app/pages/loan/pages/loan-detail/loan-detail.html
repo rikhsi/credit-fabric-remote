@@ -15,7 +15,13 @@
     <div class="calculator">
       <cf-calculator-form [form]="calculatorForm()" />
 
-      <cf-calculator-result [loanAmount]="1000000" [monthlyPayment]="100000" [interestRate]="10" [documents]="['Паспорт']" />
+      <cf-calculator-result
+        [loanAmount]="calculationResult().amount"
+        [monthlyPayment]="calculationResult().monthlyPayment"
+        [annualRate]="calculationResult().annualRate"
+        [documents]="['Паспорт']"
+        [creditType]="calculatorForm().type().value()"
+      />
     </div>
 
     <cf-product-acception [form]="agreementForm()" (clicked)="openConfirm()" />

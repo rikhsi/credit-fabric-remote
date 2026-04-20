@@ -1,12 +1,13 @@
 <ng-container *transloco="let t">
   <cf-card class="card">
     <div class="box">
-      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{ interestRate() ?? 0 }}%</cf-label-control-secondary>
+      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{ (annualRate() * 100) | number }}%</cf-label-control-secondary>
       <cf-label-control-secondary [label]="t('prop.loan_amount_full')">
-        {{ $any(loanAmount() | number) }} {{$any(loanAmount()) | pluralize: 'money' : false | transloco}}
+        {{ loanAmount() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}}
       </cf-label-control-secondary>
       <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')">
-        {{ $any(monthlyPayment() | number) }} {{$any(loanAmount()) | pluralize: 'money' : false | transloco}}
+        @if (creditType() === 'differentiated') { {{t('prop.from', {amount: monthlyPayment() | number})}} {{loanAmount() | pluralize:
+        'money' : false | transloco}} } @else { {{ monthlyPayment() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}} }
       </cf-label-control-secondary>
 
       <cf-label-control-secondary [label]="t('prop.loan_needed_docs')">

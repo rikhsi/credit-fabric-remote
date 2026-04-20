@@ -17,7 +17,7 @@
 
       <cf-label-control
         [icon]="'f:percent'"
-        [label]="t('prop.loan_percent', { percent: interestRate() | number, prefix: loanAmount() | pluralize: 'money'})"
+        [label]="t('prop.loan_percent', { percent: annualRate() | number, prefix: loanAmount() | pluralize: 'money'})"
       >
         {{t('prop.loan_percent_full')}}
       </cf-label-control>

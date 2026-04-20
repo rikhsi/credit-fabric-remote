@@ -187,7 +187,8 @@
     "conditions": "Conditions",
     "total_amount": "Amount",
     "term": "Term",
-    "differentiated": "Decreasing"
+    "differentiated": "Decreasing",
+    "from": "from {{amount}}"
   },
   "question": {
     "no_phone": "No access to the phone number?"

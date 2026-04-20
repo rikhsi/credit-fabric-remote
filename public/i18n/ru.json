@@ -187,7 +187,8 @@
     "conditions": "Условия",
     "total_amount": "Сумма",
     "term": "Срок",
-    "differentiated": "По убыванию"
+    "differentiated": "По убыванию",
+    "from": "от {{amount}}"
   },
   "question": {
     "no_phone": "Нет доступа к номеру?"
