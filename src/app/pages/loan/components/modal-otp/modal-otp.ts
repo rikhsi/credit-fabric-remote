@@ -53,6 +53,7 @@ export class ModalOtp implements OnInit {
   public readonly running = computed(() => this.timerService.running());
 
   ngOnInit(): void {
+    this.timerService.start();
     this.resendOtp();
   }
 
@@ -76,9 +77,6 @@ export class ModalOtp implements OnInit {
       .subscribe({
         next: () => {
           this.timerService.start();
-          this.isLoading.set(false);
-        },
-        error: () => {
           this.isLoading.set(false);
         },
       });

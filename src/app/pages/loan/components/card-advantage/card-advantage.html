@@ -1,7 +1,8 @@
 <ng-container *transloco="let t">
   <cf-card class="card">
+    @if (isLoading()) {
     <nz-skeleton-element nzType="button" [nzActive]="true" [nzSize]="'large'" class="skeleton" />
-
+    }
     <div class="card-advantage" [ngClass]="{hidden: isLoading()}">
       <div class="card-advantage__text">
         <h2 nz-typography>{{t( title()) }}</h2>
