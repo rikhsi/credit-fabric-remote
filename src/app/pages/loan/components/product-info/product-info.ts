@@ -15,4 +15,5 @@ export class ProductInfo {
   annualRate = input<number>(18);
   loanAmount = input<number>(30);
   loanTerm = input<number>(3);
+  isGuarant = input<boolean>();
 }

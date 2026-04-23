@@ -22,7 +22,9 @@
         {{t('prop.loan_percent_full')}}
       </cf-label-control>
 
+      @if (isGuarant()) {
       <cf-label-control [icon]="'f:shield'" [label]="t('prop.guarant')">{{t('prop.no_collateral')}}</cf-label-control>
+      }
     </div>
   </cf-card>
 </ng-container>

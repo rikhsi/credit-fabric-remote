@@ -1,5 +1,10 @@
 <ng-container *transloco="let t">
-  <cf-product-info />
+  <cf-product-info
+    [isGuarant]="loanDetail().isGuarant"
+    [annualRate]="loanDetail()?.annualRate"
+    [loanTerm]="loanDetail()?.term"
+    [loanAmount]="loanDetail()?.amount"
+  />
 
   @if (advantages?.length) {
   <cf-card [showSpace]="true" [title]="t('benefit.title')" class="bordered">
@@ -19,7 +24,7 @@
         [loanAmount]="calculationResult().amount"
         [monthlyPayment]="calculationResult().monthlyPayment"
         [annualRate]="calculationResult().annualRate"
-        [documents]="['Паспорт']"
+        [documents]="docs"
         [creditType]="calculatorForm().type().value()"
       />
     </div>

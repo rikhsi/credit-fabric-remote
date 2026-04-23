@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { loanAdvantagesResolver } from './resolvers';
+import { loanAdvantagesResolver, loanDocsResolver } from './resolvers';
 import { LoanRoute, RouteParam } from '@constants';
 import { checkLoanIdGuard } from '@core/guards';
 
@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: `${LoanRoute.Details}/:${RouteParam.LoanId}`,
     data: { title: 'Потоковое кредитование', backConfig: { link: '../list' } },
-    resolve: { advantages: loanAdvantagesResolver },
+    resolve: { advantages: loanAdvantagesResolver, docs: loanDocsResolver },
     canActivate: [checkLoanIdGuard],
     loadComponent: () => import('./pages/loan-detail/loan-detail').then((c) => c.LoanDetail),
   },
