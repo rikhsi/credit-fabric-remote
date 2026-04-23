@@ -40,3 +40,36 @@ export interface ProductItem {
   sys_product_type_id: string;
   updated: Date;
 }
+
+export interface ProductConditionFilter extends Partial<TableDefaultFilter> {
+  dir_segment_id?: string;
+  fk_entity_id?: string;
+  fk_record_id?: string;
+  pk_record_id?: string;
+  sys_risk_grade_id?: string;
+}
+
+export interface ProductConditionItem {
+  changed_by_username: string;
+  created: Date;
+  default_amount: number;
+  default_term: number;
+  dir_currency_id: string;
+  dir_segment_id: string;
+  edit_label: string;
+  grace_period: number;
+  id: string;
+  interest_rate: number;
+  is_active: boolean;
+  is_default: boolean;
+  max_amount: number;
+  max_term: number;
+  min_amount: number;
+  min_term: number;
+  product_id: string;
+  slider_step: number;
+  sys_rate_type_id: string;
+  sys_risk_grade_id: string;
+  sys_term_type_id: string;
+  updated: Date;
+}

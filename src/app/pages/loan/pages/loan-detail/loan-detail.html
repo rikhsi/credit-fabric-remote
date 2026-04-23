@@ -1,16 +1,19 @@
 <ng-container *transloco="let t">
+  @let disabled = calculatorForm()().disabled();
+
   <cf-product-info
-    [isGuarant]="loanDetail().isGuarant"
-    [annualRate]="loanDetail()?.annualRate"
-    [loanTerm]="loanDetail()?.term"
-    [loanAmount]="loanDetail()?.amount"
+    [isGuarant]="true"
+    [isLoading]="disabled"
+    [annualRate]="productCondition()?.interest_rate"
+    [loanTerm]="productCondition()?.max_term | monthsToYears"
+    [loanAmount]="productCondition()?.max_amount"
   />
 
   @if (advantages?.length) {
   <cf-card [showSpace]="true" [title]="t('benefit.title')" class="bordered">
     <div class="advantages">
       @for (item of advantages; track item.title) {
-      <cf-card-advantage [title]="item.title" [description]="item.description" [photo]="item.photo" />
+      <cf-card-advantage [isLoading]="disabled" [title]="item.title" [description]="item.description" [photo]="item.photo" />
       }
     </div>
   </cf-card>
@@ -24,6 +27,7 @@
         [loanAmount]="calculationResult().amount"
         [monthlyPayment]="calculationResult().monthlyPayment"
         [annualRate]="calculationResult().annualRate"
+        [isLoading]="disabled"
         [documents]="docs"
         [creditType]="calculatorForm().type().value()"
       />

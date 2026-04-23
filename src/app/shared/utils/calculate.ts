@@ -3,7 +3,7 @@ import { CreditInput, CreditOutput } from '@app/typings/calculator';
 export function calculateAnnuity(input: CreditInput): CreditOutput {
   const { amount: P, term: n, annualRate } = input;
 
-  const r = annualRate / 12;
+  const r = annualRate / 100 / 12;
 
   const monthlyPayment = (P * (r * Math.pow(1 + r, n))) / (Math.pow(1 + r, n) - 1);
 
@@ -17,7 +17,7 @@ export function calculateAnnuity(input: CreditInput): CreditOutput {
 export function calculateDifferential(input: CreditInput): CreditOutput {
   const { amount: P, term: n, annualRate } = input;
 
-  const r = annualRate / 12;
+  const r = annualRate / 100 / 12;
   const principalPart = P / n;
 
   const payments: number[] = [];

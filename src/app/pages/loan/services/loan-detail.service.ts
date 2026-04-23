@@ -1,41 +1,33 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { form, max, maxLength, min, minLength, required, validate } from '@angular/forms/signals';
-import { tap } from 'rxjs';
-import { agreementFormModel, calculatorFormModel, otpFormModel } from '../data';
+import { disabled, form, max, min, required } from '@angular/forms/signals';
+import { map, tap } from 'rxjs';
+import { agreementFormModel, calculatorFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
-import { OnlineApiService } from '@api/controllers/los';
+import { OnlineApiService, ProductApiService } from '@api/controllers/los';
+import { ProductConditionItem } from '@api/models/los';
+import { mergeProductConditions } from '@api/utils';
 
 @Injectable()
 export class LoanDetailService {
   private onlineApiService = inject(OnlineApiService);
+  private productApiService = inject(ProductApiService);
 
-  public readonly otpError = signal(false);
   public readonly isValidated = signal<boolean>(false);
-
-  public readonly loanDetail = signal({
-    amount: 30,
-    term: 3,
-    annualRate: 18,
-    isGuarant: true,
-  });
+  public readonly isLoading = signal<boolean>(true);
+  public readonly productCondition = signal<ProductConditionItem>(null);
 
   public readonly calculatorForm = form(signal(calculatorFormModel), (schemaPath) => {
-    min(schemaPath.amount, 10000000);
-    max(schemaPath.amount, 100000000);
-    min(schemaPath.term, 18);
-    max(schemaPath.term, 36);
+    min(schemaPath.amount, () => this.productCondition()?.min_amount ?? 0);
+    max(schemaPath.amount, () => this.productCondition()?.max_amount ?? 0);
+    min(schemaPath.term, () => this.productCondition()?.min_term ?? 0);
+    max(schemaPath.term, () => this.productCondition()?.max_term ?? 0);
+    disabled(schemaPath, () => this.isLoading());
   });
 
   public readonly agreementForm = form(signal(agreementFormModel), (schemaPath) => {
     required(schemaPath.offer);
-  });
-
-  public readonly otpForm = form(signal(otpFormModel), (schemaPath) => {
-    required(schemaPath.code);
-    minLength(schemaPath.code, 6);
-    maxLength(schemaPath.code, 6);
-    validate(schemaPath.code, () => (this.otpError() ? { kind: 'invalidOtp' } : null));
+    disabled(schemaPath, () => this.isLoading());
   });
 
   public readonly calculationResult = computed<CreditOutput>(() => {
@@ -44,7 +36,7 @@ export class LoanDetailService {
     const input: CreditInput = {
       amount: amount().value(),
       term: term().value(),
-      annualRate: 0.18,
+      annualRate: this.productCondition()?.interest_rate,
     };
 
     if (type().value() === 'annuity') {
@@ -54,7 +46,28 @@ export class LoanDetailService {
     return calculateDifferential(input);
   });
 
-  checkValidate$(pinfl: string) {
+  public checkValidate$(pinfl: string) {
     return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ is_otp_validated }) => this.isValidated.set(is_otp_validated)));
+  }
+
+  public getCondition$(productId: string) {
+    this.isLoading.set(true);
+
+    return this.productApiService.productCondition$({ fk_entity_id: productId.toUpperCase() }).pipe(
+      map(({ data }) => data.filter((d) => d.product_id === productId.toUpperCase())),
+      tap({
+        next: (data) => {
+          const merged = mergeProductConditions(data);
+
+          this.productCondition.set(merged);
+
+          this.calculatorForm().value.update((cur) => ({
+            ...cur,
+            amount: merged?.max_amount,
+            term: merged?.max_term,
+          }));
+        },
+      }),
+    );
   }
 }

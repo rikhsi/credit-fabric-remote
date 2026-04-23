@@ -3,6 +3,7 @@
     nz-input
     mask="separator.0"
     thousandSeparator=" "
+    [disabled]="disabled()"
     [suffix]="' ' + (value() | pluralize: prefixInputType() : false)"
     [(ngModel)]="value"
     (blur)="onBlur()"

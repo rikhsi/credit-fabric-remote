@@ -1,4 +1,6 @@
-@if (icon(); as icon) {
+@if (isLoading()) {
+<nz-skeleton [nzLoading]="true" [nzActive]="true"  class="skeleton"/>
+} @else { @if (icon(); as icon) {
 <nz-icon [nzType]="icon" class="icon" />
 }
 <div class="box">
@@ -6,3 +8,5 @@
 
   <ng-content />
 </div>
+
+}

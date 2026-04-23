@@ -12,7 +12,7 @@
     </div>
 
     <div class="otp">
-      <cf-input-otp [formField]="form().code" (valueChange)="clearOtpError()" />
+      <cf-input-otp [formField]="form.code" (valueChange)="clearOtpError()" />
     </div>
 
     <div class="actions">
@@ -24,7 +24,7 @@
   </div>
 
   <div class="footer">
-    <button nz-button [disabled]="form().code().invalid()" [nzLoading]="isLoading()" nzType="primary" nzSize="large" (click)="submit()">
+    <button nz-button [disabled]="form.code().invalid()" [nzLoading]="isLoading()" nzType="primary" nzSize="large" (click)="submit()">
       {{t('action.confirm')}}
     </button>
   </div>

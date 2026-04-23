@@ -23,10 +23,27 @@
   flex: 1;
 }
 
+.card {
+  position: relative;
+}
+
+.skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  height: 100%;
+}
+
 .card-advantage {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+
+  &.hidden {
+    visibility: hidden;
+  }
 
   &__text {
     flex: 1;

@@ -7,3 +7,4 @@ export * from './validation-status.pipe';
 export * from './validation-msg.pipe';
 export * from './seconds-to-time.pipe';
 export * from './empty-list.pipe';
+export * from './month-to-years.pipe';

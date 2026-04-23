@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { delay, map, of } from 'rxjs';
-import { FormField } from '@angular/forms/signals';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { disabled, form, FormField, maxLength, minLength, required, validate } from '@angular/forms/signals';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { LoanDetailService } from '@pages/loan/services';
 import { OtpModalData } from '@pages/loan/models';
 import { PhoneNumberPipe, SecondsToTimePipe } from '@shared/pipes';
 import { InputOtp } from '@shared/components';
 import { TimerService } from '@shared/services';
+import { OnlineApiService } from '@api/controllers/los';
+import { otpFormModel } from '@pages/loan/data';
 
 @Component({
   selector: 'cf-modal-otp',
@@ -32,22 +33,31 @@ import { TimerService } from '@shared/services';
 })
 export class ModalOtp implements OnInit {
   private readonly nmRef = inject(NzModalRef<OtpModalData>);
-  private readonly ldService = inject(LoanDetailService);
   private readonly timerService = inject(TimerService);
   public readonly modalData = inject<OtpModalData>(NZ_MODAL_DATA);
+  private readonly onlineApiService = inject(OnlineApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  public readonly form = linkedSignal(() => this.ldService.otpForm);
+  public readonly form = form(signal(otpFormModel), (schemaPath) => {
+    required(schemaPath.code);
+    minLength(schemaPath.code, 6);
+    maxLength(schemaPath.code, 6);
+    validate(schemaPath.code, () => (this.otpError() ? { kind: 'invalidOtp' } : null));
+    disabled(schemaPath.code, () => this.isLoading());
+  });
+
   public readonly isLoading = signal<boolean>(false);
+  public readonly otpError = signal(false);
 
   public readonly leftTime = computed(() => this.timerService.leftTime());
   public readonly running = computed(() => this.timerService.running());
 
   ngOnInit(): void {
-    this.timerService.start();
+    this.resendOtp();
   }
 
   clearOtpError(): void {
-    this.ldService.otpError.set(false);
+    this.otpError.set(false);
   }
 
   close(): void {
@@ -55,22 +65,40 @@ export class ModalOtp implements OnInit {
   }
 
   resendOtp(): void {
-    this.timerService.start();
+    this.isLoading.set(true);
+
+    this.onlineApiService
+      .sendOtp$({
+        pinfl: this.modalData.pinfl,
+        phone_number: this.modalData.phoneNumber,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.timerService.start();
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.isLoading.set(false);
+        },
+      });
   }
 
   submit(): void {
     this.isLoading.set(true);
 
-    of(this.form().code().value())
-      .pipe(
-        delay(2000),
-        map((value) => value === '111111'),
-      )
+    this.onlineApiService
+      .checkOtp$({
+        pinfl: this.modalData.pinfl,
+        phone_number: this.modalData.phoneNumber,
+        otp_code: this.form.code().value(),
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
-        if (state) {
+        if (state.is_otp_validated) {
           this.nmRef.close(true);
         } else {
-          this.ldService.otpError.set(true);
+          this.otpError.set(true);
         }
 
         this.isLoading.set(false);

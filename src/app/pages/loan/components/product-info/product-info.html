@@ -3,6 +3,7 @@
     <div class="product-info__row">
       <cf-label-control
         [icon]="'f:money'"
+        [isLoading]="isLoading()"
         [label]="t('prop.loan_amount', { amount: loanAmount() | number, prefix: loanAmount() | pluralize: 'money': false})"
       >
         {{t('prop.loan_amount_full')}}
@@ -10,6 +11,7 @@
 
       <cf-label-control
         [icon]="'f:calendar'"
+        [isLoading]="isLoading()"
         [label]="t('prop.loan_term', { years: loanTerm() | number ,prefix: loanAmount() | pluralize: 'year': false })"
       >
         {{t('prop.loan_term_full')}}
@@ -17,13 +19,16 @@
 
       <cf-label-control
         [icon]="'f:percent'"
+        [isLoading]="isLoading()"
         [label]="t('prop.loan_percent', { percent: annualRate() | number, prefix: loanAmount() | pluralize: 'money'})"
       >
         {{t('prop.loan_percent_full')}}
       </cf-label-control>
 
       @if (isGuarant()) {
-      <cf-label-control [icon]="'f:shield'" [label]="t('prop.guarant')">{{t('prop.no_collateral')}}</cf-label-control>
+      <cf-label-control [icon]="'f:shield'" [isLoading]="isLoading()" [label]="t('prop.guarant')">
+        {{t('prop.no_collateral')}}
+      </cf-label-control>
       }
     </div>
   </cf-card>

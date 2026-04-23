@@ -27,7 +27,7 @@ export class InputSlider extends ControlBaseDirective<number> {
     const min = this.min();
     const max = this.max();
 
-    if (min == null || max == null) return [];
+    if (!min || !max) return [];
 
     const mid = Math.round(min + (max - min) / 2);
     const type = this.prefixType();
