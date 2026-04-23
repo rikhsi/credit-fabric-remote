@@ -8,7 +8,10 @@ import { LocalStorageItem, RootRoute } from '@constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly user = signal<UserItem>(null);
+  readonly user = signal<UserItem>({
+    pinfl: '12345678911234',
+    phone_nubmer: '998990031497',
+  });
 
   get token() {
     return this.lsService.getItem(LocalStorageItem.AccessToken) as string;

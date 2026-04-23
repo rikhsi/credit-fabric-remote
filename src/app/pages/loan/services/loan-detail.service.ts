@@ -1,19 +1,23 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { form, max, maxLength, min, minLength, required, validate } from '@angular/forms/signals';
+import { tap } from 'rxjs';
 import { agreementFormModel, calculatorFormModel, otpFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
+import { OnlineApiService } from '@api/controllers/los';
 
 @Injectable()
 export class LoanDetailService {
+  private onlineApiService = inject(OnlineApiService);
+
   public readonly otpError = signal(false);
+  public readonly isValidated = signal<boolean>(false);
 
   public readonly loanDetail = signal({
-    amount: 30000000,
+    amount: 30,
     term: 3,
     annualRate: 18,
     isGuarant: true,
-    phoneNumber: '998990031497',
   });
 
   public readonly calculatorForm = form(signal(calculatorFormModel), (schemaPath) => {
@@ -49,4 +53,8 @@ export class LoanDetailService {
 
     return calculateDifferential(input);
   });
+
+  checkValidate$(pinfl: string) {
+    return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ is_otp_validated }) => this.isValidated.set(is_otp_validated)));
+  }
 }
