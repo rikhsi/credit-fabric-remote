@@ -7,12 +7,12 @@ export const routes: Routes = [
   {
     path: RootRoute.Auth,
     component: AuthLayout,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     loadChildren: () => import('@pages/auth/auth.routes').then((r) => r.routes),
   },
   {
     path: '',
-    canActivate: [mainGuard],
+    // canActivate: [mainGuard],
     children: [
       {
         path: RootRoute.Loan,

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
@@ -15,4 +15,6 @@ import { LoanLayoutBackConfig } from '@layouts/models';
 export class LayoutHeader {
   title = input<string>();
   backConfig = input<LoanLayoutBackConfig>();
+
+  closeClick = output<void>();
 }
