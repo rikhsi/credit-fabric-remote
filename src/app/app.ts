@@ -13,7 +13,7 @@ export class App implements OnInit {
   constructor(private bridgeService: BridgeService) {}
 
   ngOnInit(): void {
-    this.bridgeService.initBridgeListeners();
+    this.bridgeService.initSignListener();
     this.bridgeService.getUserInfo();
   }
 }
