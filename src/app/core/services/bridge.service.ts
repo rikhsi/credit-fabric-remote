@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BridgeService {
+  notificationService = inject(NzNotificationService);
+
   private get windowRef() {
     return window as NzSafeAny;
   }
@@ -29,13 +32,13 @@ export class BridgeService {
     if (this.mobileApp) {
       this.mobileApp.getUserInfo();
 
-      console.log(this.mobileApp.getUserInfo());
+      this.notificationService.success('success', this.mobileApp.getUserInfo());
     }
   }
 
   public initSignListener(): void {
     window.addEventListener('message', (event) => {
-      console.log('postMessage:', event.data);
+      this.notificationService.success('success', event.data);
     });
   }
 }
