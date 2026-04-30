@@ -34,12 +34,8 @@ export class BridgeService {
   }
 
   public initSignListener(): void {
-    this.windowRef.setSign = (data: string) => {
-      console.log('setSign called from Android:', data);
-
-      this.handleSign(data);
-    };
+    window.addEventListener('message', (event) => {
+      console.log('postMessage:', event.data);
+    });
   }
-
-  private handleSign(data: NzSafeAny) {}
 }
