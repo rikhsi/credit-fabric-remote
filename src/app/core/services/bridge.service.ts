@@ -24,7 +24,7 @@ export class BridgeService {
 
   public onSignClick(file: string): void {
     if (this.mobileApp) {
-      this.mobileApp.sign(file);
+      this.mobileApp.sign('1231312');
     }
   }
 
