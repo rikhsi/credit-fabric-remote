@@ -30,9 +30,17 @@ export class BridgeService {
 
   public getUserInfo(): void {
     if (this.mobileApp) {
-      this.mobileApp.getUserInfo();
+      try {
+        const raw = this.mobileApp.getUserInfo();
 
-      this.notificationService.success('success', JSON.stringify(JSON.parse(this.mobileApp.getUserInfo()), null, 2));
+        const parsed = JSON.parse(raw);
+
+        this.notificationService.success('success', JSON.stringify(parsed, null, 2));
+      } catch (error: NzSafeAny) {
+        this.notificationService.error('JSON parse error', `Ошибка: ${error?.message || error}\n\nRaw: ${this.mobileApp.getUserInfo()}`);
+
+        console.error('getUserInfo parse error:', error);
+      }
     }
   }
 
