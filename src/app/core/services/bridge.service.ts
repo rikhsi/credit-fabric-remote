@@ -32,7 +32,7 @@ export class BridgeService {
     if (this.mobileApp) {
       this.mobileApp.getUserInfo();
 
-      this.notificationService.success('success', JSON.stringify(this.getUserInfo()));
+      this.notificationService.success('success', JSON.stringify(JSON.parse(this.mobileApp.getUserInfo()), null, 2));
     }
   }
 
