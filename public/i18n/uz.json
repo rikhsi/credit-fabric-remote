@@ -188,7 +188,8 @@
     "total_amount": "Miqdor",
     "term": "Muddat",
     "differentiated": "Kamayib boruvchi",
-    "from": "{{amount}} dan"
+    "from": "{{amount}} dan",
+    "city": "Shahar"
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"

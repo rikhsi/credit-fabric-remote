@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { AddressForm, AddressInfo, BillInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/application/components';
 import { FlowService } from '@pages/application/services';
+import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models';
 
 @Component({
   selector: 'cf-a-flow-general',
@@ -15,11 +17,12 @@ import { FlowService } from '@pages/application/services';
 export class AFlowGeneral {
   private nzModalService = inject(NzModalService);
   private flowService = inject(FlowService);
+  private vcr = inject(ViewContainerRef);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
 
   openGeneralForm(): void {
-    this.nzModalService.create({
+    const modalRef = this.nzModalService.create<GeneralForm, FlowExtraInformationForm, FlowExtraInformationForm>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -27,11 +30,21 @@ export class AFlowGeneral {
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',
+      nzViewContainerRef: this.vcr,
+    });
+
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.flowForm()().value.update((cur) => {
+        return {
+          ...cur,
+          extraInformations: [...cur.extraInformations, value],
+        };
+      });
     });
   }
 
   openAddressForm(): void {
-    this.nzModalService.create({
+    const modalRef = this.nzModalService.create<AddressForm, FlowAddressForm, FlowAddressForm>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -39,6 +52,18 @@ export class AFlowGeneral {
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',
+      nzViewContainerRef: this.vcr,
+    });
+
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.flowForm()().value.update((cur) => {
+        const addresses = cur.addresses.filter((item) => item.addressType !== value.addressType);
+
+        return {
+          ...cur,
+          addresses: [...addresses, value],
+        };
+      });
     });
   }
 

@@ -2,7 +2,7 @@
   <cf-general-info [form]="flowForm()" />
   <cf-contact-info />
   <cf-address-info (edit)="openAddressForm()" />
-  <cf-extra-info (edit)="openGeneralForm()" (add)="openGeneralForm()" />
+  <cf-extra-info [items]="flowForm().extraInformations().value()" (edit)="openGeneralForm()" (add)="openGeneralForm()" />
   <cf-bill-info />
 
   <button nz-button nzType="primary" nzSize="large" (click)="continue()" class="submit">{{t('action.continue')}}</button>

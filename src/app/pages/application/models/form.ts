@@ -19,5 +19,5 @@ export interface FlowAddressForm {
   city: number;
   address: string;
   street: number;
-  index: string;
+  postalCode: string;
 }

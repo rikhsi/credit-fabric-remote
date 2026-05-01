@@ -21,5 +21,5 @@ export const flowAdressFormModel: FlowAddressForm = {
   city: null,
   address: null,
   street: null,
-  index: null,
+  postalCode: null,
 };

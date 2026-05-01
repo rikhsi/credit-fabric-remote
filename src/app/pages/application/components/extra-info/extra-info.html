@@ -9,19 +9,19 @@
     </div>
 
     <div class="list">
-      @for (item of [1,2]; track $index) {
+      @for (item of items(); track $index) {
       <cf-card class="gray lg">
         <div class="row">
           <div class="col">
-            <h4 nz-typography>51300 — Авиационный транспорт</h4>
+            <h4 nz-typography>{{item.sectorEconomy}}</h4>
 
             <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
               <nz-icon nzType="f:pencil" />
             </a>
           </div>
-          <p nz-typography>Для существующего объекта</p>
-          <p nz-typography>Малое предприятие</p>
-          <p nz-typography>Высокоопасный уровень</p>
+          <p nz-typography>{{item.enterpriseClassifier}}</p>
+          <p nz-typography>{{item.objectNewFormation}}</p>
+          <p nz-typography>{{item.ecologicalImpactCode}}</p>
         </div>
       </cf-card>
       }

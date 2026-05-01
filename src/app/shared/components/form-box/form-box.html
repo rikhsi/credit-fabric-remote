@@ -17,6 +17,8 @@
 
   <div class="footer">
     <button nz-button nzType="default" nzSize="large" (click)="closeClick.emit()">{{t('action.cancel')}}</button>
-    <button nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">{{t('action.add')}}</button>
+    <button [disabled]="submitDisabled()" nz-button nzType="primary" nzSize="large" (click)="submitClick.emit()">
+      {{t('action.add')}}
+    </button>
   </div>
 </ng-container>

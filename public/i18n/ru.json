@@ -188,7 +188,8 @@
     "total_amount": "Сумма",
     "term": "Срок",
     "differentiated": "По убыванию",
-    "from": "от {{amount}}"
+    "from": "от {{amount}}",
+    "city": "Город"
   },
   "question": {
     "no_phone": "Нет доступа к номеру?"

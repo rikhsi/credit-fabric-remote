@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
-  <cf-form-box [title]="t('action.add_extra_params')" (closeClick)="modalRef.close()">
-    <cf-select-default [placeholder]="t('prop.industry_sector')" size="large">
+  <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_extra_params')" (closeClick)="close()" (submitClick)="submit()">
+    <cf-select-default [formField]="form.sectorEconomy" [placeholder]="t('prop.industry_sector')" size="large">
       <ng-container *cfHandbook="{url: 'dir-sector-economy'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -8,7 +8,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [placeholder]="t('prop.business_classification')" size="large">
+    <cf-select-default [formField]="form.enterpriseClassifier" [placeholder]="t('prop.business_classification')" size="large">
       <ng-container *cfHandbook="{url: 'dir-object-new-formation'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -16,7 +16,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [placeholder]="t('prop.new_entity_indicator')" size="large">
+    <cf-select-default [formField]="form.objectNewFormation" [placeholder]="t('prop.new_entity_indicator')" size="large">
       <ng-container *cfHandbook="{url: 'dir-enterprise-classifier'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -24,7 +24,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [placeholder]="t('prop.environmental_impact_classification')" size="large">
+    <cf-select-default [formField]="form.ecologicalImpactCode" [placeholder]="t('prop.environmental_impact_classification')" size="large">
       <ng-container *cfHandbook="{url: 'dir-ecological-impact-code'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>

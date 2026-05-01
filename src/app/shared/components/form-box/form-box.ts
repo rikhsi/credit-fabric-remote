@@ -13,6 +13,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 })
 export class FormBox {
   public title = input<string>();
+  public submitDisabled = input<boolean>();
 
   public closeClick = output<void>();
   public submitClick = output<void>();

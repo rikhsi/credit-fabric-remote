@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
-  <cf-form-box [title]="t('action.add_address')" (closeClick)="modalRef.close()" (submitClick)="modalRef.close()">
-    <cf-select-default [placeholder]="t('prop.address_type')" size="large">
+  <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_address')" (closeClick)="close()" (submitClick)="submit()">
+    <cf-select-default [formField]="form.addressType" [placeholder]="t('prop.address_type')" size="large">
       <ng-container *cfHandbook="{url: 'sys-address-type'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -16,7 +16,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [placeholder]="t('prop.street')" size="large">
+    <cf-select-default [formField]="form.street" [placeholder]="t('prop.street')" size="large">
       <ng-container *cfHandbook="{ url: 'dir-village' , params: {dir_city_id: form.city().value()}}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -24,7 +24,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-input-default [placeholder]="t('prop.address')" size="large" />
-    <cf-input-default [placeholder]="t('prop.postal_code')" size="large" />
+    <cf-input-default [formField]="form.address" [placeholder]="t('prop.address')" size="large" />
+    <cf-input-default [formField]="form.postalCode" [placeholder]="t('prop.postal_code')" size="large" />
   </cf-form-box>
 </ng-container>
