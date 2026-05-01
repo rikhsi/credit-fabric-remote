@@ -213,5 +213,10 @@
       "login": "Kirish uchun login va parolni kiriting",
       "one_id": "Kirish uchun OneId ga o`ting"
     }
+  },
+  "validation": {
+    "error": {
+      "required": "Majburiy maydon"
+    }
   }
 }

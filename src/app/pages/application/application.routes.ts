@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+import { FlowService } from './services';
 import { ApplicationRoute, ApplicationFlowRoute } from '@constants';
 
 export const routes: Routes = [
   {
     path: ApplicationRoute.Flow,
+    providers: [FlowService],
     children: [
       {
         path: ApplicationFlowRoute.General,

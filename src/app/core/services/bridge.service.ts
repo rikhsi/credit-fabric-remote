@@ -38,8 +38,6 @@ export class BridgeService {
         this.notificationService.success('success', JSON.stringify(parsed, null, 2));
       } catch (error: NzSafeAny) {
         this.notificationService.error('JSON parse error', `Ошибка: ${error?.message}\n\nRaw: ${raw}`);
-
-        console.error('Parse error:', raw, error);
       }
     }
   }

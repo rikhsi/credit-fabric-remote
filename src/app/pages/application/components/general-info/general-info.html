@@ -28,7 +28,7 @@
       </div>
 
       <div class="row bottom-gap">
-        <cf-select-default [placeholder]="t('prop.oked')" size="large">
+        <cf-select-default [formField]="form().oked" [placeholder]="t('prop.oked')" size="large">
           <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -36,9 +36,9 @@
           </ng-container>
         </cf-select-default>
 
-        <cf-input-number [placeholder]="t('prop.employee_count')" size="large" />
+        <cf-input-number [minVal]="1" [maxVal]="1000" [formField]="form().workerAmount" [placeholder]="t('prop.employee_count')" size="large" />
 
-        <cf-input-number [placeholder]="t('prop.new_jobs_count')" size="large" />
+        <cf-input-number [maxVal]="1000" [minVal]="1" [formField]="form().workerNewAmount" [placeholder]="t('prop.new_jobs_count')" size="large" />
       </div>
     </div>
   </cf-card>

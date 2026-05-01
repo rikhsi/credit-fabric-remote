@@ -6,7 +6,8 @@ import { ValidationErrorData } from '@typings';
 })
 export class ValidationMsgPipe implements PipeTransform {
   transform(value: ValidationErrorData, dirty: boolean = false): string {
-    if (value?.kind && dirty) {
+    console.log(dirty);
+    if (dirty) {
       return value?.message ?? `validation.error.${value?.kind}`;
     }
 

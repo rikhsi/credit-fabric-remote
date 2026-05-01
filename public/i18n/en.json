@@ -213,5 +213,10 @@
       "login": "Write login and password",
       "one_id": "Go to OneId to enter the system"
     }
+  },
+  "validation": {
+    "error": {
+      "required": "Required field"
+    }
   }
 }
