@@ -1,0 +1,25 @@
+<ng-container *transloco="let t">
+  @if (borrower()?.registrationPlaceCode) {
+  <cf-label-control-secondary [label]="t('prop.registration_authority')">
+    {{ borrower()!.registrationPlaceCode }}
+  </cf-label-control-secondary>
+  } @else {
+  <cf-select-default [formField]="form().registrationPlaceCode" [placeholder]="t('prop.registration_authority')" size="large">
+    <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
+      @for (item of items; track item.id) {
+      <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+      }
+    </ng-container>
+  </cf-select-default>
+  } @if (borrower()?.legalForm?.value) {
+  <cf-label-control-secondary [label]="t('prop.legal_form')">{{ borrower()!.legalForm.value }}</cf-label-control-secondary>
+  } @else {
+  <cf-select-default [formField]="form().legalForm" [placeholder]="t('prop.legal_form')" size="large">
+    <ng-container *cfHandbook="{url: 'dir-legal-form'}; let items">
+      @for (item of items; track item.id) {
+      <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+      }
+    </ng-container>
+  </cf-select-default>
+  }
+</ng-container>

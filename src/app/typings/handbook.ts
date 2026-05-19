@@ -25,4 +25,5 @@ export type HandbookQueryType =
   | 'dir-object-new-formation'
   | 'dir-sector-economy'
   | 'dir-village'
-  | 'dir-ownership';
+  | 'dir-legal-form'
+  | 'dir-ownership-code';

@@ -1,95 +1,14 @@
+@let borrower = application()?.borrower;
+
 <ng-container *transloco="let t">
   <cf-card [title]="t('prop.general_info')" [showSpace]="true" class="bordered bottom">
     <cf-steps [stepsLength]="2" [currentStep]="1" class="step" />
 
     <div class="col">
-      <div class="row">
-        @if (false) {
-        <cf-label-control-secondary [label]="t('prop.name')">NUKUS CRAFTPUB JMK</cf-label-control-secondary>
-        } @else {
-        <cf-input-default [placeholder]="t('prop.name')" size="large" />
-        } @if (false) {
-        <cf-label-control-secondary [label]="t('prop.ownership_form')">Собственность хозяйственных обществ</cf-label-control-secondary>
-        } @else {
-        <cf-select-default [placeholder]="t('prop.ownership_form')" size="large">
-          <ng-container *cfHandbook="{url: 'dir-ownership'}; let items">
-            @for (item of items; track item.id) {
-            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-            }
-          </ng-container>
-        </cf-select-default>
-        } @if (false) {
-        <cf-label-control-secondary [label]="t('prop.registration_date')">04.06.2025</cf-label-control-secondary>
-        } @else {
-        <cf-select-date [placeholder]="t('prop.registration_date')" size="large" />
-        }
-      </div>
-
-      <div class="row">
-        @if (false) {
-        <cf-label-control-secondary [label]="t('prop.pinfl')">
-          <span class="rowe">123123123123</span>
-        </cf-label-control-secondary>
-        } @else {
-        <cf-input-default [placeholder]="t('prop.pinfl')" size="large" />
-        } @if (false) {
-        <cf-label-control-secondary [label]="t('prop.registration_number')">
-          <span class="rowe">123123123123</span>
-        </cf-label-control-secondary>
-        } @else {
-        <cf-input-default [placeholder]="t('prop.registration_number')" size="large" />
-        }
-      </div>
-
-      <div class="row">
-        @if (false) {
-        <cf-label-control-secondary [label]="t('prop.registration_authority')">35401</cf-label-control-secondary>
-        } @else {
-        <cf-select-default [placeholder]="t('prop.registration_authority')" size="large">
-          <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
-            @for (item of items; track item.id) {
-            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-            }
-          </ng-container>
-        </cf-select-default>
-        } @if (false) {
-        <cf-label-control-secondary [label]="t('prop.legal_form')">Частное предприятие</cf-label-control-secondary>
-        } @else {
-        <cf-select-default [placeholder]="t('prop.legal_form')" size="large">
-          <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
-            @for (item of items; track item.id) {
-            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-            }
-          </ng-container>
-        </cf-select-default>
-        }
-      </div>
-
-      <div class="row bottom-gap">
-        <cf-select-default [formField]="form().oked" [placeholder]="t('prop.oked')" size="large">
-          <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
-            @for (item of items; track item.id) {
-            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-            }
-          </ng-container>
-        </cf-select-default>
-
-        <cf-input-number
-          [minVal]="1"
-          [maxVal]="1000"
-          [formField]="form().workerAmount"
-          [placeholder]="t('prop.employee_count')"
-          size="large"
-        />
-
-        <cf-input-number
-          [maxVal]="1000"
-          [minVal]="1"
-          [formField]="form().workerNewAmount"
-          [placeholder]="t('prop.new_jobs_count')"
-          size="large"
-        />
-      </div>
+      <cf-general-info-row-name [borrower]="borrower" [form]="form()" class="row" />
+      <cf-general-info-row-documents [borrower]="borrower" [form]="form()" class="row" />
+      <cf-general-info-row-authority [borrower]="borrower" [form]="form()" class="row" />
+      <cf-general-info-row-employment [borrower]="borrower" [form]="form()" class="row bottom-gap" />
     </div>
   </cf-card>
 </ng-container>

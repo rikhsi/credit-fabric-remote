@@ -82,8 +82,20 @@ export class AFlowGeneral implements OnInit {
     if (this.flowForm()().valid()) {
     } else {
       this.flowForm().oked().markAsDirty();
-      this.flowForm().workerNewAmount().markAsDirty();
-      this.flowForm().workerAmount().markAsDirty();
+      this.flowForm().newEmployees().markAsDirty();
+      this.flowForm().employees().markAsDirty();
+      this.flowForm().legalForm().markAsDirty();
+      this.flowForm().ownershipCode().markAsDirty();
+      this.flowForm().registrationDate().markAsDirty();
+      this.flowForm().registrationNumber().markAsDirty();
+      this.flowForm().registrationPlaceCode().markAsDirty();
+      this.flowForm().workPhone().markAsDirty();
+      this.flowForm().docPersonalLegalNo().markAsDirty();
+      this.flowForm().email().markAsDirty();
+      this.flowForm().id().markAsDirty();
+      this.flowForm().name().markAsDirty();
+      this.flowForm().addresses().markAsDirty();
+      this.flowForm().extraInformations().markAsDirty();
 
       this.scrollToInvalidElement();
     }

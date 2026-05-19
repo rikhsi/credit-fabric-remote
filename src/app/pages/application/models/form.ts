@@ -1,15 +1,17 @@
 export interface FlowForm {
+  docPersonalLegalNo: string;
+  email: string;
+  employees: number;
+  id: number;
   name: string;
-  ownership: number;
-  registrationDate: Date;
-  pinfl: string;
-  registrationNumber: string;
-  registrationAuthority: number;
+  newEmployees: number;
   legalForm: number;
   oked: number;
-  workerAmount: number;
-  workerNewAmount: number;
-  cardNumber: number;
+  ownershipCode: number;
+  registrationDate: Date;
+  registrationNumber: string;
+  registrationPlaceCode: string;
+  workPhone: string;
   extraInformations: FlowExtraInformationForm[];
   addresses: FlowAddressForm[];
 }

@@ -1,0 +1,21 @@
+<ng-container *transloco="let t">
+  @if (borrower()?.oked?.value) {
+  <cf-label-control-secondary [label]="t('prop.oked')">{{ borrower()!.oked.value }}</cf-label-control-secondary>
+  } @else {
+  <cf-select-default [formField]="form().oked" [placeholder]="t('prop.oked')" size="large">
+    <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
+      @for (item of items; track item.id) {
+      <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+      }
+    </ng-container>
+  </cf-select-default>
+  } @if (borrower()?.employees) {
+  <cf-label-control-secondary [label]="t('prop.employee_count')">{{ borrower()!.employees }}</cf-label-control-secondary>
+  } @else {
+  <cf-input-number [minVal]="1" [maxVal]="1000" [formField]="form().employees" [placeholder]="t('prop.employee_count')" size="large" />
+  } @if (borrower()?.newEmployees) {
+  <cf-label-control-secondary [label]="t('prop.new_jobs_count')">{{ borrower()!.newEmployees }}</cf-label-control-secondary>
+  } @else {
+  <cf-input-number [maxVal]="1000" [minVal]="1" [formField]="form().newEmployees" [placeholder]="t('prop.new_jobs_count')" size="large" />
+  }
+</ng-container>

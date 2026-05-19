@@ -221,17 +221,17 @@ export interface OnlineCreateApplicationPayload {
 }
 
 export interface OnlineLegalForm {
-  id: string;
+  id: number;
   value: string;
 }
 
 export interface OnlineOked {
-  id: string;
+  id: number;
   value: string;
 }
 
 export interface OnlineOwnershipCode {
-  id: string;
+  id: number;
   value: string;
 }
 
@@ -245,7 +245,7 @@ export interface OnlineBorrower {
   newEmployees: number;
   oked: OnlineOked;
   ownershipCode: OnlineOwnershipCode;
-  registrationDate: string;
+  registrationDate: Date;
   registrationNumber: string;
   registrationPlaceCode: string;
   workPhone: string;
