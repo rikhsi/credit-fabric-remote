@@ -52,6 +52,7 @@
     "@auth0/angular-jwt": "^5.2.0",
     "@jsverse/transloco": "^8.2.1",
     "ng-zorro-antd": "^21.1.0",
+    "ngx-extended-pdf-viewer": "^25.6.4",
     "ngx-mask": "^19.0.6",
     "postinstall": "^0.11.1",
     "rxjs": "~7.8.0",

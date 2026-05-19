@@ -5,3 +5,4 @@ export * from './pluralize';
 export * from './modal';
 export * from './validation';
 export * from './handbook';
+export * from './bridge';

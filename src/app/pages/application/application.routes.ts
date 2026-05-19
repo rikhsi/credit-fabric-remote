@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
 import { FlowService } from './services';
-import { ApplicationRoute, ApplicationFlowRoute } from '@constants';
+import { applicationResolver } from './resolvers';
+import { ApplicationRoute, ApplicationFlowRoute, RouteParam } from '@constants';
 
 export const routes: Routes = [
   {
-    path: ApplicationRoute.Flow,
+    path: `${ApplicationRoute.Flow}/:${RouteParam.AppId}`,
     providers: [FlowService],
+    resolve: {
+      application: applicationResolver,
+    },
     children: [
       {
         path: ApplicationFlowRoute.General,

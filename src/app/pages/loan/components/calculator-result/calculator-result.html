@@ -9,8 +9,8 @@
         {{ loanAmount() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}}
       </cf-label-control-secondary>
       <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')">
-        @if (creditType() === 'differentiated') { {{t('prop.from', {amount: monthlyPayment() | number})}} {{loanAmount() | pluralize:
-        'money' : false | transloco}} } @else { {{ monthlyPayment() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}} }
+        @if (creditType() === 'standart') { {{t('prop.from', {amount: monthlyPayment() | number})}} {{loanAmount() | pluralize: 'money' :
+        false | transloco}} } @else { {{ monthlyPayment() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}} }
       </cf-label-control-secondary>
 
       <cf-label-control-secondary [label]="t('prop.loan_needed_docs')">

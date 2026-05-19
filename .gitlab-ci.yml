@@ -1,0 +1,56 @@
+stages:
+  - build
+  - update-remote-repo
+
+variables:
+  IMAGE_NAME: "docker-new-dbo-nexus.hamkorbank.uz/loan-processing/credit-fabric-remote"
+  MANIFEST_REPO_URL: "gitlab.hamkorbank.uz/new_dbo_le/infra/dbo-manifest.git"
+  MANIFEST_BRANCH: "main"
+  TARGET_ENV: "dev"
+
+build:
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+  stage: build
+  variables:
+    no_proxy: "localhost,127.0.0.1,::1,docker-io-nexus.hamkorbank.uz,docker-nexus.hamkorbank.uz,docker-new-dbo-nexus.hamkorbank.uz,.hamkorbank.uz,10.233.64.0/18,10.233.0.0/18,.local"
+    NO_PROXY: "localhost,127.0.0.1,::1,docker-io-nexus.hamkorbank.uz,docker-nexus.hamkorbank.uz,docker-new-dbo-nexus.hamkorbank.uz,.hamkorbank.uz,10.233.64.0/18,10.233.0.0/18,.local"
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - 'echo "{\"auths\":{\"docker-new-dbo-nexus.hamkorbank.uz\":{\"username\":\"${NEXUS_USER}\",\"password\":\"${NEXUS_PASSWORD}\"}}}" > /kaniko/.docker/config.json'
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${IMAGE_NAME}:${CI_COMMIT_TAG}"
+      --registry-mirror "docker-io-nexus.hamkorbank.uz"
+  only:
+    - tags
+  tags:
+    - my-runner
+
+update-tag:
+  stage: update-remote-repo
+  image: docker-io-nexus.hamkorbank.uz/bitnami/git:latest
+  needs:
+    - job: build
+      artifacts: false
+  variables:
+    GIT_STRATEGY: "none"
+  before_script:
+    - git config --global user.email "${CI_COMMIT_AUTHOR_EMAIL:-ci@hamkorbank.uz}"
+    - git config --global user.name "${CI_COMMIT_AUTHOR:-GitLab CI}"
+  script:
+    - 'git clone "https://oauth2:${ACCESS_TOKEN_MANIFEST}@${MANIFEST_REPO_URL}"'
+    - cd dbo-manifest
+    - 'sed -i "s|tag: .*|tag: ${CI_COMMIT_TAG}|g" "helm-charts/app/${TARGET_ENV}/${CI_PROJECT_NAME}.yaml"'
+    - 'git add "helm-charts/app/${TARGET_ENV}/${CI_PROJECT_NAME}.yaml"'
+    - 'git commit -m "${CI_COMMIT_MESSAGE} and update tag ${CI_PROJECT_NAME}:${CI_COMMIT_TAG}" || echo "No changes to commit"'
+    - 'git push "https://oauth2:${ACCESS_TOKEN_MANIFEST}@${MANIFEST_REPO_URL}" HEAD:${MANIFEST_BRANCH}'
+  only:
+    - tags
+  tags:
+    - my-runner

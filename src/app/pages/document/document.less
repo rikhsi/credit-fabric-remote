@@ -1,0 +1,79 @@
+@import 'mixins';
+
+.themeMixin({
+    :host {
+        .link {
+            color: @text-color;
+
+            &:hover {
+                color: @primary-color;
+            }
+        }
+
+        .content {
+            border-color: @border-color;
+            background: @component-background-thirty;
+        }
+
+        ::ng-deep ngx-extended-pdf-viewer .pdfViewer#viewer {
+            background-color: @component-background-thirty;
+        }
+    }
+});
+
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: 18px;
+  padding: 20px;
+  min-height: 100svh;
+
+  .media(@media-sm, {
+      padding: 10px;
+    });
+
+  ::ng-deep ngx-extended-pdf-viewer .pdfViewer .page {
+    border: none;
+  }
+
+  .spin {
+    flex: 1;
+  }
+
+  .content {
+    flex: 1;
+    padding: 20px;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid;
+
+    .media(@media-sm, {
+      padding: 10px;
+      border-radius: 8px;
+    });
+
+    .pdf {
+      width: 100%;
+    }
+  }
+
+  .link {
+    font-size: 16px;
+
+    nz-icon {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .footer {
+    width: 100%;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
+  }
+}

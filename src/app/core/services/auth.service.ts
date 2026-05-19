@@ -5,12 +5,13 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from './local-storage.service';
 import { AuthSignInResult, UserItem } from '@api/models/base';
 import { LocalStorageItem, RootRoute } from '@constants';
+import { environment } from 'src/environments/development';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   readonly user = signal<UserItem>({
-    pinfl: '12345678911234',
-    phone_nubmer: '998990031497',
+    pinfl: environment.user.pinfl,
+    phone_nubmer: environment.user.phoneNumber,
   });
 
   get token() {

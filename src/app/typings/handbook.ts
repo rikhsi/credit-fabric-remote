@@ -24,4 +24,5 @@ export type HandbookQueryType =
   | 'dir-ecological-impact-code'
   | 'dir-object-new-formation'
   | 'dir-sector-economy'
-  | 'dir-village';
+  | 'dir-village'
+  | 'dir-ownership';

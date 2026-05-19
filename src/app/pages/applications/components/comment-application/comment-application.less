@@ -1,0 +1,43 @@
+@import 'mixins';
+@import 'colors';
+@import 'custom';
+
+.themeMixin({
+    :host {
+        .top {
+            border-color: @border-color;
+        }
+
+        .tag {
+            &.warning {
+              background: @warning-color;
+            }
+
+            &.success {
+              background: @success-bg-color;
+            }
+
+            &.decline {
+              background: @error-bg-color;
+            }
+        }
+    }
+});
+
+.top {
+  width: 100%;
+  border-top: 1px solid;
+  padding-top: 12px;
+}
+
+.tag {
+  width: fit-content;
+  margin-bottom: 12px;
+  font-weight: @font-weight-medium;
+  white-space: wrap;
+
+  .icon {
+    font-size: 16px;
+    margin-right: 4px;
+  }
+}

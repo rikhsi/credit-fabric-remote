@@ -1,4 +1,10 @@
 {
+  "pdf": {
+    "failed": {
+      "title": "PDF yuklashda xatolik",
+      "desc": "PDF hujjatini ochib bo‘lmadi"
+    }
+  },
   "action": {
     "add": "Qo‘shish",
     "add_address": "Manzil qo‘shing",
@@ -13,7 +19,13 @@
     "finish": "Yakunlash",
     "find_place": "Filialni topish",
     "go_my_applications": "Mening arizalarimga o‘tish",
-    "send_code": "Kod yuborish {{time}}"
+    "send_code": "Kod yuborish {{time}}",
+    "decline": "Rad qilish",
+    "approve": "Qabul qilish",
+    "decline_yes": "Xa, rad qilish",
+    "close": "Yopish",
+    "sign": "Imzolash va yuborish",
+    "back": "Ortga"
   },
   "alert": {
     "fill_fields": "Maydonlarni to‘ldiring"
@@ -38,6 +50,14 @@
     "title": "Onlayn kredit afzalliklari"
   },
   "modal": {
+    "application_approved": {
+      "title": "Shartlar qabul qilindi",
+      "description": "Imzolash uchun hujjatlarni tayyorlamoqdamiz. Bu biroz vaqt oladi"
+    },
+    "application_decline": {
+      "title": "Rad etishni tasdiqlang",
+      "description": "Agar rad etsangiz, ariza yopiladi. Keyinroq yangi ariza yuborishingiz mumkin bo‘ladi."
+    },
     "application_confirm": {
       "title": "Arizani yakunlashni tasdiqlang"
     },
@@ -131,6 +151,8 @@
     }
   },
   "prop": {
+    "product": "Mahsulot",
+    "my_applications": "Mening arizalarim",
     "actual_business_activity": "Amaldagi faoliyat turi",
     "address": "Manzil",
     "address_type": "Manzil turi",
@@ -187,9 +209,50 @@
     "conditions": "Shartlar",
     "total_amount": "Miqdor",
     "term": "Muddat",
-    "differentiated": "Kamayib boruvchi",
+    "standart": "Kamayib boruvchi",
     "from": "{{amount}} dan",
     "city": "Shahar"
+  },
+  "application": {
+    "number": "Ariza № {{id}}",
+    "docs": {
+      "sign": "Hujjatlarni imzolang",
+      "valid_until": "{{date}} gacha amal qiladi",
+      "get_in": "Hujjat {{date}} da olindi",
+      "sign_until": "{{date}} ga qadar imzolang",
+      "type": {
+        "credit_agreement": "Kredit shartnomasi № {{id}}",
+        "desicion_protocol": "Qaror bayonnomasi № {{id}}"
+      },
+      "status": {
+        "pending": "Imzo kutilmoqda",
+        "signed": "Imzolangan",
+        "expired": "Muddati tugagan"
+      }
+    },
+    "status": {
+      "in_progress": "Ko‘rib chiqilmoqda",
+      "approved": "Tasdiqlangan",
+      "on_design": "Rasmiylashtirilmoqda",
+      "on_assign": "Imzo kutilmoqda",
+      "signed": "Imzolangan",
+      "decline": "Rad etilgan",
+      "decline_client": "Mijoz tomonidan rad etilgan",
+      "issued": "Berilgan"
+    },
+    "tag": {
+      "in_progress": "Arizangiz ko‘rib chiqilmoqda",
+      "approved": "Kredit tasdiqlandi",
+      "on_design": "Imzolash uchun hujjatlar tayyorlanmoqda",
+      "on_assign": "Imzo kutilmoqda",
+      "signed": "Barcha hujjatlar imzolandi",
+      "decline": "Afsuski, kreditni tasdiqlay olmaymiz",
+      "decline_client": "Siz tomonidan rad etildi",
+      "issued": "Kredit olindi"
+    },
+    "comment": {
+      "approved": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
+    }
   },
   "question": {
     "no_phone": "Telefon raqamga kirish yo‘qmi?"

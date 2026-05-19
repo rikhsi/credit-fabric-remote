@@ -3,6 +3,7 @@ export enum RootRoute {
   Application = 'application',
   Applications = 'applications',
   Auth = 'auth',
+  Document = 'document',
 }
 
 export enum AuthRoute {

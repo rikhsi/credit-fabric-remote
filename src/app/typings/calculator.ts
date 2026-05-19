@@ -10,4 +10,4 @@ export interface CreditOutput {
   annualRate: number;
 }
 
-export type CreditType = 'annuity' | 'differentiated';
+export type CreditType = 'annuity' | 'standart';

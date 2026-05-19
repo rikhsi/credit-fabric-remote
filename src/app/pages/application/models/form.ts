@@ -1,4 +1,11 @@
 export interface FlowForm {
+  name: string;
+  ownership: number;
+  registrationDate: Date;
+  pinfl: string;
+  registrationNumber: string;
+  registrationAuthority: number;
+  legalForm: number;
   oked: number;
   workerAmount: number;
   workerNewAmount: number;

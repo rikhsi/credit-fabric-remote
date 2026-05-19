@@ -1,0 +1,24 @@
+<ng-container *transloco="let t">
+  <div class="top">
+    <a nz-button nzType="link" class="link" (click)="onBack()">
+      <nz-icon nzType="f:arrowBack" />
+      {{t('action.back')}}
+    </a>
+  </div>
+
+  <nz-spin [nzSpinning]="isLoading()" class="spin">
+    <div class="content">
+      <ngx-extended-pdf-viewer
+        (pdfLoaded)="pdfLoaded()"
+        (pdfLoadingFailed)="pdfFailed()"
+        [showToolbar]="false"
+        [src]="file()"
+        class="pdf"
+      ></ngx-extended-pdf-viewer>
+    </div>
+  </nz-spin>
+
+  <div class="footer">
+    <button [disabled]="isLoading()" nz-button nzBlock nzSize="large" nzType="primary" (click)="onSign()">{{t('action.sign')}}</button>
+  </div>
+</ng-container>

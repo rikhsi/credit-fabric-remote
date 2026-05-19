@@ -1,0 +1,19 @@
+<ng-container *transloco="let t">
+  @switch (status()) { @case('IN_PROGRESS') {
+  <nz-tag class="tag warning">{{t('application.tag.in_progress')}}</nz-tag>
+  } @case('APPROVED') {
+  <nz-tag class="tag success">{{t('application.tag.approved')}}</nz-tag>
+  } @case('ON_DESIGN') {
+  <nz-tag class="tag warning">{{t('application.tag.on_design')}}</nz-tag>
+  } @case('ON_ASSIGN') {
+  <nz-tag class="tag warning">{{t('application.tag.on_assign')}}</nz-tag>
+  } @case('SIGNED') {
+  <nz-tag class="tag success">{{t('application.tag.signed')}}</nz-tag>
+  } @case('DECLINE') {
+  <nz-tag class="tag decline">{{t('application.tag.decline')}}</nz-tag>
+  } @case('DECLINE_CLIENT') {
+  <nz-tag class="tag decline">{{t('application.tag.decline_client')}}</nz-tag>
+  } @case('ISSUED') {
+  <nz-tag class="tag success">{{t('application.tag.issued')}}</nz-tag>
+  } }
+</ng-container>

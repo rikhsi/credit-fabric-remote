@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, forkJoin } from 'rxjs';
+import { filter, forkJoin, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
 import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
@@ -33,6 +33,7 @@ export class LoanDetail implements OnInit {
   public readonly productCondition = computed(() => this.ldService.productCondition());
   public readonly isValidated = computed(() => this.ldService.isValidated());
   public readonly user = computed(() => this.authService.user());
+  public readonly isLoading = computed(() => this.ldService.isLoading());
 
   get advantages(): LoanAdvantageItem[] {
     return this.route.snapshot.data['advantages'] || [];
@@ -47,18 +48,24 @@ export class LoanDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.ldService.getCondition$(this.loanId)]).subscribe({
+    forkJoin([this.ldService.getCondition$(this.loanId), this.ldService.checkValidate$(this.user()?.pinfl)]).subscribe({
       next: () => {
         this.ldService.isLoading.set(false);
+        this.ldService.isDisabled.set(false);
       },
     });
   }
 
   openConfirm(): void {
-    const navigate = () => this.router.navigate([RootRoute.Application, this.loanId, ApplicationFlowRoute.General]);
+    const navigate = (applicationId: number) =>
+      this.router.navigate([RootRoute.Application, this.loanId, applicationId, ApplicationFlowRoute.General]);
 
     if (this.isValidated()) {
-      navigate();
+      this.ldService.createShortApplication$().subscribe({
+        next: ({ applicationId }) => {
+          navigate(applicationId);
+        },
+      });
     } else {
       this.nmService
         .create<ModalOtp, OtpModalData, boolean>({
@@ -76,8 +83,13 @@ export class LoanDetail implements OnInit {
             pinfl: this.user()?.pinfl,
           },
         })
-        .afterClose.pipe(filter((result) => !!result))
-        .subscribe(navigate);
+        .afterClose.pipe(
+          filter((result) => !!result),
+          switchMap(() => this.ldService.createShortApplication$()),
+        )
+        .subscribe({
+          next: ({ applicationId }) => navigate(applicationId),
+        });
     }
   }
 }

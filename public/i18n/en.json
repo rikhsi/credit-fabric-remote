@@ -1,4 +1,10 @@
 {
+  "pdf": {
+    "failed": {
+      "title": "PDF loading error",
+      "desc": "Failed to open PDF document"
+    }
+  },
   "action": {
     "add": "Add",
     "add_address": "Add address",
@@ -13,7 +19,13 @@
     "finish": "Finish",
     "find_place": "Find branch",
     "go_my_applications": "Go to My Applications",
-    "send_code": "Send code {{time}}"
+    "send_code": "Send code {{time}}",
+    "decline": "Reject",
+    "approve": "Approve",
+    "decline_yes": "Yes, reject",
+    "close": "Close",
+    "sign": "Sign and share",
+    "back": "Back"
   },
   "alert": {
     "fill_fields": "Fill in the fields"
@@ -38,6 +50,14 @@
     "title": "Benefits of online loan"
   },
   "modal": {
+    "application_approved": {
+      "title": "Terms accepted",
+      "description": "We are preparing the documents for signing. This will take a little time"
+    },
+    "application_decline": {
+      "title": "Confirm rejection",
+      "description": "If you decline, the application will be closed. You will be able to submit a new application later."
+    },
     "application_confirm": {
       "title": "Confirm application completion"
     },
@@ -131,6 +151,8 @@
     }
   },
   "prop": {
+    "product": "Product",
+    "my_applications": "My applications",
     "actual_business_activity": "Actual business activity",
     "address": "Address",
     "address_type": "Address type",
@@ -187,9 +209,50 @@
     "conditions": "Conditions",
     "total_amount": "Amount",
     "term": "Term",
-    "differentiated": "Decreasing",
+    "standart": "Decreasing",
     "from": "from {{amount}}",
     "city": "City"
+  },
+  "application": {
+    "number": "Application № {{id}}",
+    "docs": {
+      "sign": "Sign the documents",
+      "valid_until": "Valid until {{date}}",
+      "get_in": "Document received on {{date}}",
+      "sign_until": "Sign until {{date}}",
+      "type": {
+        "credit_agreement": "Credit agreement No. {{id}}",
+        "desicion_protocol": "Decision protocol No. {{id}}"
+      },
+      "status": {
+        "pending": "Awaiting signature",
+        "signed": "Signed",
+        "expired": "Expired"
+      }
+    },
+    "status": {
+      "in_progress": "Under review",
+      "approved": "Approved",
+      "on_design": "In processing",
+      "on_assign": "Awaiting signature",
+      "signed": "Signed",
+      "decline": "Declined",
+      "decline_client": "Declined by client",
+      "issued": "Issued"
+    },
+    "tag": {
+      "in_progress": "We are reviewing your application",
+      "approved": "Loan approved",
+      "on_design": "Preparing documents for signing",
+      "on_sign": "Awaiting signature",
+      "signed": "All documents have been signed",
+      "decline": "Unfortunately, we are unable to approve your loan",
+      "decline_client": "Declined by you",
+      "issued": "Loan received"
+    },
+    "comment": {
+      "approved": "Congratulations! Your loan has been approved. Please review and accept the terms"
+    }
   },
   "question": {
     "no_phone": "No access to the phone number?"

@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  OnlineApplication,
   OnlineCheckOtpResponse,
   OnlineCheckOtpResult,
   OnlineCheckResult,
+  OnlineCreateApplicationPayload,
+  OnlineCreateApplicationResult,
+  OnlineGetInfoResult,
   OnlineSendOtpResponse,
   OnlineSendOtpResult,
+  ShortApplicationPayload,
+  ShortApplicationResult,
 } from '@api/models/los';
 import { buildHttpParams } from '@api/utils';
 
@@ -27,5 +33,27 @@ export class OnlineApiService {
 
   public checkOtp$(payload: OnlineCheckOtpResponse) {
     return this.http.post<OnlineCheckOtpResult>('online/public-offer/otp-validate', payload);
+  }
+
+  public getApplication$(applicationId: number) {
+    return this.http.get<OnlineApplication>(`online/application/${applicationId}`);
+  }
+
+  public getApplications$(pinfl: string) {
+    return this.http.get<OnlineGetInfoResult[]>(`online/get-info/${pinfl}`);
+  }
+
+  public createApplication$(payload: OnlineCreateApplicationPayload) {
+    return this.http.post<OnlineCreateApplicationResult>('online/application/start-processing', payload);
+  }
+
+  public createShortApplication$(payload: ShortApplicationPayload) {
+    return this.http.post<ShortApplicationResult>('short-application-create', payload);
+  }
+
+  public getFile$(fileId: number) {
+    return this.http.get(`attachment/get-attachment/${fileId}`, {
+      responseType: 'text',
+    });
   }
 }

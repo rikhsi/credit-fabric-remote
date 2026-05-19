@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { AddressForm, AddressInfo, BillInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/application/components';
 import { FlowService } from '@pages/application/services';
 import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models';
+import { OnlineApplication } from '@api/models/los';
 
 @Component({
   selector: 'cf-a-flow-general',
@@ -14,12 +16,21 @@ import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/mo
   styleUrl: './a-flow-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AFlowGeneral {
+export class AFlowGeneral implements OnInit {
   private nzModalService = inject(NzModalService);
   private flowService = inject(FlowService);
   private vcr = inject(ViewContainerRef);
+  private route = inject(ActivatedRoute);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
+
+  get application(): OnlineApplication {
+    return this.route.snapshot.data['application'];
+  }
+
+  ngOnInit(): void {
+    this.flowService.initApplication(this.application);
+  }
 
   openGeneralForm(): void {
     const modalRef = this.nzModalService.create<GeneralForm, FlowExtraInformationForm, FlowExtraInformationForm>({

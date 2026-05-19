@@ -6,6 +6,7 @@ import { disabled, form, FormField, maxLength, minLength, required, validate } f
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { OtpModalData } from '@pages/loan/models';
 import { PhoneNumberPipe, SecondsToTimePipe } from '@shared/pipes';
 import { InputOtp } from '@shared/components';
@@ -37,6 +38,7 @@ export class ModalOtp implements OnInit {
   public readonly modalData = inject<OtpModalData>(NZ_MODAL_DATA);
   private readonly onlineApiService = inject(OnlineApiService);
   private readonly destroyRef = inject(DestroyRef);
+  private notification = inject(NzNotificationService);
 
   public readonly form = form(signal(otpFormModel), (schemaPath) => {
     required(schemaPath.code);
@@ -71,13 +73,17 @@ export class ModalOtp implements OnInit {
     this.onlineApiService
       .sendOtp$({
         pinfl: this.modalData.pinfl,
-        phone_number: this.modalData.phoneNumber,
+        phoneNumber: this.modalData.phoneNumber,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (state) => {
           this.timerService.start();
           this.isLoading.set(false);
+
+          if (!state.isOtpSent) {
+            this.notification.error(state.errorCode, '');
+          }
         },
       });
   }
@@ -88,15 +94,17 @@ export class ModalOtp implements OnInit {
     this.onlineApiService
       .checkOtp$({
         pinfl: this.modalData.pinfl,
-        phone_number: this.modalData.phoneNumber,
-        otp_code: this.form.code().value(),
+        phoneNumber: this.modalData.phoneNumber,
+        otpCode: this.form.code().value(),
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
-        if (state.is_otp_validated) {
+        if (state.isOtpValidated) {
           this.nmRef.close(true);
         } else {
           this.otpError.set(true);
+
+          this.notification.error(state.errorCode, '');
         }
 
         this.isLoading.set(false);

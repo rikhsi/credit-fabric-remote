@@ -1,0 +1,46 @@
+<ng-container *transloco="let t">
+  @switch (status()) { @case('ON_ASSIGN') {
+  <div class="top">
+    <nz-tag class="tag warning">
+      <nz-icon nzType="info-circle" />
+      {{t('application.docs.sign')}}
+    </nz-tag>
+
+    <div class="list">
+      @for (item of docs(); track item.id) {
+      <div class="card">
+        <div class="icon">
+          <nz-icon nzType="f:doc" />
+        </div>
+
+        <div class="text">
+          <p class="title">{{t('application.docs.type.' + item.type | lowercase, {id: item.id})}}</p>
+          <p class="info">{{t('application.docs.get_in', {date: item.createdDate| date: 'dd.MM.yyyy'})}}</p>
+        </div>
+
+        <div class="box">
+          <div class="status">
+            @if (item.isSigned) {
+            <nz-tag class="tag success">
+              <nz-icon nzType="check" />
+              {{t('application.docs.status.signed')}}
+            </nz-tag>
+            } @else {
+            <nz-tag class="tag warning">{{t('application.docs.sign_until', {date: item.signedDate| date: 'dd.MM.yyyy'})}}</nz-tag>
+            }
+          </div>
+
+          <div class="actions">
+            @if (!item.isSigned) {
+            <button [routerLink]="[ '/', 'document', item.id]" nz-button nzShape="round" nzSize="small" class="sign">
+              <nz-icon nzType="right" />
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  } }
+</ng-container>

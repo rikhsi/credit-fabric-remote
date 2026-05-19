@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { form, minLength, required } from '@angular/forms/signals';
 import { flowFormModel } from '../data';
+import { OnlineApplication } from '@api/models/los';
 
 @Injectable()
 export class FlowService {
@@ -14,4 +15,6 @@ export class FlowService {
     minLength(schemaPath.addresses, 1);
     minLength(schemaPath.extraInformations, 1);
   });
+
+  public initApplication(application: OnlineApplication): void {}
 }

@@ -1,5 +1,23 @@
-<div class="icon">
-  <nz-icon nzType="f:clock" />
-</div>
+<ng-container *transloco="let t">
+  <div class="icon">
+    @switch (status()) { @case('IN_PROGRESS') {
+    <nz-icon nzType="f:clock" class="warning" />
+    } @case('APPROVED') {
+    <nz-icon nzType="f:success" class="success" />
+    } @case('ON_DESIGN') {
+    <nz-icon nzType="f:clock" class="design" />
+    } @case('ON_ASSIGN') {
+    <nz-icon nzType="f:pencilCircle" class="assign" />
+    } @case('SIGNED') {
+    <nz-icon nzType="f:success" class="success" />
+    } @case('DECLINE') {
+    <nz-icon nzType="f:success" class="decline" />
+    } @case('DECLINE_CLIENT') {
+    <nz-icon nzType="f:success" class="decline" />
+    } @case('ISSUED') {
+    <nz-icon nzType="f:success" class="success" />
+    } }
+  </div>
 
-<b class="sm">{{status()}}</b>
+  <b class="sm">{{t(status() | applicationStatus)}}</b>
+</ng-container>

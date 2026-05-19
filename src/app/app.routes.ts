@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { RootRoute } from '@constants';
+import { RootRoute, RouteParam } from '@constants';
 // import { authGuard, mainGuard } from '@core/guards';
 import { AuthLayout, LoanLayout } from '@layouts/views';
 
@@ -34,6 +34,14 @@ export const routes: Routes = [
             loadComponent: () => import('@pages/applications/applications').then((c) => c.Applications),
           },
         ],
+      },
+      {
+        path: `${RootRoute.Document}/:${RouteParam.DocId}`,
+        loadComponent: () => import('@pages/document/document').then((c) => c.Document),
+      },
+      {
+        path: 'bridge',
+        loadComponent: () => import('@pages/bridge-test/bridge-test').then((c) => c.BridgeTest),
       },
       {
         path: '**',

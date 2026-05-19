@@ -1,6 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import ru from '@angular/common/locales/ru';
 import en from '@angular/common/locales/en';
 import uz from '@angular/common/locales/uz';
@@ -31,6 +32,7 @@ registerLocaleData(uz, 'uz');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(NgxExtendedPdfViewerModule),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,

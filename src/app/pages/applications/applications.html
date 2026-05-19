@@ -1,3 +1,20 @@
-@for (item of [1,2,3]; track $index) {
-<cf-card-application />
-}
+<ng-container *transloco="let t">
+  @if (isLoading()) { @for (item of [] | emptyList:8; track $index) {
+  <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
+  } } @else { @for (item of items(); track $index) {
+  <cf-card-application
+    [id]="item.id"
+    [amount]="item.loanAmount"
+    [term]="item.loanTerm"
+    [currency]="item.currency"
+    [status]="item.sysStatusId"
+    [title]="item.productName"
+    [paymentType]="item.paymentType"
+    [rate]="item.rate"
+    (declined)="declined()"
+    (approved)="approved()"
+  />
+  } @empty {
+  <cf-empty [title]="t('applicaitons.empty.title')" [description]="t('applications.empty.description')" />
+  } }
+</ng-container>

@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { environment } from 'src/environments/development';
+import { NativeEvent } from '@typings';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +26,7 @@ export class BridgeService {
 
   public onSignClick(file: string): void {
     if (this.mobileApp) {
-      this.mobileApp.signBase64File(file);
+      this.mobileApp.signBase64File(file, environment.projectTag);
     }
   }
 
@@ -43,8 +45,8 @@ export class BridgeService {
   }
 
   public initSignListener(): void {
-    window.addEventListener('message', (event) => {
-      this.notificationService.success('success', event.data);
+    window.addEventListener('message', (event: MessageEvent<NativeEvent<string>>) => {
+      this.notificationService.success(event.data.event, event.data.data.event_name);
     });
   }
 }

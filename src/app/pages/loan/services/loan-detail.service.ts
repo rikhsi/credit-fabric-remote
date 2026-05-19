@@ -7,6 +7,7 @@ import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { OnlineApiService, ProductApiService } from '@api/controllers/los';
 import { ProductConditionItem } from '@api/models/los';
 import { mergeProductConditions } from '@api/utils';
+import { environment } from 'src/environments/development';
 
 @Injectable()
 export class LoanDetailService {
@@ -15,6 +16,7 @@ export class LoanDetailService {
 
   public readonly isValidated = signal<boolean>(false);
   public readonly isLoading = signal<boolean>(true);
+  public readonly isDisabled = signal<boolean>(true);
   public readonly productCondition = signal<ProductConditionItem>(null);
 
   public readonly calculatorForm = form(signal(calculatorFormModel), (schemaPath) => {
@@ -22,12 +24,12 @@ export class LoanDetailService {
     max(schemaPath.amount, () => this.productCondition()?.max_amount ?? 0);
     min(schemaPath.term, () => this.productCondition()?.min_term ?? 0);
     max(schemaPath.term, () => this.productCondition()?.max_term ?? 0);
-    disabled(schemaPath, () => this.isLoading());
+    disabled(schemaPath, () => this.isDisabled());
   });
 
   public readonly agreementForm = form(signal(agreementFormModel), (schemaPath) => {
     required(schemaPath.offer);
-    disabled(schemaPath, () => this.isLoading());
+    disabled(schemaPath, () => this.isDisabled() || this.isLoading());
   });
 
   public readonly calculationResult = computed<CreditOutput>(() => {
@@ -47,12 +49,10 @@ export class LoanDetailService {
   });
 
   public checkValidate$(pinfl: string) {
-    return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ is_otp_validated }) => this.isValidated.set(is_otp_validated)));
+    return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ isOtpValidated }) => this.isValidated.set(isOtpValidated)));
   }
 
   public getCondition$(productId: string) {
-    this.isLoading.set(true);
-
     return this.productApiService.productCondition$({ fk_entity_id: productId.toUpperCase() }).pipe(
       map(({ data }) => data.filter((d) => d.product_id === productId.toUpperCase())),
       tap({
@@ -69,5 +69,27 @@ export class LoanDetailService {
         },
       }),
     );
+  }
+
+  public createShortApplication$() {
+    const { amount, type, term } = this.calculatorForm().value();
+
+    this.isDisabled.set(true);
+
+    return this.onlineApiService
+      .createShortApplication$({
+        applicantPersonalNo: environment.user.pinfl,
+        dirCurrencyId: 'UZS',
+        initUsername: environment.user.name,
+        loanAmount: amount,
+        loanTerm: term,
+        sysPaymentTypeId: type.toUpperCase(),
+      })
+      .pipe(
+        tap({
+          next: () => this.isDisabled.set(false),
+          error: () => this.isDisabled.set(false),
+        }),
+      );
   }
 }
