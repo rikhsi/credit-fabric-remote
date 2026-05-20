@@ -10,7 +10,7 @@ variables:
 
 build:
   image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    name: docker-nexus.hamkorbank.uz/gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint:
       - "/bin/sh"
       - "-c"

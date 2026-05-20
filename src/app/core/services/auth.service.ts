@@ -9,10 +9,7 @@ import { environment } from 'src/environments/development';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly user = signal<UserItem>({
-    pinfl: environment.user.pinfl,
-    phone_nubmer: environment.user.phoneNumber,
-  });
+  readonly user = signal<UserItem>(null);
 
   get token() {
     return this.lsService.getItem(LocalStorageItem.AccessToken) as string;
@@ -38,7 +35,10 @@ export class AuthService {
   }
 
   public logout(withNavigate: boolean = true): void {
-    this.user.set(null);
+    this.user.set({
+      pinfl: environment.user.pinfl,
+      phone_nubmer: environment.user.phoneNumber,
+    });
     this.lsService.removeItem(LocalStorageItem.AccessToken);
     this.lsService.removeItem(LocalStorageItem.RefreshToken);
 

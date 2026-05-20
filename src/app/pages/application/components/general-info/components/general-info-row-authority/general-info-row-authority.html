@@ -1,11 +1,11 @@
 <ng-container *transloco="let t">
-  @if (borrower()?.registrationPlaceCode) {
+  @if (!borrower()?.registrationPlaceCode) {
   <cf-label-control-secondary [label]="t('prop.registration_authority')">
     {{ borrower()!.registrationPlaceCode }}
   </cf-label-control-secondary>
   } @else {
   <cf-select-default [formField]="form().registrationPlaceCode" [placeholder]="t('prop.registration_authority')" size="large">
-    <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
+    <ng-container *cfHandbook="{url: 'dir-enterprise-classifier'}; let items">
       @for (item of items; track item.id) {
       <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
       }

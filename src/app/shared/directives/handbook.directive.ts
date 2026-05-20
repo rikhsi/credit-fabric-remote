@@ -1,10 +1,9 @@
-import { Directive, TemplateRef, ViewContainerRef, input, effect, Optional } from '@angular/core';
+import { Directive, TemplateRef, ViewContainerRef, input, effect } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { TableOverview } from '@api/models/base';
 import { HandbookContext, HandbookItem, HandbookRequest } from '@typings';
 import { QUEUE_TYPE, USE_HTTP_CACHE } from '@constants';
 import { buildHttpParams } from '@api/utils';
-import { SelectDefault } from '@shared/components';
 
 @Directive({
   selector: '[cfHandbook]',
@@ -20,14 +19,12 @@ export class HandbookDirective<T = HandbookItem> {
     private templateRef: TemplateRef<HandbookContext<T>>,
     private viewContainer: ViewContainerRef,
     private http: HttpClient,
-    @Optional() private selectComponent: SelectDefault,
   ) {
     effect(() => this.loadData());
   }
 
   private loadData() {
     const { url, params } = this.handbookItem();
-    this.selectComponent.value.set(null);
 
     this.http
       .get<TableOverview<T>>(url, {
