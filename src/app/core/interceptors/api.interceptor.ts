@@ -26,6 +26,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
 
   const updatedReq = req.clone({
     url: `${baseUrl}${req.url}`,
+    withCredentials: !environment.skipAuth,
   });
 
   return next(updatedReq);

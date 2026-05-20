@@ -1,7 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from './local-storage.service';
 import { AuthSignInResult, UserItem } from '@api/models/base';
 import { LocalStorageItem, RootRoute } from '@constants';
@@ -22,7 +21,6 @@ export class AuthService {
   constructor(
     private lsService: LocalStorageService,
     private jwtService: JwtHelperService,
-    private nmService: NzModalService,
     private router: Router,
   ) {}
 
@@ -48,6 +46,8 @@ export class AuthService {
   }
 
   private checkValidity(token: string): boolean {
+    if (environment.skipAuth) return true;
+
     if (!token) return false;
 
     try {
