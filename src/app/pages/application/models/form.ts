@@ -14,6 +14,7 @@ export interface FlowForm {
   workPhone: string;
   extraInformations: FlowExtraInformationForm[];
   addresses: FlowAddressForm[];
+  financeInformations: FlowFinanceForm[];
 }
 
 export interface FlowExtraInformationForm {
@@ -29,4 +30,18 @@ export interface FlowAddressForm {
   address: string;
   street: number;
   postalCode: string;
+}
+
+export interface FlowFinanceForm {
+  companyActivity: number;
+  activityTerm: string;
+  month1: number;
+  month1Revenue: string;
+  month1Income: string;
+  month2: number;
+  month2Revenue: string;
+  month2Income: string;
+  month3: number;
+  month3Revenue: string;
+  month3Income: string;
 }

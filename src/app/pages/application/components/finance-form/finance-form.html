@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
-  <cf-form-box [title]="t('action.add_finance_info')" (closeClick)="onClose()" (submitClick)="onSubmit()">
+  <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_finance_info')" (closeClick)="close()" (submitClick)="submit()">
     <div class="scroll">
-      <cf-select-default [placeholder]="t('prop.actual_business_activity')" size="large">
+      <cf-select-default [formField]="form.companyActivity" [placeholder]="t('prop.actual_business_activity')" size="large">
         <ng-container *cfHandbook="{url: 'dir-company-activity'}; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -9,41 +9,41 @@
         </ng-container>
       </cf-select-default>
 
-      <cf-input-default [placeholder]="t('prop.experience_in_business_activity')" size="large" />
+      <cf-input-default [formField]="form.activityTerm" [placeholder]="t('prop.experience_in_business_activity')" size="large" />
 
       <h4 class="title">{{t('prop.financial_activity_over')}}</h4>
 
       <div class="box">
-        <cf-select-default [placeholder]="t('prop.month')" size="large">
+        <cf-select-default [formField]="form.month1" [placeholder]="t('prop.month')" size="large">
           <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
           <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
         </cf-select-default>
 
-        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+        <cf-input-default [formField]="form.month1Revenue" [placeholder]="t('prop.benefit')" size="large" />
 
-        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+        <cf-input-default [formField]="form.month1Income" [placeholder]="t('prop.pure_benefit')" size="large" />
       </div>
 
       <div class="box">
-        <cf-select-default [placeholder]="t('prop.month')" size="large">
+        <cf-select-default [formField]="form.month2" [placeholder]="t('prop.month')" size="large">
           <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
           <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
         </cf-select-default>
 
-        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+        <cf-input-default [formField]="form.month2Revenue" [placeholder]="t('prop.benefit')" size="large" />
 
-        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+        <cf-input-default [formField]="form.month2Income" [placeholder]="t('prop.pure_benefit')" size="large" />
       </div>
 
       <div class="box">
-        <cf-select-default [placeholder]="t('prop.month')" size="large">
+        <cf-select-default [formField]="form.month3" [placeholder]="t('prop.month')" size="large">
           <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
           <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
         </cf-select-default>
 
-        <cf-input-default [placeholder]="t('prop.benefit')" size="large" />
+        <cf-input-default [formField]="form.month3Revenue" [placeholder]="t('prop.benefit')" size="large" />
 
-        <cf-input-default [placeholder]="t('prop.pure_benefit')" size="large" />
+        <cf-input-default [formField]="form.month3Income" [placeholder]="t('prop.pure_benefit')" size="large" />
       </div>
     </div>
   </cf-form-box>

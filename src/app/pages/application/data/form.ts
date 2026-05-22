@@ -1,4 +1,4 @@
-import { FlowAddressForm, FlowExtraInformationForm, FlowForm } from '../models';
+import { FlowAddressForm, FlowExtraInformationForm, FlowFinanceForm, FlowForm } from '../models';
 
 export const flowFormModel: FlowForm = {
   name: null,
@@ -16,6 +16,7 @@ export const flowFormModel: FlowForm = {
   workPhone: null,
   extraInformations: [],
   addresses: [],
+  financeInformations: [],
 };
 
 export const flowExtraInformationFormModel: FlowExtraInformationForm = {
@@ -31,4 +32,18 @@ export const flowAdressFormModel: FlowAddressForm = {
   address: null,
   street: null,
   postalCode: null,
+};
+
+export const flowFinanceFormModel: FlowFinanceForm = {
+  companyActivity: null,
+  activityTerm: null,
+  month1: null,
+  month1Revenue: null,
+  month1Income: null,
+  month2: null,
+  month2Revenue: null,
+  month2Income: null,
+  month3: null,
+  month3Revenue: null,
+  month3Income: null,
 };
