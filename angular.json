@@ -85,7 +85,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/kk-intcorp/",
+              "baseHref": "/sme-kk-js/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/development.ts",
@@ -97,7 +97,7 @@
               "outputHashing": "all"
             },
             "testing": {
-              "baseHref": "/kk-intcorp/",
+              "baseHref": "/sme-kk-js/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/development.ts",

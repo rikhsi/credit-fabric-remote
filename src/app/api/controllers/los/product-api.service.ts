@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TableOverview } from '@api/models/base';
-import { ProductConditionFilter, ProductConditionItem, ProductFilter, ProductItem } from '@api/models/los';
+import { ProductConditionFilter, ProductConditionItem, ProductFilter, ProductItem } from '@api/models/los/product';
 import { buildHttpParams } from '@api/utils';
 import { USE_HTTP_CACHE } from '@app/constants/base';
 

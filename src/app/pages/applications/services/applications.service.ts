@@ -1,8 +1,8 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
-import { AuthService } from '@core/services';
-import { OnlineGetInfoResult } from '@api/models/los';
+import { AuthService } from '@core/services/auth.service';
+import { OnlineGetInfoResult } from '@api/models/los/online';
 
 @Injectable()
 export class ApplicationsService {

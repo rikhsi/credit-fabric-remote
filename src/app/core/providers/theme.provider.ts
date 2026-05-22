@@ -1,8 +1,8 @@
 import { inject, provideAppInitializer } from '@angular/core';
 import { ThemeService } from '../services/theme.service';
-import { LocalStorageService } from '@core/services';
 import { LocalStorageItem } from '@app/constants/local-storage';
 import { DEFAULT_THEME, Theme } from '@app/constants/theme';
+import { LocalStorageService } from '@core/services/local-storage.service';
 
 export const provideTheme = provideAppInitializer(() => {
   const themeService = inject(ThemeService);

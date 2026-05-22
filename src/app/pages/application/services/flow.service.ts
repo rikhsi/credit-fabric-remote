@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
-import { flowAdressFormModel, flowFormModel } from '../data';
-import { OnlineApplication } from '@api/models/los';
+import { flowAdressFormModel, flowFormModel } from '../data/form';
+import { OnlineApplication } from '@api/models/los/online';
 
 @Injectable()
 export class FlowService {

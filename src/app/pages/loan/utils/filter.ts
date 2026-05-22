@@ -1,4 +1,4 @@
-import { ProductItem } from '@api/models/los';
+import { ProductItem } from '@api/models/los/product';
 import { ENABLE_LOAN_IDS } from '@app/constants/loan';
 
 export function filterEnableLoans(data: ProductItem[]): ProductItem[] {

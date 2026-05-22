@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Observable, tap } from 'rxjs';
-import { SplashService } from '@core/services';
 import { getRootSnapshot, getCurrentRouteData } from '@layouts/utils';
 import { LoanLayoutData } from '@layouts/models';
+import { SplashService } from '@core/services/splash.service';
 
 @Injectable()
 export class LoanLayoutService {

@@ -4,10 +4,16 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { ActivatedRoute } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { AddressForm, AddressInfo, BillInfo, ContactInfo, ExtraInfo, GeneralForm, GeneralInfo } from '@pages/application/components';
 import { FlowService } from '@pages/application/services';
-import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models';
-import { OnlineApplication } from '@api/models/los';
+import { OnlineApplication } from '@api/models/los/online';
+import { AddressForm } from '@pages/application/components/address-form/address-form';
+import { AddressInfo } from '@pages/application/components/address-info/address-info';
+import { BillInfo } from '@pages/application/components/bill-info/bill-info';
+import { ContactInfo } from '@pages/application/components/contact-info/contact-info';
+import { ExtraInfo } from '@pages/application/components/extra-info/extra-info';
+import { GeneralForm } from '@pages/application/components/general-form/general-form';
+import { GeneralInfo } from '@pages/application/components/general-info/general-info';
+import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-a-flow-general',

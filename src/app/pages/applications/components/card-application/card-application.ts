@@ -8,7 +8,7 @@ import { TagApplication } from '../tag-application/tag-application';
 import { StatusApplication } from '../status-application/status-application';
 import { DocsApplication } from '../docs-application/docs-application';
 import { Card, LabelControlSecondary } from '@shared/components';
-import { ApplicationStatus } from '@api/models/los';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-card-application',

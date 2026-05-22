@@ -5,9 +5,9 @@ import { agreementFormModel, calculatorFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { OnlineApiService, ProductApiService } from '@api/controllers/los';
-import { ProductConditionItem } from '@api/models/los';
 import { mergeProductConditions } from '@api/utils';
 import { environment } from 'src/environments/development';
+import { ProductConditionItem } from '@api/models/los/product';
 
 @Injectable()
 export class LoanDetailService {

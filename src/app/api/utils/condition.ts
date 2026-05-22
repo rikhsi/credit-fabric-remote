@@ -1,4 +1,4 @@
-import { ProductConditionItem } from '@api/models/los';
+import { ProductConditionItem } from '@api/models/los/product';
 
 export function mergeProductConditions(conditions: ProductConditionItem[]): ProductConditionItem | null {
   if (!conditions?.length) return null;

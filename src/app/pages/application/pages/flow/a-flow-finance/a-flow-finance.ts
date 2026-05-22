@@ -3,11 +3,14 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, take } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
 import { ModalConfirmComponent } from '@shared/components';
-import { FlowFinanceForm, SuccessModalData } from '@pages/application/models';
 import { FlowService } from '@pages/application/services';
 import { ConfirmModal } from '@app/typings/modal';
+import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
+import { FinanceInfo } from '@pages/application/components/finance-info/finance-info';
+import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
+import { FlowFinanceForm } from '@pages/application/models/form';
+import { SuccessModalData } from '@pages/application/models/modal';
 
 @Component({
   selector: 'cf-a-flow-finance',

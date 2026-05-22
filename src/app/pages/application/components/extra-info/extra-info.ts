@@ -4,7 +4,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
-import { FlowExtraInformationForm } from '@pages/application/models';
+import { FlowExtraInformationForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-extra-info',

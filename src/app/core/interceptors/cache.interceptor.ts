@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { USE_HTTP_CACHE } from '@app/constants/base';
-import { CacheService } from '@core/services';
+import { CacheService } from '@core/services/cache.service';
 
 export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
   const cache = inject(CacheService);

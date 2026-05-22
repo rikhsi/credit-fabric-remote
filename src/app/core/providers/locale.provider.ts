@@ -1,7 +1,7 @@
 import { LOCALE_ID, inject, Provider } from '@angular/core';
 import { DEFAULT_LANGUAGE, Language } from '@app/constants/language';
 import { LocalStorageItem } from '@app/constants/local-storage';
-import { LocalStorageService } from '@core/services';
+import { LocalStorageService } from '@core/services/local-storage.service';
 
 export function provideLocaleId(): Provider {
   return {

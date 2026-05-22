@@ -5,8 +5,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { flowAdressFormModel } from '@pages/application/data';
-import { FlowAddressForm } from '@pages/application/models';
+import { FlowAddressForm } from '@pages/application/models/form';
+import { flowAdressFormModel } from '@pages/application/data/form';
 
 @Component({
   selector: 'cf-address-form',

@@ -6,7 +6,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { AuthLoginService } from './auth-login.service';
 import { InputDefault, InputPassword, LabelControl } from '@shared/components';
 import { AuthApiService } from '@api/controllers/base';
-import { AuthService } from '@core/services';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'cf-auth-login',

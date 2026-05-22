@@ -3,10 +3,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { delay } from 'rxjs';
 import { ProductApiService } from '@api/controllers/los';
-import { ProductItem } from '@api/models/los';
 import { CardProduct } from '@pages/loan/components';
 import { filterEnableLoans } from '@pages/loan/utils';
 import { EmptyListPipe } from '@shared/pipes';
+import { ProductItem } from '@api/models/los/product';
 
 @Component({
   selector: 'cf-loan-list',

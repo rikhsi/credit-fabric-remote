@@ -3,10 +3,10 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { form, FormField, required } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { FlowExtraInformationForm } from '@pages/application/models';
 import { FormBox, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { flowExtraInformationFormModel } from '@pages/application/data';
+import { FlowExtraInformationForm } from '@pages/application/models/form';
+import { flowExtraInformationFormModel } from '@pages/application/data/form';
 
 @Component({
   selector: 'cf-general-form',

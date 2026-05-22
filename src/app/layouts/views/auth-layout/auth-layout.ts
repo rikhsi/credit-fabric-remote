@@ -1,6 +1,8 @@
 import { Component, computed, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LanguageService, SplashService, ThemeService } from '@core/services';
+import { LanguageService } from '@core/services/language.service';
+import { SplashService } from '@core/services/splash.service';
+import { ThemeService } from '@core/services/theme.service';
 import { SelectLang, SelectTheme } from '@layouts/components';
 import { AuthLayoutService } from '@layouts/services';
 import { Logo } from '@shared/components';

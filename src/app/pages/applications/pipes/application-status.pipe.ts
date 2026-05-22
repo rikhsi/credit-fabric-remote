@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ApplicationStatus } from '@api/models/los';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Pipe({ name: 'applicationStatus' })
 export class ApplicationStatusPipe implements PipeTransform {

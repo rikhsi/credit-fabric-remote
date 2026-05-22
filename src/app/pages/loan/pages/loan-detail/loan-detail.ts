@@ -7,10 +7,10 @@ import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAccep
 import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
-import { AuthService } from '@core/services';
 import { MonthsToYearsPipe } from '@shared/pipes';
 import { RouteParam } from '@app/constants/route-param';
 import { ApplicationFlowRoute, RootRoute } from '@app/constants/route-path';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'cf-loan-detail',

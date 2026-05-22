@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OnlineApplication } from '@api/models/los';
+import { OnlineApplication } from '@api/models/los/online';
 import {
   GeneralInfoRowAuthority,
   GeneralInfoRowDocuments,
   GeneralInfoRowEmployment,
   GeneralInfoRowName,
 } from '@pages/application/components/general-info/components';
-import { FlowForm } from '@pages/application/models';
 import { Card, Steps } from '@shared/components';
+import { FlowForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-general-info',

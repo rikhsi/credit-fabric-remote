@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  OnlineApplication,
-  OnlineCheckOtpResponse,
-  OnlineCheckOtpResult,
   OnlineCheckResult,
-  OnlineCreateApplicationPayload,
-  OnlineCreateApplicationResult,
-  OnlineGetInfoResult,
   OnlineSendOtpResponse,
   OnlineSendOtpResult,
+  OnlineCheckOtpResponse,
+  OnlineCheckOtpResult,
+  OnlineApplication,
+  OnlineGetInfoResult,
+  OnlineCreateApplicationPayload,
+  OnlineCreateApplicationResult,
   ShortApplicationPayload,
   ShortApplicationResult,
-} from '@api/models/los';
+} from '@api/models/los/online';
 import { buildHttpParams } from '@api/utils';
 
 @Injectable({

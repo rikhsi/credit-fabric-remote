@@ -6,9 +6,10 @@ import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { ActivatedRoute, Router } from '@angular/router';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { BridgeService, SplashService } from '@core/services';
 import { OnlineApiService } from '@api/controllers/los';
 import { RootRoute } from '@app/constants/route-path';
+import { SplashService } from '@core/services/splash.service';
+import { BridgeService } from '@core/services/bridge.service';
 
 @Component({
   selector: 'cf-document',

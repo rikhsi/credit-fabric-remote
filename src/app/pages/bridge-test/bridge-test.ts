@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TEST_FILE } from './models/file';
-import { BridgeService, SplashService } from '@core/services';
+import { SplashService } from '@core/services/splash.service';
+import { BridgeService } from '@core/services/bridge.service';
 
 @Component({
   selector: 'cf-bridge-test',

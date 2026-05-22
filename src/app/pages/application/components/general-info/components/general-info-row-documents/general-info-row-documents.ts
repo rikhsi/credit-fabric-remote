@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OnlineBorrower } from '@api/models/los';
-import { FlowForm } from '@pages/application/models';
+import { OnlineBorrower } from '@api/models/los/online';
 import { InputDefault, LabelControlSecondary } from '@shared/components';
+import { FlowForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-general-info-row-documents',

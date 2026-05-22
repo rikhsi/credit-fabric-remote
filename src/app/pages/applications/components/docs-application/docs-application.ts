@@ -5,7 +5,7 @@ import { DatePipe, LowerCasePipe } from '@angular/common';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { ApplicationStatus, DocumentItem } from '@api/models/los';
+import { ApplicationStatus, DocumentItem } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-docs-application',

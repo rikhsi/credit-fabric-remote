@@ -1,4 +1,4 @@
-import { FlowAddressForm, FlowExtraInformationForm, FlowFinanceForm, FlowForm } from '../models';
+import { FlowForm, FlowExtraInformationForm, FlowAddressForm, FlowFinanceForm } from '../models/form';
 
 export const flowFormModel: FlowForm = {
   name: null,

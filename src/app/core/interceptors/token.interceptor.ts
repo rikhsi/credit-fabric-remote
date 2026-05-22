@@ -3,7 +3,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { environment } from 'src/environments/development';
 import { LocalStorageItem } from '@app/constants/local-storage';
-import { LocalStorageService } from '@core/services';
+import { LocalStorageService } from '@core/services/local-storage.service';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const storageService = inject(LocalStorageService);

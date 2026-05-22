@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { ApplicationStatus } from '@api/models/los';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-action-application',
