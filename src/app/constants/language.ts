@@ -1,5 +1,5 @@
 import { en_US, ru_RU } from 'ng-zorro-antd/i18n';
-import { uz_UZ } from '@core/configs';
+import { uz_UZ } from '@core/configs/zorro-uz.locale';
 
 export enum Language {
   Uzbek = 'uz',
