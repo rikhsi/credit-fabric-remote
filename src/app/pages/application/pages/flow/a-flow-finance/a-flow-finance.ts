@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { filter } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
 import { ModalConfirmComponent } from '@shared/components';
-import { SuccessModalData } from '@pages/application/models';
+import { FlowFinanceForm, SuccessModalData } from '@pages/application/models';
+import { FlowService } from '@pages/application/services';
 import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
@@ -17,9 +18,13 @@ import { ConfirmModal } from '@app/typings/modal';
 })
 export class AFlowFinance {
   private nzModalService = inject(NzModalService);
+  private flowService = inject(FlowService);
+  private vcr = inject(ViewContainerRef);
+
+  public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
 
   openFinanceForm(): void {
-    this.nzModalService.create({
+    const modalRef = this.nzModalService.create<FinanceForm, FlowFinanceForm, FlowFinanceForm>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -27,6 +32,18 @@ export class AFlowFinance {
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',
+      nzViewContainerRef: this.vcr,
+    });
+
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.flowForm()().value.update((cur) => {
+        const financeInformations = cur.financeInformations.filter((item) => item.companyActivity !== value.companyActivity);
+
+        return {
+          ...cur,
+          financeInformations: [...financeInformations, value],
+        };
+      });
     });
   }
 

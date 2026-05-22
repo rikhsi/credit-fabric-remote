@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
-import { flowFormModel } from '../data';
+import { flowAdressFormModel, flowFormModel } from '../data';
 import { OnlineApplication } from '@api/models/los';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class FlowService {
     required(schemaPath.name);
     required(schemaPath.addresses);
     required(schemaPath.extraInformations);
+    required(schemaPath.financeInformations);
   });
 
   public initApplication(application: OnlineApplication): void {
@@ -37,8 +38,12 @@ export class FlowService {
       registrationNumber: application.borrower.registrationNumber,
       registrationPlaceCode: application.borrower.registrationPlaceCode,
       workPhone: application.borrower.workPhone,
-      addresses: [],
+      addresses: (application.adresses ?? []).map((item) => ({
+        ...flowAdressFormModel,
+        ...item,
+      })),
       extraInformations: [],
+      financeInformations: [],
       oked: application.borrower.oked.id,
     });
   }

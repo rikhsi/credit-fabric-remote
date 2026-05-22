@@ -251,8 +251,24 @@ export interface OnlineBorrower {
   workPhone: string;
 }
 
+export interface OnlineApplicationAddress {
+  addressType: number;
+  city: number;
+  address: string;
+  street: number;
+  postalCode: string;
+}
+
+export interface OnlineApplicationExtraInformation {
+  sectorEconomy: number;
+  objectNewFormation: number;
+  enterpriseClassifier: number;
+  ecologicalImpactCode: number;
+}
+
 export interface OnlineApplication {
   borrower: OnlineBorrower;
+  adresses: OnlineApplicationAddress[];
 }
 
 export interface OnlineCreateApplicationResult {
