@@ -6,10 +6,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
 import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
 import { Card } from '@shared/components';
-import { ApplicationFlowRoute, RootRoute, RouteParam } from '@constants';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services';
 import { MonthsToYearsPipe } from '@shared/pipes';
+import { RouteParam } from '@app/constants/route-param';
+import { ApplicationFlowRoute, RootRoute } from '@app/constants/route-path';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -79,7 +80,7 @@ export class LoanDetail implements OnInit {
           nzMaskClosable: false,
           nzViewContainerRef: this.vcRef,
           nzData: {
-            phoneNumber: this.user()?.phone_nubmer,
+            phoneNumber: this.user()?.phone,
             pinfl: this.user()?.pinfl,
           },
         })

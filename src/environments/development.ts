@@ -5,11 +5,16 @@ export const environment = {
   apiKey: 'eyJvcmciOiIxIiwiaWQiOiIzMWUyY2U2ZmI0YzQ0OGE3ODg0NzE5ZmU4ZWQ1MjI4NSIsImgiOiJzaGEyNTYifQ==',
   ablePlatform: 'los-sme',
   projectTag: 'kk-sme',
-  deviceType: 'webview',
+  deviceType: 'Android',
   user: {
     pinfl: '40109893780016',
-    phoneNumber: '990710358',
+    phone: '990710358',
+    email: 'rikhsimboyev1997@gmail.com',
     name: 'Omonbek',
+    theme: 'dark',
+    lon: 0,
+    lat: 0,
+    language: 'ru',
   },
   skipAuth: false,
 };

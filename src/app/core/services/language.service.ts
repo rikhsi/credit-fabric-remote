@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { LocalStorageService } from './local-storage.service';
-import { Language, LocalStorageItem } from '@constants';
+import { Language } from '@app/constants/language';
+import { LocalStorageItem } from '@app/constants/local-storage';
 
 @Injectable({
   providedIn: 'root',

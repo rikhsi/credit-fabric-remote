@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/development';
-import { NativeEvent } from '@typings';
+import { UserItem } from '@api/models/base';
+import { NativeEvent } from '@app/typings/bridge';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class BridgeService {
     }
   }
 
-  public getUserInfo(): void {
+  public getUserInfo(): UserItem {
     if (this.mobileApp) {
       const raw = this.mobileApp.getUserInfo();
 
@@ -38,10 +39,14 @@ export class BridgeService {
         const parsed = JSON.parse(raw);
 
         this.notificationService.success('success', JSON.stringify(parsed, null, 2));
-      } catch (error: NzSafeAny) {
-        this.notificationService.error('JSON parse error', `Ошибка: ${error?.message}\n\nRaw: ${raw}`);
-      }
+
+        return parsed;
+      } catch (error: NzSafeAny) {}
+
+      return null;
     }
+
+    return null;
   }
 
   public initSignListener(): void {

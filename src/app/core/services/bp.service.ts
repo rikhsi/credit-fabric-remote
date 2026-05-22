@@ -1,7 +1,7 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Breakpoint } from '@constants';
+import { Breakpoint } from '@app/constants/breakpoint';
 
 @Injectable({
   providedIn: 'root',

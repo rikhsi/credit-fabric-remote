@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LocalStorageService } from './local-storage.service';
 import { AuthSignInResult, UserItem } from '@api/models/base';
-import { LocalStorageItem, RootRoute } from '@constants';
 import { environment } from 'src/environments/development';
+import { LocalStorageItem } from '@app/constants/local-storage';
+import { RootRoute } from '@app/constants/route-path';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly user = signal<UserItem>(null);
+  readonly user = signal<UserItem>(environment.user);
 
   get token() {
     return this.lsService.getItem(LocalStorageItem.AccessToken) as string;
@@ -25,7 +26,8 @@ export class AuthService {
   ) {}
 
   public login({ accessToken, refreshToken }: AuthSignInResult): void {
-    this.user.set(null);
+    this.user.set(environment.user);
+
     this.lsService.setItem(LocalStorageItem.AccessToken, accessToken);
     this.lsService.setItem(LocalStorageItem.RefreshToken, refreshToken);
 
@@ -33,10 +35,7 @@ export class AuthService {
   }
 
   public logout(withNavigate: boolean = true): void {
-    this.user.set({
-      pinfl: environment.user.pinfl,
-      phone_nubmer: environment.user.phoneNumber,
-    });
+    this.user.set(null);
     this.lsService.removeItem(LocalStorageItem.AccessToken);
     this.lsService.removeItem(LocalStorageItem.RefreshToken);
 

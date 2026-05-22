@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { QUEUE_TYPE } from '@constants';
+import { QUEUE_TYPE } from '@app/constants/base';
 import { environment } from 'src/environments/development';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {

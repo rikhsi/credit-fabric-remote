@@ -3,7 +3,8 @@ import { TranslocoService } from '@jsverse/transloco';
 import { of } from 'rxjs';
 import { NzI18nService } from 'ng-zorro-antd/i18n';
 import { LocalStorageService } from '@core/services';
-import { DEFAULT_LANGUAGE, Language, LocalStorageItem, NZ_LOCALES } from '@constants';
+import { Language, DEFAULT_LANGUAGE, NZ_LOCALES } from '@app/constants/language';
+import { LocalStorageItem } from '@app/constants/local-storage';
 
 export const provideLang = provideAppInitializer(() => {
   const lsService = inject(LocalStorageService);

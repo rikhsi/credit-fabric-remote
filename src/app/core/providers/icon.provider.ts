@@ -1,7 +1,9 @@
 import { inject, provideAppInitializer } from '@angular/core';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { EMPTY } from 'rxjs';
-import { SVG_FILL_ICONS, SVG_OUTLINE_ICONS, SVG_COLORFUL_ICONS } from '@constants';
+import { SVG_COLORFUL_ICONS } from '@app/constants/svg-colorful';
+import { SVG_FILL_ICONS } from '@app/constants/svg-fill';
+import { SVG_OUTLINE_ICONS } from '@app/constants/svg-outline';
 
 export const provideIcon = provideAppInitializer(() => {
   const iconService = inject(NzIconService);

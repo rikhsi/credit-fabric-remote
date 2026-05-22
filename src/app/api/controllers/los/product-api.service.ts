@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TableOverview } from '@api/models/base';
 import { ProductConditionFilter, ProductConditionItem, ProductFilter, ProductItem } from '@api/models/los';
 import { buildHttpParams } from '@api/utils';
-import { USE_HTTP_CACHE } from '@constants';
+import { USE_HTTP_CACHE } from '@app/constants/base';
 
 @Injectable({
   providedIn: 'root',

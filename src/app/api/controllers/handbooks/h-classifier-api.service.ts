@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TableOverview } from '@api/models/base';
 import { EnterpriesClassifierFilters, EnterpriesClassifierItem } from '@api/models/handbooks';
 import { buildHttpParams } from '@api/utils';
-import { QUEUE_TYPE, USE_HTTP_CACHE } from '@constants';
+import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
 
 @Injectable({
   providedIn: 'root',

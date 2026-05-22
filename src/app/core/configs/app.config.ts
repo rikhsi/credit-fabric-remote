@@ -15,7 +15,6 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
 import { provideIcon, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
-import { DEFAULT_LANGUAGE } from '@constants';
 import { routes } from '@app/app.routes';
 import {
   apiInterceptor,
@@ -25,6 +24,7 @@ import {
   langInterceptor,
   tokenInterceptor,
 } from '@core/interceptors';
+import { DEFAULT_LANGUAGE } from '@app/constants/language';
 
 registerLocaleData(ru, 'ru');
 registerLocaleData(en, 'en');

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { RootRoute, RouteParam } from '@constants';
+import { RootRoute } from './constants/route-path';
+import { RouteParam } from './constants/route-param';
 import { authGuard, mainGuard } from '@core/guards';
 import { AuthLayout, LoanLayout } from '@layouts/views';
 

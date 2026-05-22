@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AuthRoute } from '@constants';
+import { AuthRoute } from '@app/constants/route-path';
 
 export const routes: Route[] = [
   {

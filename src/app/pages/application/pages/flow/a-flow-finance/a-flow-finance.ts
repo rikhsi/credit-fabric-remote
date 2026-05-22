@@ -5,8 +5,8 @@ import { filter } from 'rxjs';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FinanceForm, FinanceInfo, SuccessModal } from '@pages/application/components';
 import { ModalConfirmComponent } from '@shared/components';
-import { ConfirmModal } from '@typings';
 import { SuccessModalData } from '@pages/application/models';
+import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-a-flow-finance',

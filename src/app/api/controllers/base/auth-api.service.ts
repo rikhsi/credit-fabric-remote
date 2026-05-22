@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthSignInPayload, AuthSignInResult } from '@api/models/base';
-import { QUEUE_TYPE } from '@constants';
+import { QUEUE_TYPE } from '@app/constants/base';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,8 @@
 import { computed, DOCUMENT, Inject, Injectable, Renderer2, RendererFactory2, signal } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
-import { LocalStorageItem, Theme } from '@constants';
+import { LocalStorageItem } from '@app/constants/local-storage';
+import { Theme } from '@app/constants/theme';
 
 @Injectable({
   providedIn: 'root',

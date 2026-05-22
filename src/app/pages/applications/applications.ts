@@ -7,7 +7,7 @@ import { ApprovedModal, CardApplication } from './components';
 import { ApplicationsService } from './services';
 import { EmptyListPipe } from '@shared/pipes';
 import { Empty, ModalConfirmComponent } from '@shared/components';
-import { ConfirmModal } from '@typings';
+import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-applications',

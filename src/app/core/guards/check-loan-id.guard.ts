@@ -1,6 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
-import { ENABLE_LOAN_IDS, LoanRoute, RouteParam } from '@constants';
+import { ENABLE_LOAN_IDS } from '@app/constants/loan';
+import { RouteParam } from '@app/constants/route-param';
+import { LoanRoute } from '@app/constants/route-path';
 
 export const checkLoanIdGuard: CanActivateFn = ({ params }) => {
   const router = inject(Router);

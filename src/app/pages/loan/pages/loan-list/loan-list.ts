@@ -26,10 +26,12 @@ export class LoanList implements OnInit {
     this.productApiService
       .productsAll$()
       .pipe(delay(300), takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ data }) => {
-        this.items.set(filterEnableLoans(data));
+      .subscribe({
+        next: (res) => {
+          this.isLoading.set(false);
 
-        this.isLoading.set(false);
+          this.items.set(filterEnableLoans(res?.data ?? []));
+        },
       });
   }
 }

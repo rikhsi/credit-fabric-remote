@@ -4,11 +4,11 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { translate, TranslocoService } from '@jsverse/transloco';
-import { PluralizeType } from '@typings';
 import { ControlBaseDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
 import { formatScaledNumber, pluralize } from '@shared/utils';
-import { PLURALIZE_FORMS_BY_TYPE, SCALE_PREFIXES_BY_VALUE } from '@constants';
+import { PLURALIZE_FORMS_BY_TYPE, SCALE_PREFIXES_BY_VALUE } from '@app/constants/prefix';
+import { PluralizeType } from '@app/typings/pluralize';
 
 @Component({
   selector: 'cf-input-slider',

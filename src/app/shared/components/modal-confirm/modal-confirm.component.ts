@@ -3,7 +3,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { ConfirmModal } from '@typings';
+import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-modal-confirm',

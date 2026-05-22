@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { translate } from '@jsverse/transloco';
-import { PLURALIZE_FORMS_BY_TYPE } from '@constants';
+import { PLURALIZE_FORMS_BY_TYPE } from '@app/constants/prefix';
 import { pluralize } from '@shared/utils';
-import { PluralizeType } from '@typings';
+import { PluralizeType } from '@app/typings/pluralize';
 
 @Pipe({
   name: 'pluralize',

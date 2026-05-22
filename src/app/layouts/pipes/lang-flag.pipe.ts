@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LANGUAGE_FLAG } from '@constants';
+import { LANGUAGE_FLAG } from '@app/constants/language';
 
 @Pipe({
   name: 'langFlag',

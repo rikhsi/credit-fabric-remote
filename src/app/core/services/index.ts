@@ -5,5 +5,4 @@ export * from './language.service';
 export * from './bp.service';
 export * from './splash.service';
 export * from './cache.service';
-export * from './native-bridge.service';
 export * from './bridge.service';

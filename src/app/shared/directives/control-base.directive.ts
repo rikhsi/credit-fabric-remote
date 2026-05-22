@@ -1,8 +1,8 @@
 import { computed, Directive, input, model, output } from '@angular/core';
-import { FormValueControl, ValidationError, WithOptionalField, DisabledReason } from '@angular/forms/signals';
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
-import { ValidationErrorData } from '@typings';
+import { FormValueControl, ValidationError, WithOptionalField, DisabledReason } from '@angular/forms/signals';
 import { errorCountBuilder } from '@shared/utils';
+import { ValidationErrorData } from '@app/typings/validation';
 
 @Directive()
 export abstract class ControlBaseDirective<T> implements FormValueControl<T> {

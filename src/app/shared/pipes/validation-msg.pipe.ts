@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ValidationErrorData } from '@typings';
+import { ValidationErrorData } from '@app/typings/validation';
 
 @Pipe({
   name: 'validationMsg',

@@ -1,6 +1,6 @@
 import { translate } from '@jsverse/transloco';
-import { SCALE_PREFIXES_BY_VALUE } from '@constants';
-import { Scale } from '@typings';
+import { SCALE_PREFIXES_BY_VALUE } from '@app/constants/prefix';
+import { Scale } from '@app/typings/base';
 
 export function pluralize(count: number, forms: [string, string, string]): string {
   const mod10 = count % 10;

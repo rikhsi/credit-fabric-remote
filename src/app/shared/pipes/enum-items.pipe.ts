@@ -1,6 +1,7 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { ENUM_ITEMS_TOKEN } from '@constants';
-import { EnumItem, EnumItemsResult, SelectItem } from '@typings';
+import { ENUM_ITEMS_TOKEN } from '@app/constants/enum-items';
+import { EnumItemsResult, EnumItem } from '@app/typings/enums';
+import { SelectItem } from '@app/typings/item';
 
 @Pipe({
   name: 'enumItems',

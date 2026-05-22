@@ -1,4 +1,4 @@
-import { ValidationErrorData } from '@typings';
+import { ValidationErrorData } from '@app/typings/validation';
 
 export function errorCountBuilder(error: ValidationErrorData): number | null {
   switch (error?.kind) {

@@ -1,9 +1,9 @@
 import { Directive, TemplateRef, ViewContainerRef, input, effect } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { TableOverview } from '@api/models/base';
-import { HandbookContext, HandbookItem, HandbookRequest } from '@typings';
-import { QUEUE_TYPE, USE_HTTP_CACHE } from '@constants';
 import { buildHttpParams } from '@api/utils';
+import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
+import { HandbookItem, HandbookRequest, HandbookContext } from '@app/typings/handbook';
 
 @Directive({
   selector: '[cfHandbook]',

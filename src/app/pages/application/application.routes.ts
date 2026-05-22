@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { FlowService } from './services';
 import { applicationResolver } from './resolvers';
-import { ApplicationRoute, ApplicationFlowRoute, RouteParam } from '@constants';
+import { ApplicationFlowRoute, ApplicationRoute } from '@app/constants/route-path';
+import { RouteParam } from '@app/constants/route-param';
 
 export const routes: Routes = [
   {

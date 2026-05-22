@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { BridgeService, SplashService } from '@core/services';
-import { RootRoute } from '@constants';
 import { OnlineApiService } from '@api/controllers/los';
+import { RootRoute } from '@app/constants/route-path';
 
 @Component({
   selector: 'cf-document',

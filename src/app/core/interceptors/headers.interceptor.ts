@@ -7,6 +7,8 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
       req.clone({
         setHeaders: {
           'X-Device-Type': environment.deviceType,
+          'X-App-Version': '99.99.99',
+          'X-Device-Root': '0',
         },
       }),
     );

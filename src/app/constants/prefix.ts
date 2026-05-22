@@ -1,4 +1,4 @@
-import type { PluralizeType } from '@typings';
+import { PluralizeType } from '@app/typings/pluralize';
 
 export const AGE_PREFIXES: [string, string, string] = ['prefix.age.one', 'prefix.age.second', 'prefix.age.third'];
 export const YEAR_PREFIXES: [string, string, string] = ['prefix.year.one', 'prefix.year.second', 'prefix.year.third'];

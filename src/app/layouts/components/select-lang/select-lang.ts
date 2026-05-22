@@ -4,8 +4,8 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { LangFlagPipe } from '@layouts/pipes';
-import { Language } from '@constants';
 import { EnumItemsPipe } from '@shared/pipes';
+import { Language } from '@app/constants/language';
 
 @Component({
   selector: 'cf-select-lang',
