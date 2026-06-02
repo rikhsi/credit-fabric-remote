@@ -8,16 +8,16 @@ import { FlowService } from '@pages/application/services';
 import { OnlineApplication } from '@api/models/los/online';
 import { AddressForm } from '@pages/application/components/address-form/address-form';
 import { AddressInfo } from '@pages/application/components/address-info/address-info';
-import { BillInfo } from '@pages/application/components/bill-info/bill-info';
 import { ContactInfo } from '@pages/application/components/contact-info/contact-info';
 import { ExtraInfo } from '@pages/application/components/extra-info/extra-info';
 import { GeneralForm } from '@pages/application/components/general-form/general-form';
 import { GeneralInfo } from '@pages/application/components/general-info/general-info';
+import { flowExtraInformationFormModel } from '@pages/application/data/form';
 import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-a-flow-general',
-  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, AddressInfo, BillInfo, TranslocoDirective],
+  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, AddressInfo, TranslocoDirective],
   templateUrl: './a-flow-general.html',
   styleUrl: './a-flow-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +38,10 @@ export class AFlowGeneral implements OnInit {
     this.flowService.initApplication(this.application);
   }
 
-  openGeneralForm(): void {
+  openGeneralForm(editIndex?: number): void {
+    const items = this.flowService.flowForm().value().extraInformations;
+    const nzData = editIndex !== undefined ? items[editIndex] : flowExtraInformationFormModel;
+
     const modalRef = this.nzModalService.create<GeneralForm, FlowExtraInformationForm, FlowExtraInformationForm>({
       nzTitle: null,
       nzClosable: false,
@@ -48,13 +51,19 @@ export class AFlowGeneral implements OnInit {
       nzFooter: null,
       nzWidth: 'auto',
       nzViewContainerRef: this.vcr,
+      nzData,
     });
 
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
-      this.flowForm()().value.update((cur) => {
+      this.flowService.flowForm().value.update((cur) => {
+        const extraInformations =
+          editIndex !== undefined
+            ? cur.extraInformations.map((item, index) => (index === editIndex ? value : item))
+            : [...cur.extraInformations, value];
+
         return {
           ...cur,
-          extraInformations: [...cur.extraInformations, value],
+          extraInformations,
         };
       });
     });
@@ -73,7 +82,7 @@ export class AFlowGeneral implements OnInit {
     });
 
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
-      this.flowForm()().value.update((cur) => {
+      this.flowService.flowForm().value.update((cur) => {
         const addresses = cur.addresses.filter((item) => item.addressType !== value.addressType);
 
         return {
@@ -85,7 +94,7 @@ export class AFlowGeneral implements OnInit {
   }
 
   continue(): void {
-    if (this.flowForm()().valid()) {
+    if (this.flowService.flowForm().valid()) {
     } else {
       this.flowForm().oked().markAsDirty();
       this.flowForm().newEmployees().markAsDirty();

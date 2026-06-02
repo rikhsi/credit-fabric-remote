@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { FlowExtraInformationForm } from '@pages/application/models/form';
+import { ExtraInfoItem } from '@pages/application/components/extra-info/components';
 
 @Component({
   selector: 'cf-extra-info',
-  imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent, TranslocoDirective],
+  imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent, TranslocoDirective, ExtraInfoItem],
   templateUrl: './extra-info.html',
   styleUrl: './extra-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +17,8 @@ import { FlowExtraInformationForm } from '@pages/application/models/form';
 export class ExtraInfo {
   readonly items = input<FlowExtraInformationForm[]>([]);
 
+  readonly canAdd = computed(() => this.items().length === 0);
+
   readonly add = output<void>();
-  readonly edit = output<void>();
+  readonly edit = output<number>();
 }

@@ -1,0 +1,25 @@
+<cf-card class="gray lg">
+  <div class="row">
+    <div class="col">
+      <ng-container *cfHandbook="{ url: 'dir-sector-economy' }; let items">
+        <h4 nz-typography>{{ items | handbook: item().sectorEconomy }}</h4>
+      </ng-container>
+
+      <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
+        <nz-icon nzType="f:pencil" />
+      </button>
+    </div>
+
+    <ng-container *cfHandbook="{ url: 'dir-object-new-formation' }; let items">
+      <p nz-typography>{{ items | handbook: item().enterpriseClassifier }}</p>
+    </ng-container>
+
+    <ng-container *cfHandbook="{ url: 'dir-enterprise-classifier' }; let items">
+      <p nz-typography>{{ items | handbook: item().objectNewFormation }}</p>
+    </ng-container>
+
+    <ng-container *cfHandbook="{ url: 'dir-ecological-impact-code' }; let items">
+      <p nz-typography>{{ items | handbook: item().ecologicalImpactCode }}</p>
+    </ng-container>
+  </div>
+</cf-card>

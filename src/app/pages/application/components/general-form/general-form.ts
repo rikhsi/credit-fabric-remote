@@ -17,7 +17,7 @@ import { flowExtraInformationFormModel } from '@pages/application/data/form';
 })
 export class GeneralForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<FlowExtraInformationForm>(NZ_MODAL_DATA);
+  private readonly nzModalData = inject<FlowExtraInformationForm | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly form = form(signal(flowExtraInformationFormModel), (schemaPath) => {
     required(schemaPath.ecologicalImpactCode);
@@ -31,6 +31,10 @@ export class GeneralForm implements OnInit {
   }
 
   private initForm(): void {
+    if (!this.nzModalData) {
+      return;
+    }
+
     this.form().value.update((cur) => ({
       ...cur,
       ...this.nzModalData,
