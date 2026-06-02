@@ -208,16 +208,32 @@ export interface OnlineFinData {
   year3: number;
 }
 
+export interface OnlineStartProcessingExtraInformation {
+  ecologicalImpactCode: string;
+  enterpriseClassfier: string;
+  objectNewFormation: string;
+  sectorEconomy: string;
+}
+
 export interface OnlineCreateApplicationPayload {
   accountNo: string;
   addresses: OnlineAdress;
-  applicant: OnlineApplicant;
-  applicantId: number;
   applicationId: number;
-  fin_data: OnlineFinData;
-  lang: string;
-  personalNo: string;
-  step: string;
+  cardNumber: string;
+  docPersonalLegalNo: string;
+  email: string;
+  employees: number;
+  extraInformation: OnlineStartProcessingExtraInformation;
+  finData: OnlineFinData;
+  legalForm: string;
+  name: string;
+  newEmployees: number;
+  oked: string;
+  ownershipCode: string;
+  registrationDate: Date;
+  registrationNumber: string;
+  registrationPlaceCode: string;
+  workPhone: string;
 }
 
 export interface OnlineLegalForm {
