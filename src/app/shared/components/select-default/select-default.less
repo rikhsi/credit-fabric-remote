@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .ant-select {
+    width: 100%;
+  }
+
+  ::ng-deep .ant-select-selector .ant-select-selection-item {
+    flex: 1;
+    min-width: 0;
+  }
+
+  ::ng-deep .ant-select:not(.ant-select-open) .ant-select-selection-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  ::ng-deep .ant-select-open .ant-select-selection-item {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+    word-break: break-word;
+  }
+}

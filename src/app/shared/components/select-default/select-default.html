@@ -10,6 +10,7 @@
       [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
       <nz-select
+        nzDropdownClassName="cf-select-default-dropdown"
         [nzSize]="size()"
         [nzId]="id()"
         [(ngModel)]="value"
