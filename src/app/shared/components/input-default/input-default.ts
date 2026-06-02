@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NgxMaskDirective } from 'ngx-mask';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -13,7 +12,6 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
     NgxMaskDirective,
     NzInputWrapperComponent,
     NzInputDirective,
-    FormsModule,
     NzFormModule,
     TranslocoDirective,
     ValidationStatusPipe,
@@ -23,10 +21,21 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
   styleUrl: './input-default.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputDefault extends ControlBaseDirective<string> {
+export class InputDefault extends ControlBaseDirective<string | null> {
   prefix = input<string>();
   suffix = input<string>();
 
   mask = input<string | undefined>();
   maskPrefix = input<string | undefined>();
+
+  onInput(event: Event): void {
+    const next = (event.target as HTMLInputElement).value;
+    const current = this.value() ?? '';
+
+    if (next === current) {
+      return;
+    }
+
+    this.value.set(next || null);
+  }
 }
