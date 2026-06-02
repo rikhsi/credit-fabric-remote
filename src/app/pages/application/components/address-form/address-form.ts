@@ -5,19 +5,20 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
+import { HandbookPipe } from '@shared/pipes';
 import { FlowAddressForm } from '@pages/application/models/form';
 import { flowAdressFormModel } from '@pages/application/data/form';
 
 @Component({
   selector: 'cf-address-form',
-  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField],
+  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, HandbookPipe, FormField],
   templateUrl: './address-form.html',
   styleUrl: './address-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<FlowAddressForm>(NZ_MODAL_DATA);
+  private readonly nzModalData = inject<FlowAddressForm | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly form = form(signal(flowAdressFormModel), (schemaPath) => {
     disabled(schemaPath.addressType);
@@ -33,12 +34,14 @@ export class AddressForm implements OnInit {
   }
 
   private initForm(): void {
+    if (!this.nzModalData) {
+      return;
+    }
+
     this.form().value.update((cur) => ({
       ...cur,
       ...this.nzModalData,
     }));
-
-    this.form.address().reset();
   }
 
   public close(): void {

@@ -1,12 +1,8 @@
 <ng-container *transloco="let t">
   <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_address')" (closeClick)="close()" (submitClick)="submit()">
-    <cf-select-default [formField]="form.addressType" [placeholder]="t('prop.address_type')" size="large">
-      <ng-container *cfHandbook="{url: 'sys-address-type'}; let items">
-        @for (item of items; track item.id) {
-        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-        }
-      </ng-container>
-    </cf-select-default>
+    <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
+      <p class="address-type">{{ items | handbook: form.addressType().value() }}</p>
+    </ng-container>
 
     <cf-select-default [formField]="form.city" [placeholder]="t('prop.city')" size="large">
       <ng-container *cfHandbook="{url: 'dir-city'}; let items">

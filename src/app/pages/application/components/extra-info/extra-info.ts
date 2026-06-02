@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
@@ -16,8 +16,6 @@ import { ExtraInfoItem } from '@pages/application/components/extra-info/componen
 })
 export class ExtraInfo {
   readonly items = input<FlowExtraInformationForm[]>([]);
-
-  readonly canAdd = computed(() => this.items().length === 0);
 
   readonly add = output<void>();
   readonly edit = output<number>();

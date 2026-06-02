@@ -5,7 +5,7 @@ export interface HandbookContext<T> {
 }
 
 export interface HandbookItem {
-  id: number;
+  id: number | string;
   name: string;
 }
 

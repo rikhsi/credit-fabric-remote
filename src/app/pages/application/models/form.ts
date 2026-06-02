@@ -25,7 +25,7 @@ export interface FlowExtraInformationForm {
 }
 
 export interface FlowAddressForm {
-  addressType: number;
+  addressType: string;
   city: number;
   address: string;
   street: number;

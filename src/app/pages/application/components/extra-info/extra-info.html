@@ -1,6 +1,5 @@
 <ng-container *transloco="let t">
   <cf-card [title]="t('prop.extra_params')" [showSpace]="true" class="bordered">
-    @if (canAdd()) {
     <div actions>
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>{{t('action.add')}}</strong>
@@ -8,7 +7,6 @@
         <nz-icon nzType="plus" class="primary" />
       </button>
     </div>
-    }
 
     <div class="list">
       @for (item of items(); track $index) {

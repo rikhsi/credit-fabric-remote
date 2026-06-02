@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <cf-general-info [application]="application" [form]="flowForm()" />
   <cf-contact-info />
-  <cf-address-info (edit)="openAddressForm()" />
+  <cf-address-info [items]="flowForm().addresses().value()" [showInvalid]="showAddressInvalid()" (edit)="openAddressForm($event)" />
   <cf-extra-info [items]="flowForm().extraInformations().value()" (add)="openGeneralForm()" (edit)="openGeneralForm($event)" />
 
   <button nz-button nzType="primary" nzSize="large" (click)="continue()" class="submit">{{t('action.continue')}}</button>

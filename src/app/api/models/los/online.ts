@@ -223,7 +223,7 @@ export interface OnlineCreateApplicationPayload {
   docPersonalLegalNo: string;
   email: string;
   employees: number;
-  extraInformation: OnlineStartProcessingExtraInformation;
+  extraInformations: OnlineStartProcessingExtraInformation[];
   finData: OnlineFinData;
   legalForm: string;
   name: string;
@@ -268,7 +268,7 @@ export interface OnlineBorrower {
 }
 
 export interface OnlineApplicationAddress {
-  addressType: number;
+  addressType: string;
   city: number;
   address: string;
   street: number;
@@ -285,6 +285,7 @@ export interface OnlineApplicationExtraInformation {
 export interface OnlineApplication {
   borrower: OnlineBorrower;
   adresses: OnlineApplicationAddress[];
+  extraInformations?: OnlineApplicationExtraInformation[];
 }
 
 export interface OnlineCreateApplicationResult {

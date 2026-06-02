@@ -1,0 +1,32 @@
+@import 'mixins';
+
+.themeMixin({
+  :host {
+    .row {
+      p {
+        color: @text-color-secondary;
+      }
+
+      .placeholder {
+        color: @text-color-secondary;
+      }
+    }
+  }
+});
+
+.row {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+
+  h4 {
+    margin-bottom: 4px;
+  }
+}
+
+.col {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 20px;
+}

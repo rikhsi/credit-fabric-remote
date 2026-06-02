@@ -1,3 +1,4 @@
+import { buildRequiredAddresses } from '../constants/address-type';
 import { FlowForm, FlowExtraInformationForm, FlowAddressForm, FlowFinanceForm } from '../models/form';
 
 export const flowFormModel: FlowForm = {
@@ -15,7 +16,7 @@ export const flowFormModel: FlowForm = {
   registrationPlaceCode: null,
   workPhone: null,
   extraInformations: [],
-  addresses: [],
+  addresses: buildRequiredAddresses(),
   financeInformations: [],
 };
 

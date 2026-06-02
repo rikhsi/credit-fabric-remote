@@ -1,36 +1,8 @@
 <ng-container *transloco="let t">
   <cf-card [titleRef]="titleRef" [showSpace]="true" class="bordered">
     <div class="list">
-      <cf-card class="gray lg bordered ant-form-item-explain-error">
-        <div class="row">
-          <div class="col">
-            <h4 nz-typography>Юридический адрес</h4>
-
-            <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
-              <nz-icon nzType="f:pencil" />
-            </button>
-          </div>
-          <p nz-typography>Для существующего объекта</p>
-          <p nz-typography>Малое предприятие</p>
-          <p nz-typography>Высокоопасный уровень</p>
-        </div>
-      </cf-card>
-
-      @for (item of [1,2]; track $index) {
-      <cf-card class="gray lg">
-        <div class="row">
-          <div class="col">
-            <h4 nz-typography>Юридический адрес</h4>
-
-            <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
-              <nz-icon nzType="f:pencil" />
-            </button>
-          </div>
-          <p nz-typography>Для существующего объекта</p>
-          <p nz-typography>Малое предприятие</p>
-          <p nz-typography>Высокоопасный уровень</p>
-        </div>
-      </cf-card>
+      @for (item of items(); track item.addressType) {
+      <cf-address-info-item [item]="item" [showInvalid]="showInvalid()" (edit)="edit.emit($index)" />
       }
     </div>
   </cf-card>
@@ -39,10 +11,12 @@
     <div class="titleRef">
       <h2 nz-typography>{{t('prop.addresses')}}</h2>
 
+      @if (hasIncomplete()) {
       <nz-tag>
         <nz-icon nzType="info-circle" />
         {{t('alert.fill_fields')}}
       </nz-tag>
+      }
     </div>
   </ng-template>
 </ng-container>

@@ -1,7 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
-import { flowAdressFormModel, flowFormModel } from '../data/form';
-import { OnlineApplication } from '@api/models/los/online';
+import { mergeRequiredAddresses } from '../constants/address-type';
+import { flowExtraInformationFormModel, flowFormModel } from '../data/form';
+import { mapFlowExtraInformationsToStartProcessing } from '../utils/start-processing.mapper';
+import { OnlineApplication, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 
 @Injectable()
 export class FlowService {
@@ -38,13 +40,17 @@ export class FlowService {
       registrationNumber: application.borrower.registrationNumber,
       registrationPlaceCode: application.borrower.registrationPlaceCode,
       workPhone: application.borrower.workPhone,
-      addresses: (application.adresses ?? []).map((item) => ({
-        ...flowAdressFormModel,
+      addresses: mergeRequiredAddresses(application.adresses ?? []),
+      extraInformations: (application.extraInformations ?? []).map((item) => ({
+        ...flowExtraInformationFormModel,
         ...item,
       })),
-      extraInformations: [],
       financeInformations: [],
       oked: application.borrower.oked.id,
     });
+  }
+
+  public getExtraInformationsForStartProcessing(): OnlineStartProcessingExtraInformation[] {
+    return mapFlowExtraInformationsToStartProcessing(this.flowForm().value().extraInformations);
   }
 }
