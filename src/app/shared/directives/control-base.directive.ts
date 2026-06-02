@@ -55,4 +55,9 @@ export abstract class ControlBaseDirective<T> implements FormValueControl<T> {
   readonly focusChange = output<void>();
 
   readonly blurChange = output<void>();
+
+  onBlur(): void {
+    this.touched.set(true);
+    this.blurChange.emit();
+  }
 }

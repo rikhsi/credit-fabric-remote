@@ -15,8 +15,11 @@
 
       <div class="box">
         <cf-select-default [formField]="form.month1" [placeholder]="t('prop.month')" size="large">
-          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+          <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
+            @for (item of items; track item.id) {
+            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+            }
+          </ng-container>
         </cf-select-default>
 
         <cf-input-default [formField]="form.month1Revenue" [placeholder]="t('prop.benefit')" size="large" />
@@ -26,8 +29,11 @@
 
       <div class="box">
         <cf-select-default [formField]="form.month2" [placeholder]="t('prop.month')" size="large">
-          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+          <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
+            @for (item of items; track item.id) {
+            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+            }
+          </ng-container>
         </cf-select-default>
 
         <cf-input-default [formField]="form.month2Revenue" [placeholder]="t('prop.benefit')" size="large" />
@@ -37,8 +43,11 @@
 
       <div class="box">
         <cf-select-default [formField]="form.month3" [placeholder]="t('prop.month')" size="large">
-          <nz-option nzValue="option1" nzLabel="Option 1"></nz-option>
-          <nz-option nzValue="option2" nzLabel="Option 2"></nz-option>
+          <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
+            @for (item of items; track item.id) {
+            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+            }
+          </ng-container>
         </cf-select-default>
 
         <cf-input-default [formField]="form.month3Revenue" [placeholder]="t('prop.benefit')" size="large" />

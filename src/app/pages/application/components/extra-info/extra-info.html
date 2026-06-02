@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-card [title]="t('prop.extra_params')" [showSpace]="true" class="bordered">
+  <cf-card [title]="t('prop.extra_params')" [showSpace]="false" class="bordered">
     <div actions>
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>{{t('action.add')}}</strong>
@@ -11,10 +11,6 @@
     <div class="list">
       @for (item of items(); track $index) {
       <cf-extra-info-item [item]="item" (edit)="edit.emit($index)" />
-      } @empty {
-      <div class="empty">
-        <h3 nz-typography>{{t('action.add_extra_params')}}</h3>
-      </div>
       }
     </div>
   </cf-card>

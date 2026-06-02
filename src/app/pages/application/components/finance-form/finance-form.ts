@@ -17,7 +17,7 @@ import { flowFinanceFormModel } from '@pages/application/data/form';
 })
 export class FinanceForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<FlowFinanceForm>(NZ_MODAL_DATA);
+  private readonly nzModalData = inject<FlowFinanceForm | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly form = form(signal(flowFinanceFormModel), (schemaPath) => {
     required(schemaPath.companyActivity);
@@ -38,6 +38,10 @@ export class FinanceForm implements OnInit {
   }
 
   private initForm(): void {
+    if (!this.nzModalData) {
+      return;
+    }
+
     this.form().value.update((cur) => ({
       ...cur,
       ...this.nzModalData,

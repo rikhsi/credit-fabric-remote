@@ -5,20 +5,20 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { isFlowAddressFilled } from '@pages/application/constants/address-type';
-import { FlowAddressForm } from '@pages/application/models/form';
+import { isFlowFinanceFilled } from '@pages/application/constants/finance';
+import { FlowFinanceForm } from '@pages/application/models/form';
 
 @Component({
-  selector: 'cf-address-info-item',
+  selector: 'cf-finance-info-item',
   imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent, HandbookDirective, HandbookPipe],
-  templateUrl: './address-info-item.html',
-  styleUrl: './address-info-item.less',
+  templateUrl: './finance-info-item.html',
+  styleUrl: './finance-info-item.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddressInfoItem {
-  readonly item = input.required<FlowAddressForm>();
+export class FinanceInfoItem {
+  readonly item = input.required<FlowFinanceForm>();
 
   readonly edit = output<void>();
 
-  readonly isFilled = computed(() => isFlowAddressFilled(this.item()));
+  readonly isFilled = computed(() => isFlowFinanceFilled(this.item()));
 }

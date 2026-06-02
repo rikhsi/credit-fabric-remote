@@ -35,13 +35,13 @@ export interface FlowAddressForm {
 export interface FlowFinanceForm {
   companyActivity: number;
   activityTerm: string;
-  month1: number;
+  month1: string;
   month1Revenue: string;
   month1Income: string;
-  month2: number;
+  month2: string;
   month2Revenue: string;
   month2Income: string;
-  month3: number;
+  month3: string;
   month3Revenue: string;
   month3Income: string;
 }

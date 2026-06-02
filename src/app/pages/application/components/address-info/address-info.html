@@ -2,7 +2,7 @@
   <cf-card [titleRef]="titleRef" [showSpace]="true" class="bordered">
     <div class="list">
       @for (item of items(); track item.addressType) {
-      <cf-address-info-item [item]="item" [showInvalid]="showInvalid()" (edit)="edit.emit($index)" />
+      <cf-address-info-item [item]="item" (edit)="edit.emit($index)" />
       }
     </div>
   </cf-card>

@@ -1,9 +1,19 @@
 import { Injectable, signal } from '@angular/core';
 import { form, required } from '@angular/forms/signals';
 import { mergeRequiredAddresses } from '../constants/address-type';
-import { flowExtraInformationFormModel, flowFormModel } from '../data/form';
-import { mapFlowExtraInformationsToStartProcessing } from '../utils/start-processing.mapper';
-import { OnlineApplication, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
+import { flowExtraInformationFormModel, flowFinanceFormModel, flowFormModel } from '../data/form';
+import {
+  buildStartProcessingPayload as buildStartProcessingPayloadFromForm,
+  mapFinDataToFlowForm,
+  mapFlowExtraInformationsToStartProcessing,
+  mapFlowFinanceInformationsToStartProcessing,
+} from '../utils/start-processing.mapper';
+import {
+  OnlineApplication,
+  OnlineCreateApplicationPayload,
+  OnlineStartProcessingExtraInformation,
+  OnlineStartProcessingFinData,
+} from '@api/models/los/online';
 
 @Injectable()
 export class FlowService {
@@ -45,12 +55,23 @@ export class FlowService {
         ...flowExtraInformationFormModel,
         ...item,
       })),
-      financeInformations: [],
+      financeInformations: (application.finData ?? []).map((item) => ({
+        ...flowFinanceFormModel,
+        ...mapFinDataToFlowForm(item),
+      })),
       oked: application.borrower.oked.id,
     });
   }
 
   public getExtraInformationsForStartProcessing(): OnlineStartProcessingExtraInformation[] {
     return mapFlowExtraInformationsToStartProcessing(this.flowForm().value().extraInformations);
+  }
+
+  public getFinDataForStartProcessing(): OnlineStartProcessingFinData[] {
+    return mapFlowFinanceInformationsToStartProcessing(this.flowForm().value().financeInformations);
+  }
+
+  public buildStartProcessingPayload(applicationId: number): OnlineCreateApplicationPayload {
+    return buildStartProcessingPayloadFromForm(this.flowForm().value(), applicationId);
   }
 }

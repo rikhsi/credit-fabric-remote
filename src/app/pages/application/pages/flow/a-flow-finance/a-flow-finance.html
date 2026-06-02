@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-finance-info (add)="openFinanceForm()" (edit)="openFinanceForm()" />
+  <cf-finance-info [items]="flowForm().financeInformations().value()" (add)="openFinanceForm()" (edit)="openFinanceForm($event)" />
 
   <div class="actions">
     <button nz-button nzType="primary" nzSize="large" (click)="finish()">{{t('action.finish')}}</button>

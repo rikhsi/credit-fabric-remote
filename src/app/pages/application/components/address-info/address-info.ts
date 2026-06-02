@@ -17,7 +17,6 @@ import { FlowAddressForm } from '@pages/application/models/form';
 })
 export class AddressInfo {
   readonly items = input<FlowAddressForm[]>([]);
-  readonly showInvalid = input(false);
 
   readonly hasIncomplete = computed(() => this.items().some((item) => !isFlowAddressFilled(item)));
 

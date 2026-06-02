@@ -69,7 +69,7 @@ export class InputSlider extends ControlBaseDirective<number> {
     super();
   }
 
-  onBlur() {
+  override onBlur() {
     const val = this.value();
     if (val === null) return;
 
@@ -89,5 +89,7 @@ export class InputSlider extends ControlBaseDirective<number> {
     if (newVal !== val) {
       this.value.set(newVal);
     }
+
+    super.onBlur();
   }
 }

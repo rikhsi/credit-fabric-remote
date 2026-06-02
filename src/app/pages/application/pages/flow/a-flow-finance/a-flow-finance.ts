@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, linkedSignal, ViewContainerRef } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { filter, take } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { OnlineApiService } from '@api/controllers/los/online-api.service';
 import { ModalConfirmComponent } from '@shared/components';
+import { flowFinanceFormModel } from '@pages/application/data/form';
 import { FlowService } from '@pages/application/services';
 import { ConfirmModal } from '@app/typings/modal';
+import { RouteParam } from '@app/constants/route-param';
 import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
 import { FinanceInfo } from '@pages/application/components/finance-info/finance-info';
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
@@ -22,11 +26,20 @@ import { SuccessModalData } from '@pages/application/models/modal';
 export class AFlowFinance {
   private nzModalService = inject(NzModalService);
   private flowService = inject(FlowService);
+  private onlineApi = inject(OnlineApiService);
+  private route = inject(ActivatedRoute);
   private vcr = inject(ViewContainerRef);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
 
-  openFinanceForm(): void {
+  get applicationId(): number {
+    return Number(this.route.snapshot.params[RouteParam.AppId]);
+  }
+
+  openFinanceForm(editIndex?: number): void {
+    const items = this.flowService.flowForm().value().financeInformations;
+    const nzData = editIndex !== undefined ? items[editIndex] : flowFinanceFormModel;
+
     const modalRef = this.nzModalService.create<FinanceForm, FlowFinanceForm, FlowFinanceForm>({
       nzTitle: null,
       nzClosable: false,
@@ -36,15 +49,19 @@ export class AFlowFinance {
       nzFooter: null,
       nzWidth: 'auto',
       nzViewContainerRef: this.vcr,
+      nzData,
     });
 
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
-      this.flowForm()().value.update((cur) => {
-        const financeInformations = cur.financeInformations.filter((item) => item.companyActivity !== value.companyActivity);
+      this.flowService.flowForm().value.update((cur) => {
+        const financeInformations =
+          editIndex !== undefined
+            ? cur.financeInformations.map((item, index) => (index === editIndex ? value : item))
+            : [...cur.financeInformations, value];
 
         return {
           ...cur,
-          financeInformations: [...financeInformations, value],
+          financeInformations,
         };
       });
     });
@@ -52,9 +69,14 @@ export class AFlowFinance {
 
   finish(): void {
     this.confirmModal()
-      .afterClose.pipe(filter((state) => state))
-      .subscribe(() => {
-        this.successModal();
+      .afterClose.pipe(
+        filter((state) => state),
+        switchMap(() => this.onlineApi.createApplication$(this.flowService.buildStartProcessingPayload(this.applicationId))),
+        take(1),
+      )
+      .subscribe({
+        next: () => this.successModal(),
+        error: () => this.errorModal(),
       });
   }
 

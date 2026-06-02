@@ -12,23 +12,8 @@
       </div>
 
       <div class="list">
-        @for (item of $any([1,2]); track $index) {
-        <cf-card class="gray lg">
-          <div class="row">
-            <div class="col">
-              <h4 nz-typography>Розничная торговля: Одежда,обувь</h4>
-
-              <a nz-button nzType="link" nzSize="large" (click)="edit.emit()">
-                <nz-icon nzType="f:pencil" />
-              </a>
-            </div>
-
-            <h5>50 месяцев</h5>
-            <p nz-typography>Январь — 15 000 000–10 000 000</p>
-            <p nz-typography>Декабрь — 15 000 000–10 000 000</p>
-            <p nz-typography>Ноябрь — 15 000 000–10 000 000</p>
-          </div>
-        </cf-card>
+        @for (item of items(); track $index) {
+        <cf-finance-info-item [item]="item" (edit)="edit.emit($index)" />
         } @empty {
         <div class="empty">
           <h3 nz-typography>{{t('prop.empty_finance_info')}}</h3>

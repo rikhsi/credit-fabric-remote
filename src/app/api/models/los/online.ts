@@ -215,16 +215,31 @@ export interface OnlineStartProcessingExtraInformation {
   sectorEconomy: string;
 }
 
+export interface OnlineStartProcessingFinData {
+  dirCompanyActivityId: string | null;
+  activityTerm: number | null;
+  activityTermStr: string | null;
+  sysMonth1Id: string | null;
+  sysMonth2Id: string | null;
+  sysMonth3Id: string | null;
+  month1Revenue: number | null;
+  month1Income: number | null;
+  month2Revenue: number | null;
+  month2Income: number | null;
+  month3Revenue: number | null;
+  month3Income: number | null;
+}
+
 export interface OnlineCreateApplicationPayload {
-  accountNo: string;
-  addresses: OnlineAdress;
+  accountNo: string | null;
+  addresses: OnlineAdress | null;
   applicationId: number;
-  cardNumber: string;
+  cardNumber: string | null;
   docPersonalLegalNo: string;
   email: string;
   employees: number;
   extraInformations: OnlineStartProcessingExtraInformation[];
-  finData: OnlineFinData;
+  finData: OnlineStartProcessingFinData[];
   legalForm: string;
   name: string;
   newEmployees: number;
@@ -286,6 +301,7 @@ export interface OnlineApplication {
   borrower: OnlineBorrower;
   adresses: OnlineApplicationAddress[];
   extraInformations?: OnlineApplicationExtraInformation[];
+  finData?: OnlineFinData[];
 }
 
 export interface OnlineCreateApplicationResult {

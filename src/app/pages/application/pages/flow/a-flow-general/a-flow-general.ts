@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, signal, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,6 @@ import { ContactInfo } from '@pages/application/components/contact-info/contact-
 import { ExtraInfo } from '@pages/application/components/extra-info/extra-info';
 import { GeneralForm } from '@pages/application/components/general-form/general-form';
 import { GeneralInfo } from '@pages/application/components/general-info/general-info';
-import { isFlowAddressFilled } from '@pages/application/constants/address-type';
 import { flowExtraInformationFormModel } from '@pages/application/data/form';
 import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models/form';
 
@@ -30,7 +29,6 @@ export class AFlowGeneral implements OnInit {
   private route = inject(ActivatedRoute);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
-  public readonly showAddressInvalid = signal(false);
 
   get application(): OnlineApplication {
     return this.route.snapshot.data['application'];
@@ -91,10 +89,6 @@ export class AFlowGeneral implements OnInit {
       this.flowService.flowForm().value.update((cur) => {
         const addresses = cur.addresses.map((item, index) => (index === editIndex ? value : item));
 
-        if (addresses.every(isFlowAddressFilled)) {
-          this.showAddressInvalid.set(false);
-        }
-
         return {
           ...cur,
           addresses,
@@ -104,10 +98,6 @@ export class AFlowGeneral implements OnInit {
   }
 
   continue(): void {
-    const addresses = this.flowService.flowForm().value().addresses;
-
-    this.showAddressInvalid.set(!addresses.every(isFlowAddressFilled));
-
     if (this.flowService.flowForm().valid()) {
     } else {
       this.flowForm().oked().markAsDirty();

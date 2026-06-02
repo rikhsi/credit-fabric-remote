@@ -1,4 +1,4 @@
-<cf-card class="gray lg" [class.bordered]="showInvalid() && !isFilled()" [class.ant-form-item-explain-error]="showInvalid() && !isFilled()">
+<cf-card class="gray lg" [class.bordered]="!isFilled()" [class.ant-form-item-explain-error]="!isFilled()">
   <div class="row">
     <div class="col">
       <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
