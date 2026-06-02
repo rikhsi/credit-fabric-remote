@@ -8,6 +8,6 @@ export class TranslocoProvider implements TranslocoLoader {
   private http = inject(HttpClient);
 
   getTranslation(lang: string) {
-    return this.http.get<Translation>(environment.skipAuth ? `/kk-intcorp/i18n/${lang}.json` : `i18n/${lang}.json`);
+    return this.http.get<Translation>(environment.skipAuth ? `/sme-kk-js/i18n/${lang}.json` : `i18n/${lang}.json`);
   }
 }
