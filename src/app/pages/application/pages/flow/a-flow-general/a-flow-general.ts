@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { FlowService } from '@pages/application/services';
@@ -13,7 +13,9 @@ import { ExtraInfo } from '@pages/application/components/extra-info/extra-info';
 import { GeneralForm } from '@pages/application/components/general-form/general-form';
 import { GeneralInfo } from '@pages/application/components/general-info/general-info';
 import { flowExtraInformationFormModel } from '@pages/application/data/form';
+import { ApplicationFlowRoute } from '@app/constants/route-path';
 import { FlowAddressForm, FlowExtraInformationForm } from '@pages/application/models/form';
+import { isGeneralStepValid } from '@pages/application/utils/flow-step.validation';
 
 @Component({
   selector: 'cf-a-flow-general',
@@ -27,6 +29,7 @@ export class AFlowGeneral implements OnInit {
   private flowService = inject(FlowService);
   private vcr = inject(ViewContainerRef);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
 
@@ -98,26 +101,28 @@ export class AFlowGeneral implements OnInit {
   }
 
   continue(): void {
-    if (this.flowService.flowForm().valid()) {
-    } else {
-      this.flowForm().oked().markAsDirty();
-      this.flowForm().newEmployees().markAsDirty();
-      this.flowForm().employees().markAsDirty();
-      this.flowForm().legalForm().markAsDirty();
-      this.flowForm().ownershipCode().markAsDirty();
-      this.flowForm().registrationDate().markAsDirty();
-      this.flowForm().registrationNumber().markAsDirty();
-      this.flowForm().registrationPlaceCode().markAsDirty();
-      this.flowForm().workPhone().markAsDirty();
-      this.flowForm().docPersonalLegalNo().markAsDirty();
-      this.flowForm().email().markAsDirty();
-      this.flowForm().id().markAsDirty();
-      this.flowForm().name().markAsDirty();
-      this.flowForm().addresses().markAsDirty();
-      this.flowForm().extraInformations().markAsDirty();
-
-      this.scrollToInvalidElement();
+    if (isGeneralStepValid(this.flowService.flowForm().value())) {
+      void this.router.navigate([ApplicationFlowRoute.Finance], { relativeTo: this.route.parent });
+      return;
     }
+
+    this.flowForm().oked().markAsDirty();
+    this.flowForm().newEmployees().markAsDirty();
+    this.flowForm().employees().markAsDirty();
+    this.flowForm().legalForm().markAsDirty();
+    this.flowForm().ownershipCode().markAsDirty();
+    this.flowForm().registrationDate().markAsDirty();
+    this.flowForm().registrationNumber().markAsDirty();
+    this.flowForm().registrationPlaceCode().markAsDirty();
+    this.flowForm().workPhone().markAsDirty();
+    this.flowForm().docPersonalLegalNo().markAsDirty();
+    this.flowForm().email().markAsDirty();
+    this.flowForm().id().markAsDirty();
+    this.flowForm().name().markAsDirty();
+    this.flowForm().addresses().markAsDirty();
+    this.flowForm().extraInformations().markAsDirty();
+
+    this.scrollToInvalidElement();
   }
 
   private scrollToInvalidElement(): void {

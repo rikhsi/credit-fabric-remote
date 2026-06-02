@@ -1,6 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { form, required } from '@angular/forms/signals';
-import { mergeRequiredAddresses } from '../constants/address-type';
+import { form, required, requiredError, validate } from '@angular/forms/signals';
+import { isFlowAddressFilled, mergeRequiredAddresses } from '../constants/address-type';
+import { isFlowFinanceFilled } from '../constants/finance';
+import { isFlowExtraInformationFilled } from '../utils/flow-step.validation';
 import { flowExtraInformationFormModel, flowFinanceFormModel, flowFormModel } from '../data/form';
 import {
   buildStartProcessingPayload as buildStartProcessingPayloadFromForm,
@@ -31,9 +33,28 @@ export class FlowService {
     required(schemaPath.email);
     required(schemaPath.id);
     required(schemaPath.name);
-    required(schemaPath.addresses);
-    required(schemaPath.extraInformations);
-    required(schemaPath.financeInformations);
+
+    validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
+
+    validate(schemaPath.extraInformations, ({ value }) => {
+      const items = value();
+
+      if (items.length === 0 || !items.every(isFlowExtraInformationFilled)) {
+        return requiredError();
+      }
+
+      return null;
+    });
+
+    validate(schemaPath.financeInformations, ({ value }) => {
+      const items = value();
+
+      if (items.length === 0 || !items.every(isFlowFinanceFilled)) {
+        return requiredError();
+      }
+
+      return null;
+    });
   });
 
   public initApplication(application: OnlineApplication): void {

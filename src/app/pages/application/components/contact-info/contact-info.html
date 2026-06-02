@@ -1,9 +1,8 @@
 <ng-container *transloco="let t">
   <cf-card [title]="t('prop.contacts')" [showSpace]="true" class="bordered">
     <div class="contact-info__grid">
-      <cf-label-control-secondary [label]="t('prop.phone_number')">+998 99 003 14 97</cf-label-control-secondary>
-      <cf-label-control-secondary [label]="t('prop.phone_number_iabs')">+998 99 003 14 97</cf-label-control-secondary>
-      <cf-label-control-secondary [label]="t('prop.email')">test@gmail.com</cf-label-control-secondary>
+      <cf-label-control-secondary [label]="t('prop.phone_number')">{{ user()?.phone | phoneNumber }}</cf-label-control-secondary>
+      <cf-label-control-secondary [label]="t('prop.email')">{{ user()?.email }}</cf-label-control-secondary>
     </div>
   </cf-card>
 </ng-container>

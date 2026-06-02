@@ -13,7 +13,6 @@ import { flowAdressFormModel } from '@pages/application/data/form';
   selector: 'cf-address-form',
   imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, HandbookPipe, FormField],
   templateUrl: './address-form.html',
-  styleUrl: './address-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressForm implements OnInit {

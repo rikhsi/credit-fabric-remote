@@ -15,6 +15,7 @@ import { FinanceInfo } from '@pages/application/components/finance-info/finance-
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
 import { FlowFinanceForm } from '@pages/application/models/form';
 import { SuccessModalData } from '@pages/application/models/modal';
+import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
 
 @Component({
   selector: 'cf-a-flow-finance',
@@ -68,6 +69,12 @@ export class AFlowFinance {
   }
 
   finish(): void {
+    if (!isFinanceStepValid(this.flowService.flowForm().value())) {
+      this.flowForm().financeInformations().markAsDirty();
+      this.scrollToInvalidElement();
+      return;
+    }
+
     this.confirmModal()
       .afterClose.pipe(
         filter((state) => state),
@@ -78,6 +85,19 @@ export class AFlowFinance {
         next: () => this.successModal(),
         error: () => this.errorModal(),
       });
+  }
+
+  private scrollToInvalidElement(): void {
+    setTimeout(() => {
+      const el = document.querySelector('.ant-form-item-explain-error');
+
+      if (el) {
+        (el as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }, 50);
   }
 
   private confirmModal(): NzModalRef {
