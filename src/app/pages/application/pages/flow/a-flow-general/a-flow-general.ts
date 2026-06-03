@@ -92,6 +92,8 @@ export class AFlowGeneral implements OnInit {
       this.flowService.flowForm().value.update((cur) => {
         const addresses = cur.addresses.map((item, index) => (index === editIndex ? value : item));
 
+        value.addressType = nzData.addressType;
+
         return {
           ...cur,
           addresses,

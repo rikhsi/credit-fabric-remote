@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzInputOtpComponent } from 'ng-zorro-antd/input';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -14,4 +14,6 @@ import { ValidationStatusPipe } from '@shared/pipes';
   styleUrl: './input-otp.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputOtp extends ControlBaseDirective<string> {}
+export class InputOtp extends ControlBaseDirective<string> {
+  value = model('');
+}

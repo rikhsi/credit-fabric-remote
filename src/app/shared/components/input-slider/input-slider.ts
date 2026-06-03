@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, model, untracked } from '@angular/core';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NgxMaskDirective } from 'ngx-mask';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { PluralizeType } from '@app/typings/pluralize';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputSlider extends ControlBaseDirective<number> {
+  value = model(null);
   readonly step = input<number | undefined>(undefined);
   readonly transloco = inject(TranslocoService);
   readonly prefixType = input<PluralizeType>('money');

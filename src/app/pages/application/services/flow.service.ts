@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { form, required, requiredError, validate } from '@angular/forms/signals';
+import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
 import { buildRequiredAddresses, isFlowAddressFilled, mergeRequiredAddresses } from '../constants/address-type';
 import { isFlowFinanceFilled } from '../constants/finance';
 import { flowExtraInformationFormModel, flowFinanceFormModel } from '../data/form';
@@ -53,6 +53,8 @@ export class FlowService {
       required(schemaPath.docPersonalLegalNo);
       required(schemaPath.id);
       required(schemaPath.name);
+      minLength(schemaPath.docPersonalLegalNo, 14);
+      maxLength(schemaPath.docPersonalLegalNo, 14);
 
       validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
       validate(schemaPath.financeInformations, ({ value }) => {

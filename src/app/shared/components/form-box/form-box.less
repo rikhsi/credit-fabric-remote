@@ -21,19 +21,21 @@
   border-radius: 42px;
   min-height: 80svh;
   max-height: 95svh;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   .media(@media-sm, {
     min-width: 90vw;
     max-width: 90vw;
     border-radius: 28px;
-    height: 80svh;
+ 
   });
 
   .media(@media-xs, {
   min-width: 95vw;
   max-width: 95vw;
   border-radius: 20px;
-  height: 90svh;
+
 });
 
   .header {
@@ -68,8 +70,12 @@
         line-height: @line-height-sm;
 
         .media(@media-sm, {
-      font-size: @heading-1-size-sm;
-    });
+          font-size: @heading-1-size-sm;
+        });
+
+        .media(@media-xs, {
+          font-size: @heading-1-size-xs;
+        });
       }
     }
 

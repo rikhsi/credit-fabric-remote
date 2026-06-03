@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -14,6 +14,7 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectDate extends ControlBaseDirective<Date | null> {
+  value = model(null);
   readonly format = input<string>('dd.MM.yyyy');
   readonly maxDate = input<Date | null>(null);
   readonly minDate = input<Date | null>(null);

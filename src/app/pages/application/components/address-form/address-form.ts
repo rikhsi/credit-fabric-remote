@@ -3,15 +3,14 @@ import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { FormBox, InputDefault, SelectDefault } from '@shared/components';
-import { HandbookDirective } from '@shared/directives';
-import { HandbookPipe } from '@shared/pipes';
 import { FlowAddressForm } from '@pages/application/models/form';
 import { flowAdressFormModel } from '@pages/application/data/form';
+import { FormBox, InputDefault, SelectDefault } from '@shared/components';
+import { HandbookDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-address-form',
-  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, HandbookPipe, FormField],
+  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField],
   templateUrl: './address-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, contentChildren, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, contentChildren, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -16,6 +16,7 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
 })
 export class SelectDefault extends ControlBaseDirective<number | boolean | string> {
   readonly optionList = contentChildren(NzOptionComponent);
+  value = model(null);
 
   readonly showSearch = input<boolean>(true);
   readonly isLoading = input<boolean>(false);

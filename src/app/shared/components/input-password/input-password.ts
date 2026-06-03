@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -15,6 +15,7 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputPassword extends ControlBaseDirective<string> {
+  value = model('');
   showIcon = input<string>('eye');
   hideIcon = input<string>('eye-invisible');
 }

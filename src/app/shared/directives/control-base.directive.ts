@@ -1,4 +1,4 @@
-import { computed, Directive, input, model, output } from '@angular/core';
+import { computed, Directive, input, model, ModelSignal, output } from '@angular/core';
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
 import { FormValueControl, ValidationError, WithOptionalField, DisabledReason } from '@angular/forms/signals';
 import { errorCountBuilder } from '@shared/utils';
@@ -6,7 +6,7 @@ import { ValidationErrorData } from '@app/typings/validation';
 
 @Directive()
 export abstract class ControlBaseDirective<T> implements FormValueControl<T> {
-  readonly value = model<T>();
+  abstract readonly value: ModelSignal<T>;
 
   readonly errors = input<readonly WithOptionalField<ValidationError>[] | undefined>();
   readonly firstError = computed(() => this.errors()?.at(0) as ValidationErrorData);

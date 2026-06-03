@@ -3,8 +3,8 @@ import { ValidationErrorType } from '@app/typings/validation';
 
 export const VALIDATION_ERROR_STATUS: Record<ValidationErrorType, NzValidateStatus> = {
   required: 'error',
-  minLength: '',
-  maxLength: '',
+  minLength: 'error',
+  maxLength: 'error',
   email: 'error',
   invalidOtp: 'error',
 };

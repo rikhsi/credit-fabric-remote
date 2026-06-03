@@ -3,10 +3,10 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { FormBox, InputDefault, SelectDefault } from '@shared/components';
-import { HandbookDirective } from '@shared/directives';
 import { FlowFinanceForm } from '@pages/application/models/form';
 import { flowFinanceFormModel } from '@pages/application/data/form';
+import { FormBox, InputDefault, SelectDefault } from '@shared/components';
+import { HandbookDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-finance-form',

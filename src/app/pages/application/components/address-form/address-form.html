@@ -1,12 +1,7 @@
 <ng-container *transloco="let t">
   <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_address')" (closeClick)="close()" (submitClick)="submit()">
     <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
-      <cf-input-default
-        [formField]="form.addressType"
-        [displayValue]="items | handbook: form.addressType().value()"
-        [placeholder]="t('prop.address_type')"
-        size="large"
-      />
+      <cf-input-default [formField]="form.addressType" [placeholder]="t('prop.address_type')" size="large" />
     </ng-container>
 
     <cf-select-default [formField]="form.city" [placeholder]="t('prop.city')" size="large">
