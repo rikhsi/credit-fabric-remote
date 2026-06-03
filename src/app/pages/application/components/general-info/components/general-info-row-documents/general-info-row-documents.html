@@ -1,10 +1,12 @@
 <ng-container *transloco="let t">
   @if (borrower()?.docPersonalLegalNo) {
-  <cf-label-control-secondary [label]="t('prop.pinfl')">{{ borrower()!.docPersonalLegalNo }}</cf-label-control-secondary>
+  <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.pinfl')">
+    {{ borrower()!.docPersonalLegalNo }}
+  </cf-label-control-secondary>
   } @else {
   <cf-input-default [formField]="form().docPersonalLegalNo" [placeholder]="t('prop.pinfl')" size="large" />
   } @if (borrower()?.registrationNumber) {
-  <cf-label-control-secondary [label]="t('prop.registration_number')">
+  <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.registration_number')">
     <span>{{ borrower()!.registrationNumber }}</span>
   </cf-label-control-secondary>
   } @else {

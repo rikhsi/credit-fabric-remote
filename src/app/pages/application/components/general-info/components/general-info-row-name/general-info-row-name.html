@@ -1,10 +1,12 @@
 <ng-container *transloco="let t">
   @if (borrower()?.name) {
-  <cf-label-control-secondary [label]="t('prop.name')">{{ borrower()!.name }}</cf-label-control-secondary>
+  <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.name')">{{ borrower()!.name }}</cf-label-control-secondary>
   } @else {
   <cf-input-default [formField]="form().name" [placeholder]="t('prop.name')" size="large" />
   } @if (borrower()?.ownershipCode?.value) {
-  <cf-label-control-secondary [label]="t('prop.ownership_form')">{{ borrower()!.ownershipCode.value }}</cf-label-control-secondary>
+  <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.ownership_form')">
+    {{ borrower()!.ownershipCode.value }}
+  </cf-label-control-secondary>
   } @else {
   <cf-select-default [formField]="form().ownershipCode" [placeholder]="t('prop.ownership_form')" size="large">
     <ng-container *cfHandbook="{url: 'dir-ownership-code'}; let items">
@@ -14,7 +16,7 @@
     </ng-container>
   </cf-select-default>
   } @if (borrower()?.registrationDate) {
-  <cf-label-control-secondary [label]="t('prop.registration_date')">
+  <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.registration_date')">
     {{ borrower()!.registrationDate | date: 'dd.MM.yyyy' }}
   </cf-label-control-secondary>
   } @else {

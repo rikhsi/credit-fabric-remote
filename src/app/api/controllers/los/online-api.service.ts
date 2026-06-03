@@ -44,7 +44,7 @@ export class OnlineApiService {
   }
 
   public createApplication$(payload: OnlineCreateApplicationPayload) {
-    return this.http.post<OnlineCreateApplicationResult>('online/application/start-processing', payload);
+    return this.http.post<OnlineCreateApplicationResult>('application/start-processing', payload);
   }
 
   public createShortApplication$(payload: ShortApplicationPayload) {

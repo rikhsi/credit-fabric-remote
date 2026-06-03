@@ -42,10 +42,6 @@ export function isGeneralStepValid(form: FlowForm): boolean {
     return false;
   }
 
-  if (form.extraInformations.length === 0 || !form.extraInformations.every(isFlowExtraInformationFilled)) {
-    return false;
-  }
-
   return true;
 }
 

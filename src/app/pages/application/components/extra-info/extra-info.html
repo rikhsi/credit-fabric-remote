@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-card [title]="t('prop.extra_params')" [showSpace]="false" class="bordered">
+  <cf-card [title]="t('prop.extra_params')" [showSpace]="items()?.length > 0" class="bordered">
     <div actions>
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>{{t('action.add')}}</strong>
