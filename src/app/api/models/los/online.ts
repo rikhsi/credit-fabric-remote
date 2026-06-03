@@ -230,9 +230,17 @@ export interface OnlineStartProcessingFinData {
   month3Income: number | null;
 }
 
+export interface OnlineStartProcessingAddress {
+  sysAddressTypeId: string;
+  dirCityId: string;
+  dirVillageId: string;
+  street: string;
+  zipCode: string;
+}
+
 export interface OnlineCreateApplicationPayload {
   accountNo: string | null;
-  addresses: OnlineAdress | null;
+  addresses: OnlineStartProcessingAddress[] | null;
   applicationId: number;
   cardNumber: string | null;
   docPersonalLegalNo: string;

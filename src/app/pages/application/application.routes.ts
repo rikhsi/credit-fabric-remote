@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
+import { applicationFlowGeneralGuard } from './guards/application-flow-general.guard';
 import { FlowService } from './services';
 import { applicationResolver } from './resolvers';
-import { ApplicationFlowRoute, ApplicationRoute } from '@app/constants/route-path';
+import { ApplicationFlowRoute, ApplicationRoute, LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 
 export const routes: Routes = [
@@ -14,12 +15,19 @@ export const routes: Routes = [
     children: [
       {
         path: ApplicationFlowRoute.General,
-        data: { title: 'prop.application_to_loan', backConfig: { link: `/loan/details/${ApplicationRoute.Flow}` } },
+        data: {
+          title: 'prop.application_to_loan',
+          backConfig: { link: ['/', RootRoute.Loan, LoanRoute.Details, ApplicationRoute.Flow] },
+        },
         loadComponent: () => import('./pages/flow/a-flow-general/a-flow-general').then((c) => c.AFlowGeneral),
       },
       {
         path: ApplicationFlowRoute.Finance,
-        data: { title: 'prop.application_to_loan', backConfig: { link: `/application/${ApplicationRoute.Flow}/general` } },
+        canActivate: [applicationFlowGeneralGuard],
+        data: {
+          title: 'prop.application_to_loan',
+          backConfig: { link: ['..', ApplicationFlowRoute.General] },
+        },
         loadComponent: () => import('./pages/flow/a-flow-finance/a-flow-finance').then((c) => c.AFlowFinance),
       },
       {

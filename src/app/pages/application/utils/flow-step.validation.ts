@@ -38,11 +38,7 @@ export function isGeneralStepValid(form: FlowForm): boolean {
     return false;
   }
 
-  if (!form.addresses.every(isFlowAddressFilled)) {
-    return false;
-  }
-
-  return true;
+  return form.addresses.every(isFlowAddressFilled);
 }
 
 export function isFinanceStepValid(form: FlowForm): boolean {

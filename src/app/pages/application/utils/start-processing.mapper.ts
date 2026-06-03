@@ -1,7 +1,10 @@
-import { FlowExtraInformationForm, FlowFinanceForm, FlowForm } from '../models/form';
+import { isFlowAddressFilled } from '../constants/address-type';
+import { FlowAddressForm, FlowExtraInformationForm, FlowFinanceForm, FlowForm } from '../models/form';
+import { isFlowExtraInformationFilled } from './flow-step.validation';
 import {
   OnlineCreateApplicationPayload,
   OnlineFinData,
+  OnlineStartProcessingAddress,
   OnlineStartProcessingExtraInformation,
   OnlineStartProcessingFinData,
 } from '@api/models/los/online';
@@ -24,8 +27,22 @@ function toStringOrNull(value: string | number | null | undefined): string | nul
   return String(value);
 }
 
+export function mapFlowAddressToStartProcessing(item: FlowAddressForm): OnlineStartProcessingAddress {
+  return {
+    sysAddressTypeId: item.addressType,
+    dirCityId: String(item.city),
+    dirVillageId: String(item.street),
+    street: item.address,
+    zipCode: item.postalCode,
+  };
+}
+
+export function mapFlowAddressesToStartProcessing(items: FlowAddressForm[]): OnlineStartProcessingAddress[] {
+  return items.filter(isFlowAddressFilled).map(mapFlowAddressToStartProcessing);
+}
+
 export function mapFlowExtraInformationsToStartProcessing(items: FlowExtraInformationForm[]): OnlineStartProcessingExtraInformation[] {
-  return items.map((item) => ({
+  return items.filter(isFlowExtraInformationFilled).map((item) => ({
     sectorEconomy: String(item.sectorEconomy),
     objectNewFormation: String(item.objectNewFormation),
     enterpriseClassfier: String(item.enterpriseClassifier),
@@ -75,7 +92,7 @@ export function mapFinDataToFlowForm(item: OnlineFinData): FlowFinanceForm {
 export function buildStartProcessingPayload(form: FlowForm, applicationId: number): OnlineCreateApplicationPayload {
   return {
     accountNo: null,
-    addresses: null,
+    addresses: mapFlowAddressesToStartProcessing(form.addresses),
     applicationId,
     cardNumber: null,
     docPersonalLegalNo: form.docPersonalLegalNo,

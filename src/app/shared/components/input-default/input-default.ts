@@ -28,6 +28,7 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   prefix = input<string>();
   suffix = input<string>();
 
-  mask = input<string | undefined>('');
-  maskPrefix = input<string | undefined>('');
+  mask = input<string | undefined>();
+  maskPrefix = input<string | undefined>();
+  thousandSeparator = input<string | undefined>();
 }
