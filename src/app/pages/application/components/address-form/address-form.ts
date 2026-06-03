@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -15,33 +15,24 @@ import { flowAdressFormModel } from '@pages/application/data/form';
   templateUrl: './address-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddressForm implements OnInit {
+export class AddressForm {
   private readonly modalRef = inject(NzModalRef);
   private readonly nzModalData = inject<FlowAddressForm | null>(NZ_MODAL_DATA, { optional: true });
 
-  public readonly form = form(signal(flowAdressFormModel), (schemaPath) => {
-    disabled(schemaPath.addressType);
-    required(schemaPath.address);
-    required(schemaPath.addressType);
-    required(schemaPath.city);
-    required(schemaPath.street);
-    required(schemaPath.postalCode);
-  });
-
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm(): void {
-    if (!this.nzModalData) {
-      return;
-    }
-
-    this.form().value.update((cur) => ({
-      ...cur,
+  public readonly form = form(
+    signal({
+      ...flowAdressFormModel,
       ...this.nzModalData,
-    }));
-  }
+    }),
+    (schemaPath) => {
+      disabled(schemaPath.addressType);
+      required(schemaPath.address);
+      required(schemaPath.addressType);
+      required(schemaPath.city);
+      required(schemaPath.street);
+      required(schemaPath.postalCode);
+    },
+  );
 
   public close(): void {
     this.modalRef.close(null);

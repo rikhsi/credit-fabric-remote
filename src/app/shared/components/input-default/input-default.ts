@@ -28,6 +28,9 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   mask = input<string | undefined>();
   maskPrefix = input<string | undefined>();
 
+  /** Read-only label shown instead of the bound form value (e.g. handbook name). */
+  displayValue = input<string | null>(null);
+
   onInput(event: Event): void {
     const next = (event.target as HTMLInputElement).value;
     const current = this.value() ?? '';

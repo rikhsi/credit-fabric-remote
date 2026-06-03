@@ -2,10 +2,10 @@
   <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_address')" (closeClick)="close()" (submitClick)="submit()">
     <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
       <cf-input-default
+        [formField]="form.addressType"
+        [displayValue]="items | handbook: form.addressType().value()"
         [placeholder]="t('prop.address_type')"
         size="large"
-        [disabled]="true"
-        [value]="items | handbook: form.addressType().value()"
       />
     </ng-container>
 

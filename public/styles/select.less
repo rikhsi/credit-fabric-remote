@@ -1,17 +1,34 @@
-nz-select .ant-select-selection-item,
-nz-select-item {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  line-height: 105% !important;
+nz-select {
+  max-width: 100%;
+  min-width: 0;
+
+  .ant-select-selector {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .ant-select-selection-overflow,
+  .ant-select-selection-search {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ant-select-selection-item,
+  .ant-select-selection-search-input {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: inherit !important;
+  }
 }
 
 .ant-select-item-option-content {
-  white-space: wrap;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .ant-picker {

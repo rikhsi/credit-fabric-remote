@@ -1,26 +1,49 @@
 :host {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  ::ng-deep .ant-form-item {
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  ::ng-deep .ant-form-item-control-input,
+  ::ng-deep .ant-form-item-control-input-content {
+    min-width: 0;
+    max-width: 100%;
+  }
 
   ::ng-deep .ant-select {
     width: 100%;
-  }
-
-  ::ng-deep .ant-select-selector .ant-select-selection-item {
-    flex: 1;
+    max-width: 100%;
     min-width: 0;
   }
 
-  ::ng-deep .ant-select:not(.ant-select-open) .ant-select-selection-item {
+  ::ng-deep .ant-select-selector {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  ::ng-deep .ant-select-selection-overflow,
+  ::ng-deep .ant-select-selection-search {
+    min-width: 0;
+    max-width: 100%;
+    flex: 1;
+  }
+
+  ::ng-deep .ant-select-selection-item,
+  ::ng-deep .ant-select-selection-search-input {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  ::ng-deep .ant-select-open .ant-select-selection-item {
-    overflow: visible;
-    text-overflow: unset;
-    white-space: normal;
-    word-break: break-word;
+    line-height: inherit !important;
   }
 }
