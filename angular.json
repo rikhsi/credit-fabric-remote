@@ -134,22 +134,15 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "port": 4200,
-            "proxyConfig": "proxy.conf.json"
-          },
           "configurations": {
             "production": {
-              "buildTarget": "credit-fabric-remote:build:production",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "credit-fabric-remote:build:production"
             },
             "testing": {
-              "buildTarget": "credit-fabric-remote:build:testing-serve",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "credit-fabric-remote:build:testing-serve"
             },
             "development": {
-              "buildTarget": "credit-fabric-remote:build:development",
-              "proxyConfig": "proxy.conf.json"
+              "buildTarget": "credit-fabric-remote:build:development"
             }
           },
           "defaultConfiguration": "development"
