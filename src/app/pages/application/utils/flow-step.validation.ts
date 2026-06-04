@@ -1,5 +1,5 @@
-import { isFlowAddressFilled } from '../constants/address-type';
-import { isFlowFinanceFilled } from '../constants/finance';
+import { isFlowAddressFilled } from '../data/address-type';
+import { isFlowFinanceFilled } from '../data/finance';
 import { FlowExtraInformationForm, FlowForm } from '../models/form';
 
 function isPresent(value: unknown): boolean {

@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { isFlowFinanceFilled } from '@pages/application/constants/finance';
+import { isFlowFinanceFilled } from '@pages/application/data/finance';
 import { FlowFinanceForm } from '@pages/application/models/form';
 
 @Component({

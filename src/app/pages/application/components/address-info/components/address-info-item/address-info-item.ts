@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { isFlowAddressFilled } from '@pages/application/constants/address-type';
+import { isFlowAddressFilled } from '@pages/application/data/address-type';
 import { FlowAddressForm } from '@pages/application/models/form';
 
 @Component({

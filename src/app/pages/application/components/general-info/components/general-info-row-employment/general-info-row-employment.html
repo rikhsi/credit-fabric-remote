@@ -7,7 +7,19 @@
     </ng-container>
   </cf-select-default>
 
-  <cf-input-number [minVal]="1" [maxVal]="1000" [formField]="form().employees" [placeholder]="t('prop.employee_count')" size="large" />
+  <cf-input-default
+    mask="separator.0"
+    thousandSeparator=" "
+    [formField]="form().employees"
+    [placeholder]="t('prop.employee_count')"
+    size="large"
+  />
 
-  <cf-input-number [maxVal]="1000" [minVal]="1" [formField]="form().newEmployees" [placeholder]="t('prop.new_jobs_count')" size="large" />
+  <cf-input-default
+    mask="separator.0"
+    thousandSeparator=" "
+    [formField]="form().newEmployees"
+    [placeholder]="t('prop.new_jobs_count')"
+    size="large"
+  />
 </ng-container>

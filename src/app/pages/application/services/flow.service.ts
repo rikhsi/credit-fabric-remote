@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
-import { buildRequiredAddresses, isFlowAddressFilled, mergeRequiredAddresses } from '../constants/address-type';
-import { createDefaultFinanceForm } from '../constants/finance-months';
-import { isFlowFinanceFilled } from '../constants/finance';
+import { buildRequiredAddresses, isFlowAddressFilled, mergeRequiredAddresses } from '../data/address-type';
+import { createDefaultFinanceForm } from '../data/finance-months';
+import { isFlowFinanceFilled } from '../data/finance';
 import { flowExtraInformationFormModel } from '../data/form';
 import {
   buildStartProcessingPayload as buildStartProcessingPayloadFromForm,
@@ -86,11 +86,11 @@ export class FlowService {
     });
   }
 
-  public getExtraInformationsForStartProcessing(): OnlineStartProcessingExtraInformation[] {
+  public getExtraInformationsForStartProcessing(): OnlineStartProcessingExtraInformation {
     return mapFlowExtraInformationsToStartProcessing(this.flowForm().value().extraInformations);
   }
 
-  public getFinDataForStartProcessing(): OnlineStartProcessingFinData[] {
+  public getFinDataForStartProcessing(): OnlineStartProcessingFinData {
     return mapFlowFinanceInformationsToStartProcessing([this.flowForm().value().finance]);
   }
 

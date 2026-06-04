@@ -3,7 +3,7 @@ import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FlowForm } from '@pages/application/models/form';
-import { ensureFinanceMonthDefaults, formatFinanceMonthPeriodLabel } from '@pages/application/constants/finance-months';
+import { ensureFinanceMonthDefaults, formatFinanceMonthPeriodLabel } from '@pages/application/data/finance-months';
 import { FlowService } from '@pages/application/services';
 import { InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';

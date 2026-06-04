@@ -218,7 +218,6 @@ export interface OnlineStartProcessingExtraInformation {
 export interface OnlineStartProcessingFinData {
   dirCompanyActivityId: string | null;
   activityTerm: number | null;
-  activityTermStr: string | null;
   sysMonth1Id: string | null;
   sysMonth2Id: string | null;
   sysMonth3Id: string | null;
@@ -236,18 +235,19 @@ export interface OnlineStartProcessingAddress {
   dirVillageId: string | null;
   street: string | null;
   zipCode: string | null;
+  dirCountryId: string | null;
 }
 
 export interface OnlineCreateApplicationPayload {
-  accountNo: string | null;
-  addresses: OnlineStartProcessingAddress[] | null;
+  accountNo: string;
+  cardNumber: string;
+  addresses: OnlineStartProcessingAddress | null;
   applicationId: number;
-  cardNumber: string | null;
   docPersonalLegalNo: string | null;
   email: string | null;
   employees: number | null;
-  extraInformations: OnlineStartProcessingExtraInformation[] | null;
-  finData: OnlineStartProcessingFinData[] | null;
+  extraInformation: OnlineStartProcessingExtraInformation | null;
+  finData: OnlineStartProcessingFinData | null;
   legalForm: string | null;
   name: string | null;
   newEmployees: number | null;

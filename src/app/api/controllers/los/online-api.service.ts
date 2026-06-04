@@ -39,12 +39,12 @@ export class OnlineApiService {
     return this.http.get<OnlineApplication>(`online/application/${applicationId}`);
   }
 
-  public getApplications$(pinfl: string) {
-    return this.http.get<OnlineGetInfoResult[]>(`online/get-info/${pinfl}`);
+  public getApplications$() {
+    return this.http.get<OnlineGetInfoResult[]>(`online/get-info`);
   }
 
   public createApplication$(payload: OnlineCreateApplicationPayload) {
-    return this.http.post<OnlineCreateApplicationResult>('application/start-processing', payload);
+    return this.http.post<OnlineCreateApplicationResult>('online/application/start-processing', payload);
   }
 
   public createShortApplication$(payload: ShortApplicationPayload) {

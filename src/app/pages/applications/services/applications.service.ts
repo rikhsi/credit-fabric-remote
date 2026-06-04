@@ -17,7 +17,7 @@ export class ApplicationsService {
   public getApplications$() {
     this.isLoading.set(true);
 
-    return this.onlineApiService.getApplications$(this.user().pinfl).pipe(
+    return this.onlineApiService.getApplications$().pipe(
       tap((result) => {
         this.applicationsList.set(result);
         this.isLoading.set(false);

@@ -1,5 +1,5 @@
 import { FlowFinanceForm } from '../models/form';
-import { flowFinanceFormModel } from '../data/form';
+import { flowFinanceFormModel } from './form';
 
 export interface FinanceMonthPeriod {
   year: number;
