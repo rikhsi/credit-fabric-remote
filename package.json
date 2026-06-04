@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start:development": "ng serve --configuration development",
-    "start:testing": "ng serve --configuration testing --port 4201",
+    "start:testing": "ng serve --configuration testing",
     "start:production": "ng serve --configuration production",
     "build:development-server": "ng build --configuration development-server",
     "build:testing": "ng build --configuration testing",

@@ -1,8 +1,0 @@
-{
-  "/sme-kk": {
-    "target": "https://intcorp-dev.hamkorbank.uz",
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
-}

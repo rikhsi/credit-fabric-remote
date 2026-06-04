@@ -1,13 +1,7 @@
 {
-  "/api": {
-    "target": "https://dev-new.sme-kk.hamkor.local",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  },
-  "/handbooks": {
-    "target": "https://dev-new.sme-kk.hamkor.local",
-    "secure": false,
+  "/sme-kk": {
+    "target": "https://intcorp-dev.hamkorbank.uz",
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   }

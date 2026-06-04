@@ -1,4 +1,4 @@
-/** Локально: ng serve --configuration testing + proxy.conf.testing.json */
+/** Локально: ng serve --configuration testing + proxy → intcorp-dev */
 export const environment = {
   coreUrl: '/sme-kk/api/v1/core-sme/',
   losUrl: '/sme-kk/api/v1/los-sme/',
