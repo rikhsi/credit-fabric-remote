@@ -1,7 +1,8 @@
+/** Локально: ng serve + proxy.conf.json → https://dev-new.sme-kk.hamkor.local */
 export const environment = {
-  coreUrl: 'https://dev-new.sme-kk.hamkor.local/api/v1/core-sme/',
-  losUrl: 'https://dev-new.sme-kk.hamkor.local/api/v1/los-sme/',
-  handbookUrl: 'https://dev-new.sme-kk.hamkor.local/handbooks/api/v1/los-sme/',
+  coreUrl: '/api/v1/core-sme/',
+  losUrl: '/api/v1/los-sme/',
+  handbookUrl: '/handbooks/api/v1/los-sme/',
   apiKey: 'eyJvcmciOiIxIiwiaWQiOiIzMWUyY2U2ZmI0YzQ0OGE3ODg0NzE5ZmU4ZWQ1MjI4NSIsImgiOiJzaGEyNTYifQ==',
   ablePlatform: 'los-sme',
   projectTag: 'kk-sme',

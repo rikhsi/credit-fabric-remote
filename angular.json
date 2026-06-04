@@ -108,6 +108,18 @@
               "extractLicenses": true,
               "outputHashing": "all"
             },
+            "testing-serve": {
+              "baseHref": "/sme-kk-js/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/development.ts",
+                  "with": "src/environments/testing.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
             "development-server": {
               "optimization": true,
               "extractLicenses": true,
@@ -122,12 +134,21 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "credit-fabric-remote:build:production"
+              "buildTarget": "credit-fabric-remote:build:production",
+              "proxyConfig": "proxy.conf.testing.json"
+            },
+            "testing": {
+              "buildTarget": "credit-fabric-remote:build:testing-serve",
+              "proxyConfig": "proxy.conf.testing.json"
             },
             "development": {
-              "buildTarget": "credit-fabric-remote:build:development"
+              "buildTarget": "credit-fabric-remote:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

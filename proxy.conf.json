@@ -1,0 +1,14 @@
+{
+  "/api": {
+    "target": "https://dev-new.sme-kk.hamkor.local",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/handbooks": {
+    "target": "https://dev-new.sme-kk.hamkor.local",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
