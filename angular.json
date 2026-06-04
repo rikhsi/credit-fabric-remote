@@ -1,141 +1,205 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "cli": {
-    "packageManager": "npm",
-    "analytics": false
-  },
-  "newProjectRoot": "projects",
-  "projects": {
-    "credit-fabric-remote": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "less",
-          "skipTests": true,
-          "changeDetection": "OnPush"
-        },
-        "@schematics/angular:service": {
-          "skipTests": true,
-          "type": "service"
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true,
-          "type": "directive"
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true,
-          "typeSeparator": "."
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true,
-          "typeSeparator": "."
-        },
-        "@schematics/angular:resolver": {
-          "skipTests": true,
-          "typeSeparator": "."
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true,
-          "typeSeparator": "."
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "cf",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:application",
-          "options": {
-            "browser": "src/main.ts",
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "less",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
-                "output": "assets"
-              }
-            ],
-            "styles": [
-              "src/styles.less",
-              {
-                "input": "public/styles/light.less",
-                "bundleName": "light",
-                "inject": false
-              },
-              {
-                "input": "public/styles/dark.less",
-                "bundleName": "dark",
-                "inject": false
-              }
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": ["public/styles"]
-            }
-          },
-          "configurations": {
-            "production": {
-              "baseHref": "/sme-kk-js/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/development.ts",
-                  "with": "src/environments/production.ts"
-                }
-              ],
-              "optimization": true,
-              "extractLicenses": true,
-              "outputHashing": "all"
-            },
-            "testing": {
-              "baseHref": "/sme-kk-js/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/development.ts",
-                  "with": "src/environments/testing.ts"
-                }
-              ],
-              "optimization": true,
-              "extractLicenses": true,
-              "outputHashing": "all"
-            },
-            "development-server": {
-              "optimization": true,
-              "extractLicenses": true,
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "credit-fabric-remote:build:production"
-            },
-            "development": {
-              "buildTarget": "credit-fabric-remote:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
-        }
-      }
-    }
-  }
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"cli": {
+		"packageManager": "npm",
+		"analytics": false
+	},
+	"newProjectRoot": "projects",
+	"projects": {
+		"credit-fabric-remote": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "less",
+					"skipTests": true,
+					"changeDetection": "OnPush"
+				},
+				"@schematics/angular:service": {
+					"skipTests": true,
+					"type": "service"
+				},
+				"@schematics/angular:directive": {
+					"skipTests": true,
+					"type": "directive"
+				},
+				"@schematics/angular:pipe": {
+					"skipTests": true,
+					"typeSeparator": "."
+				},
+				"@schematics/angular:interceptor": {
+					"skipTests": true,
+					"typeSeparator": "."
+				},
+				"@schematics/angular:resolver": {
+					"skipTests": true,
+					"typeSeparator": "."
+				},
+				"@schematics/angular:guard": {
+					"skipTests": true,
+					"typeSeparator": "."
+				}
+			},
+			"root": "",
+			"sourceRoot": "src",
+			"prefix": "cf",
+			"architect": {
+				"build": {
+					"builder": "@angular-architects/native-federation-v4:build",
+					"options": {
+						"projectName": "credit-fabric-remote",
+						"tsConfig": "tsconfig.federation.json",
+						"entryPoints": ["src/main.ts"],
+						"cacheExternalArtifacts": true
+					},
+					"configurations": {
+						"production": {
+							"target": "credit-fabric-remote:esbuild:production"
+						},
+						"testing": {
+							"target": "credit-fabric-remote:esbuild:testing"
+						},
+						"development-server": {
+							"target": "credit-fabric-remote:esbuild:development-server"
+						},
+						"development": {
+							"target": "credit-fabric-remote:esbuild:development",
+							"dev": true
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve": {
+					"builder": "@angular-architects/native-federation-v4:build",
+					"options": {
+						"projectName": "credit-fabric-remote",
+						"tsConfig": "tsconfig.federation.json",
+						"entryPoints": ["src/main.ts"],
+						"target": "credit-fabric-remote:serve-original:development",
+						"rebuildDelay": 500,
+						"cacheExternalArtifacts": true,
+						"dev": true,
+						"devServer": true,
+						"port": 0
+					},
+					"configurations": {
+						"production": {
+							"target": "credit-fabric-remote:serve-original:production",
+							"dev": false
+						},
+						"testing": {
+							"target": "credit-fabric-remote:serve-original:testing",
+							"dev": false
+						},
+						"development": {
+							"target": "credit-fabric-remote:serve-original:development"
+						}
+					},
+					"defaultConfiguration": "development"
+				},
+				"test": {
+					"builder": "@angular/build:unit-test"
+				},
+				"esbuild": {
+					"builder": "@angular/build:application",
+					"options": {
+						"browser": "src/main.ts",
+						"tsConfig": "tsconfig.app.json",
+						"inlineStyleLanguage": "less",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "public"
+							},
+							{
+								"glob": "**/*",
+								"input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+								"output": "/assets/"
+							},
+							{
+								"glob": "**/*",
+								"input": "node_modules/ngx-extended-pdf-viewer/assets/",
+								"output": "assets"
+							}
+						],
+						"styles": [
+							"src/styles.less",
+							{
+								"input": "public/styles/light.less",
+								"bundleName": "light",
+								"inject": false
+							},
+							{
+								"input": "public/styles/dark.less",
+								"bundleName": "dark",
+								"inject": false
+							}
+						],
+						"stylePreprocessorOptions": {
+							"includePaths": [
+								"public/styles"
+							]
+						},
+						"polyfills": [
+							"es-module-shims"
+						]
+					},
+					"configurations": {
+						"production": {
+							"baseHref": "/sme-kk-js/",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/development.ts",
+									"with": "src/environments/production.ts"
+								}
+							],
+							"optimization": true,
+							"extractLicenses": true,
+							"outputHashing": "all"
+						},
+						"testing": {
+							"baseHref": "/sme-kk-js/",
+							"fileReplacements": [
+								{
+									"replace": "src/environments/development.ts",
+									"with": "src/environments/testing.ts"
+								}
+							],
+							"optimization": true,
+							"extractLicenses": true,
+							"outputHashing": "all"
+						},
+						"development-server": {
+							"optimization": true,
+							"extractLicenses": true,
+							"outputHashing": "all"
+						},
+						"development": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true
+						}
+					}
+				},
+				"serve-original": {
+					"builder": "@angular/build:dev-server",
+					"configurations": {
+						"production": {
+							"buildTarget": "credit-fabric-remote:esbuild:production"
+						},
+						"testing": {
+							"buildTarget": "credit-fabric-remote:esbuild:testing"
+						},
+						"development": {
+							"buildTarget": "credit-fabric-remote:esbuild:development"
+						}
+					},
+					"defaultConfiguration": "development",
+					"options": {
+						"port": 4200
+					}
+				}
+			}
+		}
+	}
 }
