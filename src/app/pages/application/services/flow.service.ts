@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
 import { buildRequiredAddresses, isFlowAddressFilled, mergeRequiredAddresses } from '../constants/address-type';
+import { createDefaultFinanceForm } from '../constants/finance-months';
 import { isFlowFinanceFilled } from '../constants/finance';
-import { flowExtraInformationFormModel, flowFinanceFormModel } from '../data/form';
+import { flowExtraInformationFormModel } from '../data/form';
 import {
   buildStartProcessingPayload as buildStartProcessingPayloadFromForm,
   mapFinDataToFlowForm,
@@ -39,7 +40,7 @@ export class FlowService {
       workPhone: null,
       extraInformations: [],
       addresses: buildRequiredAddresses(),
-      financeInformations: [],
+      finance: createDefaultFinanceForm(),
     }),
     (schemaPath) => {
       required(schemaPath.oked);
@@ -57,15 +58,7 @@ export class FlowService {
       maxLength(schemaPath.docPersonalLegalNo, 14);
 
       validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
-      validate(schemaPath.financeInformations, ({ value }) => {
-        const items = value();
-
-        if (items.length === 0 || !items.every(isFlowFinanceFilled)) {
-          return requiredError();
-        }
-
-        return null;
-      });
+      validate(schemaPath.finance, ({ value }) => (isFlowFinanceFilled(value()) ? null : requiredError()));
     },
   );
 
@@ -88,10 +81,7 @@ export class FlowService {
         ...flowExtraInformationFormModel,
         ...item,
       })),
-      financeInformations: (application.finData ?? []).map((item) => ({
-        ...flowFinanceFormModel,
-        ...mapFinDataToFlowForm(item),
-      })),
+      finance: createDefaultFinanceForm(application.finData?.[0] ? mapFinDataToFlowForm(application.finData[0]) : null),
       oked: application.borrower.oked.id,
     });
   }
@@ -101,7 +91,7 @@ export class FlowService {
   }
 
   public getFinDataForStartProcessing(): OnlineStartProcessingFinData[] {
-    return mapFlowFinanceInformationsToStartProcessing(this.flowForm().value().financeInformations);
+    return mapFlowFinanceInformationsToStartProcessing([this.flowForm().value().finance]);
   }
 
   public buildStartProcessingPayload(applicationId: number): OnlineCreateApplicationPayload {

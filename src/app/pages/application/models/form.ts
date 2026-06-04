@@ -14,7 +14,7 @@ export interface FlowForm {
   workPhone: string;
   extraInformations: FlowExtraInformationForm[];
   addresses: FlowAddressForm[];
-  financeInformations: FlowFinanceForm[];
+  finance: FlowFinanceForm;
 }
 
 export interface FlowExtraInformationForm {

@@ -1,4 +1,5 @@
 import { isFlowAddressFilled } from '../constants/address-type';
+import { isFlowFinanceFilled } from '../constants/finance';
 import { FlowAddressForm, FlowExtraInformationForm, FlowFinanceForm, FlowForm } from '../models/form';
 import { isFlowExtraInformationFilled } from './flow-step.validation';
 import {
@@ -27,13 +28,17 @@ function toStringOrNull(value: string | number | null | undefined): string | nul
   return String(value);
 }
 
+function toDateOrNull(value: Date | null | undefined): Date | null {
+  return value ?? null;
+}
+
 export function mapFlowAddressToStartProcessing(item: FlowAddressForm): OnlineStartProcessingAddress {
   return {
-    sysAddressTypeId: item.addressType,
-    dirCityId: String(item.city),
-    dirVillageId: String(item.street),
-    street: item.address,
-    zipCode: item.postalCode,
+    sysAddressTypeId: toStringOrNull(item.addressType),
+    dirCityId: toStringOrNull(item.city),
+    dirVillageId: toStringOrNull(item.street),
+    street: toStringOrNull(item.address),
+    zipCode: toStringOrNull(item.postalCode),
   };
 }
 
@@ -43,10 +48,10 @@ export function mapFlowAddressesToStartProcessing(items: FlowAddressForm[]): Onl
 
 export function mapFlowExtraInformationsToStartProcessing(items: FlowExtraInformationForm[]): OnlineStartProcessingExtraInformation[] {
   return items.filter(isFlowExtraInformationFilled).map((item) => ({
-    sectorEconomy: String(item.sectorEconomy),
-    objectNewFormation: String(item.objectNewFormation),
-    enterpriseClassfier: String(item.enterpriseClassifier),
-    ecologicalImpactCode: String(item.ecologicalImpactCode),
+    sectorEconomy: toStringOrNull(item.sectorEconomy),
+    objectNewFormation: toStringOrNull(item.objectNewFormation),
+    enterpriseClassfier: toStringOrNull(item.enterpriseClassifier),
+    ecologicalImpactCode: toStringOrNull(item.ecologicalImpactCode),
   }));
 }
 
@@ -90,24 +95,28 @@ export function mapFinDataToFlowForm(item: OnlineFinData): FlowFinanceForm {
 }
 
 export function buildStartProcessingPayload(form: FlowForm, applicationId: number): OnlineCreateApplicationPayload {
+  const addresses = mapFlowAddressesToStartProcessing(form.addresses);
+  const extraInformations = mapFlowExtraInformationsToStartProcessing(form.extraInformations);
+  const finData = isFlowFinanceFilled(form.finance) ? mapFlowFinanceInformationsToStartProcessing([form.finance]) : null;
+
   return {
     accountNo: null,
-    addresses: mapFlowAddressesToStartProcessing(form.addresses),
+    addresses: addresses.length > 0 ? addresses : null,
     applicationId,
     cardNumber: null,
-    docPersonalLegalNo: form.docPersonalLegalNo,
-    email: form.email,
-    employees: form.employees,
-    extraInformations: mapFlowExtraInformationsToStartProcessing(form.extraInformations),
-    finData: mapFlowFinanceInformationsToStartProcessing(form.financeInformations),
+    docPersonalLegalNo: toStringOrNull(form.docPersonalLegalNo),
+    email: toStringOrNull(form.email),
+    employees: toNumberOrNull(form.employees),
+    extraInformations: extraInformations.length > 0 ? extraInformations : null,
+    finData,
     legalForm: toStringOrNull(form.legalForm),
-    name: form.name,
-    newEmployees: form.newEmployees,
+    name: toStringOrNull(form.name),
+    newEmployees: toNumberOrNull(form.newEmployees),
     oked: toStringOrNull(form.oked),
     ownershipCode: toStringOrNull(form.ownershipCode),
-    registrationDate: form.registrationDate,
-    registrationNumber: form.registrationNumber,
-    registrationPlaceCode: form.registrationPlaceCode,
-    workPhone: form.workPhone,
+    registrationDate: toDateOrNull(form.registrationDate),
+    registrationNumber: toStringOrNull(form.registrationNumber),
+    registrationPlaceCode: toStringOrNull(form.registrationPlaceCode),
+    workPhone: toStringOrNull(form.workPhone),
   };
 }

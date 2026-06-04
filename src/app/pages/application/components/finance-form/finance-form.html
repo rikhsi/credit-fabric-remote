@@ -1,93 +1,79 @@
 <ng-container *transloco="let t">
-  <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_finance_info')" (closeClick)="close()" (submitClick)="submit()">
-    <cf-select-default [formField]="form.companyActivity" [placeholder]="t('prop.actual_business_activity')" size="large">
-      <ng-container *cfHandbook="{url: 'dir-company-activity'}; let items">
-        @for (item of items; track item.id) {
-        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-        }
-      </ng-container>
-    </cf-select-default>
-
-    <cf-input-default [formField]="form.activityTerm" [placeholder]="t('prop.experience_in_business_activity')" size="large" />
-
-    <h4 class="title">{{t('prop.financial_activity_over')}}</h4>
-
-    <div class="box">
-      <cf-select-default [formField]="form.month1" [placeholder]="t('prop.month')" size="large">
-        <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
+  <div class="finance-form">
+    <div class="finance-form__general">
+      <cf-select-default [formField]="form().finance.companyActivity" [placeholder]="t('prop.actual_business_activity')" size="large">
+        <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
         </ng-container>
       </cf-select-default>
 
-      <cf-input-default
-        [formField]="form.month1Revenue"
-        [placeholder]="t('prop.benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
-
-      <cf-input-default
-        [formField]="form.month1Income"
-        [placeholder]="t('prop.pure_benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
+      <cf-input-default [formField]="form().finance.activityTerm" [placeholder]="t('prop.experience_in_business_activity')" size="large" />
     </div>
 
-    <div class="box">
-      <cf-select-default [formField]="form.month2" [placeholder]="t('prop.month')" size="large">
-        <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
-          @for (item of items; track item.id) {
-          <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-          }
-        </ng-container>
-      </cf-select-default>
+    <h4 class="finance-form__title">{{ t('prop.financial_activity_over') }}</h4>
 
-      <cf-input-default
-        [formField]="form.month2Revenue"
-        [placeholder]="t('prop.benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
+    <div class="finance-form__months">
+      <article class="month-card">
+        <h5 class="month-card__label">{{ month1Label() }}</h5>
 
-      <cf-input-default
-        [formField]="form.month2Income"
-        [placeholder]="t('prop.pure_benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
+        <cf-input-default
+          [formField]="form().finance.month1Revenue"
+          [placeholder]="t('prop.benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+
+        <cf-input-default
+          [formField]="form().finance.month1Income"
+          [placeholder]="t('prop.pure_benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+      </article>
+
+      <article class="month-card">
+        <h5 class="month-card__label">{{ month2Label() }}</h5>
+
+        <cf-input-default
+          [formField]="form().finance.month2Revenue"
+          [placeholder]="t('prop.benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+
+        <cf-input-default
+          [formField]="form().finance.month2Income"
+          [placeholder]="t('prop.pure_benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+      </article>
+
+      <article class="month-card">
+        <h5 class="month-card__label">{{ month3Label() }}</h5>
+
+        <cf-input-default
+          [formField]="form().finance.month3Revenue"
+          [placeholder]="t('prop.benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+
+        <cf-input-default
+          [formField]="form().finance.month3Income"
+          [placeholder]="t('prop.pure_benefit')"
+          mask="separator.0"
+          thousandSeparator=" "
+          size="large"
+        />
+      </article>
     </div>
-
-    <div class="box">
-      <cf-select-default [formField]="form.month3" [placeholder]="t('prop.month')" size="large">
-        <ng-container *cfHandbook="{ url: 'sys-month' }; let items">
-          @for (item of items; track item.id) {
-          <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-          }
-        </ng-container>
-      </cf-select-default>
-
-      <cf-input-default
-        [formField]="form.month3Revenue"
-        [placeholder]="t('prop.benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
-
-      <cf-input-default
-        [formField]="form.month3Income"
-        [placeholder]="t('prop.pure_benefit')"
-        mask="separator.0"
-        thousandSeparator=" "
-        size="large"
-      />
-    </div>
-  </cf-form-box>
+  </div>
 </ng-container>

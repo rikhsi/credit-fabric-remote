@@ -209,10 +209,10 @@ export interface OnlineFinData {
 }
 
 export interface OnlineStartProcessingExtraInformation {
-  ecologicalImpactCode: string;
-  enterpriseClassfier: string;
-  objectNewFormation: string;
-  sectorEconomy: string;
+  ecologicalImpactCode: string | null;
+  enterpriseClassfier: string | null;
+  objectNewFormation: string | null;
+  sectorEconomy: string | null;
 }
 
 export interface OnlineStartProcessingFinData {
@@ -231,11 +231,11 @@ export interface OnlineStartProcessingFinData {
 }
 
 export interface OnlineStartProcessingAddress {
-  sysAddressTypeId: string;
-  dirCityId: string;
-  dirVillageId: string;
-  street: string;
-  zipCode: string;
+  sysAddressTypeId: string | null;
+  dirCityId: string | null;
+  dirVillageId: string | null;
+  street: string | null;
+  zipCode: string | null;
 }
 
 export interface OnlineCreateApplicationPayload {
@@ -243,20 +243,20 @@ export interface OnlineCreateApplicationPayload {
   addresses: OnlineStartProcessingAddress[] | null;
   applicationId: number;
   cardNumber: string | null;
-  docPersonalLegalNo: string;
-  email: string;
-  employees: number;
-  extraInformations: OnlineStartProcessingExtraInformation[];
-  finData: OnlineStartProcessingFinData[];
-  legalForm: string;
-  name: string;
-  newEmployees: number;
-  oked: string;
-  ownershipCode: string;
-  registrationDate: Date;
-  registrationNumber: string;
-  registrationPlaceCode: string;
-  workPhone: string;
+  docPersonalLegalNo: string | null;
+  email: string | null;
+  employees: number | null;
+  extraInformations: OnlineStartProcessingExtraInformation[] | null;
+  finData: OnlineStartProcessingFinData[] | null;
+  legalForm: string | null;
+  name: string | null;
+  newEmployees: number | null;
+  oked: string | null;
+  ownershipCode: string | null;
+  registrationDate: Date | null;
+  registrationNumber: string | null;
+  registrationPlaceCode: string | null;
+  workPhone: string | null;
 }
 
 export interface OnlineLegalForm {

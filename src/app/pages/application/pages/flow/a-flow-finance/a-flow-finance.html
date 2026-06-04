@@ -1,7 +1,9 @@
 <ng-container *transloco="let t">
-  <cf-finance-info [items]="flowForm().financeInformations().value()" (add)="openFinanceForm()" (edit)="openFinanceForm($event)" />
+  <cf-card [title]="t('prop.finances')" [showSpace]="true" class="bordered">
+    <cf-steps [stepsLength]="2" [currentStep]="2" class="step" />
 
-  <div class="actions">
-    <button nz-button nzType="primary" nzSize="large" (click)="finish()">{{t('action.finish')}}</button>
-  </div>
+    <cf-finance-form [form]="flowForm()" />
+  </cf-card>
+
+  <button nz-button nzType="primary" nzSize="large" (click)="finish()" class="submit">{{ t('action.finish') }}</button>
 </ng-container>

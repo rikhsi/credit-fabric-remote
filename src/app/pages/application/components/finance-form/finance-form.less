@@ -1,30 +1,60 @@
-@import 'colors';
 @import 'mixins';
 
 .themeMixin({
-    :host {
-        .box {
-            background: @component-background-secondary;
-        }
+  :host {
+    .month-card {
+      background: @component-background-secondary;
+      border: 1px solid @border-color;
     }
+
+    .month-card__label {
+      color: @text-color;
+    }
+
+    .finance-form__title {
+      color: @text-color;
+    }
+  }
 });
 
-.title {
-  margin-bottom: 20px;
+:host {
+  display: block;
 }
 
-.scroll {
-  height: 45svh;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  .media(@media-sm, {
-        height: 30svh;
-    });
+.finance-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
 }
 
-.box {
+.finance-form__general {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.finance-form__title {
+  margin: 0;
+  .textMixin(600, 18px, 130%);
+}
+
+.finance-form__months {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.month-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   padding: 16px;
   border-radius: 16px;
-  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.month-card__label {
+  margin: 0;
+  text-transform: capitalize;
+  .textMixin(600, 16px, 130%);
 }

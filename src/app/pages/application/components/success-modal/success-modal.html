@@ -9,9 +9,11 @@
     <div class="text">
       <h1 nz-typography>{{t('modal.application_success.title')}}</h1>
 
-      <p nz-typography>{{t('modal.application_success.description')}} № {{ config()?.id }}</p>
-
-      <h2 nz-typography>{{ config()?.amount | number }} {{config()?.amount | pluralize: 'money': false}}</h2>
+      @if (config()?.id != null) {
+      <p nz-typography>{{ t('modal.application_success.description') }} № {{ config()!.id }}</p>
+      } @if (config()?.amount != null) {
+      <h2 nz-typography>{{ config()!.amount | number }} {{ config()!.amount | pluralize: 'money': false }}</h2>
+      }
     </div>
   </div>
 

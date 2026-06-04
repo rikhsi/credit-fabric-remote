@@ -42,5 +42,5 @@ export function isGeneralStepValid(form: FlowForm): boolean {
 }
 
 export function isFinanceStepValid(form: FlowForm): boolean {
-  return form.financeInformations.length > 0 && form.financeInformations.every(isFlowFinanceFilled);
+  return isFlowFinanceFilled(form.finance);
 }

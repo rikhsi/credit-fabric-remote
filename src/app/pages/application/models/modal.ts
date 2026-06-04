@@ -1,4 +1,4 @@
 export interface SuccessModalData {
-  id: number;
-  amount: number;
+  id: number | null;
+  amount: number | null;
 }
