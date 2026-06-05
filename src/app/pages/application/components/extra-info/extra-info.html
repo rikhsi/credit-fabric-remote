@@ -1,7 +1,9 @@
+@let valid = this.form().extraInformation().valid();
+
 <ng-container *transloco="let t">
-  <cf-card [titleRef]="titleRef" [showSpace]="isFilled()" class="bordered">
+  <cf-card [titleRef]="titleRef" [showSpace]="valid" class="bordered">
     <div actions>
-      @if (!isFilled()) {
+      @if (!valid) {
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>{{ t('action.add') }}</strong>
 
@@ -11,7 +13,7 @@
     </div>
 
     <div class="list">
-      @if (isFilled() && item(); as extraItem) {
+      @if (valid && item(); as extraItem) {
       <cf-extra-info-item [item]="extraItem" (edit)="edit.emit()" />
       }
     </div>
@@ -21,7 +23,7 @@
     <div class="titleRef">
       <h2 nz-typography>{{ t('prop.extra_params') }}</h2>
 
-      @if (!isFilled()) {
+      @if (!valid) {
       <nz-tag>
         <nz-icon nzType="info-circle" />
         {{ t('alert.fill_fields') }}

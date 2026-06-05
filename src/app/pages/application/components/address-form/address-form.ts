@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { flowAdressFormModel } from '@pages/application/data/form';
-import { isFlowAddressFilled } from '@pages/application/utils/address';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
@@ -17,29 +15,41 @@ import { OnlineStartProcessingAddress } from '@api/models/los/online';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressForm implements OnInit {
+  private isLoading = signal<boolean>(true);
   private readonly modalRef = inject(NzModalRef);
   private readonly nzModalData = inject<OnlineStartProcessingAddress | null>(NZ_MODAL_DATA, { optional: true });
 
-  private readonly initialValue: OnlineStartProcessingAddress = {
-    ...flowAdressFormModel,
-    dirCountryId: 'UZB',
-    ...(this.nzModalData ?? {}),
-  };
+  public readonly addressForm = form(
+    signal<OnlineStartProcessingAddress>({
+      sysAddressTypeId: null,
+      dirCityId: null,
+      dirVillageId: null,
+      street: null,
+      zipCode: null,
+      dirCountryId: null,
+    }),
+    (schemaPath) => {
+      disabled(schemaPath, () => this.isLoading());
+      required(schemaPath.dirVillageId);
+      required(schemaPath.dirCityId);
+      required(schemaPath.street);
+      required(schemaPath.zipCode);
+    },
+  );
 
-  public readonly addressForm = form(signal(this.initialValue), (schemaPath) => {
-    disabled(schemaPath.sysAddressTypeId);
-    required(schemaPath.dirVillageId);
-    required(schemaPath.dirCityId);
-    required(schemaPath.street);
-    required(schemaPath.zipCode);
-  });
+  public ngOnInit(): void {
+    setTimeout(() => {
+      this.addressForm().value.update(() => ({
+        sysAddressTypeId: this.nzModalData.sysAddressTypeId,
+        dirCityId: this.nzModalData.dirCityId,
+        dirVillageId: this.nzModalData.dirVillageId,
+        street: this.nzModalData.street,
+        zipCode: this.nzModalData.zipCode,
+        dirCountryId: this.nzModalData.dirCountryId,
+      }));
 
-  public readonly submitDisabled = computed(() => !this.addressForm().valid());
-
-  public readonly isEdit = computed(() => isFlowAddressFilled(this.initialValue));
-
-  ngOnInit(): void {
-    this.addressForm().value.set(this.initialValue);
+      this.isLoading.set(false);
+    }, 0);
   }
 
   public close(): void {

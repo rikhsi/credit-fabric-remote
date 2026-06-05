@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { applicationFlowGeneralGuard } from './guards/application-flow-general.guard';
 import { FlowService } from './services';
+import { applicationFlowFinanceGuard } from './guards/application-flow-finance.guard';
 import { applicationResolver, financeResolver } from './resolvers';
 import { ApplicationFlowRoute, ApplicationRoute, LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
@@ -23,7 +23,7 @@ export const routes: Routes = [
       },
       {
         path: ApplicationFlowRoute.Finance,
-        canActivate: [applicationFlowGeneralGuard],
+        canActivate: [applicationFlowFinanceGuard],
         resolve: {
           backConfig: financeResolver,
         },

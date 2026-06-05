@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Card, LabelControlSecondary } from '@shared/components';
 import { PhoneNumberPipe } from '@shared/pipes';
-import { AuthService } from '@core/services/auth.service';
+import { UserItem } from '@api/models/base';
 
 @Component({
   selector: 'cf-contact-info',
@@ -12,7 +12,5 @@ import { AuthService } from '@core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactInfo {
-  private readonly authService = inject(AuthService);
-
-  readonly user = computed(() => this.authService.user());
+  public user = input<UserItem>(null);
 }

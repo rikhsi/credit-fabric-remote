@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { ExtraForm } from '@pages/application/components/extra-form/extra-form';
 import { GeneralInfo } from '@pages/application/components/general-info/general-info';
 import { ApplicationFlowRoute } from '@app/constants/route-path';
 import { isGeneralStepValid } from '@pages/application/utils/flow-step.validation';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'cf-a-flow-general',
@@ -28,7 +29,9 @@ export class AFlowGeneral implements OnInit {
   private vcr = inject(ViewContainerRef);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
+  public readonly user = computed(() => this.authService.user());
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
 
   get application(): OnlineApplication {
@@ -97,7 +100,7 @@ export class AFlowGeneral implements OnInit {
   }
 
   continue(): void {
-    if (isGeneralStepValid(this.flowService.flowForm().value())) {
+    if (isGeneralStepValid(this.flowService.flowForm)) {
       void this.router.navigate([ApplicationFlowRoute.Finance], { relativeTo: this.route.parent });
       return;
     }

@@ -1,5 +1,4 @@
 import { FinanceMonthPeriod } from '../data/finance';
-import { flowFinanceFormModel } from '../data/form';
 import { OnlineStartProcessingFinData } from '@api/models/los/online';
 
 /** Three calendar months before the current month (oldest → newest). */
@@ -52,7 +51,19 @@ export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessin
   const periods = getLastThreeFinanceMonthPeriods();
 
   return {
-    ...flowFinanceFormModel,
+    ...{
+      dirCompanyActivityId: null,
+      activityTerm: null,
+      sysMonth1Id: null,
+      month1Revenue: null,
+      month1Income: null,
+      sysMonth2Id: null,
+      month2Revenue: null,
+      month2Income: null,
+      sysMonth3Id: null,
+      month3Revenue: null,
+      month3Income: null,
+    },
     ...existing,
     sysMonth1Id: existing?.sysMonth1Id ?? toFinanceMonthId(periods[0]),
     sysMonth2Id: existing?.sysMonth2Id ?? toFinanceMonthId(periods[1]),

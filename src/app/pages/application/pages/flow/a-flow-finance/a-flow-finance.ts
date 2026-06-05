@@ -13,7 +13,6 @@ import { RootRoute } from '@app/constants/route-path';
 import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
 import { SuccessModalData } from '@pages/application/data/modal';
-import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
 
 @Component({
   selector: 'cf-a-flow-finance',
@@ -41,7 +40,7 @@ export class AFlowFinance {
       return;
     }
 
-    if (!isFinanceStepValid(this.flowService.flowForm().value())) {
+    if (this.flowService.flowForm.finData().invalid()) {
       this.flowForm().finData().markAsDirty();
       this.scrollToInvalidElement();
       return;

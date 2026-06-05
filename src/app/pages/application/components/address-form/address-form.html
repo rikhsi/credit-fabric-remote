@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <cf-form-box
-    [submitDisabled]="submitDisabled()"
-    [title]="isEdit() ? t('action.edit_address') : t('action.add_address')"
+    [submitDisabled]="addressForm().disabled() || addressForm().invalid()"
+    [title]="t('action.add_address')"
     (closeClick)="close()"
     (submitClick)="submit()"
   >

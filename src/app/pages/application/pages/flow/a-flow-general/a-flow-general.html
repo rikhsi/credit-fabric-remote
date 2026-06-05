@@ -1,8 +1,14 @@
 <ng-container *transloco="let t">
+  @let userItem = user();
+
   <cf-general-info [application]="application" [form]="flowForm()" />
-  <cf-contact-info />
+
+  @if (userItem?.email || userItem?.phone) {
+  <cf-contact-info [user]="userItem" />
+  }
+
   <cf-address-info [items]="flowForm().addresses().value()" (edit)="openAddressForm($event)" />
-  <cf-extra-info [item]="flowForm().extraInformation().value()" (add)="openExtraForm()" (edit)="openExtraForm()" />
+  <cf-extra-info [form]="flowForm()" [item]="flowForm().extraInformation().value()" (add)="openExtraForm()" (edit)="openExtraForm()" />
 
   <button nz-button nzType="primary" nzSize="large" (click)="continue()" class="submit">{{t('action.continue')}}</button>
 </ng-container>

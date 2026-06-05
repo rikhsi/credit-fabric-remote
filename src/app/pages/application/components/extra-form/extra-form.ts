@@ -5,7 +5,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormBox, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { flowExtraInformationFormModel } from '@pages/application/data/form';
 import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 
 @Component({
@@ -19,22 +18,31 @@ export class ExtraForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
   private readonly nzModalData = inject<OnlineStartProcessingExtraInformation | null>(NZ_MODAL_DATA, { optional: true });
 
-  public readonly form = form(signal({ ...flowExtraInformationFormModel }), (schemaPath) => {
-    required(schemaPath.ecologicalImpactCode);
-    required(schemaPath.enterpriseClassfier);
-    required(schemaPath.objectNewFormation);
-    required(schemaPath.sectorEconomy);
-  });
+  public readonly form = form(
+    signal<OnlineStartProcessingExtraInformation>({
+      sectorEconomy: null,
+      objectNewFormation: null,
+      enterpriseClassfier: null,
+      ecologicalImpactCode: null,
+    }),
+    (schemaPath) => {
+      required(schemaPath.ecologicalImpactCode);
+      required(schemaPath.enterpriseClassfier);
+      required(schemaPath.objectNewFormation);
+      required(schemaPath.sectorEconomy);
+    },
+  );
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm(): void {
-    this.form().value.set({
-      ...flowExtraInformationFormModel,
-      ...(this.nzModalData ?? {}),
-    });
+    setTimeout(() => {
+      this.form().value.set({
+        sectorEconomy: null,
+        objectNewFormation: null,
+        enterpriseClassfier: null,
+        ecologicalImpactCode: null,
+        ...(this.nzModalData ?? {}),
+      });
+    }, 0);
   }
 
   public close(): void {
