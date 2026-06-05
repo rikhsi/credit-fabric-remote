@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { filter, switchMap, take } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { filter, finalize, switchMap, take, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { OnlineApiService } from '@api/controllers/los/online-api.service';
 import { ModalConfirmComponent, Card, Steps } from '@shared/components';
 import { FlowService } from '@pages/application/services';
 import { ConfirmModal } from '@app/typings/modal';
 import { RouteParam } from '@app/constants/route-param';
+import { RootRoute } from '@app/constants/route-path';
 import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
 import { SuccessModalData } from '@pages/application/data/modal';
@@ -26,14 +27,20 @@ export class AFlowFinance {
   private flowService = inject(FlowService);
   private onlineApi = inject(OnlineApiService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
+  public readonly submitting = signal(false);
 
   get applicationId(): number {
     return Number(this.route.snapshot.params[RouteParam.AppId]);
   }
 
   finish(): void {
+    if (this.submitting()) {
+      return;
+    }
+
     if (!isFinanceStepValid(this.flowService.flowForm().value())) {
       this.flowForm().finData().markAsDirty();
       this.scrollToInvalidElement();
@@ -43,12 +50,15 @@ export class AFlowFinance {
     this.confirmModal()
       .afterClose.pipe(
         filter((state) => state),
-        switchMap(() => this.onlineApi.createApplication$(this.flowForm()().value())),
+        tap(() => this.submitting.set(true)),
+        switchMap(() =>
+          this.onlineApi.createApplication$(this.flowService.flowForm().value()).pipe(finalize(() => this.submitting.set(false))),
+        ),
         take(1),
       )
       .subscribe({
-        next: () => this.successModal(),
-        error: () => this.errorModal(),
+        next: () => this.openSuccessModal(),
+        error: () => this.openErrorModal(),
       });
   }
 
@@ -89,8 +99,8 @@ export class AFlowFinance {
     });
   }
 
-  private successModal(): NzModalRef {
-    return this.nzModalService.create<SuccessModal, SuccessModalData, boolean>({
+  private openSuccessModal(): void {
+    const modalRef = this.nzModalService.create<SuccessModal, SuccessModalData, boolean>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -103,10 +113,14 @@ export class AFlowFinance {
       },
       nzContent: SuccessModal,
     });
+
+    modalRef.afterClose.pipe(take(1)).subscribe(() => {
+      void this.router.navigate(['/', RootRoute.Applications]);
+    });
   }
 
-  private errorModal(): NzModalRef {
-    return this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+  private openErrorModal(): void {
+    this.nzModalService.create<ModalConfirmComponent, ConfirmModal, boolean>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -116,7 +130,7 @@ export class AFlowFinance {
         title: 'modal.error_application.title',
         description: 'modal.error_application.description',
         submit: {
-          title: 'action.back_home',
+          title: 'action.close',
           danger: false,
         },
       },

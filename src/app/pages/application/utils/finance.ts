@@ -1,6 +1,10 @@
 import { OnlineStartProcessingFinData } from '@api/models/los/online';
 
-export function isFlowFinanceFilled(item: OnlineStartProcessingFinData): boolean {
+export function isFlowFinanceFilled(item: OnlineStartProcessingFinData | null | undefined): boolean {
+  if (!item) {
+    return false;
+  }
+
   return (
     item.dirCompanyActivityId != null &&
     !!item.activityTerm &&

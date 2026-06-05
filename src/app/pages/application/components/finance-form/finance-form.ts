@@ -27,7 +27,7 @@ export class FinanceForm implements OnInit {
   ngOnInit(): void {
     this.flowService.flowForm().value.update((cur) => ({
       ...cur,
-      finance: ensureFinanceMonthDefaults(cur.finData),
+      finData: ensureFinanceMonthDefaults(cur.finData),
     }));
   }
 }

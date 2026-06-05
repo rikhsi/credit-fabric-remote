@@ -60,8 +60,8 @@ export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessin
   };
 }
 
-export function ensureFinanceMonthDefaults(finance: OnlineStartProcessingFinData): OnlineStartProcessingFinData {
-  if (finance.sysMonth1Id && finance.sysMonth2Id && finance.sysMonth3Id) {
+export function ensureFinanceMonthDefaults(finance: OnlineStartProcessingFinData | null | undefined): OnlineStartProcessingFinData {
+  if (finance?.sysMonth1Id && finance.sysMonth2Id && finance.sysMonth3Id) {
     return finance;
   }
 
