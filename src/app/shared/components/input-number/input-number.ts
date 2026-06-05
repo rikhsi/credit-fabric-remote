@@ -13,8 +13,8 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
   styleUrl: './input-number.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputNumber extends ControlBaseDirective<number> {
-  value = model(null);
+export class InputNumber extends ControlBaseDirective<number | null> {
+  value = model<number | null>(null);
   readonly minVal = input<number>();
   readonly maxVal = input<number>();
 }

@@ -1,12 +1,13 @@
 <ng-container *transloco="let t">
+  @let showErrors = touched() || dirty();
   <nz-form-item>
     <nz-form-control
-      [nzValidateStatus]="firstError() | validationStatus: dirty()"
+      [nzValidateStatus]="firstError() | validationStatus: showErrors"
       [nzHasFeedback]="isFeedback()"
-      [nzErrorTip]="t(firstError() | validationMsg: dirty(), {count: errorCount()})"
-      [nzValidatingTip]="t(firstError() | validationMsg: dirty(), {count: errorCount()})"
-      [nzWarningTip]="t(firstError() | validationMsg: dirty(), {count: errorCount()})"
-      [nzSuccessTip]="t(firstError() | validationMsg: dirty(), {count: errorCount()})"
+      [nzErrorTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzValidatingTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzWarningTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
       <nz-input-number
         [(ngModel)]="value"
@@ -15,7 +16,7 @@
         [id]="id()"
         [nzPlaceHolder]="placeholder() ?? t('control.input.placeholder')"
         [disabled]="disabled()"
-        (blur)="blurChange.emit()"
+        (nzBlur)="onBlur()"
         (focus)="focusChange.emit()"
         [nzSize]="size()"
         (click)="clicked.emit()"
