@@ -132,7 +132,7 @@ export class AFlowFinance {
     });
 
     modalRef.afterClose.pipe(take(1)).subscribe(() => {
-      void this.router.navigate(['/', RootRoute.Applications]);
+      void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
     });
   }
 
