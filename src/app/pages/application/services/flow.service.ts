@@ -61,6 +61,9 @@ export class FlowService {
       required(schemaPath.finData.sysMonth1Id);
       required(schemaPath.finData.sysMonth2Id);
       required(schemaPath.finData.sysMonth3Id);
+      required(schemaPath.finData.monthYear1);
+      required(schemaPath.finData.monthYear2);
+      required(schemaPath.finData.monthYear3);
       minLength(schemaPath.docPersonalLegalNo, 14);
       maxLength(schemaPath.docPersonalLegalNo, 14);
       validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));

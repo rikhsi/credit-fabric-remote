@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
+import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-extra-info-item',

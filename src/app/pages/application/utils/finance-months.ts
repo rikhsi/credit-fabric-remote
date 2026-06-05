@@ -1,4 +1,5 @@
 import { FinanceMonthPeriod } from '../data/finance';
+import { SysMonthItem } from '@api/models/handbooks';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 
 /** Three calendar months before the current month (oldest → newest). */
@@ -13,37 +14,36 @@ export function getLastThreeFinanceMonthPeriods(date = new Date()): FinanceMonth
   });
 }
 
-export function toFinanceMonthId(period: FinanceMonthPeriod): string {
-  return `${period.year}-${String(period.month).padStart(2, '0')}`;
+export function resolveSysMonthId(month: number, items: SysMonthItem[]): string | null {
+  const normalizedMonth = String(month).padStart(2, '0');
+
+  const item = items.find(({ code }) => code === normalizedMonth || code === String(month) || Number(code) === month);
+
+  return item?.id ?? null;
 }
 
-export function parseFinanceMonthId(monthId: string | null | undefined): FinanceMonthPeriod | null {
-  if (!monthId) {
-    return null;
-  }
+export type FinanceMonthSlot = 1 | 2 | 3;
 
-  const isoMatch = /^(\d{4})-(\d{2})$/.exec(monthId);
-
-  if (isoMatch) {
-    return { year: Number(isoMatch[1]), month: Number(isoMatch[2]) };
-  }
-
-  return null;
-}
-
-export function toFinanceMonthDate(monthId: string | null | undefined): Date | null {
-  const period = parseFinanceMonthId(monthId);
-
-  if (!period) {
-    return null;
-  }
+export function getFinanceMonthDateBySlot(slot: FinanceMonthSlot, date = new Date()): Date {
+  const period = getLastThreeFinanceMonthPeriods(date)[slot - 1];
 
   return new Date(period.year, period.month - 1, 1);
 }
 
-export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessingFinData> | null): OnlineStartProcessingFinData {
-  const periods = getLastThreeFinanceMonthPeriods();
+/** Year for each slot is derived from the calendar date, not from SYS_MONTH handbook. */
+export function resolveFinanceMonthYears(
+  date = new Date(),
+): Pick<OnlineStartProcessingFinData, 'monthYear1' | 'monthYear2' | 'monthYear3'> {
+  const periods = getLastThreeFinanceMonthPeriods(date);
 
+  return {
+    monthYear1: periods[0].year,
+    monthYear2: periods[1].year,
+    monthYear3: periods[2].year,
+  };
+}
+
+export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessingFinData> | null): OnlineStartProcessingFinData {
   return {
     ...{
       dirCompanyActivityId: null,
@@ -62,16 +62,25 @@ export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessin
       monthYear3: null,
     },
     ...existing,
-    sysMonth1Id: existing?.sysMonth1Id ?? toFinanceMonthId(periods[0]),
-    sysMonth2Id: existing?.sysMonth2Id ?? toFinanceMonthId(periods[1]),
-    sysMonth3Id: existing?.sysMonth3Id ?? toFinanceMonthId(periods[2]),
+    ...resolveFinanceMonthYears(),
+    sysMonth1Id: existing?.sysMonth1Id ?? null,
+    sysMonth2Id: existing?.sysMonth2Id ?? null,
+    sysMonth3Id: existing?.sysMonth3Id ?? null,
   };
 }
 
-export function ensureFinanceMonthDefaults(finance: OnlineStartProcessingFinData | null | undefined): OnlineStartProcessingFinData {
-  if (finance?.sysMonth1Id && finance.sysMonth2Id && finance.sysMonth3Id) {
-    return finance;
-  }
+export function applyFinanceMonthDefaults(
+  finance: OnlineStartProcessingFinData | null | undefined,
+  sysMonthItems: SysMonthItem[],
+): OnlineStartProcessingFinData {
+  const base = createDefaultFinanceForm(finance);
+  const periods = getLastThreeFinanceMonthPeriods();
 
-  return createDefaultFinanceForm(finance);
+  return {
+    ...base,
+    ...resolveFinanceMonthYears(),
+    sysMonth1Id: base.sysMonth1Id ?? resolveSysMonthId(periods[0].month, sysMonthItems),
+    sysMonth2Id: base.sysMonth2Id ?? resolveSysMonthId(periods[1].month, sysMonthItems),
+    sysMonth3Id: base.sysMonth3Id ?? resolveSysMonthId(periods[2].month, sysMonthItems),
+  };
 }

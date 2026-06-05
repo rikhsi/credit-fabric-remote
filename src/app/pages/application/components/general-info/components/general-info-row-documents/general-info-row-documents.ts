@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OnlineBorrower, OnlineCreateApplicationPayload } from '@api/models/los/online';
+import { OnlineBorrower } from '@api/models/los/application';
+import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import { InputDefault, LabelControlSecondary } from '@shared/components';
 
 @Component({

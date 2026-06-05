@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormBox, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
+import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-extra-form',

@@ -7,7 +7,7 @@ import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 import { ResetVillageOnCityChangeDirective } from '@pages/application/directives';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-address-form',

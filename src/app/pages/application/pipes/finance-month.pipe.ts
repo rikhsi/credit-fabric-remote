@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
-import { toFinanceMonthDate } from '../utils/finance-months';
+import { FinanceMonthSlot, getFinanceMonthDateBySlot } from '../utils/finance-months';
 
 @Pipe({
   name: 'financeMonth',
@@ -10,13 +10,9 @@ export class FinanceMonthPipe implements PipeTransform {
   private readonly locale = inject(LOCALE_ID);
   private readonly datePipe = new DatePipe(this.locale);
 
-  transform(monthId: string | null | undefined, format = 'MMMM y', timezone?: string, locale?: string): string {
-    const date = toFinanceMonthDate(monthId);
+  transform(slot: FinanceMonthSlot, format = 'MMMM y', timezone?: string, locale?: string): string {
+    const date = getFinanceMonthDateBySlot(slot);
 
-    if (!date) {
-      return monthId ?? '';
-    }
-
-    return this.datePipe.transform(date, format, timezone, locale ?? this.locale) ?? monthId ?? '';
+    return this.datePipe.transform(date, format, timezone, locale ?? this.locale) ?? '';
   }
 }

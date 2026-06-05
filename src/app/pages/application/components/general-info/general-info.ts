@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OnlineApplication, OnlineCreateApplicationPayload } from '@api/models/los/online';
+import { OnlineApplication } from '@api/models/los/application';
+import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import {
   GeneralInfoRowAuthority,
   GeneralInfoRowDocuments,

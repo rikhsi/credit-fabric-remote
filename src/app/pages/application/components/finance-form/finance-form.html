@@ -23,7 +23,7 @@
 
     <div class="finance-form__months">
       <article class="month-card">
-        <h5 class="month-card__label">{{ form().finData.sysMonth1Id().value() | financeMonth: 'MMMM y' }}</h5>
+        <h5 class="month-card__label">{{ 1 | financeMonth: 'MMMM y' }}</h5>
 
         <cf-input-default
           [formField]="form().finData.month1Revenue"
@@ -45,7 +45,7 @@
       </article>
 
       <article class="month-card">
-        <h5 class="month-card__label">{{ form().finData.sysMonth2Id().value() | financeMonth: 'MMMM y' }}</h5>
+        <h5 class="month-card__label">{{ 2 | financeMonth: 'MMMM y' }}</h5>
 
         <cf-input-default
           [formField]="form().finData.month2Revenue"
@@ -67,7 +67,7 @@
       </article>
 
       <article class="month-card">
-        <h5 class="month-card__label">{{ form().finData.sysMonth3Id().value() | financeMonth: 'MMMM y' }}</h5>
+        <h5 class="month-card__label">{{ 3 | financeMonth: 'MMMM y' }}</h5>
 
         <cf-input-default
           [formField]="form().finData.month3Revenue"

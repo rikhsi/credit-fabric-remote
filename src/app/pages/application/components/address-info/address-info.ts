@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { AddressInfoItem } from './components';
 import { Card } from '@shared/components';
-import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { isFlowAddressFilled } from '@pages/application/utils/address';
 
 @Component({

@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { isFlowAddressFilled } from '@pages/application/utils/address';
 
 @Component({

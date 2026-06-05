@@ -69,6 +69,9 @@ export class AFlowFinance {
     finData.sysMonth1Id().markAsDirty();
     finData.sysMonth2Id().markAsDirty();
     finData.sysMonth3Id().markAsDirty();
+    finData.monthYear1().markAsDirty();
+    finData.monthYear2().markAsDirty();
+    finData.monthYear3().markAsDirty();
     finData.month1Revenue().markAsDirty();
     finData.month1Income().markAsDirty();
     finData.month2Revenue().markAsDirty();

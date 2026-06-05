@@ -1,6 +1,6 @@
 import { Directive, effect, input } from '@angular/core';
 import { FieldTree } from '@angular/forms/signals';
-import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Directive({
   selector: '[cfResetVillageOnCityChange]',

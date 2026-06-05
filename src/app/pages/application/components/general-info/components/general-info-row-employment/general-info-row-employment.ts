@@ -4,7 +4,8 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { OnlineBorrower, OnlineCreateApplicationPayload } from '@api/models/los/online';
+import { OnlineBorrower } from '@api/models/los/application';
+import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-general-info-row-employment',

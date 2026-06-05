@@ -6,7 +6,7 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { Card } from '@shared/components';
 import { ExtraInfoItem } from '@pages/application/components/extra-info/components';
-import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
+import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-extra-info',
