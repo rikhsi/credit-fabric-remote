@@ -8,6 +8,7 @@ import { AuthService } from '@core/services/auth.service';
 @Injectable()
 export class FlowService {
   private authService = inject(AuthService);
+  private initializedApplicationId: number | null = null;
 
   public readonly flowForm = form(
     signal<OnlineCreateApplicationPayload>({
@@ -65,9 +66,17 @@ export class FlowService {
     },
   );
 
-  public initApplication(application: OnlineApplication, applicationId: number): void {
+  public initApplication(application: OnlineApplication, applicationId: number | string): void {
+    const id = Number(applicationId);
+
+    if (this.initializedApplicationId === id) {
+      return;
+    }
+
+    this.initializedApplicationId = id;
+
     this.flowForm().value.set({
-      applicationId,
+      applicationId: id,
       docPersonalLegalNo: application.borrower.docPersonalLegalNo,
       employees: application.borrower.employees,
       name: application.borrower.name,

@@ -45,3 +45,21 @@ export function isGeneralStepValid(form: FieldTree<OnlineCreateApplicationPayloa
 
   return value.addresses.every(isFlowAddressFilled);
 }
+
+export function isFinanceStepValid(form: FieldTree<OnlineCreateApplicationPayload>): boolean {
+  const finData = form().value().finData;
+
+  return (
+    isPresent(finData?.dirCompanyActivityId) &&
+    isPresent(finData?.activityTerm) &&
+    isPresent(finData?.sysMonth1Id) &&
+    isPresent(finData?.month1Revenue) &&
+    isPresent(finData?.month1Income) &&
+    isPresent(finData?.sysMonth2Id) &&
+    isPresent(finData?.month2Revenue) &&
+    isPresent(finData?.month2Income) &&
+    isPresent(finData?.sysMonth3Id) &&
+    isPresent(finData?.month3Revenue) &&
+    isPresent(finData?.month3Income)
+  );
+}
