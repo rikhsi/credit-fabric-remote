@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div class="finance-form">
     <div class="finance-form__general">
-      <cf-select-default [formField]="form().finance.companyActivity" [placeholder]="t('prop.actual_business_activity')" size="large">
+      <cf-select-default [formField]="form().finData.dirCompanyActivityId" [placeholder]="t('prop.actual_business_activity')" size="large">
         <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -9,7 +9,7 @@
         </ng-container>
       </cf-select-default>
 
-      <cf-input-default [formField]="form().finance.activityTerm" [placeholder]="t('prop.experience_in_business_activity')" size="large" />
+      <cf-input-default [formField]="form().finData.activityTerm" [placeholder]="t('prop.experience_in_business_activity')" size="large" />
     </div>
 
     <h4 class="finance-form__title">{{ t('prop.financial_activity_over') }}</h4>
@@ -19,7 +19,7 @@
         <h5 class="month-card__label">{{ month1Label() }}</h5>
 
         <cf-input-default
-          [formField]="form().finance.month1Revenue"
+          [formField]="form().finData.month1Revenue"
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -27,7 +27,7 @@
         />
 
         <cf-input-default
-          [formField]="form().finance.month1Income"
+          [formField]="form().finData.month1Income"
           [placeholder]="t('prop.pure_benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -39,7 +39,7 @@
         <h5 class="month-card__label">{{ month2Label() }}</h5>
 
         <cf-input-default
-          [formField]="form().finance.month2Revenue"
+          [formField]="form().finData.month2Revenue"
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -47,7 +47,7 @@
         />
 
         <cf-input-default
-          [formField]="form().finance.month2Income"
+          [formField]="form().finData.month2Income"
           [placeholder]="t('prop.pure_benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -59,7 +59,7 @@
         <h5 class="month-card__label">{{ month3Label() }}</h5>
 
         <cf-input-default
-          [formField]="form().finance.month3Revenue"
+          [formField]="form().finData.month3Revenue"
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -67,7 +67,7 @@
         />
 
         <cf-input-default
-          [formField]="form().finance.month3Income"
+          [formField]="form().finData.month3Income"
           [placeholder]="t('prop.pure_benefit')"
           mask="separator.0"
           thousandSeparator=" "

@@ -5,7 +5,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { FlowExtraInformationForm } from '@pages/application/models/form';
+import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-extra-info-item',
@@ -15,7 +15,7 @@ import { FlowExtraInformationForm } from '@pages/application/models/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExtraInfoItem {
-  readonly item = input.required<FlowExtraInformationForm>();
+  readonly item = input.required<OnlineStartProcessingExtraInformation>();
 
   readonly edit = output<void>();
 }

@@ -11,7 +11,7 @@ import { ConfirmModal } from '@app/typings/modal';
 import { RouteParam } from '@app/constants/route-param';
 import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
-import { SuccessModalData } from '@pages/application/models/modal';
+import { SuccessModalData } from '@pages/application/data/modal';
 import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
 
 @Component({
@@ -35,7 +35,7 @@ export class AFlowFinance {
 
   finish(): void {
     if (!isFinanceStepValid(this.flowService.flowForm().value())) {
-      this.flowForm().finance().markAsDirty();
+      this.flowForm().finData().markAsDirty();
       this.scrollToInvalidElement();
       return;
     }
@@ -43,7 +43,7 @@ export class AFlowFinance {
     this.confirmModal()
       .afterClose.pipe(
         filter((state) => state),
-        switchMap(() => this.onlineApi.createApplication$(this.flowService.buildStartProcessingPayload(this.applicationId))),
+        switchMap(() => this.onlineApi.createApplication$(this.flowForm()().value())),
         take(1),
       )
       .subscribe({

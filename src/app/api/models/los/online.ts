@@ -209,68 +209,66 @@ export interface OnlineFinData {
 }
 
 export interface OnlineStartProcessingExtraInformation {
-  ecologicalImpactCode: string | null;
-  enterpriseClassfier: string | null;
-  objectNewFormation: string | null;
-  sectorEconomy: string | null;
+  ecologicalImpactCode: string;
+  enterpriseClassfier: string;
+  objectNewFormation: string;
+  sectorEconomy: string;
 }
 
 export interface OnlineStartProcessingFinData {
-  dirCompanyActivityId: string | null;
-  activityTerm: number | null;
-  sysMonth1Id: string | null;
-  sysMonth2Id: string | null;
-  sysMonth3Id: string | null;
-  month1Revenue: number | null;
-  month1Income: number | null;
-  month2Revenue: number | null;
-  month2Income: number | null;
-  month3Revenue: number | null;
-  month3Income: number | null;
+  dirCompanyActivityId: string;
+  activityTerm: number;
+  sysMonth1Id: string;
+  sysMonth2Id: string;
+  sysMonth3Id: string;
+  month1Revenue: number;
+  month1Income: number;
+  month2Revenue: number;
+  month2Income: number;
+  month3Revenue: number;
+  month3Income: number;
 }
 
 export interface OnlineStartProcessingAddress {
-  sysAddressTypeId: string | null;
-  dirCityId: string | null;
-  dirVillageId: string | null;
-  street: string | null;
-  zipCode: string | null;
-  dirCountryId: string | null;
+  sysAddressTypeId: string;
+  dirCityId: string;
+  dirVillageId: string;
+  street: string;
+  zipCode: string;
+  dirCountryId: string;
 }
 
 export interface OnlineCreateApplicationPayload {
-  accountNo: string;
-  cardNumber: string;
-  addresses: OnlineStartProcessingAddress | null;
+  addresses: OnlineStartProcessingAddress[];
   applicationId: number;
-  docPersonalLegalNo: string | null;
-  email: string | null;
-  employees: number | null;
-  extraInformation: OnlineStartProcessingExtraInformation | null;
-  finData: OnlineStartProcessingFinData | null;
-  legalForm: string | null;
-  name: string | null;
-  newEmployees: number | null;
-  oked: string | null;
-  ownershipCode: string | null;
-  registrationDate: Date | null;
-  registrationNumber: string | null;
-  registrationPlaceCode: string | null;
-  workPhone: string | null;
+  docPersonalLegalNo: string;
+  email: string;
+  employees: number;
+  extraInformation: OnlineStartProcessingExtraInformation;
+  finData: OnlineStartProcessingFinData;
+  legalForm: string;
+  name: string;
+  newEmployees: number;
+  oked: string;
+  ownershipCode: string;
+  registrationDate: Date;
+  registrationNumber: string;
+  registrationPlaceCode: string;
+  workPhone: string;
 }
 
 export interface OnlineLegalForm {
-  id: number;
+  id: string;
   value: string;
 }
 
 export interface OnlineOked {
-  id: number;
+  id: string;
   value: string;
 }
 
 export interface OnlineOwnershipCode {
-  id: number;
+  id: string;
   value: string;
 }
 
@@ -307,9 +305,6 @@ export interface OnlineApplicationExtraInformation {
 
 export interface OnlineApplication {
   borrower: OnlineBorrower;
-  adresses: OnlineApplicationAddress[];
-  extraInformations?: OnlineApplicationExtraInformation[];
-  finData?: OnlineFinData[];
 }
 
 export interface OnlineCreateApplicationResult {

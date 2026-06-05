@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { DecimalPipe } from '@angular/common';
 import { PluralizePipe } from '@shared/pipes';
-import { SuccessModalData } from '@pages/application/models/modal';
+import { SuccessModalData } from '@pages/application/data/modal';
 
 @Component({
   selector: 'cf-success-modal',

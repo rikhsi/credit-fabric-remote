@@ -5,7 +5,7 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { FinanceInfoItem } from './components';
 import { Card, Steps } from '@shared/components';
-import { FlowFinanceForm } from '@pages/application/models/form';
+import { OnlineStartProcessingFinData } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-finance-info',
@@ -15,7 +15,7 @@ import { FlowFinanceForm } from '@pages/application/models/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinanceInfo {
-  readonly items = input<FlowFinanceForm[]>([]);
+  readonly items = input<OnlineStartProcessingFinData[]>([]);
 
   readonly add = output<void>();
   readonly edit = output<number>();

@@ -2,7 +2,7 @@
   <cf-general-info [application]="application" [form]="flowForm()" />
   <cf-contact-info />
   <cf-address-info [items]="flowForm().addresses().value()" (edit)="openAddressForm($event)" />
-  <cf-extra-info [items]="flowForm().extraInformations().value()" (add)="openGeneralForm()" (edit)="openGeneralForm($event)" />
+  <cf-extra-info [items]="[flowForm().extraInformation().value()]" (add)="openExtraForm()" (edit)="openExtraForm()" />
 
   <button nz-button nzType="primary" nzSize="large" (click)="continue()" class="submit">{{t('action.continue')}}</button>
 </ng-container>

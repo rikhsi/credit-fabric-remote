@@ -1,10 +1,6 @@
-import { FlowFinanceForm } from '../models/form';
-import { flowFinanceFormModel } from './form';
-
-export interface FinanceMonthPeriod {
-  year: number;
-  month: number;
-}
+import { FinanceMonthPeriod } from '../data/finance';
+import { flowFinanceFormModel } from '../data/form';
+import { OnlineStartProcessingFinData } from '@api/models/los/online';
 
 /** Three calendar months before the current month (oldest → newest). */
 export function getLastThreeFinanceMonthPeriods(date = new Date()): FinanceMonthPeriod[] {
@@ -52,20 +48,20 @@ export function formatFinanceMonthPeriodLabel(monthId: string | null | undefined
   return monthId ?? '';
 }
 
-export function createDefaultFinanceForm(existing?: Partial<FlowFinanceForm> | null): FlowFinanceForm {
+export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessingFinData> | null): OnlineStartProcessingFinData {
   const periods = getLastThreeFinanceMonthPeriods();
 
   return {
     ...flowFinanceFormModel,
     ...existing,
-    month1: existing?.month1 ?? toFinanceMonthId(periods[0]),
-    month2: existing?.month2 ?? toFinanceMonthId(periods[1]),
-    month3: existing?.month3 ?? toFinanceMonthId(periods[2]),
+    sysMonth1Id: existing?.sysMonth1Id ?? toFinanceMonthId(periods[0]),
+    sysMonth2Id: existing?.sysMonth2Id ?? toFinanceMonthId(periods[1]),
+    sysMonth3Id: existing?.sysMonth3Id ?? toFinanceMonthId(periods[2]),
   };
 }
 
-export function ensureFinanceMonthDefaults(finance: FlowFinanceForm): FlowFinanceForm {
-  if (finance.month1 && finance.month2 && finance.month3) {
+export function ensureFinanceMonthDefaults(finance: OnlineStartProcessingFinData): OnlineStartProcessingFinData {
+  if (finance.sysMonth1Id && finance.sysMonth2Id && finance.sysMonth3Id) {
     return finance;
   }
 

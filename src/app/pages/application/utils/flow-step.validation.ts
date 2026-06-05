@@ -1,21 +1,21 @@
-import { isFlowAddressFilled } from '../data/address-type';
-import { isFlowFinanceFilled } from '../data/finance';
-import { FlowExtraInformationForm, FlowForm } from '../models/form';
+import { isFlowAddressFilled } from './address';
+import { isFlowFinanceFilled } from './finance';
+import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 
 function isPresent(value: unknown): boolean {
   return value != null && value !== '';
 }
 
-export function isFlowExtraInformationFilled(item: FlowExtraInformationForm): boolean {
+export function isFlowExtraInformationFilled(item: OnlineStartProcessingExtraInformation): boolean {
   return (
     isPresent(item.sectorEconomy) &&
     isPresent(item.objectNewFormation) &&
-    isPresent(item.enterpriseClassifier) &&
+    isPresent(item.enterpriseClassfier) &&
     isPresent(item.ecologicalImpactCode)
   );
 }
 
-function isFlowScalarsValid(form: FlowForm): boolean {
+function isFlowScalarsValid(form: OnlineCreateApplicationPayload): boolean {
   return (
     isPresent(form.oked) &&
     isPresent(form.employees) &&
@@ -28,12 +28,11 @@ function isFlowScalarsValid(form: FlowForm): boolean {
     isPresent(form.workPhone) &&
     isPresent(form.docPersonalLegalNo) &&
     isPresent(form.email) &&
-    isPresent(form.id) &&
     isPresent(form.name)
   );
 }
 
-export function isGeneralStepValid(form: FlowForm): boolean {
+export function isGeneralStepValid(form: OnlineCreateApplicationPayload): boolean {
   if (!isFlowScalarsValid(form)) {
     return false;
   }
@@ -41,6 +40,6 @@ export function isGeneralStepValid(form: FlowForm): boolean {
   return form.addresses.every(isFlowAddressFilled);
 }
 
-export function isFinanceStepValid(form: FlowForm): boolean {
-  return isFlowFinanceFilled(form.finance);
+export function isFinanceStepValid(form: OnlineCreateApplicationPayload): boolean {
+  return isFlowFinanceFilled(form.finData);
 }

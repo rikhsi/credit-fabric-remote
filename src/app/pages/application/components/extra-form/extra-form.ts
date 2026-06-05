@@ -5,23 +5,23 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormBox, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { FlowExtraInformationForm } from '@pages/application/models/form';
 import { flowExtraInformationFormModel } from '@pages/application/data/form';
+import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 
 @Component({
-  selector: 'cf-general-form',
+  selector: 'cf-extra-form',
   imports: [SelectDefault, NzOptionComponent, FormBox, TranslocoDirective, HandbookDirective, FormField],
-  templateUrl: './general-form.html',
-  styleUrl: './general-form.less',
+  templateUrl: './extra-form.html',
+  styleUrl: './extra-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralForm implements OnInit {
+export class ExtraForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<FlowExtraInformationForm | null>(NZ_MODAL_DATA, { optional: true });
+  private readonly nzModalData = inject<OnlineStartProcessingExtraInformation | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly form = form(signal(flowExtraInformationFormModel), (schemaPath) => {
     required(schemaPath.ecologicalImpactCode);
-    required(schemaPath.enterpriseClassifier);
+    required(schemaPath.enterpriseClassfier);
     required(schemaPath.objectNewFormation);
     required(schemaPath.sectorEconomy);
   });

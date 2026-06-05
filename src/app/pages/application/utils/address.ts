@@ -1,0 +1,21 @@
+import { FLOW_REQUIRED_ADDRESS_TYPES } from '../data/address-type';
+import { OnlineStartProcessingAddress } from '@api/models/los/online';
+
+function createEmptyAddress(addressType: string): OnlineStartProcessingAddress {
+  return {
+    sysAddressTypeId: addressType,
+    dirCityId: null,
+    dirVillageId: null,
+    street: null,
+    zipCode: null,
+    dirCountryId: 'UZB',
+  };
+}
+
+export function buildRequiredAddresses(): OnlineStartProcessingAddress[] {
+  return FLOW_REQUIRED_ADDRESS_TYPES.map((addressType) => createEmptyAddress(addressType));
+}
+
+export function isFlowAddressFilled(item: OnlineStartProcessingAddress): boolean {
+  return item.dirCityId != null && item.street != null && !!item.zipCode;
+}

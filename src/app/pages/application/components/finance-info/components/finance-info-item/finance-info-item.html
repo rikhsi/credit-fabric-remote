@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
-        <h4 nz-typography>{{ items | handbook: item().companyActivity }}</h4>
+        <h4 nz-typography>{{ items | handbook: item().dirCompanyActivityId }}</h4>
       </ng-container>
 
       <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
@@ -14,17 +14,17 @@
     <h5 nz-typography>{{ item().activityTerm }}</h5>
 
     <p nz-typography>
-      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().month1 }}</ng-container>
+      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().sysMonth1Id }}</ng-container>
       — {{ item().month1Revenue }}–{{ item().month1Income }}
     </p>
 
     <p nz-typography>
-      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().month2 }}</ng-container>
+      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().sysMonth2Id }}</ng-container>
       — {{ item().month2Revenue }}–{{ item().month2Income }}
     </p>
 
     <p nz-typography>
-      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().month3 }}</ng-container>
+      <ng-container *cfHandbook="{ url: 'sys-month' }; let items">{{ items | handbook: item().sysMonth3Id }}</ng-container>
       — {{ item().month3Revenue }}–{{ item().month3Income }}
     </p>
     } @else {

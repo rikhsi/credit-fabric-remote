@@ -3,20 +3,21 @@ import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { FlowAddressForm } from '@pages/application/models/form';
 import { flowAdressFormModel } from '@pages/application/data/form';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
+import { HandbookPipe } from '@shared/pipes';
+import { OnlineStartProcessingAddress } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-address-form',
-  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField],
+  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField, HandbookPipe],
   templateUrl: './address-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressForm {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<FlowAddressForm | null>(NZ_MODAL_DATA, { optional: true });
+  private readonly nzModalData = inject<OnlineStartProcessingAddress | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly form = form(
     signal({
@@ -24,12 +25,12 @@ export class AddressForm {
       ...this.nzModalData,
     }),
     (schemaPath) => {
-      disabled(schemaPath.addressType);
-      required(schemaPath.address);
-      required(schemaPath.addressType);
-      required(schemaPath.city);
+      disabled(schemaPath.sysAddressTypeId);
+      required(schemaPath.dirVillageId);
+      required(schemaPath.sysAddressTypeId);
+      required(schemaPath.dirCityId);
       required(schemaPath.street);
-      required(schemaPath.postalCode);
+      required(schemaPath.zipCode);
     },
   );
 

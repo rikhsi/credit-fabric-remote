@@ -1,10 +1,15 @@
 <ng-container *transloco="let t">
   <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_address')" (closeClick)="close()" (submitClick)="submit()">
     <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
-      <cf-input-default [formField]="form.addressType" [placeholder]="t('prop.address_type')" size="large" />
+      <cf-input-default
+        [disabled]="true"
+        [value]="items | handbook: form.sysAddressTypeId().value()"
+        [placeholder]="t('prop.address_type')"
+        size="large"
+      />
     </ng-container>
 
-    <cf-select-default [formField]="form.city" [placeholder]="t('prop.city')" size="large">
+    <cf-select-default [formField]="form.dirCityId" [placeholder]="t('prop.city')" size="large">
       <ng-container *cfHandbook="{url: 'dir-city'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -12,15 +17,17 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [formField]="form.street" [placeholder]="t('prop.street')" size="large">
-      <ng-container *cfHandbook="{ url: 'dir-village' , params: {dir_city_id: form.city().value()}}; let items">
+    @if (form.dirCityId().valid()) {
+    <cf-select-default [formField]="form.dirVillageId" [placeholder]="t('prop.street')" size="large">
+      <ng-container *cfHandbook="{ url: 'dir-village' , params: {dir_city_id: form.dirCityId().value()}}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
         }
       </ng-container>
     </cf-select-default>
+    }
 
-    <cf-input-default [formField]="form.address" [placeholder]="t('prop.address')" size="large" />
-    <cf-input-default [formField]="form.postalCode" [placeholder]="t('prop.postal_code')" size="large" />
+    <cf-input-default [formField]="form.street" [placeholder]="t('prop.street')" size="large" />
+    <cf-input-default [formField]="form.zipCode" [placeholder]="t('prop.postal_code')" size="large" />
   </cf-form-box>
 </ng-container>

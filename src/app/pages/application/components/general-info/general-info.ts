@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OnlineApplication } from '@api/models/los/online';
+import { OnlineApplication, OnlineCreateApplicationPayload } from '@api/models/los/online';
 import {
   GeneralInfoRowAuthority,
   GeneralInfoRowDocuments,
@@ -9,7 +9,6 @@ import {
   GeneralInfoRowName,
 } from '@pages/application/components/general-info/components';
 import { Card, Steps } from '@shared/components';
-import { FlowForm } from '@pages/application/models/form';
 
 @Component({
   selector: 'cf-general-info',
@@ -28,5 +27,5 @@ import { FlowForm } from '@pages/application/models/form';
 })
 export class GeneralInfo {
   public readonly application = input<OnlineApplication>();
-  public readonly form = input.required<FieldTree<FlowForm>>();
+  public readonly form = input.required<FieldTree<OnlineCreateApplicationPayload>>();
 }

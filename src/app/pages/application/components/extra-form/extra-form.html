@@ -8,7 +8,7 @@
       </ng-container>
     </cf-select-default>
 
-    <cf-select-default [formField]="form.enterpriseClassifier" [placeholder]="t('prop.business_classification')" size="large">
+    <cf-select-default [formField]="form.enterpriseClassfier" [placeholder]="t('prop.business_classification')" size="large">
       <ng-container *cfHandbook="{url: 'dir-object-new-formation'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>

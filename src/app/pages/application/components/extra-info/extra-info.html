@@ -1,11 +1,13 @@
 <ng-container *transloco="let t">
-  <cf-card [title]="t('prop.extra_params')" [showSpace]="items()?.length > 0" class="bordered">
+  <cf-card [titleRef]="titleRef" [showSpace]="items()?.length > 0" class="bordered">
     <div actions>
+      @if (items()?.length === 0) {
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
         <strong>{{t('action.add')}}</strong>
 
         <nz-icon nzType="plus" class="primary" />
       </button>
+      }
     </div>
 
     <div class="list">
@@ -14,4 +16,17 @@
       }
     </div>
   </cf-card>
+
+  <ng-template #titleRef>
+    <div class="titleRef">
+      <h2 nz-typography>{{t('prop.addresses')}}</h2>
+
+      @if (items()?.length === 0) {
+      <nz-tag>
+        <nz-icon nzType="info-circle" />
+        {{t('alert.fill_fields')}}
+      </nz-tag>
+      }
+    </div>
+  </ng-template>
 </ng-container>

@@ -5,8 +5,8 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { isFlowAddressFilled } from '@pages/application/data/address-type';
-import { FlowAddressForm } from '@pages/application/models/form';
+import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { isFlowAddressFilled } from '@pages/application/utils/address';
 
 @Component({
   selector: 'cf-address-info-item',
@@ -16,7 +16,7 @@ import { FlowAddressForm } from '@pages/application/models/form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressInfoItem {
-  readonly item = input.required<FlowAddressForm>();
+  readonly item = input.required<OnlineStartProcessingAddress>();
 
   readonly edit = output<void>();
 

@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <cf-card [titleRef]="titleRef" [showSpace]="true" class="bordered">
     <div class="list">
-      @for (item of items(); track item.addressType) {
+      @for (item of items(); track item.sysAddressTypeId) {
       <cf-address-info-item [item]="item" (edit)="edit.emit($index)" />
       }
     </div>

@@ -4,8 +4,7 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { OnlineBorrower } from '@api/models/los/online';
-import { FlowForm } from '@pages/application/models/form';
+import { OnlineBorrower, OnlineCreateApplicationPayload } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-general-info-row-employment',
@@ -16,5 +15,5 @@ import { FlowForm } from '@pages/application/models/form';
 })
 export class GeneralInfoRowEmployment {
   readonly borrower = input<OnlineBorrower>();
-  readonly form = input.required<FieldTree<FlowForm>>();
+  readonly form = input.required<FieldTree<OnlineCreateApplicationPayload>>();
 }
