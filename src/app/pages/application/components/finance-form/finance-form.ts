@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
+import { DatePipe } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
@@ -19,6 +20,7 @@ import { PluralizePipe } from '@shared/pipes';
     HandbookDirective,
     FormField,
     PluralizePipe,
+    DatePipe,
   ],
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
