@@ -22,7 +22,7 @@ export class AddressForm {
   public readonly form = form(
     signal({
       ...flowAdressFormModel,
-      ...this.nzModalData,
+      ...(this.nzModalData ?? {}),
     }),
     (schemaPath) => {
       disabled(schemaPath.sysAddressTypeId);

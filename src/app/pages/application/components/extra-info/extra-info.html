@@ -1,9 +1,9 @@
 <ng-container *transloco="let t">
-  <cf-card [titleRef]="titleRef" [showSpace]="items()?.length > 0" class="bordered">
+  <cf-card [titleRef]="titleRef" [showSpace]="isFilled()" class="bordered">
     <div actions>
-      @if (items()?.length === 0) {
+      @if (!isFilled()) {
       <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
-        <strong>{{t('action.add')}}</strong>
+        <strong>{{ t('action.add') }}</strong>
 
         <nz-icon nzType="plus" class="primary" />
       </button>
@@ -11,20 +11,20 @@
     </div>
 
     <div class="list">
-      @for (item of items(); track $index) {
-      <cf-extra-info-item [item]="item" (edit)="edit.emit($index)" />
+      @if (isFilled() && item(); as extraItem) {
+      <cf-extra-info-item [item]="extraItem" (edit)="edit.emit()" />
       }
     </div>
   </cf-card>
 
   <ng-template #titleRef>
     <div class="titleRef">
-      <h2 nz-typography>{{t('prop.addresses')}}</h2>
+      <h2 nz-typography>{{ t('prop.extra_params') }}</h2>
 
-      @if (items()?.length === 0) {
+      @if (!isFilled()) {
       <nz-tag>
         <nz-icon nzType="info-circle" />
-        {{t('alert.fill_fields')}}
+        {{ t('alert.fill_fields') }}
       </nz-tag>
       }
     </div>

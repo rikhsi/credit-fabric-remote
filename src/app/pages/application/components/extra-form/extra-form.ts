@@ -19,7 +19,7 @@ export class ExtraForm implements OnInit {
   private readonly modalRef = inject(NzModalRef);
   private readonly nzModalData = inject<OnlineStartProcessingExtraInformation | null>(NZ_MODAL_DATA, { optional: true });
 
-  public readonly form = form(signal(flowExtraInformationFormModel), (schemaPath) => {
+  public readonly form = form(signal({ ...flowExtraInformationFormModel }), (schemaPath) => {
     required(schemaPath.ecologicalImpactCode);
     required(schemaPath.enterpriseClassfier);
     required(schemaPath.objectNewFormation);
@@ -31,14 +31,10 @@ export class ExtraForm implements OnInit {
   }
 
   private initForm(): void {
-    if (!this.nzModalData) {
-      return;
-    }
-
-    this.form().value.update((cur) => ({
-      ...cur,
-      ...this.nzModalData,
-    }));
+    this.form().value.set({
+      ...flowExtraInformationFormModel,
+      ...(this.nzModalData ?? {}),
+    });
   }
 
   public close(): void {

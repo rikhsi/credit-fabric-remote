@@ -84,9 +84,9 @@ export class AFlowGeneral implements OnInit {
 
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
       this.flowService.flowForm().value.update((cur) => {
-        const addresses = cur.addresses.map((item, index) => (index === editIndex ? value : item));
-
-        value.sysAddressTypeId = nzData.sysAddressTypeId;
+        const addresses = cur.addresses.map((item, index) =>
+          index === editIndex ? { ...value, sysAddressTypeId: item.sysAddressTypeId } : item,
+        );
 
         return {
           ...cur,

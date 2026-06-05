@@ -1,7 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
+import { flowExtraInformationFormModel } from '../data/form';
+import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
 import { isFlowFinanceFilled } from '../utils/finance';
-import { isFlowAddressFilled } from '../utils/address';
 import { OnlineApplication, OnlineCreateApplicationPayload } from '@api/models/los/online';
 import { AuthService } from '@core/services/auth.service';
 
@@ -24,8 +25,8 @@ export class FlowService {
       registrationNumber: null,
       registrationPlaceCode: null,
       workPhone: null,
-      extraInformation: null,
-      addresses: [],
+      extraInformation: { ...flowExtraInformationFormModel },
+      addresses: buildRequiredAddresses(),
       finData: null,
     }),
     (schemaPath) => {
@@ -61,8 +62,8 @@ export class FlowService {
       registrationPlaceCode: application.borrower.registrationPlaceCode,
       workPhone: this.authService.user()?.phone,
       email: this.authService.user()?.email,
-      addresses: [],
-      extraInformation: null,
+      addresses: buildRequiredAddresses(),
+      extraInformation: { ...flowExtraInformationFormModel },
       finData: null,
       oked: application.borrower.oked.id,
     });
