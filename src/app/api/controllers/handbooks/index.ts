@@ -8,4 +8,3 @@ export * from './h-impact-api.service';
 export * from './h-se-api.service';
 export * from './h-oked.service';
 export * from './h-company-api.service';
-export * from './h-sys-month-api.service';

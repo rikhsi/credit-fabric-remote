@@ -26,5 +26,4 @@ export type HandbookQueryType =
   | 'dir-sector-economy'
   | 'dir-village'
   | 'dir-legal-form'
-  | 'dir-ownership-code'
-  | 'sys-month';
+  | 'dir-ownership-code';

@@ -4,7 +4,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, finalize, switchMap, take, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { HSysMonthApiService } from '@api/controllers/handbooks';
 import { OnlineApiService } from '@api/controllers/los/online-api.service';
 import { ModalConfirmComponent, Card, Steps } from '@shared/components';
 import { FlowService } from '@pages/application/services';
@@ -28,7 +27,6 @@ export class AFlowFinance {
   private nzModalService = inject(NzModalService);
   private flowService = inject(FlowService);
   private onlineApi = inject(OnlineApiService);
-  private hSysMonthApi = inject(HSysMonthApiService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -53,10 +51,9 @@ export class AFlowFinance {
     this.confirmModal()
       .afterClose.pipe(
         filter((state) => state),
-        switchMap(() => this.hSysMonthApi.getAll$({ id: null, name: null, limit: 100, page: 1 }).pipe(take(1))),
         tap(() => this.submitting.set(true)),
-        switchMap(({ data }) => {
-          const payload = buildCreateApplicationPayload(this.flowService.flowForm().value(), data);
+        switchMap(() => {
+          const payload = buildCreateApplicationPayload(this.flowService.flowForm().value());
 
           return this.onlineApi.createApplication$(payload);
         }),

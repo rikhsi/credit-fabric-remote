@@ -1,5 +1,4 @@
 import { FinanceMonthPeriod } from '../data/finance';
-import { SysMonthItem } from '@api/models/handbooks';
 import { OnlineCreateApplicationPayload, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 
 /** Three calendar months before the current month (oldest → newest). */
@@ -14,14 +13,6 @@ export function getLastThreeFinanceMonthPeriods(date = new Date()): FinanceMonth
   });
 }
 
-export function resolveSysMonthId(month: number, items: SysMonthItem[]): string | null {
-  const normalizedMonth = String(month).padStart(2, '0');
-
-  const item = items.find(({ code }) => code === normalizedMonth || code === String(month) || Number(code) === month);
-
-  return item?.id ?? null;
-}
-
 export type FinanceMonthSlot = 1 | 2 | 3;
 
 export function getFinanceMonthDateBySlot(slot: FinanceMonthSlot, date = new Date()): Date {
@@ -30,43 +21,32 @@ export function getFinanceMonthDateBySlot(slot: FinanceMonthSlot, date = new Dat
   return new Date(period.year, period.month - 1, 1);
 }
 
-export function resolveFinanceMonthYears(
-  date = new Date(),
-): Pick<OnlineStartProcessingFinData, 'monthYear1' | 'monthYear2' | 'monthYear3'> {
-  const periods = getLastThreeFinanceMonthPeriods(date);
-
-  return {
-    monthYear1: periods[0].year,
-    monthYear2: periods[1].year,
-    monthYear3: periods[2].year,
-  };
+/** SYS_MONTH id is the calendar month number: January = "1", December = "12". */
+export function toSysMonthId(month: number): string {
+  return String(month);
 }
 
 export function resolveFinanceMonthsForSubmit(
-  sysMonthItems: SysMonthItem[],
   date = new Date(),
 ): Pick<OnlineStartProcessingFinData, 'sysMonth1Id' | 'sysMonth2Id' | 'sysMonth3Id' | 'monthYear1' | 'monthYear2' | 'monthYear3'> {
   const periods = getLastThreeFinanceMonthPeriods(date);
 
   return {
-    sysMonth1Id: resolveSysMonthId(periods[0].month, sysMonthItems),
-    sysMonth2Id: resolveSysMonthId(periods[1].month, sysMonthItems),
-    sysMonth3Id: resolveSysMonthId(periods[2].month, sysMonthItems),
+    sysMonth1Id: toSysMonthId(periods[0].month),
+    sysMonth2Id: toSysMonthId(periods[1].month),
+    sysMonth3Id: toSysMonthId(periods[2].month),
     monthYear1: periods[0].year,
     monthYear2: periods[1].year,
     monthYear3: periods[2].year,
   };
 }
 
-export function buildCreateApplicationPayload(
-  formValue: OnlineCreateApplicationPayload,
-  sysMonthItems: SysMonthItem[],
-): OnlineCreateApplicationPayload {
+export function buildCreateApplicationPayload(formValue: OnlineCreateApplicationPayload): OnlineCreateApplicationPayload {
   return {
     ...formValue,
     finData: {
       ...formValue.finData,
-      ...resolveFinanceMonthsForSubmit(sysMonthItems),
+      ...resolveFinanceMonthsForSubmit(),
     },
   };
 }
