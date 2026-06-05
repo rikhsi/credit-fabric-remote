@@ -1,6 +1,6 @@
 import { FieldTree } from '@angular/forms/signals';
 import { isFlowAddressFilled } from './address';
-import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
+import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 function isPresent(value: unknown): boolean {
   return value != null && value !== '';

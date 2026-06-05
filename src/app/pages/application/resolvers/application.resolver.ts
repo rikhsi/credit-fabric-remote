@@ -3,7 +3,7 @@ import { ResolveFn, Router, UrlTree } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { RootRoute } from '@app/constants/route-path';
-import { OnlineApplication } from '@api/models/los/online';
+import { OnlineApplication } from '@api/models/los/application';
 
 export const applicationResolver: ResolveFn<OnlineApplication | UrlTree> = (route) => {
   const api = inject(OnlineApiService);

@@ -2,8 +2,9 @@ import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
 import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
 import { createDefaultFinanceForm } from '../utils/finance-months';
-import { OnlineApplication, OnlineCreateApplicationPayload } from '@api/models/los/online';
 import { AuthService } from '@core/services/auth.service';
+import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
+import { OnlineApplication } from '@api/models/los/application';
 
 @Injectable()
 export class FlowService {

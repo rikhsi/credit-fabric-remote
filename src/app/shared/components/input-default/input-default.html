@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  @let showErrors = touched() || dirty();
+  @let showErrors = dirty() || touched();
   <nz-form-item>
     <nz-form-control
       [nzValidateStatus]="firstError() | validationStatus: showErrors"
@@ -10,7 +10,6 @@
       [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
       <nz-input-wrapper [nzPrefix]="prefix()" [nzSuffix]="suffix()">
-        @if (mask()) {
         <input
           nz-input
           [mask]="mask()"
@@ -27,21 +26,6 @@
           (focus)="focusChange.emit()"
           (click)="clicked.emit()"
         />
-        } @else {
-        <input
-          nz-input
-          [placeholder]="placeholder() ?? t('control.input.placeholder')"
-          [nzSize]="size()"
-          [id]="id()"
-          [type]="type()"
-          [disabled]="disabled() || readonly()"
-          [readonly]="readonly()"
-          [(ngModel)]="value"
-          (blur)="onBlur()"
-          (focus)="focusChange.emit()"
-          (click)="clicked.emit()"
-        />
-        }
       </nz-input-wrapper>
     </nz-form-control>
   </nz-form-item>

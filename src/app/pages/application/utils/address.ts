@@ -1,5 +1,5 @@
 import { FLOW_REQUIRED_ADDRESS_TYPES } from '../data/address-type';
-import { OnlineStartProcessingAddress } from '@api/models/los/online';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 function createEmptyAddress(addressType: string): OnlineStartProcessingAddress {
   return {

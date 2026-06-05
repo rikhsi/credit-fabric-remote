@@ -1,18 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  OnlineCheckResult,
-  OnlineSendOtpResponse,
-  OnlineSendOtpResult,
-  OnlineCheckOtpResponse,
-  OnlineCheckOtpResult,
-  OnlineApplication,
-  OnlineGetInfoResult,
-  OnlineCreateApplicationPayload,
-  OnlineCreateApplicationResult,
-  ShortApplicationPayload,
-  ShortApplicationResult,
-} from '@api/models/los/online';
+import { OnlineApplication, ShortApplicationPayload, ShortApplicationResult } from '@api/models/los/application';
+import { OnlineGetInfoResult } from '@api/models/los/online';
+import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
+import { OnlineCreateApplicationPayload, OnlineCreateApplicationResult } from '@api/models/los/start-processing';
 import { buildHttpParams } from '@api/utils';
 
 @Injectable({
@@ -22,7 +13,7 @@ export class OnlineApiService {
   constructor(private http: HttpClient) {}
 
   public checkValidated$(pinfl: string) {
-    return this.http.get<OnlineCheckResult>('online/public-offer/is-validated', {
+    return this.http.get<OnlineCheckOtpResult>('online/public-offer/is-validated', {
       params: buildHttpParams({ pinfl }),
     });
   }

@@ -1,5 +1,5 @@
 import { FinanceMonthPeriod } from '../data/finance';
-import { OnlineStartProcessingFinData } from '@api/models/los/online';
+import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 
 /** Three calendar months before the current month (oldest → newest). */
 export function getLastThreeFinanceMonthPeriods(date = new Date()): FinanceMonthPeriod[] {
@@ -57,6 +57,9 @@ export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessin
       sysMonth3Id: null,
       month3Revenue: null,
       month3Income: null,
+      monthYear1: null,
+      monthYear2: null,
+      monthYear3: null,
     },
     ...existing,
     sysMonth1Id: existing?.sysMonth1Id ?? toFinanceMonthId(periods[0]),

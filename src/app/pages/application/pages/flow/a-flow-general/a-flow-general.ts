@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { FlowService } from '@pages/application/services';
-import { OnlineApplication, OnlineStartProcessingAddress, OnlineStartProcessingExtraInformation } from '@api/models/los/online';
 import { AddressForm } from '@pages/application/components/address-form/address-form';
 import { AddressInfo } from '@pages/application/components/address-info/address-info';
 import { ContactInfo } from '@pages/application/components/contact-info/contact-info';
@@ -15,6 +14,8 @@ import { GeneralInfo } from '@pages/application/components/general-info/general-
 import { ApplicationFlowRoute } from '@app/constants/route-path';
 import { isGeneralStepValid } from '@pages/application/utils/flow-step.validation';
 import { AuthService } from '@core/services/auth.service';
+import { OnlineApplication } from '@api/models/los/application';
+import { OnlineStartProcessingExtraInformation, OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-a-flow-general',
