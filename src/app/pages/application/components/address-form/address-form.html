@@ -25,7 +25,6 @@
     @if (addressForm.dirCityId().value()) {
     <cf-select-default
       [formField]="addressForm.dirVillageId"
-      cfResetVillageOnCityChange
       [cfResetVillageOnCityChange]="addressForm"
       [placeholder]="t('prop.street')"
       size="large"

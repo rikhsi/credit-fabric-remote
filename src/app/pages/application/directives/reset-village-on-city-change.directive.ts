@@ -8,7 +8,7 @@ import { OnlineStartProcessingAddress } from '@api/models/los/online';
 export class ResetVillageOnCityChangeDirective {
   readonly form = input.required<FieldTree<OnlineStartProcessingAddress>>({ alias: 'cfResetVillageOnCityChange' });
 
-  private previousCityId: string | null | undefined;
+  private previousCityId: string;
 
   constructor() {
     effect(() => {
