@@ -52,16 +52,10 @@ export function isFinanceStepValid(form: FieldTree<OnlineCreateApplicationPayloa
   return (
     isPresent(finData?.dirCompanyActivityId) &&
     isPresent(finData?.activityTerm) &&
-    isPresent(finData?.sysMonth1Id) &&
-    isPresent(finData?.monthYear1) &&
     isPresent(finData?.month1Revenue) &&
     isPresent(finData?.month1Income) &&
-    isPresent(finData?.sysMonth2Id) &&
-    isPresent(finData?.monthYear2) &&
     isPresent(finData?.month2Revenue) &&
     isPresent(finData?.month2Income) &&
-    isPresent(finData?.sysMonth3Id) &&
-    isPresent(finData?.monthYear3) &&
     isPresent(finData?.month3Revenue) &&
     isPresent(finData?.month3Income)
   );

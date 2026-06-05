@@ -4,6 +4,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { HSysMonthApiService } from '@api/controllers/handbooks';
 import { FlowService } from '@pages/application/services';
 import { AddressForm } from '@pages/application/components/address-form/address-form';
 import { AddressInfo } from '@pages/application/components/address-info/address-info';
@@ -31,6 +32,7 @@ export class AFlowGeneral implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private hSysMonthApi = inject(HSysMonthApiService);
 
   public readonly user = computed(() => this.authService.user());
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
@@ -45,6 +47,8 @@ export class AFlowGeneral implements OnInit {
 
   ngOnInit(): void {
     this.flowService.initApplication(this.application, this.applicationId);
+
+    this.hSysMonthApi.getAll$({ id: null, name: null, limit: 100, page: 1 }).pipe(take(1)).subscribe();
   }
 
   openExtraForm(): void {

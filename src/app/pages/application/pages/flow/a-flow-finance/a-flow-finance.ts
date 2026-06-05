@@ -4,6 +4,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { filter, finalize, switchMap, take, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { HSysMonthApiService } from '@api/controllers/handbooks';
 import { OnlineApiService } from '@api/controllers/los/online-api.service';
 import { ModalConfirmComponent, Card, Steps } from '@shared/components';
 import { FlowService } from '@pages/application/services';
@@ -13,6 +14,8 @@ import { RootRoute } from '@app/constants/route-path';
 import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
 import { SuccessModalData } from '@pages/application/data/modal';
+import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
+import { buildCreateApplicationPayload } from '@pages/application/utils/finance-months';
 
 @Component({
   selector: 'cf-a-flow-finance',
@@ -25,6 +28,7 @@ export class AFlowFinance {
   private nzModalService = inject(NzModalService);
   private flowService = inject(FlowService);
   private onlineApi = inject(OnlineApiService);
+  private hSysMonthApi = inject(HSysMonthApiService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -40,7 +44,7 @@ export class AFlowFinance {
       return;
     }
 
-    if (this.flowService.flowForm.finData().invalid()) {
+    if (!isFinanceStepValid(this.flowService.flowForm)) {
       this.markFinanceFormDirty();
       this.scrollToInvalidElement();
       return;
@@ -49,10 +53,14 @@ export class AFlowFinance {
     this.confirmModal()
       .afterClose.pipe(
         filter((state) => state),
+        switchMap(() => this.hSysMonthApi.getAll$({ id: null, name: null, limit: 100, page: 1 }).pipe(take(1))),
         tap(() => this.submitting.set(true)),
-        switchMap(() =>
-          this.onlineApi.createApplication$(this.flowService.flowForm().value()).pipe(finalize(() => this.submitting.set(false))),
-        ),
+        switchMap(({ data }) => {
+          const payload = buildCreateApplicationPayload(this.flowService.flowForm().value(), data);
+
+          return this.onlineApi.createApplication$(payload);
+        }),
+        finalize(() => this.submitting.set(false)),
         take(1),
       )
       .subscribe({
@@ -66,12 +74,6 @@ export class AFlowFinance {
 
     finData.dirCompanyActivityId().markAsDirty();
     finData.activityTerm().markAsDirty();
-    finData.sysMonth1Id().markAsDirty();
-    finData.sysMonth2Id().markAsDirty();
-    finData.sysMonth3Id().markAsDirty();
-    finData.monthYear1().markAsDirty();
-    finData.monthYear2().markAsDirty();
-    finData.monthYear3().markAsDirty();
     finData.month1Revenue().markAsDirty();
     finData.month1Income().markAsDirty();
     finData.month2Revenue().markAsDirty();
