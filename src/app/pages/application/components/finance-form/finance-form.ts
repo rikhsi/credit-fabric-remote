@@ -7,10 +7,11 @@ import { InputDefault, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { OnlineCreateApplicationPayload } from '@api/models/los/online';
 import { formatFinanceMonthPeriodLabel, ensureFinanceMonthDefaults } from '@pages/application/utils/finance-months';
+import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-finance-form',
-  imports: [InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField],
+  imports: [InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField, PluralizePipe],
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,9 +26,11 @@ export class FinanceForm implements OnInit {
   readonly month3Label = computed(() => formatFinanceMonthPeriodLabel(this.form().finData.sysMonth3Id().value()));
 
   ngOnInit(): void {
-    this.flowService.flowForm().value.update((cur) => ({
-      ...cur,
-      finData: ensureFinanceMonthDefaults(cur.finData),
-    }));
+    setTimeout(() => {
+      this.flowService.flowForm().value.update((cur) => ({
+        ...cur,
+        finData: ensureFinanceMonthDefaults(cur.finData),
+      }));
+    }, 100);
   }
 }

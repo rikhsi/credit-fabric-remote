@@ -11,7 +11,6 @@ import { OnlineStartProcessingExtraInformation } from '@api/models/los/online';
   selector: 'cf-extra-form',
   imports: [SelectDefault, NzOptionComponent, FormBox, TranslocoDirective, HandbookDirective, FormField],
   templateUrl: './extra-form.html',
-  styleUrl: './extra-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExtraForm implements OnInit {

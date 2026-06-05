@@ -23,11 +23,13 @@
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
+          [suffix]="form().finData.month1Revenue().value()| pluralize: 'money' : false"
           size="large"
         />
 
         <cf-input-default
           [formField]="form().finData.month1Income"
+          [suffix]="form().finData.month1Income().value()| pluralize: 'money' : false"
           [placeholder]="t('prop.pure_benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -40,6 +42,7 @@
 
         <cf-input-default
           [formField]="form().finData.month2Revenue"
+          [suffix]="form().finData.month2Revenue().value()| pluralize: 'money' : false"
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -48,7 +51,8 @@
 
         <cf-input-default
           [formField]="form().finData.month2Income"
-          [placeholder]="t('prop.pure_benefit')"
+          [suffix]="form().finData.month2Income().value()| pluralize: 'money' : false"
+          [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
           size="large"
@@ -60,6 +64,7 @@
 
         <cf-input-default
           [formField]="form().finData.month3Revenue"
+          [suffix]="form().finData.month3Revenue().value()| pluralize: 'money' : false"
           [placeholder]="t('prop.benefit')"
           mask="separator.0"
           thousandSeparator=" "
@@ -69,6 +74,7 @@
         <cf-input-default
           [formField]="form().finData.month3Income"
           [placeholder]="t('prop.pure_benefit')"
+          [suffix]="form().finData.month3Income().value()| pluralize: 'money' : false"
           mask="separator.0"
           thousandSeparator=" "
           size="large"
