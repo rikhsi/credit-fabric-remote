@@ -8,6 +8,7 @@
   "action": {
     "add": "Add",
     "add_address": "Add address",
+    "edit_address": "Edit address",
     "add_extra_params": "Add additional parameters",
     "add_finance_info": "Add financial data",
     "apply": "Apply",

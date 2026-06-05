@@ -8,6 +8,7 @@
   "action": {
     "add": "Qo‘shish",
     "add_address": "Manzil qo‘shing",
+    "edit_address": "Manzilni tahrirlash",
     "add_extra_params": "Qo‘shimcha parametrlarni qo‘shing",
     "add_finance_info": "Moliyaviy ma’lumotlarni qo‘shing",
     "apply": "Ariza yuborish",
