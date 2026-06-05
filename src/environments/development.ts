@@ -10,7 +10,7 @@ export const environment = {
     pinfl: '40109893780016',
     phone: '990710358',
     email: 'rikhsimboyev1997@gmail.com',
-    name: 'Omonbek',
+    name: 'YATT KUDRATOVA NASIBA NEMATOVNA',
     theme: 'dark',
     lon: 0,
     lat: 0,
