@@ -31,20 +31,14 @@ export function parseFinanceMonthId(monthId: string | null | undefined): Finance
   return null;
 }
 
-export function formatFinanceMonthLabel(period: FinanceMonthPeriod, locale = 'ru-RU'): string {
-  const date = new Date(period.year, period.month - 1, 1);
-
-  return date.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-}
-
-export function formatFinanceMonthPeriodLabel(monthId: string | null | undefined, locale = 'ru-RU'): string {
+export function toFinanceMonthDate(monthId: string | null | undefined): Date | null {
   const period = parseFinanceMonthId(monthId);
 
-  if (period) {
-    return formatFinanceMonthLabel(period, locale);
+  if (!period) {
+    return null;
   }
 
-  return monthId ?? '';
+  return new Date(period.year, period.month - 1, 1);
 }
 
 export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessingFinData> | null): OnlineStartProcessingFinData {

@@ -41,7 +41,7 @@ export class AFlowFinance {
     }
 
     if (this.flowService.flowForm.finData().invalid()) {
-      this.flowForm().finData().markAsDirty();
+      this.markFinanceFormDirty();
       this.scrollToInvalidElement();
       return;
     }
@@ -59,6 +59,22 @@ export class AFlowFinance {
         next: () => this.openSuccessModal(),
         error: () => this.openErrorModal(),
       });
+  }
+
+  private markFinanceFormDirty(): void {
+    const { finData } = this.flowForm();
+
+    finData.dirCompanyActivityId().markAsDirty();
+    finData.activityTerm().markAsDirty();
+    finData.sysMonth1Id().markAsDirty();
+    finData.sysMonth2Id().markAsDirty();
+    finData.sysMonth3Id().markAsDirty();
+    finData.month1Revenue().markAsDirty();
+    finData.month1Income().markAsDirty();
+    finData.month2Revenue().markAsDirty();
+    finData.month2Income().markAsDirty();
+    finData.month3Revenue().markAsDirty();
+    finData.month3Income().markAsDirty();
   }
 
   private scrollToInvalidElement(): void {
