@@ -178,6 +178,7 @@
     "loan_amount": "До {{amount}} млн {{prefix}}",
     "loan_amount_full": "Сумма кредита",
     "loan_calculation_type": "Тип рассчета",
+    "credit_purpose": "Цель кредита",
     "loan_monthly_payment": "Ежемесячный платеж",
     "loan_needed_docs": "Необходимые документы",
     "loan_percent": "от {{percent}}%",

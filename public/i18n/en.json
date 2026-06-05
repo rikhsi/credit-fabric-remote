@@ -178,6 +178,7 @@
     "loan_amount": "Up to {{amount}} mln {{prefix}}",
     "loan_amount_full": "Loan amount",
     "loan_calculation_type": "Calculation type",
+    "credit_purpose": "Credit purpose",
     "loan_monthly_payment": "Monthly payment",
     "loan_needed_docs": "Required documents",
     "loan_percent": "from {{percent}}%",

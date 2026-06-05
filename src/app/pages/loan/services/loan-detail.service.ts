@@ -24,6 +24,7 @@ export class LoanDetailService {
     max(schemaPath.amount, () => this.productCondition()?.max_amount ?? 0);
     min(schemaPath.term, () => this.productCondition()?.min_term ?? 0);
     max(schemaPath.term, () => this.productCondition()?.max_term ?? 0);
+    required(schemaPath.dirCreditPurposeId);
     disabled(schemaPath, () => this.isDisabled());
   });
 
@@ -72,13 +73,14 @@ export class LoanDetailService {
   }
 
   public createShortApplication$() {
-    const { amount, type, term } = this.calculatorForm().value();
+    const { amount, dirCreditPurposeId, type, term } = this.calculatorForm().value();
 
     this.isDisabled.set(true);
 
     return this.onlineApiService
       .createShortApplication$({
         applicantPersonalNo: environment.user.pinfl,
+        dirCreditPurposeId,
         dirCurrencyId: 'UZS',
         initUsername: environment.user.name,
         loanAmount: amount,

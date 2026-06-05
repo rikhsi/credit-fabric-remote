@@ -17,4 +17,14 @@
       <label nz-radio nzValue="standart">{{t('prop.standart')}}</label>
     </nz-radio-group>
   </div>
+
+  <div>
+    <cf-select-default [formField]="form().dirCreditPurposeId" [placeholder]="t('prop.credit_purpose')" size="large">
+      <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
+        @for (item of items; track item.id) {
+        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        }
+      </ng-container>
+    </cf-select-default>
+  </div>
 </ng-container>

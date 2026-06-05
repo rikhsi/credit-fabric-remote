@@ -43,6 +43,7 @@ export interface OnlineApplication {
 
 export interface ShortApplicationPayload {
   applicantPersonalNo: string;
+  dirCreditPurposeId: string;
   dirCurrencyId: string;
   initUsername: string;
   loanAmount: number;

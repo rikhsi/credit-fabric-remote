@@ -8,3 +8,4 @@ export * from './impact';
 export * from './se';
 export * from './oked';
 export * from './company';
+export * from './credit-purpose';

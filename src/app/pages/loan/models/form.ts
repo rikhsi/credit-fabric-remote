@@ -2,6 +2,7 @@ import { CreditType } from '@app/typings/calculator';
 
 export interface CalculatorFormModel {
   amount: number;
+  dirCreditPurposeId: string | null;
   type: CreditType;
   term: number;
 }

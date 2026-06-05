@@ -20,6 +20,7 @@ export type HandbookQueryType =
   | 'dir-city'
   | 'dir-enterprise-classifier'
   | 'dir-company-activity'
+  | 'dir-credit-purpose'
   | 'dir-country'
   | 'dir-ecological-impact-code'
   | 'dir-object-new-formation'

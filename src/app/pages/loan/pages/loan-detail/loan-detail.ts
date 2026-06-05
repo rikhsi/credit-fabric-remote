@@ -58,6 +58,11 @@ export class LoanDetail implements OnInit {
   }
 
   openConfirm(): void {
+    if (this.calculatorForm().dirCreditPurposeId().invalid()) {
+      this.calculatorForm().dirCreditPurposeId().markAsDirty();
+      return;
+    }
+
     const navigate = (applicationId: number) =>
       this.router.navigate([RootRoute.Application, this.loanId, applicationId, ApplicationFlowRoute.General]);
 

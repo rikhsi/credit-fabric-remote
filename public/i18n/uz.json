@@ -178,6 +178,7 @@
     "loan_amount": "{{amount}} mln {{prefix}} gacha",
     "loan_amount_full": "Kredit miqdori",
     "loan_calculation_type": "Hisoblash turi",
+    "credit_purpose": "Kredit maqsadi",
     "loan_monthly_payment": "Oylik to‘lov",
     "loan_needed_docs": "Kerakli hujjatlar",
     "loan_percent": "{{percent}}% dan",
