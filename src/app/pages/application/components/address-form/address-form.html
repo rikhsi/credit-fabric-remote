@@ -23,7 +23,13 @@
     </cf-select-default>
 
     @if (addressForm.dirCityId().value()) {
-    <cf-select-default [formField]="addressForm.dirVillageId" [placeholder]="t('prop.street')" size="large">
+    <cf-select-default
+      [formField]="addressForm.dirVillageId"
+      cfResetVillageOnCityChange
+      [cfResetVillageOnCityChange]="addressForm"
+      [placeholder]="t('prop.street')"
+      size="large"
+    >
       <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>

@@ -17,5 +17,5 @@ export function buildRequiredAddresses(): OnlineStartProcessingAddress[] {
 }
 
 export function isFlowAddressFilled(item: OnlineStartProcessingAddress): boolean {
-  return item.dirCityId != null && item.street != null && !!item.zipCode;
+  return item.dirCityId != null && item.dirVillageId != null && item.street != null && !!item.zipCode;
 }

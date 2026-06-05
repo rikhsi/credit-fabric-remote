@@ -4,13 +4,24 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, SelectDefault } from '@shared/components';
+import { ResetVillageOnCityChangeDirective } from '@pages/application/directives';
 import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-address-form',
-  imports: [FormBox, InputDefault, SelectDefault, NzOptionComponent, TranslocoDirective, HandbookDirective, FormField, HandbookPipe],
+  imports: [
+    FormBox,
+    InputDefault,
+    SelectDefault,
+    NzOptionComponent,
+    TranslocoDirective,
+    HandbookDirective,
+    FormField,
+    HandbookPipe,
+    ResetVillageOnCityChangeDirective,
+  ],
   templateUrl: './address-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
