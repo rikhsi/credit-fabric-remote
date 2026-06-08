@@ -7,5 +7,17 @@ export const environment = {
   deviceType: 'vebview',
   appVersion: '99.99.99',
   deviceRoot: '0',
-  dev: false,
+  mode: 'testing',
+  user: {
+    pinfl: '52001016860016',
+    phone: '990031497',
+    email: 'o.rixsimboyev@hamkorbank.uz',
+    name: 'ООО NAVOI FOOD GROUP',
+    clientId: 3444224,
+    inn: 302638303,
+    theme: 'dark',
+    lon: 0,
+    lat: 0,
+    language: 'ru',
+  },
 };

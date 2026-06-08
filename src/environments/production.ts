@@ -7,5 +7,5 @@ export const environment = {
   deviceType: 'vebview',
   appVersion: '99.99.99',
   deviceRoot: '0',
-  dev: false,
+  mode: 'production',
 };

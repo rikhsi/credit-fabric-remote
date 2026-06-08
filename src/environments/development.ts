@@ -19,5 +19,5 @@ export const environment = {
     lat: 0,
     language: 'ru',
   },
-  dev: true,
+  mode: 'development',
 };

@@ -6,4 +6,7 @@ export interface UserItem {
   language: string;
   lat: number;
   lon: number;
+  name: string;
+  clientId?: number;
+  inn?: number;
 }
