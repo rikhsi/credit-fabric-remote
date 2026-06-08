@@ -33,10 +33,6 @@ export const routes: Routes = [
         loadComponent: () => import('@pages/document/document').then((c) => c.Document),
       },
       {
-        path: 'bridge',
-        loadComponent: () => import('@pages/bridge-test/bridge-test').then((c) => c.BridgeTest),
-      },
-      {
         path: '**',
         redirectTo: RootRoute.Loan,
       },
