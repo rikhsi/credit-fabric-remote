@@ -18,7 +18,7 @@ export class App implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.user.set(environment.skipAuth ? this.bridgeService.getUserInfo() : environment.user);
+    this.authService.user.set(!environment.dev ? this.bridgeService.getUserInfo() : environment.user);
     this.bridgeService.initSignListener();
   }
 }

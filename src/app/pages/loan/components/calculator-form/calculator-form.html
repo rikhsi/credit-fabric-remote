@@ -10,15 +10,6 @@
   </div>
 
   <div>
-    <cf-label-control-secondary [label]="t('prop.loan_calculation_type')"></cf-label-control-secondary>
-
-    <nz-radio-group [formField]="form().type">
-      <label nz-radio nzValue="annuity">{{t('prop.annuity')}}</label>
-      <label nz-radio nzValue="standart">{{t('prop.standart')}}</label>
-    </nz-radio-group>
-  </div>
-
-  <div>
     <cf-select-default [formField]="form().dirCreditPurposeId" [placeholder]="t('prop.credit_purpose')" size="large">
       <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
         @for (item of items; track item.id) {
@@ -26,5 +17,14 @@
         }
       </ng-container>
     </cf-select-default>
+  </div>
+
+  <div>
+    <cf-label-control-secondary [label]="t('prop.loan_calculation_type')"></cf-label-control-secondary>
+
+    <nz-radio-group [formField]="form().type">
+      <label nz-radio nzValue="annuity">{{t('prop.annuity')}}</label>
+      <label nz-radio nzValue="standart">{{t('prop.standart')}}</label>
+    </nz-radio-group>
   </div>
 </ng-container>

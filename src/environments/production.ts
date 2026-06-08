@@ -16,5 +16,5 @@ export const environment = {
     lat: 0,
     language: '',
   },
-  skipAuth: true,
+  dev: false,
 };
