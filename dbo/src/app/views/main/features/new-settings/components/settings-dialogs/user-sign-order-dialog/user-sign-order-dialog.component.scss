@@ -1,0 +1,90 @@
+.user-create-box .input-style{
+  font-size: 14px !important;
+}
+.user-create-box .input-label {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+}
+
+.user-create-box .input-style:focus {
+  padding-top: 10px !important;
+}
+.input-style.ng-valid ~ .input-label{
+  top: 3px;
+  left: 16px;
+}
+.input-style + .input-label{
+  top: 20px !important;
+
+}
+.input-style:focus + .input-label{
+  top: 3px !important;
+  padding: 0 !important;
+}
+.input-style.input-value + .input-label{
+  top: 3px !important;
+  padding: 0 !important;
+}
+.user-create-box .input-style.input-value {
+  padding-top: 10px !important;
+}
+.user-create-box .user-phone {
+  //padding-left: 48px !important;
+}
+.phone-number-box  label {
+  padding-left: 44px !important;
+}
+.num-additional {
+  top: 28px;
+}
+.input-style.input-value ~ .num-additional{
+  top: 33px !important;
+}
+
+.input-style:focus ~ .num-additional{
+  top: 33px !important;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+input[type="checkbox"]:hover {
+  border-color: #9ca3af;
+}
+
+input[type="checkbox"]:checked {
+  background-color: white;
+  border-color: #d1d5db;
+}
+
+input[type="checkbox"]:checked::after {
+  //content: '✓';
+  //position: absolute;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //color: #14b8a6;
+  //font-size: 18px;
+  //font-weight: bold;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  background-image: url('/assets/new-icons/check.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}

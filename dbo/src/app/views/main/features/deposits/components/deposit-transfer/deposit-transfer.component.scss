@@ -1,0 +1,20 @@
+/* transfer-early-closure.component.scss */
+// You can move most styles to global if you want consistent design across app
+
+:host {
+  display: block;
+}
+
+input, textarea {
+  @apply transition-all duration-200;
+}
+
+input:focus, textarea:focus {
+  @apply ring-1 ring-teal-500 border-teal-500;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #f9fafb inset !important;
+}

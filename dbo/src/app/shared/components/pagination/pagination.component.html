@@ -1,0 +1,62 @@
+<div class="flex items-center justify-between px-4 py-3">
+  <div class="text-sm leading-5 font-normal text-custom-secondary">
+    {{ 'salaryStatements.page_of' | translate:{ from: pageIndex() + 1, to: totalPages() } }}
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <button class="h-8 w-8 justify-center items-center flex" (click)="onPageChange(0)"
+      [disabled]="pageIndex() === 0">
+      <img src="assets/new-icons/prev-arrow-twice.svg" alt="prev-arrow-twice">
+    </button>
+
+    <button class="h-8 w-8 justify-center items-center flex" (click)="onPageChange(pageIndex() - 1)"
+      [disabled]="pageIndex() === 0">
+      <img src="assets/new-icons/prev-arrow-once.svg" alt="prev-arrow-once">
+    </button>
+
+    <ng-container *ngFor="let page of visiblePages()">
+      <button
+        *ngIf="page !== -1"
+        class="h-8 w-8 flex justify-center items-center text-sm text-custom-primary font-medium rounded-lg"
+        [ngClass]="{
+          'border-none': page === pageIndex(),
+          'border border-custom-border bg-surface-2 leading-5': page !== pageIndex()
+        }"
+        (click)="onPageChange(page)">
+        {{ page + 1 }}
+      </button>
+
+      <span *ngIf="page === -1" class="h-8 w-8 flex justify-center items-center text-custom-secondary">
+        ...
+      </span>
+    </ng-container>
+
+    <button class="h-8 w-8 justify-center items-center flex" (click)="onPageChange(pageIndex() + 1)"
+      [disabled]="pageIndex() === totalPages() - 1">
+      <img src="assets/new-icons/next-arrow-once.svg" alt="next-arrow-once">
+    </button>
+
+    <button class="h-8 w-8 justify-center items-center flex" (click)="onPageChange(totalPages() - 1)"
+      [disabled]="pageIndex() === totalPages() - 1">
+      <img src="assets/new-icons/next-arrow-twice.svg" alt="next-arrow-twice">
+    </button>
+  </div>
+
+  <div class="flex items-center space-x-2 border border-custom-border rounded-lg bg-surface-2 gap-[2px] p-[6px]">
+    <label class="text-custom-secondary text-sm leading-5 pl-2 font-normal">
+      {{'accounts.show_per_page' | translate}}:
+    </label>
+
+    <button [matMenuTriggerFor]="menu" class="flex items-center space-x-1">
+      <span class="font-bold text-custom-primary leading-5 text-sm">{{ pageSize() }}</span>
+      <span><img src="assets/svg/chevron-down-1.svg" alt="#"></span>
+    </button>
+
+    <mat-menu #menu="matMenu" class="menu-action">
+      <div class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-surface-1 hover:rounded-[6px]"
+        *ngFor="let size of pageSizeOptions()" (click)="onPageSizeChange(size)">
+         <span class="text-custom-primary">{{ size }}</span>
+      </div>
+    </mat-menu>
+  </div>
+</div>

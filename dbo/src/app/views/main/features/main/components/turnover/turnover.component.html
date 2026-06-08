@@ -1,0 +1,51 @@
+<div class="flex gap-x-[30px] justify-between">
+  <div class="flex gap-x-[30px] py-[30px]">
+    <div class="flex flex-col gap-y-2.5 min-w-[330px]">
+      <div
+        class="text-[#2b2d33] text-xl font-medium"
+      >Обороты по счёту за {{ transaction?.date }}</div>
+
+
+      <div class="text-[#8B97A2] leading-[16px]">{{ transaction?.account }}</div>
+
+      <div class="flex flex-col gap-y-1 text-sm leading-[17px]">
+        <div class="flex justify-between gap-x-2.5">
+          <div>Входящий остаток</div>
+          <div>{{ amountService.convertToAmount(transaction?.amountBegin?.amount) }} {{ transaction?.amountBegin?.currency}}</div>
+        </div>
+
+        <div class="flex justify-between gap-x-2.5">
+          <div>Поступления</div>
+          <div>{{ amountService.convertToAmount(transaction?.totalCredit?.amount) }} {{ transaction?.totalCredit?.currency}}</div>
+        </div>
+
+        <div class="flex justify-between gap-x-2.5">
+          <div>Списания</div>
+          <div>{{ amountService.convertToAmount(transaction?.totalDebit?.amount) }} {{ transaction?.totalDebit?.currency}}</div>
+        </div>
+
+        <div class="flex justify-between gap-x-2.5">
+          <div>Исходящий остаток</div>
+          <div>{{ amountService.convertToAmount(transaction?.amountEnd?.amount) }} {{ transaction?.amountEnd?.currency}}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div mat-ripple class="w-10 h-10 bg-[#fcfcfc] rounded-[5px] my-[30px] flex-col justify-center items-center gap-2.5 inline-flex">
+    <app-ui-svg-icon
+      [matMenuTriggerFor]="accMenu"
+      path="./assets/icons/btn-icons.svg#more-vertical"
+      svgClass="h-6 w-6 relative"></app-ui-svg-icon>
+  </div>
+</div>
+
+<mat-menu #accMenu>
+  @for(acc of accounts; track acc.id) {
+    <div
+      (click)="updateTurnoverAccount(acc)"
+      class="p-2 flex gap-x-2 items-center cursor-pointer hover:bg-gray-200"
+    >{{ acc.altAcctId }}</div>
+  }
+</mat-menu>

@@ -1,0 +1,135 @@
+<div class="flex flex-col bg-surface-3 h-full overflow-y-auto pb-5">
+
+  <!-- Header -->
+  <div class="flex flex-col p-5">
+    <div class="flex justify-between">
+      <div class="justify-start text-custom-primary text-lg font-medium leading-normal">
+  {{'new_loan.loan_details' | translate}}
+      </div>
+      <div
+        class="w-7 h-7 relative bg-custom-zink-100 rounded-md flex justify-center items-center overflow-hidden cursor-pointer"
+        (click)="closeDialog()">
+        <div class="!text-[14px] leading-none flex items-center justify-center">
+          <mat-icon class="text-custom-text-close !text-[14px] !h-[14px] !w-[14px]">close</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Amount + Status -->
+  <div class="px-5 py-[20px] flex flex-col">
+
+    <!-- Status badge -->
+    <div class="flex items-center gap-1 mb-2">
+      <div class="flex items-center">
+        <div class="w-[24px] h-[24px] bg-surface-1 rounded-[10px] flex items-center justify-center">
+         
+     <div class="w-3 h-3 flex items-center justify-center">
+       <img [src]="data.stateLogo.path+data.stateLogo.name" [alt]="data.state">
+                <!-- <app-svg-icon  [class.text-[#00A38D]]="data.active"
+                [class.text-[#A3A3A3]]="!data.active" [size]="12" [name]="data.active ? 'hamkor_done_success' :'hamkor_cancel' "></app-svg-icon> -->
+          </div>
+        </div>
+        <span class="text-xs font-medium ml-1 text-custom-primary">
+         {{data.state}}
+        </span> 
+      </div>
+    </div>
+
+    <!-- Amount -->
+    <div class="text-nowrap justify-start text-custom-primary text-[32px] leading-[40px] font-bold">
+      {{ loanLogicService.integerPart(data.amount) }}
+      <span class="text-[32px] font-medium leading-[40px] text-custom-neutral-gray">
+      .{{loanLogicService.decimalPart(data.amount)}}  {{ data.amount.currency }}
+      </span>
+    </div>
+
+    <!-- Doc number & date -->
+    <div class="self-stretch justify-start mb-3 text-custom-neutral-gray text-sm font-normal leading-tight">
+      №{{ data.creditNumber }} от {{ formatDate(data.regDate) }}
+    </div>
+
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Credit Name + Contract Number -->
+  <div class="px-5 py-4">
+    <div class="flex flex-col mb-4">
+      <div class="label text-custom-muted">{{'new_loan.loan_name' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.creditName  || '-'}}</div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <div class="label text-custom-muted">{{'new_loan.contract_number' | translate}}</div>
+        <div class="value text-custom-primary">{{ data.creditNumber || '-'}}</div>
+      </div>
+      <app-svg-icon
+        (click)="copy(data.creditNumber)"
+        name="hamkor_copy"
+        [size]="22"
+        class="text-custom-text-tertiary cursor-pointer">
+      </app-svg-icon>
+    </div>
+
+
+  
+
+  <!-- Financial details -->
+
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.currency_1' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.currency || '-' }}</div>
+    </div>
+
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.balance_of_debt_1' | translate}}</div>
+      <div class="value text-custom-primary">{{  loanLogicService.integerPart(data.creditRest) }}.{{loanLogicService.decimalPart(data.creditRest)}} {{data.creditRest.currency}}</div>
+    </div>
+
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.interest_rate' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.percMain || '-' }}</div>
+    </div>
+    
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.type' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.creditTypeName  || '-'}}</div>
+    </div>
+
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.repayment_schedule' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.graphType ||'-' }}</div>
+    </div>
+
+  
+
+  <!-- Dates -->
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.date_of_issue' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.regDate || '-' }}</div>
+    </div>
+
+    <div class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.end_date' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.retDate || '-' }}</div>
+    </div>
+
+  
+
+  <!-- Additional info -->
+
+    <div *ngIf="data.crdObject" class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.purpose_of_the_loan' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.crdObject || '-' }}</div>
+    </div>
+
+    <div *ngIf="data.guarantee" class="flex flex-col py-[8px]">
+      <div class="label text-custom-muted">{{'new_loan.type_of_security' | translate}}</div>
+      <div class="value text-custom-primary">{{ data.guarantee  || '-'}}</div>
+    </div>
+  </div>
+</div>

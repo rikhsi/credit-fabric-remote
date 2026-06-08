@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    td {
+      text-align: start;
+      border-collapse: collapse;
+      border: 1px solid darkgray;
+      padding: 5px 10px;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+<div class="mb-2.5 w-full text-center">Счета</div>
+<table class="w-full">
+  <thead style="display: table-header-group">
+  <tr>
+    <td class="font-bold">Счёт</td>
+    <td class="font-bold">Название</td>
+    <td class="font-bold">Валюта</td>
+    <td class="font-bold">Остаток</td>
+    <td class="font-bold">Статус</td>
+  </tr>
+  </thead>
+  {{#data}}
+    <tr style="page-break-inside: avoid;">
+      <td>{{ altAcctId }}</td>
+      <td>{{ accountType }}</td>
+      <td>{{ currency }}</td>
+      <td class="text-nowrap text-end">{{ amount }}</td>
+      <td>{{ statusTranslate }}</td>
+    </tr>
+  {{/data}}
+</table>
+
+
+</body>
+
+</html>

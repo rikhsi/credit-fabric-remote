@@ -1,0 +1,420 @@
+<div [formGroup]="createForm" class="bg-surface-2 payment-form relative p-5 gap-5 flex flex-col rounded-xl">
+  <form [formGroup]="createForm" class="w-full flex flex-col gap-5">
+    <div (click)="isOpenCountry.set(false); openAccount.set(false); openAccountRecipient.set(false); isOpenPurpose.set(false)"
+         *ngIf="openAccountRecipient() || isOpenCountry() || openAccount() || isOpenPurpose()"
+         class="z-10 w-screen h-screen fixed top-0 left-0 right-0 bottom-0"></div>
+    <div class="flex justify-between items-center border-b pb-4">
+      <div
+        class="justify-start text-custom-primary text-lg font-semibold  leading-tight">{{this.activatedRoute.snapshot.queryParamMap.get('type') === 'buy'  ? 'Заявка на покупку валюты' : 'Заявка на продажу валюты'}}</div>
+      <div (click)="backClick()" class="w-[30px] h-[30px] bg-surface-4 flex justify-center cursor-pointer items-center rounded-[10px]"><img
+        src="assets/new-icons/close.svg"  alt="close"></div>
+    </div>
+    <div *ngIf="activatedRoute.snapshot.queryParamMap.get('type') === 'buy'" class="flex w-full items-center border border-custom-border rounded-[20px] gap-[26px] p-5 bg-surface-4">
+      <div class="w-full flex flex-col gap-4">
+        <h3>Списать со счета <span class="text-red-500">*</span></h3>
+        <div (click)="closeChooseAccount()" [style.border]="openAccount() ? '1px solid #008C79' : ''"
+             class="relative cursor-pointer p-5 h-[84px] rounded-[16px] flex justify-between items-center bg-surface-2 w-full">
+          <div *ngIf="this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-primary font-semibold text-[18px]">{{ Number(this.choosedAcount().balance?.amount) /
+                100 | mask:'separator' }} {{ this.choosedAcount().balance?.currency}}</span>
+              <span class="text-custom-muted text-[14px] font-medium">{{ this.choosedAcount().accountType }}</span>
+              <p class="text-custom-secondary mt-[2px] text-[14px] font-medium">{{ this.choosedAcount().altAcctId }}</p>
+            </div>
+          </div>
+          <div *ngIf="!this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+            <div class="flex flex-col gap-[1px]">
+              <span class="text-custom-muted bg-surface-2 font-normal text-[14px]">{{ 'accounts.choose' | translate }}</span>
+            </div>
+          </div>
+          <img src="./assets/icons/down.png" class="mx-4" alt="">
+          <div *ngIf="openAccount()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-20 max-h-[328px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+            @for (account of accounts(); track account) {
+              <div [ngClass]="{'opacity-30 cursor-not-allowed': account.status === 'BLOCKED'}" class="flex items-center justify-between" (click)="account.status !== 'BLOCKED' ? this.chooseAccFunc(account) : {}">
+                <div class="flex gap-5 items-center p-4" >
+                  <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+                  <div class="flex flex-col gap-[1px]">
+                    <span class="text-custom-primary font-semibold text-[18px]">{{ Number(account.balance.amount) / 100 |
+                      mask:'separator' }} {{ account.balance?.currency }}</span>
+                    <span class="text-custom-secondary text-[14px] font-medium">{{ account.accountType }}</span>
+                    <p class="text-custom-muted text-[12px] font-medium">{{ account.altAcctId }}</p>
+                  </div>
+                </div>
+                <img  class="mx-4" *ngIf="choosedAcount().altAcctId === account.altAcctId && account.status !== 'BLOCKED'" src="./assets/icons/check.svg"
+                      alt="">
+                <span *ngIf="account.status === 'BLOCKED'"
+                      class="inline-flex bg-[#FFEBEC] mx-3 rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                   <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                  {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span>
+              </div>
+            }
+          </div>
+        </div>
+        <div formGroupName="balance" class="relative w-full  flex">
+          <div
+            [ngClass]="{'!border-red-500': (createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched) || balanceErrorOver.length > 0 }"
+            class="relative flex w-full mb-[21px] p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px]">
+
+            <input (input)="this.convertAmountIntoWords()" type="text" formControlName="amount" mask="separator.2"
+                   placeholder=" " class="peer border-0 border-r pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary
+            placeholder:text-[16px]  text-[16px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-l-[12px]" />
+
+            <span style="pointer-events: none" class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{'createPayment.amount' | translate}}
+            </span>
+
+            <div class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]
+           items-center text-center flex justify-center rounded-r-[12px]">
+              UZS
+            </div>
+
+          </div>
+          <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"
+                class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+          <span *ngIf="!this.balanceErrorOver()"
+                class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords() }}</span>
+          <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver() }}</span>
+        </div>
+      </div>
+      <div class="border-[#D1D1D1] bg-[#ffffff]] flex justify-center items-center rounded-full border w-[104px] h-[52px]">
+        <img src="./assets/new-icons/chevron-right-double.svg" alt="">
+      </div>
+      <div class="w-full flex flex-col gap-4">
+        <h3>Зачислить на счёт <span class="text-red-500">*</span></h3>
+        <div (click)="closeChooseAccountRecipient()" [style.border]="openAccountRecipient() ? '1px solid #008C79' : ''"
+             class="relative cursor-pointer p-5 h-[84px] rounded-[16px] flex justify-between items-center bg-surface-2 w-full">
+          <div *ngIf="this.choosedRecipientAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-primary font-semibold text-[18px]">{{ Number(this.choosedRecipientAcount().balance?.amount) /
+                100 | mask:'separator' }} {{ this.choosedRecipientAcount().balance?.currency}}</span>
+              <span class="text-custom-muted text-[14px] font-medium">{{ this.choosedRecipientAcount().accountType }}</span>
+              <p class="text-custom-secondary text-[12px] font-medium">{{ this.choosedRecipientAcount().altAcctId }}</p>
+            </div>
+          </div>
+          <div *ngIf="!this.choosedRecipientAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/new-icons/account-logo.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+              <span class="text-[#5C5C5C] bg-surface-2 font-normal text-[16px]">Выберите счёт зачисления</span>
+            </div>
+          </div>
+          <img src="./assets/icons/down.png" class="mx-4" alt="">
+          <div *ngIf="openAccountRecipient()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-28 max-h-[328px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+            @for (account of accounts(); track account) {
+              <div [ngClass]="{'opacity-30 cursor-not-allowed': account.status === 'BLOCKED'}" class="flex items-center justify-between" (click)="account.status !== 'BLOCKED' ? this.chooseAccFunc(account) : {}">
+                <div class="flex gap-5 items-center p-4" >
+                  <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+                  <div class="flex flex-col gap-[1px]">
+                    <span class="text-custom-primary font-semibold text-[18px]">{{ Number(account.balance.amount) / 100 |
+                      mask:'separator' }} {{ account.balance?.currency }}</span>
+                    <span class="text-custom-secondary text-[14px] font-medium">{{ account.accountType }}</span>
+                    <p class="text-custom-muted text-[12px] font-medium">{{ account.altAcctId }}</p>
+                  </div>
+                </div>
+                <img  class="mx-4" *ngIf="choosedRecipientAcount().altAcctId === account.altAcctId && account.status !== 'BLOCKED'" src="./assets/icons/check.svg"
+                      alt="">
+                <span *ngIf="account.status === 'BLOCKED'"
+                      class="inline-flex bg-[#FFEBEC] mx-3 rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                   <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                  {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span>
+              </div>
+            }
+          </div>
+        </div>
+        <div formGroupName="balance" class="relative w-full  flex">
+          <div
+            [ngClass]="{'!border-red-500': (createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched) || balanceErrorOver.length > 0 }"
+            class="relative flex w-full mb-[21px] p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px]">
+
+            <input (input)="this.convertAmountIntoWords()" type="text" formControlName="amount" mask="separator.2"
+                   placeholder=" " class="peer border-0 border-r pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary text-[16px]
+            placeholder:text-[16px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-l-[12px]" />
+
+            <span style="pointer-events: none" class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{'createPayment.amount' | translate}}
+            </span>
+
+            <div class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]
+           items-center text-center flex justify-center rounded-r-[12px]">
+              UZS
+            </div>
+
+          </div>
+          <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"
+                class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+          <span *ngIf="!this.balanceErrorOver()"
+                class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords() }}</span>
+          <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activatedRoute.snapshot.queryParamMap.get('type') === 'sell'" class="flex w-full items-center border border-custom-border rounded-[20px] gap-[26px] p-5 bg-surface-4">
+      <div class="w-full flex flex-col gap-4">
+        <h3>Списать со счета <span class="text-red-500">*</span></h3>
+        <div (click)="closeChooseAccountRecipient()" [style.border]="openAccountRecipient() ? '1px solid #008C79' : ''"
+             class="relative cursor-pointer p-5 h-[84px] rounded-[16px] flex justify-between items-center bg-surface-2 w-full">
+          <div *ngIf="this.choosedRecipientAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-primary font-semibold text-[18px]">{{ Number(this.choosedRecipientAcount().balance?.amount) /
+                100 | mask:'separator' }} {{ this.choosedRecipientAcount().balance?.currency}}</span>
+              <span class="text-custom-muted text-[14px] font-medium">{{ this.choosedRecipientAcount().accountType }}</span>
+              <p class="text-custom-secondary text-[12px] font-medium">{{ this.choosedRecipientAcount().altAcctId }}</p>
+            </div>
+          </div>
+          <div *ngIf="!this.choosedRecipientAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/new-icons/account-logo.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+              <span class="text-[#5C5C5C] bg-surface-2 font-normal text-[16px]">Выберите счёт зачисления</span>
+            </div>
+          </div>
+          <img src="./assets/icons/down.png" class="mx-4" alt="">
+          <div *ngIf="openAccountRecipient()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-28 max-h-[328px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+            @for (account of accounts(); track account) {
+              <div [ngClass]="{'opacity-30 cursor-not-allowed': account.status === 'BLOCKED'}" class="flex items-center justify-between" (click)="account.status !== 'BLOCKED' ? this.chooseAccFunc(account) : {}">
+                <div class="flex gap-5 items-center p-4" >
+                  <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+                  <div class="flex flex-col gap-[1px]">
+                    <span class="text-custom-primary font-semibold text-[18px]">{{ Number(account.balance.amount) / 100 |
+                      mask:'separator' }} {{ account.balance?.currency }}</span>
+                    <span class="text-custom-secondary text-[14px] font-medium">{{ account.accountType }}</span>
+                    <p class="text-custom-muted text-[12px] font-medium">{{ account.altAcctId }}</p>
+                  </div>
+                </div>
+                <img  class="mx-4" *ngIf="choosedRecipientAcount().altAcctId === account.altAcctId && account.status !== 'BLOCKED'" src="./assets/icons/check.svg"
+                      alt="">
+                <span *ngIf="account.status === 'BLOCKED'"
+                      class="inline-flex bg-[#FFEBEC] mx-3 rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                   <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                  {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span>
+              </div>
+            }
+          </div>
+        </div>
+        <div formGroupName="balance" class="relative w-full  flex">
+          <div
+            [ngClass]="{'!border-red-500': (createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched) || balanceErrorOver.length > 0 }"
+            class="relative flex w-full mb-[21px] p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px]">
+
+            <input (input)="this.convertAmountIntoWords()" type="text" formControlName="amount" mask="separator.2"
+                   placeholder=" " class="peer border-0 border-r pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary
+            placeholder:text-[16px]  text-[16px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-l-[12px]" />
+
+            <span style="pointer-events: none" class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{'createPayment.amount' | translate}}
+            </span>
+
+            <div class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]
+           items-center text-center flex justify-center rounded-r-[12px]">
+              UZS
+            </div>
+
+          </div>
+          <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"
+                class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+          <span *ngIf="!this.balanceErrorOver()"
+                class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords() }}</span>
+          <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver() }}</span>
+        </div>
+      </div>
+      <div class="border-[#D1D1D1] bg-[#ffffff]] flex justify-center items-center rounded-full border w-[104px] h-[52px]">
+        <img src="./assets/new-icons/chevron-right-double.svg" alt="">
+      </div>
+      <div class="w-full flex flex-col gap-4">
+        <h3>Зачислить на счёт <span class="text-red-500">*</span></h3>
+        <div (click)="closeChooseAccount()" [style.border]="openAccount() ? '1px solid #008C79' : ''"
+             class="relative cursor-pointer p-5 h-[84px] rounded-[16px] flex justify-between items-center bg-surface-2 w-full">
+          <div *ngIf="this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+            <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+            <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-primary font-semibold text-[18px]">{{ Number(this.choosedAcount().balance?.amount) /
+                100 | mask:'separator' }} {{ this.choosedAcount().balance?.currency}}</span>
+              <span class="text-custom-muted text-[14px] font-medium">{{ this.choosedAcount().accountType }}</span>
+              <p class="text-custom-secondary mt-[2px] text-[14px] font-medium">{{ this.choosedAcount().altAcctId }}</p>
+            </div>
+          </div>
+          <div *ngIf="!this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+            <div class="flex flex-col gap-[1px]">
+              <span class="text-custom-muted bg-surface-2 font-normal text-[14px]">{{ 'accounts.choose' | translate }}</span>
+            </div>
+          </div>
+          <img src="./assets/icons/down.png" class="mx-4" alt="">
+          <div *ngIf="openAccount()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-20 max-h-[328px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+            @for (account of accounts(); track account) {
+              <div [ngClass]="{'opacity-30 cursor-not-allowed': account.status === 'BLOCKED'}" class="flex items-center justify-between" (click)="account.status !== 'BLOCKED' ? this.chooseAccFunc(account) : {}">
+                <div class="flex gap-5 items-center p-4" >
+                  <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+                  <div class="flex flex-col gap-[1px]">
+                    <span class="text-custom-primary font-semibold text-[18px]">{{ Number(account.balance.amount) / 100 |
+                      mask:'separator' }} {{ account.balance?.currency }}</span>
+                    <span class="text-custom-secondary text-[14px] font-medium">{{ account.accountType }}</span>
+                    <p class="text-custom-muted text-[12px] font-medium">{{ account.altAcctId }}</p>
+                  </div>
+                </div>
+                <img  class="mx-4" *ngIf="choosedAcount().altAcctId === account.altAcctId && account.status !== 'BLOCKED'" src="./assets/icons/check.svg"
+                      alt="">
+                <span *ngIf="account.status === 'BLOCKED'"
+                      class="inline-flex bg-[#FFEBEC] mx-3 rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                   <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                  {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span>
+              </div>
+            }
+          </div>
+        </div>
+        <div formGroupName="balance" class="relative w-full  flex">
+          <div
+            [ngClass]="{'!border-red-500': (createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched) || balanceErrorOver.length > 0 }"
+            class="relative flex w-full mb-[21px] p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px]">
+
+            <input (input)="this.convertAmountIntoWords()" type="text" formControlName="amount" mask="separator.2"
+                   placeholder=" " class="peer border-0 border-r pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary text-[16px]
+            placeholder:text-[16px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-l-[12px]" />
+
+            <span style="pointer-events: none" class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{'createPayment.amount' | translate}}
+            </span>
+
+            <div class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]
+           items-center text-center flex justify-center rounded-r-[12px]">
+              UZS
+            </div>
+
+          </div>
+          <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"
+                class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+          <span *ngIf="!this.balanceErrorOver()"
+                class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords() }}</span>
+          <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col w-full border border-custom-border rounded-[20px] gap-4 p-5 bg-surface-4">
+      <h3 class="text-[#171717] font-semibold">Детали</h3>
+      <div class="flex gap-[26px] items-center">
+        <div
+          (click)="choosePurpose()" [style.border]="isOpenPurpose() ? '1px solid #008C79' : ''"
+          class="relative w-full border border-custom-border bg-surface-2 z-20 h-[56px] flex justify-center cursor-pointer flex-col rounded-[16px]">
+          <span *ngIf="!this.createForm.getRawValue().purpose.name" class="text-custom-muted text-[16px] mx-4  font-normal leading-[18px]">
+            Цель использования покупаемой валюты <span class="text-red-500">*</span></span>
+          <span *ngIf="this.createForm.getRawValue().purpose.name && this.createForm.getRawValue().purpose.name.length > 0"
+                class="text-custom-primary text-[16px] mx-4  font-normal leading-[18px]">
+            {{ this.createForm.getRawValue().purpose.name }}</span>
+          <img src="./assets/icons/down.png" class=" absolute right-5 top-[24px]" alt="">
+          <div *ngIf="isOpenPurpose()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-14 max-h-[220px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+<!--            @for (template of this.templateList(); track template) {-->
+<!--              <div class="flex cursor-pointer justify-between items-center">-->
+<!--                <p (click)="this.setTemplateToForm(template)"-->
+<!--                   class="h-[44px] text-custom-secondary text-[16px] w-full px-4 flex items-center ">{{ template.name }}</p>-->
+<!--                <img class="mx-4" *ngIf="this.templateName === template.name" src="./assets/icons/check.svg" alt="">-->
+<!--              </div>-->
+<!--            }-->
+          </div>
+        </div>
+        <div
+          (click)="chooseCountry()" [style.border]="isOpenCountry() ? '1px solid #008C79' : ''"
+          class="relative w-full border border-custom-border bg-surface-2 z-20 h-[56px] flex justify-center cursor-pointer flex-col rounded-[16px]">
+          <span *ngIf="!this.createForm.getRawValue().purpose.name" class="text-custom-muted text-[16px] mx-4  font-normal leading-[18px]">
+            Страна-направление валюты</span>
+          <span *ngIf="this.createForm.getRawValue().purpose.name && this.createForm.getRawValue().purpose.name.length > 0"
+                class="text-custom-primary text-[16px] mx-4  font-normal leading-[18px]">
+            {{ this.createForm.getRawValue().purpose.name }}</span>
+          <img src="./assets/icons/down.png" class=" absolute right-5 top-[24px]" alt="">
+          <div *ngIf="isOpenCountry()" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+               class="origin-top z-50 top-14 max-h-[220px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+            <!--            @for (template of this.templateList(); track template) {-->
+            <!--              <div class="flex cursor-pointer justify-between items-center">-->
+            <!--                <p (click)="this.setTemplateToForm(template)"-->
+            <!--                   class="h-[44px] text-custom-secondary text-[16px] w-full px-4 flex items-center ">{{ template.name }}</p>-->
+            <!--                <img class="mx-4" *ngIf="this.templateName === template.name" src="./assets/icons/check.svg" alt="">-->
+            <!--              </div>-->
+            <!--            }-->
+          </div>
+        </div>
+      </div>
+      <div class="w-full flex gap-[26px] items-center">
+        <div class="relative w-full flex flex-col gap-1">
+          <span style="width: calc(100% - 18px)"
+                class="absolute top-[9px] text-[12px] left-[16px] text-custom-primary font-medium">{{'conversion.purpose' | translate}}</span>
+          <textarea maxlength="450" type="text" formControlName="description"
+                    placeholder="{{'conversion.payment_purpose_description' | translate}}"
+                    [ngClass]="{'border-red-500': createForm.get('description')?.invalid && createForm.get('description')?.touched}"
+                    class="border  focus:border-[#008C79] h-[110px] text-custom-primary border-custom-border px-4 py-8 disabled:bg-custom-muted bg-surface-2  w-full placeholder:text-[12px] placeholder:text-custom-muted placeholder:font-normal rounded-[16px] outline-none">
+            </textarea>
+          <span class="absolute bg-surface-2 bottom-[8px] right-[12px] text-[#797B83]">{{
+              this.createForm.value.description?.length }}
+            /450</span>
+          <span *ngIf="createForm.get('description')?.invalid && createForm.get('description')?.touched"
+                class="absolute bottom-[-20px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+        </div>
+        <div class="relative w-full flex flex-col gap-1 opacity-0 select-none">
+          <span style="width: calc(100% - 18px)"
+                class="absolute top-[9px] text-[13px] left-[16px] text-custom-muted font-medium">{{'conversion.errors' | translate}}</span>
+          <textarea maxlength="200" type="text" formControlName="description"
+                    placeholder="{{'conversion.payment_purpose_description' | translate}}"
+                    [ngClass]="{'border-red-500': createForm.get('description')?.invalid && createForm.get('description')?.touched}"
+                    class="border  focus:border-[#008C79] h-[110px] text-custom-primary border-custom-border px-4 py-8 disabled:bg-custom-muted bg-surface-2  w-full placeholder:text-[13px] placeholder:text-custom-muted placeholder:font-normal rounded-[16px] outline-none">
+            </textarea>
+          <span class="absolute bg-surface-2 bottom-[8px] right-[12px] text-[#797B83]">{{
+              this.createForm.value.description?.length }}
+            /200</span>
+          <span *ngIf="createForm.get('description')?.invalid && createForm.get('description')?.touched"
+                class="absolute bottom-[-20px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end w-full">
+      <button class="bg-[#008C79] p-2.5 text-[16px] w-[145px] h-[48px] text-[#FFFFFF]  rounded-[12px]  font-medium">Создать заявку</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="spinnerState()" class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-[1001]" style="background: rgb(255 255 255 / 76%);">
+  <app-spinner></app-spinner>
+</div>

@@ -1,0 +1,500 @@
+<div class="flex gap-x-5 w-full justify-between" style="min-height: calc(100vh + 700px);">
+  <div class="p-6 bg-white rounded-xl h-full flex flex-col flex-grow gap-y-5" >
+    <app-container-nav [navs]="navs"></app-container-nav>
+
+    <app-container-title [title]="title"></app-container-title>
+
+    <div class="mb-4">
+      <form [formGroup]="conversionForm">
+        <div class="flex flex-col rounded-12px  gap-y-5">
+
+          <div class="grid grid-cols-3 gap-x-5 items-center">
+            <mat-form-field class="col-span-2 small" appearance="outline">
+              <mat-label>Номер документа</mat-label>
+              <input formControlName="docNum" matInput placeholder="Введите номер документа"/>
+            </mat-form-field>
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>Дата документа</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="docDate"
+              >
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>
+                  <img ngSrc="/assets/svg/calendar-swift.svg" alt="calendar" width="24" height="24" />
+                </mat-icon>
+              </mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+
+<!--          <div class="grid grid-cols-[1fr_2fr] gap-4 items-center">-->
+<!--            <mat-form-field class="w-full small" appearance="outline">-->
+<!--              <mat-label>Валюта исходящая</mat-label>-->
+<!--              <input matInput placeholder="Введите исходящую валюту"/>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field class="w-full small" appearance="outline">-->
+<!--              <mat-label>Валюта полученная от операции</mat-label>-->
+<!--              <input placeholder="Введите валюту полученная от операции" matInput/>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+
+          <hr>
+
+          <div class="grid grid-cols-2 gap-x-5">
+            <mat-form-field
+              [ngClass]="{
+                'required': conversionForm.get('paymentStructure')?.invalid && conversionForm.get('paymentStructure')?.touched,
+              }"
+              class="small" appearance="outline">
+              <mat-label>
+                Схема проводок
+              </mat-label>
+
+              <mat-select formControlName="paymentStructure" placeholder="Выберите схему проводок">
+                @for(scheme of ['Стандартная', 'Кредитная']; track scheme; let idx = $index) {
+                  <mat-option [value]="idx + 1">{{ scheme }}</mat-option>
+                }
+              </mat-select>
+
+              <mat-icon matSuffix>
+                <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+              </mat-icon>
+
+              <div class="absolute pt-[5px] text-[12px]">
+                <mat-error *ngIf="conversionForm.get('paymentStructure')?.hasError('required') && conversionForm.get('paymentStructure')?.touched">
+                  Поле обязательное.
+                </mat-error>
+              </div>
+            </mat-form-field>
+
+            <mat-form-field class="small" appearance="outline">
+              <mat-label>Покупаемая валюта</mat-label>
+
+              <mat-select>
+                @for(curr of currencies; track curr.code) {
+                  <mat-option (click)="selectCurrency(curr)" [value]="curr.name">{{ curr.name }}</mat-option>
+                }
+              </mat-select>
+
+              <mat-icon matSuffix>
+                <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+              </mat-icon>
+            </mat-form-field>
+          </div>
+
+          <app-account-select
+            [label]="'Сумовой счет'"
+            [preSelected]="preselectedSenderAccount"
+            [accounts]="accounts"
+            [touched]="checkTouched('senderAccount')"
+            [showTitle]="false"
+            [required]="true"
+            (accountSelected)="selectedSenderAccount($event)"
+          ></app-account-select>
+
+          <app-account-select
+            [label]="'Блок счет'"
+            [accounts]="blockAccountsList()"
+            [preSelected]="preselectedSenderBlockAccount"
+            [touched]="checkTouched('senderBlockAccount')"
+            [showTitle]="false"
+            [required]="true"
+            (accountSelected)="getSpecialAccounts($event)"
+          ></app-account-select>
+
+          <app-account-select
+            [label]="'Валютный счет'"
+            [accounts]="receiverAccounts"
+            [preSelected]="preselectedReceiverAccount"
+            [touched]="checkTouched('receiverAccount')"
+            [showTitle]="false"
+            [required]="true"
+            (accountSelected)="selectedReceiverAccount($event)"
+          ></app-account-select>
+
+          <app-account-select
+            [label]="'Валютный спец. счет'"
+            [accounts]="specialAccountList()"
+            [preSelected]="preselectedSpecialAccount"
+            [touched]="checkTouched('receiverSpecialAccount')"
+            [showTitle]="false"
+            [required]="true"
+            (accountSelected)="selectedSpecialAccount($event)"
+          ></app-account-select>
+
+          <div class="flex justify-between items-center gap-x-5">
+            <mat-form-field
+              class="small w-full"
+              appearance="outline"
+              [ngClass]="{
+                'required': conversionForm.get('currencyAmount')?.invalid && conversionForm.get('currencyAmount')?.touched,
+              }"
+            >
+              <mat-label>Сумма в валюте</mat-label>
+              <input
+                [class]="inputClasses"
+                matInput
+                mask="separator.2"
+                formControlName="currencyAmount"
+                placeholder="0.00"
+                [ngClass]="{
+          'border-red-500': conversionForm.get('currencyAmount')?.invalid && conversionForm.get('currencyAmount')?.touched,
+          'border-secondary': conversionForm.get('currencyAmount')?.valid || !conversionForm.get('currencyAmount')?.touched
+        }"
+              >
+              <div class="absolute pt-[5px] text-[12px]">
+                <mat-error *ngIf="conversionForm.get('currencyAmount')?.hasError('required') && conversionForm.get('currencyAmount')?.touched">
+                  Поле обязательное.
+                </mat-error>
+              </div>
+            </mat-form-field>
+
+            <mat-form-field class="small w-full secondary" appearance="outline">
+              <mat-label>Курс покупки</mat-label>
+              <input
+                [class]="inputClasses"
+                matInput
+                formControlName="clientCurrencyOfferRate"
+                readonly
+                placeholder="0.00"
+                mask="separator.2"
+              >
+            </mat-form-field>
+
+            <mat-form-field class="small w-full secondary" appearance="outline">
+              <mat-label>Сумма в сумах</mat-label>
+              <input
+                [class]="inputClasses"
+                matInput
+                mask="separator.2"
+
+                formControlName="clientCurrencyOfferAmount"
+                placeholder="0.00"
+                readonly
+              >
+            </mat-form-field>
+
+          </div>
+          <mat-form-field
+            [ngClass]="{
+                'required': conversionForm.get('sourceBuyCode')?.invalid && conversionForm.get('sourceBuyCode')?.touched,
+              }"
+            class="small" appearance="outline">
+            <mat-label>Источник покупки инвалюты</mat-label>
+            <mat-select formControlName="sourceBuyCode" placeholder="Источник покупки инвалюты">
+              @for(from of ['Собственные средства', 'Кредитные средства']; track from; let idx = $index) {
+                <mat-option [value]="idx + 1">{{from}}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>
+              <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+            </mat-icon>
+
+            <div class="absolute pt-[5px] text-[12px]">
+              <mat-error *ngIf="conversionForm.get('sourceBuyCode')?.hasError('required') && conversionForm.get('sourceBuyCode')?.touched">
+                Поле обязательное.
+              </mat-error>
+            </div>
+          </mat-form-field>
+
+          <mat-form-field
+            [ngClass]="{
+                'required': conversionForm.get('aimCode')?.invalid && conversionForm.get('aimCode')?.touched,
+              }"
+            class="small" appearance="outline">
+            <mat-label>Цель использования покупаемой иностранной валюты</mat-label>
+            <mat-select formControlName="aimCode" placeholder="Цель использования покупаемой иностранной валюты">
+              @for(aim of aims; track aim) {
+                <mat-option [value]="aim.code">{{ aim.name }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>
+              <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+            </mat-icon>
+
+
+            <div class="absolute pt-[5px] text-[12px]">
+              <mat-error *ngIf="conversionForm.get('aimCode')?.hasError('required') && conversionForm.get('aimCode')?.touched">
+                Поле обязательное.
+              </mat-error>
+            </div>
+          </mat-form-field>
+
+          <mat-form-field
+            [ngClass]="{
+                'required': conversionForm.get('aimName')?.invalid && conversionForm.get('aimName')?.touched,
+              }"
+            class="small w-full" appearance="outline">
+            <mat-label>Краткое содержание цели</mat-label>
+            <textarea
+              rows="3"
+              matInput
+              formControlName="aimName"
+            >
+
+          </textarea>
+            <div class="absolute pt-[5px] text-[12px]">
+              <mat-error *ngIf="conversionForm.get('aimName')?.hasError('required') && conversionForm.get('aimName')?.touched">
+                Поле обязательное.
+              </mat-error>
+            </div>
+          </mat-form-field>
+
+          <app-searchable-select
+            class="small w-full"
+            [label]="'Страна в которую отправляются валютные средства'"
+            [parentForm]="conversionForm"
+            controlName="receiverCountryCode"
+            [customTriggerTemplate]="triggerTemplate"
+            [customOptionTemplate]="optionTemplate"
+            [options]="countries"
+            [displayOption]="displayOption"
+            (valueChange)="setCountryCode($event)"
+            (inputChange)="getCountries($event)"
+            (focusin)="getCountries()"
+          ></app-searchable-select>
+
+          <mat-form-field
+            [ngClass]="{
+                'required': conversionForm.get('idnc')?.invalid && conversionForm.get('idnc')?.touched,
+              }"
+            class="small" appearance="outline">
+            <mat-label>ИДНК</mat-label>
+            <mat-select
+              placeholder="Выберите ИДНК"
+            >
+              @for(idn of idnc; track idn) {
+                <mat-option
+                  [value]="idn"
+                  (click)="selectIdnc(idn)"
+                >
+                  {{ idn.idnc }}
+                </mat-option>
+
+              }
+            </mat-select>
+            <mat-icon matSuffix>
+              <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+            </mat-icon>
+
+            <div class="absolute pt-[5px] text-[12px]">
+              <mat-error *ngIf="conversionForm.get('idnc')?.hasError('required') && conversionForm.get('idnc')?.touched">
+                Поле обязательное.
+              </mat-error>
+            </div>
+          </mat-form-field>
+
+
+          <div class="grid grid-cols-2 gap-5">
+            <div>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Номер контракта</mat-label>
+                <input  formControlName="contractNumber" matInput placeholder="Введите номер контракта">
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Дата контракта</mat-label>
+                <input formControlName="contractDate" matInput placeholder="Введите дата контракта">
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Наименование инопартнера</mat-label>
+                <input formControlName="partnerName" matInput placeholder="Введите наименование инопартнера">
+              </mat-form-field>
+            </div>
+            <div>
+              <app-searchable-select
+                class="small w-full"
+                [label]="'Страна инопартнера'"
+                [parentForm]="conversionForm"
+                [placeholder]="'Введите страну инопартнера'"
+                controlName="partnerCountry"
+                [customTriggerTemplate]="triggerTemplate"
+                [customOptionTemplate]="optionCountry"
+                [options]="countries"
+                [showSuffix]="false"
+                (valueChange)="setPartnerCountry($event)"
+                (inputChange)="getCountries($event)"
+                (focusin)="getCountries()"
+              ></app-searchable-select>
+            </div>
+            <div>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Наименование банка бенефициара</mat-label>
+                <input formControlName="benBankName" matInput placeholder="Введите наименование банка бенефициара">
+              </mat-form-field>
+            </div>
+            <div>
+              <app-searchable-select
+                class="small w-full"
+                [label]="'Страна банка бенефициара'"
+                [parentForm]="conversionForm"
+                [placeholder]="'Введите страну банка бенефициара'"
+                controlName="benBankCountry"
+                [customTriggerTemplate]="triggerTemplate"
+                [customOptionTemplate]="optionCountry"
+                [options]="countries"
+                [showSuffix]="false"
+                (valueChange)="setBenBankCountry($event)"
+                (inputChange)="getCountries($event)"
+                (focusin)="getCountries()"
+              ></app-searchable-select>
+            </div>
+            <div>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Наименование грузоотправителя</mat-label>
+                <input formControlName="shipperName" matInput placeholder="Введите наименование грузоотправителя">
+              </mat-form-field>
+            </div>
+            <div>
+              <app-searchable-select
+                class="small w-full"
+                [label]="'Страна грузоотправителя'"
+                [parentForm]="conversionForm"
+                [placeholder]="'Введите страну грузоотправителя'"
+                controlName="shipperCountry"
+                [customTriggerTemplate]="triggerTemplate"
+                [customOptionTemplate]="optionCountry"
+                [options]="countries"
+                [showSuffix]="false"
+                (valueChange)="setShipperCountry($event)"
+                (inputChange)="getCountries($event)"
+                (focusin)="getCountries()"
+              ></app-searchable-select>
+            </div>
+          </div>
+
+          <mat-form-field class="small" appearance="outline">
+            <mat-label>Условия оплаты</mat-label>
+            <mat-select formControlName="termsPayment" placeholder="Выберите условия оплаты">
+              <mat-option *ngFor="let fact of termsPayments" [value]="fact.value">
+                {{ fact.name }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>
+              <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24"/>
+            </mat-icon>
+          </mat-form-field>
+          <mat-form-field class="small w-full" appearance="outline">
+            <mat-label>Комментарии</mat-label>
+            <textarea
+              matInput
+              formControlName="detail"
+              placeholder="Комментарии"
+              rows="4"
+
+            >
+           </textarea>
+          </mat-form-field>
+
+          <div class="grid grid-cols-2 gap-x-5">
+            <div
+              class="w-full h-10 px-5 py-2.5 bg-[#ddecfb] rounded-[5px] justify-center items-center gap-2 inline-flex cursor-pointer hover:bg-[#cbe4fa]"
+              (click)="triggerFileUpload()"
+              [ngClass]="{ 'col-span-2': !file }"
+            >
+              <label for="fileUpload"
+                     class="text-[#264796] text-sm font-normal leading-none cursor-pointer flex items-center">
+                Документ
+              </label>
+              <div class="w-6 h-6 flex justify-center items-center">
+                <div class="w-6 h-6 relative">
+                  <app-ui-svg-icon path="./assets/icons/btn-icons.svg#excel-upload"
+                                   svgClass="w-6 h-6"></app-ui-svg-icon>
+                </div>
+              </div>
+              <input id="fileUpload" type="file" class="hidden" (click)="$event.stopPropagation()" (change)="handleFileChange($event)" />
+            </div>
+
+            @if(file) {
+              <div class="flex h-10 items-center justify-between rounded-[5px] border border-[#E4E4E4]">
+                <div class="truncate px-2.5 py-2.5">
+                  {{ file.name }}
+                </div>
+
+                <div
+                  class="flex items-center px-2.5 py-2.5 cursor-pointer group"
+                  (click)="clearFile()"
+                >
+                  <mat-icon
+                    class="group-hover:rotate-90 transition-all"
+                    [ngStyle]="{ 'color': '#B8BDC2' }"
+                  >close</mat-icon>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="flex justify-between items-center">
+            @if(!isEdit) {
+              <button
+                (click)="onSubmit('SUBMIT')"
+                [disabled]="conversionForm.invalid"
+                class="h-10 px-5 py-2.5 bg-[#264796] rounded-[5px]  justify-center items-center gap-2 inline-flex text-white text-sm font-normal  leading-snug">
+                Создать
+              </button>
+              <div class="flex items-center gap-x-2.5">
+
+                <button
+                  (click)="onSubmit('SAVE')"
+                  class="px-5 py-2.5 rounded-[5px] text-sm bg-[#DDECFC] text-[#264796] leading-[20px]"
+                >
+                  Сохранить как шаблон
+                </button>
+              </div>
+            } @else {
+              <div class="flex gap-x-4">
+                <button
+                  (click)="editTemplateCurrencyBuy()"
+                  class="px-5 py-2.5 rounded-[5px] text-sm bg-[#264796] text-white leading-[20px]"
+                >
+                  Редактировать
+                </button>
+
+                <button
+                  appLocationBack
+                  class="px-5 py-2.5 rounded-[5px] text-sm bg-[#DDECFC] text-[#264796] leading-[20px]"
+                >
+                  Отмена
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="flex flex-col gap-y-[11px]">
+    <app-widgets
+      [modes]="templateModes"
+      (docDate)="getDocDate($event)"
+    ></app-widgets>
+  </div>
+</div>
+
+
+<ng-template #triggerTemplate let-selectedValue>
+  <div>
+    @if (selectedValue) {
+      <span>{{ selectedValue.code }} - {{ selectedValue.name }}</span>
+    } @else {
+      <span>Choose an item...</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option>
+  <div>
+    <span>{{ option.code }} - {{ option.name }}</span>
+  </div>
+</ng-template>
+
+<ng-template #optionCountry let-option>
+  <div>
+    <span>{{ option.code }} - {{ option.name }}</span>
+  </div>
+</ng-template>

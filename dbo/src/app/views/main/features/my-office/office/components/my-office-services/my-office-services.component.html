@@ -1,0 +1,65 @@
+<ng-container>
+  <div class="p-4 border-[1px] border-[#EFF0F2] rounded-xl mt-4 w-full overflow-x-scroll">
+    <div class="flex justify-between items-center">
+      <p class="text-2xl font-medium leading-6">Оплаты</p> <div (click)="addService()" class="text-primary font-medium text-base cursor-pointer items-center flex">Добавить платеж  <mat-icon class="text-primary ms-1">add</mat-icon></div>
+    </div>
+    <table class="w-full text-left salary-table">
+      <thead class="text-sm">
+      <tr class="border-b">
+        <th scope="col">Услуга</th>
+        <th scope="col">Номер счета</th>
+        <th scope="col">Баланс</th>
+        <th scope="col">Валюта</th>
+        <th scope="col" class="text-center">Действия</th>
+      </tr>
+      </thead>
+
+      <tbody class="text-[#5B5B5B]">
+        @if (services.length === 0 && !isLoading){<div class="m-auto p-4">Нету сервисов</div>}
+        @for (item of services ; track item){
+          <tr class="border-b border-b-border_secondary last:border-none">
+            <td>
+              <div class="w-full flex gap-x-2">
+                @if(item.logo.path){
+                  <img
+                    src="{{ item?.logo?.path }}/{{ item?.logo?.name }}.{{ item?.logo?.ext }}"
+                    [alt]="item?.logo?.name"
+                    width="24"
+                    height="24"
+                    class="object-contain aspect-square" />
+                }
+                <span>{{item.title === 'Electricity' ? 'Электричество' : item.title}}</span>
+              </div>
+            </td>
+            <td>{{item.mainField?.padEnd(16, '0')}}</td>
+            <td>{{ item.balance.amount / 100 |mask:'separator.2'}} </td>
+            <td>{{item.balance.currency}}</td>
+            <td>
+              <app-ui-svg-icon path="./assets/icons/btn-icons.svg#salary_actions"
+              mat-icon-button [matMenuTriggerFor]="menu"
+              svgClass="w-6 h-6 text-white mx-auto cursor-pointer"></app-ui-svg-icon>
+              <mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+              <div (click)="onClickPayment(item)" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+                <mat-icon>payments</mat-icon>
+                <div class="text-xs">Платежи</div>
+              </div>
+              </mat-menu>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    @if (isLoading){
+      <div>
+        @for (item of [1, 2]; track item) {
+          <div class="mb-4">
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ng-container>

@@ -1,0 +1,14 @@
+<div class="p-[30px] bg-white rounded-[15px] shadow flex-col gap-[30px] w-full inline-flex">
+  <app-container-nav [navs]="navs"></app-container-nav>
+  <app-container-title [title]="title"></app-container-title>
+
+  <app-container-table
+    [columns]="tableColumns"
+    [numbering]="true"
+    [checkable]="false"
+    [errorMessage]="errorMessage"
+    [data]="schedule.data"
+    [loading]="isLoading"
+    [isTotal]="true"
+  ></app-container-table>
+</div>

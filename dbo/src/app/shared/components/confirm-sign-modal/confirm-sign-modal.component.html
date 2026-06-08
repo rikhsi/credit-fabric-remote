@@ -1,0 +1,45 @@
+<div class="flex flex-col gap-4 p-[32px] bg-surface-2 w-[480px] h-[444px] overflow-y-auto rounded-[42px]">
+
+  <div class="flex relative  justify-end items-center">
+    <div class=" flex items-center rounded-[6px] justify-center  p-[6px] bg-surface-1 ">
+      <mat-icon
+        class="text-custom-primary !h-[20px] !w-[20px] !text-[20px] flex items-center justify-center"
+        mat-ripple
+        mat-dialog-close
+      >close</mat-icon>
+    </div>
+
+  </div>
+
+  <div class="flex justify-start items-start ">
+    <div class="rounded-full bg-surface-1 p-[19px]">
+      <!-- <img src="./assets/svg/trash-full.svg" alt="" class="w-[30px] h-[30px]"> -->
+      <img width="36" height="36" alt="" src="./assets/new-icons/clock-agree.svg">
+    </div>
+  </div>
+
+  <div class="flex flex-col items-start justify-start text-start gap-2">
+    <h3 class="text-[28px] font-bold leading-[32px] text-custom-primary">
+      Платеж будет отправлен сейчас
+    </h3>
+    <p class="text-[16px] font-normal text-custom-muted leading-6 w-[416px]">
+      Этот платеж запланирован на 23.05.2026 Если подписать его сейчас, он будет отправлен
+      в банк немедленно.
+    </p>
+  </div>
+
+  <div class=" flex justify-between items-end pt-8  gap-x-2">
+    <button
+      mat-dialog-close
+      class="px-5 text-[#171717] w-full rounded-[12px]  font-semibold h-[48px] bg-[#F5F5F5] leading-[20px] transition-colors"
+    >
+      {{ 'createPayment.cancel' | translate }}
+    </button>
+    <button
+      (click)="onAgree()"
+      class="px-5 rounded-[12px] w-full font-semibold bg-[#00A38D] h-[48px] text-[#ffffff] leading-[20px] transition-colors"
+    >
+      {{ 'settings.confirm' | translate }}
+    </button>
+  </div>
+</div>

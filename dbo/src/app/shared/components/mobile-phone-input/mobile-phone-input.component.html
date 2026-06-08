@@ -1,0 +1,26 @@
+<div class="w-full">
+  <mat-form-field class="w-full" appearance="outline">
+    @if (label) {
+    <mat-label class="text-sm font-medium">
+      {{ label }}
+      @if (required) {
+      <span class="text-red-500 ml-1">*</span>
+      }
+    </mat-label>
+    }
+
+    <div matPrefix class="flex items-center mr-2 text-gray-700 font-medium">
+      +998
+    </div>
+
+    <input matInput type="tel" [value]="value" [disabled]="disabled" [required]="required" (input)="onInput($event)"
+      (blur)="onBlur()" maxlength="9" placeholder="91 123 45 67" pattern="[0-9]*" inputmode="numeric"
+      class="text-base" />
+
+    @if (hasError()) {
+    <mat-error class="text-xs mt-1">
+      Введите корректный номер телефона
+    </mat-error>
+    }
+  </mat-form-field>
+</div>

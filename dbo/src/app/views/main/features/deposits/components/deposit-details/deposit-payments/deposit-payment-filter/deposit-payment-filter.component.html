@@ -1,0 +1,226 @@
+<form [formGroup]="filterForm" class="flex flex-col px-4 py-2">
+
+  <div class="flex flex-col gap-y-[15px]">
+
+    <div   class="flex gap-3 flex-wrap w-full p-2 items-center text-start">
+
+      <!-- Search input -->
+      <div class="relative w-[290px]">
+        <span class="absolute inset-y-0 left-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="text-custom-muted"/>
+          </svg>
+        </span>
+
+        <input type="text" placeholder="{{'custom.deposit_detail_search_placeholder' | translate}}" (input)="this.inputSubject.next($event)"
+               formControlName="searchText"
+               class="w-full pl-10 pr-4 py-2 border truncate border-custom-border rounded-[10px] h-[32px] focus:outline-none text-sm text-custom-primary bg-surface-2"/>
+      </div>
+
+      <div *ngIf="activeTabs !== 'signature' && activeMainTabs !== 'signature'" #statusTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': statusTrigger.menuOpen || this.filterForm.value?.statuses}"
+           class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="statusMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[106px] h-[32px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'filter.status' | translate }}</p>
+          <ng-container *ngIf="selectedStatuses.length">
+
+
+            <ng-container *ngIf="!showStatusBadge">
+              <mat-chip *ngFor="let status of selectedStatuses"
+                        [removable]="true"
+                        (removed)="setFilter(status, 'status');"
+                        class="!bg-surface-4 !h-[20px] shrink-0">
+                <div class="flex items-center gap-2">
+                  @for (statusImage of statusListToMap; track $index) {
+                    @if (statusImage.value === status) {
+                      <img class="w-4 h-4 object-cover rounded-full" [src]="statusImage.img" [alt]="statusImage.img">
+                      <span class="text-custom-primary text-[12px] font-medium">{{ statusImage.nameKey | translate }}</span>
+                    }
+                  }
+                </div>
+                <button matChipRemove>
+                  <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+                </button>
+              </mat-chip>
+            </ng-container>
+
+
+            <ng-container *ngIf="showStatusBadge">
+              <mat-chip [removable]="true"
+                        (removed)="removeFilter('statuses');"
+                        class="!bg-surface-4 !h-[20px] shrink-0">
+                <span class="text-custom-primary text-[10px] leading-3">
+                       {{'accounts.selected' | translate}} {{ selectedStatuses.length }}
+                </span>
+                <button matChipRemove>
+                  <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+                </button>
+              </mat-chip>
+            </ng-container>
+
+          </ng-container>
+
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img ngSrc="./assets/new-icons/down-icon.svg" alt="" height="8" width="12">
+          </div>
+        </div>
+        <mat-menu #statusMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px] overflow-auto">
+            <div *ngFor="let status of statuses()"
+                 (click)="setFilter(status.code, 'status'); $event.stopPropagation()"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[4px]"
+                 [ngClass]="{'bg-cyan-75': isCurrencySelected(status.code)}">
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="isCurrencySelected(status.code)"
+                     class="w-[16px] h-[16px] bg-primary-base rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div *ngIf="!isCurrencySelected(status.code)"
+                     class="w-[16px] h-[16px] border-2 border-custom-border rounded"></div>
+              </div>
+              <div class="flex text-start max-w-[12px] max-h-[12px]">
+                <img class="w-full h-full object-cover" [src]="status.logoImg.path + status.logoImg.name" alt="">
+              </div>
+              <span class="w-[140px] text-[14px] text-custom-secondary font-medium">{{ status.title }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+
+      <!-- Period / Date picker -->
+
+      @if (isCalendarRange) {
+        <app-datepicker-default [size]="calendarInputSize()" [mode]="'range'" formControlName="rangeForm"
+                                [control]="filterForm.get('rangeForm')"
+
+        >
+        </app-datepicker-default>
+      } @else {
+        <div #periodTrigger="matMenuTrigger"
+             [ngClass]="{'!border-primary-base': periodTrigger.menuOpen || this.filterForm.value?.startDate || this.filterForm.value.endDate}"
+             class="border border-custom-border relative cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="periodMenu">
+          <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[108px] h-[32px]">
+            <p class="text-[14px] font-normal text-custom-primary">{{ 'myAccounts.period' | translate }}</p>
+            <!-- <mat-chip [removable]="true" *ngIf="this.filterForm.value?.startDate && this.filterForm.value.endDate"
+                      (removed)="removeFilter('startDate'); removeFilter('endDate')" class="!bg-surface-4 !h-[20px]">
+              <span class="text-custom-primary text-[12px] font-medium">
+                {{ detectPeriodLabel(this.filterForm.value?.startDate, this.filterForm.value.endDate) }}
+              </span>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip> -->
+
+            <mat-chip
+              [removable]="true"
+              *ngIf="this.filterForm.value?.startDate && this.filterForm.value?.endDate"
+              (removed)="removeFilter('startDate'); removeFilter('endDate'); removeFilter('rangeForm')"
+              class="!bg-surface-4 !h-[20px]">
+                <span class="text-custom-primary text-[12px] font-medium">
+                  {{ detectPeriodLabel(this.filterForm.value?.startDate, this.filterForm.value?.endDate) }}
+                </span>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+
+
+            <div class="w-[20px] h-[20px] items-center flex justify-center">
+              <!-- <img src="./assets/new-icons/calendar.svg" alt=""> -->
+              <app-svg-icon name="hamkor_calendar" [size]="20" classes="text-custom-primary"></app-svg-icon>
+            </div>
+          </div>
+
+          <!-- <mat-date-range-input class="absolute inset-0 w-[100px] opacity-0 pointer-events-none" [rangePicker]="picker">
+            <input matStartDate formControlName="startDate" readonly matInput class="peer"/>
+            <input matEndDate formControlName="endDate" readonly matInput class="peer"/>
+          </mat-date-range-input>
+
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="w-full px-2 py-1">
+                <div class="flex w-full gap-3">
+                  <button class="h-[32px] bg-surface-2 text-custom-primary rounded-xl w-1/2 text-xs" matDateRangePickerCancel>Отменить</button>
+                  <button class="h-[32px] bg-primary-base text-white rounded-xl w-1/2 text-xs" matDateRangePickerApply (click)="onApply()">Применить</button>
+                </div>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker> -->
+          <div class="absolute w-0 h-0 overflow-hidden opacity-0 pointer-events-none">
+            <app-datepicker-default
+              #customPicker
+              [size]="calendarInputSize()"
+              [mode]="'range'"
+              formControlName="rangeForm"
+              [control]="filterForm.get('rangeForm')">
+            </app-datepicker-default>
+          </div>
+
+          <mat-menu #periodMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+            <div class="flex flex-col items-center gap-1 p-[4px]">
+              <div (click)="setPeriodToday()"
+                   class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.today' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodYesterday()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ "chat.yesterday" | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodWeek()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.week' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodMonth()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.month' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="customPicker.open()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.custom' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" alt="">
+              </div>
+            </div>
+          </mat-menu>
+        </div>
+      }
+
+
+      <div *ngIf="hasAnyFilter()" class="flex items-center gap-1 cursor-pointer" (click)="clearAllFilters()">
+        <span class="text-[#008C79] font-medium">{{ 'new.reset_all' | translate }}</span>
+        <img width="30" height="30" src="./assets/svg/close-active.svg" alt="" />
+      </div>
+
+
+</div>
+  </div>
+</form>
+
+<!-- Templates qoldi o‘zgarmagan -->
+<ng-template #triggerTemplate let-selectedValue>
+  <div>
+    @if (selectedValue) {
+      <span>{{ selectedValue }}</span>
+    } @else {
+      <span>{{ 'global.choose_item' | translate }}...</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option>
+  <div>
+    <span>{{ option }}</span>
+  </div>
+</ng-template>
+
+<ng-template #header>
+  <!-- ... o‘zgarmagan -->
+</ng-template>

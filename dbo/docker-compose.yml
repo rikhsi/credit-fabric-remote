@@ -1,0 +1,12 @@
+services:
+  corp-hamkor:
+    image: 172.20.2.20:5050/frontend/corp-hamkor:latest
+    container_name: corp-hamkor
+    ports:
+      - 80:80
+    restart: always
+    networks:
+      - yurik
+networks:
+  yurik:
+    external: true

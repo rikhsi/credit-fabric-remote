@@ -1,0 +1,83 @@
+<div class="bg-surface-2  rounded-[45px] text-custom-primary px-9 pb-[24px]">
+  <div class="flex justify-end mt-4">
+    <div (click)="closeDialog()" class="cursor-pointer justify-center text-end flex items-center rounded-lg h-8 w-8 p-[6px] bg-surface-1">
+      <img src="assets/new-icons/close.svg" alt="close">
+    </div>
+  </div>
+
+  <div>
+
+
+  <div class="space-y-3">
+    <h1 class="justify-start max-h-[600px] text-[28px] font-bold">Документ №{{ data.card?.documentId }}</h1>
+
+    <div class="border border-[#EBEBEB] rounded-[16px] p-[16px] mb-6">
+      <div class="flex items-center gap-2 text-orange-500 mb-2" *ngIf="data.card?.status && getSelectedStatus(data.card.status) as status">
+        <div class="flex items-center justify-center h-[24px] w-[24px] rounded-[8px] bg-[#F5F5F5]">
+          <img [src]="status.img" alt="status icon" class="w-3 h-3" />
+        </div>
+        <div class="text-custom-secondary text-xs font-medium">{{ status.name }}</div>
+      </div>
+
+      <div class="flex items-baseline gap-2">
+        <span class="text-4xl font-bold text-gray-900 tracking-tight">
+          {{ Math.floor(data.card.sumDoc / 100) | mask : "separator"}}
+        </span>
+        <span class="text-2xl font-semibold text-gray-500">
+          .{{ (Math.abs(data.card.sumDoc) % 100).toString().padStart(2, "0") }} UZS
+        </span>
+      </div>
+      <p class="text-gray-400 text-sm mt-1">№{{ data.card?.docNum }} {{ data.card?.docDate }}</p>
+
+      <div class="mt-2">
+        <p class="text-gray-400 text-xs uppercase">{{ "cardFileTwo.recipient_alt2" | translate }}</p>
+        <p class="text-lg font-medium text-gray-900">{{ data.card?.coName }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="data.card?.clAcc">
+      <p class="text-sm font-medium text-gray-500 mb-3">Счёт для оплаты</p>
+      <div class="bg-[#F5F5F5] rounded-2xl p-4 flex items-center gap-4 border border-transparent">
+        <img src="./assets/new-icons/kartoteka/flags/uzb.svg" alt="UZB" class="w-10 h-10">
+        <div>
+          <span class="text-lg font-bold text-gray-900">
+            {{ Math.floor(data.card.clAcc.balanceAccount / 100) | mask : "separator" }}
+          </span>
+          <span class="text-gray-500 font-semibold">
+            .{{ (Math.abs(data.card.clAcc.balanceAccount) % 100).toString().padStart(2, "0") }} {{ data.card.clAcc.currency }}
+          </span>
+          <p class="text-xs text-gray-400">Основной, Расчетный счет</p>
+          <p class="text-xs text-gray-400">{{ maskNumber(data.card.clAcc.accountNumber) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-sm font-medium text-gray-500 mb-3">Сумма к оплате</p>
+      <div class="flex border border-[#EBEBEB] rounded-[20px] overflow-hidden bg-gray-50 opacity-80">
+        <div class="flex-1 p-3">
+          <label class="block text-[10px] uppercase text-gray-400 font-bold">Сумма</label>
+          <input
+            disabled="true"
+            type="text"
+            [value]="formatMoney(data.card.sumDoc)"
+            class="w-full bg-transparent text-lg font-bold outline-none text-gray-900 pt-1 cursor-not-allowed">
+        </div>
+        <div class="bg-gray-100 px-6 flex items-center border-l border-gray-200">
+          <span class="text-gray-600 font-bold">UZS</span>
+        </div>
+      </div>
+      <p class="text-[11px] text-gray-400 mt-2 px-2 italic">Редактирование суммы в данном режиме невозможно</p>
+    </div>
+
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 mt-4">
+    <button
+      (click)="confirmPayment()"
+      class="bg-[#00A38D] hover:bg-[#008C79] p-4 text-white font-bold rounded-2xl transition-all shadow-lg active:scale-95">
+      Оплатить
+    </button>
+  </div>
+
+</div>

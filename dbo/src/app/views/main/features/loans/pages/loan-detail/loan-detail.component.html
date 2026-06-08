@@ -1,0 +1,171 @@
+<app-page-layout backLink="..">
+  <div>
+    <div class="flex">
+      <div
+        class="bg-[linear-gradient(270deg,#000_0%,#008c79_100%)] rounded-[20px] p-5 text-white min-w-[289px] inline-block">
+        <div class="flex items-center mb-2">
+          <div
+            class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 border border-1 border-white">
+            <img src="./assets/new-icons/uzb.svg" alt="flag-icon">
+          </div>
+
+        </div>
+        <div class="flex mb-1">
+          <span class="text-sm ">{{ loanDetails()?.detail?.crdTypename ?? '' }}</span>
+          <img
+            src="./assets/new-icons/card-eye.svg"
+            class="cursor-pointer pl-[10px]"
+            alt="flag-icon"
+          />
+        </div>
+        <div class="text-xl font-semibold mb-1">
+          {{ integerPart(loanDetails()?.totalDebt) }}.{{ decimalPart(loanDetails()?.totalDebt) }} {{ loanDetails().currency }}
+        </div>
+        <div class="text-sm font-normal">
+          {{ loanDetails().detail.accMain }}
+        </div>
+      </div>
+      <div class="px-4 flex items-center">
+        <div class="flex items-center ml-[75px]">
+          <div class="text-center cursor-pointer hidden" [routerLink]="['repay']">
+            <div class="w-14 h-14 bg-[#00A38D] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.5 17.5H2.5M15 9.16667L10 14.1667M10 14.1667L5 9.16667M10 14.1667V2.5" stroke="white"
+                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-sm font-semibold">Погасить</span>
+          </div>
+          <div class="text-center ml-[64px] cursor-pointer hidden no-select">
+            <div
+              class="w-14 h-14 bg-white outline outline-1 outline-[#ebebeb] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/file-plus-02.svg" alt="file-plus">
+            </div>
+            <span class="text-sm font-semibold">Выписка</span>
+          </div>
+          <div (click)="openDialogDetail()" class="text-center ml-[64px] cursor-pointer">
+            <div
+              class="w-14 h-14 outline outline-1 outline-[#ebebeb] bg-white rounded-full flex items-center justify-center mb-2 mx-auto">
+              <svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M11 1.26953V5.40007C11 5.96012 11 6.24015 11.109 6.45406C11.2049 6.64222 11.3578 6.7952 11.546 6.89108C11.7599 7.00007 12.0399 7.00007 12.6 7.00007H16.7305M13 12H5M13 16H5M7 8H5M11 1H5.8C4.11984 1 3.27976 1 2.63803 1.32698C2.07354 1.6146 1.6146 2.07354 1.32698 2.63803C1 3.27976 1 4.11984 1 5.8V16.2C1 17.8802 1 18.7202 1.32698 19.362C1.6146 19.9265 2.07354 20.3854 2.63803 20.673C3.27976 21 4.11984 21 5.8 21H12.2C13.8802 21 14.7202 21 15.362 20.673C15.9265 20.3854 16.3854 19.9265 16.673 19.362C17 18.7202 17 17.8802 17 16.2V7L11 1Z"
+                  stroke="#00A38D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="text-sm font-semibold">Детали</span>
+          </div>
+          <div (click)="openDialogTerms()" class="text-center ml-[64px] cursor-pointer">
+            <div
+              class="w-14 h-14 outline outline-1 outline-[#ebebeb] bg-white rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/info-circle.svg" alt="info-circle">
+            </div>
+            <span class="text-sm font-semibold">Условия</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-10">
+      @if (data.result.data?.active) {
+        <div class="flex items-center gap-5">
+          <div class="flex items-center">
+            <div class="text-center cursor-pointer">
+              <div class="w-[40px] h-[40px] bg-white rounded-full flex items-center justify-center mx-auto">
+                <img src="./assets/new-icons/active.svg" alt="file-plus">
+              </div>
+            </div>
+            <span class="text-xs font-medium ml-1">{{ loanDetails().state }}</span>
+          </div>
+
+          <div class="flex items-center px-5 h-[54px] bg-white border border-[#EBEBEB] rounded-full gap-2">
+            <div class="text-sm">
+              <span class="text-[#A3A3A3]">Cледующий платёж -</span>
+              <span class="text-[##00A38D]">{{ loanDetails().detail.nextPaydate }}</span>
+            </div>
+
+            <div class="h-5 w-px bg-[#A4A7AF]"></div>
+
+            <div class="text-xl text-[#171717]" *ngIf="loanDetails().detail.nextPaysum">
+              <span class="font-bold ">{{ integerPart(loanDetails().detail.nextPaysum )}}</span>
+              <span>.{{ decimalPart(loanDetails().detail.nextPaysum )}} {{ loanDetails().currency }}</span>
+            </div>
+          </div>
+
+          <div routerLink="schedule"
+               class="hidden items-center px-5 py-[10px] bg-white border border-[#EBEBEB] rounded-full gap-3 ml-auto cursor-pointer">
+            <span class="text-[#53555A]">График платежей</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
+              <path fill="#00A38D" fill-rule="evenodd"
+                    d="M11 0c.41 0 .75.33.75.73v.73c.36 0 .67 0 .94.03.42.03.8.1 1.17.28.57.28 1.03.73 1.31 1.27.19.36.26.73.3 1.14.03.4.03.88.03 1.46v6.17c0 .59 0 1.07-.03 1.46-.04.41-.11.79-.3 1.14-.28.55-.74 1-1.3 1.27-.37.18-.76.25-1.18.29-.4.03-.9.03-1.5.03H4.81c-.6 0-1.1 0-1.5-.03-.43-.04-.82-.1-1.18-.29a2.96 2.96 0 0 1-1.31-1.27 2.9 2.9 0 0 1-.3-1.14C.5 12.88.5 12.4.5 11.81V5.64c0-.58 0-1.07.03-1.46.04-.4.11-.78.3-1.14.28-.54.74-.99 1.3-1.27.37-.18.76-.25 1.18-.28.27-.02.58-.03.94-.03V.73c0-.4.34-.73.75-.73s.75.33.75.73v.72h4.5V.73c0-.4.34-.73.75-.73ZM4.25 2.91v.73c0 .4.34.72.75.72s.75-.32.75-.72V2.9h4.5v.73c0 .4.34.72.75.72s.75-.32.75-.72V2.9c.33 0 .6 0 .82.03.33.02.5.07.61.13.28.14.51.36.66.63.06.12.1.28.13.6.03.33.03.75.03 1.37v.15H2v-.15c0-.62 0-1.04.03-1.37.03-.32.07-.48.13-.6.15-.27.38-.5.66-.63.12-.06.28-.1.61-.13.22-.02.49-.03.82-.03Z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+
+  <!--    <div class="flex mt-5 gap-2">-->
+  <!--      @for (tab of tabs; track tab.value) {-->
+  <!--        <a-->
+  <!--          class="flex justify-center items-center px-[15px] py-[9px] border border-transparent text-lg text-[#5C5C5C] font-semibold leading-5 rounded-xl"-->
+  <!--          [class.!border-[#EBEBEB]]="rla.isActive"-->
+  <!--          [class.!text-[#171717]]="rla.isActive"-->
+  <!--          [class.bg-white]="rla.isActive"-->
+  <!--          [routerLink]="['/loans', tab.value]"-->
+  <!--          routerLinkActive="active-tab"-->
+  <!--          #rla="routerLinkActive"-->
+  <!--        > {{ tab.title }} </a>-->
+  <!--      }-->
+  <!--    </div>-->
+
+  <div class="bg-white rounded-3xl mt-5 hidden">
+    <div class="py-5 px-6">
+      <app-table-filters [filterConfig]="filterConfig"></app-table-filters>
+    </div>
+
+    <div class="px-6 py-2.5 bg-[#F5F5F5]">
+      <div class="text-[#101010] text-[18px] font-semibold leading-6">30 июля</div>
+    </div>
+
+    <div *ngFor="let item of [0,1,2,3]" class="grid grid-cols-[auto_1fr_20px] px-5 py-3 gap-x-6 items-center">
+      <div>
+        <div class="text-[#00A38D] text-sm leading-6 font-bold">+ 1 345 000 UZS</div>
+        <div class="text-[#5C5C5C] text-xs leading-6 font-medium">Проведённые</div>
+      </div>
+      <div>
+        <div class="font-medium text-[#171717]">ТУДА-СЮДА СЕРВИС, ООО</div>
+        <div class="text-sm leading-6 text-[#5C5C5C]">Аренда помещения за июнь 2025, Без налога (НДС)</div>
+        <div class="text-sm leading-6 text-[#5C5C5C]">№4, 30 июля, 18:34</div>
+      </div>
+      <div class="flex justify-end items-center">
+        <button [matMenuTriggerFor]="menu">
+          <img width="20" height="20" ngSrc="assets/new-icons/dots-vertical.svg" alt="menu">
+        </button>
+      </div>
+    </div>
+
+    <mat-menu #menu="matMenu" xPosition="before" (click)="$event.stopPropagation()" class="menu-actions">
+      <div
+        class="flex space-x-2 items-center p-[8px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]"
+        (click)="openDialogPaymentDetail()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <g clip-path="url(#clip0_2818_198886)">
+            <path
+              d="M10.0001 13.3334V10.0001M10.0001 6.66675H10.0084M18.3334 10.0001C18.3334 14.6025 14.6025 18.3334 10.0001 18.3334C5.39771 18.3334 1.66675 14.6025 1.66675 10.0001C1.66675 5.39771 5.39771 1.66675 10.0001 1.66675C14.6025 1.66675 18.3334 5.39771 18.3334 10.0001Z"
+              stroke="#008C79" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_2818_198886">
+              <rect width="20" height="20" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+
+        <div class="text-[#5C5C5C] text-sm font-medium leading-5">Детали</div>
+      </div>
+    </mat-menu>
+  </div>
+</app-page-layout>

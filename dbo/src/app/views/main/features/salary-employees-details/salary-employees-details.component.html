@@ -1,0 +1,96 @@
+<div class="flex flex-col bg-surface-3 h-full overflow-y-auto pb-5">
+  <div class="flex flex-col p-5">
+    <div class="flex justify-between items-center">
+      <div class="justify-start text-custom-primary text-lg font-semibold leading-5">
+        Детали сотрудника
+      </div>
+      <div class="w-7 h-7 relative bg-custom-zink-100 rounded-md flex justify-center items-center overflow-hidden cursor-pointer"
+           (click)="closeDialog()">
+        <div class="!text-[14px] leading-none flex items-center justify-center">
+          <mat-icon class="text-custom-text-close !text-[14px] !h-[14px] !w-[14px]">
+            close
+          </mat-icon>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="px-5 py-4 flex flex-col gap-4 flex-1">
+    <div class="flex flex-col">
+      <div class="label text-custom-muted">Сотрудник</div>
+      <div class="value text-custom-primary">{{ data.ownerName }}</div>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <div class="label text-custom-muted">Hомер контаракта (договора)</div>
+        <div class="value text-custom-primary">{{ data.contractNumber }}</div>
+      </div>
+
+      <span class="transform rotate-180 cursor-pointer text-custom-text-tertiary"  (click)="copy(data.contractNumber)"  >
+              <app-svg-icon name="hamkor_copy"  [size]="22"></app-svg-icon>
+            </span>
+
+    </div>
+    <div class="flex flex-col">
+      <div class="label text-custom-muted">Срок действия</div>
+      <div class="value text-custom-primary">{{ data.expiryDate }}</div>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <div class="label text-custom-muted">Номер карты</div>
+        <div class="value text-custom-primary">{{ data.pan }}</div>
+      </div>
+
+      <span class="transform rotate-180 cursor-pointer text-custom-text-tertiary"  (click)="copy(data.pan)"  >
+              <app-svg-icon name="hamkor_copy"  [size]="22"></app-svg-icon>
+            </span>
+
+    </div>
+    <div class="flex flex-col">
+      <div class="label text-custom-muted">Статус</div>
+      <div class="value text-custom-primary">{{ data.statusName }}</div>
+    </div>
+    <div class="flex flex-col">
+      <div class="label text-custom-muted">Номер карточного счёта</div>
+      <div class="value text-custom-primary">{{ data.account }}</div>
+    </div>
+    <div class="flex flex-col">
+      <div class="label text-custom-muted">Платёжная система</div>
+      <div class="value text-custom-primary">{{ data.type }}</div>
+    </div>
+
+    <div class="py-4" *ngIf="auditInfo()">
+      <div class="flex items-center justify-between">
+      <span class="text-base font-semibold text-custom-primary">
+         {{ 'loans.change_history' | translate }}
+      </span>
+      </div>
+      <!--    <div class="flex flex-col items-start" *ngFor="let audit of auditInfo(); let i = index">-->
+      <!--      <div class="relative flex gap-2 items-center" [ngClass]="i !== 0 ? 'pt-5' : ''">-->
+      <!--        <img width="16" height="16" src="./assets/new-icons/check-circle.svg" alt="" />-->
+      <!--        <p class="text-[12px] font-medium text-custom-primary">-->
+      <!--          {{ statusActions(audit.actionType) | translate }}:-->
+      <!--          {{ audit.by ?? 'Не известно' }} ({{ audit.byRole }})-->
+      <!--        </p>-->
+      <!--        <span class="w-[1px] h-[10px] absolute bottom-[-15px] left-[7px] bg-lime-550"-->
+      <!--              *ngIf="i < auditInfo().length - 1"></span>-->
+      <!--      </div>-->
+      <!--    </div>-->
+      <div *ngIf="!loading" class="flex flex-col items-start py-[12px] px-5">
+        <div class="relative" *ngFor="let audit of auditInfo(); let i = index">
+          <span class="text-[#5C5C5C] text-[16px] font-normal">{{ audit.at }}</span>
+          <p class="text-[16px] font-normal text-[#171717]">{{ statusActions(audit.actionType) | translate }}: {{ audit.by ?? 'Не известно' }} {{ '(' + audit.byRole + ')' }}</p>
+          <span class="w-[8px] absolute top-[8px] left-[-15px] h-[8px] bg-[#D1D1D1] rounded-full"></span>
+          <span class="w-[2px] h-[26px] absolute bottom-[-1px] left-[-12px]  bg-[#D1D1D1]" *ngIf="i < auditInfo().length - 1"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="px-5 flex flex-col gap-1 hidden">
+    <button class="bg-[#00A38D] h-[56px] text-white text-[16px] font-semibold rounded-[12px]">Изменить карту</button>
+    <button (click)="cancelTransactions(data?.uuid)" class="bg-[#F5F5F5] h-[56px] text-black text-[16px] font-semibold rounded-[12px]">Удалить</button>
+  </div>
+</div>

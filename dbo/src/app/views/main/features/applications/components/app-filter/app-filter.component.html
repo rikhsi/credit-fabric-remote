@@ -1,0 +1,75 @@
+
+
+@if(!toggleActive) {
+  <ng-container *ngTemplateOutlet="header"></ng-container>
+}
+<mat-accordion class="accordion">
+  <mat-expansion-panel [expanded]="panelState">
+    <form [formGroup]="filterForm" class="mt-5 flex flex-col gap-y-[15px]">
+      <div class="w-full border-t border-[#DBDBDB]"></div>
+
+      <div class="flex flex-col gap-y-[15px]">
+        <div class="grid grid-cols-2 gap-x-5">
+          @if(!disableType) {
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>Тип</mat-label>
+              <mat-select formControlName="type">
+                @for(type of types; track type.value) {
+                  <mat-option [value]="type.value" (click)="search()">{{ type.title }}</mat-option>
+                }
+              </mat-select>
+              <mat-icon matSuffix>
+                <img ngSrc="./assets/svg/chevron-down.svg" class="rotate-90" alt="chevron" width="24" height="24">
+              </mat-icon>
+            </mat-form-field>
+          }
+
+          @if(dateRange) {
+            <mat-form-field class="small w-full" appearance="outline" floatLabel="always">
+              <mat-label>В диапазоне дат</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="ДД.ММ.ГГГГ" formControlName="dateFrom">
+                <input matEndDate placeholder="ДД.ММ.ГГГГ" formControlName="dateTo">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+
+            </mat-form-field>
+          }
+
+          <mat-form-field class="small w-full" appearance="outline">
+            <mat-label>Поиск</mat-label>
+            <input
+              matInput
+              formControlName="searchText"
+            >
+            <mat-icon
+              matSuffix
+              (click)="search()"
+              class="cursor-pointer"
+            >
+              <img ngSrc="./assets/svg/search.svg" alt="search" width="24" height="24">
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="flex flex-row-reverse gap-x-5">
+        <button (click)="search()" class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#264796] text-white">Искать</button>
+
+        <button (click)="clearFilter()" type="submit" class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#EFF4F9]">Сбросить</button>
+      </div>
+
+      <div class="w-full border-t border-[#DBDBDB]"></div>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<ng-template #header>
+  <app-filter-button
+    (click)="panelState = !panelState"
+    [classes]="'bg-[#264796] text-white'"
+    [src]="'./assets/svg/filter-white.svg'"
+  ></app-filter-button>
+</ng-template>

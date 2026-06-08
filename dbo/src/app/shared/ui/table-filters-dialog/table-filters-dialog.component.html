@@ -1,0 +1,169 @@
+@let tChangedValue = changedValue();
+
+<div class="flex flex-col bg-surface-2 h-full overflow-auto">
+  <div class="flex justify-between items-center border-b border-custom-border p-5">
+    <div class="font-semibold text-[18px] text-custom-primary leading-5">
+      {{ 'salaryStatements.filters' | translate }}
+    </div>
+
+    <div class="rounded-md bg-surface-1 cursor-pointer" mat-dialog-close>
+      <app-icon icon="x" size="24" svgClass="fill-custom-secondary"></app-icon>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4 p-6">
+    @for (item of data.filterConfig; track item.name) {
+      @if (item.type === 'select') {
+
+        <div class="col-span-12">
+          <div
+            class="border cursor-pointer border-custom-border rounded-[10px]"
+            #trigger="matMenuTrigger"
+            [matMenuTriggerFor]="menu"
+            [class.!border-[#00A38D]]="trigger.menuOpen">
+            <div class="flex items-center justify-between h-14 gap-3 px-3">
+              <span class="text-sm text-custom-secondary">{{ item.placeholder }}</span>
+
+              <app-icon
+                [class.rotate-180]="trigger.menuOpen"
+                icon="chevronDown"
+                svgClass="fill-custom-muted"
+                size="24">
+              </app-icon>
+            </div>
+          </div>
+
+          <mat-menu #menu="matMenu" xPosition="after" class="w-full menu-actions mt-2">
+            <div class="flex flex-col gap-1 p-[4px]">
+              @for (option of item.options; track option.value) {
+                <div
+                  class="flex cursor-pointer hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+                  (click)="setSelect(item.name, option.value)">
+                  @if (option.icon) {
+                    <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg"
+                         [innerHTML]="option.icon">
+                    </div>
+                  }
+
+                  @if (option.iconName && option.svgClass) {
+                    <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg">
+                      <app-icon [icon]="option.iconName" size="12" [svgClass]="option.svgClass"></app-icon>
+                    </div>
+                  }
+
+                  <span class="text-[14px] text-custom-secondary font-medium">{{ option.label | translate }}</span>
+                </div>
+              }
+            </div>
+          </mat-menu>
+
+          @if (tChangedValue[item.name]) {
+            <div class="flex gap-1 mt-2">
+              @for (option of item.options; track option.value) {
+                @if (option.value === tChangedValue[item.name]) {
+                  <mat-chip
+                    class="!bg-surface-1 !h-[28px] border-[#00A38D] border"
+                    [removable]="true"
+                    (removed)="tChangedValue[item.name] = ''">
+                    <div class="flex gap-2 justify-center items-center">
+                      @if (option.icon) {
+                        <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg" [innerHTML]="option.icon"></div>
+                      }
+
+                      @if (option.iconName && option.svgClass) {
+                        <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg">
+                          <app-icon [icon]="option.iconName" size="12" [svgClass]="option.svgClass"></app-icon>
+                        </div>
+                      }
+
+                      <p class="text-custom-primary text-[12px] font-medium">{{ option.label | translate }}</p>
+
+                      <app-icon matChipRemove icon="xClose" size="16" svgClass="fill-custom-primary"></app-icon>
+                    </div>
+                  </mat-chip>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (item.type === 'period') {
+        <div class="flex flex-col gap-1 col-span-12">
+          <p class="text-custom-primary text-[14px] font-medium">{{ 'accounts.period' | translate }}</p>
+
+          <div class="flex w-full gap-4 items-center">
+            <div class="relative w-full">
+              <input
+                matInput
+                [matDatepicker]="pickerFrom"
+                placeholder="{{'new.with' | translate}}"
+                [value]="tChangedValue[item.name]?.start"
+                (dateChange)="changeDate($event.value, item.name, 'start')"
+                (click)="pickerFrom.open()"
+                class="bg-surface-2 border text-[14px] font-medium text-custom-secondary rounded-[12px] h-[56px] pl-3 outline-none border-custom-border w-full">
+              <img
+                class="absolute right-[20px] top-[18px] cursor-pointer"
+                src="./assets/new-icons/calendar-icon.svg"
+                (click)="pickerFrom.open()"
+                alt="" height="22" width="22">
+              <mat-datepicker #pickerFrom></mat-datepicker>
+            </div>
+
+            <div class="relative w-full">
+              <input
+                matInput
+                [matDatepicker]="pickerTo"
+                placeholder="{{'new.by' | translate}}"
+                [value]="tChangedValue[item.name]?.end"
+                (dateChange)="changeDate($event.value, item.name, 'end')"
+                (click)="pickerTo.open()"
+                class="bg-surface-2 border text-[14px] font-medium text-custom-secondary rounded-[12px] h-[56px] pl-3 outline-none border-custom-border w-full">
+              <img
+                class="absolute right-[20px] top-[18px] cursor-pointer"
+                src="./assets/new-icons/calendar-icon.svg"
+                (click)="pickerTo.open()"
+                alt="" height="22" width="22">
+              <mat-datepicker #pickerTo></mat-datepicker>
+            </div>
+          </div>
+          <div class="flex gap-2 items-center mt-2">
+            @for (option of item.options; track option.value) {
+              <p
+                class="border cursor-pointer rounded-full text-sm leading-[22px] text-custom-primary font-normal py-1 px-2 border-custom-border"
+                [class.!border-[#00A38D]]="activePeriod()(item.name, option.value)"
+                (click)="setDefaultPeriod(option.value, item.name)">
+                {{ option.label | translate }}
+              </p>
+            }
+          </div>
+        </div>
+      }
+
+      @if (item.type === 'amount') {
+        @if (item.name === 'fromAmount') {
+          <p class="col-span-12 text-custom-primary text-[14px] font-medium">{{ 'myAccounts.amount_uzs' | translate }}</p>
+        }
+
+        <div class="col-span-6">
+          <input
+            mask="separator.2"
+            placeholder="{{item.placeholder | translate}}"
+            [(ngModel)]="tChangedValue[item.name]"
+            (change)="changeAmount(item.name, $event)"
+            class="bg-surface-2 border text-[14px] font-medium text-custom-secondary rounded-[12px] h-[56px] pl-3 outline-none border-custom-border w-full">
+        </div>
+      }
+    }
+  </div>
+
+  <div class="flex flex-col gap-2 p-6 mt-auto">
+    <button (click)="resetValues()" class="bg-surface-1 text-custom-primary rounded-[12px] h-[50px] w-full">
+      {{ 'myAccounts.reset' | translate }}
+    </button>
+
+    <button mat-dialog-close (click)="submit()" class="bg-[#008C79] text-white rounded-[12px] h-[50px] w-full">
+      {{ 'myAccounts.apply' | translate }}
+    </button>
+  </div>
+</div>

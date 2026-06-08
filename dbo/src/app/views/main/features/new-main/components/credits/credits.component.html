@@ -1,0 +1,116 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  @for (account of credits(); track account) {
+    <div
+      *ngIf="account?.status == 'OPEN'"
+      class="px-4 py-6 bg-surface-2 border relative border-custom-border h-[100px] flex justify-between items-center rounded-[22px]"
+    >
+      <div class="flex items-start space-x-4 w-[90%]">
+        <img
+          class="rounded-full"
+          [src]="account.totalDebt.logo.path + account.totalDebt.logo.name"
+          width="44" height="44" alt="#"
+        >
+        <div class="flex flex-col w-full">
+          <div class="flex flex-col border-b pb-1">
+            <span
+              *ngIf="account.totalDebt as balance"
+              class="font-semibold text-[18px] leading-6 text-custom-primary"
+            >
+              <span>{{ integerPart(balance) }}</span>
+              <span class="font-medium">.{{ decimalPart(balance) }}</span>
+              <span class="text-custom-neutral-gray font-normal mx-1">{{ account.currency }}</span>
+            </span>
+            <span class="text-custom-muted text-[14px] font-normal leading-4">
+              {{ account.detail.crdTypename }}
+            </span>
+          </div>
+          <div
+            class="flex justify-between items-center w-full pt-0.5"
+            *ngIf="account.detail.nextPaydate"
+          >
+            <span class="text-[12px] text-custom-neutral-gray font-medium">
+              Следующий платеж -
+              <b class="text-[#00A38D] font-medium">{{ account.detail.nextPaydate }}</b>
+            </span>
+            <p class="text-[12px] text-custom-primary font-medium">
+              <span>{{ account.detail.nextPaysum ? integerPart(account.detail.nextPaysum) : 0 }}</span>
+              <span class="font-medium" *ngIf="account.detail.nextPaysum">
+                .{{ decimalPart(account.detail.nextPaysum) }}
+              </span>
+              <span class="text-[#5C5C5C] text-[12px] mx-1">
+                {{ account.detail.nextPaysum?.currency }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- ✅ Dots menu trigger -->
+        <img
+          width="20" height="20"
+          class="absolute top-[20px] right-[20px] cursor-pointer"
+          [matMenuTriggerFor]="menu"
+          (click)="$event.stopPropagation(); selectedLoan.set(account)"
+          [ngSrc]='theme.isDark() ? "./assets/new-icons/dots-vertical-white.svg" : "./assets/new-icons/dots-vertical.svg"'
+          alt=""
+        >
+
+        @if (account.pinned) {
+              <img
+          class="absolute bottom-[10px] right-[20px] cursor-pointer"
+          width="20" height="20"
+           [style.cursor]="this.userService.hasAction('CREDITS') ? 'pointer' : 'not-allowed'"
+                                    (click)="$event.stopPropagation(); pinAction(account)"
+                                    [src]="'./assets/new-icons/pin-active.svg'"
+          alt=""
+        >
+        }@else {   <img
+          class="absolute bottom-[10px] right-[20px] cursor-pointer"
+          width="20" height="20"
+            [style.cursor]="this.userService.hasAction('CREDITS') ? 'pointer' : 'not-allowed'"
+                                    (click)="$event.stopPropagation(); pinAction(account)"
+
+                                                                        [src]="'./assets/new-icons/pin-inactive.svg'"
+
+          alt=""
+        >
+      }
+    
+      </div>
+    </div>
+  }
+</div>
+
+<mat-menu #menu="matMenu" xPosition="before" (click)="$event.stopPropagation()" class="menu-actions">
+  <div
+  *ngIf="selectedLoan()?.status == 'OPEN'"
+    (click)="loanLogicService.openPayOffTheLoan($event, selectedLoan()?.loanId, selectedLoan()?.card?.crd_typename)"
+    class="flex text-custom-secondary space-x-2 items-center p-[8px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] mat-menu-button"
+  >
+    <app-svg-icon name="hamkor_upload_02"></app-svg-icon>
+    <div class="text-sm font-medium leading-5">{{'new_loan.repay_the_loan' | translate}}</div>
+  </div>
+
+  <div
+    (click)="loanLogicService.openPaymentSchedule($event, selectedLoan()?.loanId)"
+    class="flex text-custom-secondary space-x-2 items-center p-[8px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] mat-menu-button"
+  >
+    <app-svg-icon name="hamkor_file_06"></app-svg-icon>
+    <div class="text-sm font-medium leading-5">{{'new_loan.payment_schedule' | translate}}</div>
+  </div>
+
+  <div
+    (click)="loanLogicService.openExtract($event, selectedLoan()?.detail?.accMain)"
+    class="flex text-custom-secondary space-x-2 items-center p-[8px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] mat-menu-button"
+  >
+    <app-svg-icon name="hamkor_file_plus_02"></app-svg-icon>
+    <div class="text-sm font-medium leading-5">{{'new_loan.extract' | translate}}</div>
+  </div>
+
+  <div
+    class="flex space-x-2 text-custom-secondary items-center p-[8px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] mat-menu-button"
+    (click)="loanLogicService.openDetail($event, selectedLoan()?.loanId!)"
+  >
+    <app-svg-icon name="hamkor_info_circle"></app-svg-icon>
+    <div class="text-sm font-medium leading-5">{{'new_loan.details' | translate}}</div>
+  </div>
+</mat-menu>

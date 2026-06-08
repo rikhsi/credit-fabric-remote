@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Memorial Order - {{data.docNum}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin: 20px;
+    }
+
+    td {
+      padding: 4px 6px;
+      text-align: start;
+      font-size: 10px;
+    }
+
+    .custom-table th,.custom-table td {
+      border: 1px solid gray;
+      border-collapse: collapse;
+    }
+  </style>
+</head>
+
+<body>
+<div class="flex flex-col gap-y-5">
+  <table class="custom-table">
+    <tr>
+      <td>ID кредита</td>
+      <td>{{ data.loanId }}</td>
+    </tr>
+
+    <tr>
+      <td>Статус</td>
+      <td>{{ data.status }}</td>
+    </tr>
+
+    <tr>
+      <td>Ссудный счет</td>
+      <td>{{ data.loan1 }}</td>
+    </tr>
+
+    <tr>
+      <td>Сумма кредита</td>
+      <td>{{ data.totalAmount }}</td>
+    </tr>
+
+    <tr>
+      <td>Процентная ставка</td>
+      <td>{{ data.percent }}</td>
+    </tr>
+
+    <tr>
+      <td>Дата следующего платежа</td>
+      <td>{{ data.repaymentDate }}</td>
+    </tr>
+
+    <tr>
+      <td>Остаток основного долга</td>
+      <td>{{ data.mainDebt }}</td>
+    </tr>
+
+    <tr>
+      <td>Начисленные проценты</td>
+      <td>{{ data.interestAmount }}</td>
+    </tr>
+
+    <tr>
+      <td>Пеня</td>
+      <td>{{ data.penalty }}</td>
+    </tr>
+
+    <tr>
+      <td>Просроченный основной долг</td>
+      <td>{{ data.overdueAmount }}</td>
+    </tr>
+
+    <tr>
+      <td>Просроченные проценты</td>
+      <td>{{ data.overduePercentageDebt }}</td>
+    </tr>
+
+    <tr>
+      <td>Повышенные проценты</td>
+      <td>{{ data.overPercentage }}</td>
+    </tr>
+
+    <tr>
+      <td>Сумма следующего платежа</td>
+      <td>{{ data.repaymentAmount }}</td>
+    </tr>
+
+    <tr>
+      <td>В том числе основной долг</td>
+      <td>{{ data.repaymentAmountMain }}</td>
+    </tr>
+
+    <tr>
+      <td>Проценты</td>
+      <td>{{ data.percentageDebt }}</td>
+    </tr>
+
+    <tr>
+      <td>Дата окончания</td>
+      <td>{{ data.closeDate }}</td>
+    </tr>
+
+    <tr>
+      <td>Льготный период</td>
+      <td>{{ data.gracePeriod }}</td>
+    </tr>
+
+  </table>
+</div>
+</body>
+
+</html>

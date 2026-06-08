@@ -1,0 +1,17 @@
+<div @dialogAnim style="max-height: 90vh" class="modal z-50 shadow-lg p-8 rounded-[42px]
+   w-[540px] overflow-auto bg-white shadow-modal-auth">
+    <div class="flex relative flex-col gap-1 text-start">
+      <img (click)="closeAction()" class="absolute right-0 cursor-pointer" src="./assets/new-icons/close-filled.svg" alt="">
+      <h3 class="text-[32px] font-bold mt-6">Подпись через QR-код</h3>
+      <p class="text-[20px] font-normal text-[#A3A3A3]">QR-код для подписи через мобильное приложение</p>
+      <div class="qr-code-box qr-wrapper my-4 h-[300px]">
+        <qrcode [qrdata]="qrLink" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+        <img src="./assets/new-icons/logo_qr_circle.png" width="30" alt="Logo" class="qr-logo" />
+      </div>
+      <p class="text-center mt-2 text-[#A3A3A3] text-[16px]">Cрок действия кода: 00:{{ timer < 10 ? '0' + timer : timer }}</p>
+      <div class="w-full flex justify-center gap-4 mt-6">
+        <button (click)="openPaymentSignModal()" class="bg-[#F5F5F5] outline-none w-full z-20 cursor-pointer h-[48px] font-semibold text-[16px] text-[#171717] rounded-[12px]">Другой способ</button>
+        <button (click)="check(true)" class="bg-[#00A38D] w-full z-20 cursor-pointer h-[48px] text-white font-semibold text-[16px] rounded-[12px]">Проверить</button>
+      </div>
+    </div>
+</div>

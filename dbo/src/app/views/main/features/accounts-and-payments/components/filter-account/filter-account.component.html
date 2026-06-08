@@ -1,0 +1,125 @@
+<form [formGroup]="filterForm" class="flex flex-col">
+
+<!--  @if(!toggleActive) {-->
+<!--    <ng-container *ngTemplateOutlet="header"></ng-container>-->
+<!--  }-->
+
+
+<!--  @if(getActiveFilters().length) {-->
+<!--    <div class="flex flex-wrap gap-2">-->
+<!--      <mat-chip-set>-->
+<!--        @for(f of getActiveFilters(); track f) {-->
+<!--          <mat-chip-->
+<!--            [removable]="true"-->
+<!--            (removed)="removeFilter(f.key)"-->
+<!--            class="!bg-[#DDECFC]"-->
+<!--          >-->
+<!--            <span class="text-[#264796]">{{ formatFilter(f.key, f.value) }}</span>-->
+<!--            <button matChipRemove>-->
+<!--              <img ngSrc="./assets/svg/close-active.svg" alt="close" width="24" height="24">-->
+<!--            </button>-->
+<!--          </mat-chip>-->
+<!--        }-->
+<!--      </mat-chip-set>-->
+<!--    </div>-->
+<!--  }-->
+
+
+  <mat-accordion class="accordion">
+    <mat-expansion-panel [expanded]="panelState">
+      <div class="flex flex-col gap-y-[15px]">
+
+        <div class="w-full border-t border-[#DBDBDB]">
+
+        </div>
+
+<!--        @if(toggleActive) {-->
+          <ng-container *ngTemplateOutlet="header"></ng-container>
+<!--        }-->
+
+        <div class="flex flex-col w-full gap-y-[15px]">
+
+
+
+          <div class="w-full flex gap-x-5">
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>
+                Поиск
+              </mat-label>
+              <input
+                matInput
+                formControlName="searchText"
+                placeholder="Поиск..."
+              >
+            </mat-form-field>
+
+
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>Статус</mat-label>
+              <mat-select formControlName="isActive">
+                <mat-option [value]="'ACTIVE'">Активные</mat-option>
+                <mat-option [value]="'INACTIVE'">Неактивные</mat-option>
+                <mat-option [value]="'ALL'">Все</mat-option>
+              </mat-select>
+
+              <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="flex gap-x-5 w-full">
+            <div class="w-full flex gap-x-2 items-center">
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Сумма от</mat-label>
+                <input matInput formControlName="fromAmount" placeholder="Введите сумму">
+              </mat-form-field>
+
+              <div>-</div>
+
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Сумма до</mat-label>
+                <input matInput formControlName="toAmount" placeholder="Введите сумму">
+              </mat-form-field>
+            </div>
+
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>Валюта</mat-label>
+              <mat-select formControlName="currencyEnum">
+                @for(curr of currencies; track curr) {
+                  <mat-option [value]="curr.name">
+                    {{ curr.name }}
+                  </mat-option>
+                }
+              </mat-select>
+
+              <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-row-reverse gap-x-5">
+            <button (click)="search()" class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#264796] text-white">Искать</button>
+
+            <button (click)="clearFilter()" type="submit" class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#EFF4F9]">Сбросить</button>
+          </div>
+        </div>
+
+        <div class="w-full border-t border-[#DBDBDB]"></div>
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</form>
+
+<ng-template #header>
+  <div class="flex gap-2.5 justify-between w-full">
+    <div></div>
+
+<!--    @if(!toggleActive) {-->
+      <app-filter-button
+        (click)="toggleAccordion()"
+        [classes]="'bg-[#264796] text-white'"
+        [src]="'./assets/svg/filter-payment.svg'"
+      ></app-filter-button>
+<!--    }-->
+  </div>
+</ng-template>

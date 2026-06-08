@@ -1,0 +1,56 @@
+<div class=" h-full flex flex-col bg-surface-2 rounded-2xl overflow-hidden">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between px-4 py-5 border-b border-gray-100">
+    <h2 class="text-lg font-semibold text-gray-900">
+      График начисления процентов
+    </h2>
+    <div   (click)="close()" class="w-7 h-7 relative bg-custom-zink-100 rounded-md flex justify-center items-center overflow-hidden cursor-pointer">
+      <div class="!text-[14px] leading-none flex items-center justify-center">
+        <mat-icon class="text-custom-text-close !text-[14px] !h-[14px] !w-[14px] "> close </mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable body -->
+  <div class="flex-1 overflow-y-auto">
+
+    <!-- Taxes section -->
+    <div class="px-4 pt-5 pb-4 border-b border-gray-100">
+      <p class="text-base font-semibold text-custom-secondary mb-4">Налоги</p>
+      <button
+        (click)="requestCertificate()"
+        class="flex flex-col items-center gap-2 cursor-pointer group">
+        <div class="w-12 h-12 rounded-full border border-[#008C79]/30  flex items-center justify-center group-hover:bg-[#008C79]/10 transition-colors">
+            <svg width="19" height="22" viewBox="0 0 19 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 15C14 14.4477 14.4477 14 15 14C15.5523 14 16 14.4477 16 15V18.5859L17.293 17.293C17.6835 16.9024 18.3165 16.9024 18.707 17.293C19.0976 17.6835 19.0976 18.3165 18.707 18.707L15.707 21.707C15.3165 22.0976 14.6835 22.0976 14.293 21.707L11.293 18.707C10.9024 18.3165 10.9024 17.6835 11.293 17.293C11.6835 16.9024 12.3165 16.9024 12.707 17.293L14 18.5859V15ZM7 13C7.55229 13 8 13.4477 8 14C8 14.5523 7.55229 15 7 15H5C4.44772 15 4 14.5523 4 14C4 13.4477 4.44772 13 5 13H7ZM16 11.5V5.79981C16 4.94342 15.9997 4.36117 15.9629 3.91113C15.9271 3.47272 15.8619 3.2482 15.7822 3.0918C15.5905 2.71555 15.2845 2.40951 14.9082 2.21778C14.7518 2.13809 14.5273 2.07293 14.0889 2.03711C13.6388 2.00035 13.0566 2 12.2002 2H5.79981C4.94342 2 4.36117 2.00035 3.91113 2.03711C3.47272 2.07293 3.2482 2.13809 3.0918 2.21778C2.71555 2.40951 2.40951 2.71555 2.21778 3.0918C2.13809 3.2482 2.07293 3.47272 2.03711 3.91113C2.00035 4.36117 2 4.94342 2 5.79981V16.2002C2 17.0566 2.00035 17.6388 2.03711 18.0889C2.07293 18.5273 2.13809 18.7518 2.21778 18.9082C2.40951 19.2845 2.71554 19.5905 3.0918 19.7822C3.2482 19.8619 3.47275 19.9271 3.91113 19.9629C4.36117 19.9997 4.94341 20 5.79981 20H9.5C10.0523 20 10.5 20.4477 10.5 21C10.5 21.5523 10.0523 22 9.5 22H5.79981C4.9763 22 4.29844 22.001 3.74805 21.9561C3.18599 21.9101 2.66891 21.8117 2.1836 21.5645C1.43109 21.181 0.819018 20.5689 0.435549 19.8164C0.188274 19.3311 0.0898762 18.814 0.0439473 18.252C-0.00102053 17.7016 1.82648e-06 17.0237 1.94926e-06 16.2002V5.79981C1.82648e-06 4.97632 -0.00102053 4.29843 0.0439473 3.74805C0.0898762 3.18599 0.188274 2.6689 0.435549 2.1836C0.819018 1.43109 1.43109 0.819018 2.1836 0.435549C2.6689 0.188274 3.18599 0.0898762 3.74805 0.0439473C4.29843 -0.00102053 4.97632 1.82648e-06 5.79981 1.94926e-06H12.2002C13.0237 1.82648e-06 13.7016 -0.00102053 14.252 0.0439473C14.814 0.0898762 15.3311 0.188273 15.8164 0.435549C16.5689 0.819017 17.181 1.43109 17.5645 2.1836C17.8117 2.6689 17.9101 3.18599 17.9561 3.74805C18.001 4.29843 18 4.97632 18 5.79981V11.5C18 12.0523 17.5523 12.5 17 12.5C16.4477 12.5 16 12.0523 16 11.5ZM11 9C11.5523 9 12 9.44772 12 10C12 10.5523 11.5523 11 11 11H5C4.44772 11 4 10.5523 4 10C4 9.44772 4.44772 9 5 9H11ZM13 5C13.5523 5 14 5.44772 14 6C14 6.55229 13.5523 7 13 7H5C4.44772 7 4 6.55229 4 6C4 5.44772 4.44772 5 5 5H13Z" fill="#00A38D"/>
+            </svg>
+        </div>
+        <span class="text-xs text-center font-medium text-custom-secondary leading-tight">Запросить<br>справку</span>
+      </button>
+    </div>
+
+    <!-- Schedule table -->
+    <div class="px-4 py-4">
+      <div class="grid grid-cols-2 pb-3 mb-1">
+        <span class="text-sm text-custom-secondary ml-[60px]">Месяц</span>
+        <span class="text-sm text-custom-secondary   text-start">Сумма</span>
+      </div>
+
+      <div class="flex flex-col gap-0">
+        @for (item of data; track item.month) {
+          <div class="grid grid-cols-2 items-center py-2">
+            <div class="flex items-center ml-10 text-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-primary-base flex-shrink-0"></span>
+              <span class="text-sm text-custom-primary">{{ item.month }}</span>
+            </div>
+            <span class="text-sm text-custom-primary text-start font-medium">
+              + {{ formatAmount(item.amount) }} {{ item.currency }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

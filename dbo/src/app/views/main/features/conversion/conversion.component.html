@@ -1,0 +1,22 @@
+<div class="flex flex-col space-y-4 my-6 gap-6">
+  <div class="flex justify-between items-center">
+    <h3 class="text-[28px] text-[#171717] font-bold">Покупка и продажа валюты</h3>
+    <div (click)="openRateDialog()" class="flex items-center cursor-pointer gap-1.5 px-[14px] rounded-[12px] py-[10px] bg-[#FFFFFF] border border-[#EBEBEB]">
+      <span class="text-[12px] font-semibold text-[#171717]">Посмотреть курс</span>
+      <img src="./assets/new-icons/rate.svg" alt="">
+    </div>
+  </div>
+  <div class="flex items-center gap-3">
+    <div class="w-[216px] h-[108px] rounded-[20px] p-5 gap-2 flex flex-col items-start bg-[#ffffff] border border-[#EBEBEB]">
+      <img src="./assets/new-icons/coins-hand.svg" alt="">
+      <span class="text-[18px] font-semibold text-[#171717]">Покупка валюты</span>
+    </div>
+    <div class="w-[216px] h-[108px] rounded-[20px] p-5 gap-2 flex flex-col items-start bg-[#ffffff] border border-[#EBEBEB]">
+      <img src="./assets/new-icons/coins-hand.svg" alt="">
+      <span class="text-[18px] font-semibold text-[#171717]">Продажа валюты</span>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <app-table-conversion />
+  </div>
+</div>

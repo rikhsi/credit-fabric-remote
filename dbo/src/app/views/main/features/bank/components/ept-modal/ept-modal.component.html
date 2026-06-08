@@ -1,0 +1,149 @@
+<div class="flex flex-col gap-y-3 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+  <div class="flex flex-col py-5 border-b border-[#E2EAF1]">
+    <div class="flex justify-between">
+      <div class="text-[22px] text-black">Детали № {{ data.ept.docNumber }}</div>
+      <mat-icon mat-ripple mat-dialog-close>close</mat-icon>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-y-2.5">
+    <div class="text-[14px] uppercase">Документ</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Тип документа</span>
+      <span>{{ data.ept.paymenType }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Номер документа</span>
+      <span>{{ data.ept.docNumber }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Дата документа</span>
+      <span>{{ data.ept.docDate }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Дата документа</span>
+      <span>{{ data.ept.docDate }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Статус операции</span>
+      <span>{{ data.ept.stateId }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма документа</span>
+      <span>{{ amountService.convertToAmount(data.ept.summa || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма отзыва</span>
+      <span>{{ amountService.convertToAmount(data.ept.sumRecall || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма оплаты</span>
+      <span>{{ amountService.convertToAmount(data.ept.sumPaid || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Остаток к оплате</span>
+      <span>{{ amountService.convertToAmount(data.ept.sumRest || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма игнор.</span>
+      <span>{{ amountService.convertToAmount(data.ept.sumIgnore || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Валюта</span>
+      <span>-</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Вид документа</span>
+      <span>{{ data.ept.isAccept === 'Y' ? 'С акцептом' : '-' }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="text-[14px] uppercase">Получатель</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Наименование</span>
+      <span>{{ data.ept.payeeName }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">ИНН/ПИНФЛ</span>
+      <span>{{ data.ept.payeeInn }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Расчетный счет</span>
+      <span>{{ data.ept.payeeAccount }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">МФО</span>
+      <span>{{ data.ept.payeeBranch }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Название Банка</span>
+      <span>{{ data.ept.payeeBank }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="flex gap-x-4 items-center text-[14px]">
+      <div class="w-[130px] text-secondary flex-shrink-0">Назначение платежа</div>
+      <div>{{ data.ept.purpose }}</div>
+    </div>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="text-[14px] uppercase">Плательщик</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Наименование</span>
+      <span>{{ data.ept.payerName }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">ИНН/ПИНФЛ</span>
+      <span>{{ data.ept.payerInn }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Расчетный счет</span>
+      <span>{{ data.ept.payerAccount }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">МФО</span>
+      <span>{{ data.ept.payerBranch }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Название Банка</span>
+      <span>{{ data.ept.payerBank }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+  </div>
+
+  <div class="flex flex-col gap-y-4">
+    <div class="text-[14px] leading-[16px]">История операций</div>
+
+    <app-container-table
+      [data]="data.operations"
+      [columns]="operationColumns"
+      [checkable]="false"
+    ></app-container-table>
+  </div>
+</div>

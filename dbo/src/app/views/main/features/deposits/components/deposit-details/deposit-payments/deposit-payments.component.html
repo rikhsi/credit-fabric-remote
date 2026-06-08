@@ -1,0 +1,117 @@
+<div>
+  <div class="flex items-center justify-between">
+    <!-- Tabs -->
+    <div class="flex gap-x-3 my-3">
+      <button *ngFor="let t of DEPOSIT_TABS" (click)="setPaymentActiveTab(t.key)"
+              class="font-semibold leading-5 text-[18px] px-[15px] py-[10px] rounded-[14px] border transition-all"
+              [ngClass]="{
+              'bg-surface-2 border-custom-border text-custom-primary': activeTabs() === t.key,
+              'bg-transparent border-transparent text-custom-muted': activeTabs() !== t.key
+            }">
+        {{ t.translateKey | translate }}
+        <span *ngIf="t.key === 'active'"
+              class="bg-primary-base text-white rounded-full text-[12px] px-[6px] py-[4px] ml-2">
+          {{ signatureCount() }}
+        </span>
+      </button>
+    </div>
+
+    <button
+      #downloadTrigger="matMenuTrigger"
+      [matMenuTriggerFor]="downloadMenu"
+      class="flex items-center gap-2 bg-surface-2 border border-custom-border rounded-[12px] px-4 py-2 cursor-pointer hover:bg-surface-3 transition-colors"
+    >
+      <span class="text-sm font-semibold text-custom-primary">{{ 'deposits.download_statement' | translate }}</span>
+      <app-svg-icon name="hamkor_download_rounded" class="text-primary-base"></app-svg-icon>
+    </button>
+
+    <mat-menu #downloadMenu="matMenu" xPosition="before" class="menu-actions mt-2">
+      <div class="flex flex-col py-1 min-w-[180px]">
+        <div
+          (click)="downloadStatement('pdf')"
+          class="flex items-center px-[6px] py-2 hover:bg-surface-2 cursor-pointer text-[14px] text-custom-primary"
+        >
+          {{ 'deposits.download_pdf' | translate }}
+        </div>
+        <div
+          (click)="downloadStatement('excel')"
+          class="flex items-center px-[6px] py-2 hover:bg-surface-2 cursor-pointer text-[14px] text-custom-primary"
+        >
+          {{ 'deposits.download_excel' | translate }}
+        </div>
+      </div>
+    </mat-menu>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-y-[30px] border border-custom-border rounded-[22px] bg-surface-2">
+      <div>
+        <app-deposit-payment-filter (filterChange)="setFilter($event)" (hasFilter)="handleHasFilter($event)"></app-deposit-payment-filter>
+
+        <!-- Signature tab content -->
+        @if (activeTabs() === 'active') {
+          <div infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()">
+            @for (group of groupedSignature; track group) {
+              <div class="px-6 py-2.5 bg-surface-1">
+                <div class="text-[18px] font-semibold text-custom-primary">{{ group[0] }}</div>
+              </div>
+              <div class="px-[20px] py-[8px]" *ngFor="let transaction of group[1]">
+                <app-deposit-payment-item [transaction]="transaction"
+                                          [onClickShowDetail]="true"
+                                          [hideStatus]="false"
+                                          (backAction)="getTransactionReload($event)">
+                </app-deposit-payment-item>
+              </div>
+            }
+          </div>
+
+          @if (!groupedSignature?.length && !loading() && !errorMessage && !hasFilter()) {
+            <app-empty-state [titleKey]="'custom.no_operations_title'" [descriptionKey]="'custom.no_operations_description'" [height]="'370px'" type="empty"></app-empty-state>
+          }
+
+          @if (!groupedSignature?.length && !loading() && !errorMessage && hasFilter()) {
+            <app-empty-state [titleKey]="'custom.card_no_results_title'" [descriptionKey]="'custom.card_no_results_description'" [height]="'370px'" type="no-results"></app-empty-state>
+          }
+
+        } @else if (activeTabs() === 'all') {
+          <div class="mt-5" infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()">
+            @for (group of grouped; track group) {
+              <div class="px-6 py-2.5 bg-surface-1">
+                <div class="text-[18px] font-semibold text-custom-primary">{{ group[0] }}</div>
+              </div>
+              <div class="px-[20px] py-[8px]" *ngFor="let transaction of group[1]">
+                <app-deposit-payment-item [transaction]="transaction"
+                                          [onClickShowDetail]="true"
+                                          [hideStatus]="false"
+                                          (backAction)="getTransactionReload($event)">
+                </app-deposit-payment-item>
+              </div>
+            }
+
+            @if (!grouped?.length && !loading() && !errorMessage && !hasFilter()) {
+              <app-empty-state [titleKey]="'custom.no_operations_title'" [descriptionKey]="'custom.no_operations_description'" [height]="'370px'" type="empty"></app-empty-state>
+            }
+
+            @if (!grouped?.length && !loading() && !errorMessage && hasFilter()) {
+              <app-empty-state [titleKey]="'custom.card_no_results_title'" [descriptionKey]="'custom.card_no_results_description'" [height]="'370px'" type="no-results"></app-empty-state>
+            }
+
+            @if (errorMessage && !loading()) {
+              <div class="text-center py-8 text-red-500">
+                {{ errorMessage }}
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      @if (loading()) {
+        <div class="mb-4 px-6 space-y-2.5">
+          <span class="skeleton block rounded h-10 w-full"></span>
+          <span class="skeleton block rounded h-10 w-full"></span>
+          <span class="skeleton block rounded h-10 w-full"></span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

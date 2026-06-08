@@ -1,0 +1,115 @@
+ .tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .custom-tooltip-new {
+      position: absolute;
+      z-index: 1000;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+    }
+
+    .tooltip-above {
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .tooltip-below {
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .tooltip-left {
+      right: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .tooltip-right {
+      left: calc(100% + 12px);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .tooltip-content {
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tooltip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .tooltip-title {
+      font-weight: 600;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .close-btn:hover {
+      opacity: 0.7;
+    }
+
+    .tooltip-message {
+      margin: 0;
+      word-wrap: break-word;
+    }
+
+    .tooltip-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    .tooltip-above .tooltip-arrow {
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid;
+    }
+
+    .tooltip-below .tooltip-arrow {
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid;
+      border-top-color: transparent !important;
+    }
+
+    .tooltip-left .tooltip-arrow {
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 8px solid;
+    }
+
+    .tooltip-right .tooltip-arrow {
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 8px solid;
+      border-top-color: transparent !important;
+    }

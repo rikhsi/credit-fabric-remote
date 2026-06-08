@@ -1,0 +1,45 @@
+<div class="flex flex-col pb-5 flex-grow !h-full gap-y-5">
+  <app-quick-actions
+    [actionClass]="'w-full text-sm'"
+    [actions]="actions"
+    [showHeader]="false"
+  ></app-quick-actions>
+  <!--  <app-additional-info></app-additional-info>-->
+  <div class="flex flex-grow !items-stretch justify-between w-full gap-x-2.5">
+
+    <div class="p-6 bg-white flex-grow flex flex-col justify-between rounded-[15px]">
+      <div class="flex flex-col">
+        <div class="text-[22px] font-medium mb-5">Последние события</div>
+        @for(app of applications; track app; let last = $last) {
+          <app-operation-application
+            [ngClass]="{'border-b border-[#EFF4F9]': !last}"
+            [app]="app"
+            (update)="getApplications()"
+          ></app-operation-application>
+        }
+        @if(loading) {
+          <div class="mb-4">
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+          </div>
+        }
+        @if(errorMessage && !loading) {
+          <div class="text-red-500">{{ errorMessage }}</div>
+        }
+      </div>
+
+      <app-paginator
+        [itemsPerPage]="pageSize"
+        [currentPage]="pageIndex + 1"
+        [totalItems]="totalElements"
+        (pageChange)="pageChange($event)"
+      ></app-paginator>
+    </div>
+
+    <div class="flex h-full flex-col gap-y-2.5 !w-[300px]">
+      <app-additional-info></app-additional-info>
+    </div>
+  </div>
+</div>

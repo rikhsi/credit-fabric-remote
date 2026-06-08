@@ -1,0 +1,28 @@
+.circle-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #e0e0e0;
+  stroke-width: 10;
+}
+
+.circle-progress {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dasharray: 283; /* 2πr, если r=45 */
+  transition: stroke-dashoffset 0.3s linear;
+}
+
+.timer-text {
+  font-size: 18px;
+  font-weight: bold;
+  fill: #000000;
+}

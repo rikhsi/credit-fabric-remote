@@ -1,0 +1,347 @@
+<form [formGroup]="filterForm" class="flex flex-col bg-surface-2 px-6 py-2">
+  <div class="flex justify-between items-center">
+
+    <div class="flex flex-1 gap-3 flex-wrap w-full  items-center text-start">
+
+      <!-- #region Search input -->
+      <div class="relative min-w-[290px]">
+        <span class="absolute inset-y-0 left-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="text-custom-muted"/>
+          </svg>
+        </span>
+
+        <input type="text" placeholder="{{'conversion.search_placeholder' | translate}}" (input)="this.inputSubject.next($event)"
+               formControlName="searchText"
+               class="w-full pl-10 pr-4 py-2 border border-custom-border rounded-[10px] h-[40px] focus:outline-none text-sm focus:border-primary-base  text-custom-primary bg-surface-2"/>
+      </div>
+      <div class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" #transactionTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': transactionTrigger.menuOpen || this.filterForm.value?.type !== 'ANY'}"
+           [matMenuTriggerFor]="transactionMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] h-[40px] min-w-[158px] p-2 gap-[2px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'accounts.transaction_type' | translate }}</p>
+          <mat-chip [removable]="true" *ngIf="this.filterForm.value?.type !== 'ANY'" (removed)="removeFilter('type')"
+                    class="!bg-surface-4 !h-[20px]">
+            <div class="flex items-center gap-2">
+              <img width="20" height="20" *ngIf="this.filterForm.value?.type === 'DEBIT'"
+                   src="./assets/new-icons/send-icon.svg" alt="">
+              <img width="20" height="20" *ngIf="this.filterForm.value?.type === 'CREDIT'"
+                   src="./assets/new-icons/receipt-arrow.svg" alt="">
+              <span class="text-custom-primary text-[12px] font-medium">
+                @if (this.filterForm.value?.type === 'DEBIT') {
+                  {{ 'filter.outgoing' | translate }}
+                } @else if (this.filterForm.value?.type === 'CREDIT') {
+                  {{ 'filter.incoming' | translate }}
+                }
+              </span>
+            </div>
+            <button matChipRemove>
+              <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+            </button>
+          </mat-chip>
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img src="./assets/new-icons/down-icon.svg" alt="">
+          </div>
+        </div>
+        <mat-menu #transactionMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div (click)="setFilter('Покупка', 'type')"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'conversion.buy' | translate }}</span>
+            </div>
+            <div (click)="setFilter('Продажа', 'type')"
+                 class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'conversion.sell' | translate }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+      @if (isCalendarRange) {
+        <app-datepicker-default [size]="'small'" [mode]="'range'" formControlName="rangeForm"
+                                [control]="filterForm.get('rangeForm')">
+        </app-datepicker-default>
+      } @else {
+        <div #periodTrigger="matMenuTrigger"
+             [ngClass]="{'!border-primary-base': periodTrigger.menuOpen || this.filterForm.value?.startDate || this.filterForm.value.endDate}"
+             class="border border-custom-border relative cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="periodMenu">
+          <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[108px] h-[40px]">
+            <p class="text-[14px] font-normal text-custom-primary">{{ 'myAccounts.period' | translate }}</p>
+            <mat-chip [removable]="true" *ngIf="this.filterForm.value?.startDate && this.filterForm.value.endDate"
+                      (removed)="removeFilter('startDate'); removeFilter('endDate')" class="!bg-surface-4 !h-[20px]">
+              <span class="text-custom-primary text-[12px] font-medium">
+                {{ detectPeriodLabel(this.filterForm.value?.startDate, this.filterForm.value.endDate) }}
+              </span>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+            <div class="w-[20px] h-[20px] items-center flex justify-center">
+              <!-- <img src="./assets/new-icons/calendar.svg" alt=""> -->
+              <app-svg-icon name="hamkor_calendar" [size]="20" classes="text-custom-primary"></app-svg-icon>
+            </div>
+          </div>
+
+          <mat-date-range-input class="absolute inset-0 w-[100px] opacity-0 pointer-events-none" [rangePicker]="picker">
+            <input matStartDate formControlName="startDate" readonly matInput class="peer"/>
+            <input matEndDate formControlName="endDate" readonly matInput class="peer"/>
+          </mat-date-range-input>
+
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="w-full px-2 py-1">
+                <div class="flex w-full gap-3">
+                  <button class="h-[32px] bg-surface-2 text-custom-primary rounded-xl w-1/2 text-xs" matDateRangePickerCancel>Отменить</button>
+                  <button class="h-[32px] bg-primary-base text-white rounded-xl w-1/2 text-xs" matDateRangePickerApply (click)="onApply()">Применить</button>
+                </div>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+
+          <mat-menu #periodMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+            <div class="flex flex-col items-center gap-1 p-[4px]">
+              <div (click)="setPeriodToday()"
+                   class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.today' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodYesterday()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ "chat.yesterday" | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodWeek()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.week' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodMonth()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.month' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="picker.open()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.custom' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" alt="">
+              </div>
+            </div>
+          </mat-menu>
+        </div>
+      }
+      <!-- #region Status menu -->
+      <div *ngIf="(activeTabs == 'all')" #statusTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': statusTrigger.menuOpen || this.filterForm.value?.statuses}"
+           class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="statusMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[106px] h-[40px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'filter.status' | translate }}</p>
+          <ng-container *ngIf="this.filterForm?.value?.statuses?.length">
+            <mat-chip *ngFor="let status of this.filterForm?.value?.statuses" [removable]="true"
+                      (removed)="setFilter(status, 'status')" class="!bg-surface-4 !h-[20px]">
+              <div class="flex items-center gap-2">
+                @for (statusImage of massPaymentTableFilterStatusListToMap; track $index) {
+                  @if (statusImage.value === status) {
+                    <div>
+                      <img class="w-3 h-3 object-cover rounded-full" [src]=" SVG_URL+ statusImage.img" [alt]="statusImage.img">
+                    </div>
+                    <span class="text-custom-primary text-[12px] font-medium">{{ statusImage.name | translate }}</span>
+                  }
+                }
+              </div>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+          </ng-container>
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img ngSrc="./assets/new-icons/down-icon.svg" alt="" height="8" width="12">
+          </div>
+        </div>
+        <mat-menu #statusMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div *ngFor="let status of massPaymentTableFilterStatusListToMap"
+                 (click)="setFilter(status.value, 'status'); $event.stopPropagation()"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[4px]"
+                 [ngClass]="{'bg-cyan-75': isCurrencySelected(status.value)}">
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="isCurrencySelected(status.value)"
+                     class="w-[16px] h-[16px] bg-primary-base rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div *ngIf="!isCurrencySelected(status.value)"
+                     class="w-[16px] h-[16px] border-2 border-custom-border rounded"></div>
+              </div>
+              <div class="flex text-start" >
+                <img  [src]="SVG_URL+ status.img" alt="">
+
+              </div>
+              <span class="w-[140px] text-[14px] text-custom-secondary font-medium">{{ status.name | translate }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+      <div #currencyTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': currencyTrigger.menuOpen || this.filterForm.value?.currency}"
+           class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="currencyMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[106px] h-[40px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'conversion.currency' | translate }}</p>
+          <ng-container *ngIf="this.filterForm?.value?.currency">
+            <mat-chip *ngFor="let status of this.filterForm?.value?.statuses" [removable]="true"
+                      (removed)="setFilter(status, 'status')" class="!bg-surface-4 !h-[20px]">
+              <div class="flex items-center gap-2">
+                @for (statusImage of massPaymentTableFilterStatusListToMap; track $index) {
+                  @if (statusImage.value === status) {
+                    <div>
+                      <img class="w-3 h-3 object-cover rounded-full" [src]=" SVG_URL+ statusImage.img" [alt]="statusImage.img">
+                    </div>
+                    <span class="text-custom-primary text-[12px] font-medium">{{ statusImage.name | translate }}</span>
+                  }
+                }
+              </div>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+          </ng-container>
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img ngSrc="./assets/new-icons/down-icon.svg" alt="" height="8" width="12">
+          </div>
+        </div>
+        <mat-menu #currencyMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div *ngFor="let status of massPaymentTableFilterStatusListToMap"
+                 (click)="setFilter(status.value, 'status'); $event.stopPropagation()"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[4px]"
+                 [ngClass]="{'bg-cyan-75': isCurrencySelected(status.value)}">
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="isCurrencySelected(status.value)"
+                     class="w-[16px] h-[16px] bg-primary-base rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div *ngIf="!isCurrencySelected(status.value)"
+                     class="w-[16px] h-[16px] border-2 border-custom-border rounded"></div>
+              </div>
+              <div class="flex text-start" >
+                <img  [src]="SVG_URL+ status.img" alt="">
+
+              </div>
+              <span class="w-[140px] text-[14px] text-custom-secondary font-medium">{{ status.name | translate }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+      <div
+        #amountTrigger="matMenuTrigger"
+        [ngClass]="{
+              '!border-[#00A38D]':
+                amountTrigger.menuOpen ||
+                filterForm?.value?.fromAmount ||
+                filterForm?.value?.toAmount
+            }"
+        class="border border-custom-border rounded-[10px] cursor-pointer transition-colors min-w-[140px]"
+        [matMenuTriggerFor]="accountMenu"
+      >
+        <div class="flex items-center justify-between px-4 py-2 h-[40px] ">
+          <p class="text-[14px] font-normal text-custom-primary">{{'new_third.amount' | translate}}</p>
+          <div
+            *ngIf="this.showAmountChip  && this.filterForm.value.fromAmount && this.filterForm.value.toAmount"
+          >
+            <mat-chip
+              [removable]="true"
+              (removed)="removeFilter('fromAmount'); removeFilter('toAmount')"
+              class="!bg-surface-4 !h-[32px]"
+            >
+                  <span class="text-custom-primary text-[12px] font-medium"
+                  >{{'new_third.from' | translate}}:
+                    {{
+                      this.filterForm.value?.fromAmount?.toLocaleString("ru") + " - "
+                    }}</span
+                  >
+              <span class="text-custom-primary text-[12px] font-medium"
+              >{{'new_third.to' | translate}}:
+                {{ this.filterForm.value?.toAmount?.toLocaleString("ru") }}</span
+              >
+              <button matChipRemove>
+                <!-- <img
+                  ngSrc="./assets/svg/close.svg"
+                  alt="close"
+                  width="48"
+                  height="48"
+                /> -->
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+          </div>
+
+          <img
+            src="./assets/new-icons/arrow-down.svg"
+            alt="arrow"
+            class="w-4 h-4 opacity-70"
+          />
+        </div>
+
+        <mat-menu
+          #accountMenu="matMenu"
+          xPosition="after"
+          class="menu-actions mt-2 bg-custom-primary shadow-xl border border-custom-gray-200"
+        >
+          <div class="p-2 w-full max-w-sm mx-auto">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <input
+                  type="number"
+                  formControlName="fromAmount"
+                  (keydown)="handleKeyDown($event)"
+                  (click)="$event.stopPropagation()"
+                  class="w-full h-[48px] border rounded-xl bg-surface-2 px-3 text-custom-primary py-2 text-lg font-medium focus:ring-2 focus:ring-[#00A38D] outline-none"
+                  placeholder="{{'new_third.from' | translate}}"
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  (keydown)="handleKeyDown($event)"
+                  formControlName="toAmount"
+                  (click)="$event.stopPropagation()"
+                  class="w-full h-[48px] border rounded-xl px-3 bg-surface-2 text-custom-primary py-2 text-lg font-medium focus:ring-2 focus:ring-[#00A38D] outline-none"
+                  placeholder="{{'new_third.to' | translate}}"
+                />
+              </div>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button
+                *ngIf="filterForm?.value?.fromAmount || filterForm?.value?.toAmount
+                    "
+                (click)="handleReset()"
+                class="w-full h-10 border  rounded-xl px-3 py-2 font-medium text-custom-primary  transition"
+              >
+                {{'accounts.reset' | translate}}
+              </button>
+              <button
+                (click)="handleApply()"
+                class="w-full bg-[#00A38D] text-white h-10 border rounded-xl px-3 py-2py-2 font-medium hover:bg-[#00957E] transition"
+              >
+                {{'accounts.apply' | translate}}
+              </button>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+
+      <!-- #region Clear all -->
+      <div *ngIf="hasAnyFilter()" class="flex items-center gap-1 cursor-pointer" (click)="clearAllFilters()">
+        <span class="text-document-color font-medium">{{ 'global.clear_all' | translate }}</span>
+        <img width="30" height="30" src="./assets/svg/close-active.svg" alt="">
+      </div>
+      <!-- #endregion Clear all -->
+    </div>
+  </div>
+</form>
+

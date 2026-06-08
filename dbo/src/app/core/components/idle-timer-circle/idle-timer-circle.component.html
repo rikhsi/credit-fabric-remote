@@ -1,0 +1,34 @@
+<div class="circle-timer">
+  <svg width="140" height="140" viewBox="0 0 120 120">
+    <defs>
+      <!-- Радиальный градиент -->
+      <radialGradient id="radial-gradient" cx="1.425" cy="0.1375" r="1">
+        <stop offset="0%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#008C79" />
+      </radialGradient>
+    </defs>
+
+    <!-- Фон -->
+    <circle
+      class="circle-bg"
+      cx="60"
+      cy="60"
+      r="45"
+    />
+
+    <!-- Прогресс -->
+    <circle
+      class="circle-progress"
+      cx="60"
+      cy="60"
+      r="45"
+      [style.strokeDashoffset]="progress"
+      stroke="url(#radial-gradient)"
+    />
+
+    <!-- Текст -->
+    <text x="60" y="65" text-anchor="middle" class="timer-text">
+      {{ formattedTime }}
+    </text>
+  </svg>
+</div>

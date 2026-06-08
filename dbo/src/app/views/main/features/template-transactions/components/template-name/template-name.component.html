@@ -1,0 +1,36 @@
+<div class="flex flex-col gap-y-3 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+
+  <div class="flex justify-between items-center gap-x-5 py-5 border-b border-[#E2EAF1]">
+    <div class="text-[22px] text-black">{{ data.title }}</div>
+
+    <mat-icon
+      class="cursor-pointer top-[-15px] right-[-15px] hover:rotate-180 transition-all"
+      mat-ripple
+      mat-dialog-close
+    >close</mat-icon>
+  </div>
+
+  <mat-form-field
+    class="small w-full" appearance="outline"
+  >
+    <mat-label>Название</mat-label>
+    <input
+      matInput
+      [(ngModel)]="name"
+    >
+  </mat-form-field>
+
+  <div class="grid grid-cols-2 mt-4 gap-x-5">
+    <button
+      (click)="onAgree()"
+      class="px-5 py-2.5 rounded-[5px] bg-[#008C79] text-white leading-[20px]"
+    >{{ data.agree || 'Подтвердить' }}
+    </button>
+
+    <button
+      mat-dialog-close
+      class="px-5 py-2.5 rounded-[5px] bg-[#DDECFC] leading-[20px]"
+    >{{ data.cancel || 'Отмена' }}
+    </button>
+  </div>
+</div>

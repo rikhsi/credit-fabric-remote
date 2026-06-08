@@ -1,0 +1,146 @@
+<div class="flex flex-col gap-y-3 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+  <div class="flex flex-col py-5 border-b border-[#E2EAF1]">
+    <div class="flex justify-between">
+      <div class="text-[22px] text-black">Документ № {{ data.docNum }}</div>
+      <mat-icon mat-ripple mat-dialog-close>close</mat-icon>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-y-2.5">
+    <div class="text-[14px] uppercase">Основная информация</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">ID клиента</span>
+      <span>{{ data.clientId }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">ID резерва</span>
+      <span>{{ data.reserveId }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Операционный день</span>
+      <span>{{ data.operDay }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Период</span>
+      <span>{{ data.period }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Код клиента</span>
+      <span>{{ data.clientCode }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Статус</span>
+      <span>{{ data.stateName }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="text-[14px] uppercase">Финансовая информация</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма документа</span>
+      <span>{{ amountService.convertToAmount(data.sumDoc || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Зарезервировано</span>
+      <span>{{ amountService.convertToAmount(data.sumReserved || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Оплачено</span>
+      <span>{{ amountService.convertToAmount(data.sumPaid || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Не распределено</span>
+      <span>{{ amountService.convertToAmount(data.sumUnlead || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Валюта</span>
+      <span>{{ data.cashSymbol || '-' }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма к оплате</span>
+      <span>{{ amountService.convertToAmount(data.sumNeed || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сальдо</span>
+      <span>{{ amountService.convertToAmount(data.saldoObAcc || 0) }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="text-[14px] uppercase">Реквизиты</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Номер счета</span>
+      <span>{{ data.clAcc }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Полный номер счета</span>
+      <span>{{ data.clAccount }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Дата документа</span>
+      <span>{{ data.docDate }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Код филиала</span>
+      <span>{{ data.branchId }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Локальный код</span>
+      <span>{{ data.localCode }}</span>
+    </p>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="flex gap-x-4 items-center text-[14px]">
+      <div class="w-[130px] text-secondary flex-shrink-0">Назначение платежа</div>
+      <div>{{ data.purposeName }}</div>
+    </div>
+
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <div class="text-[14px] uppercase">Клиент</div>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Наименование</span>
+      <span>{{ data.clName }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Брон на оплату</span>
+      <span>{{ amountService.convertToAmount(data.bronToPay || 0) }}</span>
+    </p>
+
+    <p class="flex gap-x-4 items-center text-[14px]">
+      <span class="w-[130px] text-secondary">Сумма по карте</span>
+      <span>{{ amountService.convertToAmount(data.sumCard2 || 0) }}</span>
+    </p>
+  </div>
+
+  <!-- Optional: History section if you have related data -->
+  <div *ngIf="historyData && historyData.length" class="flex flex-col gap-y-4">
+    <div class="text-[14px] leading-[16px]">История операций</div>
+    <app-container-table
+      [data]="historyData"
+      [columns]="operationColumns"
+      [checkable]="false"
+    ></app-container-table>
+  </div>
+</div>

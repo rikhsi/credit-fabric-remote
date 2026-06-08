@@ -1,0 +1,38 @@
+<div class="bg-white p-6 rounded-[12px] flex flex-col gap-y-6">
+  <div class="text-[#B0B8C1] text-[11px]">
+    <span routerLink="/main" class="cursor-pointer">Главная </span>
+    /
+    <span routerLink="/operations/swift" class="cursor-pointer"> Валтные операции </span>
+    /
+    <span class="text-[#000]"> Добавление документов</span>
+  </div>
+
+  <div class="flex justify-between">
+    <div class="flex gap-x-4">
+      <mat-icon routerLink="/operations/swift" class="cursor-pointer">arrow_back</mat-icon>
+      <div>Добавление документов</div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-y-5">
+
+  </div>
+</div>
+
+
+<div
+  cdkDropList
+  (cdkDropListDropped)="onFileDropped($event)"
+  class="file-drop-area"
+>
+  <div class="icon">
+    <!-- Display the icon (SVG or FontAwesome) -->
+    <img ngSrc="./assets/svg/image.svg" alt="image" width="80" height="80">
+    <svg width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Add SVG content for the icon -->
+    </svg>
+  </div>
+  <h3>Перетащите файлы</h3>
+  <p>Фото необходимо загрузить в формате PDF и JPG размером 220x200 пикселей.</p>
+  <input type="file" (change)="onFileSelected($event)" multiple hidden #fileInput />
+</div>

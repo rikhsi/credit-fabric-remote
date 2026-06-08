@@ -1,0 +1,192 @@
+<ng-container class="m-0">
+  <div class="pl-5 dark-box">
+    <div class="w-full">
+      <!-- Go back -->
+      <div routerLink="/corp-card-project/corp-cards" class="flex items-center py-3 mt-6 cursor-pointer">
+        <span class="need">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 12H4M4 12L10 18M4 12L10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+           </svg>
+        </span>
+        <span class="text-md font-medium pl-2 dark:text-white">{{ 'global.back' | translate}}</span>
+      </div>
+
+      <div class="mt-[30px] flex w-full">
+        <!-- Bank card -->
+        <!-- <div
+          class="w-[100px]  bg-[linear-gradient(270deg,#000_0%,#008c79_100%)] rounded-[20px] p-5 text-white min-w-[289px] inline-block">
+          <div class="flex items-center w-8 h-8 mb-2">
+             <img *ngIf="getBankCard()" [ngSrc]="getBankCard()" [alt]="this.cardStore.cards()[0]?.type || 'Bank card'"
+              width="30" height="30" />
+          </div>
+          <div class="flex mb-1">
+            <span class="text-sm"> {{ 'accounts.balance' | translate}}</span>
+            <button (click)="toggleAccountVisibility($event, cardId)"
+              class="w-9 h-9 flex justify-center items-center rounded-full ml-[10px] mt-[-6px]   transition">
+              @if (!isHidden(cardId)) {
+              <img class="cursor-pointer text-white" src="assets/new-icons/bank-cards/eye-off.svg" alt="Hide balance" />
+              } @else {
+              <img class="cursor-pointer " src="./assets/new-icons/card-eye.svg" alt="Show balance" />
+              }
+            </button>
+          </div>
+
+          <div class="h-[30px] text-xl font-semibold mb-1">
+            @if (!isHidden(cardStore.cards()[0]?.uuid)) {
+            {{ Number(cardStore.cards()[0]?.balance?.amount) / 100 | mask:'separator' }}
+            {{ cardStore.cards()[0]?.balance?.currency }}
+            } @else {
+            <img src="./assets/new-icons/bank-cards/white-dots.svg" />
+            }
+          </div>
+
+
+          <div class="flex justify-between">
+            <span class="text-sm font-normal"> {{this.cardStore.cards()[0]?.pan}}</span>
+            <span class="text-sm font-normal"> {{formatExpireDate(this.cardStore.cards()[0]?.expiryDate)}}</span>
+          </div>
+        </div> -->
+
+       <app-account-card [card]="corpCard()" (onDetails)="openCardRequisites(this.cardStore.cards()[0])" [radius]="10"></app-account-card>
+
+
+        <!-- Actions -->
+<!--        lg:gap-4 md:gap-5 ms:gap-5-->
+        <div class="w-[70%] ml-[20px] flex items-center flex-wrap mx-4  gap-2"
+        >
+          <!-- Пополнить -->
+          <div *ngIf="!this.cardStore.isBlocked()" (click)="this.userService.hasAction('CARDS') ? fromAccountToCard() : {}"
+            class=" text-center cursor-pointer w-[140px] h-[120] "
+            [matTooltip]="this.userService.hasAction('CARDS') ? '' : 'У вас нет прав'"
+            [style.user-select]="this.userService.hasAction('CARDS') ? '' : 'none'"
+            [style.opacity]="this.userService.hasAction('CARDS') ? '1' : '0.3'"
+            [style.cursor]="this.userService.hasAction('CARDS') ? 'pointer' : 'not-allowed'">
+            <div class="w-14 h-14 bg-[#00A38D] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/bank-cards/top-up.svg" alt="file-plus">
+            </div>
+            <span class="text-sm font-semibold dark:text-white">{{ 'accounts.top_up' | translate}} </span>
+          </div>
+
+          <!-- Возврат на счет -->
+          <div *ngIf="!this.cardStore.isBlocked()" (click)="this.userService.hasAction('CARDS') ? fromCardToAcccount() : {}"
+            class="text-center cursor-pointer no-select  w-[140px] h-[120]"
+            [matTooltip]="this.userService.hasAction('CARDS') ? '' : 'У вас нет прав'"
+            [style.user-select]="this.userService.hasAction('CARDS') ? '' : 'none'"
+            [style.opacity]="this.userService.hasAction('CARDS') ? '1' : '0.3'"
+            [style.cursor]="this.userService.hasAction('CARDS') ? 'pointer' : 'not-allowed'">
+            <div
+              class="w-14 h-14 bg-white outline outline-1 outline-[#ebebeb] rounded-full flex items-center justify-center mb-2 mx-auto dark:bg-[#181818] dark:outline-[#333333]">
+              <img src="./assets/new-icons/bank-cards/sentToAccount.svg" alt="file-plus">
+            </div>
+            <span class="text-sm font-semibold dark:text-white"> {{ 'accounts.return_to_account' | translate}}</span>
+          </div>
+
+          <!-- Выписка -->
+          <div (click)="this.userService.hasAction('STATEMENTS') ? createStatement() : {}"
+            class="text-center cursor-pointer no-select  w-[140px] h-[120]"
+            [matTooltip]="this.userService.hasAction('STATEMENTS') ? '' : 'У вас нет прав'"
+            [style.user-select]="this.userService.hasAction('STATEMENTS') ? '' : 'none'"
+            [style.opacity]="this.userService.hasAction('STATEMENTS') ? '1' : '0.3'"
+            [style.cursor]="this.userService.hasAction('STATEMENTS') ? 'pointer' : 'not-allowed'">
+            <div
+              class="dark:bg-[#181818] dark:outline-[#333333] w-14 h-14 bg-white outline outline-1 outline-[#ebebeb] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/file-plus-02.svg" alt="file-plus" />
+            </div>
+            <span class="text-sm font-semibold dark:text-white">{{ 'accounts.statement' | translate}} </span>
+          </div>
+
+          <!-- Pеквизиты -->
+          <!-- <div (click)="openCardRequisites(this.cardStore.cards()[0])" class="text-center cursor-pointer">
+            <div
+              class="dark:bg-[#181818] dark:outline-[#333333] w-14 h-14 outline outline-1 outline-[#ebebeb] bg-white rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/info-circle.svg" alt="info-circle" />
+            </div>
+            <span class="text-sm font-semibold dark:text-white">{{ 'accounts.details_alt' | translate}}</span>
+          </div> -->
+
+          <!-- Лимиты -->
+          <div *ngIf="!this.cardStore.isBlocked()" (click)="this.userService.hasAction('CARDS') ? onMenuOpened() : {}"
+            class="text-center cursor-pointer no-select  w-[140px] h-[120]"
+            [matTooltip]="this.userService.hasAction('CARDS') ? '' : 'У вас нет прав'"
+            [style.user-select]="this.userService.hasAction('CARDS') ? '' : 'none'"
+            [style.opacity]="this.userService.hasAction('CARDS') ? '1' : '0.3'"
+            [style.cursor]="this.userService.hasAction('CARDS') ? 'pointer' : 'not-allowed'">
+            <div
+              class="dark:bg-[#181818] dark:outline-[#333333] w-14 h-14 bg-white outline outline-1 outline-[#ebebeb] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <img src="./assets/new-icons/bank-cards/limit.svg" alt="file-plus" />
+            </div>
+            <span class="text-sm font-semibold select-none dark:text-white">{{ 'accounts.limits' | translate}}</span>
+          </div>
+
+          <!-- Заблокировать -->
+          <div (click)="this.userService.hasAction('CARDS') ? openCardBlockDialog(this.cardStore.cards()[0]) : {}"
+            class="text-center cursor-pointer no-select  w-[140px] h-[120]"
+            [matTooltip]="this.userService.hasAction('CARDS') ? '' : 'У вас нет прав'"
+            [style.user-select]="this.userService.hasAction('CARDS') ? '' : 'none'"
+            [style.opacity]="this.userService.hasAction('CARDS') ? '1' : '0.3'"
+            [style.cursor]="this.userService.hasAction('CARDS') ? 'pointer' : 'not-allowed'">
+            <div
+              class="dark:bg-[#181818] dark:outline-[#333333] w-14 h-14 bg-white outline outline-1 outline-[#ebebeb] rounded-full flex items-center justify-center mb-2 mx-auto">
+              <div>
+                <img src="./assets/new-icons/bank-cards/block-card.svg" alt="file-plus" />
+              </div>
+            </div>
+            <span class="text-sm font-semibold  dark:text-white">{{(this.cardStore.cards()[0]?.status == "ACTIVE" ? "accounts.block" :
+              "new.unblock") | translate}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEBIT / CREDIT -->
+      <div class="flex items-center gap-10 rounded-lg my-10 w-full">
+        <!-- Status -->
+        <!-- <div class="flex  items-center gap-2">
+          <div class="dark:bg-[#181818] dark:outline-[#333333] w-[40px] h-[40px] rounded-full bg-white flex items-center justify-center">
+            <img *ngIf="getStatus()" [ngSrc]="getStatus()" [alt]="this.cardStore.cards()[0]?.status || 'Status'"
+              width="20" height="20" />
+          </div>
+          <span class="text-sm font-medium text-[#2C3531] dark:text-white">
+            {{ (this.cardStore.cards()[0]?.status === 'ACTIVE' ? 'accounts.active' : this.cardStore.cards()[0]?.status === 'BLOCKED' ? 'accounts.blocked' : '') | translate }}
+          </span>
+        </div> -->
+
+        <!-- Debit -->
+        <div class="flex items-center gap-2">
+          <div class="dark:bg-[#181818] dark:border-[#333333] w-[40px] h-[40px] rounded-full bg-white border flex items-center justify-center">
+            <img src="assets/new-icons/bank-cards/arrow-up.svg" alt="arrow up" width="12" height="12" />
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="text-xs text-gray-500">{{ 'accounts.inflows_today' | translate}}</span>
+            <div class="text-[#171717] text-[18px] font-bold dark:text-white">
+              {{ (Math.floor(this.transactionHistoryStore.totalCredit() / 100) | mask:'separator') }}
+              <span class="text-[15px] font-normal">
+                ,{{ (Math.abs(this.transactionHistoryStore.totalCredit()) % 100).toString().padStart(2, '0') }} UZS
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Credit -->
+        <div class="flex items-center gap-2">
+          <div class="dark:bg-[#181818] dark:border-[#333333] w-[40px] h-[40px] rounded-full bg-white border flex items-center justify-center">
+            <img ngSrc="assets/new-icons/bank-cards/arrow-down.svg" alt="arrow down" width="12" height="12" />
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="text-xs text-gray-500"> {{ 'accounts.withdrawals_today' | translate}}</span>
+            <div class="text-[#171717] text-[18px] font-bold dark:text-white">
+              {{ (Math.floor(this.transactionHistoryStore.totalDebit() / 100) | mask:'separator') }}
+              <span class="text-[15px] font-normal"> ,{{ (Math.abs(this.transactionHistoryStore.totalDebit()) %
+                100).toString().padStart(2, '0') }} UZS </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div>
+      <CorpCardHistory />
+    </div>
+  </div>
+</ng-container>

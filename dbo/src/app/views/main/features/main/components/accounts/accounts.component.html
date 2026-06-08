@@ -1,0 +1,38 @@
+<div class="py-5">
+  <div class="flex justify-between cursor-pointer"
+       (click)="toggleAccountsOpen()"
+  >
+    <div class="flex gap-x-[30px]">
+      <div>
+        <span>Счета</span>
+        @if(accounts.length) {
+          <span class="text-secondary"> ({{ accounts.length }})</span>
+        }
+      </div>
+
+<!--      <div class="text-red-500">• Есть ограничения</div>-->
+    </div>
+
+    <div>
+      <img
+        [ngClass]="{'rotate-90': isOpen}"
+        ngSrc="./assets/svg/chevron-down.svg"
+        alt="chevron-down"
+        width="30"
+        height="30"
+      >
+    </div>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="isOpen">
+      <div class="py-2.5">
+        @for (acc of accounts; track acc) {
+          <app-account [account]="acc"></app-account>
+          <div class="border-t border-solid"></div>
+        }
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>

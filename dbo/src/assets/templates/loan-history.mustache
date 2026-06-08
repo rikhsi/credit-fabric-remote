@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 14px !important;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    @page {
+      size: landscape;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    td {
+      padding: 4px 6px;
+      text-align: start;
+      font-size: 10px;
+    }
+
+    .item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    th {
+      font-size: 10px;
+    }
+
+    thead tr td {
+      text-align: start;
+    }
+
+    .line-break::before {
+      content: "\A";
+      white-space: pre;
+    }
+
+    .page-break {
+      page-break-before: always; /* Forces a page break before the element */
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+<div class="item">
+
+  <div class="text-center flex flex-col items-center">
+    <div class="text-center">История кредита</div>
+  </div>
+
+  <table class="border border-collapse">
+    <thead>
+    <tr>
+      <th class="border border-collapse">Наименование счета</th>
+      <th class="border border-collapse">МФО</th>
+      <th class="border border-collapse">Счет</th>
+      <th class="border border-collapse">Дата операции</th>
+      <th class="border border-collapse text-end text-nowrap">Общее к оплате</th>
+      <th class="border border-collapse text-end text-nowrap">Капитал</th>
+      <th class="border border-collapse text-end text-nowrap">Общая сумма</th>
+      <th class="border border-collapse text-end text-nowrap">Основной долг</th>
+      <th class="border border-collapse text-end text-nowrap">Проценты</th>
+      <th class="border border-collapse text-end text-nowrap">Сборы</th>
+      <th class="border border-collapse text-end text-nowrap">Налог</th>
+      <th class="border border-collapse text-end text-nowrap">Общая оплата</th>
+      <th class="border border-collapse text-end text-nowrap">Неоплаченная сумма</th>
+      <th class="border border-collapse">Дата исполнения</th>
+      <th class="border border-collapse">Назаначение</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {{#data}}
+      <tr style="page-break-inside: avoid;">
+        <td class="border border-collapse">{{ dtAccName }}</td>
+        <td class="border border-collapse">{{ dtMfo }}</td>
+        <td class="border border-collapse">{{ dtAcc }}</td>
+        <td class="border border-collapse">{{ date }}</td>
+        <td class="border border-collapse">{{ totalDue }}</td>
+        <td class="border border-collapse">{{ totalCap }}</td>
+        <td class="border border-collapse">{{ total }}</td>
+        <td class="border border-collapse">{{ principal }}</td>
+        <td class="border border-collapse">{{ interest }}</td>
+        <td class="border border-collapse">{{ charge }}</td>
+        <td class="border border-collapse">{{ tax }}</td>
+        <td class="border border-collapse">{{ totalPmnt }}</td>
+        <td class="border border-collapse">{{ outstanding }}</td>
+        <td class="border border-collapse">{{ dateExecute }}</td>
+        <td class="border border-collapse">{{ purpose }}</td>
+      </tr>
+    {{/data}}
+    </tbody>
+  </table>
+</div>
+
+</body>
+<script>
+</script>
+</html>

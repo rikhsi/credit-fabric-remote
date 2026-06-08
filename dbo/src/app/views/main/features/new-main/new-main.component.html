@@ -1,0 +1,59 @@
+<ng-container>
+  <div class="flex flex-col space-y-8 dark:bg-[#333333]">
+    <div class="items-center justify-between flex py-5 px-1">
+      <app-balance [currencyList]="currencyList()" [balance]="totalBalance()"
+        [globalHideBalance]="globalHideBalance()" (toggleGlobal)="toggleGlobalHide()"
+        (changeCurrency)="changeCurrency($event)" [tab]="active()" />
+      <button (click)="openWidgets()" class="p-2 bg-[#008C79] flex items-center justify-center rounded-[6px]">
+        <img src="./assets/new-icons/arrows-left.svg" alt="arrow">
+      </button>
+    </div>
+    <div class="flex justify-between items-center" style="width: calc(95% - 25px)">
+      <div class="flex gap-x-3">
+        <button *ngFor="let t of MAIN_COMPONENT_PRODUCTS" (click)="setActive(t.key)"
+          class="font-semibold leading-5 mr-[6px] text-[18px]" [ngClass]="{
+        'text-custom-primary px-[16px] py-[8px] bg-surface-2 rounded-[14px] border border-custom-border dark:bg-[#262626]': active() === t.key,
+        'text-custom-secondary': active() !== t.key
+      }">
+          {{ t.translateKey | translate }}
+        </button>
+      </div>
+      <div class="flex space-x-3 items-center">
+        <button (click)="routerNavigate(getTranslate(active()))"
+          class="rounded-[14px] bg-surface-2 h-[40px] m-auto border border-custom-border flex justify-center px-4  items-center text-custom-primary text-[16px] font-semibold leading-3">
+           {{ getTranslateText(active()) }}
+          <img class="pl-3" src="./assets/new-icons/arrow-narrow-up-right.svg" alt="#">
+        </button>
+        <button class="rounded-[14px] bg-surface-2 border border-custom-border  flex justify-center h-[40px] px-3"
+          (click)="openSettings()">
+          <img src="./assets/new-icons/settings-active.svg" width="20" alt="">
+        </button>
+      </div>
+    </div>
+    <div class="" style="width: calc(95% - 25px)">
+      @switch (active()) {
+      @case ('accounts') {
+      <div>
+        <app-accounts [accounts]="accounts()" [globalHideBalance]="globalHideBalance()"
+          [hiddenAccountIds]="hiddenAccountIds()" [showAccountIds]="showAccountIds()"
+          [refreshTrigger]="refreshTrigger()" (toggleAccount)="toggleAccountVisibility($event)"
+          (refreshAccount)="refreshAccount()" />
+      </div>
+
+      }
+      @case ('cards') {
+      <app-cards [cards]="cards()" (refreshCardList)="refreshCardList()" />
+      }
+      @case ('deposits') {
+      <app-deposits [deposits]="deposits()" (refreshDeposits)="getDeposits()" />
+      }
+      @case ('credits') {
+      <app-credits [credits]="credits()" (pinLoan)="pinLoan($event)" />
+      }
+      }
+      <div class="pt-10">
+        <app-payments class="flex-grow "></app-payments>
+      </div>
+    </div>
+  </div>
+</ng-container>

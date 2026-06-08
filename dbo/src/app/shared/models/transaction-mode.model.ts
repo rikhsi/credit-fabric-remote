@@ -1,0 +1,28 @@
+export const transactionModes = [
+  'DEFAULT',
+  'ACCREDIT',
+  'TRANSACTION',
+  'TO_PHYSICAL_CARD',
+  'CORP_CARD_TOP_UP',
+  'CORP_CARD_TOP_UP_TRANSIT',
+  'SWIFT',
+  'BUDGET_INCOME',
+  'BUDGET',
+  'SALARY',
+  'SALARY_CHILD',
+  'SALARY_TRANSIT',
+  'DEPOSIT_TOP_UP',
+  'DEPOSIT_OPEN',
+  'DEPOSIT_CLOSE',
+  'P2SERVICE',
+  'DEPOSIT_WITHDRAW',
+  'LOAN_REPAYMENT',
+  'LOAN_PRETERM',
+  'LOAN_CLOSE',
+  'CONVERSION_BUY',
+  'CONVERSION_SELL',
+  'CROSS_CONVERSION',
+  'CORP_CARD_TOP_UP_CHILD',
+] as const;
+
+export type TransactionMode = (typeof transactionModes)[number];

@@ -1,0 +1,73 @@
+<div class="flex flex-col gap-y-4">
+  <app-container-nav [navs]="navs()"></app-container-nav>
+  <app-container-title [title]="'Пополнить'"></app-container-title>
+</div>
+<span class="justify-start text-[#9799A1] text-sm font-normal   leading-none">Функция позволяет инициировать перевод средств на счёт или карту по заданным параметрам</span>
+<div class="bg-white rounded-2xl p-6 mt-2">
+  <div class="flex flex-col space-y-6">
+    <div class="flex flex-col gap-1">
+      <p>Счёт для оплаты</p>
+      <div class="w-full flex flex-col gap-[10px]">
+        <div
+          (click)="getAccounts()"
+          class="mb-6 w-full border justify-between border-[#ECECED] flex h-[76px] m-auto items-center px-5 cursor-pointer rounded-[16px]">
+
+          <div class="flex gap-3 items-center">
+            <img src="./assets/svg/FlagUz.svg" alt="">
+            <div class="flex flex-col">
+                     <span
+                           class="text-[#008C79] text-[16px]">Основной счет</span>
+              <span class="text-[#2C3531] font-medium">21014000200000445400</span>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <p class="text-[#2C3531] text-[16px] font-medium">110 491 392.42 UZS</p>
+            <img src="./assets/icons/down.png" alt="">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="flex flex-col space-y-4">
+      <span class=" font-medium text-[18px] leading-5 text-[#2C3531]">Получатель</span>
+      <div class="w-full flex flex-col gap-[10px]">
+        <div
+          class="mb-6 w-full border justify-between border-[#ECECED] flex h-[76px] m-auto items-center px-5 cursor-pointer rounded-[16px]">
+
+          <div class="flex gap-3 items-center">
+            <div class="p-2.5 flex justify-center items-center bg-[#F3F5F5] rounded-xl"><img src="./assets/svg/humo-logo.svg" alt=""></div>
+            <div class="flex flex-col">
+                     <span
+                       class="text-[#008C79] text-[16px]">Humo Business</span>
+              <span class="text-[#2C3531] font-medium">9403 1234 1232 5401</span>
+            </div>
+          </div>
+          <div class="flex gap-3 items-center">
+            <p class="text-[#2C3531] text-[16px] font-medium">110 491 392.42 UZS</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class=" font-medium text-[18px] leading-5 text-[#2C3531] pb-4">Данные о платеже</div>
+  <div
+    class="relative w-full  flex flex-col gap-1">
+              <span class="text-[14px] font-medium text-[#2C3531] leading-[18px]">Сумма</span>
+    <input type="text" placeholder=""
+           value="300 000 000.00 UZS"
+           class="border border-[#ECECED]  bg-white px-4  w-full placeholder:text-[16px] placeholder:text-[#9799A1] placeholder:font-normal rounded-[12px] h-[56px] outline-none">
+  </div>
+  <div class="font-normal leading-4  text-sm mb-4">Тридцать миллионов сумов 00 тийин</div>
+  <div
+    class="relative w-full  flex flex-col gap-1">
+              <span class="text-[14px] font-medium text-[#2C3531] leading-[18px]"
+              >
+                Назначение</span>
+    <textarea placeholder="Опишите, за что платите контрагенту. Если есть акт, счёт или договор, укажите его номер, дату и НДС."
+              class="border border-[#ECECED] bg-white p-4  w-full placeholder:text-[16px] placeholder:text-[#9799A1] placeholder:font-normal rounded-[12px] h-[104px] outline-none"></textarea>
+  </div>
+  <div class="justify-end flex space-x-4 items-center mt-6">
+    <button class="w-[320px] bg-[#F2F2F4] h-[52px] py-2.5 px-4 flex items-center justify-center text-[16px] leading-5 font-medium text-[#2C3531] rounded-[40px]">Отмена</button>
+    <button class="w-[320px] bg-[#008C79] h-[52px] py-2.5 px-4 flex items-center justify-center text-[16px] leading-5 font-medium text-white rounded-[40px]">Подтвердить</button>
+  </div>
+</div>

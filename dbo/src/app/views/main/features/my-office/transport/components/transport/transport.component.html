@@ -1,0 +1,140 @@
+@if (isLoading) {
+  <div class="flex gap-x-4 overflow-x-auto scrollbar-hide mt-4" appScrollable>
+    <span class="skeleton flex-none block w-[277px] h-[172px] rounded-2xl"
+          *ngFor="let item of [].constructor(5).fill(0)"></span>
+  </div>
+}
+@else {
+  <div class="car-list overflow-x-auto scrollbar-hide mt-4 h-[172px]" appScrollable>
+    <div class="add-car border-secondary border-1px rounded-lg mr-4 cursor-pointer" matRipple (click)="onUpdateMyAutoList()">
+     <mat-icon>update</mat-icon>
+    </div>
+    @for (auto of autoList; track auto;) {
+      <div class="car-item rounded-xl border-secondary border-1px cursor-pointer" (click)="onSelectCar(auto.uuid)"
+      [ngStyle]="{'background-color': selectedCarId === auto.uuid ? '#EFF0F2' : '#fff' }">
+        <div class="flex">
+          <div class="car-number border-black border-[1.5px] pr-6 rounded-[4px] px-1 flex items-center mr-10 text-2xl"
+            [ngStyle]="{'background-color': selectedCarId === auto.uuid ? '#fff' : '#EFF0F2' }">{{auto?.regionNum}} <span class="line"></span>{{auto?.carNumber}}</div>
+          <div class="w-9 h-9 flex justify-center items-center bg-[#EFF0F2] rounded-lg"
+            [ngStyle]="{'background-color': selectedCarId === auto.uuid ? '#fff' : '#EFF0F2' }" style="transition: .4s;">
+            <img src="./assets/icons/shevrolet{{selectedCarId === auto.uuid ? '_white' : ''}}.png" alt="">
+          </div>
+        </div>
+        <p class="text-[#B1B7B1] mb-2 font-medium leading-[19.2px]">Модель: <span class="text-black">{{auto?.carName}}</span></p>
+        <p class="text-[#B1B7B1] mb-2 font-medium leading-[19.2px]">Цвет: <span class="text-black">{{auto?.color}}</span></p>
+        <p class="text-[#B1B7B1] font-medium leading-[19.2px]">Год: <span class="text-black">{{auto?.year}}</span></p>
+      </div>
+    }
+  </div>
+}
+<div class="border-1px mt-4 p-6 border-[#EFEFEF] rounded-[10px] loan-tab pb-[300px]">
+  <div style="overflow:hidden">
+      <div>
+          <h3 class="font-medium text-xl mb-4">Общие сведения</h3>
+          <ul class="flex gap-x-4 items-center mb-6">
+            <button class="max-w-fit w-full px-2 py-1.5 text-black"
+                    [class.active]="viewMode == 'insurance'" rel="insurance" (click)="viewMode = 'insurance'">
+              Страхование
+            </button>
+            <button class="max-w-fit w-full px-2 py-1.5 text-black"
+                    [class.active]="viewMode == 'technicalInfo'" rel="technicalInfo" (click)="viewMode = 'technicalInfo'">
+              Технический паспорт
+            </button>
+          </ul>
+          <div class="border-1px p-4 border-[#EFEFEF] rounded-[10px]" [ngSwitch]="viewMode">
+<!--              <div class="pb-2" id="driverLicense" *ngSwitchCase="'driverLicense'" [@slideInOut]>-->
+<!--                <ul>-->
+<!--                  <li class="flex justify-between items-center pb-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">{{autoInfo?.license?.[0]?.owner || 'Нет данных'}}</span>-->
+<!--                      <span class="text-dark font-medium">0%</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">Серия и номер водительских прав</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.document || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">ПИНФЛ</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.pinfl || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">Категория</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.licenseCategory?.[0] || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">Дата выдачи</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.beginDate || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">Срок годности</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.endDate || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                  <li class="flex justify-between items-center pt-4">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">Выдан</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.issuedBy || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+              <div class="pb-2" id="technicalInfo" *ngSwitchCase="'technicalInfo'" [@slideInOut]>
+                  <ul>
+                      <li class="flex justify-between items-center pb-4 border-b-[1px] border-secondary">
+                            <span class="text-[#A1A1A1] text-sm">Страховка</span>
+                          <span class="text-dark font-medium">{{autoInfo?.info?.insuranceDay}} (Дней) {{autoInfo?.info?.insuranceDate}}</span>
+                      </li>
+                    <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Газ</span>
+                      <span class="text-dark font-medium">{{autoInfo?.info?.gasDay}} (Дней)  {{autoInfo?.info?.gasDate}}</span>
+                    </li>
+                    <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Масло</span>
+                      <span class="text-dark font-medium">{{autoInfo?.info?.oilDay}}  (Дней) {{autoInfo?.info?.oilDate}} {{autoInfo?.info?.oilKm}}</span>
+                    </li>
+                    <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Тонировка</span>
+                      <span class="text-dark font-medium">{{autoInfo?.info?.tintingDay}} (Дней)  {{autoInfo?.info?.tintingDate}}</span>
+                    </li>
+                    <li class="flex justify-between items-center py-4">
+                      <span class="text-[#A1A1A1] text-sm">Доверенность</span>
+                      <span class="text-dark font-medium">{{autoInfo?.info?.affidavitDay}}  (Дней) {{autoInfo?.info?.affidavitDate}}</span>
+                    </li>
+                  </ul>
+              </div>
+              <div class="pb-2" id="insurance" *ngSwitchCase="'insurance'" [@slideInOut]>
+                <ul>
+                  <li class="flex justify-between items-center pb-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Страховая компания</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.insuranceOrgName || 'Нет данных'}}</span>
+                  </li>
+                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Серия полиса</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.sery || 'Нет данных'}}</span>
+                  </li>
+                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Номер полиса</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.number || 'Нет данных'}}</span>
+                  </li>
+                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Номерной знак</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.number || 'Нет данных'}}</span>
+                  </li>
+                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Вид страхования</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.type || 'Нет данных'}}</span>
+                  </li>
+<!--                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">-->
+<!--                      <span class="text-[#A1A1A1] text-sm">ПИНФЛ</span>-->
+<!--                      <span class="text-dark font-medium">{{autoInfo?.license?.[0]?.pinfl || 'Нет данных'}}</span>-->
+<!--                  </li>-->
+                  <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                      <span class="text-[#A1A1A1] text-sm">Дата получения</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.startDate || 'Нет данных'}}</span>
+                  </li>
+                  <li class="flex justify-between items-center pt-4">
+                      <span class="text-[#A1A1A1] text-sm">Дата окончания</span>
+                      <span class="text-dark font-medium">{{autoInfo?.insurance?.endDate || 'Нет данных'}}</span>
+                  </li>
+                </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

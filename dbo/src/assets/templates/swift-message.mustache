@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    td {
+      padding: 4px 6px;
+      text-align: start;
+    }
+
+    .page-break {
+      page-break-before: always; /* Forces a page break before the element */
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+
+<div class="max-w-3xl mx-auto flex justify-between relative border border-gray-300 rounded-md p-6">
+
+  <h1 class="w-full absolute  px-2 flex justify-center -top-4 mx-auto text-center text-lg font-bold">
+    <div class="px-4 bg-white">MT 103 FROM {{data.businessName50}} TO {{data.beneficiary59Name}}</div>
+  </h1>
+
+  <div class="text-sm text-gray-800 font-mono">
+    <div class="flex flex-col gap-y-5">
+      <div class="text-black">
+        <p>:20:{{data.docNum}}</p>
+        <p>:23B:CRED</p>
+        <p>:32A:{{data.date32a}} {{data.senderCurrency32}}{{data.senderAmount32}}</p>
+        <p>:33B:{{data.receiverCurrency33}}{{data.receiverAmount33}}</p>
+        <p>:50K:/{{data.senderAccount}}</p>
+        <p>{{data.businessName50}}</p>
+        <p>{{data.businessAddress50}}</p>
+        <p>:52A:{{data.bankCode50}}</p>
+        <p>:57A:{{data.bankBeneficiary57a}}</p>
+        <p>:59:/{{data.beneficiary59Account}}</p>
+        <p>{{data.beneficiary59Name}}</p>
+        <p>{{data.beneficiary59Address}}</p>
+        <p>:70:{{data.description70}}</p>
+        <p>:71A:{{data.ben71}}</p>
+        <p>:72:{{#data.narrative72}}
+          {{.}}<br>
+        {{/data.narrative72}}</p>
+      </div>
+
+      <p class="text-gray-800">UETR: {{data.code77}}</p>
+    </div>
+  </div>
+  <div class="mt-6 border-t border-gray-300 pt-4 text-sm text-gray-600">
+    <p class="text-right">{{data.docDate}}</p>
+    <p class="text-right font-bold">БАНК-КЛИЕНТ</p>
+  </div>
+</div>
+
+</body>
+
+</html>

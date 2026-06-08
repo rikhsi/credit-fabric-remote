@@ -1,0 +1,139 @@
+<div class="p-6 bg-white rounded-xl h-full flex flex-col relative" style="min-height: calc(100vh + 700px);">
+  <p class="text-2xl font-medium leading-6 mb-4">Добавление сотрудника</p>
+
+  <div class="rounded-12px p-6 border-1px border-secondary mb-4">
+
+    <mat-radio-group [(ngModel)]="selectedValue" class="mb-4">
+      @for (option of [{value: 'requisite', name: 'С реквизитами'}, {
+        value: 'card',
+        name: 'С картой'
+      }]; track option; let last = $last) {
+        <mat-radio-button [ngClass]="{'ms-2':last}" [value]="option.value">
+          {{ option.name }}
+        </mat-radio-button>
+      }
+    </mat-radio-group>
+    @switch (selectedValue) {
+      @case ('requisite') {
+       <form [formGroup]="withRequisiteForm" (ngSubmit)="formSubmit('requisite')">
+         <div class="flex flex-wrap justify-between items-center">
+           <div class="w-1/2 flex flex-col pr-2 mb-4">
+             <p class="font-medium leading-5 mb-2">Серия паспорта</p>
+             <input formControlName="passportSerial" type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder="Введите серию паспорта">
+           </div>
+           <div class="w-1/2 flex flex-col pl-2 mb-4">
+             <p class="font-medium leading-20px mb-2">Номер паспорта</p>
+             <input formControlName="passportNumber" type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder="Введите номер паспорта">
+           </div>
+           <div class="w-1/2 flex flex-col pr-2 mb-4">
+             <p class="font-medium leading-5 mb-2">День рождения</p>
+             <input formControlName="birthday" type="date" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder="Введите день рождения">
+           </div>
+           <div class="w-1/2 flex flex-col pl-2 mb-4">
+             <p class="font-medium leading-5 mb-2">Номер телефона</p>
+             <input
+               prefix="998"
+               mask=" 00 000 00 00"
+               [showMaskTyped]="true"
+               [placeHolderCharacter]="''"
+               [dropSpecialCharacters]="false"
+               formControlName="phoneNumber"
+               type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+               placeholder="Введите номер телефона">
+           </div>
+           <div class="w-1/2 flex flex-col pr-2 mb-4">
+             <p class="font-medium leading-20px mb-2">Тип карты</p>
+             <mat-form-field appearance="outline" class="payment-select w-full">
+               <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+               <mat-select formControlName="cardType" disableRipple placeholder="Выберите тип карты">
+                 @for (item of ['UZCARD','HUMO'] ; track item){
+                   <mat-option [value]="item">{{item}}</mat-option>
+                 }
+               </mat-select>
+             </mat-form-field>
+           </div>
+           <div class="w-1/2 flex flex-col pl-2 mb-4">
+             <p class="font-medium leading-20px mb-2">Счет</p>
+             <mat-form-field appearance="outline" class="payment-select w-full">
+               <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+               <mat-select formControlName="businessAccount" disableRipple placeholder="Выберите счет">
+                 @for (account of accounts ; track account){
+                   <mat-option [value]="account.altAcctId">{{account.altAcctId}}</mat-option>
+                 }
+               </mat-select>
+             </mat-form-field>
+           </div>
+         </div>
+         <div class="text-end mt-4">
+           <button
+             type="submit"
+             [disabled]="withRequisiteForm.invalid"
+             [ngClass]="withRequisiteForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+             class="w-[194px] h-10 rounded-xl border-1px bg-secondary text-white font-medium">
+             Подтвердить
+           </button>
+         </div>
+       </form>
+      }
+      @case ('card') {
+    <form [formGroup]="withCardForm" (ngSubmit)="formSubmit('card')">
+      <div class="flex flex-wrap justify-between items-center">
+        <div class="w-1/2 flex flex-col pr-2 mb-4">
+          <p class="font-medium leading-20px mb-2">Карта</p>
+          <input
+            id="card"
+            type="text"
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Номер карты"
+            mask="000 000 000 000"
+            formControlName="cardPan"
+          >
+        </div>
+        <div class="w-1/2 flex flex-col pl-2 mb-4">
+          <p class="font-medium leading-20px mb-2">Номер телефона</p>
+          <input
+            prefix="998"
+            mask=" 00 000 00 00"
+            [showMaskTyped]="true"
+            [placeHolderCharacter]="''"
+            [dropSpecialCharacters]="false"
+            formControlName="phoneNumber"
+            type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Введите номер телефона">
+        </div>
+        <div class="w-1/2 flex flex-col pl-2 mb-4">
+          <p class="font-medium leading-20px mb-2">Счет</p>
+          <mat-form-field appearance="outline" class="payment-select w-full">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select formControlName="businessAccount" disableRipple placeholder="Выберите счет">
+              @for (account of accounts ; track account){
+                <mat-option [value]="account.altAcctId">{{account.altAcctId}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="text-end mt-4">
+        <button
+          type="submit"
+          [disabled]="withCardForm.invalid"
+          [ngClass]="withCardForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+          class="w-[194px] h-10 rounded-xl border-1px bg-secondary text-white font-medium">
+          Подтвердить
+        </button>
+      </div>
+    </form>
+
+
+      }
+    }
+
+
+  </div>
+</div>

@@ -1,0 +1,14 @@
+@let tPath = path();
+@let tSize = size();
+@let tSvgClass = svgClass();
+
+<svg
+  fill-rule="evenodd"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+  [style.width.px]="tSize"
+  [style.height.px]="tSize"
+  class="block"
+  [ngClass]="tSvgClass">
+  <path [attr.d]="tPath"/>
+</svg>

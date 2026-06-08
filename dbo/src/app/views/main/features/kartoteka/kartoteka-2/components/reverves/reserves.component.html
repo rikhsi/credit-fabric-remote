@@ -1,0 +1,152 @@
+<div class=" pt-6 pb-3">
+  <div class="flex">
+
+    <div class="flex w-full overflow-x-auto kartoteka-2-scroll pb-1" style="">
+
+
+      <div *ngIf="kartoteka2Store.isReservationLoading()" class="w-[500px] bg-white rounded-[28px] p-8 h-[184px] border border-gray-50 animate-pulse">
+        <div class="flex justify-between mb-6">
+          <div class="h-6 w-24 bg-gray-100 rounded"></div>
+          <div class="h-6 w-32 bg-gray-100 rounded"></div>
+        </div>
+        <div class="h-2 w-full bg-gray-50 rounded-full mb-6"></div>
+        <div class="space-y-3">
+          <div class="h-3 w-full bg-gray-50 rounded"></div>
+          <div class="h-3 w-2/3 bg-gray-50 rounded"></div>
+        </div>
+      </div>
+        <div *ngIf="!kartoteka2Store.isReservationLoading()" class="flex gap-4">
+          @if (kartoteka2Store.reservationContent().length > 0) {
+            @for (item of kartoteka2Store.reservationContent().slice(0, 1); track item.reserveId) {
+              <div class="w-[503px] 2xl:w-[533px] flex items-center overflow-hidden">
+
+                <div [ngClass]="{'w-[396px] 2xl:w-[416px]': kartoteka2Store.reservationContent().length > 1, 'w-[503px] 2xl:w-[533px]': kartoteka2Store.reservationContent().length <= 1}" class="h-[196px] z-10 bg-white border shadow-sm overflow-hidden rounded-[28px] snap-y snap-mandatory scroll-smooth custom-scrollbar">
+                  <div  class="h-[196px] p-[20px] snap-start border-b border-gray-50 last:border-0 dark:bg-[#262626]" (click)="$event.stopPropagation(); openBronDetails(item)">
+                    <app-reserve-card
+                      typeReserve="bron"
+                      accountLabel="Сумма бронирования"
+                      [issue]="item.BronToPay"
+                      [sumNeedPay]="item.sumReserved"
+                      [sumNeed]="item.sumDoc"
+                      [clAcc]="item.clAccount">
+                    </app-reserve-card>
+                  </div>
+                </div>
+                <div *ngIf="kartoteka2Store.reservationContent().length > 1" class="h-[196px] ml-[-20px] pr-[10px] pl-[30px] rounded-r-[28px] border shadow-sm w-[137px] py-[20px] flex justify-between flex-col snap-start items-center bg-[#FFF9E6]">
+                  <div class="flex flex-col gap-1 items-start">
+                    <img width="14" height="14" src="./assets/new-icons/kartoteka-2.svg" alt="">
+                    <p class="text-[14px] font-bold text-[#171717]">{{ kartoteka2Store.reservationContent().length - 1 }} брони</p>
+                    <span class="text-[12px] text-[#8C8C8C]">в ожидании</span>
+                  </div>
+
+                  <button (click)="openBronList()" class="text-[12px] font-medium text-[#171717] flex items-center gap-1 hover:opacity-70 transition-opacity">
+                    Перейти
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 18L15 12L9 6" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+
+              </div>
+            }
+          } @else {
+            <div class="w-[503px] 2xl:w-[533px] flex items-center overflow-hidden">
+
+              <div [ngClass]="{'w-[396px] 2xl:w-[416px]': kartoteka2Store.reservationContent().length > 1, 'w-[503px] 2xl:w-[533px]': kartoteka2Store.reservationContent().length <= 1}" class="h-[196px] z-10 bg-white border shadow-sm overflow-hidden rounded-[28px] snap-y snap-mandatory scroll-smooth custom-scrollbar">
+                <div  class="h-[196px] p-[20px] snap-start border-b border-gray-50 last:border-0 dark:bg-[#262626]">
+                  <app-reserve-card
+                    typeReserve="bron"
+                    accountLabel="Сумма бронирования"
+                    [issue]="0"
+                    [sumNeedPay]="0"
+                    [sumNeed]="0"
+                    [clAcc]="''">
+                  </app-reserve-card>
+                </div>
+              </div>
+              <div *ngIf="kartoteka2Store.reservationContent().length > 1" class="h-[196px] ml-[-20px] pr-[10px] pl-[30px] rounded-r-[28px] border shadow-sm w-[137px] py-[20px] flex justify-between flex-col snap-start items-center bg-[#FFF9E6]">
+                <div class="flex flex-col gap-1 items-start">
+                  <img width="14" height="14" src="./assets/new-icons/kartoteka-2.svg" alt="">
+                  <p class="text-[14px] font-bold text-[#171717]">{{ kartoteka2Store.reservationContent().length - 1 }} брони</p>
+                  <span class="text-[12px] text-[#8C8C8C]">в ожидании</span>
+                </div>
+
+                <button (click)="openBronList()" class="text-[12px] font-medium text-[#171717] flex items-center gap-1 hover:opacity-70 transition-opacity">
+                  Перейти
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
+            </div>
+          }
+        </div>
+
+        <div *ngIf="kartoteka2Store.isNeedsLoading()" class="w-[500px] ml-4 bg-white rounded-[28px] p-8 h-[184px] border border-gray-50 animate-pulse">
+          <div class="flex justify-between mb-6">
+            <div class="h-6 w-24 bg-gray-100 rounded"></div>
+            <div class="h-6 w-32 bg-gray-100 rounded"></div>
+          </div>
+          <div class="h-2 w-full bg-gray-50 rounded-full mb-6"></div>
+          <div class="space-y-3">
+            <div class="h-3 w-full bg-gray-50 rounded"></div>
+            <div class="h-3 w-2/3 bg-gray-50 rounded"></div>
+          </div>
+        </div>
+
+        <div  *ngIf="!kartoteka2Store.isNeedsLoading()"  class="ml-4 rounded-[28px]  shadow-sm">
+          <div *ngIf="kartoteka2Store.needsContent().length > 0"  class="h-[184px] snap-y snap-mandatory scroll-smooth custom-scrollbar">
+            @for (item of kartoteka2Store.needsContent().slice(0, 1); track item.neotlId) {
+              <div class="w-[503px] 2xl:w-[533px]  h-[196px] p-[20px] snap-start flex flex-col justify-center border-b border-gray-50 last:border-0 dark:bg-[#262626] dark:rounded-[25px] dark:border dark:border-white" (click)="openNeedsDetails(item)">
+                <app-reserve-card
+                  title="Доступно"
+                  typeReserve="neotlojka"
+                  accountLabel="Сумма на неотложные нужды"
+                  [issue]="item.issue"
+                  [sumNeedPay]="item.sumNeedPay"
+                  [sumNeed]="item.sumNeed"
+                  [clAcc]="item.clAcc">
+                </app-reserve-card>
+              </div>
+            }
+          </div>
+          <div *ngIf="kartoteka2Store.needsContent().length === 0" class="w-[503px] 2xl:w-[533px]  flex items-center overflow-hidden">
+
+            <div [ngClass]="{'w-[396px] 2xl:w-[416px]': kartoteka2Store.needsContent().length > 1, 'w-[503px] 2xl:w-[533px] ': kartoteka2Store.needsContent().length <= 1}" class="h-[196px] z-10 bg-white border shadow-sm overflow-hidden rounded-[28px] snap-y snap-mandatory scroll-smooth custom-scrollbar">
+              <div  class="h-[196px] p-[20px] snap-start border-b border-gray-50 last:border-0 dark:bg-[#262626]">
+                <app-reserve-card
+                  typeReserve="neotlojka"
+                  accountLabel="Сумма на неотложные нужды"
+                  [issue]="0"
+                  [sumNeedPay]="0"
+                  [sumNeed]="0"
+                  [clAcc]="''">
+                </app-reserve-card>
+              </div>
+            </div>
+            <div *ngIf="kartoteka2Store.needsContent().length > 1" class="h-[196px] ml-[-20px] pr-[10px] pl-[30px] rounded-r-[28px] border shadow-sm w-[137px] py-[20px] flex justify-between flex-col snap-start items-center bg-[#FFF9E6]">
+              <div class="flex flex-col gap-1 items-start">
+                <img width="14" height="14" src="./assets/new-icons/kartoteka-2.svg" alt="">
+                <p class="text-[14px] font-bold text-[#171717]">{{ kartoteka2Store.needsContent().length - 1 }} брони</p>
+                <span class="text-[12px] text-[#8C8C8C]">в ожидании</span>
+              </div>
+
+              <button (click)="openBronList()" class="text-[12px] font-medium text-[#171717] flex items-center gap-1 hover:opacity-70 transition-opacity">
+                Перейти
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 18L15 12L9 6" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+
+
+
+
+  </div>
+</div>

@@ -1,0 +1,171 @@
+<div class=" bg-white relative h-full">
+  <div class="px-[120px] w-full h-full flex flex-col">
+    <div class="flex flex-1 flex-col items-center">
+      <div class="h-[100px] flex justify-between w-full">
+        <img src='./assets/new-icons/logo-auth.svg' width="128" height="40" alt="">
+        <div class="flex items-center gap-[20px]">
+          <div class="flex items-center gap-2">
+            <img src="./assets/new-icons/instuction.svg" alt="">
+            <span class="text-[#5C5C5C]">{{ 'authorization.instruction' | translate }}</span>
+          </div>
+          <div (click)="sendPhoneEvent()" class="flex items-center gap-2">
+            <img src="./assets/new-icons/phone.svg" alt="">
+            <span class="text-[#5C5C5C]">1809</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="./assets/new-icons/telegram.svg" alt="">
+            <span class="text-[#5C5C5C]">{{ 'authorization.write_to_telegram' | translate }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex w-[80%] mx-auto flex-col text-start">
+        <div (click)="this.router.navigate(['/auth'])" class="flex cursor-pointer mb-8 gap-2 items-center w-full">
+          <img src="./assets/icons/back-icon.png" alt="">
+          <p>{{ ('authorization.back' | translate) }}</p>
+        </div>
+        <div class="flex flex-col text-start">
+          <h3 class="text-[#171717] text-[32px] font-bold leading-[40px]">Инструкция</h3>
+          <h3 class="text-[#171717] text-[32px] font-bold leading-[40px]">
+            по установке «Интернет Банкинг»</h3>
+        </div>
+        <div class="flex gap-12 items-start mt-8 w-full">
+          <div class="flex flex-col gap-8">
+            <h3 class="text-[#00A38D] text-[17px] w-[291px] font-semibold leading-[20px]">Установка программы в
+              автоматическом режиме</h3>
+            <h3 class="text-[#00A38D] text-[17px] w-[261px] font-semibold leading-[20px]">Установка программы
+              в ручном режиме</h3>
+            <h3 class="text-[#00A38D] text-[17px] w-[291px] font-semibold leading-[20px]">Установка программы
+              в ручном режиме (Вертуал токен)</h3>
+            <h3 class="text-[#00A38D] text-[17px] font-semibold leading-[20px]">Видео-гайды</h3>
+          </div>
+          <div class="flex flex-col w-full gap-12">
+            <div class="flex flex-col w-full">
+              <div class="flex w-full justify-between items-center mb-8">
+                <div class="flex gap-3 items-center">
+                  <img src="./assets/new-icons/download.svg" alt="">
+                  <p class="text-[22px] leading-[22px] font-bold">Установка программы <b class="text-[#00A38D]">(Авто
+                    режим)</b></p>
+                </div>
+                <img class="w-[20px] h-[20px]" src="./assets/new-icons/down-icon.svg" alt="">
+              </div>
+              <div class="flex flex-col gap-14 mx-6 mb-8">
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">1</span>
+                  <p class="w-[388px]"><b class="text-[#00A38D] font-medium">Если у вас установлены Rainbow ikey driver
+                    3 versiya то удалите.</b> (Панель управления > Установка и удаление программ). Затем перезагрузить
+                    компьютер!</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px]  rounded-[8px]">2</span>
+                  <p class="w-[388px]">Если у Вас не установлен
+                    Microsoft Net Framework 4.5.2
+                    <b class="text-[#00A38D] font-medium">Установите (Снизу ссылка на скачивание)</b>
+                    (Microsoft .NET Framework_4.5.2).</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">3</span>
+                  <p class="w-[388px]">Если у Вас не установлен
+                    Microsoft Net Framework 4.8.0
+                    <b class="text-[#00A38D] font-medium">Установите (Снизу ссылка на скачивание)</b>
+                    (Microsoft .NET Framework_4.8.0).</p>
+                </div>
+              </div>
+              <a class="text-[#007AFF] mb-2 underline">Microsoft .NET Framework_4.5.2.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">Microsoft .NET Framework_4.8.0.exe </a>
+            </div>
+            <div class="flex flex-col w-full">
+              <div class="flex w-full justify-between items-center mb-8">
+                <div class="flex gap-3 items-center">
+                  <img src="./assets/new-icons/download.svg" alt="">
+                  <p class="text-[22px] leading-[22px] font-bold">Установка программы <b class="text-[#00A38D]">(Ручной
+                    режим)</b></p>
+                </div>
+                <img class="w-[20px] h-[20px]" src="./assets/new-icons/down-icon.svg" alt="">
+              </div>
+              <div class="flex flex-col gap-14 mx-6 mb-8">
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">1</span>
+                  <p class="w-[234px]">Скачать драйвер
+                    для ключа ePass.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px]  rounded-[8px]">2</span>
+                  <p class="w-[234px]">Скачать StyxClient 2.7.5
+                    для х64 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">3</span>
+                  <p class="w-[250px]">Скачать StyxCNG-install-1.0.0.17
+                    для x64\x32 разрядного ОС.</p>
+                </div>
+              </div>
+              <a class="text-[#007AFF] mb-2 underline">ePass.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">StyxClient 2.7.5.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">StyxCNG-install-1.0.0.17.exe</a>
+            </div>
+            <div class="flex flex-col w-full">
+              <div class="flex w-full justify-between items-center mb-8">
+                <div class="flex gap-3 items-center">
+                  <img src="./assets/new-icons/download.svg" alt="">
+                  <p class="text-[22px] leading-[22px] font-bold">Установка программы <b class="text-[#00A38D]">(Ручной
+                    режим)</b></p>
+                </div>
+                <img class="w-[20px] h-[20px]" src="./assets/new-icons/down-icon.svg" alt="">
+              </div>
+              <div class="flex flex-col gap-14 mx-6 mb-8">
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">1</span>
+                  <p class="w-[388px]">Скачать StyxClient-install-(ePass+Virtual)-3.6.5
+                    для х64 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px]  rounded-[8px]">2</span>
+                  <p class="w-[388px]">Скачать StyxClient-install-4.0.3(Windows 11)
+                    для x64\x32 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">3</span>
+                  <p class="w-[388px]">Скачать StyxCNG-install-1.0.0.18
+                    для x64\x32 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">4</span>
+                  <p class="w-[388px]">Скачать Redistributable-2015-2022-X86
+                    для x64\x32 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">5</span>
+                  <p class="w-[288px]">Скачать VC_redist.x64
+                    для x64 разрядного ОС.</p>
+                </div>
+                <div class="flex gap-3 items-start">
+                  <span
+                    class="text-[#171717] text-[16px] font-medium bg-[#F5F5F5] px-[12px] py-[6px] rounded-[8px]">6</span>
+                  <p class="w-[288px]">Скачать VC_redist.x86
+                    для x86 азрядного ОС.</p>
+                </div>
+              </div>
+              <a class="text-[#007AFF] mb-2 underline">StyxClient-install-(ePass+Virtual)-3.6.5 (2).exe</a>
+              <a class="text-[#007AFF] mb-2 underline">StyxClient-install-4.0.3(Windows 11).exe</a>
+              <a class="text-[#007AFF] mb-2 underline">StyxCNG-install-1.0.0.18.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">Redistributable-2015-2022-X86.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">VC_redist.x64.exe</a>
+              <a class="text-[#007AFF] mb-2 underline">VC_redist.x86.exe</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

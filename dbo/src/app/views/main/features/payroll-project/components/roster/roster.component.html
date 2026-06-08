@@ -1,0 +1,154 @@
+<div>
+  @for (tab of tabs; track tab.value) {
+    <button
+      class="font-semibold leading-5 text-[18px] px-[15px] py-[10px] rounded-[14px] border transition-all"
+      [ngClass]="{
+      'bg-surface-2 border-custom-border text-custom-primary': tab.active,
+      'bg-transparent border-transparent text-custom-secondary': !tab.active
+        }"
+    (click)="changeTab(tab.value)">
+      {{ tab.label | translate }}
+      <span *ngIf="tab.value === 'autoPay'" class="bg-primary-base text-white rounded-full text-[12px] px-[6px] py-[3px] leading-none ml-2">{{ autoPayCount() }}</span>
+    </button>
+  }
+</div>
+
+<div class="bg-surface-2 rounded-3xl mt-9">
+  <div class="px-6 py-5">
+    <app-table-filters
+      [filterConfig]="filterConfig()"
+      [showFilterDialog]="true"
+      (valueChange)="changeFilters($event)">
+    </app-table-filters>
+  </div>
+
+  <app-data-state-wrapper
+    [loading]="isLoading()"
+    [totalLength]="grouped().length"
+    emptyTitle="Ничего не найдено"
+    emptyDescription="Попробуйте изменить параметры запроса">
+
+    <div infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()">
+      @for (group of grouped(); track group[0]) {
+        <div class="bg-surface-1 px-6 py-2 text-custom-primary font-semibold text-lg leading-6">{{ group[0] }}</div>
+        @for (transaction of group[1]; track transaction.id) {
+          <div class="relative grid grid-cols-[200px_1fr_104px_24px] gap-2 px-6 py-3 cursor-pointer hover:bg-surface-1">
+            <a class="absolute inset-0" [routerLink]="[transaction.id]"></a>
+            <div class="flex flex-col justify-center">
+              <p class="text-sm text-custom-primary font-bold leading-6">
+                {{ transaction.senderAmount.amount > 0 ? '-' : '' }}
+                {{ (transaction.senderAmount.amount / 100).toFixed(2) | mask:'separator.2' }}
+                {{ transaction.senderAmount.currency }}
+              </p>
+
+              <div class="flex items-center gap-1">
+                @if (transaction.statusLogo?.path) {
+                  <div class="w-6 h-6 bg-surface-1 rounded-lg p-[6px]">
+                    <img
+                      [ngSrc]="transaction.statusLogo.path + transaction.statusLogo.name"
+                      [alt]="transaction.statusLogo.name"
+                      width="12"
+                      height="12">
+                  </div>
+                }
+
+                <p class="text-xs text-custom-secondary font-medium">{{ transaction.statusNameFront }}</p>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center gap-[6px]">
+                @if (transaction.sender?.icon?.path) {
+                  <div class="w-6 h-6 bg-surface-1 rounded-lg p-[6px]">
+                    <img
+                      [ngSrc]="transaction.sender.icon.path + transaction.sender.icon.name"
+                      [alt]="transaction.sender.icon.name"
+                      width="12"
+                      height="12">
+                  </div>
+                }
+
+                <p class="text-custom-primary font-medium">№ {{ transaction.additionalInfo.contractNumber }}</p>
+              </div>
+
+              <p class="text-sm text-custom-secondary leading-6">{{ transaction.description }}</p>
+
+              <p class="text-sm text-custom-secondary leading-6">
+                @if (transaction.docDate) {
+                  {{ transaction.docDate }},
+                }
+                @if (transaction.docNum) {
+                  №{{ transaction.docNum }}
+                }
+              </p>
+            </div>
+
+            <div class="flex justify-center items-center">
+              @if (transaction.canUserSign) {
+                <button (click)="onSubAction(transaction)"
+                        class="flex gap-1 bg-[#00A38D] items-center px-2 rounded-[8px] h-[24px] relative z-10">
+                  <img width="12" height="12" src="./assets/new-icons/sign-icon.svg" alt="">
+                  <p class="text-white text-[12px] font-semibold">{{ 'salaryStatements.sign' | translate }}</p>
+                </button>
+              }
+            </div>
+
+            <div
+              class="flex items-center justify-center relative z-10 min-h-7 min-w-7"
+              [matMenuTriggerFor]="this.userService.hasAction('SALARY') ? menu : null"
+              [matTooltip]="this.userService.hasAction('SALARY') ? '' : 'У вас нет прав'"
+              [style.user-select]="this.userService.hasAction('SALARY') ? '' : 'none'"
+              [style.opacity]="this.userService.hasAction('SALARY') ? '1' : '0.3'"
+              [style.cursor]="this.userService.hasAction('SALARY') ? 'pointer' : 'not-allowed'"
+            >
+              <app-icon icon="dotsVertical" size="24" svgClass="fill-custom-primary"></app-icon>
+            </div>
+          </div>
+
+          <mat-menu #menu="matMenu" class="menu-actions">
+            <div *ngIf="['PREPARE', 'AUTO_PAY'].includes(transaction.status)"
+                 class="group flex gap-2 p-[6px] rounded-md hover:bg-surface-1 cursor-pointer"
+                 [routerLink]="[transaction.id, 'edit']">
+
+              <app-icon icon="edit02" size="20" svgClass="fill-custom-primary group-hover:fill-[#00A38D]"></app-icon>
+
+              <div class="text-custom-primary text-sm font-medium leading-5">{{ 'salaryStatements.edit' | translate }}</div>
+            </div>
+
+            <div *ngIf="['PREPARE', 'AUTO_PAY', 'IN_PROCESS', 'SUCCESS', 'PARTIAL_SUCCESS'].includes(transaction.status)"
+                 class="group flex gap-2 p-[6px] rounded-md hover:bg-surface-1 cursor-pointer"
+                 (click)="repeatFunc(transaction.id)">
+
+              <app-icon icon="refreshCw01" size="20" svgClass="fill-custom-primary group-hover:fill-[#00A38D]"></app-icon>
+
+              <div class="text-custom-primary text-sm font-medium leading-5">{{ 'accountStatements.retry' | translate }}
+              </div>
+            </div>
+
+            <div
+              *ngIf="transaction.status !== 'DELETED'"
+              class="group flex gap-2 p-[6px] rounded-md hover:bg-surface-1 cursor-pointer"
+              (click)="['SUCCESS', 'PARTIAL_SUCCESS'].includes(transaction.status) ? downloadPdf(transaction) : download(transaction)">
+
+              <app-icon icon="arrowCircleDown" size="20"
+                        svgClass="fill-custom-primary group-hover:fill-[#00A38D]"></app-icon>
+
+              <div class="text-custom-primary text-sm font-medium leading-5">{{ 'accountStatements.download' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="['PREPARE', 'AUTO_PAY'].includes(transaction.status)"
+                 class="group flex gap-2 p-[6px] rounded-md hover:bg-surface-1 cursor-pointer"
+                 (click)="cancelTransactions(transaction.id)">
+
+              <app-icon icon="xClose" size="20" svgClass="fill-custom-primary group-hover:fill-[#00A38D]"></app-icon>
+
+              <div class="text-custom-primary text-sm font-medium leading-5">{{ 'salaryStatements.delete' | translate }}
+              </div>
+            </div>
+          </mat-menu>
+        }
+      }
+    </div>
+  </app-data-state-wrapper>
+</div>

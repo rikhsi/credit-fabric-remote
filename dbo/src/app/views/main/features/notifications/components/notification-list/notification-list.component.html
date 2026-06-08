@@ -1,0 +1,55 @@
+<div class="p-6 bg-white rounded-xl h-full flex flex-col gap-y-4 relative">
+  <div class="text-[22px] font-medium">Новости и уведомления</div>
+
+  <div class="flex justify-between items-center gap-x-5">
+    <div class="flex gap-x-2.5 h-[40px] p-[5px] rounded-[8px] bg-[#EFF4F9] text-[14px] text-[#8B97A2]">
+      @for (tab of tabs; track tab) {
+        <div
+          [routerLink]="['/notification', 'list']"
+          [queryParams]="{ tab: tab.value }"
+          routerLinkActive="!bg-[#264796] text-white"
+          class="cursor-pointer h-[30px] px-2.5 py-[5px] rounded-[5px]"
+        >{{ tab?.title }}</div>
+      }
+    </div>
+
+    <button
+      (click)="readAll()"
+      class="px-5 py-2.5 text-center text-sm text-white bg-[#264796] h-[40px] rounded-[5px] leading-[16px]">
+      Прочитать все
+    </button>
+  </div>
+
+
+
+  @if (isLoading) {
+    <div class="grid auto-rows-fr grid-cols-autofill-335 gap-4">
+      @for (item of [].constructor(10).fill(0); track item) {
+        <span
+          class="skeleton flex items-stretch h-[144px] rounded-xl"
+        ></span>
+      }
+    </div>
+  }
+<div class="rounded-xl w-full overflow-x-scroll">
+  @if (!isLoading && notificationList.length !== 0) {
+    <div class="grid auto-rows-fr grid-cols-autofill-335 gap-4">
+      @for (item of notificationList; track item) {
+        <app-notification-item
+          class="flex items-stretch" [notification]="item"
+        ></app-notification-item>
+      }
+    </div>
+
+  }
+
+</div>
+
+  <app-paginator
+    [itemsPerPage]="pageSize"
+    [currentPage]="pageIndex + 1"
+    [totalItems]="totalItems"
+    (pageChange)="pageChanged($event)"
+  ></app-paginator>
+
+</div>

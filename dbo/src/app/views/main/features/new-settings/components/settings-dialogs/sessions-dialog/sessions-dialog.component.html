@@ -1,0 +1,264 @@
+<div class="bg-white rounded-[22px] border border-[#EBEBEB] h-full flex flex-col setting-dark-light-box">
+  <div class="flex justify-between items-center px-[30px] py-5">
+    <span class="text-[18px] font-semibold leading-5 py-4">{{'new_second.trusted_devices' | translate}}</span>
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[30px]
+             rounded-[6px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+  </div>
+  <mat-divider/>
+  <div class="content-box overflow-y-auto py-[10px]">
+
+    <div *ngIf="data?.devices?.length; else noDevices">
+      @if (currentDevice()?.length) {
+        <div class="font-semibold text-sm mb-4 px-5">Текущее устройство</div>
+        <div *ngFor="let device of currentDevice()" class="px-5 pb-[10px]  flex flex-col">
+          <div class="p-5 flex justify-between border border-[#ebebeb] rounded-[17px] items-center">
+            <div class="flex items-center">
+              <div class="border w-12 h-12 bg-[#f7f7f7] rounded-3xl flex items-center justify-center dark:border-[#333]">
+                @if (device?.deviceType ==='WEB') {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 16V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V16H15.6627C15.4182 16 15.2959 16 15.1808 16.0276C15.0787 16.0521 14.9812 16.0925 14.8917 16.1474C14.7908 16.2092 14.7043 16.2957 14.5314 16.4686L14.4686 16.5314C14.2957 16.7043 14.2092 16.7908 14.1083 16.8526C14.0188 16.9075 13.9213 16.9479 13.8192 16.9724C13.7041 17 13.5818 17 13.3373 17H10.6627C10.4182 17 10.2959 17 10.1808 16.9724C10.0787 16.9479 9.98119 16.9075 9.89172 16.8526C9.7908 16.7908 9.70432 16.7043 9.53137 16.5314L9.46863 16.4686C9.29568 16.2957 9.2092 16.2092 9.10828 16.1474C9.01881 16.0925 8.92127 16.0521 8.81923 16.0276C8.70414 16 8.58185 16 8.33726 16H3ZM3 16C2.44772 16 2 16.4477 2 17V17.3333C2 17.9533 2 18.2633 2.06815 18.5176C2.25308 19.2078 2.79218 19.7469 3.48236 19.9319C3.7367 20 4.04669 20 4.66667 20H19.3333C19.9533 20 20.2633 20 20.5176 19.9319C21.2078 19.7469 21.7469 19.2078 21.9319 18.5176C22 18.2633 22 17.9533 22 17.3333C22 17.0233 22 16.8683 21.9659 16.7412C21.8735 16.3961 21.6039 16.1265 21.2588 16.0341C21.1317 16 20.9767 16 20.6667 16H20" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                } @else if (device?.deviceType ==='ANDROID'){
+                  <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.1517 12.5H1.25122C1.75272 7.4465 6.01622 3.5 11.2012 3.5C16.3872 3.5 20.6502 7.4465 21.1517 12.5Z" stroke="#5C5C5C" stroke-width="2" stroke-linejoin="round" />
+                    <path d="M6.20117 4.5L4.20117 1M15.7012 4.5L17.7012 1" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M6.70117 10C7.25346 10 7.70117 9.55228 7.70117 9C7.70117 8.44772 7.25346 8 6.70117 8C6.14889 8 5.70117 8.44772 5.70117 9C5.70117 9.55228 6.14889 10 6.70117 10Z" fill="#5C5C5C" />
+                    <path d="M15.7012 10C16.2535 10 16.7012 9.55228 16.7012 9C16.7012 8.44772 16.2535 8 15.7012 8C15.1489 8 14.7012 8.44772 14.7012 9C14.7012 9.55228 15.1489 10 15.7012 10Z" fill="#5C5C5C" />
+                  </svg>
+                }
+                @else if (device?.deviceType ==='IOS'){
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5.75C12 3.75 13.5 1.75 15.5 1.75C15.5 3.75 14 5.75 12 5.75ZM12.5 8.09C11.985 8.09 11.587 7.926 11.141 7.744C10.578 7.512 9.939 7.25 8.893 7.25C7.023 7.25 4 8.75 4 12.75C4 17.402 7.105 22.25 9.105 22.25C9.775 22.25 10.377 21.987 10.954 21.736C11.481 21.506 11.987 21.286 12.5 21.286C13.013 21.286 13.518 21.506 14.046 21.736C14.623 21.987 15.226 22.25 15.896 22.25C17.288 22.25 18.957 19.9 20 16.9C18.38 16.22 17.338 14.618 17.338 12.75C17.338 11.121 18.204 10.04 19.5 9.25C18.5 7.75 17.013 7.25 15.945 7.25C14.899 7.25 14.26 7.512 13.697 7.744C13.251 7.926 13.015 8.09 12.5 8.09Z" stroke="#5C5C5C" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                }
+              </div>
+              <div class="pl-4" >
+                <div class="font-semibold text-sm">{{device?.deviceModel || 'new.unknown' | translate}}</div>
+                <div>
+
+                  <!--                @if (!device?.current) {-->
+                  <!--                  <span class="text-xs font-normal text-[#5c5c5c]" >Неактивный</span>-->
+
+                  <!--                } @else {-->
+                  <!--                  <span class="text-xs font-normal text-[#00a38d]" >Активный</span>-->
+                  <!--                }-->
+<!--                  <span class="text-xs font-normal text-[#00a38d]" > {{'loans.active' | translate}} </span>-->
+<!--                  <span class="text-sm font-normal text-[#a3a3a3] ml-1"></span>-->
+                </div>
+
+                                @if (device?.online) {
+                                  <div class="text-xs font-semibold text-[#00a38d]"> {{'settings.in_use' | translate}} </div>
+
+                                } @else {
+                                  <div class="text-xs font-normal text-[#5c5c5c]">{{formatRussianDate(device.lastLogin)}}</div>
+                                }
+                               <div class="text-xs font-normal text-[#5c5c5c] mt-1">{{device?.ipAddress}}</div>
+              </div>
+            </div>
+
+            <!--          <img  (click)="deleteSessionlDialog(device?.uuid || null, dialogDeleteTemplate)" class="cursor-pointer" ngSrc="./assets/svg/log-out.svg" alt="settings" width="44" height="44">-->
+<!--            <div  (click)="deleteSessionlDialog(device?.uuid || null, dialogDeleteTemplate)"  class="w-[44px] h-[44px] cursor-pointer dark-box">-->
+<!--           <span class="need">-->
+<!--             <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--              <g id="log-out">-->
+<!--                <path id="Vector" d="M19 31H15C14.4696 31 13.9609 30.7893 13.5858 30.4142C13.2107 30.0391 13 29.5304 13 29V15C13 14.4696 13.2107 13.9609 13.5858 13.5858C13.9609 13.2107 14.4696 13 15 13H19" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                <path id="Vector_2" d="M26 27L31 22L26 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                <path id="Vector_3" d="M31 22H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--              </g>-->
+<!--            </svg>-->
+<!--           </span>-->
+
+<!--            </div>-->
+          </div>
+        </div>
+
+      }
+      @if (otherDevice()?.length) {
+        <div class="font-semibold text-sm  mb-4 px-5">Другие устройства</div>
+        <div *ngFor="let device of otherDevice()" class="px-5 pb-[10px] flex flex-col">
+          <div class="p-5 flex justify-between border border-[#ebebeb] rounded-[17px] items-center">
+            <div class="flex items-center">
+              <div class="border w-12 h-12 bg-[#f7f7f7] rounded-3xl flex items-center justify-center dark:border-[#333]">
+                @if (device?.deviceType ==='WEB') {
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 16V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V16H15.6627C15.4182 16 15.2959 16 15.1808 16.0276C15.0787 16.0521 14.9812 16.0925 14.8917 16.1474C14.7908 16.2092 14.7043 16.2957 14.5314 16.4686L14.4686 16.5314C14.2957 16.7043 14.2092 16.7908 14.1083 16.8526C14.0188 16.9075 13.9213 16.9479 13.8192 16.9724C13.7041 17 13.5818 17 13.3373 17H10.6627C10.4182 17 10.2959 17 10.1808 16.9724C10.0787 16.9479 9.98119 16.9075 9.89172 16.8526C9.7908 16.7908 9.70432 16.7043 9.53137 16.5314L9.46863 16.4686C9.29568 16.2957 9.2092 16.2092 9.10828 16.1474C9.01881 16.0925 8.92127 16.0521 8.81923 16.0276C8.70414 16 8.58185 16 8.33726 16H3ZM3 16C2.44772 16 2 16.4477 2 17V17.3333C2 17.9533 2 18.2633 2.06815 18.5176C2.25308 19.2078 2.79218 19.7469 3.48236 19.9319C3.7367 20 4.04669 20 4.66667 20H19.3333C19.9533 20 20.2633 20 20.5176 19.9319C21.2078 19.7469 21.7469 19.2078 21.9319 18.5176C22 18.2633 22 17.9533 22 17.3333C22 17.0233 22 16.8683 21.9659 16.7412C21.8735 16.3961 21.6039 16.1265 21.2588 16.0341C21.1317 16 20.9767 16 20.6667 16H20" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                } @else if (device?.deviceType ==='ANDROID'){
+                  <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.1517 12.5H1.25122C1.75272 7.4465 6.01622 3.5 11.2012 3.5C16.3872 3.5 20.6502 7.4465 21.1517 12.5Z" stroke="#5C5C5C" stroke-width="2" stroke-linejoin="round" />
+                    <path d="M6.20117 4.5L4.20117 1M15.7012 4.5L17.7012 1" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M6.70117 10C7.25346 10 7.70117 9.55228 7.70117 9C7.70117 8.44772 7.25346 8 6.70117 8C6.14889 8 5.70117 8.44772 5.70117 9C5.70117 9.55228 6.14889 10 6.70117 10Z" fill="#5C5C5C" />
+                    <path d="M15.7012 10C16.2535 10 16.7012 9.55228 16.7012 9C16.7012 8.44772 16.2535 8 15.7012 8C15.1489 8 14.7012 8.44772 14.7012 9C14.7012 9.55228 15.1489 10 15.7012 10Z" fill="#5C5C5C" />
+                  </svg>
+                }
+                @else if (device?.deviceType ==='IOS'){
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5.75C12 3.75 13.5 1.75 15.5 1.75C15.5 3.75 14 5.75 12 5.75ZM12.5 8.09C11.985 8.09 11.587 7.926 11.141 7.744C10.578 7.512 9.939 7.25 8.893 7.25C7.023 7.25 4 8.75 4 12.75C4 17.402 7.105 22.25 9.105 22.25C9.775 22.25 10.377 21.987 10.954 21.736C11.481 21.506 11.987 21.286 12.5 21.286C13.013 21.286 13.518 21.506 14.046 21.736C14.623 21.987 15.226 22.25 15.896 22.25C17.288 22.25 18.957 19.9 20 16.9C18.38 16.22 17.338 14.618 17.338 12.75C17.338 11.121 18.204 10.04 19.5 9.25C18.5 7.75 17.013 7.25 15.945 7.25C14.899 7.25 14.26 7.512 13.697 7.744C13.251 7.926 13.015 8.09 12.5 8.09Z" stroke="#5C5C5C" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                }
+              </div>
+              <div class="pl-4" >
+                <div class="font-semibold text-sm">{{device?.deviceModel || 'new.unknown' | translate}}</div>
+                <div>
+
+                  <!--                @if (!device?.current) {-->
+                  <!--                  <span class="text-xs font-normal text-[#5c5c5c]" >Неактивный</span>-->
+
+                  <!--                } @else {-->
+                  <!--                  <span class="text-xs font-normal text-[#00a38d]" >Активный</span>-->
+                  <!--                }-->
+<!--                  <span class="text-xs font-normal text-[#00a38d]" > {{'loans.active' | translate}} </span>-->
+<!--                  <span class="text-sm font-normal text-[#a3a3a3] ml-1"></span>-->
+                </div>
+
+                @if (device?.online) {
+                  <div class="text-xs font-semibold text-[#00a38d]">  {{'settings.in_use' | translate}} </div>
+
+                } @else {
+                  <div class="text-xs font-normal text-[#5c5c5c]">{{formatRussianDate(device.lastLogin)}}</div>
+                }
+                <div class="text-xs font-normal text-[#5c5c5c] mt-1">{{device?.ipAddress}}</div>
+              </div>
+            </div>
+
+            <!--          <img  (click)="deleteSessionlDialog(device?.uuid || null, dialogDeleteTemplate)" class="cursor-pointer" ngSrc="./assets/svg/log-out.svg" alt="settings" width="44" height="44">-->
+            <div  (click)="deleteSessionlDialog(device?.uuid || null, device?.deviceModel || '', dialogDeleteTemplate)"  class="w-[44px] h-[44px] cursor-pointer dark-box">
+           <span class="need">
+             <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="log-out">
+                <path id="Vector" d="M19 31H15C14.4696 31 13.9609 30.7893 13.5858 30.4142C13.2107 30.0391 13 29.5304 13 29V15C13 14.4696 13.2107 13.9609 13.5858 13.5858C13.9609 13.2107 14.4696 13 15 13H19" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="Vector_2" d="M26 27L31 22L26 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="Vector_3" d="M31 22H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+           </span>
+
+            </div>
+          </div>
+        </div>
+
+      }
+    </div>
+    <ng-template #noDevices>
+      <div>
+        <p class="text-[16px] font-semibold leading-5 py-4 text-center text-[#171717]">{{'new.no_devices_available' | translate}}</p>
+      </div>
+    </ng-template>
+
+
+
+    <div class="h-[81px]"></div>
+
+  </div>
+  <div class="p-7 pt-4 right-0 left-0 absolute bottom-0" style="width: 100% !important; background: white">
+    <button (click)="deleteAllSessionlDialog(dialogAllDeleteTemplate)" class=" bg-[#f7f7f7] w-full text-[#171717] text-[14px] font-medium rounded-[12px] py-3 hover:bg-[#ebebeb] transition">
+      {{'new_second.session_end_warning' | translate}}
+    </button>
+  </div>
+
+
+</div>
+
+<ng-template #dialogDeleteTemplate>
+  <div style="overflow: hidden !important;"  class="setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative px-8">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[6px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class="w-full mt-2 pt-5">
+<!--      <div class="w-[57px] h-[57px] bg-gray-100 rounded-[14px] flex items-center justify-center">-->
+<!--        <img width="24" src="./assets/new-icons/alert-triangle.svg" alt="">-->
+<!--      </div>-->
+      <div class="w-[68px] h-[68px] bg-gray-100 rounded-[34px] flex items-center">
+        <!--        <img width="24" src="./assets/new-icons/alert-triangle.svg" alt="">-->
+        <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 68 68" fill="none">
+          <rect width="68" height="68" rx="34" fill="#F7F7F7"/>
+          <path d="M32.782 18.5015C33.4609 18.1997 34.2237 18.1609 34.9236 18.3873L35.2195 18.5015L35.4348 18.6099C35.9143 18.8835 36.2423 19.2846 36.4793 19.6192C36.7545 20.0078 37.0497 20.5209 37.3757 21.0841L49.7127 42.3946C50.04 42.96 50.3398 43.4729 50.5403 43.9063C50.7375 44.3325 50.9512 44.9063 50.8831 45.5601C50.7947 46.4061 50.3508 47.1752 49.6628 47.6754C49.1312 48.0618 48.5279 48.1627 48.0603 48.2056C47.5848 48.2492 46.9909 48.2481 46.3377 48.2481H21.6624C21.0093 48.2481 20.4151 48.2492 19.9397 48.2056C19.4721 48.1627 18.8687 48.0618 18.3372 47.6754C17.6494 47.1752 17.2068 46.406 17.1184 45.5601C17.0502 44.9062 17.264 44.3325 17.4612 43.9063C17.6617 43.473 17.9602 42.9598 18.2874 42.3946L30.6257 21.0841C30.9517 20.521 31.247 20.0077 31.5222 19.6192C31.7931 19.2368 32.1828 18.768 32.782 18.5015ZM33.97 21.3536C33.7932 21.6032 33.5769 21.973 33.2214 22.587L20.8845 43.8975C20.5277 44.5139 20.3133 44.8873 20.1843 45.1661C20.177 45.1819 20.1714 45.1976 20.1653 45.2115C20.1804 45.2131 20.1963 45.2172 20.2136 45.2188C20.5195 45.2469 20.9503 45.2481 21.6624 45.2481H46.3377C47.0501 45.2481 47.4804 45.2469 47.7864 45.2188C47.8037 45.2172 47.8197 45.2131 47.8347 45.2115C47.8286 45.1977 47.8244 45.1818 47.8171 45.1661C47.6882 44.8873 47.4739 44.514 47.117 43.8975L34.7786 22.587C34.4231 21.973 34.2068 21.6031 34.03 21.3536C34.02 21.3393 34.0083 21.3277 33.9993 21.3155C33.9905 21.3275 33.9798 21.3397 33.97 21.3536ZM34.0154 39.9981C34.8437 39.9981 35.5152 40.6698 35.5154 41.4981C35.5154 42.3265 34.8438 42.9981 34.0154 42.9981H34.0007C33.1723 42.9981 32.5007 42.3265 32.5007 41.4981C32.5009 40.6698 33.1724 39.9981 34.0007 39.9981H34.0154ZM32.5007 35.4981V29.4981C32.5009 28.6698 33.1724 27.9981 34.0007 27.9981C34.8289 27.9983 35.5006 28.67 35.5007 29.4981V35.4981C35.5007 36.3264 34.829 36.9979 34.0007 36.9981C33.1723 36.9981 32.5007 36.3265 32.5007 35.4981Z" fill="#171717"/>
+        </svg>
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-left text-gray-900 mb-3 leading-8">
+<!--        {{'settings.confirm_end_sessions' | translate}}-->
+        Вы действительно хотите завершить сессию на устройстве {{selectDeviceModel()}} ?
+      </h2>
+      <p class="text-gray-500 text-sm font-normal px-2 text-left leading-relaxed w-full">
+        {{'settings.session_end_warning' | translate}}
+      </p>
+    </div>
+    <div class="flex gap-2  w-full justify-between mt-6">
+      <button (click)="deleteSession()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+        {{'settings.end_session' | translate}}
+      </button>
+      <button (click)="closeDialog()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          {{'story.cancel' | translate}}
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #dialogAllDeleteTemplate>
+  <div  style="overflow: hidden !important;"  class="setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative px-8">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[6px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class="w-full mt-2 pt-5">
+<!--      <div class="w-[57px] h-[57px] bg-gray-100 rounded-[14px] flex items-center justify-center">-->
+<!--        <img width="24" src="./assets/new-icons/alert-triangle.svg" alt="">-->
+<!--      </div>-->
+      <div class="w-[68px] h-[68px] bg-gray-100 rounded-[34px] flex items-center">
+        <!--        <img width="24" src="./assets/new-icons/alert-triangle.svg" alt="">-->
+        <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 68 68" fill="none">
+          <rect width="68" height="68" rx="34" fill="#F7F7F7"/>
+          <path d="M32.782 18.5015C33.4609 18.1997 34.2237 18.1609 34.9236 18.3873L35.2195 18.5015L35.4348 18.6099C35.9143 18.8835 36.2423 19.2846 36.4793 19.6192C36.7545 20.0078 37.0497 20.5209 37.3757 21.0841L49.7127 42.3946C50.04 42.96 50.3398 43.4729 50.5403 43.9063C50.7375 44.3325 50.9512 44.9063 50.8831 45.5601C50.7947 46.4061 50.3508 47.1752 49.6628 47.6754C49.1312 48.0618 48.5279 48.1627 48.0603 48.2056C47.5848 48.2492 46.9909 48.2481 46.3377 48.2481H21.6624C21.0093 48.2481 20.4151 48.2492 19.9397 48.2056C19.4721 48.1627 18.8687 48.0618 18.3372 47.6754C17.6494 47.1752 17.2068 46.406 17.1184 45.5601C17.0502 44.9062 17.264 44.3325 17.4612 43.9063C17.6617 43.473 17.9602 42.9598 18.2874 42.3946L30.6257 21.0841C30.9517 20.521 31.247 20.0077 31.5222 19.6192C31.7931 19.2368 32.1828 18.768 32.782 18.5015ZM33.97 21.3536C33.7932 21.6032 33.5769 21.973 33.2214 22.587L20.8845 43.8975C20.5277 44.5139 20.3133 44.8873 20.1843 45.1661C20.177 45.1819 20.1714 45.1976 20.1653 45.2115C20.1804 45.2131 20.1963 45.2172 20.2136 45.2188C20.5195 45.2469 20.9503 45.2481 21.6624 45.2481H46.3377C47.0501 45.2481 47.4804 45.2469 47.7864 45.2188C47.8037 45.2172 47.8197 45.2131 47.8347 45.2115C47.8286 45.1977 47.8244 45.1818 47.8171 45.1661C47.6882 44.8873 47.4739 44.514 47.117 43.8975L34.7786 22.587C34.4231 21.973 34.2068 21.6031 34.03 21.3536C34.02 21.3393 34.0083 21.3277 33.9993 21.3155C33.9905 21.3275 33.9798 21.3397 33.97 21.3536ZM34.0154 39.9981C34.8437 39.9981 35.5152 40.6698 35.5154 41.4981C35.5154 42.3265 34.8438 42.9981 34.0154 42.9981H34.0007C33.1723 42.9981 32.5007 42.3265 32.5007 41.4981C32.5009 40.6698 33.1724 39.9981 34.0007 39.9981H34.0154ZM32.5007 35.4981V29.4981C32.5009 28.6698 33.1724 27.9981 34.0007 27.9981C34.8289 27.9983 35.5006 28.67 35.5007 29.4981V35.4981C35.5007 36.3264 34.829 36.9979 34.0007 36.9981C33.1723 36.9981 32.5007 36.3265 32.5007 35.4981Z" fill="#171717"/>
+        </svg>
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-left text-gray-900 mb-3 leading-8">
+<!--        {{'new_second.session_end_accept' | translate}}-->
+       Подтвердите завершение всех активных сессий, кроме текущей
+      </h2>
+      <p class="text-gray-500 text-sm font-normal px-2 text-left leading-relaxed w-full">
+        {{'new_second.session_end_info' | translate}}
+      </p>
+    </div>
+    <div class="flex gap-2  w-full justify-between mt-6">
+      <button (click)="deleteAllSession()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+        {{'accounts.yes' | translate}}
+      </button>
+      <button (click)="closeDialog()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          {{'templates.no' | translate}}
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+
+
+

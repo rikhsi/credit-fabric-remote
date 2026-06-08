@@ -1,0 +1,215 @@
+<div class=" mx-auto rounded-lg">
+  <div class="grid grid-cols-2 gap-8 py-8 px-5  border-b border-[#ebebeb]">
+    <div>
+      <h2 class="font-medium text-sm text-[#171717]"> {{'settings.role' | translate}}</h2>
+      <p class="font-normal text-xs text-[#5c5c5c] mt-1">{{'settings.your_role' | translate}} / {{'settings.position' | translate}}</p>
+    </div>
+    <div *ngIf="userRoles.length" class="flex items-center justify-start gap-4">
+      <button *ngFor="let role of userRoles" class="px-4 py-[5px]  border border-[#ebebeb] rounded-lg transition-colors font-medium text-sm text-[#171717]">
+        {{role?.displayName}}
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 py-8 px-5 border-b border-[#ebebeb]">
+    <div>
+      <h2 class="font-medium text-sm text-[#171717]">{{'settings.profile_photo' | translate}}</h2>
+      <p class="font-normal text-xs text-[#5c5c5c] mt-1">{{'settings.min_400x400px_png_or_jpeg_formats' | translate}}</p>
+    </div>
+    <div class="flex items-center justify-start gap-5">
+      @if (userInfoItems()?.userInfo?.avatar) {
+        <img width="56" [src]="userInfoItems()?.userInfo?.avatar" alt="Profile" class="w-14 h-14 rounded-full object-cover">
+      } @else {
+        <img width="56" src="./assets/icons/settings-user-icon.png" alt="Profile" class="w-14 h-14 rounded-full object-cover">
+      }
+      <button class="px-[9px] py-[5px] bg-white border border-[#ebebeb] rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm text-[#5C5C5C] dark:text-white">
+        {{'settings.upload' | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 py-8 px-5 border-b border-[#ebebeb]">
+    <div>
+      <h2  class="font-medium text-sm text-[#171717]">  {{'settings.full_name' | translate}}</h2>
+      <p class="text-sm text-[#5c5c5c] mt-1">{{'settings.your_full_name' | translate}}</p>
+    </div>
+    <div class="flex items-center justify-start">
+      <p class="font-medium text-sm text-[#171717]">{{userInfoItems()?.userInfo?.firstname}} {{userInfoItems()?.userInfo?.lastname}}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 py-8 px-5 border-b border-[#ebebeb]">
+    <div>
+      <h2 class="font-medium text-sm text-[#171717]">{{'settings.email' | translate}}</h2>
+      <p class="font-normal text-xs text-[#5c5c5c] mt-1">{{'settings.email_recommendation' | translate}}</p>
+    </div>
+    @if (!emailChangeShow()) {
+      <div class=" items-center justify-start gap-3">
+        <p class="font-medium text-sm text-[#171717]">{{userInfoItems()?.userInfo?.email}}</p>
+        <div class="flex items-center w-[86px] cursor-pointer  hover:text-[#008c79] text-[#008c79]">
+          @if (userInfoItems()?.userInfo?.email) {
+            <button class="cursor-pointer text-sm font-medium" (click)="emailChange()">{{'settings.change' | translate}}</button>
+          } @else {
+            <button class="cursor-pointer text-sm font-medium" (click)="emailChange()">{{'settings.add' | translate}}</button>
+          }
+          <span class="ml-[10px]">
+        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.73911 5.7448L0.0266113 2.0323L1.08711 0.971802L5.86011 5.7448L1.08711 10.5178L0.0266113 9.4573L3.73911 5.7448Z" fill="#008C79" />
+        </svg>
+        </span>
+        </div>
+      </div>
+    } @else {
+      <div class="flex items-center gap-x-3 gap-y-6  flex-wrap">
+        <div class="relative">
+          <input
+            #emailInput
+            type="email"
+            [formControl]="emailControl"
+            (keydown)="preventSpace($event)"
+            (paste)="onPaste($event)"
+            placeholder=""
+            class="w-full max-w-[313px] h-[48px] bg-white rounded-[16px] profile-email
+             px-4 pr-10 text-sm text-gray-800 focus:outline-none transition-colors duration-200"
+            [ngStyle]="{'border': '1px solid ' + (isInvalid ? '#ef4444' : '#00a38d')}"
+
+          />
+
+          <button
+            *ngIf="emailControl.value"
+            type="button"
+            (click)="clearEmail()"
+            class="flex justify-center items-center absolute right-3 top-1/2 -translate-y-1/2
+             rounded-[50px] p-[2px] w-[28px] h-[28px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+          >
+            <svg width="10" height="10" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.9434 1.74561L1.94336 11.7456M1.94336 1.74561L11.9434 11.7456"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <p *ngIf="isInvalid" class="absolute text-[12px] text-[#ef4444] mt-1 left-1">
+            Почта указана некорректно
+          </p>
+        </div>
+        <div class="flex">
+          <button
+            type="button"
+            class="text-gray-400 text-sm hover:text-gray-600 transition whitespace-nowrap"
+            (click)="onReset()"
+          >
+            {{'settings.reset' | translate}}
+          </button>
+          <button
+            class="text-[#00a38d] ml-3 text-sm font-medium hover:underline transition cursor-pointer"
+            (click)="onSave()"
+            [disabled]="!(emailControl.valid)"
+          >
+            {{'loans.save' | translate}}
+          </button>
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 py-8 px-5 border-b  border-[#ebebeb]">
+    <div>
+      <h2 class="font-medium text-sm text-[#171717]"> {{'settings.phone_number' | translate}}</h2>
+      <p class="font-normal text-xs text-[#5c5c5c] mt-1"> {{'settings.phone_recommendation' | translate}}</p>
+    </div>
+    @if (!phoneChangeShow()) {
+      <div *ngIf="userInfoItems()?.userInfo?.phoneNumber" class="items-center justify-start gap-3">
+        <p class="font-medium text-sm text-[#171717]">+{{formattedPhone}}</p>
+        <div class="flex items-center  w-[86px] cursor-pointer  hover:text-[#008c79] text-[#008c79]">
+          <button (click)="phoneChange()"  class="cursor-pointer text-sm font-medium"> {{'settings.change' | translate}}</button>
+          <span class="ml-[10px]">
+        <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.73911 5.7448L0.0266113 2.0323L1.08711 0.971802L5.86011 5.7448L1.08711 10.5178L0.0266113 9.4573L3.73911 5.7448Z" fill="#008C79" />
+        </svg>
+        </span>
+        </div>
+      </div>
+    } @else {
+      <div class="flex items-center gap-3 gap-x-3 gap-y-6  flex-wrap">
+        <div class="relative">
+          <span class="pl-2 text-sm absolute left-0 top-1/2 -translate-y-1/2" style="line-height: 15px" [style.color]="isInvalidPhone ? '#ef4444' : '#171717'">+998</span>
+          <input
+            mask="00 000 00 00"
+            #phoneInput
+            maxlength="12"
+            [formControl]="phoneControl"
+            placeholder="90 123 45 67"
+            class="w-full max-w-[313px] h-[48px] bg-white rounded-[16px] profile-phone
+             px-4 pr-10 text-sm text-gray-800 focus:outline-none transition-colors duration-200 pl-12"
+            [ngStyle]="{'border': '1px solid ' + (isInvalidPhone ? '#ef4444' : '#00a38d')}"
+            (keypress)="allowOnlyNumbers($event)"
+          />
+
+          <button
+            *ngIf="phoneControl.value"
+            type="button"
+            (click)="clearPhone()"
+            class="flex justify-center items-center absolute right-3 top-1/2 -translate-y-1/2
+             rounded-[50px] p-[2px] w-[28px] h-[28px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+          >
+            <svg width="10" height="10" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.9434 1.74561L1.94336 11.7456M1.94336 1.74561L11.9434 11.7456"
+                stroke="#171717"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <p *ngIf="isInvalidPhone" class="absolute text-[12px] text-[#ef4444] mt-1 left-1">
+            Номер не найден или указан с ошибкой.
+          </p>
+        </div>
+        <div class="flex">
+          <button
+            type="button"
+            class="text-gray-400 text-sm hover:text-gray-600 transition whitespace-nowrap"
+            (click)="onResetPhone()"
+          >
+            {{'settings.reset' | translate}}
+          </button>
+          <button
+            class="text-[#00a38d] ml-3 text-sm font-medium hover:underline transition cursor-pointer"
+            (click)="onSavePhone()"
+            [disabled]="!(phoneControl.valid)"
+          >
+            {{'loans.save' | translate}}
+          </button>
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+
+<!--  <div class="grid grid-cols-2 gap-8 py-5 px-5 border-b border-t border-[#ebebeb]">-->
+<!--    <div>-->
+<!--      <h2  class="font-medium text-sm text-[#171717]">Публичное предложение / Оферта</h2>-->
+<!--      <p class="text-sm text-[#5c5c5c] mt-1">Вы можете скачать публичное предложение здесь</p>-->
+<!--    </div>-->
+<!--    <div class="flex items-center justify-start">-->
+<!--      <div class="items-center justify-start gap-3">-->
+<!--        <p class="font-medium text-sm text-[#171717]"></p>-->
+<!--        <div class="flex items-center  w-[86px] cursor-pointer  hover:text-[#008c79] text-[#008c79]">-->
+<!--          <button (click)="downloadPdf()"   class="px-[9px] py-[5px] bg-white border border-[#ebebeb] rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm text-[#5C5C5C]">-->
+<!--            {{'settings.upload' | translate}}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+</div>

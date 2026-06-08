@@ -1,0 +1,169 @@
+@switch (type) {
+  @case ('roster-filter') {
+    <form [formGroup]="filterFormRoster">
+      @if (!toggleActive) {
+        <ng-container *ngTemplateOutlet="header"></ng-container>
+      }
+
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="panelState">
+          <div class="flex flex-col gap-y-[15px]">
+            <div class="w-full border-t border-[#DBDBDB]"></div>
+            <div class="grid grid-cols-2 gap-x-5">
+              <mat-form-field class="small w-full col-span-1" appearance="outline">
+                <mat-label>Номер документа</mat-label>
+                <input matInput formControlName="docNum">
+                <mat-icon matSuffix>
+                  <img ngSrc="./assets/svg/search.svg" alt="search" width="24" height="24">
+                </mat-icon>
+              </mat-form-field>
+              <div class="grid grid-cols-2 gap-x-5 col-span-1">
+                <mat-form-field class="small w-full" appearance="outline">
+                  <mat-label>Дата от</mat-label>
+                  <input matInput type="date" formControlName="startDate">
+                </mat-form-field>
+                <mat-form-field class="small w-full" appearance="outline">
+                  <mat-label>Дата до</mat-label>
+                  <input matInput type="date" formControlName="endDate">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-x-5">
+              <div class="grid grid-cols-2 gap-x-5 col-span-1">
+                <mat-form-field class="small w-full" appearance="outline">
+                  <mat-label>Сумма от</mat-label>
+                  <input
+                    matInput
+                    mask="separator.2"
+                    thousandSeparator="."
+                    formControlName="fromAmount"
+                  >
+                </mat-form-field>
+                <mat-form-field class="small w-full" appearance="outline">
+                  <mat-label>Сумма до</mat-label>
+                  <input
+                    matInput
+                    mask="separator.2"
+                    thousandSeparator="."
+                    formControlName="toAmount">
+                </mat-form-field>
+              </div>
+              <mat-form-field class="small w-full col-span-1" appearance="outline">
+                <mat-label>Статус</mat-label>
+                <mat-select formControlName="statuses">
+                  <mat-option *ngFor="let statuses of translatedStatuses()" [value]="statuses.value">
+                    {{ statuses.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>
+                  <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24">
+                </mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="flex flex-row-reverse gap-x-5">
+              <button (click)="search()"
+                      class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#008C79] text-white">Искать
+              </button>
+
+              <button (click)="clearFilter()" type="submit"
+                      class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#EFF4F9]">Сбросить
+              </button>
+            </div>
+            <div class="w-full border-t border-[#DBDBDB]"></div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </form>
+  }
+  @default {
+    <form [formGroup]="filterForm">
+      @if (!toggleActive) {
+        <ng-container *ngTemplateOutlet="header"></ng-container>
+      }
+
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="panelState">
+          <div class="flex flex-col gap-y-[15px]">
+            <div class="w-full border-t border-[#DBDBDB]"></div>
+            <div class="grid grid-cols-2 gap-x-5">
+
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Картодержатель</mat-label>
+                <input
+                  matInput
+                  formControlName="cardHolder"
+                >
+                <mat-icon matSuffix>
+                  <img ngSrc="./assets/svg/search.svg" alt="search" width="24" height="24">
+                </mat-icon>
+              </mat-form-field>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Номер карты</mat-label>
+                <input
+                  matInput
+                  formControlName="cardNumber"
+                >
+              </mat-form-field>
+            </div>
+            <div class="grid grid-cols-4 gap-x-5">
+
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Срок действия от</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  formControlName="startDate"
+                >
+              </mat-form-field>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Срок действия до</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  formControlName="endDate"
+                >
+              </mat-form-field>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Статус</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option *ngFor="let status of statuses()" [value]="status">
+                    {{ status }}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>
+                  <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24">
+                </mat-icon>
+              </mat-form-field>
+              <mat-form-field class="small w-full" appearance="outline">
+                <mat-label>Серия и номер документа</mat-label>
+                <input
+                  matInput
+                  readonly
+                >
+              </mat-form-field>
+
+            </div>
+            <div class="flex flex-row-reverse gap-x-5">
+              <button (click)="search()"
+                      class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#008C79] text-white">Искать
+              </button>
+
+              <button (click)="clearFilter()" type="submit"
+                      class="px-5 py-2.5 rounded-[5px] text-center w-[220px] bg-[#EFF4F9]">Сбросить
+              </button>
+            </div>
+            <div class="w-full border-t border-[#DBDBDB]"></div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </form>
+  }
+}
+
+<ng-template #header>
+  <app-filter-button
+    (click)="panelState = !panelState"
+    [classes]="'bg-[#008C79] text-white'"
+    [src]="'./assets/svg/filter-white.svg'"
+  ></app-filter-button>
+</ng-template>

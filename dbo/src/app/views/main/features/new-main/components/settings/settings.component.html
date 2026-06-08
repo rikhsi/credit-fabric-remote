@@ -1,0 +1,428 @@
+<div class="bg-surface-4 rounded-[22px] relative border-custom-border border px-[30px] py-4 flex flex-col space-y-6">
+  <div class="flex justify-between items-center py-4">
+    <span class="text-custom-primary text-[18px] font-semibold leading-5">
+      Счета и карты
+    </span>
+    <div class="bg-[#F1F1F1] text-center items-center flex justify-center w-[30px] h-[30px] rounded-[6px] border-1">
+      <mat-icon mat-dialog-close (click)="_dialogRef.close(true)">close</mat-icon>
+    </div>
+  </div>
+  <div class="w-full h-[1px] bg-[#EBEBEB] absolute top-[58px] left-0"></div>
+  <div class="flex justify-between items-center ">
+    <div class="flex gap-x-3">
+      <button
+        *ngFor="let t of MAIN_COMPONENT_PRODUCTS"
+        (click)="active.set(t.key)"
+        class="font-medium leading-5 text-[16px] px-3 py-2.5 border border-[#EDEDED] rounded-[14px] text-custom-primary"
+        [ngClass]="{'bg-[#F3F3F3] border-[#D5D5D5]': active() === t.key}"
+      >
+        {{ t.translateKey | translate }}
+      </button>
+    </div>
+  </div>
+  @switch (active()) {
+    @case ('accounts') {
+      <div class="flex justify-between items-center">
+    <span class="text-[#676767] text-sm font-medium leading-4">
+      На главной странице
+    </span>
+        <a class="text-[#008C79] text-sm font-medium leading-4 cursor-pointer" *ngIf="!isSettingActionable()"
+           (click)="toggleSettingAction()">Настроить</a>
+        <mat-icon (click)="toggleSettingAction()" class="cursor-pointer" *ngIf="isSettingActionable()">close</mat-icon>
+      </div>
+      <div
+        cdkDropList
+        class="flex flex-col w-full gap-[25px]"
+        (cdkDropListDropped)="dropAccounts($event)"
+      >
+        @for (account of store.pinnedAccounts(); track account.id) {
+          <div
+            [cdkDragDisabled]="!isSettingActionable()"
+            cdkDrag class="flex justify-between items-center">
+            <div class="flex items-center gap-8">
+              <img class="cursor-pointer" (click)="store.togglePin(account,'account')" *ngIf="isSettingActionable()"
+                   src="./assets/new-icons/remove.svg" alt="">
+              <div class="flex items-center space-x-5">
+                <img *ngIf="account.balance.logo" [src]="account.balance.logo.path + account.balance.logo.name"
+                     alt="uzb"
+                     width="35" height="35">
+                <div class="flex flex-col gap-[3px]">
+          <span *ngIf="account.balance as balance"
+                class="font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ balance.amount / 100 | mask:'separator' }} {{ balance.currency }}
+          </span>
+                  <span class="text-[#BABABA] text-sm font-medium leading-4">
+            {{ account.accountTitle }}
+          </span>
+                  <span class="text-secondary flex item-center gap-3 text-[14px] font-medium leading-[16px]">
+                <span>{{ maskNumberMiddle(account.altAcctId) }}</span>
+                 <div class="flex items-center gap-[6px]" *ngIf="account.status === 'BLOCKED'">
+                <div class="bg-[#FFEBEC] flex items-center gap-[6px] rounded-[7px] py-[4px] px-[8px]">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M6 1C4.34315 1 3 2.34315 3 4V5.01357C2.95663 5.01596 2.91466 5.01878 2.87409 5.0221C2.59304 5.04506 2.33469 5.09434 2.09202 5.21799C1.7157 5.40973 1.40973 5.7157 1.21799 6.09202C1.09434 6.33469 1.04506 6.59304 1.0221 6.87409C0.999989 7.14468 0.999994 7.47686 1 7.87934V8.12065C0.999994 8.52313 0.999989 8.85532 1.0221 9.12591C1.04506 9.40696 1.09434 9.66531 1.21799 9.90798C1.40973 10.2843 1.7157 10.5903 2.09202 10.782C2.33469 10.9057 2.59304 10.9549 2.87409 10.9779C3.14469 11 3.47687 11 3.87936 11H8.12064C8.52313 11 8.85531 11 9.12591 10.9779C9.40696 10.9549 9.66531 10.9057 9.90798 10.782C10.2843 10.5903 10.5903 10.2843 10.782 9.90798C10.9057 9.66531 10.9549 9.40696 10.9779 9.12591C11 8.85532 11 8.52314 11 8.12066V7.87934C11 7.47686 11 7.14468 10.9779 6.87409C10.9549 6.59304 10.9057 6.33469 10.782 6.09202C10.5903 5.7157 10.2843 5.40973 9.90798 5.21799C9.66531 5.09434 9.40696 5.04506 9.12591 5.0221C9.08534 5.01878 9.04338 5.01596 9 5.01357V4C9 2.34315 7.65685 1 6 1ZM8 5V4C8 2.89543 7.10457 2 6 2C4.89543 2 4 2.89543 4 4V5H8Z"
+                            fill="#FB3748"/>
+                    </svg>
+                    <span class="text-[#FB3748] text-xs">{{ 'myAccounts.blocked' | translate }}</span>
+                    <button
+                      type="button"
+                      class="cursor-pointer flex items-center justify-center"
+                      [matTooltip]="blockedTooltip(account)"
+                      matTooltipPosition="above"
+                      matTooltipClass="blocked-tooltip-above"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_19322_232702)">
+                          <path
+                            d="M12.5 8C12.5 5.51472 10.4853 3.5 8 3.5C5.51472 3.5 3.5 5.51472 3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8ZM7.5 10V8C7.5 7.72386 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.72386 8.5 8V10C8.5 10.2761 8.27614 10.5 8 10.5C7.72386 10.5 7.5 10.2761 7.5 10ZM8.00488 5.5C8.28103 5.5 8.50488 5.72386 8.50488 6C8.50488 6.27614 8.28103 6.5 8.00488 6.5H8C7.72386 6.5 7.5 6.27614 7.5 6C7.5 5.72386 7.72386 5.5 8 5.5H8.00488ZM13.5 8C13.5 11.0376 11.0376 13.5 8 13.5C4.96243 13.5 2.5 11.0376 2.5 8C2.5 4.96243 4.96243 2.5 8 2.5C11.0376 2.5 13.5 4.96243 13.5 8Z"
+                            fill="#FB3748"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_19322_232702">
+                            <rect width="12" height="12" fill="white" transform="translate(2 2)"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+          </span>
+                </div>
+              </div>
+            </div>
+            <img cdkDragHandle *ngIf="isSettingActionable()" src="./assets/new-icons/drop.svg" alt="">
+          </div>
+        }
+      </div>
+
+      <span class="leading-4 text-[#676767] font-medium text-sm mt-3">Скрытые</span>
+      <div class="text-[#959595] text-sm font-normal leading-4">
+        Здесь будут счета, которые вы уберете с главной страницы
+      </div>
+        @for (account of store.hiddenAccounts(); track account.id) {
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-8">
+              <img class="cursor-pointer" (click)="store.togglePin(account,'account')" *ngIf="isSettingActionable()"
+                   src="./assets/new-icons/plus-circle.svg" alt="">
+              <div class="flex items-center space-x-5">
+                <img *ngIf="account.balance.logo" [src]="account.balance.logo.path + account.balance.logo.name"
+                     alt="uzb"
+                     width="35" height="35">
+
+                <div class="flex flex-col gap-[3px]">
+          <span *ngIf="account.balance as balance"
+                class="font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ balance.amount / 100 | mask:'separator' }} {{ balance.currency }}
+          </span>
+                  <span class="text-[#BABABA] text-sm font-medium leading-4">
+            {{ account.accountTitle }}
+          </span>
+                  <span class="text-secondary flex item-center gap-3 text-[14px] font-medium leading-[16px]">
+                <span>{{ maskNumberMiddle(account.altAcctId) }}</span>
+                   <div class="flex items-center gap-[6px]" *ngIf="account.status === 'BLOCKED'">
+                <div class="bg-[#FFEBEC] flex items-center gap-[6px] rounded-[7px] py-[4px] px-[8px]">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M6 1C4.34315 1 3 2.34315 3 4V5.01357C2.95663 5.01596 2.91466 5.01878 2.87409 5.0221C2.59304 5.04506 2.33469 5.09434 2.09202 5.21799C1.7157 5.40973 1.40973 5.7157 1.21799 6.09202C1.09434 6.33469 1.04506 6.59304 1.0221 6.87409C0.999989 7.14468 0.999994 7.47686 1 7.87934V8.12065C0.999994 8.52313 0.999989 8.85532 1.0221 9.12591C1.04506 9.40696 1.09434 9.66531 1.21799 9.90798C1.40973 10.2843 1.7157 10.5903 2.09202 10.782C2.33469 10.9057 2.59304 10.9549 2.87409 10.9779C3.14469 11 3.47687 11 3.87936 11H8.12064C8.52313 11 8.85531 11 9.12591 10.9779C9.40696 10.9549 9.66531 10.9057 9.90798 10.782C10.2843 10.5903 10.5903 10.2843 10.782 9.90798C10.9057 9.66531 10.9549 9.40696 10.9779 9.12591C11 8.85532 11 8.52314 11 8.12066V7.87934C11 7.47686 11 7.14468 10.9779 6.87409C10.9549 6.59304 10.9057 6.33469 10.782 6.09202C10.5903 5.7157 10.2843 5.40973 9.90798 5.21799C9.66531 5.09434 9.40696 5.04506 9.12591 5.0221C9.08534 5.01878 9.04338 5.01596 9 5.01357V4C9 2.34315 7.65685 1 6 1ZM8 5V4C8 2.89543 7.10457 2 6 2C4.89543 2 4 2.89543 4 4V5H8Z"
+                            fill="#FB3748"/>
+                    </svg>
+                    <span class="text-[#FB3748] text-xs">{{ 'myAccounts.blocked' | translate }}</span>
+                    <button
+                      type="button"
+                      class="cursor-pointer flex items-center justify-center"
+                      [matTooltip]="blockedTooltip(account)"
+                      matTooltipPosition="above"
+                      matTooltipClass="blocked-tooltip-above"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_19322_232702)">
+                          <path
+                            d="M12.5 8C12.5 5.51472 10.4853 3.5 8 3.5C5.51472 3.5 3.5 5.51472 3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8ZM7.5 10V8C7.5 7.72386 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.72386 8.5 8V10C8.5 10.2761 8.27614 10.5 8 10.5C7.72386 10.5 7.5 10.2761 7.5 10ZM8.00488 5.5C8.28103 5.5 8.50488 5.72386 8.50488 6C8.50488 6.27614 8.28103 6.5 8.00488 6.5H8C7.72386 6.5 7.5 6.27614 7.5 6C7.5 5.72386 7.72386 5.5 8 5.5H8.00488ZM13.5 8C13.5 11.0376 11.0376 13.5 8 13.5C4.96243 13.5 2.5 11.0376 2.5 8C2.5 4.96243 4.96243 2.5 8 2.5C11.0376 2.5 13.5 4.96243 13.5 8Z"
+                            fill="#FB3748"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_19322_232702">
+                            <rect width="12" height="12" fill="white" transform="translate(2 2)"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                    <!-- <span *ngIf="account.status === 'BLOCKED'" class="inline-flex bg-[#FFEBEC] rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                    <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                      {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span> -->
+          </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+    }
+    @case ('cards') {
+      <div class="flex justify-between items-center">
+    <span class="text-[#676767] text-sm font-medium leading-4">
+      На главной странице
+    </span>
+        <a class="text-[#008C79] text-sm font-medium leading-4 cursor-pointer" *ngIf="!isSettingActionable()"
+           (click)="toggleSettingAction()">Настроить</a>
+        <mat-icon (click)="toggleSettingAction()" class="cursor-pointer" *ngIf="isSettingActionable()">close</mat-icon>
+      </div>
+
+      <div
+        cdkDropList
+        class="flex flex-col w-full gap-5"
+        (cdkDropListDropped)="dropCards($event)"
+      >
+        @for (card of store.pinnedCards(); track card.uuid) {
+          <div
+            cdkDrag
+            [cdkDragDisabled]="!isSettingActionable()"
+            class="flex justify-between items-center"
+          >
+            <div class="flex items-center gap-6">
+              <img class="cursor-pointer" (click)="store.togglePin(card,'card')" *ngIf="isSettingActionable()"
+                   src="./assets/new-icons/remove.svg" alt="">
+              <div class="flex items-center space-x-5">
+                <img src="./assets/new-icons/credit-card.svg" alt="#">
+                <div class="flex flex-col">
+          <span class="text-[#191A1D] text-[18px] font-semibold leading-5">
+            {{ card.type }}
+          </span>
+                  <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ maskNumberMiddle(card.pan) }}
+          </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+        <span class="text-[#191A1D] text-[16px] font-semibold leading-5">
+          {{ card.balance.amount / 100 | mask:'separator' }}
+          {{ card.balance.currency }}
+        </span>
+              <img cdkDragHandle *ngIf="isSettingActionable()" src="./assets/new-icons/drop.svg" alt="">
+            </div>
+          </div>
+        }
+      </div>
+
+      <span class="leading-4 text-[#676767] font-medium text-sm mt-3">Скрытые</span>
+      <div class="text-[#959595] text-sm font-normal leading-4">
+        Здесь будут карты, которые вы уберете с главной страницы
+      </div>
+        @for (card of store.hiddenCards(); track card) {
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-6">
+              <img class="cursor-pointer" (click)="store.togglePin(card,'card')" *ngIf="isSettingActionable()"
+                   src="./assets/new-icons/plus-circle.svg" alt="">
+              <div class="flex items-center space-x-5">
+                <img src="./assets/new-icons/credit-card.svg" alt="#">
+                <div class="flex flex-col">
+          <span class="text-[#191A1D] text-[18px] font-semibold leading-5">
+            {{ card.type }}
+          </span>
+                  <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ maskNumberMiddle(card.pan) }}
+          </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+        <span
+          class="text-[#191A1D] text-[16px] font-semibold leading-5">{{ card.balance.amount / 100 | mask:'separator' }} {{ card.balance.currency }}</span>
+            </div>
+          </div>
+        }
+    }
+    @case ('deposits') {
+      <div class="flex justify-between items-center">
+    <span class="text-[#676767] text-sm font-medium leading-4">
+      На главной странице
+    </span>
+        <a class="text-[#008C79] text-sm font-medium leading-4 cursor-pointer" *ngIf="!isSettingActionable()"
+           (click)="toggleSettingAction()">Настроить</a>
+        <mat-icon (click)="toggleSettingAction()" class="cursor-pointer" *ngIf="isSettingActionable()">close</mat-icon>
+      </div>
+      <div
+        cdkDropList
+        class="flex flex-col w-full gap-5"
+        (cdkDropListDropped)="dropDeposits($event)"
+      >
+      @for (deposit of store.pinnedDeposits(); track deposit) {
+        <div [cdkDragDisabled]="!isSettingActionable()" cdkDrag class="flex justify-between items-center">
+          <div class="flex items-center gap-6">
+            <img class="cursor-pointer" (click)="store.togglePin(deposit,'deposit')" *ngIf="isSettingActionable()"
+                 src="./assets/new-icons/remove.svg" alt="">
+          <div class="flex items-center space-x-5">
+            @switch (deposit?.currency?.currency) {
+              @case ('UZS') {
+                <img src="./assets/new-icons/uzb.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('USD') {
+                <img src="./assets/svg/USD.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('RUB') {
+                <img src="./assets/svg/RUB.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('EUR') {
+                <img src="./assets/svg/EUR.svg" alt="uzb" width="35" height="35">
+              }
+            }
+            <div class="flex flex-col">
+          <span class="font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ deposit.name }}
+          </span>
+              <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ maskNumberMiddle(deposit.account) }}
+          </span>
+            </div>
+          </div>
+          </div>
+          <div class="flex items-center space-x-3">
+        <span
+          class="text-[#191A1D] text-[16px] text-end font-semibold leading-5">{{ deposit.depSaldo.amount / 100 | mask:'separator' }} {{ deposit.depSaldo.currency }}</span>
+            <img cdkDragHandle *ngIf="isSettingActionable()" src="./assets/new-icons/drop.svg" alt="">
+          </div>
+        </div>
+      }
+      </div>
+
+      <span class="leading-4 text-[#676767] font-medium text-sm mt-3">Скрытые</span>
+      <div class="text-[#959595] text-sm font-normal leading-4">
+        Здесь будут карты, которые вы уберете с главной страницы
+      </div>
+      @for (deposit of store.hiddenDeposits(); track deposit) {
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <img class="cursor-pointer" (click)="store.togglePin(deposit,'deposit')" *ngIf="isSettingActionable()"
+                 src="./assets/new-icons/plus-circle.svg" alt="">
+          <div class="flex items-center space-x-3">
+            @switch (deposit?.currency?.currency) {
+              @case ('UZS') {
+                <img src="./assets/new-icons/uzb.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('USD') {
+                <img src="./assets/svg/USD.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('RUB') {
+                <img src="./assets/svg/RUB.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('EUR') {
+                <img src="./assets/svg/EUR.svg" alt="uzb" width="35" height="35">
+              }
+            }
+            <div class="flex flex-col">
+          <span class="font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ deposit.name }}
+          </span>
+              <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ maskNumberMiddle(deposit.account) }}
+          </span>
+            </div>
+          </div>
+          </div>
+          <div class="flex items-center space-x-3">
+        <span
+          class="text-[#191A1D] text-[16px] text-end font-semibold leading-5">{{ deposit.depSaldo.amount / 100 | mask:'separator' }} {{ deposit.depSaldo.currency }}</span>
+          </div>
+        </div>
+      }
+    }
+    @case ('credits') {
+      <div class="flex justify-between items-center">
+    <span class="text-[#676767] text-sm font-medium leading-4">
+      На главной странице
+    </span>
+        <a class="text-[#008C79] text-sm font-medium leading-4 cursor-pointer" *ngIf="!isSettingActionable()"
+           (click)="toggleSettingAction()">Настроить</a>
+        <mat-icon (click)="toggleSettingAction()" class="cursor-pointer" *ngIf="isSettingActionable()">close</mat-icon>
+      </div>
+      <div
+        cdkDropList
+        class="flex flex-col w-full gap-5"
+        (cdkDropListDropped)="dropCredits($event)"
+      >
+      @for (credit of store.pinnedCredits(); track credit) {
+        <div [cdkDragDisabled]="!isSettingActionable()" cdkDrag class="flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <img class="cursor-pointer" (click)="store.togglePin(credit,'credit')" *ngIf="isSettingActionable()"
+                 src="./assets/new-icons/remove.svg" alt="">
+          <div class="flex items-center space-x-5">
+            @switch (credit.currency) {
+              @case ('UZS') {
+                <img src="./assets/new-icons/uzb.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('USD') {
+                <img src="./assets/svg/USD.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('RUB') {
+                <img src="./assets/svg/RUB.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('EUR') {
+                <img src="./assets/svg/EUR.svg" alt="uzb" width="35" height="35">
+              }
+            }
+            <div class="flex flex-col">
+              <span class=" font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ integerPart(credit.totalDebt.amount) }}
+                .{{ decimalPart(credit.totalDebt.amount) }} {{ credit.totalDebt.currency }}
+          </span>
+              <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ credit.detail.crdTypename }}
+              </span>
+            </div>
+          </div>
+          </div>
+          <img cdkDragHandle *ngIf="isSettingActionable()" src="./assets/new-icons/drop.svg" alt="">
+        </div>
+      }
+      </div>
+
+      <span class="leading-4 text-[#676767] font-medium text-sm mt-3">Скрытые</span>
+      <div class="text-[#959595] text-sm font-normal leading-4">
+        Здесь будут кредиты, которые вы уберете с главной страницы
+      </div>
+      @for (credit of store.hiddenCredits(); track credit) {
+        <div class="flex justify-between items-center rounded-[22px]">
+          <div class="flex items-center gap-4">
+            <img class="cursor-pointer" (click)="store.togglePin(credit,'credit')" *ngIf="isSettingActionable()"
+                 src="./assets/new-icons/plus-circle.svg" alt="">
+          <div class="flex items-center space-x-5">
+            @switch (credit.currency) {
+              @case ('UZS') {
+                <img src="./assets/new-icons/uzb.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('USD') {
+                <img src="./assets/svg/USD.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('RUB') {
+                <img src="./assets/svg/RUB.svg" alt="uzb" width="35" height="35">
+              }
+              @case ('EUR') {
+                <img src="./assets/svg/EUR.svg" alt="uzb" width="35" height="35">
+              }
+            }
+            <div class="flex flex-col">
+              <span class=" font-semibold text-[18px] leading-5 text-[#191A1D]">
+            {{ integerPart(credit.totalDebt.amount) }}
+                .{{ decimalPart(credit.totalDebt.amount) }} {{ credit.totalDebt.currency }}
+          </span>
+              <span class="text-secondary text-[14px] font-medium leading-[16px]">
+            {{ credit.detail.crdTypename }}
+              </span>
+            </div>
+          </div>
+          </div>
+        </div>
+      }
+    }
+  }
+<!--  <div class="flex flex-col w-[475px] h-[161px] gap-2 left-[20px] px-[30px] justify-center items-center rounded-b-[22px] bg-white fixed bottom-[20px]">-->
+<!--    <button class="h-[50px] w-full rounded-[10px] bg-[#F3F3F3]">Сохранить</button>-->
+<!--    <button class="h-[50px] w-full rounded-[10px] bg-[#F3F3F3]">Отменить</button>-->
+<!--  </div>-->
+</div>

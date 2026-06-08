@@ -1,0 +1,200 @@
+<div class="flex flex-col gap-y-3 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+  <!-- Header -->
+  <div class="flex flex-col py-5 border-b border-[#E2EAF1]">
+    <div class="flex justify-between">
+      <div class="text-[22px] text-black">
+        Детали заявки № {{ data.applicationId }}
+      </div>
+      <mat-icon mat-ripple mat-dialog-close>close</mat-icon>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <app-select-action
+    [actions]="getActions()"
+    (onAction)="onAction($event)"
+  ></app-select-action>
+
+  <div
+    class="flex gap-x-2.5 mb-4"
+  >
+    <div
+      (click)="printSwiftMessage(data)"
+      class="py-2.5 self-end px-5 bg-[#EFF4F9] rounded-[5px] flex gap-x-2 items-center cursor-pointer"
+      [matTooltip]="'Скачать pdf'"
+    >
+      <img ngSrc="./assets/svg/printer.svg" alt="print" width="24" height="20">
+    </div>
+
+    <div
+      [routerLink]="['/operations/gpi-tracker']"
+      [queryParams]="{
+      transactionId: data.swiftApplicationDto.transactionId,
+      updatedAt: data.updatedAt,
+      receiverBic: data.swiftApplicationDto.bankBeneficiary57a,
+      senderCurrency: data.swiftApplicationDto.senderCurrency32,
+      senderAmount: data.swiftApplicationDto.senderAmount32
+      }"
+      mat-dialog-close
+      class="py-2.5 self-end px-5 bg-[#EFF4F9] rounded-[5px] flex gap-x-2 items-center cursor-pointer text-[#FD2221]"
+    >GPI-tracker</div>
+  </div>
+
+  <div class="text-[13px] uppercase">Документ</div>
+
+  <!-- Document Number -->
+  <div class="flex gap-x-4 items-center">
+    <span class="text-[14px] !w-[130px] text-secondary">Номер документа</span>
+    <span class="text-[14px] font-normal text-black">
+      {{ data.swiftApplicationDto.docNum }}
+    </span>
+  </div>
+
+  <!-- Operation Status -->
+  <div class="flex gap-x-4 items-center">
+    <span class="text-[14px] !w-[130px] text-secondary">Статус операции</span>
+    <span class="text-[13px] text-end leading-[16.9px] text-[#7C8897]">
+      <span
+        [ngClass]="[getStatusApplication(data.applicationStatus).color,
+        getStatusApplication(data.applicationStatus).text]"
+        class="text-[12px] rounded-[10px] px-[7px]"
+      >
+        {{ getStatusApplication(data.applicationStatus).label }}
+      </span>
+      <span> {{ getTimeFromISO(data.createdDate) }} </span>
+    </span>
+  </div>
+
+  <!-- Error Message -->
+  @if (data.errorMessage) {
+    <div class="flex gap-x-4 items-center">
+      <span class="text-[14px] !w-[130px] text-secondary">Ошибка</span>
+      <span class="text-[13px] text-end leading-[16.9px] text-[#7C8897]">
+        {{ data.errorMessage }}
+      </span>
+    </div>
+  }
+
+  <!-- Payment Details -->
+  @if (data.swiftApplicationDto.description70) {
+    <div class="flex text-[14px] gap-x-4 items-center">
+      <span class="w-[130px] text-secondary">Назначение</span>
+      <span class="whitespace-normal break-words max-w-[340px]">
+        {{ data.swiftApplicationDto.description70 }}
+      </span>
+    </div>
+  }
+
+  <!-- Divider -->
+  <div class="w-full border-t border-[#E2EAF1]"></div>
+
+  <div class="text-[13px] uppercase">Получатель</div>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Организация</span>
+    <span>{{ data.beneficiary59Name }}</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Расчетный счёт</span>
+    <span>{{ data.swiftApplicationDto.beneficiary59Account }}</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Адрес</span>
+    <span>{{ data.swiftApplicationDto.beneficiary59Address }}</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">SWIFT code</span>
+    <span>{{ data.swiftApplicationDto.bankBeneficiary57a }}</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Наименование банка</span>
+    <span>{{ data.swiftApplicationDto.bankBeneficiary57Name }}</span>
+  </p>
+
+  <!-- Divider -->
+  <div class="w-full border-t border-[#E2EAF1]"></div>
+
+  <div class="text-[13px] uppercase">Плательщик</div>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Расчетный счёт</span>
+    <span>{{ data.swiftApplicationDto.senderAccount }}</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">SWIFT code</span>
+    <span>ASACUZ22XXX</span>
+  </p>
+
+  <p class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Наименование Банка</span>
+    <span>HAMKOR BANK</span>
+  </p>
+
+  <!-- Divider -->
+  <div class="w-full border-t border-[#E2EAF1]"></div>
+
+  @if(data.userSigns.length) {
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+    <div class="cursor-pointer flex items-center justify-between" (click)="historyOpened = !historyOpened">
+      <div class="uppercase text-[13px] font-normal select-none">История документа</div>
+
+      <mat-icon
+        class="transition-all duration-300"
+        [ngClass]="{ 'rotate-180': historyOpened }"
+      >keyboard_arrow_down</mat-icon>
+    </div>
+
+    <mat-accordion class="accordion">
+      <mat-expansion-panel [expanded]="historyOpened">
+        <div class="text-[14px] " *ngFor="let signer of getHistory()">
+          <div class="flex items-center gap-x-4">
+            <div class="w-[130px] text-secondary">
+              {{ signer.signDate | date: 'dd.MM.yy HH:mm:ss': '+0500' }}
+            </div>
+
+            <div>
+              {{ historyActions[signer.status] }} {{ signer.fullName }}
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  }
+
+  <!-- Basic Info -->
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">ID</span>-->
+<!--    <span>{{ data.applicationId }}</span>-->
+<!--  </p>-->
+
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">Дата</span>-->
+<!--    <span>{{ getDate(data.createdDate) }}</span>-->
+<!--  </p>-->
+
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">Сумма в валюте</span>-->
+<!--    <span>{{ convertAmount(data.swiftApplicationDto.senderAmount32) }}</span>-->
+<!--  </p>-->
+
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">Счет отправителя</span>-->
+<!--    <span>{{ data.swiftApplicationDto.senderAccount }}</span>-->
+<!--  </p>-->
+
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">Имя компании</span>-->
+<!--    <span>{{ data.swiftApplicationDto.businessName50 }}</span>-->
+<!--  </p>-->
+
+<!--  <p class="flex gap-x-4 items-center text-[14px]">-->
+<!--    <span class="w-[130px] text-secondary">Адрес компании</span>-->
+<!--    <span>{{ data.swiftApplicationDto.businessAddress50 }}</span>-->
+<!--  </p>-->
+
+</div>

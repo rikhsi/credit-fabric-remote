@@ -1,0 +1,90 @@
+<div class="p-6 bg-white rounded-[15px] shadow flex-col justify-start w-[810px]  gap-5 inline-flex">
+  <div class="flex flex-col gap-y-2">
+    <app-container-nav [navs]="navs()"></app-container-nav>
+    <app-container-title [title]="'Выпустить новую корпоративную карту'"></app-container-title>
+  </div>
+
+  <form [formGroup]="createEmployeeCardForm" class="flex flex-col gap-y-[30px]">
+    @if(isSelect) {
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Договор корпративных карт</mat-label>
+
+        <mat-select>
+          @for(employee of employees; track $index) {
+            <mat-option (click)="selectProject(employee)" [value]="employee">
+              <span>{{ employee.contractNumber }} - {{ employee.transitAccount }} / {{ employee.type }}</span>
+            </mat-option>
+          }
+        </mat-select>
+
+        <mat-icon matSuffix>
+          <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+        </mat-icon>
+      </mat-form-field>
+    }
+
+    <mat-form-field  [ngClass]="{'required': createEmployeeCardForm.get('fio')?.invalid && createEmployeeCardForm.get('fio')?.touched}" class="small" appearance="outline">
+      <mat-label>ФИО</mat-label>
+      <input placeholder="Введите ФИО" matInput formControlName="fio"/>
+    </mat-form-field>
+    <div class="flex gap-x-5 items-center justify-between">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Серия и номер паспорта</mat-label>
+        <input
+          matInput
+          maxlength="9"
+          [value]="passportValue"
+          (input)="onInputChange($event)"
+          placeholder="AA1234567"
+        />
+      </mat-form-field>
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>ПИНФЛ</mat-label>
+        <input mask="00000000000000" type="text" formControlName="pinfl" matInput>
+      </mat-form-field>
+    </div>
+    <div  class="flex gap-x-5 items-center justify-between">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Дата рождения</mat-label>
+        <input type="date" formControlName="birthday" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full small">
+        <mat-label>Номер телефона</mat-label>
+        <input
+          matInput
+          type="text"
+          prefix="+"
+          formControlName="phoneNumber"
+          placeholder="+998 00 000 00 00"
+          mask="000 00 000 00 00"
+        />
+      </mat-form-field>
+      <mat-form-field class="small w-full secondary" appearance="outline">
+        <mat-label>Тип карты</mat-label>
+        <input
+          matInput
+          formControlName="cardType"
+          readonly
+        >
+      </mat-form-field>
+
+    </div>
+    <div class="flex justify-between items-center">
+      <button
+        [disabled]="createEmployeeCardForm.invalid"
+        (click)="createEmployeeCard()"
+        class="h-10 px-5 py-2.5 bg-[#008C79] rounded-[5px]  justify-center items-center gap-2 inline-flex text-white text-sm font-normal  leading-snug"
+      >
+        Создать
+      </button>
+
+      <button
+        [disabled]="createEmployeeCardForm.invalid"
+        (click)="createEmployeeCard()"
+        class="h-10 px-5 py-2.5 bg-[#eff4f9] rounded-[5px]  justify-center items-center gap-2 inline-flex text-black text-sm font-normal  leading-snug"
+      >
+        Создать
+      </button>
+    </div>
+  </form>
+</div>

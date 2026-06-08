@@ -1,0 +1,15 @@
+.text-ellipsis-custom {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.focus-period-input .focus-period-img{
+  transform: rotate(-180deg);
+}
+.select-notification-item-box {
+  background: rgba(11, 111, 62, 0.1) !important;
+  border-bottom: 1px solid #008c79 !important;
+}
+.notify-bg-img {
+  filter: brightness(0) invert(1) !important;
+}

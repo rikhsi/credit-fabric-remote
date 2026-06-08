@@ -1,0 +1,110 @@
+<div class="bg-white rounded-[15px] p-[30px] flex flex-col items-start gap-[30px]">
+  <div class="flex flex-col gap-y-5">
+    <app-container-nav [navs]="navs"></app-container-nav>
+    <app-container-title [title]="title"></app-container-title>
+  </div>
+
+  <div class="w-full flex flex-col gap-y-[15px]" [formGroup]="historyForm" >
+    <div class="w-full border-t border-[#DBDBDB]"></div>
+
+    <div class="flex gap-x-2 items-center justify-between" formGroupName="date">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Дата начала</mat-label>
+        <input
+          matInput
+          [disabled]="true"
+          [matDatepicker]="picker1"
+          formControlName="dateBegin"
+          placeholder="Выберите начало"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <span>-</span>
+
+
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Дата конца</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          [min]="historyForm.value.date?.dateBegin"
+          formControlName="dateClose"
+          [disabled]="true"
+          placeholder="Выберите конец"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="flex gap-2.5 flex-wrap">
+      @for(chip of dateChips; track chip) {
+        <div
+          class="px-[7px] py-[6px] rounded-[10px] bg-[#F4F7FB] font-medium cursor-pointer"
+          [ngClass]="{ '!bg-[#0E65D9] text-white': chip.active }"
+          (click)="toggleChip(chip)"
+        >{{ chip.title }}</div>
+      }
+    </div>
+
+    <div class="flex flex-col gap-y-2">
+      <div class="font-medium leading-6">Тип операции</div>
+
+      <div class="flex gap-6">
+        @for(type of types; track type.value) {
+          <div class="flex gap-2 items-center">
+            <input
+              type="radio"
+              formControlName="transType"
+              name="transType"
+              [id]="type.value"
+              [value]="type.value"
+              class="peer !before:bg-blue-600 !before:hover:bg-blue-600 !focus:before:bg-blue-600"
+            />
+            <label
+              [for]="type.value"
+              class="cursor-pointer text-[#B0B8C1] transition-all peer-checked:text-blue-600"
+            >
+              {{ type.title }}
+            </label>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="w-full border-t border-[#DBDBDB]"></div>
+
+    <div class="flex justify-between gap-x-2.5">
+      <button
+        (click)="viewExcel()"
+        [disabled]="!histories?.length"
+        class="!h-[40px] text-sm leading-[20px] px-5 py-2.5 rounded-[5px] bg-[#EFF4F9] text-[#7C8897]"
+        [ngClass]="{'!bg-[#264796] !text-white': histories?.length}"
+      >Просмотр</button>
+
+      <div class="flex gap-x-2.5">
+        <button
+          (click)="exportToExcel()"
+          [disabled]="!histories?.length"
+          class="!h-[40px] text-sm leading-[20px] px-5 py-2.5 rounded-[5px] bg-[#EFF4F9] text-[#7C8897]"
+          [ngClass]="{'!bg-[#DDECFC] !text-[#264796]': histories?.length}"
+        >Сохранить в Excel</button>
+        <button
+          class="!h-[40px] text-sm leading-[20px] px-5 rounded-[5px] bg-[#EFF4F9] text-[#7C8897]"
+        >
+          <img [ngSrc]="'./assets/svg/group.svg'" alt="pdf" width="24" height="24">
+        </button>
+        <button
+          [disabled]="!histories?.length"
+          class="!h-[40px] text-sm leading-[20px] px-5 rounded-[5px] bg-[#EFF4F9] text-[#7C8897]"
+        >
+          <img [ngSrc]="'./assets/svg/printer-action.svg'" alt="printer" width="24" height="24">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

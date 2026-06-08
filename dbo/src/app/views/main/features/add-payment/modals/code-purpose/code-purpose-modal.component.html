@@ -1,0 +1,40 @@
+<div class="h-full flex flex-col gap-y-5 px-5 bg-[#FFF] rounded-2xl">
+    <div class="flex justify-between items-center pt-6 border-b border-[#ECECED]">
+        <div class="justify-center text-[#2C3531] text-xl font-semibold leading-loose">Код назначения</div>
+        <mat-icon (click)="closeDialog()">close</mat-icon>
+    </div>
+  <div class="relative">
+    <input [value]="data.searchText()" (input)="this.data.setSearchText($event)" type="text" placeholder="Найти" class="border-none outline-none w-full bg-[#F3F5F5] py-2 px-10 rounded-[12px]">
+    <img width="20" class="absolute top-[10px] left-[14px]" src="./assets/svg/search.svg" alt="">
+  </div>
+    <div class="flex flex-col gap-y-[30px] overflow-y-auto pb-5">
+        <div class="flex flex-col gap-y-4">
+          @for (purpose of (data.purposesAfterFilter().length > 0 ? data.purposesAfterFilter() : this.purposes); track this.data) {
+            <label class="inline-flex items-center cursor-pointer" [for]="purpose.key" (click)="this.data.purposeSelect(purpose); closeDialog()">
+              <div class="w-full flex flex-col gap-[15px] ">
+                <div
+                  [ngClass]="this.data.purpose?.key === purpose.key ? 'bg-white' : 'bg-[#F3F5F5]'"
+                  class=" w-full justify-between flex h-[87px] m-auto items-center px-5 cursor-pointer rounded-[16px]"
+                  [style]="this.data.purpose?.key === purpose.key ? 'boxShadow: 0px 0px 20px 0px #03452D1A' : ''"
+                >
+                  <div class="flex gap-4 items-center">
+                    <div class="flex flex-col justify-between gap-[3px]">
+                     <span
+                       class="text-[16px]">{{ purpose?.key}}</span>
+                      <span class="text-[#9799A1] font-normal text-[14px]">{{ purpose.value }}</span>
+                    </div>
+                  </div>
+                  <!--                        <div class="flex gap-3 items-center">-->
+                  <!--                            <input type="radio" name="option" class="outline-none w-[30px] h-[30px]" id='radio-custom-1'/>-->
+                  <!--                        </div>-->
+                  <div class="custom-radio">
+                    <input [checked]="this.data.purpose?.key === purpose.key" [id]='purpose.key' type="radio" name="option"/>
+                    <span class="radio-circle"></span>
+                  </div>
+                </div>
+              </div>
+            </label>
+          }
+        </div>
+    </div>
+</div>

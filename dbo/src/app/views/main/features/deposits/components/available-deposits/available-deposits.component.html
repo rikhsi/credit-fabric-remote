@@ -1,0 +1,39 @@
+<div class="grid grid-cols-2 gap-4">
+  <div [routerLink]="['/deposits/available-deposits',deposit.id,deposit.depositName]"  *ngFor="let deposit of depositList()" class="p-4 rounded-[15px] border border-[#eff4f9] flex-col justify-center items-start gap-2 flex">
+    <div class="self-stretch justify-start items-start gap-5 inline-flex">
+      <div class="w-[124px] h-[124px] bg-white rounded flex-col justify-center items-center gap-[8.86px] inline-flex overflow-hidden">
+        <img class="w-[124px] h-[124px]" src="{{deposit.imagePath}}" />
+      </div>
+
+      <div class="grow shrink basis-0 self-stretch flex flex-col justify-start items-start gap-2">
+
+        <div class="self-stretch h-full flex-col justify-start items-start gap-2.5 flex">
+          <div class="self-stretch justify-between items-center flex gap-x-2">
+            <div class="text-[#040404] text-xl font-normal  leading-normal">{{ deposit.depositName }} </div>
+            <div class="text-black text-base font-normal  leading-tight">{{ deposit.currency }}</div>
+          </div>
+          <div class="self-stretch justify-start items-center inline-flex">
+            <div class="px-2 py-1 bg-[#eff4f9] rounded-[15px] justify-center items-center gap-2.5 flex">
+              <div class="text-[#7c8897] text-xs font-normal ">Срочный</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="self-stretch grow shrink basis-0 justify-start items-end gap-2 inline-flex">
+          <div class="grow shrink basis-0 px-2 pt-2 rounded-[5px] flex-col justify-center items-start gap-1 inline-flex">
+            <div class="text-[#7c8897] text-xs font-normal ">Срок :</div>
+            <div class="text-[#264796] text-sm font-normal text-nowrap">до {{ deposit.period }} месяцев </div>
+          </div>
+          <div class="grow shrink basis-0 px-2 pt-2 rounded-[5px] flex-col justify-center items-start gap-1 inline-flex">
+            <div class="text-[#7c8897] text-xs font-normal ">Ставка:</div>
+            <div class="text-[#264796] text-sm font-normal ">до {{deposit.depositPercent}}%</div>
+          </div>
+          <div class="grow shrink basis-0 px-2 pt-2 rounded-[5px] flex-col justify-center items-start gap-1 inline-flex">
+            <div class="text-[#7c8897] text-xs font-normal text-nowrap">Мин. сумма:</div>
+            <div class="text-[#264796] text-sm font-normal ">{{amountService.convertToAmount(deposit.minAmount)}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

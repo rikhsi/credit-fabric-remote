@@ -1,0 +1,482 @@
+<div class="bg-white rounded-12px p-6" [formGroup]="form">
+    <div class="flex justify-between items-center mb-4">
+        <p class="text-24 font-medium flex flex-col">Валютный перевод
+            <span class="text-14 font-medium text-secondary">Номер документа будет присвоен автоматически</span>
+        </p>
+        <button class="flex items-center text-primary text-14 font-medium">Задать номер
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#payment_plus" svgClass="w-6 h-6"></app-ui-svg-icon>
+        </button>
+    </div>
+
+    <div class="rounded-12px p-6 border-1px border-secondary mb-[26px]">
+        <div class="flex justify-between mb-4">
+            <p class="font-medium">Создать шаблон</p>
+            <label class="switch" for="checkbox">
+                <input type="checkbox" id="checkbox" formControlName="isCreateTemplate" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+
+        <ng-container *ngIf="form.controls.isCreateTemplate.value">
+            <p class="font-medium mb-2">Наименование</p>
+            <div class="relative mb-4">
+                <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder="Введите имя шаблона">
+            </div>
+        </ng-container>
+
+        <p class="text-xl font-medium mb-4">Плательщик</p>
+        <p class="font-medium mb-2">Наименование</p>
+        <div class="mb-4">
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                placeholder="Введите или выберите из списка">
+        </div>
+
+        <p class="font-medium leading-20px mb-2">Счёт зачисления</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <p class="text-14 text-secondary absolute right-[42px] top-1/2 -translate-y-1/2">156 000 000.00 UZS</p>
+
+            <mat-select disableRipple placeholder="Счет 40702840268826853509" class="relative">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="flex mb-4">
+            <div class="w-1/2 flex flex-col pr-1">
+                <p class="font-medium leading-20px mb-2">Наименование</p>
+                <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder='ООО "ТЕСТ"'>
+            </div>
+            <div class="w-1/2 flex flex-col pl-1">
+                <p class="font-medium leading-20px mb-2">Международное наименование</p>
+                <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder='ООО "ТЕСТ"'>
+            </div>
+        </div>
+
+        <p class="font-medium mb-2">ИНН</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="12345678">
+
+        <p class="font-medium leading-20px mb-2">Страна</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Начните вводить название страны Город">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <p class="font-medium mb-2">Город</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="Начните вводить название страны Город">
+
+        <p class="font-medium mb-2">Адрес</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="Начните вводить название страны Город">
+
+        <div class="p-4 border-1px border-secondary rounded-12px mb-4">
+            <p class="font-medium leading-20px mb-2">Идентификация плательщика</p>
+            <div class="flex items-center">
+                <div class="flex items-center mr-6 py-[12.5px]">
+                    <input id="tax-period" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="tax-period" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        F — по наименованию и адресу
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <input id="code" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="code" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        K — по наименованию и номеру счёта
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex">
+            <div class="w-1/2 pr-2">
+                <p class="font-medium leading-20px mb-2">Сумма перевода</p>
+                <div class="p-1 rounded-12px border-1px border-secondary flex justify-between">
+                    <input type="text" placeholder="0.00" class="outline-none font-medium text-base" mask="separator.2">
+                    <div class="border-1px border-secondary rounded-10px p-1 bg-[#EFF0F2] w-[92px] h-[36px] relative">
+                        <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                            svgClass="w-5 h-5 absolute right-[5px] top-[7px]"></app-ui-svg-icon>
+                        <div *ngIf="form.controls.selectedCurrencyVal.value as icon"
+                            class="absolute rounded-full overflow-hidden mr-1 border-1px border-secondary mt-0.5">
+                            <app-ui-svg-icon [path]="'./assets/icons/flag-icons.svg#' + icon"
+                                svgClass="w-5 h-5"></app-ui-svg-icon>
+                        </div>
+                        <mat-select disableRipple class="payment-currency-select relative"
+                            formControlName="selectedCurrencyVal">
+                            <mat-option value="uzb">
+                                <div class="flex items-center justify-start">
+                                    <div class="rounded-full overflow-hidden mr-1 border-1px border-secondary">
+                                        <app-ui-svg-icon path="./assets/icons/flag-icons.svg#uzb"
+                                            svgClass="w-6 h-6"></app-ui-svg-icon>
+                                    </div>
+                                    UZB
+                                </div>
+                            </mat-option>
+                            <mat-option value="eur">
+                                <div class="flex items-center justify-start">
+                                    <div class="rounded-full overflow-hidden mr-1 border-1px border-secondary">
+                                        <app-ui-svg-icon path="./assets/icons/flag-icons.svg#eur"
+                                            svgClass="w-6 h-6"></app-ui-svg-icon>
+                                    </div>
+                                    EUR
+                                </div>
+                            </mat-option>
+                            <mat-option value="usd">
+                                <div class="flex items-center justify-start">
+                                    <div class="rounded-full overflow-hidden mr-1 border-1px border-secondary">
+                                        <app-ui-svg-icon path="./assets/icons/flag-icons.svg#usd"
+                                            svgClass="w-6 h-6"></app-ui-svg-icon>
+                                    </div>
+                                    USD
+                                </div>
+                            </mat-option>
+                            <mat-option value="rub">
+                                <div class="flex items-center justify-start">
+                                    <div class="rounded-full overflow-hidden mr-1 border-1px border-secondary">
+                                        <app-ui-svg-icon path="./assets/icons/flag-icons.svg#rub"
+                                            svgClass="w-6 h-6"></app-ui-svg-icon>
+                                    </div>
+                                    RUB
+                                </div>
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-1/2 pl-2">
+                <p class="font-medium leading-20px mb-2">Дата</p>
+                <mat-form-field class="payment-mat-date h-11 w-full" appearance="outline">
+                    <input matInput [matDatepicker]="picker" placeholder="23.11.2023">
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <app-ui-svg-icon matDatepickerToggleIcon path="./assets/icons/inputs-icons.svg#calendar"
+                            svgClass="w-6 h-6"></app-ui-svg-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="rounded-12px p-6 border-1px border-secondary mb-6">
+        <p class="text-xl font-medium mb-4">Бенефициар</p>
+        <div class="p-4 border-1px border-secondary rounded-12px mb-4">
+            <p class="font-medium leading-20px mb-2">Тип перевода</p>
+            <div class="flex items-center py-[12.5px]">
+                <div class="flex items-center mr-6">
+                    <input id="other" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="other" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        В другой банк
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <input id="hamkor" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="hamkor" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        Внутри Hamkor
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <p class="font-medium leading-20px mb-2">Наименование бенефициара</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Введите или выберите из списка">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <p class="font-medium mb-2">Счёт</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="Счет 40702840268826853509">
+
+        <p class="font-medium mb-2">ИНН</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="12345678">
+
+        <p class="font-medium leading-20px mb-2">Страна бенефициара</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Начните вводить название страны Город">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <p class="font-medium mb-2">Город</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+            placeholder="Начните вводить название страны Город">
+
+        <p class="font-medium mb-2">Адрес</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Начните вводить название страны Город">
+    </div>
+
+    <div class="rounded-12px p-6 border-1px border-secondary mb-6">
+        <p class="text-xl font-medium mb-4">Банк бенефициара</p>
+        <div class="p-4 border-1px border-secondary rounded-12px mb-4">
+            <p class="font-medium leading-20px mb-2">Реквизиты банка</p>
+            <div class="flex items-center py-[12.5px]">
+                <div class="flex items-center mr-6">
+                    <input id="swift" class="form-control" type="radio" name="bankBeneficiary" value="swift"
+                        formControlName="bankBeneficiary"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="swift" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        Выбрать по SWIFT
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <input id="manual" class="form-control" type="radio" name="bankBeneficiary" value="manual"
+                        formControlName="bankBeneficiary"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="manual" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        Заполнить вручную
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="form.controls.bankBeneficiary.value === 'swift'">
+            <p class="font-medium mb-2">SWIFT-код банка</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Счет 40702840268826853509">
+
+            <p class="font-medium mb-2">Клиринговый код</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="12345678">
+        </ng-container>
+
+        <ng-container *ngIf="form.controls.bankBeneficiary.value === 'manual'">
+            <p class="font-medium mb-2">Наименование банка</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="ASIA ALLIANS BANK">
+
+            <p class="font-medium mb-2">Филиал</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите филиал банка">
+
+            <p class="font-medium mb-2">Корр. счёт</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите номер счёта">
+
+            <p class="font-medium leading-20px mb-2">Страна банка</p>
+            <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Введите название страны, ISO-код или выберите из списка">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p class="font-medium mb-2">Город</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите название города">
+
+            <p class="font-medium mb-2">Адрес</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите дом, улицу, индекс">
+
+            <p class="font-medium leading-20px mb-2">Клиринговый код</p>
+            <div class="flex items-center mb-4">
+                <mat-form-field appearance="outline" class="payment-select relative w-full mr-4">
+                    <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                        svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                    <mat-select disableRipple placeholder="Введите название кода или страну">
+                        <mat-option value="1">Option 1</mat-option>
+                        <mat-option value="2">Option 2</mat-option>
+                        <mat-option value="3">Option 3</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <input type="text" class="rounded-12px border-1px border-secondary w-[40%] h-11 px-2 outline-none">
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="rounded-12px p-6 border-1px border-secondary mb-6">
+        <p class="text-xl font-medium mb-4">Банк-посредник</p>
+        <div class="p-4 border-1px border-secondary rounded-12px mb-4">
+            <p class="font-medium leading-20px mb-2">Реквизиты банка</p>
+            <div class="flex items-center py-[12.5px]">
+                <div class="flex items-center mr-6">
+                    <input id="show" class="form-control" type="radio" name="bankRequisites" value="show"
+                        formControlName="bankRequisites"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="show" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        Указать
+                    </label>
+                </div>
+                <div class="flex items-center">
+                    <input id="notShow" class="form-control" type="radio" name="bankRequisites" value="notShow"
+                        formControlName="bankRequisites"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="notShow" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        Не Указать
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="form.controls.bankRequisites.value === 'show'">
+            <p class="font-medium leading-20px mb-2">Назначение перевода</p>
+            <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Введите назначение перевода или выберите из справочника">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p class="font-medium leading-20px mb-2">Доп. информация</p>
+            <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Введите назначение перевода или выберите из справочника">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p class="font-medium leading-20px mb-2">Информация для регулирующих органов</p>
+            <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Введите назначение перевода или выберите из справочника">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p class="font-medium mb-2">Клиринговый код</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="12345678">
+        </ng-container>
+
+        <ng-container *ngIf="form.controls.bankRequisites.value === 'notShow'">
+            <p class="font-medium mb-2">Наименование банка</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="ASIA ALLIANS BANK">
+
+            <p class="font-medium mb-2">Филиал</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите филиал банка">
+
+            <p class="font-medium mb-2">Корр. счёт</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите номер счёта">
+
+            <p class="font-medium leading-20px mb-2">Страна банка</p>
+            <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Введите название страны, ISO-код или выберите из списка">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p class="font-medium mb-2">Город</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите название города">
+
+            <p class="font-medium mb-2">Адрес</p>
+            <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none mb-4"
+                placeholder="Введите дом, улицу, индекс">
+
+            <p class="font-medium leading-20px mb-2">Клиринговый код</p>
+            <div class="flex items-center mb-4">
+                <mat-form-field appearance="outline" class="payment-select relative w-full mr-4">
+                    <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                        svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                    <mat-select disableRipple placeholder="Введите название кода или страну">
+                        <mat-option value="1">Option 1</mat-option>
+                        <mat-option value="2">Option 2</mat-option>
+                        <mat-option value="3">Option 3</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <input type="text" class="rounded-12px border-1px border-secondary w-[40%] h-11 px-2 outline-none">
+            </div>
+        </ng-container>
+
+        <div class="p-4 border-1px border-secondary rounded-12px mb-4">
+            <p class="font-medium leading-20px mb-2">Способ оплаты комиссии банка</p>
+            <div class="flex items-center py-[12.5px]">
+                <div class="flex items-center mr-6">
+                    <input id="ben" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="ben" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        BEN
+                    </label>
+                </div>
+                <div class="flex items-center mr-6">
+                    <input id="sha" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="sha" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        SHA
+                    </label>
+                </div>
+                <div class="flex items-center mr-6">
+                    <input id="our" class="form-control" type="radio" name="radio"
+                        style="height:20px; width:20px; vertical-align: middle; background-color: #B0B8C1;" />
+                    <label for="our" class="form-control-label ms-2 cursor-pointer text-secondary">
+                        OUR
+                    </label>
+                </div>
+
+                <p class="p-2 bg-[#EFF0F2] text-secondary flex items-center rounded-10px">
+                    <app-ui-svg-icon path="./assets/icons/indicator-icons.svg#payment-info"
+                        svgClass="w-5 h-5 mr-1"></app-ui-svg-icon>
+                    Информация
+                </p>
+            </div>
+        </div>
+
+        <p class="font-medium leading-20px mb-2">Контактное лицо</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-4">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Иванов Иван Иванович">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <p class="font-medium mb-2">Контактный телефон</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Введите номер">
+    </div>
+
+    <div class="flex justify-end mt-[26px]">
+        <button class="w-[194px] h-10 rounded-12px border-1px border-[#7C8897] mr-4 font-medium">Сброс</button>
+        <button
+            class="w-[194px] h-10 rounded-12px border-1px bg-[#E5E7EA] text-[#B0B8C1] font-medium">Подтвердить</button>
+    </div>
+</div>

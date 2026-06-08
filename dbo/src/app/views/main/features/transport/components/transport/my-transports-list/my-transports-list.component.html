@@ -1,0 +1,34 @@
+<div
+  class="flex items-start space-x-4 overflow-x-auto scrollbar-hide"
+  appScrollable
+  >
+  <app-ui-button-add (click)="addTransport()"></app-ui-button-add>
+  <ng-container *ngIf="isLoading">
+    <span
+      class="skeleton flex-none block w-[277px] h-[172px] rounded-2xl"
+      *ngFor="let item of [].constructor(5).fill(0)"></span>
+  </ng-container>
+  <ng-container *ngIf="!isLoading && transports.length !== 0">
+    <ng-container *ngFor="let item of transports">
+      <app-my-transports-item
+        [selected]="transport"
+        [transport]="item"></app-my-transports-item>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!isLoading && transports.length === 0">
+    <div class="py-3 mx-auto w-[300px] h-[172px] flex flex-col items-center">
+      <app-ui-svg-icon
+        path="./assets/icons/transports/transports-nav.svg#car"
+        svgClass="w-9 h-9 mb-2 text-lime-550"></app-ui-svg-icon>
+      <h3 class="mb-0.5 text-white text-base font-bold">
+        {{ 'transport.no-cars-title' | translate }}
+      </h3>
+      <p class="text-gray-550 text-xs mb-4">
+        {{ 'transport.no-cars-description' | translate }}
+      </p>
+      <button class="btn btn-outline mt-auto" (click)="addTransport()">
+        {{ 'common.add' | translate }}
+      </button>
+    </div>
+  </ng-container>
+</div>

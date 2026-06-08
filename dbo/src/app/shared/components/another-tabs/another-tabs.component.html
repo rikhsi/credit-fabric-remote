@@ -1,0 +1,14 @@
+<div class="flex p-1 items-center gap-1">
+  @for (tab of tabs; track tab) {
+    <button
+      type="button"
+      (click)="setActive(tab)"
+      class="flex justify-center items-center gap-1 px-[15px] py-[10px] text-lg font-semibold leading-5 tracking-[-0.084px]"
+      [ngClass]="activeTab() === tab
+        ? 'text-[#000] bg-[#FFF] rounded-[14px] border border-[#EDEDED] dark:bg-[#262626] dark:text-white dark:border-0'
+        : 'text-custom-secondary bg-transparent border-transparent border'"
+    >
+      {{ getTabLabel(tab) | translate }}
+    </button>
+  }
+</div>

@@ -1,0 +1,20 @@
+<div class="p-6 rounded-xl bg-white">
+  <button class="absolute justify-center items-center top-0 rounded-full p-[1.5px] right-0 flex bg-white"
+          (click)="_dialogRef.close()">
+    <mat-icon class="text-base font-bold rounded-full border-[1.5px] border-[#A1A1A1] ">close</mat-icon>
+  </button>
+  <p class="font-medium text-xl pb-4">Прикрепленные счета</p>
+  <mat-dialog-content class="max-h-96 overflow-y-auto p-6 rounded-xl border-1px border-secondary">
+  @if(permittedAccounts.length === 0){
+    No accounts available
+  }
+    @for ( account of permittedAccounts; let i = $index ; track account){
+      <div  class="flex justify-between items-center my-2 p-2 border rounded">
+        <p>{{ account.accountNumber }}</p>
+      <button mat-icon-button (click)="deletePermittedAccounts(account.id)">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+      </div>
+    }
+  </mat-dialog-content>
+</div>

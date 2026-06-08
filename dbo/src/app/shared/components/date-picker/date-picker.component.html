@@ -1,0 +1,25 @@
+<div class="w-full">
+  <mat-form-field class="w-full" appearance="outline">
+    @if (label()) {
+    <mat-label class="text-sm font-medium">
+      {{ label() }}
+      @if (required()) {
+      <span class="text-red-500 ml-1">*</span>
+      }
+    </mat-label>
+    }
+
+    <input matInput [matDatepicker]="picker" [placeholder]="placeholder()" [disabled]="disabled()" [min]="minDate()"
+      [max]="maxDate()" [(ngModel)]="value" (ngModelChange)="onModelChange($event)" (blur)="onBlur()"
+      class="text-base" />
+
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+
+    @if (hasError() && errorMessage()) {
+    <mat-error class="text-xs mt-1">
+      {{ errorMessage() }}
+    </mat-error>
+    }
+  </mat-form-field>
+</div>

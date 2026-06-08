@@ -1,0 +1,65 @@
+<ng-container *ngIf="transport">
+  <div
+    (click)="setTransport(transport)"
+    [ngClass]="
+      selected?.uuid === transport.uuid
+        ? 'bg-lime-25 border-lime-550'
+        : 'bg-lime-25/50 border-transparent'
+    "
+    class="p-4 w-[300px] h-[172px] rounded-2xl flex flex-col relative border cursor-pointer transition-colors duration-200">
+    <div class="flex justify-between">
+      <div class="flex items-center gap-1">
+        <div class="w-8 h-8">
+          <img
+            class="w-full h-full object-contain"
+            src="{{ transport.modelLogo.path }}/{{
+              transport.modelLogo.name
+            }}.{{ transport.modelLogo.ext }}"
+            [alt]="transport.modelLogo.name" />
+        </div>
+
+        <p class="text-gray-950 font-bold text-sm text-auto-dots max-w-[122px]">
+          {{ transport.carName }}
+        </p>
+      </div>
+
+      <div
+        [ngClass]="
+          selected?.uuid === transport.uuid
+            ? 'bg-white'
+            : 'bg-lime-25/50 border-transparent'
+        "
+        class="w-[120px] h-7 shadow-[0_10px_20px_rgba(39,49,64,0.1)] rounded-s absolute right-0 top-[18px] flex">
+        <p
+          class="w-7.5 h-7 border-r border-[#273140] flex justify-center align-items items-center">
+          <span class="text-gray-950 text-base font-fe-font">
+            {{ transport.carNumber | slice : 0 : 2 }}
+          </span>
+        </p>
+        <p class="flex items-center gap-x-1 ml-1">
+          <span class="text-gray-950 text-base font-fe-font">
+            {{ transport.carNumber | slice : 2 : transport.carNumber.length }}
+          </span>
+          <app-ui-svg-icon
+            svgClass="w-3 h-5"
+            path="./assets/icons/transports/transports-nav.svg#carUZB"></app-ui-svg-icon>
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center justify-center">
+      <img
+        class="w-[250] h-[98px] object-contain"
+        src="{{ transport.image.path }}/{{ transport.image.name }}.{{
+          transport.image.ext
+        }}"
+        [alt]="transport.image.name" />
+    </div>
+    <div class="absolute right-3 bottom-3" (click)="actions()">
+      <div class="flex flex-col items-center space-y-1 cursor-pointer icon-6">
+        <span class="w-1 h-1 bg-black rounded-full"></span>
+        <span class="w-1 h-1 bg-black rounded-full"></span>
+        <span class="w-1 h-1 bg-black rounded-full"></span>
+      </div>
+    </div>
+  </div>
+</ng-container>

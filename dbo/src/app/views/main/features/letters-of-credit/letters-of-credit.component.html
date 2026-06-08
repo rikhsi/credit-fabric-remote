@@ -1,0 +1,98 @@
+<div class="p-[30px] bg-white rounded-[15px] h-full flex flex-col gap-y-5 relative">
+  <div class="flex justify-between items-center">
+    <p class="text-[20px] text-[#2B2D33] font-medium leading-6">Аккредитивы</p>
+    <div class="flex gap-2 items-center">
+      <div
+        class="flex gap-x-2 items-center bg-[#DDECFC] px-5 py-2.5 rounded-[5px] !h-[40px] cursor-pointer"
+        [routerLink]="'/letters-of-credit/create'"
+      >
+        <span class="text-sm leading-[17px] text-[#264796]">
+          Создать завявку на открытие
+        </span>
+        <img ngSrc="./assets/svg/add-blue.svg" alt="add" width="24" height="24">
+      </div>
+
+<!--      <div-->
+<!--        (click)="printAccreditivDetailsPdf()"-->
+<!--        class="py-2.5 px-5 bg-[#EFF4F9] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--        [matTooltip]="'Скачать pdf'"-->
+<!--      >-->
+<!--        <img ngSrc="./assets/svg/printer.svg" alt="print" width="24" height="24" >-->
+<!--      </div>-->
+    </div>
+  </div>
+
+  <div class="flex justify-end">
+
+    <app-filter-button
+      [classes]="!filterState ? 'bg-[#264796] text-white' : ''"
+      [src]="!filterState ? './assets/svg/filter-white.svg' : './assets/svg/filter-black.svg'"
+      (click)="filterState = !filterState"
+    ></app-filter-button>
+  </div>
+
+  <table class="text-[#5B5B5B] salary-table w-full text-center">
+    <tr class="text-[13px] text-[#8B97A2]">
+      <td class="rounded-tl-[10px] bg-[#EFF4F9] px-2.5">#</td>
+<!--      <th class="rounded-tl-[10px] bg-[#EFF4F9]">ID</th>-->
+      <td class="bg-[#EFF4F9]">МФО</td>
+      <td class="bg-[#EFF4F9]">№ контракта</td>
+      <td class="bg-[#EFF4F9]">Дата контракта</td>
+      <td class="bg-[#EFF4F9]">Счет</td>
+      <td class="bg-[#EFF4F9]">Контр счет</td>
+      <td class="bg-[#EFF4F9]">Сумма до</td>
+      <td class="bg-[#EFF4F9]">Сумма</td>
+      <td class="bg-[#EFF4F9] rounded-tr-[10px]">Состояние</td>
+<!--      <th class="rounded-tr-[10px] bg-[#EFF4F9]"></th>-->
+    </tr>
+    @for (accredit of accreditList; track accredit; let last = $last) {
+      <tr
+        (click)="openDetails(accredit)"
+        class="border-b border-b-border_secondary cursor-pointer"
+      >
+        <td class="text-[#8B97A2]">{{ $index + 1 }}</td>
+<!--        <td>{{ accredit.lcId }}</td>-->
+        <td>{{ accredit.filialCode }}</td>
+        <td>{{ accredit.contractNumber }}</td>
+        <td>{{ accredit.contractDate }}</td>
+        <td>{{ accredit.accLc }}</td>
+        <td>{{ accredit.accLcContr }}</td>
+        <td>{{ formatNumber(accredit.amountBegin) }}</td>
+        <td>{{ formatNumber(accredit.amount) }}</td>
+        <td>
+          <div class="flex justify-center items-center">
+            <div
+              class="px-[7px] rounded-xl"
+              [ngClass]="{
+            'bg-[#CCE4FF]': accredit.state === 'Активный',
+            'bg-[#F3F3F3]': accredit.state !== 'Активный'
+            }"
+            >
+              <span>{{ accredit.state }}</span>
+            </div>
+          </div>
+        </td>
+<!--        <td-->
+<!--          class="cursor-pointer"-->
+<!--        >-->
+<!--          <div-->
+<!--            (click)="openDetails(accredit)"-->
+<!--            class="p-2 flex gap-x-2 items-center cursor-pointer"-->
+<!--            [matTooltip]="'Просмотр'"-->
+<!--          >-->
+<!--            <mat-icon>remove_red_eye</mat-icon>-->
+<!--          </div>-->
+<!--        </td>-->
+      </tr>
+    }
+  </table>
+  @if (isLoading){
+    <ul>
+      @for (items of [1,2,3,4,5] ; track items){
+        <li>
+          <span class="skeleton block rounded-12px h-16 w-full mb-2.5"></span>
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -1,0 +1,178 @@
+<div class="flex flex-col gap-2" [formGroup]="form">
+  <div class="flex items-center gap-3">
+    @for (item of filterConfig(); track item.name) {
+      @if (item.type === 'search') {
+        <div class="relative flex-1 max-w-[290px] min-w-[100px]">
+          <app-icon
+            class="absolute left-3 top-1/2 -translate-y-1/2"
+            icon="searchSm"
+            svgClass="fill-custom-muted"
+            size="20">
+          </app-icon>
+
+          <input
+            class="text-custom-primary border w-full border-custom-border rounded-[10px] h-8 outline-none py-[5px] pl-10 pr-3 text-sm bg-transparent placeholder:text-custom-muted focus:border-[#00A38D]"
+            type="text"
+            placeholder="Поиск"
+            [formControlName]="item.name">
+        </div>
+
+        @if (showFilterDialog()) {
+          <div
+            class="flex justify-center items-center px-[8px] py-[5px] border border-custom-border rounded-[10px] cursor-pointer active:border-[#00A38D]"
+            (click)="openFilterDialog()">
+            <app-icon icon="settings04" size="20" svgClass="fill-custom-primary"></app-icon>
+          </div>
+        }
+      }
+
+      @if (item.type === 'select') {
+        <div
+          class="border cursor-pointer border-custom-border rounded-[10px]"
+          #trigger="matMenuTrigger"
+          [matMenuTriggerFor]="menu"
+          [class.!border-[#00A38D]]="trigger.menuOpen">
+          <div class="flex items-center h-8 gap-2 px-3">
+            <span class="text-sm text-custom-primary">{{ item.placeholder }}</span>
+
+            @if (item.options) {
+              @let option = (item.options | findOption: form.get(item.name)?.value);
+              @if (option) {
+                <mat-chip
+                  class="!bg-surface-1 !h-6 overflow-hidden"
+                  [removable]="true"
+                  (removed)="clearSelect(item.name)">
+                  <div class="flex items-center gap-1">
+                    @if (option.icon) {
+                      <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg"
+                           [innerHTML]="option.icon"></div>
+                    }
+
+                    @if (option.iconName && option.svgClass) {
+                      <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg">
+                        <app-icon [icon]="option.iconName" size="12" [svgClass]="option.svgClass"></app-icon>
+                      </div>
+                    }
+
+                    <span class="text-custom-primary text-[12px] font-medium">{{ option.label | translate }}</span>
+
+                    <app-icon matChipRemove icon="xClose" size="16" svgClass="fill-custom-primary"></app-icon>
+                  </div>
+                </mat-chip>
+              }
+            }
+
+            <app-icon [class.rotate-180]="trigger.menuOpen" icon="chevronDown" svgClass="fill-custom-muted" size="20">
+            </app-icon>
+          </div>
+
+          <mat-menu #menu="matMenu" xPosition="after" class="menu-actions mt-2">
+            <div class="flex flex-col gap-1 p-[4px]">
+              @for (option of item.options; track option.value) {
+                <div
+                  class="flex cursor-pointer hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+                  (click)="setSelect(item.name, option.value)">
+                  @if (option.icon) {
+                    <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg"
+                         [innerHTML]="option.icon"></div>
+                  }
+
+                  @if (option.iconName && option.svgClass) {
+                    <div class="flex justify-center items-center w-6 h-6 bg-surface-1 rounded-lg">
+                      <app-icon [icon]="option.iconName" size="12" [svgClass]="option.svgClass"></app-icon>
+                    </div>
+                  }
+
+                  <span class="text-[14px] text-custom-secondary font-medium">{{ option.label | translate }}</span>
+                </div>
+              }
+            </div>
+          </mat-menu>
+        </div>
+      }
+
+      @if (item.type === 'period') {
+        <div
+          class="relative border cursor-pointer border-custom-border rounded-[10px]"
+          #trigger="matMenuTrigger"
+          [matMenuTriggerFor]="menu"
+          [class.!border-[#00A38D]]="trigger.menuOpen">
+          <mat-date-range-input
+            class="absolute inset-0 opacity-0 pointer-events-none"
+            [formGroupName]="item.name"
+            [rangePicker]="picker">
+            <input matStartDate formControlName="start"/>
+            <input matEndDate formControlName="end"/>
+          </mat-date-range-input>
+
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="w-full px-2 py-1">
+                <div class="flex w-full gap-3">
+                  <button class="h-[32px] bg-[#F5F5F5] text-[#171717] rounded-xl w-1/2 text-xs"
+                          matDateRangePickerCancel>Отменить
+                  </button>
+                  <button class="h-[32px] bg-[#00A38D] text-[#FFFFFF] rounded-xl w-1/2 text-xs" matDateRangePickerApply>
+                    Применить
+                  </button>
+                </div>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+
+
+          <div class="flex items-center h-8 gap-3 px-3">
+            <span class="text-sm text-custom-primary">{{ item.placeholder }}</span>
+
+            @let itemValue = this.form.get(item.name)?.value;
+            @if (itemValue?.start && itemValue?.end) {
+              <mat-chip
+                class="!bg-surface-1 !h-[20px]"
+                [removable]="true"
+                (removed)="clearPeriod(item.name)">
+                <div class="flex items-center gap-1">
+              <span class="text-custom-primary text-xs font-medium">
+                {{ itemValue.start | date : 'd MMMM' }} – {{ itemValue.end | date : 'd MMMM' }}
+              </span>
+
+                  <app-icon matChipRemove icon="xClose" size="16" svgClass="fill-custom-primary"></app-icon>
+                </div>
+              </mat-chip>
+            }
+
+            <app-icon icon="calendar" size="20" svgClass="fill-custom-muted"></app-icon>
+          </div>
+
+          <mat-menu #menu="matMenu" xPosition="after" class="menu-actions mt-2">
+            <div class="flex flex-col gap-1 p-[4px]">
+              @for (option of item.options; track option.value) {
+                <div
+                  class="flex cursor-pointer hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+                  (click)="setPeriod(item.name, option.value)">
+                  <span class="text-[14px] text-custom-secondary font-medium">{{ option.label | translate }}</span>
+                </div>
+              }
+
+              <div
+                class="flex cursor-pointer hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+                (click)="picker.open()">
+                <span class="text-[14px] text-custom-secondary font-medium">{{ 'accounts.custom' | translate }}</span>
+                <app-icon class="-rotate-90" icon="chevronDown" size="20" svgClass="fill-custom-muted"></app-icon>
+              </div>
+            </div>
+          </mat-menu>
+        </div>
+      }
+    }
+  </div>
+
+  @if (hasActiveFilters) {
+    <button
+      type="button"
+      class="flex flex-row items-center gap-2 h-4 bg-transparent border-none p-0 cursor-pointer text-[14px] font-medium leading-4 text-[#008C79] hover:opacity-80 active:opacity-60"
+      (click)="resetAll()">
+      Сбросить всё
+      <app-icon icon="xClose" size="16" svgClass="fill-[#008C79]"></app-icon>
+    </button>
+  }
+</div>

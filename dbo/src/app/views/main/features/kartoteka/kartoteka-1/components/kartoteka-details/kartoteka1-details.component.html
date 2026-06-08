@@ -1,0 +1,371 @@
+
+ <div
+  class="h-full flex flex-col bg-surface-2 rounded-2xl text-custom-primary border border-custom-border overflow-hidden">
+
+  @if(this.baseKartotekaStore.isKartotekaLoading()){
+    <div class="p-6 space-y-6">
+        <div class="space-y-3">
+          <div class="skeleton w-24 h-4"></div>
+          <div class="skeleton-title skeleton"></div>
+          <div class="skeleton w-32 h-4"></div>
+        </div>
+
+        <mat-divider class="bg-custom-border" />
+
+        <div class="flex gap-12 py-4">
+          <div class="flex flex-col items-center gap-2">
+            <div class="skeleton-button skeleton"></div>
+            <div class="skeleton w-12 h-3"></div>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="skeleton-button skeleton"></div>
+            <div class="skeleton w-12 h-3"></div>
+          </div>
+        </div>
+
+        <mat-divider class="bg-custom-border" />
+
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <div class="skeleton w-20 h-3"></div>
+            <div class="skeleton w-full h-5"></div>
+          </div>
+          <div class="space-y-2">
+            <div class="skeleton w-20 h-3"></div>
+            <div class="skeleton w-full h-8"></div>
+          </div>
+        </div>
+      </div>
+  }
+  @if(!this.baseKartotekaStore.isKartotekaLoading() && !this.baseKartotekaStore.kartotekaData()){
+      <div class="h-full w-full flex justify-center items-center">
+       <h3>Файл карты не найден</h3>
+     </div>
+  }
+  @if(!this.baseKartotekaStore.isKartotekaLoading() && this.baseKartotekaStore.kartotekaData()){
+
+    <!-- Header -->
+  <header class="flex justify-between pt-6 pb-2 px-6">
+    <h1 class="justify-center  text-xl font-semibold leading-loose">
+      Документ №{{ this.baseKartotekaStore.kartotekaData()?.docNum }}
+    </h1>
+    <div class="bg-surface-1 h-8 w-8 rounded-md flex items-center justify-center">
+      <img (click)="closeDialog()" src="assets/new-icons/close.svg" alt="close" />
+    </div>
+  </header>
+  <mat-divider class="bg-custom-border" />
+
+  <div class="h-full flex-1 overflow-y-auto">
+    <div class="flex flex-col gap-y-4 py-2">
+      <div class="flex flex-col ">
+        <div class="flex flex-col px-5 space-y-3 mb-3">
+          <div class="flex space-x-2 items-center"
+            *ngIf="this.baseKartotekaStore.kartotekaData()?.status && getSelectedStatus(this.baseKartotekaStore.kartotekaData()!.status) as status">
+            <div
+              class="flex items-center justify-center text-start h-[24px] w-[24px] rounded-[8px] p-[2px] gap-[10px] bg-[#F5F5F5]">
+              <img [src]="status.img" alt="status icon" class="w-3 h-3" />
+            </div>
+            <div class="text-custom-secondary text-xs leading-4 font-medium">
+              {{ status.name}}
+            </div>
+          </div>
+
+          <div>
+            <div class="whitespace-nowrap">
+              <span class="font-bold leading-[40px] text-[32px] text-custom-primary">{{
+                Math.floor(this.baseKartotekaStore.kartotekaData()!.sumDoc / 100) | mask : "separator" }}</span><span
+                class="text-[32px] leading-[40px] font-medium text-custom-secondary">.{{(Math.abs(this.baseKartotekaStore.kartotekaData()!.sumDoc)
+                %
+                100).toString().padStart(2, "0")}} UZS</span>
+            </div>
+            <div class="text-custom-secondary leading-5 text-sm font-normal flex space-x-2 items-center">
+              <span>
+                От {{ this.baseKartotekaStore.kartotekaData()!.docDate}}</span>
+            </div>
+            <div class="mt-4">
+              <div class="text-sm font-normal text-secondary">Сумма прописью</div>
+              <div class="text-base font-normal ">{{convertAmountIntoWords()}}</div>
+            </div>
+          </div>
+        </div>
+
+
+        <mat-divider class="bg-custom-border " />
+        <div
+          class="flex items-center text-custom-primary justify-start px-5 gap-12 py-8 bg-white border-t border-gray-100">
+          @for(button of this.baseKartotekaStore.kartotekaData()?.buttons; track button) {
+
+          @if (button.actionType == "ACCEPT_OR_REJECT_KARTATEKA" && button.type == "REJECT") {
+          <button (click)="rejectPaymentDialog()" class="group flex flex-col items-center gap-2 focus:outline-none">
+            <div
+              class="flex items-center justify-center bg-[#FFEBEC] w-[50px] h-[50px] rounded-[64px] p-[8px] border border-[#FFC0C5] gap-[10px]">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z"
+                  fill="#FB3748" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{{button.name}}</span>
+          </button>
+          }
+          @else if(button.actionType == "ACCEPT_OR_REJECT_KARTATEKA" && button.type == "ACCEPT"){
+          <button (click)="acceptPaymentDialog()" class="group  flex flex-col items-center gap-2 focus:outline-none">
+            <div
+              class="flex items-center justify-center bg-[#00A38D] w-[50px] h-[50px] rounded-[64px] p-[8px] border border-[#EBEBEB] gap-[10px]">
+              <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.94926e-06 14.2002V5.79981C1.82678e-06 4.97632 -0.00102054 4.29843 0.0439473 3.74805C0.0898762 3.18599 0.188274 2.6689 0.435549 2.1836C0.819018 1.43109 1.43109 0.819018 2.1836 0.435549C2.6689 0.188274 3.18599 0.0898762 3.74805 0.0439473C4.29843 -0.00102053 4.97632 1.82648e-06 5.79981 1.94926e-06H14C14.5523 1.94926e-06 15 0.447717 15 1C15 1.55229 14.5523 2 14 2H5.79981C4.94342 2 4.36117 2.00035 3.91113 2.03711C3.47272 2.07293 3.2482 2.13809 3.0918 2.21778C2.71555 2.40951 2.40951 2.71555 2.21778 3.0918C2.13809 3.2482 2.07293 3.47272 2.03711 3.91113C2.00035 4.36117 2 4.94342 2 5.79981V14.2002C2 15.0566 2.00035 15.6388 2.03711 16.0889C2.07293 16.5273 2.13809 16.7518 2.21778 16.9082C2.40951 17.2845 2.71554 17.5905 3.0918 17.7822C3.2482 17.8619 3.47272 17.9271 3.91113 17.9629C4.36117 17.9997 4.94342 18 5.79981 18H14.2002C15.0566 18 15.6388 17.9997 16.0889 17.9629C16.5273 17.9271 16.7518 17.8619 16.9082 17.7822C17.2845 17.5905 17.5905 17.2845 17.7822 16.9082C17.8619 16.7518 17.9271 16.5273 17.9629 16.0889C17.9997 15.6388 18 15.0566 18 14.2002V10C18 9.44772 18.4477 9 19 9C19.5523 9 20 9.44772 20 10V14.2002C20 15.0237 20.001 15.7016 19.9561 16.252C19.9101 16.814 19.8117 17.3311 19.5645 17.8164C19.181 18.5689 18.5689 19.181 17.8164 19.5645C17.3311 19.8117 16.814 19.9101 16.252 19.9561C15.7016 20.001 15.0237 20 14.2002 20H5.79981C4.97632 20 4.29843 20.001 3.74805 19.9561C3.18599 19.9101 2.6689 19.8117 2.1836 19.5645C1.43109 19.181 0.819018 18.5689 0.435549 17.8164C0.188273 17.3311 0.0898762 16.814 0.0439473 16.252C-0.00102053 15.7016 1.82648e-06 15.0237 1.94926e-06 14.2002ZM19.293 1.29297C19.6835 0.902447 20.3165 0.902447 20.707 1.29297C21.0976 1.68349 21.0976 2.31651 20.707 2.70703L10.707 12.707C10.3165 13.0976 9.68349 13.0976 9.29297 12.707L6.29297 9.70703C5.90245 9.31651 5.90245 8.68349 6.29297 8.29297C6.68349 7.90245 7.31651 7.90245 7.70703 8.29297L10 10.5859L19.293 1.29297Z"
+                  fill="white" />
+              </svg>
+
+            </div>
+            <span class="text-sm font-medium">{{button.name}}</span>
+          </button>
+          }
+          @else if(button.actionType == "PAY_KARTATEKA"){
+          <button (click)="fullPayPaymentDialog()" class="group  flex flex-col items-center gap-2 focus:outline-none">
+            <div
+              class="flex items-center justify-center bg-[#00A38D] w-[50px] h-[50px] rounded-[64px] p-[8px] border border-[#EBEBEB] gap-[10px]">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.7071 0.292893C17.3166 -0.0976311 16.6834 -0.0976311 16.2929 0.292893C15.9024 0.683418 15.9024 1.31658 16.2929 1.70711L20.2929 5.70711C20.6834 6.09763 21.3166 6.09763 21.7071 5.70711C22.0976 5.31658 22.0976 4.68342 21.7071 4.29289L17.7071 0.292893Z"
+                  fill="white" />
+                <path
+                  d="M13.5365 3.28045C13.8378 3.18256 14.1623 3.18256 14.4635 3.28045C14.6962 3.35603 14.8648 3.48158 14.9759 3.57587C15.0717 3.65724 15.1723 3.75787 15.2564 3.84212L18.1578 6.74349C18.2421 6.82769 18.3427 6.92824 18.4241 7.02409C18.5184 7.13517 18.6439 7.30376 18.7195 7.5364C18.8174 7.83766 18.8174 8.16219 18.7195 8.46345C18.6439 8.69608 18.5184 8.86468 18.4241 8.97576C18.3427 9.07162 18.242 9.17219 18.1578 9.25639L7.7703 19.6439C7.58362 19.8308 7.41887 19.9958 7.22797 20.1348C7.05998 20.2572 6.87973 20.3618 6.69012 20.447C6.47465 20.5437 6.24969 20.6049 5.99479 20.6743L1.26314 21.9647C0.916928 22.0591 0.546667 21.9608 0.292916 21.707C0.0391662 21.4533 -0.0591621 21.083 0.0352593 20.7368L1.32569 16.0052C1.39504 15.7503 1.45624 15.5253 1.55298 15.3098C1.63811 15.1202 1.74272 14.94 1.86511 14.772C2.00419 14.5811 2.16915 14.4163 2.35606 14.2296L12.7436 3.84215C12.8278 3.75789 12.9283 3.65725 13.0242 3.57587C13.1353 3.48158 13.3039 3.35603 13.5365 3.28045Z"
+                  fill="white" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium">{{button.name}}</span>
+          </button>
+          }
+          @else if(button.actionType == "MOVE_TO_KARTATEKA2"){
+          <button (click)="movePaymentDialog()"  class="group  flex flex-col items-center gap-2 focus:outline-none">
+            <svg width="55" height="55" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0.5" y="0.5" width="49" height="49" rx="24.5" fill="white" />
+              <rect x="0.5" y="0.5" width="49" height="49" rx="24.5" stroke="#EBEBEB" />
+              <path
+                d="M34 25.9201V24.8C34 23.9436 33.9997 23.3614 33.9629 22.9113C33.9271 22.4729 33.8619 22.2484 33.7822 22.092C33.5905 21.7158 33.2845 21.4097 32.9082 21.218C32.7518 21.1383 32.5273 21.0731 32.0889 21.0373C31.6388 21.0006 31.0566 21.0002 30.2002 21.0002H16V29.2004C16 30.0568 16.0004 30.639 16.0371 31.0891C16.0729 31.5275 16.1381 31.752 16.2178 31.9084C16.4095 32.2847 16.7155 32.5907 17.0918 32.7824C17.2482 32.8621 17.4727 32.9273 17.9111 32.9631C18.3612 32.9999 18.9434 33.0002 19.7998 33.0002H25.583C26.1352 33.0003 26.583 33.448 26.583 34.0002C26.583 34.5524 26.1352 35.0001 25.583 35.0002H19.7998C18.9763 35.0002 18.2984 35.0012 17.7481 34.9563C17.186 34.9103 16.6689 34.8119 16.1836 34.5647C15.4311 34.1812 14.819 33.5691 14.4356 32.8166C14.1883 32.3313 14.0899 31.8142 14.0439 31.2522C13.999 30.7018 14 30.0239 14 29.2004V19.2004C14 18.6569 13.9989 18.1886 14.0303 17.8049C14.0626 17.4096 14.1344 17.0162 14.3272 16.6379C14.6147 16.0737 15.0735 15.6149 15.6377 15.3274C16.016 15.1346 16.4094 15.0628 16.8047 15.0305C17.1884 14.9991 17.6566 15.0002 18.2002 15.0002H22.0225C22.6678 15.0002 23.229 14.9873 23.7422 15.1643C24.1625 15.3093 24.5456 15.5455 24.8633 15.8567C25.2511 16.2365 25.4907 16.7443 25.7793 17.3215L26.6182 19.0002H30.2002C31.0237 19.0002 31.7016 18.9992 32.252 19.0442C32.814 19.0901 33.3311 19.1885 33.8164 19.4358C34.5689 19.8192 35.181 20.4313 35.5645 21.1838C35.8117 21.6691 35.9101 22.1862 35.9561 22.7483C36.001 23.2986 36 23.9765 36 24.8V25.9201C36 26.4724 35.5523 26.9201 35 26.9201C34.4477 26.9201 34 26.4724 34 25.9201ZM18.2002 17.0002C17.6236 17.0002 17.2511 17.0015 16.9678 17.0246C16.6962 17.0468 16.5953 17.0844 16.5459 17.1096C16.3579 17.2054 16.2052 17.3581 16.1094 17.5461C16.0842 17.5955 16.0466 17.6964 16.0244 17.968C16.0041 18.2171 16.0014 18.5351 16.001 19.0002H24.3818L23.9902 18.216C23.6368 17.5092 23.555 17.3746 23.4639 17.2854C23.358 17.1817 23.2299 17.1032 23.0898 17.0549C22.9692 17.0133 22.8124 17.0002 22.0225 17.0002H18.2002Z"
+                fill="#00A38D" />
+              <path
+                d="M34.999 28C35.5512 28.0001 35.999 28.4478 35.999 29C35.999 29.5522 35.5512 29.9999 34.999 30H28.1953C27.643 30 27.1953 29.5523 27.1953 29C27.1953 28.4477 27.643 28 28.1953 28H34.999Z"
+                fill="#00A38D" />
+              <path
+                d="M34.999 31C35.5512 31.0001 35.999 31.4478 35.999 32C35.999 32.5522 35.5512 32.9999 34.999 33H28.1953C27.643 33 27.1953 32.5523 27.1953 32C27.1953 31.4477 27.643 31 28.1953 31H34.999Z"
+                fill="#00A38D" />
+              <path
+                d="M34.999 34C35.5512 34.0001 35.999 34.4478 35.999 35C35.999 35.5522 35.5512 35.9999 34.999 36H28.1953C27.643 36 27.1953 35.5523 27.1953 35C27.1953 34.4477 27.643 34 28.1953 34H34.999Z"
+                fill="#00A38D" />
+            </svg>
+
+            <span class="text-sm font-medium">{{button.name}}</span>
+          </button>
+          }
+          }
+        </div>
+        <mat-divider class="bg-custom-border " />
+
+        <div class="px-5">
+          <div class="flex flex-col py-2">
+            <div class="text-custom-secondary text-sm leading-5 font-normal">{{"cardFileTwo.type" | translate}}</div>
+            <div class="font-normal leading-6 text-base text-custom-primary break-words">
+              {{ this.baseKartotekaStore.kartotekaData()?.docTypeName}}
+            </div>
+          </div>
+
+          <div class="flex flex-col py-2">
+            <div class="text-custom-secondary text-sm leading-5 font-normal">
+              {{"cardFileTwo.payment_purpose" | translate}}
+            </div>
+            <div class="font-normal leading-6 text-base text-custom-primary break-words">
+              {{ this.baseKartotekaStore.kartotekaData()?.purposeName }}
+            </div>
+          </div>
+
+          <div class="flex flex-col pt-2">
+            <div class="text-custom-secondary text-sm leading-5 font-normal">
+              Код назначения платежа
+            </div>
+            <div class="font-normal leading-6 text-base text-custom-primary break-words">
+              {{ this.baseKartotekaStore.kartotekaData()?.purposeCode }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      @if(this.baseKartotekaStore.kartotekaData()?.status !== "NEW"){
+      <mat-divider class="bg-custom-border" />
+
+      <div class="px-5 flex justify-between items-center">
+        <div class="leading-6 font-semibold text-base text-custom-primary">
+          Исполнение по документу
+        </div>
+
+        <div class="flex space-x-1 items-center cursor-pointer select-none" (click)="copyAllPayment()" role="button"
+          tabindex="0">
+          <span><img src="assets/new-icons/copy.svg" alt="copy" /></span>
+          <span class="leading-5 text-sm font-medium text-custom-secondary">
+            {{"cardFileTwo.copy_all" | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="w-[64%] px-5 space-y-4">
+
+        <div
+          class="flex justify-between items-center text-custom-primary bg-[#F7F7F7] border border-[#EBEBEB] rounded-lg py-[4px] px-[8px]">
+          <div class="flex font-[14px] items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#FA7319]"></span>
+            <span class="font-medium text-[#171717]">Оплачено</span>
+          </div>
+          <div class="font-medium ">
+            {{Math.floor(this.baseKartotekaStore.kartotekaData()!.amountPayed / 100) | mask : "separator" }}
+            <span class="text-custom-secondary">
+              .{{(Math.abs(this.baseKartotekaStore.kartotekaData()!.amountPayed) % 100).toString().padStart(2, "0")}} UZS
+           </span>
+          </div>
+         </div>
+        <div
+          class="flex justify-between items-center bg-[#F7F7F7] border border-[#EBEBEB] rounded-lg py-[4px] px-[8px]">
+          <div class="flex font-[14px] items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#FB3748]"></span>
+            <span class="font-medium text-[#171717]">Отклонено</span>
+          </div>
+          <div class="font-medium">
+             {{Math.floor(this.baseKartotekaStore.kartotekaData()!.amountRejected / 100) | mask : "separator" }}
+            <span class="text-custom-secondary">
+              .{{(Math.abs(this.baseKartotekaStore.kartotekaData()!.amountRejected) % 100).toString().padStart(2, "0")}} UZS
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-[100%]  px-5 flex items-center text-custom-primary justify-between gap-4">
+        <div
+          class="w-[64%]  flex justify-between items-center   bg-[#F7F7F7] border border-[#EBEBEB] rounded-lg py-[4px] px-[8px]">
+          <div class="flex font-[14px] items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-custom-primary"></span>
+            <span class="font-medium">Остаток</span>
+          </div>
+          <div class="font-medium ">{{Math.floor(this.baseKartotekaStore.kartotekaData()!.sumSaldo / 100) | mask :
+            "separator" }} <span
+              class="text-custom-secondary">.{{(Math.abs(this.baseKartotekaStore.kartotekaData()!.sumSaldo) %
+              100).toString().padStart(2, "0")}}
+              UZS</span></div>
+        </div>
+        <div
+          class="w-[36%] flex gap-2 items-center justify-center text-[12px] bg-[#FFEBEC] text-[#FB3748] rounded-lg py-[8px] px-[2px]">
+          <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10.5 5.83333H1.16667V9.45011C1.16667 9.94968 1.16687 10.2893 1.18832 10.5518C1.20921 10.8076 1.24722 10.9386 1.2937 11.0298C1.40555 11.2493 1.58407 11.4278 1.80355 11.5396C1.89478 11.5861 2.02575 11.6241 2.2815 11.645C2.54402 11.6665 2.88366 11.6667 3.38322 11.6667H8.28345C8.78301 11.6667 9.12265 11.6665 9.38518 11.645C9.64092 11.6241 9.77189 11.5861 9.86312 11.5396C10.0826 11.4278 10.2611 11.2493 10.373 11.0298C10.4195 10.9386 10.4575 10.8076 10.4784 10.5518C10.4998 10.2893 10.5 9.94968 10.5 9.45011V5.83333ZM7.58334 2.91667V2.33333H4.08334V2.91667C4.08334 3.23883 3.82217 3.5 3.5 3.5C3.17784 3.5 2.91667 3.23883 2.91667 2.91667V2.33504C2.65682 2.33687 2.45274 2.34099 2.2815 2.35498C2.02575 2.37588 1.89478 2.41388 1.80355 2.46037C1.58407 2.57221 1.40555 2.75073 1.2937 2.97022C1.24722 3.06145 1.20921 3.19242 1.18832 3.44816C1.16687 3.71068 1.16667 4.05033 1.16667 4.54989V4.66667H10.5V4.54989C10.5 4.05033 10.4998 3.71068 10.4784 3.44816C10.4575 3.19242 10.4195 3.06145 10.373 2.97022C10.2611 2.75073 10.0826 2.57221 9.86312 2.46037C9.77189 2.41388 9.64092 2.37588 9.38518 2.35498C9.21393 2.34099 9.00985 2.33687 8.75 2.33504V2.91667C8.75 3.23883 8.48884 3.5 8.16667 3.5C7.8445 3.5 7.58334 3.23883 7.58334 2.91667ZM11.6667 9.45011C11.6667 9.93048 11.6673 10.3259 11.641 10.647C11.6142 10.9748 11.5568 11.2765 11.4126 11.5596C11.1889 11.9985 10.8319 12.3556 10.3929 12.5793C10.1098 12.7235 9.80817 12.7809 9.48031 12.8077C9.15925 12.8339 8.76382 12.8333 8.28345 12.8333H3.38322C2.90285 12.8333 2.50742 12.8339 2.18636 12.8077C1.8585 12.7809 1.55686 12.7235 1.27376 12.5793C0.834802 12.3556 0.47776 11.9985 0.25407 11.5596C0.109826 11.2765 0.0524278 10.9748 0.0256359 10.647C-0.000595308 10.3259 1.06545e-06 9.93048 1.13707e-06 9.45011V4.54989C1.06562e-06 4.06952 -0.000595313 3.67408 0.0256359 3.35303C0.0524278 3.02516 0.109826 2.72352 0.25407 2.44043C0.47776 2.00147 0.834802 1.64443 1.27376 1.42074C1.55686 1.27649 1.8585 1.21909 2.18636 1.1923C2.39683 1.17511 2.63932 1.17028 2.91667 1.16838V0.583333C2.91667 0.261167 3.17784 0 3.5 0C3.82217 0 4.08334 0.261167 4.08334 0.583333V1.16667H7.58334V0.583333C7.58334 0.261167 7.8445 0 8.16667 0C8.48884 0 8.75 0.261167 8.75 0.583333V1.16838C9.02736 1.17028 9.26984 1.17511 9.48031 1.1923C9.80817 1.21909 10.1098 1.27649 10.3929 1.42074C10.8319 1.64443 11.1889 2.00147 11.4126 2.44043C11.5568 2.72352 11.6142 3.02516 11.641 3.35303C11.6673 3.67408 11.6667 4.06952 11.6667 4.54989V9.45011Z"
+              fill="#FB3748" />
+          </svg>
+
+          Оплатите до {{ this.baseKartotekaStore.kartotekaData()?.datePay }}
+        </div>
+      </div>
+
+      }
+
+      <mat-divider class="bg-custom-border" />
+
+      <div class="px-5 flex justify-between items-center">
+        <div class="leading-6 font-semibold text-base text-custom-primary">
+          {{"cardFileTwo.recipient_details" | translate}}
+
+        </div>
+
+        <div class="flex space-x-1 items-center cursor-pointer select-none" (click)="copyAll()" role="button"
+          tabindex="0">
+          <span><img src="assets/new-icons/copy.svg" alt="copy" /></span>
+          <span class="leading-5 text-sm font-medium text-custom-secondary">
+            {{"cardFileTwo.copy_all" | translate}}
+          </span>
+        </div>
+      </div>
+
+      <div class="px-5 flex flex-col">
+        <div class="flex flex-col py-2">
+          <div class="text-custom-secondary text-sm leading-5 font-normal">
+            {{"cardFileTwo.recipient_alt2" | translate}}
+          </div>
+          <div class="font-normal leading-6 text-base text-custom-primary break-words">
+            {{ this.baseKartotekaStore.kartotekaData()?.coName }}
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between py-2">
+          <div class="flex-1">
+            <div class="text-custom-secondary text-sm leading-5 font-normal">
+              {{"createPayment.inn" | translate}}
+            </div>
+            <div class="font-normal leading-6 text-base text-custom-primary break-words">
+              {{ this.baseKartotekaStore.kartotekaData()?.coInn }}
+            </div>
+          </div>
+          <button class="ml-3 p-2" (click)="copySingle(this.baseKartotekaStore.kartotekaData()?.coInn)"
+            title="Копировать ИНН" type="button">
+            <img src="assets/new-icons/copy.svg" alt="copy" />
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between py-2">
+          <div class="flex-1">
+            <div class="text-custom-secondary text-sm leading-5 font-normal">
+              {{"cardFileTwo.recipient_account" | translate}}
+            </div>
+            <div class="font-normal leading-6 text-base text-custom-primary break-words">
+              {{ this.baseKartotekaStore.kartotekaData()?.coAcc?.accountNumber}}
+            </div>
+          </div>
+          <button class="ml-3 p-2" (click)="copySingle(this.baseKartotekaStore.kartotekaData()?.coAcc)"
+            title="Копировать счёт" type="button">
+            <img src="assets/new-icons/copy.svg" alt="copy" />
+          </button>
+        </div>
+
+        <div class="flex flex-col pt-2">
+          <div class="text-custom-secondary text-sm leading-5 font-normal">
+            {{"cardFileTwo.bank_mfo" | translate}}
+          </div>
+          <div class="font-normal leading-6 text-base text-custom-primary break-words">
+            {{ this.baseKartotekaStore.kartotekaData()?.coMfo }}
+          </div>
+        </div>
+      </div>
+
+      <mat-divider class="bg-custom-border" />
+
+      <div class="flex flex-col px-5 pb-6">
+        <div class="leading-6 font-semibold text-base text-custom-primary">
+          {{"cardFileTwo.change_history" | translate}}
+
+        </div>
+
+        <div class="relative pl-2">
+          @for (transaction of transactionList; track transaction.transactId) {
+          <div class="relative flex gap-3 pb-3 last:pb-0">
+            <div class="relative flex flex-col items-center">
+              <div class="w-[6px] h-[6px] rounded-full mt-2 bg-surface-1 z-10"></div>
+            </div>
+            <div class="flex-1">
+              <div class="text-[14px] text-custom-secondary leading-[20px] font-normal">
+                {{ transaction.executeTime }}
+              </div>
+              <div class="text-[14px] text-custom-primary leading-[20px] font-normal">
+                {{ transaction.leadType }}. Hа сумму:
+                <ng-container *ngIf="transaction.sumPay">
+                  {{ transaction.sumPay / 100 | mask: 'separator.2' }} UZS
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+      </div>
+    </div>
+  </div>
+  }
+
+</div>

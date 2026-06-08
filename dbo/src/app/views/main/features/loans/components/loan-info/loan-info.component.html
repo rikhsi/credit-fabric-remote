@@ -1,0 +1,35 @@
+<div class="flex flex-col">
+  @if(loanDetail.accountTitle && !short) {
+    <div class="text-[20px] leading-[24px] text-[#000] font-medium">{{ loanDetail.accountTitle }}</div>
+  }
+
+  @if(!short) {
+    @for(detail of details; track detail?.title) {
+      <div class="!h-[40px] grid text-sm leading-[17px] items-center border-b border-[#EFF4F9] grid-cols-2 gap-4">
+        <div class="text-start text-[#7C8897]">{{ detail?.title }}</div>
+        <div
+          class="text-end"
+          [ngClass]="{'!text-red-500': detail?.color}"
+        >{{ detail?.value }}</div>
+      </div>
+    }
+  } @else {
+    @for(detail of shortDetails; track detail?.title) {
+      <div class="!h-[40px] grid text-sm leading-[17px] items-center border-b border-[#EFF4F9] grid-cols-2 gap-4">
+        <div class="text-start text-[#7C8897]">{{ detail?.title }}</div>
+        <div
+          class="text-end"
+          [ngClass]="{'!text-red-500': detail?.color}"
+        >{{ detail?.value }}</div>
+      </div>
+    }
+  }
+
+<!--  @if(loanDetail?.mainDebt?.amount && loanDetail?.fullAmount?.amount && !short) {-->
+<!--    <app-loan-status-indicator-->
+<!--      class="!h-[40px] flex items-center"-->
+<!--      [mainDebt]="loanDetail.mainDebt.amount / 100"-->
+<!--      [totalSum]="loanDetail.fullAmount.amount / 100"-->
+<!--    ></app-loan-status-indicator>-->
+<!--  }-->
+</div>

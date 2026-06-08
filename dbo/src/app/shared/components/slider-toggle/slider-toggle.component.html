@@ -1,0 +1,25 @@
+@if(from && to) {
+  <div
+    class="w-full select-none !h-full text-white overflow-hidden transition-all flex items-center justify-between rounded-xl cursor-pointer"
+    (click)="onChange()"
+  >
+    <div
+      class="!bg-[#22a3ff] !text-white flex items-center justify-center w-full h-full transition-all duration-200"
+      [ngClass]="{
+    'w-1 opacity-[30%] bg-[#EFF4F9] !text-white': !checked,
+    }"
+    >
+      <span>{{ from }}</span>
+    </div>
+
+    <div
+      class="!bg-[#22a3ff] !text-white flex items-center justify-center w-full h-full transition-all duration-200"
+      [ngClass]="{
+    'w-1 opacity-[30%] bg-[#EFF4F9] !text-white': checked,
+    }"
+    >
+      <span class="text-black" >{{ to }}</span>
+    </div>
+  </div>
+
+}

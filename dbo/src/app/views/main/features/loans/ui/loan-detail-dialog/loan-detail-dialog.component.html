@@ -1,0 +1,115 @@
+<div class="bg-white rounded-[22px] border border-[#EBEBEB] h-full flex flex-col ">
+  <div class="flex justify-between items-center px-6 py-5">
+    <span class="text-[18px] font-semibold leading-5">Детали кредита</span>
+
+    <div
+      mat-dialog-close
+      class="w-6 h-6 rounded-md flex justify-center items-center bg-[#F3F3F3] cursor-pointer">
+      <img ngSrc="../../../../../../../assets/new-icons/close.svg" alt="close" height="10" width="10">
+    </div>
+  </div>
+
+  <mat-divider/>
+
+  <div class=" px-6 py-4">
+    <div class="flex items-center">
+      <div class="text-center cursor-pointer">
+        <div class="w-[40px] h-[40px] bg-white rounded-full flex items-center justify-center mx-auto">
+          <img src="../../../../../../../assets/new-icons/active.svg" alt="file-plus">
+        </div>
+      </div>
+      <span class="text-xs font-medium ml-1">{{ loan.state }}</span>
+    </div>
+
+    <div class="text-[#191A1D] font-semibold text-2xl">
+      {{ integerPart(loan.amount) }}.{{ decimalPart(loan.amount) }} {{ loan.currency }}
+    </div>
+
+    <div class="text-sm text-[#A3A3A3] mt-1">№{{ loan.card.crd_number }}  от {{ loan.card.crd_regdate }}</div>
+  </div>
+
+  <mat-divider/>
+
+  <div class="flex flex-col gap-4 px-6 py-4 overflow-y-auto">
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Название кредита</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.detail.crdTypename }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Номер договора</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.card.crd_number }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Валюта</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.currency }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Остаток задолженности</p>
+      <p class="text-[#1A1A1A] leading-6">{{ integerPart(loan.totalDebt) }}.{{ decimalPart(loan.totalDebt)  }} {{ loan.currency }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Процентная ставка</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.detail.percMain }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Тип</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.card.crd_typename }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">График погашения</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.card.graph_type }}, {{ loan.detail.paymentFrequency }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Дата выдачи</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.detail.regDate }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Дата окончания</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.card.crd_retdate }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Цель кредита</p>
+      <p class="text-[#1A1A1A] leading-6">{{ loan.card.crd_object }}</p>
+    </div>
+
+    <div class="hidden">
+      <p class="text-[#A3A3A3] text-sm leading-5">Вид обеспечения</p>
+      <p class="text-[#1A1A1A] leading-6">Без залога</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Просроченный основной долг</p>
+      <p class="text-[#1A1A1A] leading-6" *ngIf="loan.card.overdue_debt">{{ integerPart(loan.card.overdue_debt) }}.{{ decimalPart(loan.card.overdue_debt) }} {{ loan.currency }}</p>
+    </div>
+
+    <div>
+      <p class="text-[#A3A3A3] text-sm leading-5">Просроченные проценты</p>
+      <p class="text-[#1A1A1A] leading-6" *ngIf="loan.card.overdue_perc">{{ integerPart(loan.card.overdue_perc) }}.{{ decimalPart(loan.card.overdue_perc) }} {{ loan.currency }}</p>
+    </div>
+
+    <div class="hidden">
+      <p class="text-[#A3A3A3] text-sm leading-5">Пролонгация</p>
+      <p class="text-[#1A1A1A] leading-6">Остаток депозита</p>
+    </div>
+
+    <div class="hidden">
+      <p class="text-[#A3A3A3] text-sm leading-5">Открытие счета</p>
+      <p class="text-[#1A1A1A] leading-6">Начальная сумма</p>
+    </div>
+
+    <div class="hidden">
+      <p class="text-[#A3A3A3] text-sm leading-5">Закрытие счета</p>
+      <p class="text-[#1A1A1A] leading-6">Итоговая сумма</p>
+    </div>
+  </div>
+
+</div>

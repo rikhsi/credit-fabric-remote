@@ -1,0 +1,132 @@
+<div class="p-6 rounded-xl bg-white max-h-[700px] overflow-y-auto">
+  <button class="absolute justify-center items-center top-0 rounded-full p-[1.5px] right-0 flex bg-white"
+          (click)="dialogRef.close()">
+    <mat-icon class="text-base font-bold rounded-full border-[1.5px] border-[#A1A1A1] ">close</mat-icon>
+  </button>
+  <p class="font-medium text-xl pb-4">Добавление</p>
+  <div class="p-6 rounded-xl border-1px border-secondary">
+    <form [formGroup]="signOrderForm" (ngSubmit)="onSubmit()" class=" space-y-4">
+      <div class="flex flex-col gap-y-2">
+        <!-- Name input -->
+        <div>
+          <p class="text-base font-semibold leading-normal not-italic text-black block">Названия</p>
+          <input
+            placeholder="Введите названия"
+            formControlName="name"
+            class="font-normal  text-black  text-base h-11 px-4 border border-solid border-secondary  rounded-10px focus:outline-none w-full"/>
+        </div>
+<!--        <div>-->
+<!--          <p class="text-base font-semibold leading-normal not-italic text-black block">Код</p>-->
+<!--          <input-->
+<!--            placeholder="Введите код"-->
+<!--            formControlName="code"-->
+<!--            class="font-normal  text-black  text-base h-11 px-4 border border-solid border-secondary  rounded-10px focus:outline-none w-full"/>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <p class="font-medium leading-20px mb-2">Тип транзакции</p>-->
+<!--          <mat-form-field appearance="outline" class="payment-select relative w-full mb-2.5">-->
+<!--            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"-->
+<!--                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>-->
+<!--            <mat-select formControlName="mode" disableRipple placeholder="выберите тип транзакции">-->
+<!--              @for (mode of modes;track mode){-->
+<!--                <mat-option [value]="mode">{{ mode }}</mat-option>-->
+<!--              }-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
+
+        <div class="font-medium leading-20px">Маршрут</div>
+
+        <div class="flex flex-col gap-y-5" formArrayName="order">
+          <div
+            class="flex flex-col gap-y-5"
+            cdkDropList
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="flex gap-x-5 items-center custom-placeholder"
+              *ngFor="let orderGroup of orderFormArray.controls; let i = index; let f = first"
+              [formGroupName]="i"
+              cdkDrag
+            >
+
+              <mat-icon class="cursor-pointer text-gray-500" cdkDragHandle>drag_indicator</mat-icon>
+              <mat-form-field appearance="outline" class="small">
+                <mat-label>Тип роли</mat-label>
+
+                <mat-select
+                  formControlName="roleType"
+                >
+                  @for(role of roles; track $index) {
+                    <mat-option [value]="role">{{ role }}</mat-option>
+                  }
+                </mat-select>
+
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="small">
+                <mat-label>Тип роли</mat-label>
+
+                <mat-select
+                  formControlName="action"
+                >
+                  @for(action of actions; track $index) {
+                    <mat-option [value]="action">{{ action }}</mat-option>
+                  }
+                </mat-select>
+
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+              </mat-form-field>
+
+              @if(!f) {
+                <button
+                  matTooltip="Убрать"
+                  mat-icon-button
+                  type="button"
+                  (click)="removeOrder(i)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              } @else {
+                <button
+                  matTooltip="Убрать"
+                  mat-icon-button
+                  disabled
+                  type="button">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              }
+
+              <ng-template cdkDragPlaceholder>
+                <div class="w-full bg-gray-200 border-dashed p-3 rounded-lg border border-gray-400">
+                  <p class="text-gray-500 italic text-center">Перетащите сюда</p>
+                </div>
+              </ng-template>
+            </div>
+
+            <div *ngIf="orderFormArray.length === 0" class="w-full bg-gray-200 border-dashed p-3 rounded-lg border border-gray-400 text-center">
+              <p class="text-gray-500 italic">Перетащите элементы сюда</p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="w-full"
+          matTooltip="Добавить"
+          mat-stroked-button
+          type="button" (click)="addOrder()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+
+      </div>
+
+      <div class="flex mt-4 gap-x-4">
+        <button  type="button" class="w-full h-[38px] bg-[#EBECF6] text-[#B0B8C1] rounded-xl" (click)="dialogRef.close()">Отменить</button>
+        <button type="submit"
+                [ngClass]="signOrderForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+                class="h-[38px] flex justify-center items-center rounded-xl w-full">Подтвердить</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,531 @@
+@let tIsAccountsOpen = isAccountsOpen();
+@let tSenderAccounts = store.senderAccounts();
+@let tBronList = store.bronList();
+@let tSelectedSenderAccount = store.selectedSenderAccount();
+@let tTransitAccountInfo = store.transitAccountInfo();
+@let tPaymentCodeList = store.paymentCodeList();
+@let tIsPaymentCodeOpen = isPaymentCodeOpen();
+@let tSelectedPurpose = store.selectedPaymentCode();
+@let tFileInfo = store.fileInfo();
+@let tEmployeeList = store.employeeList();
+@let tEmployeeListFiltered = store.employeeListFiltered();
+@let tEmployeeListByFileUpload = store.employeeListByFileUpload();
+@let tEmployeeListLoading = store.employeeListLoading();
+
+<form [formGroup]="store.form" class="flex flex-col gap-5 p-5">
+  <div
+    class="grid grid-cols-12 border border-custom-border bg-surface-1 p-5 gap-5 rounded-[20px]"
+    formGroupName="salaryPrepareReq">
+    <div class="col-span-12 text-custom-primary text-xs font-semibold uppercase">
+      {{ 'salaryStatements.basic_information' | translate }}
+    </div>
+
+    <div
+      class="col-span-12 p-5 border border-custom-border rounded-[16px] flex justify-between gap-[45px] bg-surface-2 w-full">
+      <div>
+        <p class="text-custom-primary text-sm font-medium">
+          Платёжное поручение на транзитный зарплатный счёт
+        </p>
+
+        <p class="text-custom-secondary text-sm mt-1.5">
+          Для того чтобы зарплата зачислилась, необходимо перевести средства на зарплатный транзитный счёт
+        </p>
+      </div>
+
+      <label class="cursor-pointer select-none">
+        <input
+          class="hidden peer"
+          type="checkbox"
+          formControlName="useTransit"/>
+        <span
+          class="w-6 h-6 mr-2 flex items-center justify-center rounded-md border border-custom-border peer-checked:bg-teal-600 peer-checked:border-transparent peer-checked:after:content-[''] peer-checked:after:w-2.5 peer-checked:after:h-1.5 peer-checked:after:border-l-2 peer-checked:after:border-b-2 peer-checked:after:border-custom-border peer-checked:after:rotate-[-45deg]">
+        </span>
+      </label>
+    </div>
+
+    @if (tSelectedSenderAccount && !store.form.controls.salaryPrepareReq.controls.senderAccount.disabled) {
+      @let balance = tSelectedSenderAccount.balance;
+
+      <div
+        class="relative col-span-6 flex justify-between bg-surface-2 items-center gap-4 cursor-pointer py-5 px-4 border rounded-[16px]"
+        [class.border-[#008c79]]="tIsAccountsOpen"
+        [class.border-custom-border]="!tIsAccountsOpen"
+        [class.border-[#fb3748]]="store.invalidAmount()"
+        (click)="isAccountsOpen.set(!tIsAccountsOpen)">
+        @if (balance.logo.path && balance.logo.name) {
+          <img
+            class="rounded-full"
+            [ngSrc]="balance.logo.path + balance.logo.name"
+            [alt]="balance.logo.name"
+            width="36"
+            height="36">
+        }
+
+        <div class="flex-1 flex flex-col items-start gap-1">
+          <p [ngClass]="{'!text-[#D1D1D1]': tBronList}" class="text-custom-primary leading-[22px]">
+            @let amount = balance.amount | minorToMajor : balance.scale;
+            <span class="text-[18px] font-semibold">{{ amount.int }}</span>{{ amount.dec }} {{ balance.currency }}
+          </p>
+
+          <p class="text-custom-muted text-sm leading-4 font-medium">{{ tSelectedSenderAccount.accountType }}</p>
+
+          <p class="text-custom-secondary text-sm leading-4 font-medium">
+            {{ tSelectedSenderAccount.altAcctId  | shortCardNumber }}
+          </p>
+
+          @if (tSelectedSenderAccount.status === 'BLOCKED') {
+            <div class="flex items-center gap-1 bg-[#FFEBEC] pr-3 rounded-[10px]">
+              <div class="w-6 h-6 bg-[#ffebec] rounded-lg p-[6px]">
+                <app-icon icon="clockBold" svgClass="fill-[#fb3748]" size="12"></app-icon>
+              </div>
+
+              <p class="text-xs text-[#FB3748] font-medium">{{ 'salaryStatements.blocked' | translate }}</p>
+            </div>
+          }
+        </div>
+        @if (!tBronList) {
+          <app-icon [class.rotate-180]="tIsAccountsOpen" icon="chevronDown" svgClass="fill-custom-primary" size="24"></app-icon>
+        }
+
+        @if (tIsAccountsOpen && !tBronList) {
+          <div
+            class="absolute top-[100%] inset-x-0 z-10 max-h-[306px] overflow-auto mt-2 rounded-2xl bg-surface-2 shadow-[0_5px_20px_#00000040]">
+            @for (account of tSenderAccounts; track account.id) {
+              <div class="flex items-center gap-4 py-5 px-4 hover:bg-surface-1"
+                   (click)="store.selectSenderAccount(account)">
+                @if (account.balance.logo.path && account.balance.logo.name) {
+                  <img
+                    class="rounded-full"
+                    [ngSrc]="account.balance.logo.path + account.balance.logo.name"
+                    [alt]="account.balance.logo.name"
+                    width="36"
+                    height="36">
+                }
+
+                <div class="flex-1 flex flex-col items-start gap-1">
+                  <p class="text-custom-primary leading-[22px]">
+                    @let amount = account.balance.amount | minorToMajor : account.balance.scale;
+                    <span
+                      class="text-[18px] font-semibold">{{ amount.int }}</span>{{ amount.dec }} {{ account.balance.currency }}
+                  </p>
+                  <p class="text-custom-muted text-sm leading-4 font-medium">{{ account.accountType }}</p>
+                  <p class="text-custom-secondary text-sm leading-4 font-medium">{{ account.altAcctId }}</p>
+
+                  @if (account.status === 'BLOCKED') {
+                    <div class="flex items-center gap-1 bg-[#FFEBEC] pr-3 rounded-[10px]">
+                      <div class="w-6 h-6 bg-[#ffebec] rounded-lg p-[6px]">
+                        <app-icon icon="clockBold" svgClass="fill-[#fb3748]" size="12"></app-icon>
+                      </div>
+
+                      <p class="text-xs text-[#FB3748] font-medium">{{ 'salaryStatements.blocked' | translate }}</p>
+                    </div>
+                  }
+                </div>
+
+                @if (tSelectedSenderAccount.altAcctId === account.altAcctId) {
+                  <app-icon icon="check" svgClass="fill-custom-primary" size="24"></app-icon>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (tTransitAccountInfo) {
+      @let balance = tTransitAccountInfo.balance;
+
+      <div
+        class="col-span-6 flex justify-between items-center gap-4 py-5 px-4 border border-custom-border rounded-[16px] bg-surface-2"
+        [class.!border-[#fb3748]]="store.invalidAmount()"
+        [class.!col-span-12]="store.form.controls.salaryPrepareReq.controls.senderAccount.disabled">
+        @if (balance.logo.path && balance.logo.name) {
+          <img
+            class="rounded-full"
+            [ngSrc]="balance.logo.path + balance.logo.name"
+            [alt]="balance.logo.name"
+            width="36"
+            height="36">
+        }
+
+        <div class="flex-1 flex flex-col gap-1">
+          <p class="text-custom-primary leading-[22px]">
+            @let amount = balance.amount | minorToMajor : balance.scale;
+            <span class="text-[18px] font-semibold">{{ amount.int }}</span>{{ amount.dec }} {{ balance.currency }}
+          </p>
+          <p class="text-custom-muted text-sm leading-4 font-medium">{{ tTransitAccountInfo.accountType }}</p>
+          <p class="text-custom-secondary text-sm leading-4 font-medium">{{ tTransitAccountInfo.accountNumberCard }}</p>
+        </div>
+
+        <app-icon
+          class="cursor-pointer"
+          icon="infoCircle"
+          svgClass="fill-custom-muted"
+          size="24"
+          (click)="openRequisites()">
+        </app-icon>
+      </div>
+    }
+
+    @if (tBronList && tBronList?.length > 0) {
+      <div class=" w-full col-span-12 px-4 h-[80px] flex items-center bg-white peer border border-custom-border rounded-xl ">
+        <div class="flex gap-2 items-center">
+          <div class="bg-[#F5F5F5] rounded-full w-[48px] h-[48px]">
+            <img src="./assets/new-icons/zp-bron.svg" alt="">
+          </div>
+          <div class="flex flex-col leading-[20px]">
+            <p class="text-custom-primary leading-[22px]">
+              @let amount = tBronList[0].amount.amount | minorToMajor : tBronList[0].amount.scale;
+              <span class="text-[18px] font-semibold">{{ amount.int }}</span>{{ amount.dec }} {{ tBronList[0].amount.currency }}
+            </p>
+            <div class="flex items-center gap-1">
+              <span class="text-[#A3A3A3] font-normal text-[14px]">Сумма бронирования на счёте </span>
+              <span class="text-[#5c5c5c]] font-normal text-[14px]">{{ tBronList[0]?.accountNumber | shortCardNumber }} </span>
+              <label
+                class="flex items-center"
+                (click)="openKartoteka2Info()"
+              >
+                <img width="16" height="16" src="./assets/new-icons/kart.svg" alt="">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="relative col-span-8">
+      @let nameControl = store.form.controls.salaryPrepareReq.controls.name;
+      <input
+        class="peer border border-custom-border focus:border-[#00a38d] font-medium text-custom-primary rounded-xl bg-surface-2 px-4 w-full text-sm leading-5 h-[56px] outline-none pt-4"
+        [class.!border-[#fb3748]]="nameControl.invalid && nameControl.touched"
+        type="text"
+        formControlName="name"
+        placeholder=""/>
+
+      <span
+        class="absolute left-[17px] top-[8px] text-xs text-custom-muted font-normal transition-all pointer-events-none
+              peer-placeholder-shown:font-medium peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm
+              peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-xs peer-focus:font-normal">
+        {{ 'salaryStatements.statement_name' | translate }}
+      </span>
+    </div>
+
+    <div class="relative col-span-4">
+      @let docDateControl = store.form.controls.salaryPrepareReq.controls.docDate;
+
+      <input
+        class="peer border focus:border-[#008C79] font-medium text-custom-primary border-custom-border bg-surface-2 pl-4 pr-10 w-full text-[14px] rounded-[12px] h-[56px] outline-none pt-4 cursor-pointer"
+        [class.!border-[#fb3748]]="docDateControl.invalid && docDateControl.touched"
+        type="text"
+        readonly
+        [matDatepicker]="pickerFrom"
+        [min]="store.mode() !== STATEMENT_MODE.EDIT ? today() : null"
+        formControlName="docDate"
+        (click)="pickerFrom.open()"
+        placeholder=""/>
+
+      <span
+        class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px] peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]  peer-focus:font-normal top-[8px] text-[12px] pointer-events-none">
+        Дата исполнения
+      </span>
+
+      <app-icon
+        class="absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none"
+        icon="calendar"
+        svgClass="fill-custom-primary"
+        size="24">
+      </app-icon>
+
+      <mat-datepicker #pickerFrom></mat-datepicker>
+    </div>
+
+    @let paymentCodeControl = store.form.controls.salaryPrepareReq.controls.paymentCode;
+    <div
+      class="relative col-span-12 border bg-surface-2 px-4 h-[56px] flex items-center gap-5 cursor-pointer rounded-2xl"
+      [class.!border-[#008c79]]="tIsPaymentCodeOpen"
+      [class.border-custom-border]="!tIsPaymentCodeOpen"
+      [class.!border-[#fb3748]]="paymentCodeControl.invalid && paymentCodeControl.touched"
+      (click)="isPaymentCodeOpen.set(!tIsPaymentCodeOpen); paymentCodeControl.markAsTouched()">
+
+      <p class="flex-1 pt-4 text-custom-primary text-sm font-medium">
+        {{ tSelectedPurpose?.value }}
+      </p>
+
+      <app-icon
+        [class.rotate-180]="tIsPaymentCodeOpen"
+        icon="chevronDown"
+        svgClass="fill-custom-primary"
+        size="24">
+      </app-icon>
+
+      <span
+        class="absolute left-[17px] top-1/2 -translate-y-1/2 text-sm text-custom-muted font-medium transition-all pointer-events-none"
+        [class.translate-y-0]="!!tSelectedPurpose"
+        [class.text-xs]="!!tSelectedPurpose"
+        [class.font-normal]="!!tSelectedPurpose"
+        [class.top-[8px]]="!!tSelectedPurpose">
+          {{ 'salaryStatements.payment_type' | translate }}
+        </span>
+
+      @if (tIsPaymentCodeOpen && tPaymentCodeList) {
+        <div
+          class="z-50 top-[100%] max-h-[200px] overflow-auto absolute inset-x-0 mt-2 rounded-[16px] bg-surface-2 shadow-[0_5px_20px_#00000040]">
+          @for (purpose of tPaymentCodeList.content; track purpose.key) {
+            <div
+              class="flex cursor-pointer justify-between items-center py-2 px-4 hover:bg-surface-1"
+              (click)="store.selectPurpose(purpose)">
+
+              <p class="flex-1 text-custom-primary text-[16px]">{{ purpose.value }}</p>
+
+              @if (tSelectedPurpose?.key === purpose.key) {
+                <app-icon icon="check" svgClass="fill-custom-primary" size="24"></app-icon>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+
+    <div class="relative col-span-12 flex flex-col items-start gap-3">
+      <div class="flex gap-2 items-center">
+        <p class="text-custom-primary text-md font-medium">Период ведомости</p>
+        <app-icon icon="infoCircle" size="18" svgClass="fill-[#00a38d]"></app-icon>
+      </div>
+      <!-- <app-month-period-picker [parentForm]="store.form.controls.salaryPrepareReq" /> -->
+       <app-month-select-calendar
+       [parentForm]="store.form.controls.salaryPrepareReq"
+
+       ></app-month-select-calendar>
+    </div>
+
+    <div class="relative col-span-12 flex flex-col">
+      @let descriptionControl = store.form.controls.salaryPrepareReq.controls.description;
+      <span class="absolute top-[12px] text-xs left-[16px] text-custom-muted font-medium pointer-events-none">
+        {{ 'salaryStatements.purpose' | translate }}
+      </span>
+
+      <textarea
+        class="border focus:border-[#008C79] h-[110px] border-custom-border px-4 py-8 bg-surface-2  w-full text-xs text-custom-primary placeholder:text-xs placeholder:text-custom-secondary rounded-2xl outline-none resize-none"
+        [class.!border-[#fb3748]]="descriptionControl.invalid && descriptionControl.touched"
+        placeholder="Опишите, за что платите контрагенту. Если есть акт, счёт или договор, укажите его номер, дату и НДС."
+        maxlength="450"
+        type="text"
+        formControlName="description">
+      </textarea>
+
+      <span class="absolute bottom-[8px] right-[16px] text-xs text-custom-secondary">
+        {{ descriptionControl.value.length }}/450
+      </span>
+    </div>
+  </div>
+
+  <div
+    class="grid grid-cols-12 border border-custom-border bg-surface-1 p-5 gap-5 rounded-[20px]">
+    <div class="col-span-12 text-custom-primary text-xs font-semibold uppercase">
+      {{ 'salaryStatements.employees_alt' | translate }}
+    </div>
+
+    <div
+      class="col-span-5 flex gap-4 h-[98px] p-5 border border-custom-border rounded-[20px] bg-surface-2 items-center cursor-pointer"
+      (click)="store.downLoadTemplate()">
+      <div class="flex-shrink-0 w-9 h-9 bg-surface-1 rounded-lg p-[6px]">
+        <app-icon icon="upload01" svgClass="fill-[#00a38d]" size="24"></app-icon>
+      </div>
+
+      <div class="flex flex-col">
+        <p class="text-custom-primary font-semibold">
+          {{ 'salaryStatements.download_template' | translate }}
+        </p>
+        <p class="text-custom-muted text-[13px] leading-4">Заполните суммы выплат через шаблон</p>
+      </div>
+    </div>
+
+    <div
+      class="col-span-7 flex gap-4 h-[98px] p-5 border border-dashed border-custom-border rounded-[20px] bg-surface-2 items-center cursor-pointer"
+      (click)="fileInput.click()">
+      @if (tFileInfo) {
+        <div class="flex-shrink-0 w-9 h-9 ">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_83_55)">
+              <mask id="mask0_83_55" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="36" height="36">
+                <path d="M36 0H0V36H36V0Z" fill="white"/>
+              </mask>
+              <g mask="url(#mask0_83_55)">
+                <path d="M8.95057 0.688187H18.9323C20.1811 0.688202 21.3808 1.17355 22.2791 2.04083L31.1166 10.5715C32.0574 11.4797 32.5887 12.7311 32.5887 14.0387V30.4919C32.5887 33.1536 30.4313 35.3117 27.7697 35.3119H8.95057C6.28883 35.3119 4.13065 33.1537 4.13065 30.4919V5.50811C4.13065 2.84637 6.28883 0.688187 8.95057 0.688187Z" fill="white" stroke="#D1D1D1" stroke-width="1.53"/>
+                <path d="M19.2151 1.14752V8.95052C19.2151 10.9785 20.8591 12.6225 22.8871 12.6225H30.6901" stroke="#D1D1D1" stroke-width="1.53"/>
+                <path d="M0 17.8425C0 15.9413 1.54126 14.4 3.4425 14.4H23.2425C25.1437 14.4 26.685 15.9413 26.685 17.8425V27.2475C26.685 29.1488 25.1437 30.69 23.2425 30.69H3.4425C1.54126 30.69 0 29.1488 0 27.2475V17.8425Z" fill="#00A38D"/>
+                <path d="M5.27845 18.351L6.8957 21.0405H6.95308L8.57751 18.351H10.0944L7.83164 22.023L10.1302 25.695H8.58827L6.95308 23.0235H6.8957L5.26052 25.695H3.72574L6.04584 22.023L3.75442 18.351H5.27845ZM11.3407 25.695V18.351H12.6711V24.5798H15.9056V25.695H11.3407ZM21.2534 20.37C21.2199 20.0568 21.0789 19.8129 20.8302 19.6384C20.5841 19.4639 20.2637 19.3766 19.8692 19.3766C19.5919 19.3766 19.354 19.4185 19.1556 19.5021C18.9572 19.5858 18.8054 19.6994 18.7002 19.8428C18.5951 19.9862 18.5413 20.15 18.5388 20.3341C18.5388 20.4871 18.5735 20.6197 18.6429 20.7321C18.7146 20.8445 18.8113 20.9401 18.9333 21.019C19.0552 21.0955 19.1903 21.16 19.3385 21.2126C19.4867 21.2652 19.6362 21.3095 19.7868 21.3453L20.4753 21.5175C20.7526 21.582 21.0191 21.6692 21.2749 21.7792C21.5331 21.8892 21.7638 22.0279 21.967 22.1952C22.1726 22.3625 22.3352 22.5645 22.4547 22.8012C22.5742 23.0378 22.634 23.3152 22.634 23.6331C22.634 24.0635 22.524 24.4424 22.3041 24.7699C22.0842 25.095 21.7662 25.3496 21.3502 25.5337C20.9367 25.7153 20.4358 25.8062 19.8477 25.8062C19.2764 25.8062 18.7803 25.7178 18.3595 25.5408C17.9412 25.364 17.6137 25.1058 17.377 24.7663C17.1427 24.4268 17.016 24.0133 16.9969 23.5256H18.3057C18.3249 23.7813 18.4038 23.9941 18.5424 24.1638C18.6811 24.3336 18.8616 24.4603 19.0839 24.544C19.3086 24.6276 19.5597 24.6695 19.837 24.6695C20.1262 24.6695 20.3796 24.6264 20.5972 24.5404C20.8171 24.4519 20.9892 24.33 21.1135 24.1746C21.2378 24.0169 21.3012 23.8327 21.3036 23.6224C21.3012 23.4311 21.245 23.2734 21.1351 23.149C21.0251 23.0224 20.8709 22.9172 20.6725 22.8335C20.4764 22.7474 20.2469 22.6709 19.9839 22.604L19.1485 22.3889C18.5436 22.2334 18.0655 21.998 17.7141 21.6824C17.365 21.3645 17.1905 20.9425 17.1905 20.4165C17.1905 19.9839 17.3077 19.605 17.542 19.2798C17.7786 18.9547 18.1002 18.7025 18.5066 18.5232C18.9129 18.3415 19.3732 18.2507 19.8872 18.2507C20.4083 18.2507 20.865 18.3415 21.257 18.5232C21.6515 18.7025 21.9611 18.9523 22.1857 19.2726C22.4104 19.5906 22.5264 19.9563 22.5336 20.37H21.2534Z" fill="white"/>
+              </g>
+            </g>
+            <defs><clipPath id="clip0_83_55"><rect width="36" height="36" fill="white"/></clipPath></defs>
+          </svg>
+        </div>
+
+        <div class="flex flex-col min-w-0">
+          <p class=" text-custom-primary text-sm font-medium truncate">
+            {{ tFileInfo.name }}
+          </p>
+
+          <div class="flex gap-3 items-center">
+            <p class="text-custom-muted text-xs">{{ tFileInfo.size }} KB</p>
+
+            <div class="flex gap-1 items-center">
+              <app-icon icon="checkCircleBold" svgClass="fill-[#1fc16b]" size="12"></app-icon>
+              <p class="text-custom-primary text-xs">Загружено</p>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="flex-shrink-0 w-9 h-9 bg-surface-1 rounded-lg p-[6px]">
+          <app-icon icon="download01" svgClass="fill-[#00a38d]" size="24"></app-icon>
+        </div>
+
+        <div class="flex flex-col">
+          <p class="text-custom-primary font-semibold">Выберите файлы для загрузки</p>
+          <div class="text-custom-muted text-[12px] font-medium leading-4">
+            Допустимые форматы: XLS, XLSX. Максимальный размер — 5 МБ.
+          </div>
+        </div>
+      }
+
+      <input #fileInput type="file" class="hidden" (change)="store.uploadFile($event)" accept=".xlsx,.xls"/>
+    </div>
+
+    @if (tEmployeeListByFileUpload && tEmployeeListByFileUpload.errorList.length) {
+      <div
+        class="col-span-12 flex items-center gap-4 bg-[#FFF3EB] rounded-2xl p-5 cursor-pointer"
+        (click)="openErrorList(tEmployeeListByFileUpload.errorList)">
+        <div class="flex items-center justify-center w-9 h-9">
+          <app-icon icon="alertTriangleBold" svgClass="fill-[#FA7319]" size="20"></app-icon>
+        </div>
+
+        <div class="flex-1">
+          <p class="font-semibold text-[#FA7319]">
+            Загружено {{ tEmployeeListByFileUpload.successList.length }}
+            из {{ tEmployeeListByFileUpload.successList.length + tEmployeeListByFileUpload.errorList.length }} сотрудников
+          </p>
+
+          <p class="font-medium text-sm text-[#FA7319]">Проверьте файл, исправьте ошибки и повторите загрузку</p>
+        </div>
+
+        <div class="font-medium text-sm text-[#FA7319]">Показать отчёт</div>
+      </div>
+    }
+
+    <div class="col-span-12 relative">
+      <app-icon class="absolute left-3 top-1/2 -translate-y-1/2" icon="searchSm" svgClass="fill-custom-muted" size="20">
+      </app-icon>
+      <input
+        class="text-custom-primary bg-surface-2 w-full border border-custom-border rounded-[10px] h-11 outline-none p-3 pl-10 text-sm placeholder:text-custom-muted focus:border-[#00A38D]"
+        type="text"
+        [formControl]="searchEmployee"
+        placeholder="Поиск">
+    </div>
+
+    <div class="col-span-12">
+
+      <div class="border border-custom-border rounded-2xl bg-surface-2 py-[14px]" formArrayName="employeesItems">
+        <app-data-state-wrapper
+          [loading]="tEmployeeListLoading"
+          [totalLength]="tEmployeeList ? tEmployeeList.length : null"
+          [filteredLength]="tEmployeeListFiltered.length">
+
+          @for (employee of store.employeesView(); track employee.uuid; let idx = $index) {
+            <div class="grid grid-cols-12 gap-5 items-center px-5 py-1.5">
+              <div class="col-span-4">
+                <p class="text-sm text-custom-primary font-medium">{{ employee.ownerName }}</p>
+
+                <div class="flex items-center gap-1 bg-surface-2 p-0.5 pr-3 rounded-[10px]">
+                  <div class="w-6 h-6 bg-surface-1 rounded-lg p-[6px]">
+                    <app-icon
+                      [icon]="cardStatusIcons[employee.status].icon"
+                      [svgClass]="cardStatusIcons[employee.status].svgClass"
+                      size="12">
+                    </app-icon>
+                  </div>
+
+                  <p class="text-xs text-custom-secondary font-medium">
+                    {{ cardStatusIcons[employee.status].label | translate }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-span-4 flex gap-2">
+                @if (employee.type === 'UZCARD') {
+                  <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M24.9445 16.0718C24.9445 19.6642 24.1406 22.3413 22.5343 24.0856C20.928 25.83 18.446 26.7018 15.0998 26.7018C11.9735 26.7018 9.60172 25.8297 7.98434 24.0856C6.36695 22.3415 5.5584 19.7111 5.55859 16.1945V4.39581C5.55935 4.11942 5.77852 3.8955 6.04916 3.89453H11.7179C11.9886 3.89536 12.2079 4.11932 12.2087 4.39581V16.4524C12.2087 17.8883 12.4688 18.9934 12.9981 19.773C13.9511 21.0633 15.7479 21.3202 17.0113 20.347C17.2009 20.201 17.3719 20.0315 17.5205 19.8424C18.038 19.1109 18.2958 18.0328 18.2941 16.6083V14.3505H24.9445V16.0718Z"
+                          fill="#203E7A"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M24.9448 13.0317H18.2947V4.41954C18.2955 4.12995 18.5252 3.89536 18.8088 3.89458H19.7272C19.7292 6.83514 22.064 9.21783 24.9434 9.21783H24.9448V13.0317Z"
+                          fill="#203E7A"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M21.034 3.89453H24.4308C24.7143 3.89536 24.9441 4.1299 24.9448 4.41949V7.89269C22.785 7.89269 21.034 6.10461 21.034 3.89885V3.89453Z"
+                          fill="#F4821F"/>
+                  </svg>
+                }
+                @if (employee.type === 'HUMO') {
+                  <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M20.3865 4.48419C20.3768 4.49622 20.3656 4.50941 20.3536 4.52355C20.2772 4.61359 20.1682 4.74207 20.2073 4.85479C20.2359 4.93661 20.3574 4.95471 20.4725 4.97185C20.5394 4.98182 20.6041 4.99146 20.6472 5.01313C20.8473 5.11441 20.9279 5.3176 20.9218 5.53339C20.9167 5.70497 20.9139 6.88365 20.9096 8.67167L20.9096 8.67283L20.9096 8.67826V8.67849L20.9096 8.68459C20.9076 9.5108 20.9053 10.4665 20.9023 11.5126C18.0228 11.4957 15.1438 11.4784 12.2645 11.4611L12.2272 11.4609C12.1709 10.7352 12.1521 9.92141 12.2034 9.03592C12.2507 8.21966 12.354 7.40692 12.512 6.60513C12.5811 6.25415 12.6607 5.90525 12.7506 5.55903C12.7839 5.43038 12.8369 5.29186 12.8915 5.14948C12.9984 4.87048 13.1109 4.57662 13.0918 4.31304C13.0882 4.25971 13.0757 4.20493 13.0423 4.16318C12.9646 4.06603 12.8156 4.08195 12.6957 4.11295C11.9593 4.30394 11.2434 4.7008 10.6793 5.21445C10.506 5.37237 10.0418 5.81761 9.62108 6.57867C8.50781 8.59275 8.42065 11.445 8.42065 11.445C8.36439 13.2894 8.29236 17.0265 10.2372 20.9067C10.2372 20.9067 11.6002 23.6266 13.5493 24.2967C13.9344 24.4294 14.039 24.3416 14.0721 24.2984C14.1951 24.1393 14.0052 23.8873 13.8772 23.7174C13.847 23.6774 13.8202 23.6418 13.8018 23.6132C13.6242 23.3356 13.4724 23.0417 13.3417 22.739C13.0712 22.113 12.8921 21.4501 12.7585 20.7818C12.3514 18.7477 12.088 16.6894 12.1443 14.6122L20.9023 14.6122V22.4195C20.9023 22.9371 21.1112 23.4342 21.5839 23.6773C21.8685 23.8238 22.1905 23.8757 22.5077 23.9152C23.0628 23.9848 23.6291 24.0237 24.1781 23.917C24.4995 23.8548 24.8201 23.7374 25.0599 23.5127C25.446 23.1502 25.452 22.6599 25.452 22.1661C25.452 20.3293 25.4599 18.4924 25.4679 16.6555C25.477 14.571 25.4861 12.4865 25.4835 10.402C25.4822 9.42927 25.4757 8.45674 25.464 7.48422C25.4483 6.16382 25.0421 4.83372 23.8877 4.09291C23.3891 3.77294 22.8178 3.59766 22.2593 3.59766C21.5587 3.59766 20.8784 3.87319 20.3865 4.48419Z"
+                      fill="url(#paint0_linear_3766_75930)"/>
+                    <path
+                      d="M5.42399 13.8601C5.47985 12.2472 5.5707 10.625 6.72161 9.23538C6.78405 9.15994 6.84371 9.08105 6.90342 9.00208C7.14524 8.68227 7.38802 8.3612 7.82056 8.26307C7.11241 10.3906 7.10055 12.816 7.3827 15.0213C7.47621 15.752 7.63293 16.4562 7.79744 17.171C8.55223 20.4515 9.93088 24.2331 13.4655 25.2777C13.9817 25.4303 13.7894 25.7525 13.4986 25.9625C12.9077 26.39 12.1106 26.409 11.9763 26.4044C8.68625 26.2943 6.76254 24.8635 6.76254 24.8635C4.56158 23.2269 3.64207 20.8139 3.62713 19.5745C3.62345 19.2553 3.67521 18.6547 3.88003 18.003C3.94325 17.8014 4.23645 16.8671 4.4959 16.8938C4.64971 16.9097 4.72134 17.2559 4.80182 17.6448C4.81532 17.7101 4.82908 17.7766 4.84352 17.843C5.20036 19.4864 5.90052 20.7126 6.46238 21.6965C6.67292 22.0652 6.99354 22.5834 7.4494 23.1723C7.76511 23.5305 8.24532 23.9983 8.91828 24.417C9.64524 24.8693 10.3256 25.0956 10.8058 25.2147C10.2001 24.8104 9.41056 24.1998 8.62405 23.3213C8.40328 23.0747 7.65605 22.2186 6.96776 20.9184C6.66125 20.3393 5.29325 17.6458 5.42399 13.8601Z"
+                      fill="url(#paint1_linear_3766_75930)"/>
+                    <defs>
+                      <linearGradient id="paint0_linear_3766_75930" x1="4.26325" y1="14.9983" x2="25.4731" y2="14.9983"
+                                      gradientUnits="userSpaceOnUse">
+                        <stop offset="0.33" stop-color="#9C8937"/>
+                        <stop offset="0.56" stop-color="#F7E69E"/>
+                        <stop offset="0.8" stop-color="#B39F4D"/>
+                      </linearGradient>
+                      <linearGradient id="paint1_linear_3766_75930" x1="4.26325" y1="14.9983" x2="25.4731" y2="14.9983"
+                                      gradientUnits="userSpaceOnUse">
+                        <stop offset="0.33" stop-color="#9C8937"/>
+                        <stop offset="0.56" stop-color="#F7E69E"/>
+                        <stop offset="0.8" stop-color="#B39F4D"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                }
+
+                <p class="text-sm text-custom-primary font-medium">{{ employee.pan }}</p>
+              </div>
+
+              <div class="col-span-4">
+                @let control = store.form.controls.employeesItems.at(idx).controls.amountTransferToCard;
+
+                <div
+                  class="flex items-center border border-custom-border bg-surface-1 rounded-2xl has-[:focus]:!border-[#00a38d]"
+                  [class.!border-[#fb3748]]="store.total() === 0 && control.touched && !control.disabled"
+                  [class.opacity-50]="control.disabled">
+                  <div class="flex-1">
+                    <input
+                      class="w-full px-4 py-[9px] bg-transparent text-sm outline-none text-custom-primary placeholder:text-custom-muted"
+                      type="text"
+                      placeholder="0.00"
+                      mask="separator.2"
+                      [formControl]="control">
+                  </div>
+
+                  <div class="px-4 py-[9px] border-l border-custom-border text-sm text-custom-primary">
+                    {{ employee.balance.currency }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </app-data-state-wrapper>
+      </div>
+
+      <app-pagination
+        [pageIndex]="store.employeesPage()"
+        [pageSize]="store.employeesSize()"
+        [totalItems]="store.employeesTotal()"
+        (pageChange)="store.employeesPage.set($event)"
+        (pageSizeChange)="store.employeesSize.set($event); store.employeesPage.set(0)">
+      </app-pagination>
+    </div>
+  </div>
+</form>

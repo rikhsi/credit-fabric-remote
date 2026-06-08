@@ -1,0 +1,62 @@
+
+@for (loan of loanList; track loan){
+  <div  [routerLink]="['/loans/available-loans',loan.id]"  class="p-4 cursor-pointer rounded-[15px] border border-[#efefef] flex-col justify-center items-start gap-2 inline-flex">
+    <div class="self-stretch justify-start items-center gap-2.5 inline-flex">
+      <div class="w-[140px] h-[140px] flex-col justify-center items-center gap-2.5 inline-flex">
+        <img class="w-[124px] h-[124px] object-cover" src="{{loan.imagePath}}" alt="image" />
+      </div>
+      <div class="w-[330px] flex-col justify-start items-start gap-2 inline-flex">
+        <div class="self-stretch h-[78px] flex-col justify-start items-start gap-1 flex">
+          <div class="text-[#040404] text-2xl font-medium  leading-relaxed">“{{ loan.name }}”</div>
+          <div class="self-stretch text-[#b0b8c1] text-sm font-normal  leading-none">Для хозяйствующих субъектов (предприятий и организаций, имеющих статус юридических лиц и индивидуальных предпринимателей...</div>
+        </div>
+        <div class="self-stretch justify-start items-start gap-1 inline-flex">
+          <div class="grow shrink basis-0 text-black text-xl font-medium ">до  {{ (loan.maxAmount / 100) |mask:'separator' }}</div>
+        </div>
+      </div>
+    </div>
+    <hr class="w-full p-0">
+    <div class="self-stretch justify-start items-end gap-2 inline-flex">
+      <div class="grow shrink basis-0 p-2 rounded-[5px] flex-col justify-center items-start  inline-flex">
+        <div class="text-[#b0b8c1] text-sm font-normal ">Срок:</div>
+        <div class="text-[#264796] text-sm font-normal ">до {{ loan.period }} месяцев</div>
+      </div>
+      <div class="grow shrink basis-0 p-2 rounded-[5px] flex-col justify-center items-start  inline-flex">
+        <div class="text-[#b0b8c1] text-sm font-normal ">Ставка:</div>
+        <div class="text-[#264796] text-sm font-normal ">от {{ loan.percentage + '%'}}</div>
+      </div>
+      <div class="grow shrink basis-0 p-2 rounded-[5px] flex-col justify-center items-start  inline-flex">
+        <div class="text-[#b0b8c1] text-sm font-normal ">Льготный период:</div>
+        <div class="text-[#264796] text-sm font-normal ">до {{ loan.gracePeriod }}  месяцев</div>
+      </div>
+    </div>
+  </div>
+}
+
+@if(errorMessage && !loading) {
+  <div class="text-red-500">{{ errorMessage }}</div>
+}
+
+@if(!loanList.length && !loading && !errorMessage) {
+  <div class="my-4 text-center">Нет результатов</div>
+}
+
+@if(loading) {
+  <ul>
+    @for (items of [1,2,3,4,5] ; track items){
+      <li>
+        <span class="skeleton block rounded-12px h-10 w-full mb-2"></span>
+      </li>
+    }
+  </ul>
+}
+
+
+<!--<mat-paginator class="ml-auto"-->
+<!--               [length]="0"-->
+<!--               [pageIndex]="pageIndex"-->
+<!--               [pageSize]="pageSize"-->
+<!--               [pageSizeOptions]="[5, 10, 15, 20]"-->
+<!--               showFirstLastButtons-->
+<!--               (page)="pageChanged($event)" aria-label="Select page">-->
+<!--</mat-paginator>-->

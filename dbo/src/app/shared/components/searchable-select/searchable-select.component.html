@@ -1,0 +1,62 @@
+<form>
+  <mat-form-field
+    [ngClass]="{
+            'required': control.invalid && control.touched
+          }"
+    appearance="outline" class="small relative w-full">
+    @if(label) {
+      <mat-label>
+        <span>{{ label }}</span>
+      </mat-label>
+    }
+    <div class="flex justify-between items-center">
+      <input
+        matInput
+        class="ms-2"
+        #input
+        [type]="type"
+        [attr.maxlength]="maxlength ? maxlength : null"
+        [formControl]="control"
+        [placeholder]="placeholder"
+        (input)="onInput($event)"
+        (change)="onChange($event)"
+        (click)="openAutocomplete()"
+        [matAutocomplete]="auto"
+        [ngClass]="{
+            'border-red-500': control.invalid && control.touched,
+            'border-secondary': control.valid || !control.touched
+          }"
+      />
+      @if(showSuffix) {
+        <mat-icon matSuffix>
+          <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+        </mat-icon>
+      }
+    </div>
+    <div class="absolute pt-[5px] text-[12px]">
+      <mat-error *ngIf="control?.hasError('required') && control.touched">
+        Поле обязательное.
+      </mat-error>
+      <mat-error *ngIf="control?.hasError('minlength') && control.touched">
+        Поле должен содержать минимум {{ control.getError('minlength').requiredLength }} символов.
+      </mat-error>
+    </div>
+    <mat-autocomplete
+      disableRipple
+      #auto="matAutocomplete"
+      [displayWith]="displayOption"
+      (optionSelected)="optionSelected($event)"
+      infiniteScroll
+      [infiniteScrollDistance]="0.1"
+      infiniteScrollContainer
+      (scrolled)="onScroll()"
+    >
+      @for(option of temporalOptions; track option) {
+        <mat-option [value]="option" (click)="onOptionSelected($event, input)">
+          <ng-container *ngTemplateOutlet="customOptionTemplate; context: { $implicit: option }"></ng-container>
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+</form>

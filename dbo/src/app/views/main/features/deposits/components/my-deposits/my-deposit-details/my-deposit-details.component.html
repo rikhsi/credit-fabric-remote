@@ -1,0 +1,114 @@
+<div class="h-full overflow-y-auto px-[30px] bg-white">
+  <div class="border-b border-secondary flex justify-between items-center py-5">
+    <span class="text-black text-[22px] font-medium">Детали</span>
+    <button mat-dialog-close mat-icon-button class="flex justify-center items-center">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="flex gap-x-2.5 pt-4 pb-[30px]">
+    <button
+      class="h-10 px-5 py-2.5 bg-[#264796] rounded-[5px]  justify-center items-center gap-2 inline-flex text-white text-sm font-normal  leading-snug"
+      [routerLink]="['/deposits/my-deposits/top-up', data().savDepId,data().account]"
+      mat-dialog-close
+    >
+      Пополнение
+    </button>
+
+    <button
+      class="h-10 px-5 py-2.5 bg-[#ddecfb] rounded-[5px] text-[#264796] text-sm font-normal leading-none justify-center items-center gap-2 inline-flex"
+      [routerLink]="['/charts']"
+      mat-dialog-close
+      [queryParams]="{ tab: 'history', accountNumber: data().account }"
+    >
+    История операций
+    </button>
+
+    <button
+      class="h-10 px-5 py-2.5 bg-[#ddecfb] rounded-[5px]  justify-center items-center gap-2 inline-flex text-[#264796] text-sm font-normal  leading-none"
+      mat-dialog-close
+      [routerLink]="['/deposits/my-deposits/withdraw', data().savDepId,data().account]"
+    >
+     Списание
+    </button>
+
+    <button
+      class="h-10 px-5 py-2.5 bg-[#ddecfb] rounded-[5px]  justify-center items-center gap-2 inline-flex text-[#264796] text-sm font-normal  leading-none"
+      mat-dialog-close
+      [routerLink]="['/deposits/my-deposits/withdraw', data().savDepId,data().account]"
+      [queryParams]="{ isClose: true }"
+    >
+      Расторжение договора
+    </button>
+
+    <button
+      class="h-10 px-5 py-2.5 bg-[#ddecfc] rounded-[5px]  justify-center items-center gap-2 inline-flex"
+      [matTooltip]="'Скачать Excel'"
+    >
+      <img class="w-6 h-6 pl-0.5 pr-1 py-0.5 justify-center items-center flex overflow-hidden" ngSrc="./assets/svg/excel-active.svg" alt="print" width="24" height="24">
+    </button>
+
+    <button
+      class="h-10 px-5 py-2.5 bg-[#ddecfc] rounded-[5px]  justify-center items-center gap-2 inline-flex"
+      [matTooltip]="'Скачать pdf'"
+    >
+      <img class="w-6 h-6 justify-center items-center flex" ngSrc="./assets/svg/printer-blue.svg" alt="print" width="24" height="24">
+    </button>
+  </div>
+  <div class="flex-col gap-y-7 justify-start">
+    <div class="grid pb-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Номер договора</span>
+      <span class="text-black text-base font-normal flex gap-x-2 leading-tight">
+      <span class="leading-[21px]">{{ data().contractNumber }}</span>
+      <img
+        [matTooltip]="'Скопировать номер договора'"
+        ngSrc="./assets/svg/copy-active.svg" alt="copy" width="24" height="24">
+    </span>
+    </div>
+    <div class="grid pb-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Дата привлечения</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ data().openDate }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Валюта</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ data().currency }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Сумма депозита</span>
+      <span
+        class="text-black text-base font-normal  leading-tight">{{ (data().amount / 100).toFixed(2) | mask:'separator.2' }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Остаток</span>
+      <span
+        class="text-black text-base font-normal  leading-tight">{{ amountService.convertToAmount(data().depSaldo.amount) }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Процентная ставка</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ data().percent + ' %' }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Списание с депозита</span>
+      <span class="text-black text-base font-normal  leading-tight">Разрешается</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Пополнение депозита</span>
+      <span class="text-black text-base font-normal  leading-tight">Разрешается</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Начисленные проценты</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ amountService.convertToAmount(data().percSaldo.amount) }}</span>
+    </div>
+<!--    <div class="grid py-4 grid-cols-2 gap-8">-->
+<!--      <span class="text-[#7c8897] text-base font-normal leading-tight">Дата следующей выплаты процентов</span>-->
+<!--      <span class="text-black text-base font-normal  leading-tight"></span>-->
+<!--    </div>-->
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Дата закрытия</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ data().closingDate }}</span>
+    </div>
+    <div class="grid py-4 grid-cols-2 gap-8">
+      <span class="text-[#7c8897] text-base font-normal leading-tight">Осталось дней</span>
+      <span class="text-black text-base font-normal  leading-tight">{{ getDigitOfDays(data().closingDate) }}</span>
+    </div>
+  </div>
+</div>

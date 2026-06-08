@@ -1,0 +1,114 @@
+<div class="p-6 bg-white rounded-xl h-full flex flex-col gap-y-4 relative">
+  <div class="flex justify-between items-center">
+    <p class="text-2xl font-medium leading-6">Конверсии</p>
+    <div
+      matRipple
+      [routerLink]="'./create'"
+      class="text-primary font-medium flex items-center  cursor-pointer bg-[#F2F3F5] px-4 py-2 rounded-rounded  rounded-10px">
+      <span>Создать конверсию</span>
+      <mat-icon>add</mat-icon>
+    </div>
+  </div>
+
+  @for (data of accountApplications; track data) {
+    <div class="p-4 w-full mt-4  rounded-xl border border-secondary flex-col justify-start items-start flex">
+      <div class="self-stretch justify-between items-center inline-flex">
+        <div class="text-secondary text-xs font-normal">{{ getRussianFormattedDate(data?.createdDate) }}</div>
+        <div class="flex gap-2 items-center" >
+          <div
+            [ngClass]="getStatusApplication(data.applicationStatus).color"
+            class="text-white text-sm rounded-2xl px-2"
+          >
+            {{ getStatusApplication(data.applicationStatus).label }}
+          </div>
+
+          <div class="cursor-pointer" [matMenuTriggerFor]="menu">
+            <mat-icon color="warn">picture_as_pdf</mat-icon>
+          </div>
+            <mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+              <div (click)="printConversionApplication(data)" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+                <div class="text-xs">{{ download.conversion_application.title }}</div>
+              </div>
+
+              <div (click)="printBuyCurrency(data)" class="p-2 flex gap-x-2 items-center cursor-pointer">
+                <div class="text-xs">{{ download.buy_currency.title }}</div>
+              </div>
+
+              <div (click)="printSellCurrency(data)" class="p-2 flex gap-x-2 items-center cursor-pointer">
+                <div class="text-xs">{{ download.sell_currency.title }}</div>
+              </div>
+          </mat-menu>
+
+          <div *ngIf="data.applicationStatus === 'SIGN'">
+            <div (click)="sign(data.applicationId)" class="p-2 flex flex-row-reverse gap-x-2 items-center flex-end cursor-pointer">
+              <mat-icon color="primary" title="Подписать">border_color</mat-icon>
+            </div>
+          </div>
+        </div>      </div>
+      <div class="self-stretch justify-between items-center inline-flex">
+        <p class="flex items-center text-base mb-2.5">ID: {{ data?.applicationId }} <span
+          class="block w-[4px] h-[4px] rounded-full bg-secondary mx-2"></span> <span class="text-secondary text-sm">Конверсия </span>
+        </p>
+        <div class="text-black text-xl font-semibold leading-normal">“{{ data?.businessName }}”</div>
+      </div>
+
+      <div class="p-2 bg-lime-50 w-full rounded-xl justify-start items-start gap-2 inline-flex">
+        <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">Отправитель:</div>
+            <div class="text-dark text-sm font-normal ">{{ data.conversionApplicationDto?.sender }}</div>
+          </div>
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">Получатель:</div>
+            <div class="text-dark text-sm font-normal ">{{ data.conversionApplicationDto?.receiver }}</div>
+          </div>
+        </div>
+        <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">Сумма отправителя:</div>
+            <div>@if (data.conversionApplicationDto) {
+              <span
+                class="text-dark text-sm font-normal ">{{ data.conversionApplicationDto!.senderAmount / 100 |mask:'separator' }}</span>
+              <span class="text-[#007aff] text-sm font-normal ">{{data.conversionApplicationDto.senderCurrency}} - {{data.conversionApplicationDto.receiverCurrency}}</span>
+            }</div>
+          </div>
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">Специальный счет:</div>
+            <div class="text-dark text-sm font-normal ">{{ data.conversionApplicationDto?.specialAccount }}</div>
+          </div>
+        </div>
+        <div class="grow shrink basis-0 flex-col justify-start items-start gap-2 inline-flex">
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">ФИО:</div>
+            <div class="text-dark text-sm font-normal ">{{ data.conversionApplicationDto?.fullName }}</div>
+          </div>
+          <div class="self-stretch  flex-col justify-start items-start gap-1 flex">
+            <div class="text-secondary text-sm font-normal ">Oписание:</div>
+            <div class="self-stretch text-dark text-sm font-normal "
+                 matTooltip="{{data.conversionApplicationDto?.description}}"
+                 matTooltipPosition="before">{{ getSliceDescription(data.conversionApplicationDto?.description) }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-x-2 w-full mt-5">
+        @for (item of data?.stepDto; track item) {
+          <div [ngClass]="{'bg-lime-550 text-white':item.isCompleted,'bg-[#eff0f2] text-[#b0b8c1]':!item.isCompleted}"
+               class="flex-1 text-center px-2 py-0.5 rounded-2xl text-xs ">
+            {{ getStepsApplication(item.step) }}
+          </div>
+        }
+
+      </div>
+    </div>
+  }
+
+  @if (isFetching) {
+    <li class="skeleton block rounded-12px h-96 w-full mt-2.5"></li>
+    <li class="skeleton block rounded-12px h-96 w-full mb-2.5"></li>
+    <li class="skeleton block rounded-12px h-96 w-full mb-2.5"></li>
+    <li class="skeleton block rounded-12px h-96 w-full mb-2.5"></li>
+    <li class="skeleton block rounded-12px h-96 w-full mb-2.5"></li>
+  }
+
+</div>

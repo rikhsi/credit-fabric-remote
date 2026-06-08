@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-y-5">
+  <app-container-table
+    [columns]="tableColumns()"
+    [data]="pendingCards()"
+    [loading]="isLoading()"
+    [custom]="true"
+    [errorMessage]="errorMessage()"
+    [size]="pageSize()"
+  ></app-container-table>
+  <app-paginator
+    [itemsPerPage]="pageSize()"
+    [currentPage]="pageIndex() + 1"
+    [totalItems]="totalItems()"
+    (pageChange)="pageChange($event)"
+  ></app-paginator>
+
+</div>

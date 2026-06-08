@@ -1,0 +1,33 @@
+<div class="flex flex-col bg-[#FFF] h-full overflow-y-auto pb-5">
+  <div class="flex items-center justify-between py-6 px-8 border-b ">
+    <h3 class="text-[#171717] text-[18px] font-semibold">История изменений</h3>
+    <img (click)="close()" class="w-[15px] h-[15px] cursor-pointer" src="./assets/new-icons/close.svg" alt="">
+  </div>
+  <div *ngIf="!loading" class="flex flex-col items-start py-5 px-12">
+    <div class="relative" *ngFor="let audit of data; let i = index">
+      <span class="text-[#5C5C5C] text-[16px] font-normal">{{ audit.at }}</span>
+      <p class="text-[16px] font-normal text-[#171717]">{{ statusActions(audit.actionType) | translate }}: {{ audit.by ?? 'Не известно' }} {{ '(' + audit.byRole + ')' }}</p>
+      <span class="w-[8px] absolute top-[8px] left-[-15px] h-[8px] bg-[#D1D1D1] rounded-full"></span>
+      <span class="w-[2px] h-[26px] absolute bottom-[-1px] left-[-12px]  bg-[#D1D1D1]" *ngIf="i < data.length - 1"></span>
+    </div>
+  </div>
+</div>
+
+
+<!--<div-->
+<!--  class="flex flex-col items-start"-->
+<!--  *ngFor="let audit of data; let i = index"-->
+<!--&gt;-->
+<!--  <div class="relative flex gap-2 items-center" [ngClass]="i !== 0 ? 'pt-5' : '' ">-->
+<!--    <img width="16" height="16" src="./assets/new-icons/check-circle.svg" alt="" />-->
+<!--    <p class="text-[12px] font-medium text-[#171717]">-->
+<!--      {{ statusActions(audit.actionType) | translate }}:-->
+<!--      {{ audit.by ?? 'Не известно' }}-->
+<!--      {{ '(' + audit.byRole + ')' }}-->
+<!--    </p>-->
+<!--    <span-->
+<!--      class="w-[1px] h-[10px] absolute bottom-[-15px] left-[7px] bg-[#1FC16B]"-->
+<!--      *ngIf="i < data.length - 1"-->
+<!--    ></span>-->
+<!--  </div>-->
+<!--</div>-->

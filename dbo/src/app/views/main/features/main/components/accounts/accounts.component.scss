@@ -1,0 +1,11 @@
+img {
+  transition: transform 0.3s ease-in-out; /* Smooth transition for the rotation */
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}

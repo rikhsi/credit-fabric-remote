@@ -1,0 +1,29 @@
+<div class="p-6 rounded-xl bg-white">
+  <button class="absolute justify-center items-center top-0 rounded-full p-[1.5px] right-0 flex bg-white"
+          (click)="_dialogRef.close()">
+    <mat-icon class="text-base font-bold rounded-full border-[1.5px] border-[#A1A1A1] ">close</mat-icon>
+  </button>
+  <p class="font-medium text-xl pb-4">Прикрепление счета</p>
+  <div class="p-6 rounded-xl border-1px border-secondary">
+    <form [formGroup]="addForm" class="flex flex-col gap-y-4">
+      <div>
+        <label class="text-base font-semibold leading-normal not-italic text-black">Счет</label>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-select formControlName="accountNumbers" multiple placeholder="выберите счет">
+            <mat-option *ngFor="let account of accounts" [value]="account.altAcctId">
+              {{ account.altAcctId}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="flex justify-between items-center gap-x-2">
+        <button type="button" class="w-full h-[38px] bg-[#EBECF6] text-[#B0B8C1] rounded-xl" (click)="_dialogRef.close()">Отменить</button>
+        <button (click)="formSubmit()" type="submit"
+                [disabled]="addForm.invalid"
+                [ngClass]="addForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+                class="h-[38px] flex justify-center items-center rounded-xl w-full"><span
+          class="text-base leading-normal not-italic">Подтвердить</span></button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="absolute top-0 left-1/2 -translate-x-1/2 h-[44px] flex items-center justify-center w-[50px] z-[9999]">
+
+  <div *ngIf="store.iconContent()" @iconScale>
+    <img width="30" src="./assets/new-icons/error-service.svg" alt="">
+  </div>
+</div>
+<div *ngIf="store.errorMessage() && !store.iconContent()"
+     @emergeAndExpand
+     class="absolute top-0 left-0 h-[44px] flex items-center px-8 bg-[#FFEBEC] w-screen z-[999]">
+
+  <div class="flex items-center justify-between w-full">
+    <div class="flex gap-3 items-center">
+      <img src="./assets/new-icons/error-service.svg" alt="">
+      <span class="text-[#FB3748] text-[14px] font-medium">
+        {{ store.errorMessage() }}
+      </span>
+    </div>
+
+    <img src="./assets/new-icons/close-red.svg"
+         class="cursor-pointer"
+         (click)="store.clear()"
+         alt="">
+  </div>
+</div>

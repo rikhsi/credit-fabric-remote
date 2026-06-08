@@ -1,0 +1,98 @@
+<div class="flex flex-col gap-y-4">
+  <div class="flex flex-col gap-y-5 p-6 rounded-[15px] bg-white max-w-full">
+    <div class="text-[22px] font-medium">Гарантии</div>
+
+    <div class="flex justify-between gap-x-5 items-center">
+      <app-table-actions
+        [tableActionBtns]="tableActionBtns"
+        (onClick)="onActionClick($event)"
+      ></app-table-actions>
+
+      <app-filter-button
+        [classes]="'bg-[#264796] text-white'"
+        [src]="'./assets/svg/filter-white.svg'"
+        (click)="paymentsFilterState = !paymentsFilterState"
+      ></app-filter-button>
+    </div>
+
+
+    <app-filter-account
+      class="accordion"
+      (filterChange)="setFilter($event, 'payments')"
+      (searched)="getAccounts()"
+      [toggleActive]="true"
+      [panelState]="paymentsFilterState"
+    ></app-filter-account>
+
+    <app-container-table
+      [columns]="tableColumns"
+      [data]="tableData"
+      [actionTemplate]="accountsActionButtons"
+      [loading]="loading"
+      [custom]="true"
+      (rowClicked)=" getInfo($event)"
+      [errorMessage]="errorMessage"
+      [size]="pageSize"
+      (selectedRows)="onSelectedRows($event)"
+    ></app-container-table>
+    <app-paginator
+      [itemsPerPage]="pageSize"
+      [currentPage]="pageIndex + 1"
+      [totalItems]="totalItems"
+      (pageChange)="pageChange($event)"
+    ></app-paginator>
+  </div>
+</div>
+
+<ng-template #accountsActionButtons let-row>
+  <div class="w-full h-full cursor-pointer flex items-center justify-center" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionsAccounts">
+    <img ngSrc="./assets/svg/more.svg" alt="more" width="24" height="24">
+  </div>
+  <mat-menu #actionsAccounts="matMenu" xPosition="before" class="menu-actions">
+    <!--    <div-->
+    <!--      [routerLink]="['/account-history', row.id]"-->
+    <!--      [queryParams]="{ 'accountNumber': row.altAcctId }"-->
+    <!--      class=" p-2 flex gap-x-2 items-center cursor-pointer"-->
+    <!--    >-->
+    <!--      <mat-icon>history</mat-icon>-->
+    <!--      <div class="text-xs">История</div>-->
+    <!--    </div>-->
+    <!--    <div (click)="getInfo(row.altAcctId)" class=" p-2 flex gap-x-2 items-center cursor-pointer">-->
+    <!--      <mat-icon>assignment</mat-icon>-->
+    <!--      <div class="text-xs">Реквизиты</div>-->
+    <!--    </div>-->
+    <!--    <div (click)="deleteAccount(row.altAcctId)" class=" p-2 flex gap-x-2 items-center cursor-pointer">-->
+    <!--      <mat-icon>cancel_presentation</mat-icon>-->
+    <!--      <div class="text-xs">Закрытие счета</div>-->
+    <!--    </div>-->
+  </mat-menu>
+</ng-template>
+
+
+<ng-template #paymentsActionButtons let-row>
+  <div class="w-full h-full cursor-pointer flex items-center justify-center" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionsPayments">
+    <img ngSrc="./assets/svg/more.svg" alt="more" width="24" height="24">
+  </div>
+  <mat-menu #actionsPayments="matMenu" xPosition="before" class="menu-actions">
+    <!--    @if(row.status === 'SIGN') {-->
+    <!--      <button-->
+    <!--        (click)="confirm(row)" class="w-full p-2 flex gap-x-2 items-center cursor-pointer"-->
+    <!--        [disabled]="!row.canUserSign"-->
+    <!--        [ngClass]="{ '!cursor-not-allowed': !row.canUserSign }"-->
+    <!--      >-->
+    <!--        <img ngSrc="./assets/svg/edit-2.svg" alt="edit" width="24" height="24">-->
+    <!--        <div class="text-xs">Подписать</div>-->
+    <!--      </button>-->
+    <!--    }-->
+    <!--    @if(row.status === 'PREPARE') {-->
+    <!--      <div (click)="sign(row)" class=" p-2 flex gap-x-2 items-center cursor-pointer">-->
+    <!--        <mat-icon>send</mat-icon>-->
+    <!--        <div class="text-xs">Отправить на подпись</div>-->
+    <!--      </div>-->
+    <!--    }-->
+    <!--    <div (click)="getPaymentDetails(row)" class=" p-2 flex gap-x-2 items-center cursor-pointer">-->
+    <!--      <img ngSrc="./assets/svg/info-circle.svg" alt="edit" width="24" height="24">-->
+    <!--      <div class="text-xs">Детали платежа</div>-->
+    <!--    </div>-->
+  </mat-menu>
+</ng-template>

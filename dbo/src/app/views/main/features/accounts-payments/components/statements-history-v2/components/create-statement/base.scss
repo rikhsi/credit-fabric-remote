@@ -1,0 +1,18 @@
+::ng-deep
+  .custom-select1.mat-mdc-form-field.mat-form-field-appearance-outline
+  .mat-mdc-text-field-wrapper {
+  border-radius: 22px !important;
+  background: #fafafa;
+}
+
+::ng-deep .custom-select1 .mdc-notched-outline {
+  border-color: #e4e4e4 !important;
+}
+
+::ng-deep .custom-select1.mat-mdc-form-field {
+  padding: 0;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #00a38d !important;
+}

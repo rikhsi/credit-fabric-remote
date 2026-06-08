@@ -1,0 +1,114 @@
+<div class="h-[calc(100vh-0)] overflow-y-scroll">
+  <div class="space-y-1">
+    <div class="flex justify-between items-center mb-10">
+      <img *ngIf="!miniVariant" src="./assets/svg/menu-logo.svg" alt="#">
+      <div
+        (click)="miniVariant = !miniVariant"
+        class="px-2.5 py-[5px] cursor-pointer"
+      >
+        <img [ngSrc]="miniVariant ? './assets/svg/right-menu-arrows.svg' : './assets/svg/Chap.svg'" alt="add" height="26" width="26"/>
+      </div>
+
+    </div>
+<!--    <div-->
+<!--      routerLink="/main"-->
+<!--      (click)="utilsService.menuState$$.next('main')"-->
+<!--      class="flex items-center transition-all duration-300 h-[40px] cursor-pointer bg-white rounded-[5px] max-w-xs min-w-[230px] lg:min-w-[250px] shadow-[0_1px_3px_0_rgba(16,24,40,0.10),_0_1px_2px_0_rgba(16, 24, 40, 0.06)]"-->
+<!--      [ngClass]="{'!min-w-[24px]': miniVariant}"-->
+<!--    >-->
+<!--      <div-->
+<!--        class="flex items-center gap-x-2 px-2.5"-->
+<!--      >-->
+<!--        <img ngSrc="./assets/svg/home-hashtag.svg" alt="add" height="26" width="26"/>-->
+<!--        @if(!miniVariant) {-->
+<!--          <div class="flex justify-between items-center w-full">-->
+<!--            <div class="leading-normal not-italic text-black">-->
+<!--              Главная-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        }-->
+<!--      </div>-->
+<!--    </div>-->
+  <div
+    class="flex flex-col transition-all duration-300 rounded-t-xl max-w-xs min-w-[230px] lg:min-w-[250px] shadow-[0_1px_3px_0_rgba(16,24,40,0.10),_0_1px_2px_0_rgba(16, 24, 40, 0.06)]"
+    [ngClass]="{'!min-w-[24px]': miniVariant}"
+  >
+
+    @switch (utilsService.menuState$$ | async) {
+      @case ('main') {
+        <div class="justify-between flex flex-col h-full">
+          @for (item of mainMenuList; let i= $index ;track item){
+            @if(item.disabled) {
+              <div
+                matTooltipPosition="right"
+                   [matTooltip]="miniVariant ? (item.titleKey | translate) : ''"
+              >
+                @if (!item.list){
+                  <app-left-menu-item  [icon]="item.icon" [title]="item.titleKey"
+                                       [miniVariant]="miniVariant"></app-left-menu-item>
+                }
+              </div>
+            } @else {
+              <div [routerLink]="[item.link]"
+                   routerLinkActive matTooltipPosition="right"
+                   [matTooltip]="miniVariant ? (item.titleKey | translate) : ''"
+                   [routerLinkActiveOptions]="{ exact: true }"
+              >
+                @if (!item.list){
+                  <app-left-menu-item  [icon]="item.icon" [title]="item.titleKey"
+                                       [miniVariant]="miniVariant"></app-left-menu-item>
+                }
+              </div>
+            }
+          }
+        </div>
+      }
+      @case ('profile') {
+        <div class="justify-between flex flex-col h-full">
+          @for (item of profileMenuList; let i= $index ;track item){
+            <div [routerLink]="[item.link]" matRipple
+                 routerLinkActive matTooltipPosition="right"
+                 [matTooltip]="miniVariant ? (item.titleKey | translate) : ''" [routerLinkActiveOptions]="{ exact: true }">
+              @if (!item.list){
+                <app-left-menu-item  [icon]="item.icon" [title]="item.titleKey"
+                                     [miniVariant]="miniVariant"></app-left-menu-item>
+              }
+            </div>
+          }
+        </div>
+      }
+      @case ('notification') {
+        <div class="justify-between flex flex-col h-full">
+          @for (item of notificationMenuList; let i= $index ;track item){
+            <div [routerLink]="[item.link]" matRipple
+                 routerLinkActive matTooltipPosition="right"
+                 [matTooltip]="miniVariant ? (item.titleKey | translate) : ''" [routerLinkActiveOptions]="{ exact: true }">
+              @if (!item.list){
+                <app-left-menu-item  [icon]="item.icon" [title]="item.titleKey"
+                                     [miniVariant]="miniVariant"></app-left-menu-item>
+              }
+            </div>
+          }
+        </div>
+      }
+      @case ('settings'){
+        <div class="justify-between flex flex-col h-full">
+          @for (item of settingsMenuList; let i= $index ;track item){
+            <div [routerLink]="[item.link]" matRipple
+                 routerLinkActive matTooltipPosition="right"
+                 [matTooltip]="miniVariant ? (item.titleKey | translate) : ''" [routerLinkActiveOptions]="{ exact: true }">
+              @if (!item.list){
+                <app-left-menu-item  [icon]="item.icon" [title]="item.titleKey"
+                                     [miniVariant]="miniVariant"></app-left-menu-item>
+              }
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+
+
+  </div>
+
+</div>

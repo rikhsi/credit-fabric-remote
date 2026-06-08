@@ -1,0 +1,79 @@
+<div class="flex flex-col gap-y-5">
+  @if(bicControlName) {
+    <app-tabs
+      [tabs]="tabs"
+      (tabChange)="selectTab($event)"
+    ></app-tabs>
+  }
+
+  @if(selectedTab.value === tabs[0].value) {
+    <div
+      class="grid gap-x-5"
+      [class.grid-cols-1]="isFocused"
+      [class.grid-cols-3]="!isFocused"
+    >
+      <app-searchable
+        class="small"
+        [label]="label"
+        [parentForm]="form"
+        controlName="bic"
+        [options]="bicDatas"
+        (inputChange)="getBics($event)"
+        (valueChange)="setBic($event)"
+        (selectedOption)="setName($event)"
+        (focus)="onFocus()"
+        (blur)="isFocused = false"
+      ></app-searchable>
+
+      @if(!isFocused) {
+        <mat-form-field class="small col-span-2 secondary" appearance="outline">
+          <mat-label>Наименование</mat-label>
+          <input
+            matInput
+            readonly
+            alphaNumericSymbolMask
+            [(ngModel)]="orgName"
+          >
+        </mat-form-field>
+      }
+    </div>
+  }
+  @else {
+    <div class="flex flex-col gap-y-4" [formGroup]="bankForm">
+      <div class="grid grid-cols-2 gap-x-5">
+        <mat-form-field class="small w-full" appearance="outline">
+          <mat-label>{{ bankAccountLabel }}</mat-label>
+          <input
+            matInput
+            #account
+            alphaNumericSymbolMask
+            [maxlength]="34"
+            formControlName="bankAccount"
+          >
+        </mat-form-field>
+
+        <mat-form-field class="small w-full" appearance="outline">
+          <mat-label>Наименование</mat-label>
+          <input
+            matInput
+            #name
+            alphaNumericSymbolMask
+            maxlength="70"
+            formControlName="bankName"
+          >
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Адрес</mat-label>
+        <input
+          matInput
+          #address
+          alphaNumericSymbolMask
+          [maxlength]="140"
+          formControlName="bankAddress"
+        >
+      </mat-form-field>
+    </div>
+  }
+</div>

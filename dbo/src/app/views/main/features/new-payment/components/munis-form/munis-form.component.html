@@ -1,0 +1,204 @@
+<div class="flex flex-col gap-y-[30px]" [formGroup]="signForm">
+
+  @if(!paymentAvailable) {
+    <div class="flex gap-x-[30px] w-full">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Категория</mat-label>
+        <mat-select>
+          <mat-select-trigger>
+            <div class="flex w-full gap-x-2 items-center">
+              <img [ngSrc]="getImageUrl(selectedCategory?.logo)" width="24" height="24" alt="logo">
+              <span>{{ selectedCategory?.title }}</span>
+            </div>
+          </mat-select-trigger>
+          @for(category of categories; track category) {
+            <mat-option
+              [value]="category"
+              (click)="selectCategory(category)"
+            >
+              <div class="flex w-full gap-x-2 items-center">
+                <img [ngSrc]="getImageUrl(category?.logo)" width="24" height="24" alt="logo">
+                <span>{{ category?.title }}</span>
+              </div>
+            </mat-option>
+          }
+        </mat-select>
+        <mat-icon matSuffix>
+          <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+        </mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Сервис</mat-label>
+        <mat-select>
+          <mat-select-trigger>
+            <div class="flex w-full gap-x-2 items-center">
+              <img [ngSrc]="getImageUrl(selectedSubCategory?.logo)" width="24" height="24" alt="logo">
+              <span>{{ selectedSubCategory?.title }}</span>
+            </div>
+          </mat-select-trigger>
+          @for(subCategory of subCategories; track subCategory) {
+            <mat-option
+              [value]="subCategory"
+              (click)="selectSubCategory(subCategory)"
+            >
+              <div class="flex w-full gap-x-2 items-center">
+                <img [ngSrc]="getImageUrl(subCategory?.logo)" width="24" height="24" alt="logo">
+                <span>{{ subCategory?.title }}</span>
+              </div>
+            </mat-option>
+          }
+        </mat-select>
+        <mat-icon matSuffix>
+          <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+        </mat-icon>
+      </mat-form-field>
+    </div>
+
+
+    @if(loadingParams) {
+      <div class="grid grid-cols-2 gap-[30px]">
+        <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+        <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+        <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+      </div>
+    }
+
+    @if(parentParamsList.length || childrenParamsList.length || inputParamsList.length) {
+      <div class="grid grid-cols-2 gap-[30px]">
+        @if(parentParamsList.length) {
+          <div *ngFor="let item of parentParamsList">
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>{{item.title}}</mat-label>
+              <mat-select
+                [id]="item.bind"
+                placeholder="Выберите {{item.title}}"
+                [formControlName]="item.uuid"
+                (selectionChange)="onParentChange($event.value, item.uuid)"
+              >
+                @for (item of item.selectValue; track item){
+                  <mat-option [value]="item">{{item.title}}</mat-option>
+                }
+              </mat-select>
+              <mat-icon matSuffix>
+                <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+              </mat-icon>
+            </mat-form-field>
+          </div>
+        }
+        @if(childrenParamsList.length) {
+          <div *ngFor="let item of childrenParamsList">
+            <mat-form-field class="small w-full" appearance="outline">
+              <mat-label>{{item.title}}</mat-label>
+              <mat-select
+                [id]="item.bind"
+                placeholder="Выберите {{item.title}}"
+                [formControlName]="item.uuid"
+                (selectionChange)="onChildrenChange()"
+              >
+                @for (item of item.selectValue; track item){
+                  <mat-option [value]="item">{{item.title}}</mat-option>
+                }
+              </mat-select>
+
+              <mat-icon matSuffix>
+                <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+              </mat-icon>
+            </mat-form-field>
+          </div>
+        }
+
+        @if(inputParamsList.length) {
+          <mat-form-field class="small w-full" appearance="outline" *ngFor="let item of inputParamsList">
+            <mat-label>{{item.title}}</mat-label>
+            <input
+              matInput
+              [type]="item.type === 'INTEGER' ? 'number' : 'string'"
+              class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+              [formControlName]="item.uuid"
+            >
+          </mat-form-field>
+        }
+      </div>
+    }
+
+  }
+
+
+
+  @if(paymentAvailable) {
+    <div class="flex gap-x-2">
+      <img [ngSrc]="getImageUrl(selectedSubCategory?.logo)" width="40" height="40" alt="logo">
+      <div class="text-[20px] font-medium">{{ selectedSubCategory?.title }}</div>
+    </div>
+    <div class="grid grid-cols-2">
+      @for(paymentParam of paymentParams; track paymentParam) {
+        <div class="">{{ paymentParam.title }}</div>
+        <div class="">{{ paymentParam.value }}</div>
+      }
+    </div>
+
+    <mat-form-field class="small w-full" appearance="outline">
+      <mat-label>Сумма</mat-label>
+      <input
+        matInput
+        type="text"
+        mask="separator.2"
+        (input)="setAmount($event)"
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="small description-field h-[102px]">
+      <mat-label>Детали платежа</mat-label>
+      <textarea
+        matInput
+        (input)="updateDecription($event)"
+        placeholder="Введите детали платежа"
+        maxlength="210"
+        style="resize: none"
+      ></textarea>
+    </mat-form-field>
+  }
+
+  <div class="flex justify-between items-center">
+    <div class="flex gap-4">
+      @if(paymentAvailable) {
+        <button
+          (click)="submit()"
+          class="px-5 py-2.5 rounded-[5px] text-sm bg-[#264796] text-white leading-[20px]"
+        >Создать</button>
+
+        <button
+          (click)="cancel()"
+          class="px-5 py-2.5 rounded-[5px] text-sm bg-[#DDECFC] text-[#264796] leading-[20px]"
+        >
+          <span>Отмена</span>
+        </button>
+      } @else {
+        <button
+          (click)="checkIsAvailable()"
+          class="px-5 py-2.5 rounded-[5px] text-sm bg-[#264796] text-white leading-[20px]"
+        >Далее</button>
+      }
+    </div>
+
+    @if(paymentAvailable) {
+      <div class="flex gap-x-2.5 items-center">
+<!--        <div class="px-5 py-2.5 rounded-[5px] bg-[#EFF4F9] text-black leading-[20px]">-->
+<!--          <img ngSrc="./assets/svg/printer.svg" alt="printer" width="24" height="24">-->
+<!--        </div>-->
+
+<!--        <button-->
+<!--          (click)="submit('templates')"-->
+<!--          class="px-5 py-2.5 rounded-[5px] text-sm bg-[#DDECFC] text-[#264796] leading-[20px]"-->
+<!--        >-->
+<!--          <span>Создать шаблон</span>-->
+<!--        </button>-->
+<!--        <app-more-actions (selected)="selectAction($event)" ></app-more-actions>-->
+      </div>
+    }
+
+  </div>
+
+</div>
+

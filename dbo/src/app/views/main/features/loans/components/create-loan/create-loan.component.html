@@ -1,0 +1,80 @@
+<div
+  [formGroup]="loanForm"
+  class="bg-white rounded-[15px] p-[30px] flex flex-col items-start gap-[30px]">
+  <div class="flex flex-col gap-y-5">
+    <app-container-nav [navs]="navs"></app-container-nav>
+    <app-container-title [title]="title"></app-container-title>
+  </div>
+
+  <div class="flex flex-col gap-y-5">
+    <div class="text-[20px] leading-[24px] text-[#040404]">{{ loanInfo.name }}</div>
+    <app-loan-header [loan]="loanInfo"></app-loan-header>
+  </div>
+
+  <div class="!h-[45px] flex gap-x-5 items-center">
+    <div class="font-medium leading-[20px]">Порядок погашения</div>
+
+    <div class="flex gap-6">
+      @for(type of types; track type.value) {
+        <div class="flex gap-2 items-center">
+          <input
+            type="radio"
+            name="transType"
+            [id]="type.value"
+            [value]="type.value"
+            class="peer !before:bg-blue-600 !before:hover:bg-blue-600 !focus:before:bg-blue-600"
+          />
+          <label
+            [for]="type.value"
+            class="cursor-pointer text-[#B0B8C1] transition-all peer-checked:text-blue-600"
+          >
+            {{ type.title }}
+          </label>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="w-full grid grid-cols-2 gap-x-6">
+    <div class="w-full flex flex-col gap-y-2">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Сумма кредита</mat-label>
+        <input
+          matInput
+          formControlName="amount"
+          (input)="changeAmount()"
+          mask="separator"
+        >
+      </mat-form-field>
+
+      <div class="flex flex-col gap-y-1">
+        <div class="w-full slider-container">
+          <input
+            type="range"
+            step="100000"
+            [min]="loanInfo.minAmount || 0"
+            [max]="loanInfo.maxAmount || 0"
+            [value]="slideAmount"
+            (input)="onSlideAmount($event)"
+            class="custom-slider w-full"
+          />
+        </div>
+
+
+        <div class="flex justify-between gap-x-2 text-[#7C8897] text-sm leading-[16px]">
+          <span>{{ amountService.convertToAmount(loanInfo.minAmount || 0) }}</span>
+          <span>{{ amountService.convertToAmount(loanInfo.maxAmount || 0) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex flex-col gap-y-2">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Срок кредита</mat-label>
+        <input
+          matInput
+        >
+      </mat-form-field>
+    </div>
+  </div>
+</div>

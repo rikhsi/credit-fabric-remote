@@ -1,0 +1,27 @@
+<div class="w-full bg-white rounded-3xl px-9 pb-4 dark:bg-[#181818] dark:border-[#333333] dark:border">
+  <!-- Close -->
+  <div class="flex justify-end mt-4">
+    <div (click)="closeDialog()" mat-dialog-close
+      class="justify-center text-end flex items-center rounded-full h-8 w-8 p-[6px] bg-[#F4F5F6]">
+      <img src="assets/new-icons/close.svg">
+    </div>
+  </div>
+
+  <div class="w-full flex flex-col justify-center items-center">
+    <!-- Image -->
+    <div class="w-[60px] h-[60px] bg-[#F7F7F7] rounded-[50%] flex justify-center items-center">
+      <img src="assets/new-icons/bank-cards/trash.svg" alt="Block icon">
+    </div>
+
+    <!-- Remove limit -->
+    <p class="text-[#2C3531] flex justify-center text-xl font-bold my-5 dark:!text-white">
+       Вы действительно хотите снять ограничение?
+    </p>
+  </div>
+
+  <!-- Actions -->
+  <div class="grid grid-cols-2 gap-4">
+    <button (click)="removeLimit()" class="bg-[#F7F7F7] p-4 font-medium rounded-2xl dark:bg-[#262626] dark:!text-white">{{'accounts.reset' | translate}}</button>
+    <button (click)="closeDialog()" class="bg-[#00A38D] p-4 text-white font-medium rounded-2xl"> {{'story.cancel' | translate}}</button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="p-6 rounded-xl bg-white max-h-[700px] overflow-y-auto">
+  <button class="absolute justify-center items-center top-0 rounded-full p-[1.5px] right-0 flex bg-white"
+          (click)="_dialogRef.close()">
+    <mat-icon class="text-base font-bold rounded-full border-[1.5px] border-[#A1A1A1] ">close</mat-icon>
+  </button>
+  <p class="font-medium text-xl pb-4">Добавление</p>
+  <div class="p-6 rounded-xl border-1px border-secondary">
+    <form [formGroup]="editSignOrderForm" (ngSubmit)="onSubmit()" class=" space-y-4">
+      <div class="space-y-2">
+        <!-- Name input -->
+        <div>
+          <p class="text-base font-semibold leading-normal not-italic text-black block">Названия</p>
+          <input
+            placeholder="Введите названия"
+            formControlName="name"
+            class="font-normal  text-black  text-base h-11 px-4 border border-solid border-secondary  rounded-10px focus:outline-none w-full"/>
+        </div>
+        <div>
+          <p class="text-base font-semibold leading-normal not-italic text-black block">Код</p>
+          <input
+            placeholder="Введите код"
+            formControlName="code"
+            class="font-normal  text-black  text-base h-11 px-4 border border-solid border-secondary  rounded-10px focus:outline-none w-full"/>
+        </div>
+        <div>
+          <p class="font-medium leading-20px mb-2">Тип транзакции</p>
+          <mat-form-field appearance="outline" class="payment-select relative w-full mb-2.5">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select formControlName="mode" disableRipple placeholder="выберите тип транзакции">
+              @for (mode of modes;track mode){
+                <mat-option [value]="mode">{{ mode }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Роли</mat-label>
+          <mat-select placeholder="выберите роль" formControlName="roles" multiple (selectionChange)="onRolesChange($event)">
+            <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Draggable list of selected roles -->
+        <div cdkDropList class="space-y-2" (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let role of selectedRoles; let i = index" cdkDrag class="flex items-center">
+            <mat-icon cdkDragHandle class="mr-2 cursor-move">drag_indicator</mat-icon>
+            <mat-chip>{{ role }}</mat-chip>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex mt-4 gap-x-4">
+        <button  type="button" class="w-full h-[38px] bg-[#EBECF6] text-[#B0B8C1] rounded-xl" (click)="_dialogRef.close()">Отменить</button>
+        <button type="submit"
+                [disabled]="editSignOrderForm.invalid"
+                [ngClass]="editSignOrderForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+                class="h-[38px] flex justify-center items-center rounded-xl w-full">Подтвердить</button>
+      </div>
+    </form>
+  </div>
+</div>

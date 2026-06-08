@@ -1,0 +1,26 @@
+<div class="flex justify-between px-[10px] py-[12px]">
+  <div class="flex flex-col gap-2">
+    <div class="text-[16px]">{{ account.accountTitle }}</div>
+    <div class="flex gap-2 text-xs text-[#B8BDC2]">
+      <span>{{ account.altAcctId }}</span>
+      <img
+        class="cursor-pointer"
+        [matTooltip]="'Скопировать счет'"
+        (click)="copyAcc()"
+        ngSrc="./assets/svg/copy.svg"
+        alt="copy"
+        width="15"
+        height="15"
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div class="text-[18px]">
+      <span>{{ (Number(account.balance.amount) / 100) | mask: 'separator' }}</span>
+      <span class="text-[#B8BDC2]">,{{ (Number(account.balance.amount) % 100).toString().padStart(2, '0') }}</span>
+      <span class="text-[#B8BDC2]"> {{ account.balance.currency }}</span>
+    </div>
+    <div [matTooltip]="'Дата создания'" class="select-none text-xs text-end text-[#B8BDC2]">{{ account.openDate }}</div>
+  </div>
+</div>

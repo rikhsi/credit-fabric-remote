@@ -1,0 +1,169 @@
+<ng-container>
+   <div class="bg-surface-1 h-full dark-box">
+  <Balance [isSingleCurrency]="true" [isHideTitleCurrency]="true" [title]="'cardFileTwo.total_debt' | translate"
+    [balance]="this.kartoteka2Store.balance()" (toggleGlobal)="toggleGlobalHide()"
+    [globalHideBalance]="globalHideBalance()"  />
+
+  <div class="my-5">
+   <kartoteka2-tab  (activeTab)="onTabChanged($event)" [activeCardsLength]="activeCardsLength()"></kartoteka2-tab>
+  </div>
+
+
+
+  <div class="h-full flex p-[20px]  rounded-[15px] bg-surface-2 text-custom-primary flex-col gap-y-4 relative border border-custom-border">
+    <Filters [isVisible]="this.isVisible()" (filterChange)="loadList($event)" />
+
+    <table class="w-full mt-4 bg-surface-2 text-custom-primary">
+      <tbody>
+        @if (this.kartoteka2Store.loading()) { @for (i of this.kartoteka2Store.content(); track i) {
+        <tr>
+          <td class="p-4">
+            <div class="h-4 w-16 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div class="h-3 w-20 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td class="p-4">
+            <div class="h-4 w-24 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div class="h-5 w-28 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td class="p-4">
+            <div class="h-4 w-28 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div class="h-5 w-40 bg-gray-200 rounded animate-pulse"></div>
+          </td>
+          <td class="p-4 text-end">
+            <div class="h-4 w-32 bg-gray-200 rounded animate-pulse mb-2 ml-auto"></div>
+            <div class="h-5 w-28 bg-gray-200 rounded animate-pulse ml-auto"></div>
+          </td>
+          <td class="p-4 text-end">
+            <div class="h-4 w-36 bg-gray-200 rounded animate-pulse mb-2 ml-auto"></div>
+            <div class="h-5 w-32 bg-gray-200 rounded animate-pulse ml-auto"></div>
+          </td>
+        </tr>
+        } } @else { @if (!this.kartoteka2Store.content().length) {
+        <tr>
+          <td colspan="5" class="text-center py-12">
+            <div class="flex flex-col items-center justify-center space-y-2">
+              <div class="font-inter font-bold text-[20px] leading-[28px] text-[#101010] dark:text-white">
+                {{'cardFileTwo.nothing_found' | translate}}
+              </div>
+              <div class="font-inter font-normal text-[14px] leading-[20px] text-[#808080] dark:text-[#A3A3A3]">
+                {{'salaryStatements.nothing_found_query' | translate}}
+              </div>
+            </div>
+          </td>
+        </tr>
+        } @else { @for (kartoteka of this.kartoteka2Store.content(); track kartoteka.documentId)
+        {
+        <tr class="cursor-pointer" (click)="openDetails(kartoteka)">
+          <td class="p-4">
+            <div class=" font-normal leading-5 text-sm">
+              №{{ kartoteka.docNum }}
+            </div>
+
+            <div class="flex space-x-2 items-center"
+              *ngIf="kartoteka?.status && getSelectedStatus(kartoteka.status ?? '') as status">
+              <img [src]="status?.img" [alt]="status?.name" class="w-4 h-4" />
+              <div class="text-custom-secondary text-xs leading-4 font-medium">
+                {{ status.name }}
+              </div>
+            </div>
+          </td>
+          <td class="p-4">
+            <div class="leading-5 text-sm font-normal text-[#A3A3A3]">
+              {{'cardFileTwo.entry_date' | translate}}
+            </div>
+            <div class="text-base leading-6 font-normal">
+              {{ kartoteka.dateEnter }}
+            </div>
+          </td>
+          <td class="p-4">
+            <div class="leading-5 text-sm font-normal text-[#A3A3A3]">
+               {{'cardFileTwo.recipient' | translate}}
+            </div>
+            <div class="text-base leading-6 font-normal">
+              {{ kartoteka.coName }}
+            </div>
+          </td>
+          <td class="p-4 text-end">
+            <div class="leading-5 text-sm font-normal text-[#A3A3A3]">
+               {{'cardFileTwo.document_amount' | translate}}
+            </div>
+            <div class="whitespace-nowrap">
+              <ng-container *ngIf="!globalHideBalance(); else hidden">
+                <span class="font-semibold leading-5 text-base">
+                  {{ getFormattedAmount(kartoteka.sumDoc).integer | mask : "separator"}}
+                </span>
+                <span class="text-sm leading-5 font-semibold text-[#5C5C5C]">
+                  .{{ getFormattedAmount(kartoteka.sumDoc).decimal }} UZS
+                </span>
+              </ng-container>
+              <ng-template #hidden>
+                <span class="font-semibold leading-5 text-base ">**********</span>
+              </ng-template>
+            </div>
+          </td>
+          <td class="p-3 text-end">
+            <div class="leading-5 text-sm font-normal text-[#A3A3A3]">
+               {{'cardFileTwo.remaining_debt' | translate}}
+            </div>
+            <div class="whitespace-nowrap bg-custom-badge-1 inline-block px-2 rounded-[9px]">
+              <ng-container *ngIf="!globalHideBalance(); else hidden">
+                <span class="font-semibold leading-5 text-base ">
+                  {{ integerPart(kartoteka.sumSaldo)}}
+                </span>
+                <span class="text-sm leading-5 font-semibold text-[#5C5C5C]">
+                  .{{ decimalPart(kartoteka.sumSaldo) }} UZS
+                </span>
+              </ng-container>
+              <ng-template #hidden>
+                <span class="font-semibold leading-5 text-base ">**********</span>
+              </ng-template>
+            </div>
+          </td>
+          <td *ngIf="getVisible(kartoteka.status)" class="py-3">
+            <button
+              [matTooltip]="this.userService.hasAction('KARTOTEKA') ? '' : 'У вас нет прав'"
+              [style.user-select]="this.userService.hasAction('KARTOTEKA') ? '' : 'none'"
+              [style.opacity]="this.userService.hasAction('KARTOTEKA') ? '1' : '0.3'"
+              [style.cursor]="this.userService.hasAction('KARTOTEKA') ? 'pointer' : 'not-allowed'"
+              (click)="$event.stopPropagation()" [matMenuTriggerFor]="this.userService.hasAction('KARTOTEKA') ? menu : null">
+              <img src="assets/new-icons/dots-vertical.svg" alt="menu" />
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+              <!-- <div class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]">
+                <img src="./assets/new-icons/XLS.svg" alt="#" />
+                <div class="text-[#5C5C5C] text-sm font-medium leading-5">
+                   {{'cardFileTwo.download_excel' | translate}}
+                </div>
+              </div> -->
+              <div (click)="downloadPdf(kartoteka.documentId)" class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-surface-1 hover:rounded-[6px]">
+                <img src="./assets/new-icons/PDF.svg" alt="#" />
+                <div class="text-custom-secondary text-sm font-medium leading-5">
+                  {{'cardFileTwo.download_pdf' | translate}}
+                </div>
+              </div>
+              <!-- <div class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]">
+                <img src="./assets/new-icons/printer.svg" height="20" width="20" alt="#" />
+                <div class="text-[#5C5C5C] text-sm font-medium leading-5">
+                  {{'main.print' | translate}}
+                </div>
+              </div> -->
+            </mat-menu>
+          </td>
+        </tr>
+        } } }
+      </tbody>
+    </table>
+  </div>
+
+
+  <app-pagination [pageIndex]="this.kartoteka2Store.pageNumber()" [pageSize]="this.kartoteka2Store.pageSize()"
+    [totalItems]="this.kartoteka2Store.totalItems()" (pageChange)="
+     this.kartoteka2Store.pageNumber.set($event);
+     loadList()" (pageSizeChange)="
+     this.kartoteka2Store.pageSize.set($event);
+     this.kartoteka2Store.pageNumber.set(0);
+     loadList()">
+  </app-pagination>
+  </div>
+<!--  <app-service-controller-check [services]="['IABS']" ></app-service-controller-check>-->
+</ng-container>

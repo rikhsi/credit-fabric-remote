@@ -1,0 +1,40 @@
+<div *ngIf="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+     (click)="onCancel()">
+  <div @dialogAnim  class="bg-surface-2 rounded-[42px] shadow-lg w-full max-w-lg mx-4 px-9 pb-9 pt-18 relative"
+       (click)="$event.stopPropagation()">
+    <img (click)="onCancel()"
+         class="absolute cursor-pointer w-[15px] h-[15px] top-[40px] right-[35px]" src="./assets/new-icons/close.svg"
+         alt="">
+    <div *ngIf="!edit" class="flex justify-center flex-col items-start pt-8 pb-5 mt-8">
+      <h3 class="text-[32px] text-custom-primary  font-bold">{{ 'createPayment.add_my_house' | translate }}</h3>
+      <span class="text-custom-muted text-[16px]">{{ 'createPayment.add_my_house_1' | translate }}</span>
+    </div>
+    <div *ngIf="edit" class="flex justify-center flex-col items-start pt-8 pb-5 mt-8">
+      <h3 class="text-[32px] text-custom-primary  font-bold">{{ 'createPayment.edit_1' | translate }}</h3>
+    </div>
+
+    <div class="flex flex-col gap-12 items-center text-center">
+<!--      <input type="text" (input)="onSetTitle($event)" [value]="title"-->
+<!--              placeholder="Название офиса" class="border bg-surface-4 border-custom-border focus:border-[#008C79]-->
+<!--           px-4 w-full text-[14px] placeholder:text-[14px] placeholder:text-[A3A3A3] placeholder:font-normal text-custom-primary font-medium-->
+<!--           rounded-[16px] h-[56px] outline-none" />-->
+      <div class="relative w-full">
+        <input (input)="onSetTitle($event)" [value]="title" type="text" placeholder=" " class="peer border bg-surface-4 border-custom-border focus:border-[#008C79]
+           px-4 w-full placeholder:text-[14px] placeholder:text-[A3A3A3] placeholder:font-normal text-[14px] text-custom-primary font-medium
+           rounded-[16px] h-[56px] outline-none pt-4 disabled:bg-[#F9F9F9]" />
+
+        <span class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-normal peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[6px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[6px] text-[12px]">{{ 'createPayment.office_name' | translate }}
+          </span>
+      </div>
+      <div class="flex gap-2 items-center w-full">
+        <button class="bg-surface-4 w-full font-semibold outline-none rounded-[12px] text-[#000000] h-[48px]"
+                (click)="onCancel()">{{'createPayment.cancel' | translate}}</button>
+        <button class="bg-[#00A38D] font-semibold w-full outline-none rounded-[12px] text-white h-[48px]"
+                (click)="onAgree()">{{'createPayment.save' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

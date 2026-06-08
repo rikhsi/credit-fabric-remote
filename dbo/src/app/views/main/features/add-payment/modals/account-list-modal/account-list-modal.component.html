@@ -1,0 +1,68 @@
+<div class="h-full flex flex-col gap-y-5 bg-[#FFF] rounded-2xl">
+  <div class="flex justify-between items-center pt-6 px-5 border-b border-[#ECECED]">
+    <div class="justify-center text-[#2C3531] text-xl font-semibold leading-loose">Ваши счета</div>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </div>
+
+  <div class="flex flex-col gap-y-[30px] px-5 overflow-y-auto pb-5">
+    <div class="flex flex-col gap-y-4">
+      @if (this?.data?.isMain) {
+        @for (account of this.data?.accounts; track this.data) {
+          <label class="inline-flex items-center cursor-pointer" [for]="account.id" (click)="closeDialog()">
+            <div class="w-full flex flex-col gap-[15px] ">
+              <div
+                class=" w-full justify-between flex bg-white h-[87px] m-auto items-center px-5 cursor-pointer rounded-[16px]"
+                style="boxShadow: 0px 0px 20px 0px #03452D1A"
+              >
+                <div class="flex gap-4 items-center">
+                  <img [src]="account?.saldo?.currency === 'UZS' ? './assets/svg/FlagUz.svg' : account?.saldo?.currency === 'USD' ? './assets/icons/Us.svg' : './assets/icons/eu.svg'" alt="">
+                  <div class="flex flex-col gap-[3px]">
+                    <p
+                      class="font-semibold text-[18px] text-[#2C3531]">{{ ((account?.saldo?.amount ?? 0) / 100).toFixed(2) | mask:'separator.2' }} {{ account?.saldo?.currency }}</p>
+                    <span class="text-[#9799A1] font-normal text-[14px]">{{ account?.account }}</span>
+                  </div>
+                </div>
+                <!--                        <div class="flex gap-3 items-center">-->
+                <!--                            <input type="radio" name="option" class="outline-none w-[30px] h-[30px]" id='radio-custom-1'/>-->
+                <!--                        </div>-->
+              </div>
+            </div>
+          </label>
+        }
+      } @else {
+        @for (account of this.data?.accounts; track this.data) {
+          <label class="inline-flex items-center cursor-pointer" [for]="account.altAcctId"
+                 (click)="this.data.selectSenderAccount(account); closeDialog()">
+            <div class="w-full flex flex-col gap-[15px] ">
+              <div
+                [ngClass]="this.data.selectedAccount?.altAcctId === account.altAcctId ? 'bg-white' : 'bg-[#F3F5F5]'"
+                class=" w-full justify-between flex h-[87px] m-auto items-center px-5 cursor-pointer rounded-[16px]"
+                [style]="this.data.selectedAccount?.altAcctId === account.altAcctId ? 'boxShadow: 0px 0px 20px 0px #03452D1A' : ''"
+              >
+                <div class="flex gap-4 items-center">
+                  <img src="./assets/svg/FlagUz.svg" alt="">
+                  <div class="flex flex-col gap-[3px]">
+                     <span
+                       class="text-[#008C79] text-[16px]">{{ account?.accountType }}</span>
+                    <p
+                      class="font-semibold text-[18px] text-[#2C3531]">{{ Number(account.balance.amount) / 100 | mask:'separator' }}
+                      ,{{ (Number(account.balance.amount) % 100).toString().padStart(2, '0') }} UZS</p>
+                    <span class="text-[#9799A1] font-normal text-[14px]">{{ account.altAcctId }}</span>
+                  </div>
+                </div>
+                <!--                        <div class="flex gap-3 items-center">-->
+                <!--                            <input type="radio" name="option" class="outline-none w-[30px] h-[30px]" id='radio-custom-1'/>-->
+                <!--                        </div>-->
+                <div class="custom-radio">
+                  <input [checked]="this.data.selectedAccount?.altAcctId === account.altAcctId" [id]='account.altAcctId'
+                         type="radio" name="option"/>
+                  <span class="radio-circle"></span>
+                </div>
+              </div>
+            </div>
+          </label>
+        }
+      }
+    </div>
+  </div>
+</div>

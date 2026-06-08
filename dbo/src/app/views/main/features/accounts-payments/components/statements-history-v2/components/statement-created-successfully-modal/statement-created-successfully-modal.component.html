@@ -1,0 +1,28 @@
+<div class="bg-white rounded-[42px] border border-solid border-white p-6 w-[504px] h-[400px]">
+  <div class="flex flex-col h-full">
+    <div class="flex justify-end">
+      <div (click)="_matDialogRef.close()"
+        class="p-2 rounded-xl bg-[#F3F4F6] cursor-pointer flex items-center justify-center">
+        <mat-icon>close</mat-icon>
+      </div>
+    </div>
+
+    <div class="flex-1">
+      <div class=" flex flex-col items-start">
+        <div class="p-3 rounded-xl bg-[#F3F4F6] cursor-pointer flex items-center justify-center ">
+          <app-svg-icon name="hamkor_done_badge"></app-svg-icon>
+        </div>
+        <span class=" my-2 font-bold text-[#008C79]  text-[38px] leading-[40px] text-start"> Выписка <br> по счёту
+          готова</span>
+        <span class="font-medium text-22 text-[#515151]">
+          Можете вернуться обратно к выпискам
+        </span>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end">
+      <button (click)="_matDialogRef.close()"
+        class="rounded-xl bg-primary-base text-white px-6 py-5 font-semibold">Закрыть</button>
+    </div>
+  </div>
+</div>

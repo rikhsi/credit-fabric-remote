@@ -1,0 +1,125 @@
+<div class="flex flex-col dark-box">
+  <div class="flex items-center space-x-2">
+<!--    <img (click)="onToggleGlobal()"-->
+<!--      [src]="globalHideBalance() ? './assets/new-icons/eye.svg' : './assets/new-icons/eye-off.svg'"-->
+<!--      class="cursor-pointer" />-->
+    @if (isEyeIconVisible()) {
+        @if (globalHideBalance()) {
+          <span (click)="onToggleGlobal()" class="cursor-pointer need">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 3.16699C12.4363 3.16699 14.4177 4.24403 15.877 5.46191C17.3335 6.6777 18.3302 8.08206 18.8291 8.87207C18.9143 9.00691 19.0464 9.20143 19.1289 9.4707L19.1602 9.59082L19.1934 9.78906C19.2149 9.9959 19.2033 10.2218 19.1602 10.4102C19.0839 10.7424 18.9264 10.9749 18.8291 11.1289C18.33 11.9191 17.3334 13.3235 15.877 14.5391C14.4178 15.7569 12.4361 16.834 10 16.834C7.56403 16.8339 5.58315 15.7568 4.12402 14.5391C2.6673 13.3233 1.66991 11.919 1.1709 11.1289C1.07363 10.9749 0.916123 10.7425 0.839844 10.4102C0.782316 10.1592 0.782386 9.84188 0.839844 9.59082L0.87207 9.4707C0.954559 9.20164 1.08573 9.00689 1.1709 8.87207C1.66983 8.08206 2.66731 6.67778 4.12402 5.46191C5.58316 4.2441 7.56393 3.16711 10 3.16699ZM10 5.16699C8.18226 5.16711 6.63974 5.96677 5.40527 6.99707C4.16852 8.02936 3.30115 9.24556 2.8623 9.94043C2.84763 9.96366 2.83482 9.98308 2.82422 10C2.83493 10.0171 2.84741 10.037 2.8623 10.0605C3.30117 10.7554 4.16871 11.9708 5.40527 13.0029C6.63972 14.0332 8.18232 14.8339 10 14.834C11.8178 14.834 13.3602 14.0332 14.5947 13.0029C15.8315 11.9707 16.6997 10.7555 17.1387 10.0605C17.1534 10.0372 17.1651 10.017 17.1758 10C17.1652 9.98316 17.1532 9.96349 17.1387 9.94043C16.6998 9.24553 15.8316 8.02939 14.5947 6.99707C13.3602 5.96681 11.8178 5.16699 10 5.16699ZM10 6.5C11.9329 6.5 13.4998 8.06715 13.5 10C13.4998 11.9328 11.9329 13.5 10 13.5C8.0673 13.4998 6.50018 11.9327 6.5 10C6.50018 8.06729 8.0673 6.50022 10 6.5ZM10 8.5C9.17187 8.50022 8.50018 9.17186 8.5 10C8.50018 10.8281 9.17187 11.4998 10 11.5C10.8283 11.5 11.4998 10.8283 11.5 10C11.4998 9.17172 10.8283 8.5 10 8.5Z" fill="currentColor"/>
+              </svg>
+          </span>
+        } @else {
+          <span (click)="onToggleGlobal()" class="cursor-pointer need">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.95245 4.2436C9.29113 4.19353 9.64051 4.16667 10.0003 4.16667C14.2545 4.16667 17.0461 7.9207 17.9839 9.40569C18.0974 9.58542 18.1542 9.67528 18.1859 9.81389C18.2098 9.91799 18.2098 10.0822 18.1859 10.1863C18.1541 10.3249 18.097 10.4154 17.9827 10.5963C17.7328 10.9918 17.3518 11.5476 16.8471 12.1504M5.6036 5.59586C3.80187 6.81808 2.57871 8.51615 2.01759 9.4044C1.90357 9.58489 1.84656 9.67514 1.81478 9.81373C1.79091 9.91783 1.7909 10.082 1.81476 10.1861C1.84652 10.3247 1.90328 10.4146 2.01678 10.5943C2.95462 12.0793 5.74618 15.8333 10.0003 15.8333C11.7157 15.8333 13.1932 15.223 14.4073 14.3972M2.50035 2.5L17.5003 17.5M8.23258 8.23223C7.78017 8.68464 7.50035 9.30964 7.50035 10C7.50035 11.3807 8.61963 12.5 10.0003 12.5C10.6907 12.5 11.3157 12.2202 11.7681 11.7678" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        }
+      }
+
+      @if (balance()) {
+        @if (title().length) {
+             <span class="font-medium leading-6 text-[16px] text-custom-secondary">
+             {{title() | translate}}
+        </span>
+        }@else {
+            <span *ngIf="!checkUrl()" class="font-medium leading-6 text-[16px] text-custom-secondary">
+                {{'accounts.total_balance_in_usd' | translate}}
+            </span>
+            <span *ngIf="checkUrl() && tab() === 'credits'" class="font-medium leading-6 text-[16px] text-custom-secondary">
+                {{'accounts.total_balance_in_kredet' | translate}}
+            </span>
+            <span *ngIf="checkUrl() && tab() !== 'credits'" class="font-medium leading-6 text-[16px] text-custom-secondary">
+                {{'accounts.total_balance_in' | translate}}
+            </span>
+        }
+
+      }@else {
+        <div class="skeleton block rounded h-5 w-48"></div>
+      }
+  </div>
+
+  <div class="flex items-center space-x-2 mt-2">
+ <span
+  *ngIf="balance()?.amount != null"
+  [class]="globalHideBalance()
+    ? 'flex items-center text-[28px] font-semibold text-custom-primary'
+    : 'flex items-center text-[40px] leading-[50px] font-semibold text-custom-primary'"
+>
+  <ng-container *ngIf="!globalHideBalance(); else hiddenBalance">
+    @if (isNegativeBalance() && (Number(integerPart) !== 0 || Number(decimalPart) !== 0)) {
+      -<span>{{ integerPart }}</span>
+      <span class="text-custom-secondary font-medium">.{{ decimalPart }}</span>
+    } @else {
+      <span>{{ integerPart }}</span>
+      <span class="text-custom-secondary font-medium">.{{ decimalPart }}</span>
+    }
+  </ng-container>
+
+  <ng-template #hiddenBalance>
+    <span style="line-height: normal; font-size: 28px; letter-spacing: 4px;">
+    •• ••• ••• ••
+  </span>
+  </ng-template>
+</span>
+
+    <div *ngIf="balance()?.amount == null" class="skeleton block rounded h-12 w-64"></div>
+
+    <div class="relative flex items-center space-x-2 flex-wrap"
+         [style.background-color]="isOpen ? 'var(--surface-2)' : ''"
+         [style.border]="isOpen ? '1px solid var(--custom-border)' : ''"
+         [style.border-radius]="isOpen ? '49px' : ''"
+    >
+      <ng-container *ngIf="balance(); else currencySkeleton">
+        <button (click)="toggleMenu()"
+                [style.background-color]="isOpen ? 'transparent' : '#00A38D'"
+                [style.color]="isOpen ? 'var(--text-primary)' : 'white'"
+                [style.border]="isOpen ? 'none' : '1px'"
+                [ngClass]="isOpen ? 'pl-3' : 'px-3'"
+          class="flex relative items-center space-x-2 py-1 h-8 rounded-full text-sm font-semibold ">
+          @if (isFlagsVisibleInSelectedCurrency()) {
+            <img [src]="selectedCurrency.flag" class="w-5 h-5 rounded-full" />
+          }
+          <span>{{ selectedCurrency.code }}</span>
+          <span class="ml-1" *ngIf="currencyList().length > 1">
+            <svg *ngIf="!isOpen" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            <svg *ngIf="isOpen" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </span>
+          <span *ngIf="isOpen" style="margin-left: 20px" class="h-[12.5px] w-[1px] bg-custom-muted">
+          </span>
+        </button>
+        <div
+          [style.opacity]="isOpen ? 1 : 0"
+          [style.pointer-events]="isOpen ? '' : 'none'"
+          [style.user-select]="isOpen ? 'none' : ''"
+          class="flex items-center space-x-2 py-1 pr-1 overflow-hidden transition-all duration-300"
+          [class.max-w-0]="!isOpen" [class.max-w-[500px]]="isOpen" *ngFor="let c of currencyList()">
+          <button *ngIf="c.code !== selectedCurrency.code" (click)="selectCurrency(c)" class="flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-semibold
+               bg-surface-2 text-custom-primary hover:bg-surface-1 transition">
+
+            <img [src]="c.flag" class="w-5 h-5 rounded-full" />
+            <span>{{ c.code }}</span>
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-template #currencySkeleton>
+        <div class="skeleton block rounded-full h-8 w-24"></div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<mat-menu #currencyMenu="matMenu">
+  <button mat-menu-item (click)="changeCurrency.emit('UZS')">UZS</button>
+  <button mat-menu-item (click)="changeCurrency.emit('USD')">USD</button>
+  <button mat-menu-item (click)="changeCurrency.emit('EUR')">EUR</button>
+</mat-menu>

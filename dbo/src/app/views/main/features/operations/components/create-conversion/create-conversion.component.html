@@ -1,0 +1,176 @@
+<div class="p-6 bg-white rounded-xl h-full flex flex-col relative" style="min-height: calc(100vh + 700px);">
+  <p class="text-2xl font-medium leading-6 mb-4 flex justify-between">
+    <span>Создание конверсии</span>
+    <span (click)="doSomething()">Нимадур</span>
+  </p>
+
+  <div class="rounded-12px p-6 border-1px border-secondary mb-4">
+    <form [formGroup]="form" (ngSubmit)="checkPaymentAllowed()" class="p-4">
+      <div class="flex flex-wrap justify-between items-center">
+        <div class="w-1/2 flex flex-col pr-2 mb-4">
+          <p class="font-medium leading-5 mb-2">Отправитель</p>
+          <mat-form-field appearance="outline" class="payment-select w-full">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select formControlName="sender" placeholder="выберите счёт">
+              @for (account of accounts; track account) {
+                <mat-option [value]="account.altAcctId">
+                  {{ account.altAcctId }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="w-1/2 flex flex-col  mb-4">
+          <p class="font-medium leading-5 mb-2">Получатель</p>
+          <mat-form-field appearance="outline" class="payment-select w-full">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select formControlName="receiver" placeholder="выберите счёт">
+              @for (account of accounts; track account) {
+                <mat-option [value]="account.altAcctId">
+                  {{ account.altAcctId }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-between items-center">
+        <div class="w-1/2 flex flex-col pr-2 mb-4">
+          <p class="font-medium leading-5 mb-2">Резервный счет для покупки/продажи валюты</p>
+          <mat-form-field appearance="outline" class="payment-select w-full">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                             svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select
+              formControlName="specialAccount" placeholder="выберите счёт"
+              [ngClass]="{
+        'border-red-500': form.get('specialAccount')?.invalid && form.get('specialAccount')?.touched,
+        'border-secondary': form.get('specialAccount')?.valid || !form.get('specialAccount')?.touched
+      }">
+              @for (account of accounts; track account) {
+                <mat-option [value]="account.altAcctId">
+                  {{ account.altAcctId }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="w-1/2 flex flex-col mb-4">
+          <p class="font-medium leading-5 mb-2">Сумма от отправителя</p>
+          <input
+            formControlName="senderAmount"
+            mask="separator"
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Введите сумму"
+            [ngClass]="{
+        'border-red-500': form.get('senderAmount')?.invalid && form.get('senderAmount')?.touched,
+        'border-secondary': form.get('senderAmount')?.valid || !form.get('senderAmount')?.touched
+      }"
+          >
+        </div>
+
+      </div>
+
+      <div class="flex flex-wrap justify-between items-center">
+        <div *ngIf="showCurrencyFields" class="w-1/2 flex flex-col pr-2 mb-4">
+          <p class="font-medium leading-5 mb-2">Курс валюты клиента</p>
+          <input
+            formControlName="clientCurrencyOfferRate"
+            type="number"
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Введите курс"
+            [ngClass]="{
+          'border-red-500': form.get('clientCurrencyOfferRate')?.invalid && form.get('clientCurrencyOfferRate')?.touched,
+          'border-secondary': form.get('clientCurrencyOfferRate')?.valid || !form.get('clientCurrencyOfferRate')?.touched
+        }"
+          >
+        </div>
+
+        <div *ngIf="showCurrencyFields" class="w-1/2 flex flex-col pr-2 mb-4">
+          <p class="font-medium leading-5 mb-2">Сумма предложения валюты клиента</p>
+          <input
+            formControlName="clientCurrencyOfferAmount"
+            mask="separator"
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            placeholder="Введите сумму"
+            [ngClass]="{
+          'border-red-500': form.get('clientCurrencyOfferAmount')?.invalid && form.get('clientCurrencyOfferAmount')?.touched,
+          'border-secondary': form.get('clientCurrencyOfferAmount')?.valid || !form.get('clientCurrencyOfferAmount')?.touched
+        }"
+          >
+        </div>
+      </div>
+      <div class="mb-2">
+        <label for="description" class="font-medium leading-5 mb-2">Описание</label>
+        <textarea
+          formControlName="description" id="description"
+          rows="4"
+          placeholder="Введите описание"
+          class="block w-full p-2.5 mt-1 border  rounded-12px focus:ring-secondary focus:border-secondary outline-none resize-none"
+          [ngClass]="{
+    'border-red-500': form.get('description')?.invalid && form.get('description')?.touched,
+    'border-secondary': form.get('description')?.valid || !form.get('description')?.touched
+  }"
+        ></textarea>
+        <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-red-500 text-sm">
+          Описание обязательно для заполнения.
+        </div>
+      </div>
+      <div class="space-y-4">
+        @for (documentCtrl of documentList.controls; track documentCtrl; let i = $index) {
+          <div class="flex items-center space-x-2">
+            <input type="file" (change)="onFileSelected($event, i)"
+                   class="block w-full text-sm text-gray-500
+                   file:mr-4 file:py-2 file:px-4
+                   file:rounded-12px file:border-0
+                   file:text-sm file:font-semibold
+                   file:bg-blue-50 file:text-blue-700
+                   rounded-12px border-1px border-secondary   outline-none
+                   hover:file:bg-blue-50">
+            <button type="button" (click)="removeDocument(i)"
+                    class="text-red-500 font-medium flex items-center cursor-pointer bg-[#F2F3F5] px-4 py-2 rounded-10px">
+              Удалить
+            </button>
+          </div>
+        }
+        <button type="button" (click)="addDocument()"
+                class="text-primary font-medium flex items-center  cursor-pointer bg-[#F2F3F5] px-4 py-2 rounded-rounded  rounded-10px">
+          Добавить документ
+        </button>
+        <div>
+          <input class="cursor-pointer" type="checkbox" id="oferta" name="oferta">
+          <label class="cursor-pointer mx-1" for="oferta">Ознакомлен с</label>
+          <span [matMenuTriggerFor]="menu" class="text-blue-700 underline cursor-pointer">офертой</span>
+          <mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+
+            <div (click)="printOfertaUz({})" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+              <div class="text-xs">{{ download.conversion_oferta_uz.title }}</div>
+            </div>
+
+            <div (click)="printOfertaRu({})" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+              <div class="text-xs">{{ download.conversion_oferta_ru.title }}</div>
+            </div>
+
+            <div (click)="printOfertaEn({})" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+              <div class="text-xs">{{ download.conversion_oferta_en.title }}</div>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="text-end mt-4">
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          [ngClass]="form.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+          class="w-[194px] h-10 rounded-xl border-1px bg-secondary text-white font-medium">
+          Подтвердить
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <app-additional-info></app-additional-info>
+</div>

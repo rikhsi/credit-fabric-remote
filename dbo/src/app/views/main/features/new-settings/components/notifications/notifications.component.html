@@ -1,0 +1,415 @@
+<div class="text-[#171717] relative h-[calc(100vh-92px)] px-5">
+
+  <div class="mt-5">
+    <div
+      class="setting-toggle flex items-center justify-between bg-white rounded-xl shadow px-4 py-3 w-[285px]">
+  <span class="text-base font-semibold text-gray-700">
+    Получать уведомления
+  </span>
+<!--<span>-->
+<!--        <mat-slide-toggle-->
+<!--          color="primary"-->
+<!--          [checked]="notificationsEnabled"-->
+<!--          (change)="onToggle($event.checked)"-->
+<!--        >-->
+<!--      </mat-slide-toggle>-->
+
+
+<!--    </span>-->
+
+      <div class="h-[32px]">
+        <label class="relative inline-block cursor-pointer">
+          <input
+            type="checkbox"
+            class="sr-only"
+            (change)="onToggle($event)"
+            [checked]="notificationsEnabled()"
+          />
+
+          <div
+            class="w-14 h-8 rounded-full relative transition-colors duration-300 border border-[#ebebeb] dark:border-[#333]"
+            [style.background-color]="this.notificationsEnabled() ? '#F5F5F5' : '#F7F7F7'">
+
+            <div
+              class="absolute top-[1px] left-[2px] w-7 h-7  rounded-full shadow-md flex items-center justify-center transition-transform duration-300"
+              [style.transform]="this.notificationsEnabled() ? 'translateX(24px)' : 'translateX(0)'"
+              [style.background-color]="this.notificationsEnabled() ? '#D1D1D1' : '#00A38D'"
+            >
+
+            </div>
+          </div>
+        </label>
+
+      </div>
+
+</div>
+
+  </div>
+  <div class="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 p-5 border-b border-[#dfdfdf] items-center">
+    <div class="font-semibold text-base">Тип уведомления</div>
+    <div class="font-semibold text-base text-center">Push</div>
+<!--    <div class="font-semibold text-base text-center">SMS</div>-->
+    <div class="font-semibold text-base text-center">Email</div>
+  </div>
+  <div *ngIf="settingsNotificationList()?.length" class="notification-box">
+    <div  *ngFor="let item of settingsNotificationList()"  class="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 p-5 border-b border-[#dfdfdf] items-center">
+      <div class="text-sm">{{item.categoryTitle }}</div>
+      <div class="flex justify-center">
+        @if (editStatus() && !isChannelEnabledStatus(item, 'PUSH')) {
+          <input type="checkbox"   (change)="onChannelChange(item, 'PUSH', $event)"  [checked]="isChannelEnabled(item, 'PUSH')">
+        }
+        @else{
+          @if (isChannelEnabled(item, 'PUSH')) {
+            <img width="16" src="./assets/new-icons/check-notification.svg" alt="">
+
+          } @else {
+            <span class="p-3">{{" "}}</span>
+          }
+        }
+      </div>
+<!--      <div class="flex justify-center">-->
+<!--        @if (editStatus() && !isChannelEnabledStatus(item, 'SMS')) {-->
+<!--          <input type="checkbox"   (change)="onChannelChange(item, 'SMS', $event)"  [checked]="isChannelEnabled(item, 'SMS')">-->
+<!--        }-->
+<!--        @else{-->
+<!--          @if (isChannelEnabled(item, 'SMS')) {-->
+<!--            <img width="16" src="./assets/new-icons/check-notification.svg" alt="">-->
+
+<!--          } @else {-->
+<!--            <span class="p-3">{{" "}}</span>-->
+<!--          }-->
+<!--        }-->
+<!--      </div>-->
+      <div class="flex justify-center">
+        @if (editStatus() && !isChannelEnabledStatus(item, 'EMAIL')) {
+          <input type="checkbox"   (change)="onChannelChange(item, 'EMAIL', $event)"  [checked]="isChannelEnabled(item, 'EMAIL')">
+        }
+        @else{
+          @if (isChannelEnabled(item, 'EMAIL')) {
+            <div class="w-[24px] h-[24px] flex justify-center items-center">
+              <img width="16" src="./assets/new-icons/check-notification.svg" alt="">
+            </div>
+
+          } @else {
+            <span class="p-3">{{" "}}</span>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="flex justify-between items-center p-6 px-0">
+    @if (editStatus()) {
+<!--      <div></div>-->
+      <button (click)="openDialog(dialogTemplate)" class="bg-white px-6 py-3 text-gray-700 font-semibold  rounded-lg transition-colors">
+        Сбросить все
+      </button>
+      <div class="flex gap-4">
+        <button (click)="cancelProcess()" class=" bg-white px-6 py-3 text-gray-700 font-semibold rounded-lg transition-colors">
+          Отменить
+        </button>
+        <button (click)="showNotifyEditDialog(dialogEditNotify)" class="px-8 py-3 bg-[#008c79] text-white font-semibold rounded-lg  transition-colors">
+          Подтвердить
+        </button>
+      </div>
+    } @else {
+      <div></div>
+      <div (click)="editStatus.set(true)" class="flex gap-4">
+        <button class="px-8 py-3 bg-[#008c79] text-white font-semibold rounded-lg  transition-colors">
+          Изменить
+        </button>
+      </div>
+    }
+  </div>
+  <div   class="bg-white rounded-[16px] p-5 mb-[10px] shadow-sm">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-4 w-full">
+
+        <div class="w-full">
+          <div class="flex items-center gap-3 ">
+            <div class="flex justify-between items-center w-full">
+              <div>
+                <div class="font-semibold text-base">Тихий час</div>
+                @if (settingsNotificationSilenceInfo()?.from || settingsNotificationSilenceInfo()?.to) {
+                  <div class="font-normal text-14">Время, когда уведомления будут отключены</div>
+                } @else {
+                  <div class="font-normal text-14">Беззвучный режим уведомлений</div>
+                }
+              </div>
+              <div>
+                @if (settingsNotificationSilenceInfo()?.from || settingsNotificationSilenceInfo()?.to) {
+                  <div class="flex items-center">
+                    <div class="text-gray-700 font-normal text-base">{{settingsNotificationSilenceInfo()?.from}} - {{settingsNotificationSilenceInfo()?.to}}</div>
+                    <button (click)="editSileceInfo()"  class="ml-4 px-6 py-2 bg-[#F5F5F5] text-gray-700 dark:bg-[#262626] font-semibold rounded-lg  transition-colors text-xs">
+                      <div class="flex justify-center items-center dark-box">
+                        <span>Изменить</span>
+                        <span class="ml-[6px] need">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                             <path d="M12.4708 0.861278C12.2104 0.600928 11.7883 0.600928 11.5279 0.861278C11.2676 1.12163 11.2676 1.54374 11.5279 1.80409L14.1946 4.47075C14.455 4.7311 14.8771 4.7311 15.1374 4.47075C15.3978 4.2104 15.3978 3.78829 15.1374 3.52794L12.4708 0.861278Z" fill="currentColor"/>
+                             <path d="M9.69035 2.85298C9.89119 2.78772 10.1075 2.78772 10.3084 2.85298C10.4635 2.90337 10.5759 2.98707 10.6499 3.04993C10.7138 3.10418 10.7809 3.17126 10.837 3.22743L12.7712 5.16168C12.8274 5.21781 12.8945 5.28484 12.9487 5.34874C13.0116 5.42279 13.0953 5.53519 13.1457 5.69028C13.2109 5.89113 13.2109 6.10747 13.1457 6.30832C13.0953 6.46341 13.0116 6.57581 12.9487 6.64985C12.8945 6.71377 12.8274 6.78081 12.7712 6.83694L5.84622 13.7619C5.72176 13.8866 5.61193 13.9965 5.48466 14.0892C5.37267 14.1708 5.2525 14.2406 5.1261 14.2973C4.98245 14.3618 4.83248 14.4026 4.66254 14.4489L1.50811 15.3091C1.2773 15.3721 1.03046 15.3065 0.861293 15.1374C0.692126 14.9682 0.626574 14.7214 0.689522 14.4906L1.54981 11.3361C1.59604 11.1662 1.63684 11.0162 1.70134 10.8726C1.75809 10.7462 1.82783 10.626 1.90942 10.514C2.00215 10.3867 2.11212 10.2769 2.23672 10.1524L9.16173 3.22745C9.21786 3.17128 9.2849 3.10418 9.34881 3.04993C9.42286 2.98707 9.53526 2.90337 9.69035 2.85298Z" fill="currentColor"/>
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                    <button (click)="deleteNotfy(dialogHourDelete)" class="px-6 py-2 ml-2 bg-[#FFEBEC] text-[#FB3748] dark:bg-[#262626] font-semibold rounded-lg  transition-colors text-xs">
+                      Удалить
+                    </button>
+                  </div>
+                } @else {
+                  <button (click)="openDialog(dialogHour)" class="px-6 py-2 bg-[#F5F5F5] text-gray-700 dark:bg-[#262626] font-semibold rounded-lg  transition-colors text-xs">
+                    Установить
+                  </button>
+                }
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
+<ng-template #dialogTemplate>
+  <div style="overflow: hidden !important;"  class="setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[10px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class=" w-full mt-8">
+      <div class="w-[68px] h-[68px] bg-gray-100  dark:bg-gray-500  rounded-[34px] flex items-center justify-center">
+        <img width="36" src="./assets/new-icons/alert-black-triangle..svg" alt="">
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+        <div class=" text-left">Сбросить настройки?</div>
+      </h2>
+      <p class="text-gray-500 text-base px-2 leading-relaxed  text-left">
+        Настройки уведомлений будут возвращены к значениям по умолчанию.
+      </p>
+    </div>
+    <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+      <button (click)="closeAllDialog()"  class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+        Отменить
+      </button>
+      <button (click)="setDefaultNotify()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+        Сбросить
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #dialogTemplateNotify>
+  <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class=" w-full mt-8">
+      <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500  rounded-[34px] flex items-center justify-center">
+        <img width="24" src="./assets/new-icons/alert-black-triangle..svg" alt="">
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+        <div class="w-[300px] text-left"> {{notificationsEnabled() ? 'Включить уведомления?': 'Отключить все уведомления?'}} </div>
+      </h2>
+      <p class="text-gray-500 text-base px-2 leading-relaxed  text-left">
+
+        {{notificationsEnabled() ? 'После включения вы будете получать уведомления в приложении': 'Обязательные уведомления отключить невозможно'}}
+      </p>
+    </div>
+    <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+      <button (click)="deleteNotfyData()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+         {{notificationsEnabled() ? 'Включить' : 'Отключить'}}
+      </button>
+      <button (click)="closeAllDialog()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+        Нет
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #dialogHour>
+  <div style="overflow: hidden !important;"  class="setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class=" w-full mt-8">
+
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px] w-full w-full">
+        <div class="w-[300px] text-left"> Тихий час</div>
+      </h2>
+      <p class="text-gray-500 text-lg px-2 leading-7 text-left">
+        В это время важные сообщения будут приходить беззвучно. Обычные уведомления будут отключены.
+      </p>
+    </div>
+
+    <form [formGroup]="form" class="time-row-form w-full flex gap-4 mt-4">
+      <div>
+        <input
+          matInput
+          formControlName="from"
+          mask="Hh:m0"
+          placeholder="00:00"
+          inputmode="numeric"
+          class="w-full rounded-[16px] px-4 py-[15px] border  focus:outline-none focus:border-[#008077]"
+
+        />
+<!--        <mat-error *ngIf="hasTimeError('from')">-->
+<!--          <span class="">00:00 – 23:59</span>-->
+<!--        </mat-error>-->
+      </div>
+      <div>
+        <input
+          matInput
+          formControlName="to"
+          mask="Hh:m0"
+          placeholder="00:00"
+          inputmode="numeric"
+          class="w-full rounded-[16px] px-4 py-[15px] border  focus:outline-none focus:border-[#008077]"
+        />
+<!--        <mat-error *ngIf="hasTimeError('to')">-->
+<!--          00:00 – 23:59-->
+<!--        </mat-error>-->
+      </div>
+
+    </form>
+
+<!--    <mat-error *ngIf="hasRangeError()">-->
+<!--      <span class="font-normal text-sm mt-1">Время начала должно быть меньше времени окончания.</span>-->
+<!--    </mat-error>-->
+
+    <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+      <button (click)="cancelFormDiealod()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+        Отменить
+      </button>
+      <button (click)="submit()" [disabled]="form.invalid"  class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white" [ngClass]="form.invalid ? 'opacity-60' : ''">
+        Установить
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #dialogHourDelete>
+  <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class=" w-full mt-8">
+      <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">
+        <svg width="30" height="33" viewBox="0 0 30 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 9.00001H6V24.3003C6 25.5849 6.00052 26.4583 6.05566 27.1333C6.10939 27.7909 6.20713 28.1277 6.32666 28.3623C6.61426 28.9267 7.07332 29.3857 7.6377 29.6733C7.87229 29.7929 8.20908 29.8906 8.8667 29.9443C9.54175 29.9995 10.4151 30 11.6997 30H18.3003C19.5849 30 20.4582 29.9995 21.1333 29.9443C21.7909 29.8906 22.1277 29.7929 22.3623 29.6733C22.9267 29.3857 23.3857 28.9267 23.6733 28.3623C23.7929 28.1277 23.8906 27.7909 23.9443 27.1333C23.9995 26.4583 24 25.5849 24 24.3003V9.00001ZM10.5 23.25V15.75C10.5 14.9216 11.1716 14.25 12 14.25C12.8284 14.25 13.5 14.9216 13.5 15.75V23.25C13.5 24.0784 12.8284 24.75 12 24.75C11.1716 24.75 10.5 24.0784 10.5 23.25ZM16.5 23.25V15.75C16.5 14.9216 17.1716 14.25 18 14.25C18.8284 14.25 19.5 14.9216 19.5 15.75V23.25C19.5 24.0784 18.8284 24.75 18 24.75C17.1716 24.75 16.5 24.0784 16.5 23.25ZM13.8003 3.00001C12.9355 3.00001 12.3767 3.0019 11.9517 3.03663C11.5443 3.06992 11.393 3.12628 11.3188 3.16407C11.0369 3.30783 10.8078 3.5369 10.6641 3.81885C10.6263 3.89301 10.5699 4.04429 10.5366 4.45167C10.5061 4.82539 10.5021 5.30235 10.5015 6.00001H19.4985C19.4979 5.30235 19.4939 4.82539 19.4634 4.45167C19.4301 4.04429 19.3737 3.89301 19.3359 3.81885C19.1922 3.5369 18.9631 3.30783 18.6812 3.16407C18.607 3.12628 18.4557 3.06992 18.0483 3.03663C17.6233 3.0019 17.0645 3.00001 16.1997 3.00001H13.8003ZM27 24.3003C27 25.5355 27.0015 26.5524 26.9341 27.3779C26.8652 28.221 26.7176 28.9967 26.3467 29.7246C25.7715 30.8534 24.8534 31.7715 23.7246 32.3467C22.9967 32.7176 22.221 32.8652 21.3779 32.9341C20.5524 33.0015 19.5355 33 18.3003 33H11.6997C10.4645 33 9.44764 33.0015 8.62207 32.9341C7.77899 32.8652 7.00335 32.7176 6.27539 32.3467C5.14663 31.7715 4.22852 30.8534 3.65332 29.7246C3.28241 28.9967 3.13481 28.221 3.06592 27.3779C2.99847 26.5524 3 25.5355 3 24.3003V9.00001H1.5C0.671573 9.00001 0 8.32843 0 7.50001C0 6.67158 0.671573 6.00001 1.5 6.00001H7.50146C7.50188 5.31146 7.50426 4.7107 7.54541 4.20704C7.59388 3.61415 7.70159 3.024 7.99072 2.45655C8.42208 1.61021 9.11021 0.922091 9.95654 0.490729C10.524 0.201601 11.1141 0.0938832 11.707 0.0454168C12.2825 -0.00160404 12.985 6.62126e-06 13.8003 6.62126e-06H16.1997C17.015 6.62126e-06 17.7175 -0.00160396 18.293 0.0454168C18.8859 0.0938832 19.476 0.201601 20.0435 0.490729C20.8898 0.922091 21.5779 1.61021 22.0093 2.45655C22.2984 3.024 22.4061 3.61415 22.4546 4.20704C22.4957 4.7107 22.4981 5.31146 22.4985 6.00001H28.5C29.3284 6.00001 30 6.67158 30 7.50001C30 8.32843 29.3284 9.00001 28.5 9.00001H27V24.3003Z" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+      <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+        <div class=" text-left">Удалить “Тихий час”?</div>
+      </h2>
+      <p class="text-gray-500 text-base px-2 leading-relaxed  text-left">
+        После удаления настройку “Тихого часа” можно будет создать заново
+      </p>
+    </div>
+    <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+      <button (click)="deleteSilece()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+        Да
+      </button>
+      <button (click)="closeAllDialog()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+        Отменить
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+<ng-template #dialogEditNotify>
+  <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+    <button
+      mat-dialog-close
+      type="button"
+      class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[10px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+    >
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+      </svg>
+    </button>
+
+    <div class=" w-full mt-8">
+      <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M3 24.2998V13.1993C3 11.964 2.99847 10.9472 3.06592 10.1216C3.13481 9.27853 3.28241 8.50289 3.65332 7.77494C4.22853 6.64618 5.14663 5.72807 6.27539 5.15287C7.00335 4.78195 7.77899 4.63436 8.62207 4.56546C9.44764 4.49801 10.4645 4.49955 11.6997 4.49955H16.5C17.3284 4.49955 18 5.17112 18 5.99955C18 6.82797 17.3284 7.49955 16.5 7.49955H11.6997C10.4151 7.49955 9.54176 7.50007 8.8667 7.55521C8.20908 7.60894 7.8723 7.70667 7.6377 7.82621C7.07332 8.11381 6.61426 8.57286 6.32666 9.13724C6.20713 9.37184 6.1094 9.70862 6.05567 10.3662C6.00053 11.0413 6 11.9147 6 13.1993V24.2998C6 25.5844 6.00053 26.4578 6.05567 27.1328C6.1094 27.7905 6.20713 28.1273 6.32666 28.3619C6.61426 28.9262 7.07332 29.3853 7.6377 29.6729C7.8723 29.7924 8.20908 29.8902 8.8667 29.9439C9.54176 29.999 10.4151 29.9995 11.6997 29.9995H22.8003C24.0849 29.9995 24.9582 29.999 25.6333 29.9439C26.2909 29.8902 26.6277 29.7924 26.8623 29.6729C27.4267 29.3853 27.8857 28.9262 28.1733 28.3619C28.2929 28.1273 28.3906 27.7905 28.4443 27.1328C28.4995 26.4578 28.5 25.5844 28.5 24.2998V19.4995C28.5 18.6711 29.1716 17.9995 30 17.9995C30.8284 17.9995 31.5 18.6711 31.5 19.4995V24.2998C31.5 25.5351 31.5015 26.5519 31.4341 27.3775C31.3652 28.2206 31.2176 28.9962 30.8467 29.7242C30.2715 30.8529 29.3534 31.771 28.2246 32.3462C27.4967 32.7171 26.721 32.8647 25.8779 32.9336C25.0524 33.0011 24.0355 32.9995 22.8003 32.9995H11.6997C10.4645 32.9995 9.44764 33.0011 8.62207 32.9336C7.77899 32.8647 7.00335 32.7171 6.27539 32.3462C5.14664 31.771 4.22853 30.8529 3.65332 29.7242C3.28241 28.9962 3.13481 28.2206 3.06592 27.3775C2.99847 26.5519 3 25.5351 3 24.2998ZM19.5 23.9995C20.3284 23.9995 21 24.6711 21 25.4995C21 26.328 20.3284 26.9995 19.5 26.9995H10.5C9.67158 26.9995 9 26.328 9 25.4995C9 24.6711 9.67158 23.9995 10.5 23.9995H19.5ZM22.5 17.9995C23.3284 17.9995 24 18.6711 24 19.4995C24 20.328 23.3284 20.9995 22.5 20.9995H10.5C9.67158 20.9995 9 20.328 9 19.4995C9 18.6711 9.67158 17.9995 10.5 17.9995H22.5ZM22.7578 4.75736C25.101 2.41421 28.899 2.41421 31.2422 4.75736C33.5853 7.1005 33.5853 10.8986 31.2422 13.2417C28.899 15.5849 25.101 15.5849 22.7578 13.2417C20.4147 10.8986 20.4147 7.1005 22.7578 4.75736ZM29.1211 6.87845C27.9495 5.70688 26.0505 5.70688 24.8789 6.87845C23.7073 8.05003 23.7073 9.94907 24.8789 11.1206C26.0505 12.2922 27.9495 12.2922 29.1211 11.1206C30.2927 9.94907 30.2927 8.05003 29.1211 6.87845Z" fill="#171717"/>
+        </svg>
+      </div>
+    </div>
+    <div class="flex-1 p-1 mt-6 flex flex-col items-center w-full">
+      <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+        <div class=" text-left">Подтвердить изменения?</div>
+      </h2>
+      <p class="text-gray-500 text-base leading-relaxed  text-left w-full">
+        Настройки уведомлений были изменены
+      </p>
+    </div>
+    <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+      <button (click)="closeAllDialog()" class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12  bg-[#f3f4f6] text-[#171717] ">
+        Отменить
+      </button>
+      <button (click)="editNotify()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#00A38D] text-white font-semibold text-[15px]">
+        Подтвердить
+      </button>
+
+    </div>
+
+  </div>
+</ng-template>

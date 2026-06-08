@@ -1,0 +1,29 @@
+<div
+  class="bg-white p-6 rounded-0.5xl w-[375px] h-full min-h-[560px] max-h-[80vh] flex flex-col">
+  <div class="flex justify-between items-start mb-4">
+    <h3 class="text-gray-950 text-base font-semibold">
+      {{ 'transport.' + data.type + '-' + data.title | translate }}
+    </h3>
+    <app-ui-svg-icon
+      (click)="dialogRef.close()"
+      path="./assets/icons/close.svg#close"
+      svgClass="text-neutral-550 icon-6 cursor-pointer"></app-ui-svg-icon>
+  </div>
+
+  <hr class="w-auto h-px bg-cyan-75 -mx-6 mb-5" />
+
+  <ng-container [ngSwitch]="data.title">
+<!--    <app-transport-add-->
+<!--      *ngSwitchCase="'transport'"-->
+<!--      (closeForm)="dialogRef.close(true)"-->
+<!--      class="contents"></app-transport-add>-->
+
+    <app-transport-info-form
+      *ngSwitchDefault
+      [title]="data.title"
+      [type]="data.type"
+      [id]="data.uuid"
+      (closeForm)="dialogRef.close(true)"
+      class="contents"></app-transport-info-form>
+  </ng-container>
+</div>

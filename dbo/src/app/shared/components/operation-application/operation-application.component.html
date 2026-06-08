@@ -1,0 +1,35 @@
+<div
+  class="flex gap-x-[25px] h-[100px] w-full items-center"
+  (click)="openDetail()"
+>
+  <div
+    class="!min-w-[48px] !min-h-[48px] flex items-center justify-center rounded-[50%] bg-[#F4F7FA]"
+  >
+    <img [src]="svgContent" width="24" height="24" alt="icon">
+<!--    <div-->
+<!--      class="min-w-[24px]"-->
+<!--      [innerHTML]="svgContent"-->
+<!--    ></div>-->
+  </div>
+
+  <div class="flex-grow flex flex-col gap-y-[6px]">
+    <div class="text-[#8B97A2] text-sm">#{{ app?.applicationId }}</div>
+    <div class="font-medium">{{ getApplicationTitle() }}</div>
+    <div class="text-[#7C8897] leading-[16px] text-sm">{{ getSubTitle() }}</div>
+  </div>
+
+  <div class="flex text-end flex-col gap-y-[15px]">
+    <span
+      class="self-end"
+    >{{ getAmount() }}</span>
+    <span class="text-[12px] flex items-center gap-x-[7px]">
+      <span class="text-[13px] text-[#8B97A2] leading-[18px]">{{ getTime() }}</span>
+      <span
+        [ngClass]="[getStatusApplication(app?.applicationStatus).color, getStatusApplication(app?.applicationStatus).text]"
+        class="w-fit leading-5 px-[7px] rounded-[10px] self-end"
+      >
+        {{ getStatusApplication(app?.applicationStatus).label }}
+      </span>
+    </span>
+  </div>
+</div>

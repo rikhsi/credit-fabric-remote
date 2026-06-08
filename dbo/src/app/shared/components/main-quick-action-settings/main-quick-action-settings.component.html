@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-y-5 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+  <div class="flex justify-between items-center py-5 border-b border-[#E2EAF1]">
+    <div class="text-[22px] text-black">{{ data.title }}</div>
+    <mat-icon mat-ripple mat-dialog-close>close</mat-icon>
+  </div>
+
+  <div class="flex flex-col gap-y-2.5">
+    @for(action of data.actions; track action) {
+      <label [for]="action.title" class="p-2 flex gap-x-4 text-sm cursor-pointer hover:bg-gray-100">
+        <input class="custom-checkbox" type="checkbox" [(ngModel)]="action.visible" [id]="action.title">
+        <span>{{ action.title }}</span>
+      </label>
+    }
+  </div>
+
+  <div class="grid grid-cols-2 mt-4 gap-x-5">
+    <button
+      (click)="saveMainQuickAction()"
+      class="px-5 py-2.5 rounded-[5px] bg-[#008C79] text-white leading-[20px]"
+    >Сохранить
+    </button>
+
+    <button
+      mat-dialog-close
+      class="px-5 py-2.5 rounded-[5px] bg-[#008C79] leading-[20px]"
+    >Отмена
+    </button>
+  </div>
+</div>

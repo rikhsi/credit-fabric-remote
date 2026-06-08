@@ -1,0 +1,25 @@
+.submenu-box {
+  width: 463px !important;
+  display: flex;
+}
+.submenu-box .submenu-list-box {
+  min-width: 113px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.small-icons-box {
+  justify-content: normal !important;
+}
+
+
+.toggle-circle {
+  transition: transform 0.3s ease;
+}
+
+#toggle:checked ~ .toggle-bg .toggle-circle {
+  transform: translateX(24px);
+}
+
+#toggle:checked ~ .toggle-bg {
+  background-color: #14b8a6;
+}

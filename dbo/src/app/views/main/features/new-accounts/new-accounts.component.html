@@ -1,0 +1,64 @@
+<!-- new-accounts.component.html -->
+<ng-container>
+  <div class="text-custom-primary text-3xl font-bold leading-normal mb-5">{{'accounts.accounts' | translate}}</div>
+  <app-balance [title]="title()" [currencyList]="currencyList()" (changeCurrency)="accountStore.getAccountBalance($event)"
+  [isFlagsVisibleInSelectedCurrency]="false"
+    (toggleGlobal)="toggleGlobalHide()" [globalHideBalance]="globalHideBalance()" [balance]="accountStore.balance()" />
+  <div class="flex justify-between items-center pt-8 pb-4">
+    <app-another-tabs [tabs]="['ALL', 'SUM', 'FOREIGN']" />
+    <!-- <img src="./assets/svg/settings.svg" alt="#"> -->
+  </div>
+  <div class="bg-surface-2 rounded-[16px] border border-custom-border mr-[70px]">
+    <div class="mt-[16px] mb-[4px]">
+    <app-account-filter-payment  (hasAnyFilterInForm)="onHasAnyFilter($event)" [currencyList]="currencyList()" [currencyType]="activeTab()" [isActionStatus]="false"
+        (filterChange)="setFilter($event)"></app-account-filter-payment>
+
+    </div>
+  <div class="overflow-x-auto scrollable-row">
+    <!-- grid-cols-[310px_270px_88px_1fr__40px_40px_40px] -->
+        <div class="grid items-center gap-x-4 px-[20px]
+                grid-cols-[330px_1fr_60px_1fr_1fr_40px_40px_40px]
+              pt-8 pb-4 text-custom-secondary text-sm leading-5 font-medium">
+      <div>{{'new_loan.account_number_and_status' | translate}}</div>
+      <div >{{'accounts.account_type' | translate}}</div>
+        <!-- don't remove empty div it is for styling  -->
+      <div></div>
+      <div>{{'global.mfo' | translate}}</div>
+      <div>{{'accounts.balance' | translate}}</div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    @if(accountStore.accountsLoading()) {
+    <div class="mb-4 px-6">
+      <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+      <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+      <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+      <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+    </div>
+    } @else {
+    <div>
+      @for (acc of accountStore.accounts(); track acc) {
+      <app-new-account-items [searchText]="searchText()" (onPinClickAccount)="onPinClickAccount($event)" [globalHideBalance]="globalHideBalance()"
+        [refreshTrigger]="refreshTrigger()" (requisite)="accountInfo($event)" [accounts]="acc"></app-new-account-items>
+      }
+    </div>
+    }
+  </div>
+
+    <div *ngIf="!accountStore?.accounts()?.length">
+      <p class="m-5 mt-7 text-center text-custom-primary">{{'new_third.nothing_found' | translate}}</p>
+    </div>
+
+  </div>
+      <div *ngIf="accountStore?.accounts()?.length && accountStore.totalItems() > 5" class="mt-5 mr-[70px]">
+      <app-pagination [pageIndex]="accountStore.pageIndex()" [pageSize]="accountStore.pageSize()"
+        [totalItems]="accountStore.totalItems()" (pageChange)="accountStore.pageIndex.set($event); getLoadAccountInfo()"
+        (pageSizeChange)="accountStore.pageSize.set($event); accountStore.pageIndex.set(0); getLoadAccountInfo()">
+      </app-pagination>
+    </div>
+<!--  <app-service-controller-check [services]="['IABS']" ></app-service-controller-check>-->
+</ng-container>

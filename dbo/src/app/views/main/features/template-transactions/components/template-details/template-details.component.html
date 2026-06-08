@@ -1,0 +1,169 @@
+<div class="flex flex-col gap-y-3 px-6 bg-[#FFF] h-full overflow-y-auto pb-5">
+  <div class="flex flex-col py-5 border-b border-[#E2EAF1]">
+    <div class="flex justify-between">
+      <div class="text-[22px] text-black">
+        @if(!this.autoPay) {
+          <span>{{'global.template_details' | translate}}</span>
+        } @else {
+          <span>{{'global.autopayment_details' | translate}}</span>
+        }
+      </div>
+      <mat-icon mat-ripple mat-dialog-close>close</mat-icon>
+    </div>
+    <div class="text-[13px] text-[#88939E]">{{ getTransactionType() }}</div>
+  </div>
+
+<!--  <app-payment-short [transaction]="transaction"></app-payment-short>-->
+<!--  <div-->
+<!--    class="flex justify-between gap-x-2.5 mb-4"-->
+<!--    [ngClass]="{ 'flex-row-reverse': !transaction.isDebit }">-->
+<!--    @if(transaction.isDebit) {-->
+<!--      <div-->
+<!--        class="py-2.5 px-5 bg-[#DDECFC] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--        [matTooltip]="'Редактировать'"-->
+<!--        (click)="editPayment()">-->
+<!--        Редактировать-->
+<!--      </div>-->
+<!--    }-->
+
+<!--    <div class="flex gap-x-2.5 items-center">-->
+<!--      <div-->
+<!--        (click)="printTransactionDetailsPdf()"-->
+<!--        class="py-2.5 px-5 bg-[#DDECFC] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--        [matTooltip]="'Скачать pdf'"-->
+<!--      >-->
+<!--        <img ngSrc="./assets/svg/printer.svg" alt="print" width="24" height="24">-->
+<!--      </div>-->
+
+<!--      @if(transaction.isDebit && !this.autoPay) {-->
+<!--        <div-->
+<!--          class="py-2.5 px-5 bg-[#DDECFC] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--          [matTooltip]="'Создать платёж'"-->
+<!--          (click)="copyPattern(transaction)">-->
+<!--          Создать платёж-->
+<!--        </div>-->
+<!--      }-->
+<!--      @if(this.autoPay) {-->
+<!--        <div-->
+<!--          class="py-2.5 px-5 bg-[#DDECFC] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--          [matTooltip]="'Отключить автоплатёж'"-->
+<!--          (click)="deleteAutoPay()">-->
+<!--          Отключить-->
+<!--        </div>-->
+<!--      }-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <div class="flex gap-x-4 items-center">
+    <span class="text-[14px] !w-[130px] text-secondary">{{'createPayment.document_number' | translate}}</span>
+    <span class="text-[14px] font-normal text-black"> {{ transaction.docNum }}</span>
+  </div>
+  <div class="flex gap-x-4 items-center">
+    <span class="text-[14px] !w-[130px] text-secondary">{{'global.autopayment_date' | translate}}</span>
+    <span class="text-[14px] font-normal text-black"> {{ autoPay.paymentTime + ' ' + autoPay.dateEnd }}</span>
+  </div>
+  @if(!transaction.fromAbs) {
+    <div class="flex gap-x-4 items-center">
+      <span class="text-[14px] !w-[130px] text-secondary">{{'global.operation_status' | translate}}</span>
+      <span class="text-[13px] text-end leading-[16.9px] text-[#7C8897]">
+        <span
+          [ngClass]="[getStatusApplication(transaction.absStatus || transaction.status).color,
+          getStatusApplication(transaction.absStatus || transaction.status).text]"
+          class="text-[12px] rounded-[10px] px-[7px]"
+        >{{ getStatusApplication(transaction.absStatus || transaction.status).label }}</span>
+
+      <span> {{ getTimeFromISO(transaction.docDate) }} </span>
+    </span>
+    </div>
+  }
+
+
+  @if(transaction.errorMessage) {
+    <div class="flex gap-x-4 items-center">
+      <span class="text-[14px] !w-[130px] text-secondary"></span>
+      <span class="text-[13px] text-start leading-[16.9px] text-red-500">
+          {{ transaction.errorMessage }}
+      </span>
+    </div>
+  }
+
+  <div class="flex  gap-x-4 items-center">
+    <span class="text-[14px] !w-[130px] text-secondary">{{'createPayment.purpose' | translate}}</span>
+    <span class="text-[14px] whitespace-normal break-words max-w-[340px] text-black">{{ transaction.purpose.code }} {{ transaction.purpose.name }}</span>
+  </div>
+
+  @if(transaction.description) {
+    <div class="flex text-[14px] gap-x-4 items-center">
+      <span class="w-[130px] text-secondary">{{'createPayment.payment_details_alt' | translate}}</span>
+      <span class="whitespace-normal break-words max-w-[340px]">{{ transaction.description }}</span>
+    </div>
+  }
+
+  <div class="w-full border-t border-[#E2EAF1]"></div>
+
+  <p class="text-base ">{{'myAccounts.recipient' | translate}}</p>
+  <div class="flex  gap-x-4 items-center text-[14px]">
+    <div class="!w-[130px] text-secondary">{{'global.name' | translate}}</div>
+    <div class="!w-[356px] break-words">{{ transaction.recipient.name }}</div>
+  </div>
+  <p class="flex  gap-x-4 items-center text-[14px]">
+    <span class=" w-[130px] text-secondary">{{'myAccounts.account' | translate}}</span>
+    {{ transaction.recipient.account }}
+  </p>
+<!--  @if(transaction?.additionalInfo?.recipientAccount) {-->
+<!--    <p class="flex  gap-x-4 items-center text-[14px]">-->
+<!--      <span class=" w-[130px] text-secondary">{{'global.personal_account' | translate}}</span>-->
+<!--      {{ transaction?.additionalInfo?.recipientAccount }}-->
+<!--    </p>-->
+<!--  }-->
+  <p class="flex  gap-x-4 items-center text-[14px]">
+    <span class=" w-[130px] text-secondary">{{'myAccounts.inn' | translate}}</span>
+    {{ transaction.recipient.tax || '-'}}
+  </p>
+  <p class="flex  gap-x-4 items-center text-[14px]">
+    <span class=" w-[130px] text-secondary">{{'createPayment.pinfl' | translate}}</span>
+    {{ transaction.recipient.pinfl || '-'}}
+  </p>
+  <p class="flex  gap-x-4 items-center text-[14px]">
+    <span class=" w-[130px] text-secondary">{{'myAccounts.bank_mfo' |translate}}</span>
+    {{ transaction.recipient.codeFilial }}
+  </p>
+  <div class="flex  gap-x-4 items-center text-[14px]">
+    <div class="!w-[130px] text-secondary">{{'global.name_of_bank' | translate}}</div>
+    <div class="!w-[356px] break-words">{{ transaction.recipient.bankName }}</div>
+  </div>
+
+  <div class="w-full border-t border-[#E2EAF1]"></div>
+
+  <p class="text-base ">{{'global.payer' | translate}}</p>
+  <div class="flex text-[14px] gap-x-4 items-center">
+    <div class="!w-[130px] text-secondary">{{'global.name' | translate}}</div>
+    <div class="!w-[356px] break-words">{{ transaction.sender.name }}</div>
+  </div>
+  <p class="flex  gap-x-4 items-center text-[14px]"><span class="w-[130px] text-secondary">{{'story.account' | translate}}</span> {{ transaction.sender.account }}</p>
+  <p class="flex  gap-x-4 items-center text-[14px]"><span class="w-[130px] text-secondary">{{'myAccounts.inn' | translate}}</span> {{ transaction.sender.tax || '-' }}</p>
+  <p class="flex  gap-x-4 items-center text-[14px]"><span class="w-[130px] text-secondary">{{'createPayment.pinfl' | translate}}</span> {{ transaction.sender.pinfl || '-' }}</p>
+  <p class="flex  gap-x-4 items-center text-[14px]"><span
+    class="w-[130px] text-secondary">{{'myAccounts.bank_mfo' | translate}}</span> {{ transaction.sender.codeFilial }}</p>
+  <div class="flex  gap-x-4 items-center text-[14px]">
+    <div class="!w-[130px] text-secondary">{{'global.name_of_bank' | translate}}</div>
+    <div class="!w-[356px] break-words">{{ transaction.sender.bankName || '-' }}</div>
+  </div>
+
+  @if(transaction.signedList.length) {
+    <div class="w-full border-t border-[#E2EAF1]"></div>
+
+    <p class="text-base">Список подписантов</p>
+    <div class="pb-5">
+      <div class="text-[14px] " *ngFor="let signer of transaction.signedList">
+        <!--        <p class="flex  gap-x-4 items-center"><span class="w-[130px] text-secondary">Имя пользователя</span>-->
+        <!--          <span>{{ signer.username }}</span></p>-->
+        <!--        <p class="flex  gap-x-4 items-center"><span-->
+        <!--          class="w-[130px] text-secondary">Подписан</span> {{ signer.isSigned ? 'Да' : 'Нет' }}</p>-->
+        <!--        <p class="flex  gap-x-4 items-center"><span class="w-[130px] text-secondary">Роль</span> {{ signer.roleType }}</p>-->
+        <!--        <p class="flex  gap-x-4 items-center"><span class="w-[130px] text-secondary">Дата подписи</span> {{ signer.signDate }}</p>-->
+      </div>
+    </div>
+
+  }
+</div>

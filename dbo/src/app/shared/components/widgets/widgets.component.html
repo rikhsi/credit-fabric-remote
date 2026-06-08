@@ -1,0 +1,34 @@
+<div class="absolute top-5 right-0 block xl:hidden">
+  <button
+    (click)="toggleOpen()"
+    matTooltip="Открыть виджеты"
+  >
+    <img [ngSrc]="isOpen ? './assets/svg/menu-collapsed.svg' : './assets/svg/menu.svg'" alt="add" height="26" width="26"/>
+  </button>
+</div>
+
+<div
+  class="bg-[#EEF2F5] hidden xl:flex p-5 xl:p-0 flex-col gap-y-[11px] transition-all duration-200"
+  [ngClass]="{
+    'absolute !top-0 !right-0 !flex': isOpen,
+  }"
+>
+  @if(isOpen) {
+    <button
+      (click)="toggleOpen()"
+      matTooltip="Закрыть виджеты"
+    >
+      <img [ngSrc]="isOpen ? './assets/svg/menu-collapsed.svg' : './assets/svg/menu.svg'" alt="add" height="26" width="26"/>
+    </button>
+  }
+
+  <app-oper-day (docDate)="docDate.emit($event)"></app-oper-day>
+
+  @if(showTemplates) {
+    <app-templates [modes]="modes"></app-templates>
+  }
+
+  @if(lastPayments) {
+    <app-last-operations></app-last-operations>
+  }
+</div>

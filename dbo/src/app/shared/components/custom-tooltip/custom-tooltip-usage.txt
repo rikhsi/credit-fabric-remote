@@ -1,0 +1,86 @@
+
+ <app-custom-tooltip 
+  [message]="'Поменяйте код назначения платежа с 45678 на 12345. Это очень важно!'"
+  [title]="'Hamkor Bank'"
+  [width]="'266px'"
+>
+  <button class="bg-[#FFF3EB] flex items-center gap-1 px-2 py-1 rounded-lg">
+    <app-svg-icon name="hamkor_notification"></app-svg-icon>
+    <span>Комментарий</span>
+  </button>
+</app-custom-tooltip>
+
+
+2. Error tooltip (qizil):
+<app-custom-tooltip 
+  [message]="'Xatolik yuz berdi!'"
+  [title]="'Xato'"
+  backgroundColor="#FFE5E5"
+  textColor="#D32F2F"
+  titleColor="#B71C1C"
+  arrowColor="#FFE5E5"
+  position="below"
+>
+  <button>Error Button</button>
+</app-custom-tooltip>
+
+3. Success tooltip (yashil):
+<app-custom-tooltip 
+  [message]="'Muvaffaqiyatli saqlandi'"
+  [title]="'Success'"
+  backgroundColor="#E8F5E9"
+  textColor="#2E7D32"
+  titleColor="#1B5E20"
+  arrowColor="#E8F5E9"
+  [showCloseButton]="false"
+  [autoHideDelay]="3000"
+>
+  <button>Success</button>
+</app-custom-tooltip>
+
+
+4. Dark tooltip:
+<app-custom-tooltip 
+  [message]="'Dark theme tooltip'"
+  backgroundColor="#2C2C2C"
+  textColor="#FFFFFF"
+  titleColor="#FFFFFF"
+  arrowColor="#2C2C2C"
+  closeButtonColor="#FFFFFF"
+>
+  <button>Dark Tooltip</button>
+</app-custom-tooltip>
+
+
+5. Click trigger (hover emas):
+<app-custom-tooltip 
+  [message]="'Click qilganingizda ochiladi'"
+  trigger="click"
+  [autoHide]="false"
+>
+  <button>Click Me</button>
+</app-custom-tooltip>
+
+
+6. Sodda tooltip (header va arrow yo'q):
+<app-custom-tooltip 
+  [message]="'Simple tooltip'"
+  [showHeader]="false"
+  [showArrow]="false"
+  padding="8px 12px"
+>
+  <span>Hover me</span>
+</app-custom-tooltip>
+
+
+7. Katta tooltip (ko'p matn uchun):
+<app-custom-tooltip 
+  [message]="'Juda uzun matn...'"
+  [width]="'400px'"
+  [maxWidth]="'500px'"
+  fontSize="13px"
+  lineHeight="1.6"
+>
+  <button>Info</button>
+</app-custom-tooltip>
+

@@ -1,0 +1,447 @@
+<form [formGroup]="filterForm" class="flex flex-col px-4 py-2">
+
+  <div class="flex flex-col gap-y-[15px]">
+
+    <div class="flex gap-3 flex-wrap w-full p-2 items-center text-start">
+
+      <!-- Search input -->
+      <div class="relative min-w-[240px]">
+        <span class="absolute inset-y-0 left-4 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="text-custom-muted"/>
+          </svg>
+        </span>
+
+        <input type="text" placeholder="{{'accounts.search' | translate}}" (input)="this.inputSubject.next($event)"
+               formControlName="searchText"
+               class="w-full pl-10 pr-4 py-2 border border-custom-border rounded-[10px] h-[40px] focus:outline-none text-sm text-custom-primary bg-surface-2"/>
+      </div>
+
+      <!-- Filter button -->
+      <div (click)="this.showFilterModal()"
+           class="flex justify-center items-center rounded-[10px] h-[40px] w-[40px] border border-custom-border cursor-pointer bg-surface-2">
+        <!-- <img src="./assets/new-icons/filter.svg" alt="filter"> -->
+                <app-svg-icon [name]="'hamkor_filter'" classes="text-custom-primary"></app-svg-icon>
+
+      </div>
+<div #accountTrigger="matMenuTrigger"
+     [ngClass]="{
+       '!border-primary-base': accountTrigger.menuOpen
+         || (accountSelectMode === 'single' && filterForm?.value?.senderAccount)
+         || (accountSelectMode === 'multi' && filterForm?.value?.senderAccounts?.length)
+     }"
+     class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2"
+     [matMenuTriggerFor]="accountMenu">
+
+  <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] min-w-[98px] gap-[2px] h-[40px]">
+    <p class="text-[14px] font-normal text-custom-primary">{{ 'global.account' | translate }}</p>
+
+    <!-- Single mode chip -->
+    <mat-chip [removable]="true"
+              *ngIf="accountSelectMode === 'single' && filterForm?.value?.senderAccount"
+              (removed)="removeFilter('senderAccount')"
+              class="!bg-surface-4 !h-[20px]">
+      <div class="flex items-center gap-1">
+        <img width="16" height="16" class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+        <h3 class="text-[10px] text-custom-primary ml-1 font-medium">
+          {{ filterForm?.value?.senderAccount?.nameAcc }}:
+        </h3>
+        <span class="text-custom-primary text-[10px] font-medium">
+          {{ filterForm?.value?.senderAccount?.account.slice(0,5) + ' ** ' + filterForm?.value?.senderAccount?.account.slice(-5) }}
+        </span>
+      </div>
+      <button matChipRemove>
+        <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+      </button>
+    </mat-chip>
+    <!-- Multi mode chips -->
+  <ng-container *ngIf="accountSelectMode === 'multi' && selectedAccounts.length">
+
+    <ng-container *ngIf="!showAccountBadge">
+      <mat-chip *ngFor="let acc of selectedAccounts"
+                [removable]="true"
+                (removed)="toggleAccountMulti(acc);"
+                class="!bg-surface-4 !h-[20px] shrink-0">
+        <div class="flex items-center gap-1">
+          <img width="16" height="16" class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+          <span class="text-custom-primary text-[10px] font-medium">
+            {{ acc.account.slice(0,5) + ' ** ' + acc.account.slice(-5) }}
+          </span>
+        </div>
+        <button matChipRemove>
+          <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+        </button>
+      </mat-chip>
+    </ng-container>
+
+    <ng-container *ngIf="showAccountBadge">
+      <mat-chip [removable]="true"
+                (removed)="removeFilter('senderAccounts');"
+                class="!bg-surface-4 !h-[20px] shrink-0">
+        <span class="text-custom-primary text-[10px] font-normal leading-3">
+          {{'accounts.selected' | translate}} {{ selectedAccounts.length }}
+        </span>
+        <button matChipRemove>
+          <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+        </button>
+      </mat-chip>
+    </ng-container>
+
+  </ng-container>
+
+    <!-- Multi mode chips -->
+
+    <div class="w-[20px] h-[20px] items-center flex justify-center">
+      <img src="./assets/new-icons/down-icon.svg" alt="">
+    </div>
+  </div>
+
+  <mat-menu #accountMenu="matMenu" xPosition="after" class="menu-actions mt-2 max-h-[400px]">
+
+    <!-- Single select mode -->
+    <ng-container *ngIf="accountSelectMode === 'single'">
+      <div *ngFor="let account of accounts"
+           (click)="setFilter(account, 'account')"
+           class="flex items-center gap-3 p-[12px] hover:bg-surface-2">
+        <img width="20" height="20" class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+        <div class="flex flex-col leading-4">
+          <h3 class="text-[14px] text-custom-primary font-medium">{{ account.accountTitle }}</h3>
+          <p class="text-[10px] text-custom-muted font-medium">{{ account.altAcctId }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Multi select mode -->
+    <ng-container *ngIf="accountSelectMode === 'multi'">
+      <div *ngFor="let account of accounts"
+           (click)="toggleAccountMulti(account); $event.stopPropagation()"
+           class="flex items-center gap-3 p-[12px] hover:bg-surface-2 cursor-pointer"
+           [ngClass]="{'bg-cyan-75': isAccountSelected(account)}">
+        <!-- Checkbox -->
+        <div class="w-[20px] h-[20px] flex items-center justify-center flex-shrink-0">
+          <div *ngIf="isAccountSelected(account)"
+               class="w-[16px] h-[16px] bg-primary-base rounded flex items-center justify-center">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div *ngIf="!isAccountSelected(account)"
+               class="w-[16px] h-[16px] border-2 border-custom-border rounded"></div>
+        </div>
+        <img width="20" height="20" class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+        <div class="flex flex-col leading-4">
+          <h3 class="text-[14px] text-custom-primary font-medium">{{ account.accountTitle }}</h3>
+          <p class="text-[10px] text-custom-muted font-medium">{{ account.altAcctId }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+  </mat-menu>
+</div>
+      <!-- Transaction type menu -->
+      <div class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" #transactionTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': transactionTrigger.menuOpen || this.filterForm.value?.type !== 'ANY'}"
+           [matMenuTriggerFor]="transactionMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] h-[40px] min-w-[158px] p-2 gap-[2px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'accounts.transaction_type' | translate }}</p>
+          <mat-chip [removable]="true" *ngIf="this.filterForm.value?.type !== 'ANY'" (removed)="removeFilter('type')"
+                    class="!bg-surface-4 !h-[20px]">
+            <div class="flex items-center gap-2">
+              <img width="16" height="16" *ngIf="this.filterForm.value?.type === 'DEBIT'"
+                   src="./assets/new-icons/send-icon.svg" alt="">
+              <img width="16" height="16" *ngIf="this.filterForm.value?.type === 'CREDIT'"
+                   src="./assets/new-icons/receipt-arrow.svg" alt="">
+              <span class="text-custom-primary text-[12px] font-medium">
+                @if (this.filterForm.value?.type === 'DEBIT') {
+                  {{ 'filter.outgoing' | translate }}
+                } @else if (this.filterForm.value?.type === 'CREDIT') {
+                  {{ 'filter.incoming' | translate }}
+                }
+              </span>
+            </div>
+            <button matChipRemove>
+              <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+            </button>
+          </mat-chip>
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img src="./assets/new-icons/down-icon.svg" alt="">
+          </div>
+        </div>
+        <mat-menu #transactionMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div (click)="setFilter('ANY', 'type')"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[6px]">
+              <div class="w-[15px] flex text-start opacity-0">
+                <img src="./assets/new-icons/send-icon.svg" alt="">
+              </div>
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'filter.all' | translate }}</span>
+            </div>
+            <div (click)="setFilter('DEBIT', 'type')"
+                 class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <div class="w-[15px] flex text-start">
+                <img src="./assets/new-icons/send-icon.svg" alt="">
+              </div>
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'filter.outgoing' | translate }}</span>
+            </div>
+            <div (click)="setFilter('CREDIT', 'type')"
+                 class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <div class="w-[15px] flex text-start">
+                <img src="./assets/new-icons/receipt-arrow.svg" alt="">
+              </div>
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'filter.incoming' | translate }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+
+      <!-- Status menu -->
+      <div *ngIf="activeTabs !== 'signature' && activeMainTabs !== 'signature'" #statusTrigger="matMenuTrigger"
+           [ngClass]="{'!border-primary-base': statusTrigger.menuOpen || this.filterForm.value?.statuses}"
+           class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="statusMenu">
+        <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[106px] h-[40px]">
+          <p class="text-[14px] font-normal text-custom-primary">{{ 'filter.status' | translate }}</p>
+          <ng-container *ngIf="selectedStatuses.length">
+
+
+            <ng-container *ngIf="!showStatusBadge">
+              <mat-chip *ngFor="let status of selectedStatuses"
+                        [removable]="true"
+                        (removed)="setFilter(status, 'status');"
+                        class="!bg-surface-4 !h-[20px] shrink-0">
+                <div class="flex items-center gap-2">
+                  @for (statusImage of statusListToMap; track $index) {
+                    @if (statusImage.value === status) {
+                      <img class="w-4 h-4 object-cover rounded-full" [src]="statusImage.img" [alt]="statusImage.img">
+                      <span class="text-custom-primary text-[12px] font-medium">{{ statusImage.nameKey | translate }}</span>
+                    }
+                  }
+                </div>
+                <button matChipRemove>
+                  <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+                </button>
+              </mat-chip>
+            </ng-container>
+
+
+            <ng-container *ngIf="showStatusBadge">
+              <mat-chip [removable]="true"
+                        (removed)="removeFilter('statuses');"
+                        class="!bg-surface-4 !h-[20px] shrink-0">
+                <span class="text-custom-primary text-[10px] leading-3">
+                       {{'accounts.selected' | translate}} {{ selectedStatuses.length }}
+                </span>
+                <button matChipRemove>
+                  <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+                </button>
+              </mat-chip>
+            </ng-container>
+
+          </ng-container>
+
+          <div class="w-[20px] h-[20px] items-center flex justify-center">
+            <img ngSrc="./assets/new-icons/down-icon.svg" alt="" height="8" width="12">
+          </div>
+        </div>
+        <mat-menu #statusMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px] overflow-auto">
+            <div *ngFor="let status of statuses()"
+                 (click)="setFilter(status.code, 'status'); $event.stopPropagation()"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[4px]"
+                 [ngClass]="{'bg-cyan-75': isCurrencySelected(status.code)}">
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="isCurrencySelected(status.code)"
+                     class="w-[16px] h-[16px] bg-primary-base rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div *ngIf="!isCurrencySelected(status.code)"
+                     class="w-[16px] h-[16px] border-2 border-custom-border rounded"></div>
+              </div>
+              <div class="flex text-start max-w-[12px] max-h-[12px]">
+                <img class="w-full h-full object-cover" [src]="status.logoImg.path + status.logoImg.name" alt="">
+              </div>
+              <span class="w-[140px] text-[14px] text-custom-secondary font-medium">{{ status.title }}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+
+      <!-- Period / Date picker -->
+
+      @if (isCalendarRange) {
+        <app-datepicker-default [size]="calendarInputSize()" [mode]="'range'" formControlName="rangeForm"
+                                [control]="filterForm.get('rangeForm')"
+
+                                >
+        </app-datepicker-default>
+      } @else {
+        <div #periodTrigger="matMenuTrigger"
+             [ngClass]="{'!border-primary-base': periodTrigger.menuOpen || this.filterForm.value?.startDate || this.filterForm.value.endDate}"
+             class="border border-custom-border relative cursor-pointer rounded-[10px] bg-surface-2" [matMenuTriggerFor]="periodMenu">
+          <div class="flex items-center justify-between pt-[10px] pb-[10px] pr-[10px] pl-[12px] gap-2 min-w-[108px] h-[40px]">
+            <p class="text-[14px] font-normal text-custom-primary">{{ 'myAccounts.period' | translate }}</p>
+            <!-- <mat-chip [removable]="true" *ngIf="this.filterForm.value?.startDate && this.filterForm.value.endDate"
+                      (removed)="removeFilter('startDate'); removeFilter('endDate')" class="!bg-surface-4 !h-[20px]">
+              <span class="text-custom-primary text-[12px] font-medium">
+                {{ detectPeriodLabel(this.filterForm.value?.startDate, this.filterForm.value.endDate) }}
+              </span>
+              <button matChipRemove>
+                <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip> -->
+
+             <mat-chip
+                [removable]="true"
+                *ngIf="this.filterForm.value?.startDate && this.filterForm.value?.endDate"
+                (removed)="removeFilter('startDate'); removeFilter('endDate'); removeFilter('rangeForm')"
+                class="!bg-surface-4 !h-[20px]">
+                <span class="text-custom-primary text-[12px] font-medium">
+                  {{ detectPeriodLabel(this.filterForm.value?.startDate, this.filterForm.value?.endDate) }}
+                </span>
+                <button matChipRemove>
+                  <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+                </button>
+              </mat-chip>
+
+
+            <div class="w-[20px] h-[20px] items-center flex justify-center">
+              <!-- <img src="./assets/new-icons/calendar.svg" alt=""> -->
+              <app-svg-icon name="hamkor_calendar" [size]="20" classes="text-custom-primary"></app-svg-icon>
+            </div>
+          </div>
+
+          <!-- <mat-date-range-input class="absolute inset-0 w-[100px] opacity-0 pointer-events-none" [rangePicker]="picker">
+            <input matStartDate formControlName="startDate" readonly matInput class="peer"/>
+            <input matEndDate formControlName="endDate" readonly matInput class="peer"/>
+          </mat-date-range-input>
+
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="w-full px-2 py-1">
+                <div class="flex w-full gap-3">
+                  <button class="h-[32px] bg-surface-2 text-custom-primary rounded-xl w-1/2 text-xs" matDateRangePickerCancel>Отменить</button>
+                  <button class="h-[32px] bg-primary-base text-white rounded-xl w-1/2 text-xs" matDateRangePickerApply (click)="onApply()">Применить</button>
+                </div>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker> -->
+       <div class="absolute w-0 h-0 overflow-hidden opacity-0 pointer-events-none">
+          <app-datepicker-default
+            #customPicker
+            [size]="calendarInputSize()"
+            [mode]="'range'"
+            formControlName="rangeForm"
+            [control]="filterForm.get('rangeForm')">
+          </app-datepicker-default>
+        </div>
+
+          <mat-menu #periodMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+            <div class="flex flex-col items-center gap-1 p-[4px]">
+              <div (click)="setPeriodToday()"
+                   class="flex cursor-pointer text-start items-center hover:bg-surface-2 rounded-[12px] gap-2 py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.today' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodYesterday()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ "chat.yesterday" | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodWeek()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.week' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="setPeriodMonth()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.month' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+              </div>
+              <div (click)="customPicker.open()"
+                   class="flex cursor-pointer items-center hover:bg-surface-2 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{ 'accounts.custom' | translate }}</span>
+                <img src="./assets/new-icons/arrow-right-period.svg" alt="">
+              </div>
+            </div>
+          </mat-menu>
+        </div>
+      }
+
+<!--      <div *ngIf="activeTabs !== 'signature' && activeMainTabs !== 'signature'"-->
+<!--           [ngClass]="{'!border-primary-base': this.filterForm.value?.filterByCorporateCard}"-->
+<!--           class="border border-custom-border cursor-pointer rounded-[10px] bg-surface-2">-->
+<!--          <div>-->
+<!--            <h3> Корп.карты</h3>-->
+<!--            -->
+<!--          </div>-->
+<!--      </div>-->
+      <div
+        class="inline-flex items-center justify-between gap-1.5 h-[40px] min-w-[126px] pl-[12px] pr-[8px] py-[6px] rounded-[10px] border border-custom-border cursor-pointer select-none transition-colors duration-200"
+        [ngClass]="{'!border-primary-base': isCorporateCard}"
+        (click)="filterForm.get('filterByCorporateCard')!.setValue(!isCorporateCard); this.search();"
+      >
+        <span class="text-[14px] font-medium text-custom-primary">{{'story.corporate_cards' | translate}}</span>
+
+        <div
+          class="w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors duration-200"
+          [class.border-gray-300]="!isCorporateCard"
+          [class.bg-white]="!isCorporateCard"
+          [class.border-teal-500]="isCorporateCard"
+          [class.bg-teal-500]="isCorporateCard"
+        >
+          <svg *ngIf="isCorporateCard" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2.5 7L5.5 10L11.5 4" stroke="white" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Amount chip -->
+      <div *ngIf="this.filterForm.value.fromAmount && this.filterForm.value.toAmount"
+           class="flex rounded-[10px] items-center p-2 gap-3 h-[40px] border border-primary-base bg-surface-2">
+        <p class="text-custom-primary">Сумма</p>
+        <mat-chip [removable]="true" (removed)="removeFilter('fromAmount');removeFilter('toAmount')"
+                  class="!bg-surface-4 !h-[20px]">
+          <span class="text-custom-primary text-[12px] font-medium">
+            от: {{ this.filterForm.value?.fromAmount?.toLocaleString('ru') + ' - ' }}
+            до: {{ this.filterForm.value?.toAmount?.toLocaleString('ru') }}
+          </span>
+          <button matChipRemove>
+            <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+          </button>
+        </mat-chip>
+      </div>
+
+      <div *ngIf="hasAnyFilter()" class="flex items-center gap-1 cursor-pointer" (click)="clearAllFilters()">
+        <span class="text-document-color font-medium">{{ 'global.clear_all' | translate }}</span>
+        <img width="30" height="30" src="./assets/svg/close-active.svg" alt="">
+      </div>
+
+    </div>
+  </div>
+</form>
+
+<!-- Templates qoldi o‘zgarmagan -->
+<ng-template #triggerTemplate let-selectedValue>
+  <div>
+    @if (selectedValue) {
+      <span>{{ selectedValue }}</span>
+    } @else {
+      <span>{{ 'global.choose_item' | translate }}...</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option>
+  <div>
+    <span>{{ option }}</span>
+  </div>
+</ng-template>
+
+<ng-template #header>
+  <!-- ... o‘zgarmagan -->
+</ng-template>

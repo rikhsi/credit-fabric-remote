@@ -1,0 +1,12 @@
+<div class="flex flex-col gap-y-2.5">
+  <div class="leading-[26px] font-medium text-[#2B2D33]">НДС</div>
+  <div class="flex gap-x-2.5">
+    @for(vat of vats; track vat) {
+      <div
+        class="px-5 py-2.5 rounded-[5px] leading-[22px] text-sm cursor-pointer bg-[#EFF4F9]"
+        (click)="selectVat(vat)"
+        [ngClass]="{ '!bg-[#3D96FF] text-white': vat.title === selectedVat.title}"
+      >{{ vat.title }}</div>
+    }
+  </div>
+</div>

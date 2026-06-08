@@ -1,0 +1,28 @@
+<div class="bg-surface-2 rounded-3xl px-9 pb-4">
+  <div class="flex justify-end mt-4">
+    <div (click)="closeDialog()" mat-dialog-close class="justify-center text-end flex items-center rounded-lg h-8 w-8 p-[6px] bg-surface-1">
+      <img src="assets/new-icons/close.svg">
+    </div>
+  </div>
+
+  <!-- Main Folder -->
+  <div class="w-[60px] h-[60px] bg-surface-1 rounded-[50%] flex justify-center items-center mt-2">
+       <img src="assets/new-icons/green-folder.svg" alt="Folder icon">
+  </div>
+
+  <div>
+     <!-- TITLE -->
+    <h1 class="self-stretch justify-start text-custom-primary text-2xl font-bold leading-loose">Картотека и платёжные требования</h1>
+    <div class="mb-6 text-sm">
+      <p class="opacity-60 text-custom-secondary">
+        Раздел для работы с входящими и исходящими платёжными требованиями, контроля оплат и документов в Картотеке.
+      </p>
+    </div>
+  </div>
+
+
+ <!-- Close button (Понятно) -->
+  <div class="grid grid-cols-1 gap-4 mb-5">
+    <button (click)="closeDialog()" class="bg-[#00A38D] p-4 text-white font-medium rounded-2xl">{{"cardFileTwo.understood" | translate}}</button>
+  </div>
+</div>

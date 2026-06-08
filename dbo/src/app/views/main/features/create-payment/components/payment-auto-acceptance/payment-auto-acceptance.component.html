@@ -1,0 +1,137 @@
+<div class="bg-white rounded-12px p-6" [formGroup]="form">
+    <div class="flex justify-between items-center">
+        <p class="text-24 font-medium leading-7 flex flex-col max-w-[530px] mb-2">Заранее данный акцепт по требованиям
+            получателя средств
+        </p>
+        <button class="flex items-center text-primary text-14 font-medium">Задать номер
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#payment_plus" svgClass="w-6 h-6"></app-ui-svg-icon>
+        </button>
+    </div>
+    <p class="text-14 font-medium text-secondary mb-4">Номер документа будет присвоен автоматически</p>
+
+
+    <div class="rounded-12px p-6 border-1px border-secondary">
+        <div class="flex justify-between mb-4">
+            <p class="font-medium">Создать шаблон</p>
+            <label class="switch" for="checkbox">
+                <input type="checkbox" id="checkbox" formControlName="isCreateTemplate" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+
+        <ng-container *ngIf="form.controls.isCreateTemplate.value">
+            <p class="font-medium mb-2">Наименование</p>
+            <div class="relative mb-4">
+                <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                    placeholder="Введите имя шаблона">
+            </div>
+        </ng-container>
+
+
+        <p class="font-medium leading-20px mb-2">Счёт списания</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-2.5">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Начните вводить номер или название счёта или выберите из списка">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <p class="text-primary text-right mb-4 cursor-pointer">Паказать реквизиты</p>
+
+        <p class="font-medium leading-20px mb-2">Получатель</p>
+        <mat-form-field appearance="outline" class="payment-select relative w-full mb-2.5">
+            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+            <mat-select disableRipple placeholder="Начните вводить номер или название счёта или выберите из списка">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+                <mat-option value="3">Option 3</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <p class="text-primary text-right mb-4 cursor-pointer">Паказать реквизиты</p>
+
+        <div class="border-1px border-secondary rounded-10px p-4">
+            <p class="text-xl font-medium mb-4">Сформируйте список бизнес-карт для пополнения.</p>
+
+            <div class="flex flex-wrap justify-between items-end">
+                <div class="w-1/2 flex flex-col pr-1 mb-4">
+                    <p class="font-medium leading-20px mb-2">Дата начала действия</p>
+                    <mat-form-field class="payment-mat-date h-11 w-full" appearance="outline">
+                        <input matInput [matDatepicker]="picker" placeholder="07.02.2024">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                            <app-ui-svg-icon matDatepickerToggleIcon path="./assets/icons/inputs-icons.svg#calendar"
+                                svgClass="w-6 h-6"></app-ui-svg-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="w-1/2 flex flex-col pl-1 mb-4">
+                    <p class="font-medium leading-20px mb-2">Дата окончания действия</p>
+                    <mat-form-field class="payment-mat-date h-11 w-full" appearance="outline">
+                        <input matInput [matDatepicker]="picker1" placeholder="07.02.2024">
+                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                            <app-ui-svg-icon matDatepickerToggleIcon path="./assets/icons/inputs-icons.svg#calendar"
+                                svgClass="w-6 h-6"></app-ui-svg-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="w-1/2 flex flex-col pr-1 mb-4">
+                    <p class="font-medium leading-20px mb-2">Дата и номер договора</p>
+                    <mat-form-field class="payment-mat-date h-11 w-full" appearance="outline">
+                        <input matInput [matDatepicker]="picker2" placeholder="07.02.2024">
+                        <mat-datepicker-toggle matSuffix [for]="picker2">
+                            <app-ui-svg-icon matDatepickerToggleIcon path="./assets/icons/inputs-icons.svg#calendar"
+                                svgClass="w-6 h-6"></app-ui-svg-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="w-1/2 flex flex-col pl-1 mb-4">
+                    <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                        placeholder="Введите только номер договора">
+                </div>
+            </div>
+
+            <div class="flex mb-4">
+                <app-ui-svg-icon path="./assets/icons/indicator-icons.svg#warning-circle"
+                    svgClass="w-6 h-6 mr-2"></app-ui-svg-icon>
+                <p class="text-secondary text-sm">Требуется точное (посимвольное) совпадение даты и номера договора в
+                    ЗДА и в поле «Назначение платежа» платёжного требования, поступившего от получателя денежных средств
+                </p>
+            </div>
+
+            <p class="font-medium leading-20px mb-2">Предмет договора</p>
+            <mat-form-field appearance="outline" class="payment-select w-full mb-4">
+                <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                    svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+                <mat-select disableRipple placeholder="Выберите предмет договора">
+                    <mat-option value="1">Option 1</mat-option>
+                    <mat-option value="2">Option 2</mat-option>
+                    <mat-option value="3">Option 3</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="flex">
+                <div class="w-1/2 flex flex-col pr-1">
+                    <p class="font-medium leading-20px mb-2">Сумма акцепта</p>
+                    <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                        placeholder="В сумме предъявленного требования">
+                </div>
+                <div class="w-1/2 flex flex-col pl-1">
+                    <p class="font-medium leading-20px mb-2">Возможность частичного погашения</p>
+                    <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+                        placeholder="Да">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="flex justify-end mt-[70px]">
+        <button class="w-[194px] h-10 rounded-12px border-1px border-[#7C8897] mr-4 font-medium">Сброс</button>
+        <button
+            class="w-[194px] h-10 rounded-12px border-1px bg-[#E5E7EA] text-[#B0B8C1] font-medium">Подтвердить</button>
+    </div>
+</div>

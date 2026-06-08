@@ -1,0 +1,372 @@
+<div class=" relative py-[30px] rounded-[15px] flex flex-col gap-y-[30px]">
+  <div class="flex flex-col">
+    <div (click)="this.router.navigate(['/payment'])" class="cursor-pointer gap-1 mb-6 flex items-center">
+      <img [ngSrc]='theme.isDark() ? "./assets/new-icons/back-icon-white.svg" : "./assets/new-icons/back-icon.svg"'
+           [width]="12" [height]="12" alt="">
+      <span class="text-[16px] text-custom-primary">{{'templates.back' | translate}}</span>
+    </div>
+    <div class="text-custom-primary mb-5 text-[28px] font-bold">{{ title | translate }}</div>
+
+    <div class="flex gap-x-3 justify-between">
+      <div class="flex gap-5 items-center">
+        <button
+          *ngFor="let t of TEMPLATES_TABS"
+          (click)="setActive(t.key)"
+          class="font-semibold leading-5 text-[18px]"
+          [ngClass]="{
+        'text-custom-primary px-[15px] py-[10px] bg-surface-2 rounded-[14px] border border-custom-border': active() === t.key,
+        'text-custom-secondary': active() !== t.key
+      }"
+        >
+          {{ t.translateKey | translate }}
+        </button>
+      </div>
+      <button
+        *ngIf="this.templateTransactionsList.length > 0 "
+        (click)="createTemplateModal()"
+        [matTooltip]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '' : 'У вас нет прав'"
+        [style.user-select]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '' : 'none'"
+        [style.opacity]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '1' : '0.3'"
+        [style.cursor]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? 'pointer' : 'not-allowed'"
+        class="!h-[40px] flex gap-x-2 items-center  border-custom-border border bg-surface-2 px-5 rounded-[14px]"
+      >
+        <span class="text-[16px] font-semibold leading-[16px] text-custom-primary">{{'templates.create_template' | translate}}</span>
+        <img ngSrc="./assets/svg/add-blue.svg" alt="add" width="24" height="24">
+      </button>
+    </div>
+
+    <!--    @if(selectedTab.value === 'PAYMENT_TEMPLATE') {-->
+    <!--      <button-->
+    <!--        [matMenuTriggerFor]="actionsMenu"-->
+    <!--        class="!h-[40px] flex gap-x-2 items-center bg-[#008C79] px-5 rounded-[5px]"-->
+    <!--      >-->
+    <!--        <span class="text-sm leading-[16px] text-white">Создать шаблон</span>-->
+    <!--        <img ngSrc="./assets/svg/add-blue.svg" alt="add" width="24" height="24">-->
+    <!--      </button>-->
+    <!--    } @else {-->
+    <!--      <button-->
+    <!--        [routerLink]="['/pay']"-->
+    <!--        [queryParams]="{ type: 'auto-pay' }"-->
+    <!--        class="!h-[40px] flex gap-x-2 items-center bg-[#008C79] px-5 rounded-[5px]"-->
+    <!--      >-->
+    <!--        <span class="text-sm leading-[16px] text-white">Создать автоплатеж</span>-->
+    <!--        <img ngSrc="./assets/svg/add-blue.svg" alt="add" width="24" height="24">-->
+    <!--      </button>-->
+    <!--    }-->
+  </div>
+
+  <div class="bg-surface-2 relative border-custom-border border rounded-[24px] flex min-h-[544px] px-2 py-4 flex-col">
+    <div class="flex gap-3 px-6 items-center">
+      <div class="relative w-[300px]">
+              <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"
+                  stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                     </span>
+
+        <input
+          (input)=" this.inputSubject.next($event)"
+          type="text"
+          [placeholder]="'global.search' | translate"
+          class="w-full pl-10 pr-4 py-2 border border-custom-border text-custom-primary bg-surface-2 h-[32px] rounded-[10px] focus:outline-none  text-sm"
+        />
+      </div>
+      <div class="border cursor-pointer border-custom-border text-custom-primary bg-surface-2 rounded-[10px]" #transactionTrigger="matMenuTrigger"
+           [ngClass]="{'!border-[#00A38D]': this.typeOfTransaction && this.typeOfTransaction !== 'all'}" [matMenuTriggerFor]="transactionMenu">
+        <div class="flex items-center h-[32px] py-2 pl-[12px] pr-[8px] gap-3">
+          <p class="text-[14px] font-[#171717] font-normal">{{'templates.payment_type' | translate}}</p>
+          <mat-chip
+            [removable]="true"
+            *ngIf="this.typeOfTransaction && this.typeOfTransaction !== 'all'"
+            (removed)="selectFilterType('all')"
+            class="!bg-[#F4F4F4] !h-[32px] "
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-[#191A1D] text-[12px] font-medium">{{this.typeOfTransaction === 'TRANSACTION' ? 'На счет' : this.typeOfTransaction === 'BUDGET' ? 'В бюджет' : this.typeOfTransaction === 'BUDGET_INCOME' ? 'В казначейство' : 'На карту'}}</span>
+            </div>
+            <button matChipRemove>
+              <img ngSrc="./assets/svg/close.svg" alt="close" width="48" height="48">
+            </button>
+          </mat-chip>
+          <img src="./assets/new-icons/arrow-down.svg" alt="">
+        </div>
+        <mat-menu #transactionMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div (click)="selectFilterType('all')"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{'templates.all' | translate}}</span>
+            </div>
+            <div (click)="selectFilterType('TRANSACTION')"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">На счет</span>
+            </div>
+            <div (click)="selectFilterType('BUDGET')"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{'templates.to_budget' | translate}}</span>
+            </div>
+            <div (click)="selectFilterType('BUDGET_INCOME')"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{'templates.to_treasury' | translate}}</span>
+            </div>
+            <div (click)="selectFilterType('ACCOUNT_TO_PHYSICAL_CARD')"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{'templates.to_card' | translate}}</span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+      <div #periodTrigger="matMenuTrigger" [ngClass]="{'!border-[#00A38D]': periodTrigger.menuOpen || this.startDate || this.endDate}"
+           class="border cursor-pointer border-custom-border text-custom-primary bg-surface-2 rounded-[10px]" [matMenuTriggerFor]="periodMenu">
+        <div class="flex relative items-center pl-[12px] pr-[8px] gap-3 h-[32px]">
+          <p class="text-[14px] font-[#171717] font-normal">{{'templates.period' | translate}}</p>
+          <mat-chip
+            [removable]="true"
+            *ngIf="this.startDate && this.endDate"
+            (removed)="this.startDate = null; this.endDate = null; this.getTemplateTransactionList();"
+            class="!bg-[#F4F4F4] !h-[32px] "
+          >
+            <div class="flex items-center gap-2">
+            </div>
+            <span class="text-[#191A1D] text-[12px] font-medium">{{detectPeriodLabel(this.startDate, this.endDate)}}</span>
+            <button matChipRemove>
+              <img ngSrc="./assets/svg/close.svg" alt="close" width="48" height="48">
+            </button>
+          </mat-chip>
+          <img src="./assets/new-icons/calendar-icon.svg" alt="">
+          <mat-date-range-input class="absolute inset-0 w-[100px] opacity-0 pointer-events-none" [rangePicker]="picker">
+            <input matStartDate (dateChange)="this.startDate = $event.value"  readonly
+                   matInput class="peer" />
+            <input matEndDate  (dateChange)="this.endDate = $event.value"  readonly matInput
+                   class="peer" />
+          </mat-date-range-input>
+
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <div class="w-full px-2 py-1">
+                <div class="flex w-full gap-3">
+                  <button class="h-[32px] bg-[#F5F5F5] text-[#171717] rounded-xl w-1/2 text-xs" matDateRangePickerCancel>Отменить</button>
+                  <button class="h-[32px] bg-[#00A38D] text-[#FFFFFF] rounded-xl w-1/2 text-xs" matDateRangePickerApply  (click)="onApply()">Применить</button>
+                </div>
+              </div>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </div>
+        <mat-menu #periodMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div (click)="setPeriodToday()"
+                 class="flex cursor-pointer text-start items-center hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">Сегодня</span>
+              <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+            </div>
+            <div (click)="setPeriodYesterday()"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">Вчера</span>
+              <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+            </div>
+            <div (click)="setPeriodWeek()"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">Неделя</span>
+              <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+            </div>
+            <div (click)="setPeriodMonth()"
+                 class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">Месяц</span>
+              <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+            </div>
+                        <div (click)="picker.open()"
+                          class="flex cursor-pointer items-center hover:bg-surface-1 rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                          <span class="w-[120px] text-[14px] text-custom-secondary font-medium">Задать свой</span>
+                          <img src="./assets/new-icons/arrow-right-period.svg" alt="">
+                        </div>
+            <!--            <mat-datepicker #picker></mat-datepicker>-->
+          </div>
+        </mat-menu>
+      </div>
+
+    </div>
+    <div class="mt-10 flex flex-col gap-4" *ngIf="!loading">
+      <div (click)="showDetails(template)" *ngFor="let template of templateTransactionsList" class="flex justify-between items-center px-6 py-2 ">
+        <div class="flex gap-2 items-center w-1/4">
+          <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+          <div class="flex flex-col">
+            <span class="text-[16px] font-semibold text-custom-primary">{{ template.name }}</span>
+            <p class="text-custom-muted text-[14px] font-medium">{{ (template.additionalInfo?.windowType ===
+            'TRANSACTION' ? 'Перевести на счет' :  template.additionalInfo?.windowType === 'BUDGET' ?
+              'templates.to_budget' : template.additionalInfo?.windowType === 'BUDGET_INCOME' ?
+                'templates.to_treasury' : 'templates.to_card') | translate }}</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-start w-1/4">
+          <span class="text-[16px] text-custom-primary font-medium">{{ template.recipient.tax}}</span>
+          <p class="text-custom-muted text-[14px] font-medium">ИНН/ПИНФЛ</p>
+        </div>
+        <div class="flex flex-col items-start w-1/4">
+          <span class="text-[16px] text-custom-primary font-medium">{{ template.recipient.name}}</span>
+          <p class="text-custom-muted text-[14px] font-medium">{{'templates.organization_name' | translate}}</p>
+        </div>
+        <div class="flex items-center justify-center text-start w-1/4">
+          <div class=" flex-col flex item-center text-start">
+            <span class="text-[16px] text-custom-primary font-medium">{{ formatDocDate(template.createdDate)}}</span>
+            <p class="text-custom-muted text-[14px] font-medium">{{'templates.creation_date' | translate}}</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-10">
+<!--          <img (click)="pinTemplate(template.id, template.pin)" class="cursor-pointer" [src]="template.pin ? 'assets/new-icons/pin-active.svg' : 'assets/new-icons/pin-inactive.svg'" alt="">-->
+          <img
+            (click)="$event.stopPropagation()"
+            [matMenuTriggerFor]="permissionsToActions() ? menu : null"
+            class="cursor-pointer"
+            src="assets/new-icons/dots-vertical.svg"
+            alt=""
+            [matTooltip]="permissionsToActions() ? '' : 'У вас нет прав'"
+            [style.user-select]="permissionsToActions() ? '' : 'none'"
+            [style.opacity]="permissionsToActions() ? '1' : '0.3'"
+            [style.cursor]="permissionsToActions() ? 'pointer' : 'not-allowed'"
+          >
+        </div>
+        <mat-menu #menu="matMenu" xPosition="before"   class="menu-actions">
+          <div (click)="checkKartotkeka(template)" class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]">
+            <img src="./assets/new-icons/plus-icon.svg" alt="#">
+            <div class="text-[#5C5C5C] hover:text-[#101010] text-sm font-medium leading-5">Создать платеж</div>
+          </div>
+          <div (click)="navigateToEdit(template, 'edit')" class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]">
+            <img src="./assets/new-icons/edit.svg" alt="#">
+            <div
+              class="text-[#5C5C5C] hover:text-[#101010] text-sm font-medium leading-5">{{'templates.edit' | translate}}</div>
+          </div>
+          <div (click)="deleteTemplate(template)" class="flex space-x-2  items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]">
+            <img src="./assets/new-icons/trash-red.svg" alt="#">
+            <div
+              class="text-[#5C5C5C] hover:text-[#101010] text-sm font-medium leading-5">{{'templates.delete' | translate}}</div>
+          </div>
+        </mat-menu>
+      </div>
+    </div>
+    <div *ngIf="loading" class="mt-10 flex flex-col gap-4 px-6 py-2 ">
+      <div class="skeleton bg-red-500 w-full h-[60px]"></div>
+      <div class="skeleton bg-red-500 w-full h-[60px]"></div>
+      <div class="skeleton bg-red-500 w-full h-[60px]"></div>
+      <div class="skeleton bg-red-500 w-full h-[60px]"></div>
+      <div class="skeleton bg-red-500 w-full h-[60px]"></div>
+    </div>
+    <div *ngIf="!loading && (active() === 'exchange' || this.templateTransactionsList?.length === 0 )" class="m-auto flex flex-col text-center items-center gap-4">
+      <div class="rounded-full bg-[#f7f7f7] w-[68px] h-[68px] flex justify-center items-center">
+        <img src="./assets/outline/hamkor_template.svg" alt="" width="32" height="32">
+      </div>
+      <div class="flex flex-col gap-2 my-1 items-center">
+        <h3 class="text-custom-primary text-[18px] leading-[18px] font-semibold">Пока нет шаблонов платежей</h3>
+        <p class="text-custom-muted text-[16px] w-3/4 font-normal">Создайте шаблон, чтобы быстрее оформлять платежи</p>
+      </div>
+      <button
+        (click)="createTemplateModal()"
+        [matTooltip]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '' : 'У вас нет прав'"
+        [style.user-select]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '' : 'none'"
+        [style.opacity]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? '1' : '0.3'"
+        [style.cursor]="permissionsToActionsInAccounts() || permissionsToActionsInCards() ? 'pointer' : 'not-allowed'"
+        class="!h-[48px] w-[190px] flex items-center  border-custom-border border bg-[#00A38D] pl-5 rounded-[12px]"
+      >
+        <span class="text-[16px] font-semibold leading-[16px] text-white">{{'templates.create_template' | translate}}</span>
+        <img ngSrc="./assets/svg/add-active.svg" alt="add" width="24" height="24">
+      </button>
+    </div>
+  </div>
+
+  <div class="flex justify-between">
+
+    <!--    <app-filter-button-->
+    <!--      [classes]="'bg-[#008C79] text-white'"-->
+    <!--      [src]="'./assets/svg/filter-white.svg'"-->
+    <!--      (click)="templateFilterState = !templateFilterState"-->
+    <!--    ></app-filter-button>-->
+  </div>
+
+<!--  @if (selectedTab.value === 'PAYMENT_TEMPLATE') {-->
+<!--    <app-filter-template-->
+<!--      (filterChange)="setFilter($event)"-->
+<!--      (searched)="getTemplateTransactionList()"-->
+<!--      [toggleActive]="true"-->
+<!--      [panelState]="templateFilterState"-->
+<!--    ></app-filter-template>-->
+<!--  }-->
+
+<!--  @if (selectedTab.value === 'PAYMENT_TEMPLATE') {-->
+<!--    <app-table-actions-->
+<!--      [tableActionBtns]="tableActionBtns"-->
+<!--      (onClick)="onClickAction($event)"-->
+<!--    ></app-table-actions>-->
+<!--  }-->
+
+<!--  @if (selectedTab.value === 'PAYMENT_TEMPLATE') {-->
+<!--    <app-container-table-->
+<!--      [columns]="tableColumns"-->
+<!--      [data]="templateTransactionsList"-->
+<!--      [loading]="loading"-->
+<!--      (selectedRows)="onSelectedRows($event)"-->
+<!--      [numbering]="true"-->
+<!--      [custom]="true"-->
+<!--      (rowClicked)="getTemplateDetails($event)"-->
+<!--      [errorMessage]="errorMessage"-->
+<!--      [size]="pageSize"-->
+<!--    ></app-container-table>-->
+<!--  } @else {-->
+<!--    <app-container-table-->
+<!--      [columns]="tableColumnsAutoPays"-->
+<!--      [data]="autoPays"-->
+<!--      [loading]="loading"-->
+<!--      [numbering]="true"-->
+<!--      [checkable]="false"-->
+<!--      (rowClicked)="openAutoPayDetails($event)"-->
+<!--      [errorMessage]="errorMessage"-->
+<!--      [size]="pageSize"-->
+<!--    ></app-container-table>-->
+<!--  }-->
+<!--  <app-paginator-->
+<!--    [itemsPerPage]="pageSize"-->
+<!--    [currentPage]="pageIndex + 1"-->
+<!--    [totalItems]="totalItems"-->
+<!--    (pageChange)="pageChange($event)"-->
+<!--  ></app-paginator>-->
+  <div *ngIf="totalItems > 5">
+    <app-pagination
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [totalItems]="totalItems"
+      (pageChange)="pageChange($event)"
+      (pageSizeChange)="sizeChange($event)">
+    </app-pagination>
+  </div>
+
+  <app-soft-delete-modal
+        *ngIf="confirmDialog()"
+        [seconds]="5"
+        (confirm)="onConfirmed()"
+        (cancel)="onCancelled()"
+        >
+  </app-soft-delete-modal>
+
+</div>
+
+<mat-menu #actionsMenu="matMenu">
+  <button
+    [routerLink]="['/pay']"
+    mat-menu-item
+  >Сумовой
+  </button>
+
+  <!--  <button-->
+  <!--    [routerLink]="['/create-swift']"-->
+  <!--    mat-menu-item-->
+  <!--  >SWIFT</button>-->
+
+  <!--  <button-->
+  <!--    [routerLink]="['/create-currency-buy']"-->
+  <!--    mat-menu-item-->
+  <!--  >Покупка валюты</button>-->
+
+  <!--  <button-->
+  <!--    [routerLink]="['/create-currency-sell']"-->
+  <!--    mat-menu-item-->
+  <!--  >Продажа валюты</button>-->
+</mat-menu>

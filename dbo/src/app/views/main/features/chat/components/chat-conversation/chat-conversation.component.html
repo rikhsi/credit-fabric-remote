@@ -1,0 +1,154 @@
+<div class="bg-white rounded-xl">
+<!--<div class="p-6 bg-white rounded-xl">-->
+  <div>
+    <div class="relative pt-5">
+      <h4 class="font-semibold text-lg text-center relative">
+        <span>Поддержка банка Hamkor</span>
+        <button
+          mat-dialog-close
+          type="button"
+          class="flex justify-center items-center absolute right-[20px] border-0 outline-0
+             rounded-[50px] p-[2px] w-[32px] h-[32px]  hover:bg-[#e5e5e5] transition top-[0px]"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M17 7L7 17M7 7L17 17" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+      </h4>
+
+
+      <div class="flex items-center justify-center mb-6">
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+         <circle cx="4" cy="4" r="4" fill="#34C759"/>
+         </svg>
+      </span>
+        <span class="text-xs font-normal ml-1">{{ 'chat.online' | translate  }}</span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+
+<!--    <p class="text-secondary mb-4">Вы можете найти ответы на наиболее часто задаваемые вопросы</p>-->
+    <div #msgContainer
+         class="p-5 rounded-xl  border-secondary relative h-[60vh]"
+         [ngClass]="isSocketConnected ? 'scrollable-container' : ''"
+         style="overflow-y: scroll"
+    >
+
+      @if (isSocketConnected) {
+        @for (chat of chatMessages; track chat) {
+          @if (chat.role === 'BOT' || chat.role === 'OPERATOR') {
+            <div class="relative pl-[55px]">
+              @if(chat.type !== 'FILE') {
+                <span class="text-sm bottom-[calc(100%)] " style="color: rgb(160 155 155)">{{chat?.username}}</span>
+
+                <p class="bg-[#ffffff]  p-4 leading-5 rounded-[10px] rounded-tl-none relative z-10 mb-6 max-w-max text-sm font-normal shadow-md border border-[#f1f1f1]">{{ chat.text }}
+                <span class="pt-2 absolute top-[calc(100%)] left-0 text-xs w-[200px] " style="color: rgb(160 155 155)">{{ dateFormat(chat) }}</span>
+                </p>
+<!--                <span class="absolute bottom-[1px] left-[60px] w-[30px] h-[40px] z-0"><div class="triangle"></div></span>-->
+              }
+              @if (chat.type === 'FILE') {
+                <div class="p-4 leading-5 rounded-[10px] rounded-bl-none relative z-10 mb-6 max-w-max">
+                  @if (isImageFile(chat.text)) {
+                    <img width="200" height="200" style="object-fit: contain" [src]="chat.text" alt="image">
+                  } @else {
+                    <a [href]="chat.text" target="_blank" download="{{ getFileName(chat.text) }}" class="file-icon">
+                      <span class="material-icons">{{ getFileIcon(getFileExtension(chat.text)) }}</span>
+                      <p>{{ getFileName(chat.text) }}</p>
+                    </a>
+                  }
+                </div>
+              }
+              <span class="absolute top-[20px] left-[10px]  inline-flex justify-center items-center rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <rect width="32" height="32" rx="16" fill="#F4F5F6"/>
+                  <path d="M12.5807 25.3944C17.7691 27.2828 23.506 24.6076 25.3944 19.4193C26.5912 16.1309 25.9549 12.6222 24.0075 10.0126L23.1805 12.2846C24.182 14.2213 24.4017 16.5548 23.5972 18.7652C22.07 22.961 17.4307 25.1243 13.2348 23.5972C12.9868 23.5069 12.7459 23.4058 12.5124 23.2945L14.8162 16.9649H16.4814L15.0404 20.9239L18.3678 20.9323L22.8236 8.69007C21.8695 7.79855 20.7238 7.08044 19.4193 6.60563C14.2309 4.71722 8.49404 7.39236 6.60563 12.5807C5.40876 15.8691 6.04506 19.3778 7.99252 21.9874L8.81946 19.7154C7.818 17.7787 7.59831 15.4452 8.40282 13.2349C9.92997 9.03904 14.5693 6.87566 18.7651 8.40281C19.0132 8.49309 19.2541 8.59424 19.4876 8.70553L17.1775 15.0523H15.5123L16.9596 11.0761L13.6322 11.0677L9.17636 23.3099C10.1305 24.2015 11.2762 24.9196 12.5807 25.3944Z" fill="#17A755"/>
+                 </svg>
+            </span>
+            </div>
+          }
+          @if (chat.role === 'USER') {
+            <div class="relative mr-[8px]">
+              @if(chat.type !== 'FILE') {
+                <p class="bg-[#EAF7F3] p-4 leading-5 rounded-[10px] rounded-tr-none relative z-10 mb-7 text-right max-w-max ml-auto text-sm font-normal ">{{ chat.text }}
+                  <span class="pt-2 absolute top-[calc(100%)] right-0 text-xs w-[200px] " style="color: rgb(160 155 155)">{{ dateFormat(chat) }}</span>
+                </p>
+<!--                <span class="absolute bottom-[2px] right-[4px] w-[30px] h-[40px] z-0"><div class="triangle-user"></div></span>-->
+              }
+              @if (chat.type === 'FILE') {
+                <div class="relative z-10 mb-6 text-right max-w-max ml-auto cursor-pointer p-4">
+                  @if (isImageFile(chat.text)) {
+                    <img width="200" height="200" style="object-fit: contain" [src]="chat.text" alt="image">
+                    <span class="pt-2 absolute top-[calc(100%)] right-0 text-xs w-[200px] " style="color: rgb(160 155 155)">{{ dateFormat(chat) }}</span>
+                  } @else {
+                    <a [href]="chat.text" target="_blank" class="file-icon">
+                      <span class="material-icons">{{ getFileIcon(getFileExtension(chat.text)) }}</span>
+                      <p>{{ getFileName(chat.text) }}</p>
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+          }
+        }
+
+        @if (isTyping) {
+          <div class="typing-container mt-8">
+            <div class="typing-content bg-[#E9E9EB] p-2 rounded-full gap-x-1">
+              <div id="dot1" class="typing-dots circle" style="--delay: 0.1s"></div>
+              <div id="dot2" class="typing-dots circle" style="--delay: 0.2s"></div>
+              <div id="dot3" class="typing-dots circle" style="--delay: 0.3s"></div>
+              <div id="dot4" class="typing-dots circle" style="--delay: 0.4s"></div>
+            </div>
+          </div>
+        }
+      } @else {
+        <button matRipple (click)="onConnectSocket()" class="border-0 p-2 px-11 bg-[#008077] rounded-xl text-white  absolute bottom-0" style="position: absolute !important; bottom: 10px !important; left: 50% !important; transform: translateX(-50%)">Начать</button>
+      }
+    </div>
+
+  </div>
+
+  <div [style.height]="heightWithFile" class="mt-2 px-5 relative" *ngIf="isSocketConnected">
+    <div class="uploaded-file-container w-full z-[999] bg-white absolute bottom-full !m-0 pb-2" *ngIf="isFile">
+      <div *ngIf="uploadedImage; else fileIcon">
+        <img [src]="uploadedImage" alt="Uploaded File" class="uploaded-image" />
+      </div>
+      <ng-template #fileIcon>
+        <div class="file-icon">
+        <span class="material-icons">
+          {{ getFileIcon(fileType) }}
+        </span>
+          <p>{{ uploadedFileName }}</p>
+        </div>
+      </ng-template>
+      <button class="clear-button" (click)="clearFile()">X</button>
+    </div>
+    <div class="h-[73px] border rounded-3xl sticky bottom-0 left-0 z-10 flex items-center px-4 bg-white">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex items-center w-full">
+
+        <input class="pl-8 w-full outline-none min-h-[45px] p-2 border-0  rounded-bl-xl rounded-tl-xl"
+               type="text"
+               formControlName="msg"
+               [placeholder]="'chat.enter_message_placeholder' | translate"
+               oninput="this.value = this.value.trimStart()">
+        <label for="attach-file">
+     <span class="absolute top-1/2 -translate-y-1/2 left-[15px] cursor-pointer">
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M13.0213 2.76818C14.7786 1.01089 17.6272 1.01084 19.3845 2.76818C21.1418 4.52552 21.1418 7.37412 19.3845 9.13146L10.7224 17.7936C9.64849 18.8675 7.9077 18.8675 6.83376 17.7936C5.75987 16.7196 5.75983 14.9788 6.83376 13.9049L14.4353 6.30333C14.8259 5.913 15.4589 5.91287 15.8494 6.30333C16.2398 6.6938 16.2397 7.32688 15.8494 7.7174L8.24782 15.319C7.95495 15.6118 7.95498 16.0866 8.24782 16.3795C8.54071 16.6724 9.01547 16.6724 9.30837 16.3795L17.9705 7.7174C18.9467 6.7411 18.9467 5.15853 17.9705 4.18224C16.9942 3.20595 15.4116 3.206 14.4353 4.18224L5.41969 13.1979C3.75999 14.8576 3.76002 17.5479 5.41969 19.2076C7.07942 20.8674 9.76973 20.8674 11.4295 19.2076L20.4451 10.192C20.8355 9.80171 21.4686 9.80196 21.8591 10.192C22.2497 10.5825 22.2497 11.2165 21.8591 11.607L12.8435 20.6227C10.4029 23.0629 6.4463 23.0629 4.00563 20.6227C1.56485 18.1819 1.56486 14.2246 4.00563 11.7838L13.0213 2.76818Z" fill="#171717"/>
+      </svg>
+     </span>
+        </label>
+        <input type="file"  (change)="uploadImage($event)" id="attach-file" class="hidden" #fileInput>
+        <button type="submit"
+                [ngClass]="this.form.controls.msg.value || isFile ? '!bg-[#008077] !text-white': '' "
+                class="h-[45px] p-5 flex justify-center items-center rounded-2xl  bg-[#F4F5F6]">{{ 'chat.send' | translate  }}</button>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+

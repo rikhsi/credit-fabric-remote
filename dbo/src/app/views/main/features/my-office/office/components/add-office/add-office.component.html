@@ -1,0 +1,44 @@
+<div class="p-6 rounded-xl bg-white">
+  <button class="absolute justify-center items-center top-0 rounded-full p-[1.5px] right-0 flex bg-white"
+          (click)="_dialogRef.close()">
+    <mat-icon class="text-base font-bold rounded-full border-[1.5px] border-[#A1A1A1]">close</mat-icon>
+  </button>
+@if(data.type === 'create'){
+  <div class="font-medium text-xl pb-4">
+    Добавить офис
+  </div>
+} @else {
+  <div class="font-medium text-xl pb-4">
+    Редактировать офис
+  </div>
+}
+  <form [formGroup]="addOfficeForm" class="space-y-4 p-6 border-solid border-1px border-secondary rounded-10px">
+   <div>
+     <label for="name" class="text-base font-semibold leading-normal not-italic text-black block">Названия</label>
+     <input placeholder="Введите название офиса" type="text" class="w-full px-3 py-2 border-1px border-secondary rounded-[10px] outline-none font-medium" formControlName="name" [required]="true"  id="name" />
+   </div>
+
+ <div class="flex justify-between items-center gap-x-2">
+   <button
+     (click)="_dialogRef.close()"
+           class="h-11 flex justify-center items-center rounded-xl w-full  text-[#B0B8C1] bg-disabled-button"><span
+     class="text-base leading-normal not-italic">Отменить</span></button>
+   <button (click)="formSubmit()" type="submit"
+           [disabled]="addOfficeForm.invalid"
+           [ngClass]="addOfficeForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+           class="h-11 flex justify-center items-center rounded-xl w-full"><span
+     class="text-base leading-normal not-italic">Подтвердить</span></button>
+ </div>
+  </form>
+
+</div>
+@if (isLoading){
+  <div class="absolute rounded-xl bg-white bg-opacity-60 z-20 h-full w-full flex items-center justify-center">
+    <div class="flex items-center justify-center">
+      <mat-spinner mode="indeterminate" color="secondary" class="text-secondary"></mat-spinner>
+    </div>
+  </div>
+}
+
+
+

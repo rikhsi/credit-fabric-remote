@@ -1,0 +1,147 @@
+<ng-container class="m-0">
+  <div>
+    <div>
+      <div routerLink="/loan/main" class="flex items-center py-3 mt-6 cursor-pointer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 12H4M4 12L10 18M4 12L10 6" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="text-custom-primary"/>
+        </svg>
+        <span class="text-md font-medium pl-2 text-custom-primary">{{ 'global.back' | translate }}</span>
+      </div>
+
+      <div class="mt-[30px] flex">
+        @if (loanDetail()) {
+            <app-account-card [showPercent]="true" [card]="loanCard()" (onDetails)="openDetail()"></app-account-card>
+        }
+        <!-- <div class="bg-gradient-to-r from-black to-primary-base rounded-[20px] p-5 text-white min-w-[289px] inline-block">
+          <div class="flex items-center mb-2">
+            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3 border border-white">
+              <img [src]="'assets/flags/radius-20/' + currency() + '.png'"
+                   [alt]="currency()"
+                   (error)="$any($event.target).src = 'assets/flags/radius-20/UZS.png'">
+            </div>
+          </div>
+
+          <div class="text-base font-normal opacity-50">
+            {{ depositName() }}
+          </div>
+
+          <div class="text-xl font-semibold mb-1">
+            {{ totalDebt() }}<span class="text-base font-normal"> {{ totalDebtCurrency() }}</span>
+          </div>
+
+          <div class="text-base font-normal opacity-50">
+            {{ cardNumber() }}
+          </div>
+        </div> -->
+
+        <!-- Action buttons -->
+        <div class="px-4 flex items-center">
+          <div class="flex items-center gap-10 ml-10">
+
+            <!-- Погасить -->
+            <div class="text-center"
+                  *ngIf="loanDetails()?.status == 'OPEN'"
+                 (click)="userService.hasAction('ACCOUNTS') ? loanLogicService.openPayOffTheLoan($event, id(),this.depositName()) : null"
+                 [matTooltip]="userService.hasAction('ACCOUNTS') ? '' : ('new_loan.you_have_no_rights' | translate)"
+                 [style.user-select]="userService.hasAction('ACCOUNTS') ? '' : 'none'"
+                 [style.opacity]="userService.hasAction('ACCOUNTS') ? '1' : '0.3'"
+                 [style.cursor]="userService.hasAction('ACCOUNTS') ? 'pointer' : 'not-allowed'">
+              <div class="w-14 h-14 bg-surface-2 text-primary-base hover:bg-primary-base hover:text-white border border-custom-border rounded-full flex items-center justify-center mb-2 mx-auto">
+                <app-svg-icon name="hamkor_upload_02" [size]="20" class="rotate-180"></app-svg-icon>
+              </div>
+              <span class="text-sm font-semibold text-custom-primary">{{'new_loan.redeem' | translate}}</span>
+            </div>
+
+            <!-- Выписка -->
+            <div class="text-center"
+                 (click)="userService.hasAction('ACCOUNTS') ? loanLogicService.navigateToStatements(loanDetails()?.detail?.accMain) : null"
+                 [matTooltip]="userService.hasAction('ACCOUNTS') ? '' : ('new_loan.you_have_no_rights' | translate)"
+                 [style.user-select]="userService.hasAction('ACCOUNTS') ? '' : 'none'"
+                 [style.opacity]="userService.hasAction('ACCOUNTS') ? '1' : '0.3'"
+                 [style.cursor]="userService.hasAction('ACCOUNTS') ? 'pointer' : 'not-allowed'">
+              <div class="w-14 h-14 bg-surface-2 text-primary-base hover:bg-primary-base hover:text-white border border-custom-border rounded-full flex items-center justify-center mb-2 mx-auto">
+                <app-svg-icon name="hamkor_file_plus_02" [size]="20"></app-svg-icon>
+              </div>
+              <span class="text-sm font-semibold text-custom-primary">{{'new_loan.extract' | translate}}</span>
+            </div>
+
+            <!-- Детали -->
+            <!-- <div class="text-center"
+                 (click)="userService.hasAction('ACCOUNTS') ? openDetail() : null"
+                 [matTooltip]="userService.hasAction('ACCOUNTS') ? '' : ('new_loan.you_have_no_rights' | translate)"
+                 [style.user-select]="userService.hasAction('ACCOUNTS') ? '' : 'none'"
+                 [style.opacity]="userService.hasAction('ACCOUNTS') ? '1' : '0.3'"
+                 [style.cursor]="userService.hasAction('ACCOUNTS') ? 'pointer' : 'not-allowed'">
+              <div class="w-14 h-14 bg-surface-2 text-primary-base hover:bg-primary-base hover:text-white border border-custom-border rounded-full flex items-center justify-center mb-2 mx-auto">
+                <app-svg-icon name="hamkor_file_06" [size]="20"></app-svg-icon>
+              </div>
+              <span class="text-sm font-semibold text-custom-primary">{{'new_loan.details' | translate}}</span>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Status + Next payment + Schedule -->
+      <div class="my-10 flex items-center justify-between">
+
+        <div class="flex items-center gap-10">
+          <!-- Active status badge -->
+          <!-- <div class="flex items-center" *ngIf="loanDetails()?.stateLogo">
+            
+            <img [src]="loanDetails()?.stateLogo?.path!+ loanDetails()?.stateLogo?.name" alt="active">
+            <span class="text-xs font-medium ml-2 text-custom-primary">
+              {{ loanDetails()?.state  }}
+            </span>
+          </div> -->
+
+          <!-- Next payment pill -->
+          <div class="bg-surface-2 border border-custom-border rounded-full flex items-center gap-2 py-3 px-5">
+            <div>
+              <div class="flex items-center gap-1">
+                <span class="text-sm text-custom-muted">{{'new_loan.next_payment' | translate}}  </span>
+                <span class="text-sm " 
+                [class.text-[#00A38D]]="!isNextPaydateExpire()"
+                [class.text-[#FF3B30]]="isNextPaydateExpire()"
+                >{{ nextPaydate() }}</span>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <svg width="2" height="20" viewBox="0 0 2 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.13641 0.000354767V19.1367H4.43459e-05V0.000354767H1.13641Z" fill="#A4A4A4"/>
+            </svg>
+
+            <div>
+              <div class="flex items-center">
+                <span class="text-xl text-custom-primary font-bold">{{ nextPaysum() }}</span>
+                <span class="text-xl text-custom-primary font-normal">&nbsp;{{ nextPaysumCurrency() }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interest schedule button -->
+        <div class="bg-surface-2 border border-custom-border rounded-full flex items-center gap-2 py-4 px-5">
+          <div class="flex items-center gap-5 cursor-pointer" (click)="loanLogicService.openPaymentSchedule($event, id())">
+            <span class="text-sm text-custom-secondary font-medium">{{'new_loan.payment_schedule' | translate}}</span>
+            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M10.5 0C10.9142 0 11.25 0.325611 11.25 0.727273V1.45573C11.6066 1.45811 11.9183 1.46525 12.1889 1.48669C12.6104 1.52009 12.998 1.59177 13.362 1.77162C13.9265 2.05052 14.3854 2.49556 14.673 3.04294C14.8585 3.39591 14.9324 3.77169 14.9669 4.18049C15 4.57408 15 5.05725 15 5.64267V11.8119C15 12.3973 15 12.8805 14.9669 13.2741C14.9324 13.6829 14.8585 14.0586 14.673 14.4116C14.3854 14.959 13.9265 15.404 13.362 15.6829C12.998 15.8628 12.6104 15.9345 12.1889 15.9679C11.783 16 11.2847 16 10.681 16H4.31901C3.71529 16 3.21702 16 2.81113 15.9679C2.38956 15.9345 2.00203 15.8628 1.63803 15.6829C1.07354 15.404 0.614602 14.959 0.326981 14.4116C0.141513 14.0586 0.0675901 13.6829 0.0331462 13.2741C-1.65626e-05 12.8805 -8.93593e-06 12.3973 3.07255e-07 11.8119V5.64269C-8.93593e-06 5.05726 -1.65654e-05 4.57408 0.0331462 4.18049C0.0675901 3.77169 0.141513 3.39591 0.326981 3.04294C0.614602 2.49556 1.07354 2.05052 1.63803 1.77162C2.00203 1.59177 2.38956 1.52009 2.81113 1.48669C3.08174 1.46525 3.3934 1.45811 3.75 1.45573V0.727273C3.75 0.325611 4.08579 0 4.5 0C4.91421 0 5.25 0.325611 5.25 0.727273V1.45455H9.75V0.727273C9.75 0.325611 10.0858 0 10.5 0ZM3.75 2.91037V3.63636C3.75 4.03803 4.08579 4.36364 4.5 4.36364C4.91421 4.36364 5.25 4.03803 5.25 3.63636V2.90909H9.75V3.63636C9.75 4.03803 10.0858 4.36364 10.5 4.36364C10.9142 4.36364 11.25 4.03803 11.25 3.63636V2.91037C11.5841 2.91265 11.8465 2.91896 12.0667 2.9364C12.3955 2.96245 12.5637 3.00967 12.681 3.06763C12.9632 3.20708 13.1927 3.4296 13.3365 3.70329C13.3963 3.81703 13.445 3.98009 13.4718 4.29894C13.4994 4.62628 13.5 5.04976 13.5 5.67273V5.81818H1.5V5.67273C1.5 5.04976 1.50058 4.62628 1.52816 4.29894C1.55503 3.98009 1.60372 3.81703 1.66349 3.70329C1.8073 3.4296 2.03677 3.20708 2.31902 3.06763C2.43632 3.00967 2.60447 2.96245 2.93328 2.9364C3.15347 2.91896 3.41585 2.91265 3.75 2.91037Z"
+                    fill="#00A38D"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <app-payments class="flex-grow " [loanId]="id()!" [transactionMode]="'LOAN_PAYMENT'"></app-payments>
+
+    <div>
+    </div>
+  </div>
+</ng-container>

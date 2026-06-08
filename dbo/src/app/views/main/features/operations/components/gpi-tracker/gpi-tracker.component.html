@@ -1,0 +1,161 @@
+<div class="flex flex-col gap-y-5 bg-white rounded-[15px] p-6">
+  <app-container-title [title]="title"></app-container-title>
+
+  @if(gpiTracker) {
+    <div class="flex justify-between gap-x-[30px]">
+      <div
+        class="self-start w-full bg-[#EEF2F5] rounded-[12px] flex flex-col gap-x-5 p-[20px]"
+      >
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Latest status</div>
+
+          <div>{{ gpiTracker.status }}</div>
+        </div>
+
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Value date</div>
+
+          <div class="font-medium">{{ getSentTimeAsDate(gpiTracker.sentTimeGMT || '') | date: 'dd MMM yyyy, HH:mm' }}</div>
+        </div>
+
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Instructed amount</div>
+
+          <div class="font-medium">{{ amountService.convertToAmount(gpiTracker.sentAmount.amount || 0) }} {{gpiTracker.sentAmount.currency}}</div>
+        </div>
+
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Total elapsed time</div>
+
+          <div class="font-medium">{{ gpiTracker.totalDuration }}</div>
+        </div>
+
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Tracking reference</div>
+
+          <div class="font-medium">{{ trackerList[trackerList.length - 1].reference }}</div>
+        </div>
+
+        <div class="flex w-full justify-between">
+          <div class="text-[#85909E] text-sm leading-[1.2]">Status</div>
+
+          <div class="font-medium">{{ gpiTracker.status }}</div>
+        </div>
+
+      </div>
+
+      <div class="w-full flex flex-col">
+        @for(tracker of trackerList; track $index; let last = $last; let first = $first) {
+          <div class="flex gap-x-2.5">
+
+            <div
+              class="w-[40px] flex flex-col items-center"
+              [ngClass]="{ 'flex-col-reverse': last }"
+            >
+              <div
+                class="w-[40px] h-[40px] rounded-full flex items-center justify-center bg-[#DEE1EA]"
+                [ngClass]="{ '!bg-[#8AEBC6]': (tracker?.status === 'COMPLETED' || tracker?.status === null) }"
+              >
+                @if(tracker?.status === 'COMPLETED' || tracker?.status === null) {
+                  <img src="./assets/svg/vector-completed.svg"  alt="icon"/>
+                } @else {
+                  <img src="./assets/svg/clock-white.svg" alt="icon">
+                }
+              </div>
+
+              <div
+                class="flex-grow w-[2px] bg-[#DEE1EA]"
+                [ngClass]="{ '!bg-[#8AEBC6]': (tracker?.status === 'COMPLETED' || tracker?.status === null) }"
+              ></div>
+            </div>
+
+            <mat-accordion
+              class="w-full mb-2.5 gpi-accordion"
+              [ngClass]="{ '!mb-0': last }"
+            >
+              <mat-expansion-panel class="!bg-[#EEF2F5]">
+                <mat-expansion-panel-header class="flex items-center justify-between">
+                  <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-y-2.5">
+                      <div class="text-[#85909E] text-sm">{{ tracker?.bicOrgName }}</div>
+                      <div class="font-medium uppercase text-black leading-[1.2]">{{ tracker?.bic }}</div>
+                    </div>
+                  </div>
+                </mat-expansion-panel-header>
+
+
+                <div class="flex flex-col gap-4 text-sm p-4">
+                  @if(tracker?.sentTimeGMT && tracker?.receivedTimeGMT) {
+                    <div class="col-span-2 flex border-y border-[#C5CAD0]">
+
+                      <div class="w-full border-r border-[#C5CAD0] h-[90px] flex items-center">
+                        <div class="flex flex-col gap-y-2.5">
+                          <div class="flex items-center text-sm">
+                            <mat-icon>arrow_right_alt</mat-icon>
+                            <img src="./assets/svg/clock.svg" alt="clock">
+                          </div>
+
+                          <div class="flex flex-col">
+                            <span>{{ getSentTimeAsDate(tracker?.sentTimeGMT || '') | date: 'dd MMM yyyy' }}</span>
+                            <span>{{ getSentTimeAsDate(tracker?.sentTimeGMT || '') | date: 'HH:mm' }} GMT</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="w-full h-[90px] flex items-center justify-end">
+
+                        <div class="flex flex-col gap-y-2.5">
+                          <div class="flex items-center justify-end text-sm">
+                            <img src="./assets/svg/clock.svg" alt="clock">
+                            <mat-icon>arrow_right_alt</mat-icon>
+                          </div>
+
+                          <div class="flex flex-col self-end">
+                            <div>{{ getSentTimeAsDate(tracker?.receivedTimeGMT || '') | date: 'dd MMM yyyy' }}</div>
+                            <div class="ml-auto">{{ getSentTimeAsDate(tracker?.receivedTimeGMT || '') | date: 'HH:mm' }} GMT</div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  }
+                  <div *ngIf="tracker?.holdPeriod" class="flex flex-col">
+                    <span class="text-sm text-[#85909E]">Hold Period:</span>
+                    <span>{{ tracker?.holdPeriod }}</span>
+                  </div>
+                  <div *ngIf="tracker?.sentAmount" class="flex flex-col">
+                    <span class="text-sm text-[#85909E]">Sent Amount:</span>
+                    <span>{{ (tracker?.sentAmount?.amount || 0) / scale(tracker?.sentAmount?.scale || 0) }} {{ tracker?.sentAmount?.currency }}</span>
+                  </div>
+                  <div *ngIf="tracker?.receivedAmount" class="flex flex-col">
+                    <span class="text-sm text-[#85909E]">Received Amount:</span>
+                    <span>{{ (tracker?.receivedAmount?.amount || 0) / scale(tracker?.receivedAmount?.scale || 0) }} {{ tracker?.receivedAmount?.currency }}</span>
+                  </div>
+                  <div *ngIf="tracker?.commission" class="flex flex-col">
+                    <span class="text-sm text-[#85909E]">Commission:</span>
+                    <span>{{ (tracker?.commission?.amount || 0) / scale(tracker?.commission?.scale || 0) }} {{ tracker?.commission?.currency }}</span>
+                  </div>
+                  <div *ngIf="tracker?.isStartPoint" class="flex flex-col">
+                    <span class="text-blue-600 font-medium">Start Point</span>
+                  </div>
+                  <div *ngIf="tracker?.isFinishPoint" class="flex flex-col">
+                    <span class="text-green-600 font-medium">Finish Point</span>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="flex justify-between gap-x-[30px]">
+      <div
+        class="self-start w-full bg-[#EEF2F5] rounded-[12px] flex flex-col gap-x-5 p-[20px]"
+      >
+        <h4 class="font-medium">Ничего не найдено!</h4>
+      </div>
+    </div>
+  }
+
+</div>

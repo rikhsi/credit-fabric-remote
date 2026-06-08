@@ -1,0 +1,101 @@
+<div class="p-6 bg-white rounded-xl h-full">
+  <p class="text-2xl font-medium mb-4">Заявки</p>
+  @for (application of loanApplication; track application) {
+    <ul class="flex justify-between flex-wrap">
+      <li class="w-full border-1px mb-4 border-secondary rounded-2xl p-4 cursor-pointer">
+        <p class="flex items-center text-xs text-secondary mb-[13px] gap-x-2">{{ application.date | date:'mediumDate' }}
+          <span class="text-[11px]  text-white rounded-full px-2 py-0.5"
+                [class]="{
+                'bg-[#FF5C00]':application.status === 'NEW',
+                'bg-[#D95EF7]':application.status === 'PROCESS',
+                'bg-[#FF3333]':application.status === 'FAIL',
+                'bg-red-600':application.status === 'CANCEL',
+                'bg-red-400':application.status === 'ERROR',
+                'bg-blue-600':application.status === 'SUCCESS',
+                'bg-green-600':application.status === 'ACCEPTED',
+                'bg-yellow-800':application.status === 'EXPIRED'
+        }">{{ getStatusLang(application.status) }}</span>
+          @if (application.step === 'REQUEST_CLIENT_DECISION') {
+            <span class="ml-auto">
+            <button
+              matRipple
+              (click)="openProductMyIdDialog(application.id, 'refused')"
+              class="mr-2 outline-none bg-[#E5E7EA] py-2 px-4 text-center text-secondary text-xs leading-normal rounded-10px">Отменить заявку</button>
+            <button
+              matRipple
+              (click)="openProductMyIdDialog(application.id, 'accept')"
+              class="outline-none bg-secondary py-2 px-4 text-center text-white text-xs leading-normal rounded-10px">Подтверждение</button>
+              </span>
+          }
+        </p>
+        <p class="flex items-center text-base mb-2.5">ID: {{ application.id }} <span
+          class="block w-[4px] h-[4px] rounded-full bg-secondary mx-2"></span> <span class="text-secondary text-sm">Кредит</span>
+        </p>
+        <div class="flex items-center text-secondary mb-3.5">
+          <p class="p-2 px-4 bg-white rounded-[10px] border-1px border-secondary">Срок: <span
+            class="text-dark text-base">{{ application.period ? application.period + 'мес.' : 'нет данных' }} </span>
+          </p>
+          <p class="p-2 px-4 bg-white rounded-[10px] border-1px border-secondary ml-2">Ставка: <span
+            class="text-dark text-base">{{ application.annualRate ? application.annualRate + ' %' : 'нет данных' }}</span>
+          </p>
+          <p class="text-primary text-xl ml-auto"><span
+            class="text-secondary">{{ application.currency }}</span> {{ (application.amount / 100) |mask:'separator' }}
+          </p>
+        </div>
+        <div class="flex justify-between mb-1.5">
+          @if (application.status === 'NEW') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'PROCESS') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'ERROR') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-red-400 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'SUCCESS') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-blue-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'FAIL') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#FF3333] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#E5E7EA] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'ACCEPTED') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-blue-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-green-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'EXPIRED') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-blue-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-yellow-800 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          } @else if (application.status === 'CANCEL') {
+            <div class="h-1 bg-[#FF5C00] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-[#D95EF7] rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-blue-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+            <div class="h-1 bg-red-600 rounded-full" style="width: calc((100% / 4) - 4px);"></div>
+          }
+        </div>
+      </li>
+    </ul>
+  } @empty {
+    ....
+  }
+  <mat-paginator class="ml-auto"
+                 [length]="0"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[5, 10, 15, 20]"
+                 showFirstLastButtons
+                 (page)="pageChanged($event)" aria-label="Select page">
+  </mat-paginator>
+</div>

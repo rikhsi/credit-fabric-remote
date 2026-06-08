@@ -1,0 +1,473 @@
+<div class="bg-white rounded-[22px] border border-[#EBEBEB] h-full flex flex-col min-w-[500px] setting-dark-light-box">
+  <div class="flex justify-between items-center px-[30px] py-2">
+    <span class="text-[18px] font-semibold leading-5 py-4">  {{'new_second.notification' | translate}}</span>
+    <div class="flex items-center">
+      <span>{{" "}}</span>
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex outline-0 justify-center items-center absolute right-[30px]
+             rounded-[6px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+    </div>
+
+  </div>
+  <mat-divider/>
+  <div class="content-box h-full">
+    <div class="flex w-full h-full bg-white dark:rounded-bl-[22px] dark:rounded-br-[22px]">
+      <div  class="flex flex-col w-[500px] relative border-r border-[#ebebeb] overflow-y-hidden !h-full dark:border-[#333]">
+        <div class="h-[164px] bg-white">
+          <div class="mx-6 my-4 bg-white h-[40px]">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+              <button
+                *ngFor="let item of tabMenu"
+                (click)="changeTab(item)"
+                class="mr-2 text-sm font-semibold leading-5 px-[10px] py-2 flex items-center"
+                [ngClass]="
+                 activeTabIndex() === item.id
+                 ? ' text-[#000] bg-[#FFF] rounded-[14px] outline outline-1 outline-[#EDEDED] dark:bg-[#171717] dark:text-white dark:border-0 dark:outline-[#333]'
+                  : 'text-[#BABABA]'
+                "
+              >
+                {{ item.name }}
+              </button>
+              <div *ngIf="accountStore?.unreadCount()" class=" flex justify-center items-center w-[24px] h-[24px] bg-[#008c79] text-white rounded-xl text-xs font-medium">{{accountStore?.unreadCount()}}</div>
+              </div>
+<!--              <div>-->
+<!--              <button  class="flex gap-2 bg-[#f5f5f5] font-semibold leading-5 text-xs px-2 py-2 rounded-[10px] transition-all">-->
+<!--               <span class="text-custom-primary">Скачать</span>-->
+<!--               <span>-->
+<!--                  <span class="need">-->
+<!--                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                    <path d="M8.66683 1.99992C8.66683 1.63173 8.36835 1.33325 8.00016 1.33325C7.63197 1.33325 7.3335 1.63173 7.3335 1.99992V8.39044L5.13823 6.19518C4.87788 5.93483 4.45577 5.93483 4.19543 6.19518C3.93508 6.45553 3.93508 6.87764 4.19543 7.13799L7.52876 10.4713C7.78911 10.7317 8.21122 10.7317 8.47157 10.4713L11.8049 7.13799C12.0652 6.87764 12.0652 6.45553 11.8049 6.19518C11.5446 5.93483 11.1224 5.93483 10.8621 6.19518L8.66683 8.39044V1.99992Z" fill="#171717"/>-->
+<!--                    <path d="M2.00016 9.33325C2.36835 9.33325 2.66683 9.63173 2.66683 9.99992V10.7999C2.66683 11.371 2.66735 11.7592 2.69186 12.0592C2.71574 12.3515 2.75903 12.501 2.81215 12.6052C2.93999 12.8561 3.14396 13.0601 3.39484 13.1879C3.49911 13.2411 3.64858 13.2843 3.94086 13.3082C4.24091 13.3327 4.62911 13.3333 5.20016 13.3333H10.8002C11.3712 13.3333 11.7594 13.3327 12.0595 13.3082C12.3517 13.2843 12.5012 13.2411 12.6055 13.1879C12.8564 13.0601 13.0603 12.8561 13.1882 12.6052C13.2413 12.501 13.2846 12.3515 13.3085 12.0592C13.333 11.7592 13.3335 11.371 13.3335 10.7999V9.99992C13.3335 9.63173 13.632 9.33325 14.0002 9.33325C14.3684 9.33325 14.6668 9.63173 14.6668 9.99992V10.8275C14.6668 11.3641 14.6668 11.807 14.6374 12.1678C14.6067 12.5425 14.541 12.887 14.3762 13.2106C14.1205 13.7123 13.7126 14.1203 13.2108 14.3759C12.8872 14.5408 12.5428 14.6065 12.168 14.6371C11.8073 14.6666 11.3643 14.6666 10.8277 14.6666H5.17263C4.63598 14.6666 4.19308 14.6666 3.83228 14.6371C3.45755 14.6065 3.11308 14.5408 2.78952 14.3759C2.28776 14.1203 1.87981 13.7123 1.62415 13.2106C1.45929 12.887 1.39358 12.5425 1.36296 12.1678C1.33348 11.807 1.33349 11.3641 1.3335 10.8275V9.99992C1.3335 9.63173 1.63197 9.33325 2.00016 9.33325Z" fill="#171717"/>-->
+<!--                 </svg>-->
+<!--               </span>-->
+<!--           </span>-->
+<!--              </button>-->
+<!--            </div>-->
+
+            </div>
+          </div>
+          <div class="mx-5 my-[10px] bg-white h-[32px]">
+            <div class="items-center justify-between">
+              <div class="bg-white  max-w-full">
+                <div class="relative ">
+                    <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"  stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                     </span>
+
+                  <input  (input)="searchText($event)" [value]="filterForm().search"  type="text"  [placeholder]="'global.search' | translate"
+                         class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-[10px] h-[32px] focus:outline-none  text-sm" />
+                </div>
+              </div>
+              <div class="mt-3 flex">
+                <div class="">
+                  <div #periodTrigger="matMenuTrigger"
+                       [ngClass]="{'!border-[#00A38D] focus-period-input': periodTrigger.menuOpen}"
+                       class="border cursor-pointer border-[#EDEDED] rounded-[10px] period-menu-box" [matMenuTriggerFor]="periodMenu">
+                    <div class="flex items-center p-2 gap-3 h-[32px]">
+                      <p class="flex items-center">
+                        <span> {{('notifications.period') | translate}}</span>
+                        <span *ngIf="dateSelectCount()" class="border border-[#00A38D] rounded-[8px] text-[10px] px-2 py-1 ml-2 flex items-center justify-between">
+                          {{(dateSelectCount() === 1 ?  'notifications.today'   : dateSelectCount() === 2 ? 'notifications.week' : dateSelectCount() === 3 ? 'notifications.month' : '') | translate}}
+                         <span class="clear-date-ilter" (click)="clearDateFilter($event)">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M12.4716 4.47132C12.7319 4.21097 12.7319 3.78886 12.4716 3.52851C12.2112 3.26816 11.7891 3.26816 11.5288 3.52851L8.00016 7.05711L4.47157 3.52851C4.21122 3.26816 3.78911 3.26816 3.52876 3.52851C3.26841 3.78886 3.26841 4.21097 3.52876 4.47132L7.05735 7.99992L3.52876 11.5285C3.26841 11.7889 3.26841 12.211 3.52876 12.4713C3.78911 12.7317 4.21122 12.7317 4.47157 12.4713L8.00016 8.94273L11.5288 12.4713C11.7891 12.7317 12.2112 12.7317 12.4716 12.4713C12.7319 12.211 12.7319 11.7889 12.4716 11.5285L8.94297 7.99992L12.4716 4.47132Z" fill="#171717"/>
+                            </svg>
+                         </span>
+                        </span>
+                      </p>
+
+                      <img class="focus-period-img" src="./assets/new-icons/arrow-down.svg" alt="">
+                    </div>
+                    <mat-menu #periodMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+                      <div class="flex flex-col items-center gap-1 p-[4px]">
+                        <div (click)="changeDate(1)"
+                             class="flex cursor-pointer text-start items-center hover:bg-[#F7F7F7] rounded-[12px] gap-2 py-[4px] px-[6px]">
+                          <span class="w-[120px] text-[14px] text-[#5C5C5C] font-medium">{{'notifications.today' | translate}}</span>
+                          <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+                        </div>
+                        <div (click)="changeDate(2)"
+                             class="flex cursor-pointer items-center hover:bg-[#F7F7F7] rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                          <span class="w-[120px] text-[14px] text-[#5C5C5C] font-medium">{{'notifications.week' | translate}}</span>
+                          <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+                        </div>
+                        <div (click)="changeDate(3)"
+                             class="flex cursor-pointer items-center hover:bg-[#F7F7F7] rounded-[12px] gap-2 text-start py-[4px] px-[6px]">
+                          <span class="w-[120px] text-[14px] text-[#5C5C5C] font-medium">{{'notifications.month' | translate}}</span>
+                          <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+                        </div>
+                      </div>
+                    </mat-menu>
+                  </div>
+                </div>
+                <div class="ml-2">
+                  <div #periodTriggerCategory="matMenuTrigger"
+                       [ngClass]="{'!border-[#00A38D] focus-period-input': periodTriggerCategory.menuOpen}"
+                       class="border cursor-pointer border-[#EDEDED] rounded-[10px] period-menu-box" [matMenuTriggerFor]="periodMenuCategory">
+                    <div class="flex items-center p-2 gap-3 h-[32px]">
+                      <p class="flex items-center">
+                        <span> Категория</span>
+                        <span *ngIf="getCategoryName()" class="border border-[#00A38D] rounded-[8px] text-[10px] px-2 py-1 ml-2 flex items-center justify-between">
+                             {{getCategoryName()}}
+                          <span class="clear-date-ilter" (click)="clearCategoryFilter($event)">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M12.4716 4.47132C12.7319 4.21097 12.7319 3.78886 12.4716 3.52851C12.2112 3.26816 11.7891 3.26816 11.5288 3.52851L8.00016 7.05711L4.47157 3.52851C4.21122 3.26816 3.78911 3.26816 3.52876 3.52851C3.26841 3.78886 3.26841 4.21097 3.52876 4.47132L7.05735 7.99992L3.52876 11.5285C3.26841 11.7889 3.26841 12.211 3.52876 12.4713C3.78911 12.7317 4.21122 12.7317 4.47157 12.4713L8.00016 8.94273L11.5288 12.4713C11.7891 12.7317 12.2112 12.7317 12.4716 12.4713C12.7319 12.211 12.7319 11.7889 12.4716 11.5285L8.94297 7.99992L12.4716 4.47132Z" fill="#171717"/>
+                            </svg>
+                         </span>
+                        </span>
+                      </p>
+                      <img class="focus-period-img" src="./assets/new-icons/arrow-down.svg" alt="">
+                    </div>
+                    <mat-menu #periodMenuCategory="matMenu" xPosition="after" class="menu-actions mt-2">
+                      <div class="flex flex-col items-center gap-1 p-[4px]">
+                        <div *ngFor="let category of categoryMenu">
+                          <div (click)="categoryChange(category)"
+                               class="flex cursor-pointer text-start items-center hover:bg-[#F7F7F7] rounded-[12px] gap-2 py-[4px] px-[6px]">
+                            <span class="w-[120px] text-[14px] text-[#5C5C5C] font-medium">{{category?.name}}</span>
+                            <img src="./assets/new-icons/arrow-right-period.svg" class="opacity-0" alt="">
+                          </div>
+                        </div>
+
+                      </div>
+                    </mat-menu>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div>
+              <div *ngIf="hasAnyFilter()" class="mt-1 flex items-center gap-1 cursor-pointer" (click)="clearAllFilters()">
+                <span class="text-[#008C79] text-sm font-medium">Cбросить все </span>
+                <img width="20" height="20" src="./assets/svg/close-active.svg" alt="" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div #scrollContainer  infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()"  [scrollWindow]="false" class="mt-4 overflow-y-auto  h-[calc(100vh-324px)]">
+
+          @if (notificationList()?.length){
+            <div class="notification-list-box overflow-y-auto pb-9">
+              <div *ngFor="let notifications of notificationList();" class=" cursor-pointer select-none border-b border-[#ececed]"
+              >
+                <div class="h-[40px] bg-[#f4f4f4] flex items-center px-6 dark:bg-[#262626]">
+                  <span class="text-lg font-semibold"> {{ newDateFormat(notifications?.date) || (notifications?.status === "IMPORTANT" ? "Важное" : "") }}</span>
+                </div>
+                <div *ngFor="let notification of notifications.items;" (click)="selectNotificationChange(notification)" class=" cursor-pointer select-none border-b border-[#ececed]">
+                  <div class="px-6"  [ngClass]="notification?.id && selectNotification()?.id && notification?.id === selectNotification()?.id ? 'select-notification-item-box': ''">
+                    <div class="py-[10px] flex items-center relative" >
+                      <div class="w-12 h-12   rounded-[13px] relative  flex items-center justify-center" [ngClass]="notifications?.status === 'IMPORTANT' ? 'bg-[#00A38D]' : 'bg-[#f5f5f5]'">
+                      <span *ngIf="bgIconStatus(notification)" class="absolute top-[-2px] right-[-2px]">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                           <path fill-rule="evenodd" clip-rule="evenodd" d="M7.99984 0.666748C3.94975 0.666748 0.666504 3.94999 0.666504 8.00008C0.666504 12.0502 3.94975 15.3334 7.99984 15.3334C12.0499 15.3334 15.3332 12.0502 15.3332 8.00008C15.3332 3.94999 12.0499 0.666748 7.99984 0.666748ZM8.6665 5.33342C8.6665 4.96523 8.36803 4.66675 7.99984 4.66675C7.63165 4.66675 7.33317 4.96523 7.33317 5.33342V8.00008C7.33317 8.36827 7.63165 8.66675 7.99984 8.66675C8.36803 8.66675 8.6665 8.36827 8.6665 8.00008V5.33342ZM7.99984 10.0001C7.63165 10.0001 7.33317 10.2986 7.33317 10.6667C7.33317 11.0349 7.63165 11.3334 7.99984 11.3334H8.0065C8.37469 11.3334 8.67317 11.0349 8.67317 10.6667C8.67317 10.2986 8.37469 10.0001 8.0065 10.0001H7.99984Z" fill="#FB3748"/>
+                         </svg>
+                      </span>
+                        <span>
+<!--                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">-->
+<!--                            <path d="M17.4451 0.787321C10.7002 -1.66761 3.24225 1.81007 0.787319 8.55495C-0.768606 12.8298 0.0585804 17.3911 2.59028 20.7836L3.6653 17.83C2.3634 15.3123 2.07781 12.2788 3.12366 9.40531C5.10896 3.95075 11.1401 1.13836 16.5947 3.12366C16.9171 3.24101 17.2303 3.37251 17.5339 3.51719L14.5389 11.7457H12.3741L14.2474 6.59889L9.92184 6.58796L4.12927 22.5029C5.3697 23.6619 6.85905 24.5954 8.55494 25.2127C15.2998 27.6676 22.7577 24.1899 25.2127 17.4451C26.7686 13.1702 25.9414 8.60889 23.4097 5.21643L22.3347 8.17004C23.6366 10.6878 23.9222 13.7212 22.8763 16.5947C20.891 22.0492 14.8599 24.8616 9.40531 22.8763C9.08287 22.759 8.76967 22.6275 8.46615 22.4828L11.4692 14.232H13.634L11.7526 19.4011L16.0782 19.412L21.8707 3.49709C20.6303 2.33812 19.1409 1.40458 17.4451 0.787321Z" fill="white"/>-->
+<!--                          </svg>-->
+                          <img [class]="notifications?.status === 'IMPORTANT' ? 'notify-bg-img': ''" width="24" height="24" [src]="imageUrls(notification)" alt="" />
+
+                        </span>
+                      </div>
+                      <div class="ml-[10px] ">
+                        <div class="font-medium text-base truncate max-w-[360px]">{{notification?.title}}</div>
+
+                        <div class="font-normal text-sm truncate max-w-[360px] text-[#676767]">{{notification?.shortBody}}</div>
+                        <div class="font-normal text-sm truncate max-w-[360px] text-[#676767]" style="line-height: 16px">
+                          <span>{{ newDateFormat(notification?.sendTime)}}</span>
+                        </div>
+                      </div>
+                      <div *ngIf="notifications?.status === 'UNREAD'" class="absolute top-0 bottom-0 right-0 flex items-center">
+                      <div class="ml-3 bg-[#00A38D] w-2 h-2 rounded-[4px]"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+              </div>
+            </div>
+          }
+
+          @if (!isLoading() && !notificationList()?.length) {
+            <div>
+              <div class="mt-3 text-center font-normal text-base">
+                Нет информации.
+              </div>
+            </div>
+          }
+          @if (isLoading()) {
+            <div class="mb-4 px-6">
+              <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+              <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+              <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+              <span class="skeleton block rounded h-10 w-full mb-2.5"></span>
+            </div>
+          }
+        </div>
+
+<!--            <div class="h-[63px]"></div>-->
+
+        <div class="dark:rounded-bl-[22px] dark:rounded-br-[22px] flex items-center justify-end p-5 bg-white border-t border-[#ebebeb] absolute bottom-0 right-0 left-0">
+<!--          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--            <path d="M11 14C12.6569 14 14 12.6569 14 11C14 9.34315 12.6569 8 11 8C9.34315 8 8 9.34315 8 11C8 12.6569 9.34315 14 11 14Z" stroke="#53555A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />-->
+<!--            <path d="M17.7273 13.7273C17.6063 14.0015 17.5702 14.3056 17.6236 14.6005C17.6771 14.8954 17.8177 15.1676 18.0273 15.3818L18.0818 15.4364C18.2509 15.6052 18.385 15.8057 18.4765 16.0265C18.568 16.2472 18.6151 16.4838 18.6151 16.7227C18.6151 16.9617 18.568 17.1983 18.4765 17.419C18.385 17.6397 18.2509 17.8402 18.0818 18.0091C17.913 18.1781 17.7124 18.3122 17.4917 18.4037C17.271 18.4952 17.0344 18.5423 16.7955 18.5423C16.5565 18.5423 16.3199 18.4952 16.0992 18.4037C15.8785 18.3122 15.678 18.1781 15.5091 18.0091L15.4545 17.9545C15.2403 17.745 14.9682 17.6044 14.6733 17.5509C14.3784 17.4974 14.0742 17.5335 13.8 17.6545C13.5311 17.7698 13.3018 17.9611 13.1403 18.205C12.9788 18.4489 12.8921 18.7347 12.8909 19.0273V19.1818C12.8909 19.664 12.6994 20.1265 12.3584 20.4675C12.0174 20.8084 11.5549 21 11.0727 21C10.5905 21 10.1281 20.8084 9.78708 20.4675C9.4461 20.1265 9.25455 19.664 9.25455 19.1818V19.1C9.24751 18.7991 9.15011 18.5073 8.97501 18.2625C8.79991 18.0176 8.55521 17.8312 8.27273 17.7273C7.99853 17.6063 7.69437 17.5702 7.39947 17.6236C7.10456 17.6771 6.83244 17.8177 6.61818 18.0273L6.56364 18.0818C6.39478 18.2509 6.19425 18.385 5.97353 18.4765C5.7528 18.568 5.51621 18.6151 5.27727 18.6151C5.03834 18.6151 4.80174 18.568 4.58102 18.4765C4.36029 18.385 4.15977 18.2509 3.99091 18.0818C3.82186 17.913 3.68775 17.7124 3.59626 17.4917C3.50476 17.271 3.45766 17.0344 3.45766 16.7955C3.45766 16.5565 3.50476 16.3199 3.59626 16.0992C3.68775 15.8785 3.82186 15.678 3.99091 15.5091L4.04545 15.4545C4.25503 15.2403 4.39562 14.9682 4.4491 14.6733C4.50257 14.3784 4.46647 14.0742 4.34545 13.8C4.23022 13.5311 4.03887 13.3018 3.79497 13.1403C3.55107 12.9788 3.26526 12.8921 2.97273 12.8909H2.81818C2.33597 12.8909 1.87351 12.6994 1.53253 12.3584C1.19156 12.0174 1 11.5549 1 11.0727C1 10.5905 1.19156 10.1281 1.53253 9.78708C1.87351 9.4461 2.33597 9.25455 2.81818 9.25455H2.9C3.2009 9.24751 3.49273 9.15011 3.73754 8.97501C3.98236 8.79991 4.16883 8.55521 4.27273 8.27273C4.39374 7.99853 4.42984 7.69437 4.37637 7.39947C4.3229 7.10456 4.18231 6.83244 3.97273 6.61818L3.91818 6.56364C3.74913 6.39478 3.61503 6.19425 3.52353 5.97353C3.43203 5.7528 3.38493 5.51621 3.38493 5.27727C3.38493 5.03834 3.43203 4.80174 3.52353 4.58102C3.61503 4.36029 3.74913 4.15977 3.91818 3.99091C4.08704 3.82186 4.28757 3.68775 4.50829 3.59626C4.72901 3.50476 4.96561 3.45766 5.20455 3.45766C5.44348 3.45766 5.68008 3.50476 5.9008 3.59626C6.12152 3.68775 6.32205 3.82186 6.49091 3.99091L6.54545 4.04545C6.75971 4.25503 7.03183 4.39562 7.32674 4.4491C7.62164 4.50257 7.9258 4.46647 8.2 4.34545H8.27273C8.54161 4.23022 8.77093 4.03887 8.93245 3.79497C9.09397 3.55107 9.18065 3.26526 9.18182 2.97273V2.81818C9.18182 2.33597 9.37338 1.87351 9.71435 1.53253C10.0553 1.19156 10.5178 1 11 1C11.4822 1 11.9447 1.19156 12.2856 1.53253C12.6266 1.87351 12.8182 2.33597 12.8182 2.81818V2.9C12.8193 3.19253 12.906 3.47834 13.0676 3.72224C13.2291 3.96614 13.4584 4.15749 13.7273 4.27273C14.0015 4.39374 14.3056 4.42984 14.6005 4.37637C14.8954 4.3229 15.1676 4.18231 15.3818 3.97273L15.4364 3.91818C15.6052 3.74913 15.8057 3.61503 16.0265 3.52353C16.2472 3.43203 16.4838 3.38493 16.7227 3.38493C16.9617 3.38493 17.1983 3.43203 17.419 3.52353C17.6397 3.61503 17.8402 3.74913 18.0091 3.91818C18.1781 4.08704 18.3122 4.28757 18.4037 4.50829C18.4952 4.72901 18.5423 4.96561 18.5423 5.20455C18.5423 5.44348 18.4952 5.68008 18.4037 5.9008C18.3122 6.12152 18.1781 6.32205 18.0091 6.49091L17.9545 6.54545C17.745 6.75971 17.6044 7.03183 17.5509 7.32674C17.4974 7.62164 17.5335 7.9258 17.6545 8.2V8.27273C17.7698 8.54161 17.9611 8.77093 18.205 8.93245C18.4489 9.09397 18.7347 9.18065 19.0273 9.18182H19.1818C19.664 9.18182 20.1265 9.37338 20.4675 9.71435C20.8084 10.0553 21 10.5178 21 11C21 11.4822 20.8084 11.9447 20.4675 12.2856C20.1265 12.6266 19.664 12.8182 19.1818 12.8182H19.1C18.8075 12.8193 18.5217 12.906 18.2778 13.0676C18.0339 13.2291 17.8425 13.4584 17.7273 13.7273Z" stroke="#53555A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />-->
+<!--          </svg>-->
+<!--          <button class="ml-2 font-medium text-sm" (click)="goToNotification()" routerLink="/settings/my-profile">{{'notifications.configure_notifications' | translate}}</button>-->
+          <span (click)="deleteAllNotifyDialog(dialogNotifyAllDelete)" class="mr-5 font-medium text-sm cursor-pointer ">Удалить все</span>
+          <span (click)="readAllDialog(dialogNotifyAllRead)" class="mr-10 font-medium text-sm cursor-pointer "> {{'notifications.mark_all_read' | translate}}</span>
+
+        </div>
+      </div>
+      @if (selectNotification()){
+        <div  class=" flex flex-col w-[500px]   h-full bg-white  dark:rounded-br-[20px]"
+        >
+          <div class="mt-5  overflow-y-auto  h-[calc(100vh-210px)]">
+            <div class="flex justify-between border-b px-5 pb-5 border-[#EBEBEB] " >
+              <div class="text-lg font-medium pr-2">{{selectNotification()?.title}}</div>
+              <div  class="text-sm font-medium text-[#008077] cursor-pointer flex items-center">
+
+                 <span class="mr-2" (click)="selectNotification.set(null)">Закрыть</span>
+                <button (click)="selectNotification.set(null)"
+                  type="button"
+                  class=" flex outline-0 justify-center items-center
+             rounded-[6px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+                >
+                  <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="mt-5 px-5">
+              @if (selectNotification().image){
+                <div class="px-5">
+                  <div class="rounded-3xl w-full h-[250px] overflow-hidden bg-[#F5F5F5]">
+                    <img class="w-full h-full object-cover" *ngIf="selectNotification().image" [src]="selectNotification()?.image" alt="">
+                  </div>
+                </div>
+              }
+              <div class="mt-5 font-semibold text-24">
+                {{selectNotification()?.title}}
+              </div>
+              <div class="font-normal text-base text-[#676767]">
+                {{selectNotification()?.body}}
+              </div>
+              <div *ngIf="selectNotification()?.sendTime" class="mt-2 font-normal text-sm text-[#676767]">
+                {{ newDateFormat(selectNotification()?.sendTime)}}
+              </div>
+
+            </div>
+
+          </div>
+          <div class="px-5">
+
+            @if (detailFooterBtnStatus()) {
+              <div class="flex justify-between gap-2">
+                <button (click)="redirectUrl()" class="bg-[#F5F5F5]  w-full py-3 rounded-[12px] font-semibold text-base">Перейти</button>
+                @if(selectNotification().type !== 'LEGAL' && selectNotification().type !== 'LEGAL_CRITICAL') {
+                  <button (click)="deleteOneNotifyDialog(dialogNotifyDelete)" class="bg-[#FFEBEC] text-[#FB3748] w-full py-3 rounded-[12px] font-semibold text-base">Удалить</button>
+                }
+              </div>
+
+            } @else if(selectNotification().type !== 'LEGAL' || selectNotification().type !== 'LEGAL_CRITICAL') {
+              <button (click)="deleteOneNotifyDialog(dialogNotifyDelete)" class="bg-[#FFEBEC] text-[#FB3748] w-full py-3 rounded-[12px] font-semibold text-base">Удалить</button>
+            }
+          </div>
+        </div>
+      }
+
+    </div>
+    <ng-template #noNotifications>
+      <div>
+        <p class="text-[16px] font-semibold leading-5 py-4 text-center text-[#171717]">Информация отсутствует.</p>
+      </div>
+    </ng-template>
+    <!--    <div class="h-[81px]"></div>-->
+  </div>
+
+  <ng-template #dialogNotifyDelete>
+    <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+
+      <div class=" w-full mt-8">
+        <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">
+          <svg width="30" height="33" viewBox="0 0 30 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 9.00001H6V24.3003C6 25.5849 6.00052 26.4583 6.05566 27.1333C6.10939 27.7909 6.20713 28.1277 6.32666 28.3623C6.61426 28.9267 7.07332 29.3857 7.6377 29.6733C7.87229 29.7929 8.20908 29.8906 8.8667 29.9443C9.54175 29.9995 10.4151 30 11.6997 30H18.3003C19.5849 30 20.4582 29.9995 21.1333 29.9443C21.7909 29.8906 22.1277 29.7929 22.3623 29.6733C22.9267 29.3857 23.3857 28.9267 23.6733 28.3623C23.7929 28.1277 23.8906 27.7909 23.9443 27.1333C23.9995 26.4583 24 25.5849 24 24.3003V9.00001ZM10.5 23.25V15.75C10.5 14.9216 11.1716 14.25 12 14.25C12.8284 14.25 13.5 14.9216 13.5 15.75V23.25C13.5 24.0784 12.8284 24.75 12 24.75C11.1716 24.75 10.5 24.0784 10.5 23.25ZM16.5 23.25V15.75C16.5 14.9216 17.1716 14.25 18 14.25C18.8284 14.25 19.5 14.9216 19.5 15.75V23.25C19.5 24.0784 18.8284 24.75 18 24.75C17.1716 24.75 16.5 24.0784 16.5 23.25ZM13.8003 3.00001C12.9355 3.00001 12.3767 3.0019 11.9517 3.03663C11.5443 3.06992 11.393 3.12628 11.3188 3.16407C11.0369 3.30783 10.8078 3.5369 10.6641 3.81885C10.6263 3.89301 10.5699 4.04429 10.5366 4.45167C10.5061 4.82539 10.5021 5.30235 10.5015 6.00001H19.4985C19.4979 5.30235 19.4939 4.82539 19.4634 4.45167C19.4301 4.04429 19.3737 3.89301 19.3359 3.81885C19.1922 3.5369 18.9631 3.30783 18.6812 3.16407C18.607 3.12628 18.4557 3.06992 18.0483 3.03663C17.6233 3.0019 17.0645 3.00001 16.1997 3.00001H13.8003ZM27 24.3003C27 25.5355 27.0015 26.5524 26.9341 27.3779C26.8652 28.221 26.7176 28.9967 26.3467 29.7246C25.7715 30.8534 24.8534 31.7715 23.7246 32.3467C22.9967 32.7176 22.221 32.8652 21.3779 32.9341C20.5524 33.0015 19.5355 33 18.3003 33H11.6997C10.4645 33 9.44764 33.0015 8.62207 32.9341C7.77899 32.8652 7.00335 32.7176 6.27539 32.3467C5.14663 31.7715 4.22852 30.8534 3.65332 29.7246C3.28241 28.9967 3.13481 28.221 3.06592 27.3779C2.99847 26.5524 3 25.5355 3 24.3003V9.00001H1.5C0.671573 9.00001 0 8.32843 0 7.50001C0 6.67158 0.671573 6.00001 1.5 6.00001H7.50146C7.50188 5.31146 7.50426 4.7107 7.54541 4.20704C7.59388 3.61415 7.70159 3.024 7.99072 2.45655C8.42208 1.61021 9.11021 0.922091 9.95654 0.490729C10.524 0.201601 11.1141 0.0938832 11.707 0.0454168C12.2825 -0.00160404 12.985 6.62126e-06 13.8003 6.62126e-06H16.1997C17.015 6.62126e-06 17.7175 -0.00160396 18.293 0.0454168C18.8859 0.0938832 19.476 0.201601 20.0435 0.490729C20.8898 0.922091 21.5779 1.61021 22.0093 2.45655C22.2984 3.024 22.4061 3.61415 22.4546 4.20704C22.4957 4.7107 22.4981 5.31146 22.4985 6.00001H28.5C29.3284 6.00001 30 6.67158 30 7.50001C30 8.32843 29.3284 9.00001 28.5 9.00001H27V24.3003Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+      <div class="w-full p-1 mt-6 flex flex-col items-center justify-center text-center">
+        <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+          <div class=" text-left">Удалить уведомление?</div>
+        </h2>
+        <p class="w-full text-gray-500 text-base px-2 leading-relaxed  text-left">
+          Действие нельзя отменить.
+        </p>
+      </div>
+      <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+        <button (click)="deleteOneNotify()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+          Да
+        </button>
+        <button  mat-dialog-close class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          Отменить
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+  <ng-template #dialogNotifyAllDelete>
+    <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+
+      <div class=" w-full mt-8">
+        <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">
+          <svg width="30" height="33" viewBox="0 0 30 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 9.00001H6V24.3003C6 25.5849 6.00052 26.4583 6.05566 27.1333C6.10939 27.7909 6.20713 28.1277 6.32666 28.3623C6.61426 28.9267 7.07332 29.3857 7.6377 29.6733C7.87229 29.7929 8.20908 29.8906 8.8667 29.9443C9.54175 29.9995 10.4151 30 11.6997 30H18.3003C19.5849 30 20.4582 29.9995 21.1333 29.9443C21.7909 29.8906 22.1277 29.7929 22.3623 29.6733C22.9267 29.3857 23.3857 28.9267 23.6733 28.3623C23.7929 28.1277 23.8906 27.7909 23.9443 27.1333C23.9995 26.4583 24 25.5849 24 24.3003V9.00001ZM10.5 23.25V15.75C10.5 14.9216 11.1716 14.25 12 14.25C12.8284 14.25 13.5 14.9216 13.5 15.75V23.25C13.5 24.0784 12.8284 24.75 12 24.75C11.1716 24.75 10.5 24.0784 10.5 23.25ZM16.5 23.25V15.75C16.5 14.9216 17.1716 14.25 18 14.25C18.8284 14.25 19.5 14.9216 19.5 15.75V23.25C19.5 24.0784 18.8284 24.75 18 24.75C17.1716 24.75 16.5 24.0784 16.5 23.25ZM13.8003 3.00001C12.9355 3.00001 12.3767 3.0019 11.9517 3.03663C11.5443 3.06992 11.393 3.12628 11.3188 3.16407C11.0369 3.30783 10.8078 3.5369 10.6641 3.81885C10.6263 3.89301 10.5699 4.04429 10.5366 4.45167C10.5061 4.82539 10.5021 5.30235 10.5015 6.00001H19.4985C19.4979 5.30235 19.4939 4.82539 19.4634 4.45167C19.4301 4.04429 19.3737 3.89301 19.3359 3.81885C19.1922 3.5369 18.9631 3.30783 18.6812 3.16407C18.607 3.12628 18.4557 3.06992 18.0483 3.03663C17.6233 3.0019 17.0645 3.00001 16.1997 3.00001H13.8003ZM27 24.3003C27 25.5355 27.0015 26.5524 26.9341 27.3779C26.8652 28.221 26.7176 28.9967 26.3467 29.7246C25.7715 30.8534 24.8534 31.7715 23.7246 32.3467C22.9967 32.7176 22.221 32.8652 21.3779 32.9341C20.5524 33.0015 19.5355 33 18.3003 33H11.6997C10.4645 33 9.44764 33.0015 8.62207 32.9341C7.77899 32.8652 7.00335 32.7176 6.27539 32.3467C5.14663 31.7715 4.22852 30.8534 3.65332 29.7246C3.28241 28.9967 3.13481 28.221 3.06592 27.3779C2.99847 26.5524 3 25.5355 3 24.3003V9.00001H1.5C0.671573 9.00001 0 8.32843 0 7.50001C0 6.67158 0.671573 6.00001 1.5 6.00001H7.50146C7.50188 5.31146 7.50426 4.7107 7.54541 4.20704C7.59388 3.61415 7.70159 3.024 7.99072 2.45655C8.42208 1.61021 9.11021 0.922091 9.95654 0.490729C10.524 0.201601 11.1141 0.0938832 11.707 0.0454168C12.2825 -0.00160404 12.985 6.62126e-06 13.8003 6.62126e-06H16.1997C17.015 6.62126e-06 17.7175 -0.00160396 18.293 0.0454168C18.8859 0.0938832 19.476 0.201601 20.0435 0.490729C20.8898 0.922091 21.5779 1.61021 22.0093 2.45655C22.2984 3.024 22.4061 3.61415 22.4546 4.20704C22.4957 4.7107 22.4981 5.31146 22.4985 6.00001H28.5C29.3284 6.00001 30 6.67158 30 7.50001C30 8.32843 29.3284 9.00001 28.5 9.00001H27V24.3003Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+      <div class="w-full p-1 mt-6 flex flex-col items-center justify-center text-center">
+        <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+          <div class=" text-left">Удалить все уведомления?</div>
+        </h2>
+        <p class="w-full text-gray-500 text-base px-2 leading-relaxed  text-left">
+          Действие нельзя отменить.
+        </p>
+      </div>
+      <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+        <button (click)="deleteAllNotify()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+          Да
+        </button>
+        <button  mat-dialog-close class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          Отменить
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+  <ng-template #dialogNotifyAllRead>
+    <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[480px] flex flex-col items-center justify-between p-5 relative">
+
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+
+      <div class=" w-full mt-8">
+        <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M26.5607 7.93934C27.1464 8.52513 27.1464 9.47487 26.5607 10.0607L10.0607 26.5607C9.47487 27.1464 8.52513 27.1464 7.93934 26.5607L0.43934 19.0607C-0.146447 18.4749 -0.146447 17.5251 0.43934 16.9393C1.02513 16.3536 1.97487 16.3536 2.56066 16.9393L9 23.3787L24.4393 7.93934C25.0251 7.35355 25.9749 7.35355 26.5607 7.93934Z" fill="#171717"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0607 7.93934C34.6464 8.52513 34.6464 9.47487 34.0607 10.0607L17.5607 26.5607C16.9749 27.1464 16.0251 27.1464 15.4393 26.5607L7.93934 19.0607C7.35355 18.4749 7.35355 17.5251 7.93934 16.9393C8.52513 16.3536 9.47487 16.3536 10.0607 16.9393L16.5 23.3787L31.9393 7.93934C32.5251 7.35355 33.4749 7.35355 34.0607 7.93934Z" fill="#171717"/>
+          </svg>
+        </div>
+      </div>
+      <div class="w-full p-1 mt-6 flex flex-col items-center justify-center text-center">
+        <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+          <div class=" text-left">Отметить все как прочитанное?</div>
+        </h2>
+        <p class="w-full text-gray-500 text-base px-2 leading-relaxed  text-left">
+          Будут отмечены как прочитанные только обычные уведомления. Важные останутся без изменений.
+        </p>
+      </div>
+      <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+        <button (click)="readAll()" class="rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+          Да
+        </button>
+        <button  mat-dialog-close class="rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          Отменить
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+
+  <ng-template #dialogNotifyDetail>
+    <div style="overflow: hidden !important;"  class=" setting-dark-light-box bg-white rounded-[32px] w-[540px] flex flex-col items-center justify-between p-5 relative">
+
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+
+      <div class=" w-full mt-8">
+        <div class="text-[28px] font-bold">Важное </div>
+        <div class="text-base font-normal text-gray-700">Ознакомьтесь с уведомлением</div>
+<!--        <div class="w-[68px] h-[68px] bg-gray-100 dark:bg-gray-500 rounded-[34px] flex items-center justify-center">-->
+<!--          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">-->
+<!--            <path fill-rule="evenodd" clip-rule="evenodd" d="M26.5607 7.93934C27.1464 8.52513 27.1464 9.47487 26.5607 10.0607L10.0607 26.5607C9.47487 27.1464 8.52513 27.1464 7.93934 26.5607L0.43934 19.0607C-0.146447 18.4749 -0.146447 17.5251 0.43934 16.9393C1.02513 16.3536 1.97487 16.3536 2.56066 16.9393L9 23.3787L24.4393 7.93934C25.0251 7.35355 25.9749 7.35355 26.5607 7.93934Z" fill="#171717"/>-->
+<!--            <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0607 7.93934C34.6464 8.52513 34.6464 9.47487 34.0607 10.0607L17.5607 26.5607C16.9749 27.1464 16.0251 27.1464 15.4393 26.5607L7.93934 19.0607C7.35355 18.4749 7.35355 17.5251 7.93934 16.9393C8.52513 16.3536 9.47487 16.3536 10.0607 16.9393L16.5 23.3787L31.9393 7.93934C32.5251 7.35355 33.4749 7.35355 34.0607 7.93934Z" fill="#171717"/>-->
+<!--          </svg>-->
+<!--        </div>-->
+      </div>
+
+      <div class="w-full p-1 mt-6 flex flex-col items-center justify-center text-center">
+        <h2 class="text-[28px] font-bold text-gray-900 mb-3 flex justify-start leading-[30px]  w-full">
+          <div class=" text-left  font-semibold text-24"> {{selectLegalCritical()?.title}}</div>
+        </h2>
+        <p class="w-full text-gray-500 px-2 leading-relaxed  text-left font-normal text-base">
+          {{selectLegalCritical()?.body}}
+        </p>
+        <div class="w-full text-gray-500 px-2 leading-relaxed  text-left font-normal text-base mt-2">
+          <span>{{ newDateFormat(selectLegalCritical()?.sendTime)}}</span>
+        </div>
+      </div>
+      <div class="flex gap-3 w-full flex-shrink-0 mt-6 justify-center">
+        <button (click)="closeLegalCritical()"  type="button"  class="cursor-pointer rounded-xl px-4 py-0 w-[204px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+          Закрыть
+        </button>
+        <button (click)="readLegalCritical()"  type="button"  class="cursor-pointer rounded-xl px-4 py-0 w-[204px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          Ознакомлен
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+
+
+

@@ -1,0 +1,24 @@
+.custom-slide-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Remove default icons for checked/unchecked states */
+.custom-slide-toggle .mat-slide-toggle-bar {
+  background: transparent !important; /* Or customize the background color */
+}
+
+.mdc-switch__icons {
+  content: '';
+}
+
+.custom-slide-toggle .mat-slide-toggle-thumb {
+  box-shadow: none !important; /* Remove the shadow */
+}
+
+.custom-slide-toggle .mat-slide-toggle-thumb-container {
+  background: none !important; /* Remove the default background */
+  border: 1px solid var(--mat-primary) !important; /* Optional: Add a custom border */
+}

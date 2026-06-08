@@ -1,0 +1,8 @@
+/* Optional Customizations */
+.dropdown-button {
+  @apply rounded-md border px-4 py-2 bg-white text-sm font-medium;
+}
+
+.dropdown-menu {
+  @apply origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white;
+}

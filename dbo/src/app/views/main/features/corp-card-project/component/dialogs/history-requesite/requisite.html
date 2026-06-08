@@ -1,0 +1,145 @@
+<div class="flex flex-col bg-[#FFF] h-full overflow-y-auto pb-5 dark:!border-[#333333] dark:!border dark:!bg-[#181818] dark:text-white rounded-[20px]">
+  <div class="flex flex-col p-5">
+    <div class="flex justify-between">
+      <div class="justify-start text-[#171717] text-lg font-medium  leading-normal dark:text-white">
+        {{'createPayment.payment_details_alt' | translate }}</div>
+      <div class="w-7 h-7 relative bg-zinc-100 rounded-md flex justify-center items-center overflow-hidden"
+        (click)="closeDialog()">
+        <img src="assets/new-icons/close.svg" alt="close">
+      </div>
+    </div>
+  </div>
+
+  <mat-divider class="dark:bg-[#333]"></mat-divider>
+
+  <div class="px-5 py-[26px]  flex flex-col ">
+    <div class="d-flex items-center gap-1 mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="text-center cursor-pointer">
+            <div class="w-[24px] h-[24px] bg-surface-1 rounded-full flex items-center justify-center mx-auto">
+              <img width="12" height="12" [src]="data.statusLogo.path + data.statusLogo.name" [alt]="data.status">
+            </div>
+          </div>
+          <span class="text-xs font-medium ml-1">
+            {{data.statusNameFront}}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div [style.color]="data?.isCredit &&  data.status == 'SUCCESS' ? '#00A38D' : ''"
+      class="text-nowrap  justify-start text-stone-950 text-[32px] leading-[40px] font-bold dark:text-white">
+      {{ data.isCredit ? '+' : '-' }} {{ ((data.amount.amount / 100).toFixed(2) | mask:'separator.2') }} {{
+      data.amount.currency}}
+    </div>
+    <div class="self-stretch justify-start text-[#5C5C5C] text-sm font-normal  leading-tight">
+      <!-- №{{ data.docNum }} -->
+      от {{ formatDocDate(data.date) }} {{ data?.time ? ',' + data?.time : '' }}
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="flex items-center justify-between w-full    px-[20px] py-[26px]  gap-[16px] ">
+    @for (button of filteredButtons(data); track button) {
+    <div type="button" class="flex flex-col items-center space-y-2" (click)="$event.stopPropagation();"
+      (click)="buttonActions(button.action, data)">
+      <div  class="dark:!border-[#333333] dark:!border flex items-center text-[#008C79] hover:text-white justify-center w-[50px] h-[50px] rounded-full gap-2.5 border border-[#EBEBEB] hover:bg-[#008C79] group transition cursor-pointer"
+        [matMenuTriggerFor]="button.action === 'sign' ? signMenu : null">
+        <app-svg-icon [name]="button.icon" [size]="20"></app-svg-icon>
+      </div>
+      <span class="self-stretch text-center justify-center text-stone-950 text-xs font-medium leading-none dark:text-white">
+        {{ button.titleTranslateKey | translate }}
+      </span>
+    </div>
+    }
+  </div>
+
+
+  <mat-divider></mat-divider>
+  
+  <div class="px-5 py-4">
+    <div class="flex flex-col mb-5 ">
+      <div class="label">{{'accounts.organization_name' | translate}}
+      </div>
+      <div class="value dark:!text-white">{{ data.merchantName }}</div>
+    </div>
+
+    <div class="flex items-center justify-between" *ngIf="data.hasTerminalId">
+      <div>
+        <div class="flex flex-col mb-5">
+          <div class="label">{{'custom.terminal_id' | translate}}</div>
+          <div class="value dark:!text-white">{{ data.terminalId ? data.terminalId : '-' }}</div>
+        </div>
+      </div>
+      <div *ngIf="data.terminalId">
+        <span>
+          <app-svg-icon (click)="copy(data.terminalId)" name="hamkor_copy" [size]="22"
+            class="text-[#9799A1]"></app-svg-icon>
+        </span>
+      </div>
+    </div>
+
+
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="flex flex-col mb-5">
+          <div class="label">{{'accounts.card_number' | translate}}</div>
+          <div class="value dark:!text-white">{{ data.pan }}</div>
+        </div>
+      </div>
+      <div>
+        <span>
+          <app-svg-icon (click)="copy(data.pan)" name="hamkor_copy" [size]="22"
+            class="text-[#9799A1]"></app-svg-icon>
+        </span>
+      </div>
+    </div>
+
+
+
+    <div class="flex flex-col mb-5 ">
+      <div class="label">{{'myAccounts.operation_type' | translate}}
+      </div>
+      <div  class="value dark:!text-white">  {{ data.docNum ?  `Операция  ${data.docNum}` : "-"  }}</div>
+    </div>
+
+
+    <div class="flex flex-col mb-4 ">
+      <div class="label">{{'salaryStatements.status' | translate}}
+      </div>
+      <div class="value dark:!text-white">{{ data?.statusNameFront ?? "-" }}</div>
+    </div>
+
+    <div class="flex flex-col mb-5 ">
+      <div class="label"> {{'accounts.transaction_amount' | translate}}</div>
+      <div  class="value dark:!text-white">{{ ((data.amount.amount / 100).toFixed(2) | mask:'separator.2') }} {{
+        data.amount.currency}}</div>
+    </div>
+
+    <div class="flex flex-col mb-5 ">
+       <div class="label"> {{'accounts.transaction_fee' | translate}}</div>
+      <div  class="value dark:!text-white">{{ ((data.commission.amount / 100).toFixed(2) | mask:'separator.2') }}
+        {{ data.commission.currency}}</div>
+    </div>
+
+    <div class="flex flex-col mb-5 ">
+      <div class="label"> {{'accounts.transaction_date' | translate}}</div>
+      <div  class="value dark:!text-white">{{ formatDocDate(data.date) ?? "-" }} {{ data?.time ? ',' + data?.time : '-' }}</div>
+    </div>
+
+    <div class="flex flex-col mb-5 ">
+      <div class="label"> {{'accounts.transaction_description' | translate}}</div>
+      <div  class="value dark:!text-white">{{ data.description  ??  "-"}}</div>
+    </div>
+  </div>
+</div>
+
+
+<mat-menu #signMenu="matMenu" class="menu-actions">
+  <div class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px]"
+    *ngFor="let act of getActions()" (click)="onSubAction(act)">
+    <div class="text-[#5C5C5C] text-sm font-medium leading-5">{{ act.title }}</div>
+  </div>
+</mat-menu>

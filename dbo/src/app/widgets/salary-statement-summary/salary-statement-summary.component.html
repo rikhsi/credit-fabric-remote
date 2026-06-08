@@ -1,0 +1,35 @@
+<div class="flex flex-col gap-5 items-end">
+  <div class="w-full p-5 bg-surface-2 rounded-3xl border border-custom-border">
+    <div class="flex gap-4 items-center py-3">
+      <app-icon icon="users01Bold" size="24" svgClass="fill-custom-primary"></app-icon>
+      <div>
+        <p class="text-sm text-custom-secondary">{{ 'salaryStatements.employees_filled' | translate }}</p>
+        <p class="font-medium text-custom-primary">{{ store.employeesFilledCount() }}/{{store.count()}}</p>
+      </div>
+    </div>
+
+    <div class="flex gap-4 items-center py-3">
+      <app-icon icon="coinsStacked03" size="24" svgClass="fill-custom-primary"></app-icon>
+      <div>
+        <p class="text-sm text-custom-secondary">{{ 'salaryStatements.payment_amount' | translate }}</p>
+        <p class="font-medium text-custom-primary">{{ store.total() | mask : 'separator.2' }} UZS</p>
+        @if (store.invalidAmount()) {
+          @if (store.bronAmount()) {
+            <p class="text-xs text-[#fb3748]"> Накопленной суммы брони недостаточно.</p>
+          } @else if (store.selectedSenderAccount() && !store.form.controls.salaryPrepareReq.controls.senderAccount.disabled) {
+            <p class="text-xs text-[#fb3748]">На расчётном счёте недостаточно средств</p>
+          } @else {
+            <p class="text-xs text-[#fb3748]">На транзитном счёте недостаточно средств</p>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="min-w-[190px] font-semibold text-white py-3 px-4 rounded-lg bg-[#00a38d]
+    hover:bg-[#00816F] active:bg-[#00A38D] disabled:bg-surface-2 disabled:text-custom-primary disabled:opacity-50"
+    (click)="submit.emit()">
+    {{ 'salaryStatements.save_alt' | translate }}
+  </button>
+</div>

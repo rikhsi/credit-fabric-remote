@@ -1,0 +1,113 @@
+<div class="h-full flex flex-col gap-y-5 bg-[#FFF]">
+  <div class="flex justify-between p-5 border-b border-[#E2EAF1]">
+    <div>Реквизиты</div>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </div>
+
+  <div class="flex flex-col gap-y-5 px-5 overflow-y-auto pb-5 border-b border-[#E2EAF1]">
+    <div class="flex gap-x-2.5">
+<!--      <div-->
+<!--        class="py-2.5 px-5 bg-[#DDECFC] text-[#264796] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--        [matTooltip]="'Скачать Excel'"-->
+<!--      >-->
+<!--        Сохранить Excel-->
+<!--      </div>-->
+
+<!--      <div-->
+<!--        (click)="printAccDetailsPdf()"-->
+<!--        class="py-2.5 px-5 bg-[#DDECFC] text-[#264796] rounded-[5px] flex gap-x-2 items-center cursor-pointer"-->
+<!--        [matTooltip]="'Скачать pdf'"-->
+<!--      >-->
+<!--        <img ngSrc="./assets/svg/printer-blue.svg" alt="print" width="24" height="24" >-->
+<!--      </div>-->
+    </div>
+
+    <div class="p-6 bg-white rounded-xl h-full flex flex-col gap-y-4 relative">
+      <div class="flex flex-col gap-y-5 text-[14px]">
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">LC ID</div>
+          <div>{{ data.accredit.lcId }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Код филиала</div>
+          <div>{{ data.accredit.filialCode }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Номер контракта</div>
+          <div>{{ data.accredit.contractNumber || '—' }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Дата контракта</div>
+          <div>{{ data.accredit.contractDate }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Банк заявителя</div>
+          <div>{{ data.accredit.applicantBank || '—' }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Наш референс</div>
+          <div>{{ data.accredit.ourReference }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Валюта</div>
+          <div>{{ data.accredit.currency }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Начальная сумма</div>
+          <div>{{ data.accredit.amountBegin }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Сумма</div>
+          <div>{{ data.accredit.amount }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Дата выпуска</div>
+          <div>{{ data.accredit.issueDate || '—' }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Дата истечения</div>
+          <div>{{ data.accredit.expireDate || '—' }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">ИДНК</div>
+          <div>{{ data.accredit.idnk }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Счет</div>
+          <div>{{ data.accredit.accLc }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Контр счет</div>
+          <div>{{ data.accredit.accLcContr }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Статус</div>
+          <div>{{ data.accredit.state }}</div>
+        </div>
+
+        <div class="flex gap-x-5">
+          <div class="w-[130px] text-[#B0B8C1]">Причина отказа</div>
+          <div>{{ data.accredit.reasonForRejection || '—' }}</div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,118 @@
+@let tEmployeeListAll = store.employeeListAll();
+@let tEmployeeListFiltered = store.employeeListFiltered();
+
+<div class="bg-surface-2 rounded-2xl">
+  <div class="py-5 px-6">
+    <app-table-filters
+      [filterConfig]="store.filterConfig()"
+      [showFilterDialog]="true"
+      (valueChange)="store.setFilter($event)">
+    </app-table-filters>
+  </div>
+
+  <app-data-state-wrapper
+    [loading]="store.employeeListLoading()"
+    [totalLength]="tEmployeeListAll ? tEmployeeListAll.content.length : null"
+    [filteredLength]="tEmployeeListFiltered.length"
+    searchEmptyTitle="Ничего не найдено"
+    searchEmptyDescription="Попробуйте изменить параметры запроса">
+
+    <div class="grid grid-cols-[24px_1fr_160px_190px_64px_190px] gap-2.5 items-center py-1.5 px-6">
+      <div class="text-custom-secondary font-medium">№</div>
+      <div class="text-custom-secondary font-medium">Имя Фамилия</div>
+      <div class="text-custom-secondary font-medium">Номер договора</div>
+      <div class="text-custom-secondary font-medium">Номер карты</div>
+      <div class="text-custom-secondary font-medium">Срок</div>
+      <div class="text-custom-secondary font-medium">Номер счёта</div>
+    </div>
+
+    @for (item of tEmployeeListFiltered; track item.uuid; let idx = $index) {
+      <div (click)="showDetails(item)" class="grid grid-cols-[24px_1fr_160px_190px_64px_190px] gap-2.5 items-center py-3 px-6">
+        <div class="text-sm text-custom-muted">{{ idx + 1 | number : '2.0' }}</div>
+        <div class="flex items-center gap-4">
+          <div class="flex justify-center items-center bg-surface-1 w-12 h-12 rounded-2xl">
+            @if (item.type === 'UZCARD') {
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="11.2" fill="surface-1"/>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M24.2078 16.6553C24.2078 19.6973 23.5271 21.9643 22.1669 23.4413C20.8066 24.9185 18.7049 25.6567 15.8714 25.6567C13.2241 25.6567 11.2157 24.9182 9.84609 23.4413C8.4765 21.9645 7.79183 19.7371 7.79199 16.7592V6.76822C7.79264 6.53418 7.97822 6.34457 8.2074 6.34375H13.0076C13.2368 6.34445 13.4225 6.5341 13.4232 6.76822V16.9776C13.4232 18.1935 13.6435 19.1293 14.0917 19.7895C14.8987 20.8821 16.4202 21.0996 17.49 20.2755C17.6506 20.1519 17.7954 20.0083 17.9212 19.8482C18.3594 19.2288 18.5777 18.3159 18.5763 17.1096V15.1977H24.2078V16.6553Z"
+                      fill="#203E7A"/>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M24.208 14.081H18.5768V6.78832C18.5774 6.5431 18.772 6.34445 19.0121 6.34379H19.7898C19.7915 8.83383 21.7686 10.8515 24.2068 10.8515H24.208V14.081Z"
+                      fill="#203E7A"/>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M20.8964 6.34375H23.7727C24.0129 6.34445 24.2074 6.54306 24.208 6.78828V9.72934C22.3791 9.72934 20.8964 8.21522 20.8964 6.34741V6.34375Z"
+                      fill="#F4821F"/>
+              </svg>
+            }
+            @if (item.type === 'HUMO') {
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="11.2" fill="surface-1"/>
+                <path
+                  d="M20.9709 7.40601C20.9626 7.41584 20.9531 7.42662 20.9428 7.43817C20.8777 7.51174 20.7847 7.61671 20.818 7.70882C20.8424 7.77567 20.946 7.79046 21.0441 7.80446C21.1012 7.81261 21.1564 7.82049 21.1931 7.83819C21.3637 7.92094 21.4324 8.08697 21.4272 8.26329C21.4229 8.40348 21.4205 9.36655 21.4168 10.8275L21.4168 10.8284L21.4168 10.8329V10.8331L21.4168 10.8381C21.4151 11.5131 21.4132 12.294 21.4106 13.1487C18.9556 13.135 16.5009 13.1208 14.046 13.1067L14.0142 13.1065C13.9662 12.5136 13.9502 11.8486 13.994 11.1251C14.0343 10.4582 14.1224 9.7941 14.257 9.13898C14.316 8.8522 14.3839 8.56712 14.4604 8.28423C14.4888 8.17911 14.5341 8.06594 14.5806 7.9496C14.6717 7.72164 14.7677 7.48153 14.7514 7.26616C14.7483 7.22259 14.7376 7.17783 14.7092 7.14372C14.6429 7.06434 14.5159 7.07734 14.4137 7.10268C13.7858 7.25873 13.1754 7.58299 12.6945 8.00268C12.5467 8.13172 12.1509 8.49551 11.7922 9.11736C10.8431 10.763 10.7688 13.0935 10.7688 13.0935C10.7208 14.6005 10.6594 17.654 12.3175 20.8244C12.3175 20.8244 13.4797 23.0468 15.1415 23.5944C15.4698 23.7028 15.5589 23.631 15.5872 23.5957C15.6921 23.4658 15.5302 23.2599 15.421 23.121C15.3953 23.0883 15.3724 23.0593 15.3568 23.0359C15.2053 22.809 15.0759 22.5689 14.9644 22.3216C14.7338 21.8101 14.5812 21.2684 14.4672 20.7224C14.1201 19.0604 13.8956 17.3786 13.9435 15.6814H21.4106V22.0605C21.4106 22.4834 21.5888 22.8896 21.9917 23.0882C22.2344 23.208 22.509 23.2503 22.7794 23.2826C23.2526 23.3395 23.7355 23.3713 24.2036 23.2841C24.4776 23.2333 24.751 23.1374 24.9554 22.9538C25.2846 22.6575 25.2897 22.2569 25.2897 21.8535C25.2897 20.3526 25.2965 18.8518 25.3033 17.3509C25.311 15.6477 25.3188 13.9445 25.3165 12.2413C25.3155 11.4465 25.3099 10.6519 25.3 9.85726C25.2865 8.7784 24.9403 7.6916 23.956 7.0863C23.5309 6.82486 23.0438 6.68164 22.5676 6.68164C21.9703 6.68164 21.3902 6.90677 20.9709 7.40601Z"
+                  fill="url(#paint0_linear_11104_17051)"/>
+                <path
+                  d="M8.2138 15.0668C8.26143 13.749 8.33888 12.4235 9.32015 11.2881C9.37339 11.2265 9.42425 11.162 9.47516 11.0975C9.68134 10.8362 9.88833 10.5738 10.2571 10.4936C9.65335 12.232 9.64323 14.2138 9.8838 16.0156C9.96352 16.6127 10.0971 17.1881 10.2374 17.7721C10.8809 20.4525 12.0564 23.5424 15.07 24.3959C15.5101 24.5206 15.3461 24.7839 15.0982 24.9555C14.5944 25.3047 13.9148 25.3203 13.8003 25.3165C10.9952 25.2265 9.35504 24.0575 9.35504 24.0575C7.4785 22.7202 6.69453 20.7486 6.68179 19.7359C6.67865 19.4752 6.72279 18.9844 6.89741 18.4519C6.95132 18.2872 7.2013 17.5238 7.4225 17.5456C7.55364 17.5586 7.61472 17.8415 7.68333 18.1593C7.69485 18.2126 7.70658 18.2669 7.71889 18.3211C8.02313 19.664 8.62009 20.6658 9.09913 21.4698C9.27863 21.7711 9.552 22.1945 9.94067 22.6756C10.2098 22.9683 10.6193 23.3505 11.193 23.6927C11.8128 24.0622 12.3929 24.2471 12.8023 24.3444C12.286 24.0141 11.6128 23.5152 10.9422 22.7974C10.7539 22.5959 10.1169 21.8964 9.53001 20.8341C9.26869 20.3608 8.10233 18.16 8.2138 15.0668Z"
+                  fill="url(#paint1_linear_11104_17051)"/>
+                <defs>
+                  <linearGradient id="paint0_linear_11104_17051" x1="7.22415" y1="15.9968" x2="25.3077" y2="15.9968"
+                                  gradientUnits="userSpaceOnUse">
+                    <stop offset="0.33" stop-color="#9C8937"/>
+                    <stop offset="0.56" stop-color="#F7E69E"/>
+                    <stop offset="0.8" stop-color="#B39F4D"/>
+                  </linearGradient>
+                  <linearGradient id="paint1_linear_11104_17051" x1="7.22415" y1="15.9968" x2="25.3077" y2="15.9968"
+                                  gradientUnits="userSpaceOnUse">
+                    <stop offset="0.33" stop-color="#9C8937"/>
+                    <stop offset="0.56" stop-color="#F7E69E"/>
+                    <stop offset="0.8" stop-color="#B39F4D"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            }
+          </div>
+
+          <div class="text-custom-primary font-medium uppercase" [appHighlight]="store.search()" highlightClass="bg-transparent text-primary-base">{{item.ownerName}}</div>
+        </div>
+
+        <div class="text-custom-primary">{{ item.contractNumber }}</div>
+        <div class="flex gap-3">
+          <div class="w-6 h-6 bg-surface-1 rounded-lg p-[6px]">
+            <app-icon
+              [icon]="cardStatusIcons[item.status].icon"
+              [svgClass]="cardStatusIcons[item.status].svgClass"
+              size="12">
+            </app-icon>
+          </div>
+
+          <p class="text-custom-primary">{{ item.pan | shortCardNumber : 4 : 4 }}</p>
+        </div>
+
+        <div class="text-custom-primary">{{ item.expiryDate | expiryDate }}</div>
+
+        <div class="flex gap-3">
+          <div class="w-6 h-6 bg-surface-1 rounded-lg p-[6px]">
+            <app-icon
+              [icon]="cardStatusIcons[item.status].icon"
+              [svgClass]="cardStatusIcons[item.status].svgClass"
+              size="12">
+            </app-icon>
+          </div>
+
+          <div class="text-custom-primary">{{ item.account | shortCardNumber }}</div>
+        </div>
+      </div>
+    }
+  </app-data-state-wrapper>
+</div>
+
+@if (store.total() > 5) {
+  <app-pagination
+    [pageIndex]="store.page()"
+    [pageSize]="store.size()"
+    [totalItems]="store.total()"
+    (pageChange)="store.page.set($event)"
+    (pageSizeChange)="store.size.set($event); store.page.set(0)">
+  </app-pagination>
+
+}

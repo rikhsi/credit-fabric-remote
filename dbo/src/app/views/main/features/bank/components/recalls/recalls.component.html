@@ -1,0 +1,44 @@
+<div class="p-[30px] bg-white flex flex-col gap-y-5 rounded-[15px] ">
+  <app-container-nav [navs]="navs"></app-container-nav>
+  <app-container-title [title]="title"></app-container-title>
+
+  <div class="flex justify-between gap-x-5 items-center">
+    <app-table-actions
+      [tableActionBtns]="RecallTableActions"
+      (onClick)="onActionClick($event)"
+    ></app-table-actions>
+
+    <app-filter-button
+      [src]="filterState ? './assets/svg/filter-black.svg' : './assets/svg/filter-white.svg'"
+      [classes]="filterState ? '' : 'bg-[#008C79] text-white'"
+      (click)="filterState = !filterState"
+    ></app-filter-button>
+  </div>
+
+  <app-container-table
+    [columns]="recallTableColumns"
+    [data]="recalls"
+    [loading]="loading"
+    [custom]="true"
+    [numbering]="true"
+    (rowClicked)="recallClicked($event)"
+    [errorMessage]="errorMessage"
+    [size]="pageSize"
+    [additionalTemplate]="bankMailActionTemplate"
+    (selectedRows)="onSelectedRows($event)"
+  ></app-container-table>
+
+
+  <app-paginator
+    [itemsPerPage]="pageSize"
+    [currentPage]="pageIndex + 1"
+    [totalItems]="totalElements"
+    (pageChange)="pageChange($event)"
+  ></app-paginator>
+
+  <!--  <router-outlet class="max-w-[calc(100vw-330px)]"></router-outlet>-->
+</div>
+
+<ng-template #bankMailActionTemplate let-row>
+  <span class="whitespace-nowrap">{{ row.isAccept === 'Y' ? 'С акцептом' : 'Без акцепта' }}</span>
+</ng-template>

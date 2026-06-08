@@ -1,0 +1,34 @@
+.loader {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  display: block;
+  z-index: 2;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: 0;
+  background-color: #e0faec;
+}
+.loader:after {
+  box-shadow: 0 2px 0 #00a38d inset;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.person {
+  width: 100% !important;
+  height: 100% !important;
+}

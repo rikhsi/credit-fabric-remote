@@ -1,0 +1,39 @@
+<ng-container>
+  <div class="flex justify-between items-center mt-2">
+    <div class="flex">
+      @for (tab of tabs(); track tab.value) {
+      <button (click)="setActiveTab(tab.value)"
+        [ngClass]="isActive(tab.value)
+          ? 'h-10 rounded-[12px] border border-custom-border px-4 py-2 bg-surface-2 text-custom-primary font-inter font-semibold text-[16px] leading-5 tracking-[-0.006em]'
+          : 'h-10 rounded-[12px] px-4 py-2 bg-transparent text-[#5C5C5C] font-inter font-semibold text-[16px] leading-5 tracking-[-0.006em]'">
+        <span>{{ tab.label | translate }}</span>
+        @if (tab.value === 'ACTIVE') {
+        <span *ngIf="activeCardsLength()"
+          class="bg-[#00A38D] text-white px-[9px] py-[4px] ml-4 rounded-full text-sm">{{activeCardsLength()}}</span>
+        }
+      </button>
+      }
+    </div>
+
+
+    <div *ngIf="downloadTrigger()" class="flex justify-end">
+      <div class="flex items-center space-x-2">
+        @for (action of headerActions(); track action.name) {
+        <button
+          [matTooltip]="this.userService.hasAction('KARTOTEKA') ? '' : 'У вас нет прав'"
+          [style.user-select]="this.userService.hasAction('KARTOTEKA') ? '' : 'none'"
+          [style.opacity]="this.userService.hasAction('KARTOTEKA') ? '1' : '0.3'"
+          [style.cursor]="this.userService.hasAction('KARTOTEKA') ? 'pointer' : 'not-allowed'"
+          [disabled]="this.baseKartotekaStore.content().length === 0" [ngClass]="{
+         'border-custom-border bg-surface-2 text-custom-primary  cursor-pointer': this.baseKartotekaStore.content().length > 0,
+         'border-custom-border bg-surface-1 text-custom-primary cursor-not-allowed': this.baseKartotekaStore.content().length === 0
+          }" (click)="this.userService.hasAction('KARTOTEKA') ? downloadExcel() : {}" type="button"
+          class="py-2.5 px-4 rounded-xl border border-custom-border bg-surface-2 text-custom-primary flex space-x-3 items-center">
+          <div class="leading-5 text-base font-semibold text-custom-primary ">{{ action.name | translate }}</div>
+          <img src="{{action.img}}" alt="actions">
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+</ng-container>

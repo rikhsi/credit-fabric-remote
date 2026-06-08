@@ -1,0 +1,47 @@
+<ng-container *ngIf="isLoading; else content">
+  <span class="skeleton block min-w-[180px] min-h-[120px] rounded-xl"></span>
+</ng-container>
+<ng-template #content>
+  <div
+    class="p-3 bg-white min-w-[180px] min-h-[120px] border-cyan-75 border-2 rounded-xl shadow-light relative cursor-pointer"
+    [ngClass]="style(item.day, 'border')"
+    (click)="emit()">
+    <!-- ADD or EDIT -->
+    <div
+      class="bg-lime-550 icon-6 rounded-full absolute -right-1 -top-1"
+      *ngIf="item.title !== 'insurance'">
+      <app-ui-svg-icon
+        [path]="
+          item.day === -1
+            ? './assets/icons/plus.svg#plus'
+            : './assets/icons/reload.svg#edit'
+        "
+        svgClass="icon-6 scale-[0.60] text-white"></app-ui-svg-icon>
+    </div>
+
+    <app-ui-svg-icon
+      svgClass="w-9 h-9 mb-2"
+      [path]="item.img"></app-ui-svg-icon>
+    <p class="font-medium text-xs text-neutral-450 mb-1">
+      {{ 'transport.' + item.title | translate }}
+    </p>
+
+    <ng-container *ngIf="item.day === -1; else date">
+      <p class="text-xs text-gray-950">
+        {{ 'transport.add-to-get-info' | translate }}
+      </p>
+    </ng-container>
+    <ng-template #date>
+      <p
+        class="flex items-center gap-1 text-sm font-semibold"
+        [ngClass]="style(item.day, 'text')">
+        <span>
+          {{
+            item.day ? formatDate(item.day) : ('transport.expired' | translate)
+          }}</span
+        >
+        <span *ngIf="item.day > 0" class="text-xs"> ≈ {{ item.date }}</span>
+      </p>
+    </ng-template>
+  </div>
+</ng-template>

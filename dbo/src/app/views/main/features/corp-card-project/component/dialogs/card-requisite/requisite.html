@@ -1,0 +1,105 @@
+<div class="bg-white rounded-[22px] border border-[#EBEBEB] h-full flex flex-col dark:bg-custom-primary   dark:border-[#333333] w-full">
+  <div class="flex justify-between items-center px-[20px] py-4">
+    <span class="text-[18px] font-semibold leading-5 dark:text-white">{{'settings.requisites' | translate}}</span>
+    <mat-icon class="dark:text-white" mat-dialog-close>close</mat-icon>
+  </div>
+
+  <mat-divider  class="dark:bg-[#333333]"/>
+      <div class="flex flex-col py-2 px-5">
+        <div class="flex flex-col space-y-3">
+          <div class="flex space-x-2 items-center">
+             <img  *ngIf="cardStatusIcon" [ngSrc]="cardStatusIcon" [alt]="'Status'" width="25" height="25" class="rounded-full flex-shrink-0" />
+            <div class="text-[#5C5C5C] text-xs leading-4 font-medium">
+              <span class="text-xs font-medium ml-1 dark:text-white">{{ (this.data?.status === 'ACTIVE' ? 'accounts.active' : 'accounts.blocked') | translate }}</span>
+            </div>
+          </div>
+          <div>
+            <div class="whitespace-nowrap">
+              <span class="font-bold leading-[40px] text-[32px] text-custom-primary  dark:text-white">{{
+                Math.floor(this.data.balance.amount / 100) | mask : "separator" }}</span><span class="text-[32px] leading-[40px] font-medium text-[#5C5C5C]">.{{
+                (Math.abs(this.data.balance.amount) % 100).toString().padStart(2, "0")
+                }} {{this.data?.balance?.currency}}</span>
+
+            </div>
+            <div class="text-[#A3A3A3] leading-5 text-sm font-normal flex space-x-2 items-center">
+              <!-- I have to add date  -->
+            </div>
+          </div>
+        </div>
+      </div>
+  <mat-divider />
+
+  <div class="flex flex-col h-full overflow-y-auto mt-4 flex-1">
+  <div class="px-5 space-y-4 mb-5 ">
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal"> {{'accounts.card_name' | translate}}</span>
+      <span class="text-custom-primary text-base font-normal dark:text-white">{{data.title || '-'}}</span>
+    </div>
+
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal">{{'salaryStatements.card_number' | translate}}</span>
+      <span class="text-custom-primary flex justify-between text-base font-normal dark:text-white">{{data.pan | cardNumberFormat}}
+        <span>
+          <svg class="cursor-pointer" (click)="copy(data.pan)"
+            xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+            <path
+              d="M16 8.5V5.7C16 4.5799 16 4.01984 15.782 3.59202C15.5903 3.21569 15.2843 2.90973 14.908 2.71799C14.4802 2.5 13.9201 2.5 12.8 2.5H5.2C4.0799 2.5 3.51984 2.5 3.09202 2.71799C2.71569 2.90973 2.40973 3.21569 2.21799 3.59202C2 4.01984 2 4.5799 2 5.7V13.3C2 14.4201 2 14.9802 2.21799 15.408C2.40973 15.7843 2.71569 16.0903 3.09202 16.282C3.51984 16.5 4.0799 16.5 5.2 16.5H8M11.2 22.5H18.8C19.9201 22.5 20.4802 22.5 20.908 22.282C21.2843 22.0903 21.5903 21.7843 21.782 21.408C22 20.9802 22 20.4201 22 19.3V11.7C22 10.5799 22 10.0198 21.782 9.59202C21.5903 9.21569 21.2843 8.90973 20.908 8.71799C20.4802 8.5 19.9201 8.5 18.8 8.5H11.2C10.0799 8.5 9.51984 8.5 9.09202 8.71799C8.71569 8.90973 8.40973 9.21569 8.21799 9.59202C8 10.0198 8 10.5799 8 11.7V19.3C8 20.4201 8 20.9802 8.21799 21.408C8.40973 21.7843 8.71569 22.0903 9.09202 22.282C9.51984 22.5 10.0799 22.5 11.2 22.5Z"
+              stroke="#9799A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </span>
+    </div>
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal">{{'accounts.currency' | translate}}</span>
+      <span class="text-custom-primary text-base font-normal dark:text-white">{{data.balance?.currency}}</span>
+    </div>
+
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal"> {{'settings.validity_period' | translate}}</span>
+      <span class="text-custom-primary flex justify-between text-base font-normal dark:text-white">{{formatExpireDate(data.expiryDate)}}</span>
+    </div>
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal">{{'accounts.card_holder' | translate}}</span>
+      <span class="text-custom-primary text-base font-normal dark:text-white">{{data.ownerName}}</span>
+    </div>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal">{{'accounts.transit_account_crediting' | translate}} </span>
+      <span class="text-custom-primary text-base font-normal dark:text-white">{{data.transitAccount}}</span>
+      </div>
+      <div>
+        <span>
+          <svg class="cursor-pointer" (click)="copy(data.transitAccount)"
+            xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+            <path
+              d="M16 8.5V5.7C16 4.5799 16 4.01984 15.782 3.59202C15.5903 3.21569 15.2843 2.90973 14.908 2.71799C14.4802 2.5 13.9201 2.5 12.8 2.5H5.2C4.0799 2.5 3.51984 2.5 3.09202 2.71799C2.71569 2.90973 2.40973 3.21569 2.21799 3.59202C2 4.01984 2 4.5799 2 5.7V13.3C2 14.4201 2 14.9802 2.21799 15.408C2.40973 15.7843 2.71569 16.0903 3.09202 16.282C3.51984 16.5 4.0799 16.5 5.2 16.5H8M11.2 22.5H18.8C19.9201 22.5 20.4802 22.5 20.908 22.282C21.2843 22.0903 21.5903 21.7843 21.782 21.408C22 20.9802 22 20.4201 22 19.3V11.7C22 10.5799 22 10.0198 21.782 9.59202C21.5903 9.21569 21.2843 8.90973 20.908 8.71799C20.4802 8.5 19.9201 8.5 18.8 8.5H11.2C10.0799 8.5 9.51984 8.5 9.09202 8.71799C8.71569 8.90973 8.40973 9.21569 8.21799 9.59202C8 10.0198 8 10.5799 8 11.7V19.3C8 20.4201 8 20.9802 8.21799 21.408C8.40973 21.7843 8.71569 22.0903 9.09202 22.282C9.51984 22.5 10.0799 22.5 11.2 22.5Z"
+              stroke="#9799A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col">
+      <span class="text-custom-muted text-sm leading-5 font-normal">{{'myAccounts.branch_name' | translate}}</span>
+      <span class="text-custom-primary text-base font-normal dark:text-white">{{data?.bankBranchName || '-'}}</span>
+    </div>
+  </div>
+
+   <mat-divider  class="dark:bg-[#ECECED]"/>
+  </div>
+
+  <div class="px-5 gap-[8px] w-full flex flex-row  mb-4">
+
+    <button (click)="copyAll()" class="flex justify-center gap-[6px] items-center w-full  h-[48px]  rounded-[12px] py-[12px] px-[13px] font-medium leading-6  text-[16px] bg-surface-1 text-custom-primary ">
+      <span> {{'settings.copy_all' | translate}}</span>
+      <span class=" transform rotate-180">
+          <app-svg-icon [name]="'hamkor_copy'" [size]="20" class="text-custom-primary "></app-svg-icon>
+        </span>
+    </button>
+    <button (click)="printCardInfoPdf(data.uuid)"
+      class="flex justify-center items-center w-full  h-[48px]  rounded-[12px] py-[12px]  font-medium leading-4  text-[16px] bg-surface-1 text-custom-primary ">
+      {{'global.download_pdf' | translate}}
+    </button>
+  </div>
+</div>

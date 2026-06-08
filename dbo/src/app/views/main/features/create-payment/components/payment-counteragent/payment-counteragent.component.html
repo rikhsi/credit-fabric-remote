@@ -1,0 +1,189 @@
+<div class="bg-white rounded-12px p-6" [formGroup]="form">
+    <div class="flex justify-between items-center mb-4">
+        <p class="text-24 font-medium flex flex-col">Перевод средств</p>
+    </div>
+  <form [formGroup]="signForm" class="space-y-4">
+   <div class="flex justify-end items-center gap-x-4">
+     <div class="flex gap-2">
+       <p class="font-medium">Бюджет</p>
+       <label class="switch text-secondary" for="checkbox-budget">
+         <input type="checkbox" id="checkbox-budget" formControlName="isBudget" />
+         <div class="slider round"></div>
+       </label>
+     </div>
+     <div class="flex gap-2">
+       <p class="font-medium">Оплатить через анор</p>
+       <label class="switch text-secondary" for="checkbox">
+         <input type="checkbox" id="checkbox" formControlName="isAnor" />
+         <div class="slider round"></div>
+       </label>
+     </div>
+   </div>
+    <div formGroupName="sender" class="flex gap-x-2">
+      <div class="w-1/2 flex flex-col ">
+        <p class="font-medium leading-20px mb-2">Плательщик</p>
+          <input
+            formControlName="name"
+            [readonly]="true"
+            placeholder="введите плательщика"
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"/>
+        <div *ngIf="getSenderControl().invalid && (getSenderControl().dirty || getSenderControl().touched)" class="text-red-600">
+          <small *ngIf="getSenderControl().errors?.['required']">обязательный</small>
+        </div>
+      </div>
+      <div class="w-1/2 flex flex-col">
+        <p class="font-medium leading-20px mb-2">Счёт</p>
+        <mat-form-field appearance="outline" class="w-full payment-select relative">
+          <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                           svgClass="w-6 h-6 absolute right-0"></app-ui-svg-icon>
+          <mat-select [required]="true" disableRipple (selectionChange)="getSenderName($event)" formControlName="account" placeholder="выберите счёт">
+            @for (account of accountsList; track account) {
+              <mat-option [value]="account?.altAcctId">
+                {{ account?.altAcctId }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex gap-x-2" formGroupName="sender">
+      <div class="w-1/2 flex gap-x-2">
+        <span class="text-base font-semibold leading-normal not-italic text-black">Банк</span> <span>01095</span>
+      </div>
+      <div class="w-1/2 flex gap-x-2">
+      @if(userService.userInfo$ | async; as user){
+        <span class="text-base font-semibold leading-normal not-italic text-black">ИНН</span> <span>{{ user.userInfo.inn }}</span>
+      }
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div formGroupName="recipient">
+      <div class="flex gap-x-2">
+        <div class="w-1/2 flex flex-col ">
+          <p class="font-medium leading-20px mb-2">Получатель</p>
+            <input
+              id="name2"
+              class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+              [required]="true"
+              formControlName="name"
+              type="text"
+              placeholder="введите получателя"
+            />
+          <div *ngIf="getRecipientControl().invalid && (getRecipientControl().dirty || getRecipientControl().touched)" class="text-red-600">
+          <small *ngIf="getRecipientControl().errors?.['required']">обязательный</small>
+          </div>
+        </div>
+        <div class="w-1/2 flex flex-col">
+          <p class="font-medium leading-20px mb-2">Счёт</p>
+            <input
+              class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+              [required]="true"
+              formControlName="account"
+              type="text"
+              placeholder="введите счёт"
+            />
+          <div *ngIf="getAccountControl().invalid && (getAccountControl().dirty || getAccountControl().touched)" class="text-red-600">
+            <small *ngIf="getAccountControl().errors?.['minlength']">счёт должен состоять из 20 символов.</small>
+            <small *ngIf="getAccountControl().errors?.['maxlength']">счёт  должен состоять из 27 символов.</small>
+            <small *ngIf="getAccountControl().errors?.['required']">обязательный</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-x-2" formGroupName="recipient">
+      <div class="w-1/2 flex flex-col ">
+        <p class="font-medium leading-20px mb-2">Банк</p>
+          <input
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            [required]="true"
+            formControlName="codeFilial"
+            type="text"
+            placeholder="введите код филиал"
+          />
+        <div *ngIf="getCodeFilialControl().invalid && (getCodeFilialControl().dirty || getCodeFilialControl().touched)" class="text-red-600">
+          <small *ngIf="getCodeFilialControl().errors?.['minlength']">код филиал должен состоять из 5 символов.</small>
+          <small *ngIf="getCodeFilialControl().errors?.['maxlength']">код филиал должен состоять из 5 символов.</small>
+          <small *ngIf="getCodeFilialControl().errors?.['required']">обязательный</small>
+        </div>
+      </div>
+
+      <div class="w-1/2 flex flex-col ">
+        <p class="font-medium leading-20px mb-2">ИНН</p>
+          <input
+            class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+            [required]="true"
+            formControlName="tax"
+            type="text"
+            placeholder="введите ИНН"
+          />
+        <div *ngIf="getTaxControl().invalid && (getTaxControl().dirty || getTaxControl().touched)" class="text-red-600">
+          <small *ngIf="getTaxControl().errors?.['minlength']">ИНН должен состоять из 9 символов.</small>
+          <small *ngIf="getTaxControl().errors?.['maxlength']">ИНН должен состоять из 9 символов.</small>
+          <small *ngIf="getTaxControl().errors?.['required']">обязательный</small>
+        </div>
+      </div>
+    </div>
+    <div formGroupName="purpose">
+      <div class="mb-2">
+        <p class="font-medium leading-20px mb-2">Код назначения платежа</p>
+        <mat-form-field appearance="outline" class="w-full payment-select relative">
+        <div class="flex justify-between items-center">
+          <input
+            type="text"
+            aria-label="Purpose code"
+            matInput
+            formControlName="code"
+            [matAutocomplete]="auto"
+          />
+          <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down"
+                           svgClass="w-6 h-6 absolute right-0 bottom-3"></app-ui-svg-icon>
+        </div>
+          <mat-autocomplete disableRipple #auto="matAutocomplete">
+            @for (option of filteredPurposeCodeList(); track option.code) {
+              <mat-option [value]="option.code">
+                {{ option.name }}
+              </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="font-medium leading-20px mb-2">Назначение платежа</p>
+            <textarea
+              class="rounded-12px border-1px border-secondary w-full h-11 py-2 px-1  outline-none"
+              [required]="true"
+              formControlName="name"
+              type="text"
+              placeholder="введите назначение платежа">
+
+       </textarea>
+        <div *ngIf="getPurposeControl().invalid && (getPurposeControl().dirty || getPurposeControl().touched)" class="text-red-600">
+          <small *ngIf="getPurposeControl().errors?.['required']">обязательный</small>
+        </div>
+      </div>
+    </div>
+    <div formGroupName="saldo">
+      <p class="font-medium leading-20px mb-2">Сумма</p>
+        <input
+          class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none"
+          [required]="true"
+          mask="separator"
+          formControlName="amount"
+          type="text"
+          placeholder="введите сумму"
+        />
+      <div *ngIf="getAmountSaldo().invalid && (getAmountSaldo().dirty || getAmountSaldo().touched)" class="text-red-600">
+        <small *ngIf="getAmountSaldo().errors?.['required']">обязательный</small>
+      </div>
+    </div>
+    <div class="text-right">
+      <div class="flex justify-end mt-[90px]">
+        <button class="w-[194px] h-10 rounded-12px border-1px border-[#7C8897] mr-4 font-medium">Сброс</button>
+        <button  [disabled]="signForm.invalid"
+                 [ngClass]="signForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+                 (click)="formSubmit()" class="w-[194px] h-10 rounded-xl border-1px bg-secondary text-white font-medium">Подтвердить</button>
+      </div>
+    </div>
+  </form>
+
+</div>

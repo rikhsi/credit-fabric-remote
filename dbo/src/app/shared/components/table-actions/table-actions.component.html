@@ -1,0 +1,9 @@
+<div class="flex gap-x-2 items-center">
+  @for(tableAction of tableActionBtns; track tableAction) {
+    <app-table-action-button
+      [data]="tableAction"
+      [selectedRows]="0"
+      (onClick)="clicked($event)"
+    ></app-table-action-button>
+  }
+</div>

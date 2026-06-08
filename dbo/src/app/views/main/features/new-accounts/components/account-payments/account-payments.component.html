@@ -1,0 +1,81 @@
+<div>
+  <!-- Tabs -->
+  <div class="flex gap-x-3 my-3">
+     <button *ngFor="let t of PAYMENT_TABS" (click)="setPaymentActiveTab(t.key)"
+            class="font-semibold leading-5 text-[18px] px-[15px] py-[10px] rounded-[14px] border transition-all"
+            [ngClass]="{
+              'bg-surface-2 border-custom-border text-custom-primary': activeTabs() === t.key,
+              'bg-transparent border-transparent text-custom-muted': activeTabs() !== t.key
+            }">
+      {{ t.translateKey | translate }}
+      <span *ngIf="t.key === 'signature'"
+            class="bg-primary-base text-white rounded-full text-[12px] px-[6px] py-[4px] ml-2">
+        {{ signatureCount() }}
+      </span>
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-y-[30px] border border-custom-border rounded-[22px] bg-surface-2">
+      <div>
+        <app-filter-payment [isActionStatus]="false" (filterChange)="setFilter($event)"></app-filter-payment>
+
+        <!-- Signature tab content -->
+        @if (activeTabs() === 'signature') {
+        <div infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()">
+          @for (group of groupedSignature; track group) {
+            <div class="px-6 py-2.5 bg-surface-1">
+              <div class="text-[18px] font-semibold text-custom-primary">{{group[0]}}</div>
+            </div>
+            <div class="px-[20px] py-[8px]" *ngFor="let transaction of group[1]">
+              <app-account-account-payment [transaction]="transaction"
+                                           [onClickShowDetail]="true"
+                                           [hideStatus]="false"
+                                           (backAction)="getTransactionReload($event)">
+              </app-account-account-payment>
+            </div>
+          }
+        </div>
+        }
+
+        <!-- All tab content -->
+        @else if (activeTabs() === 'all') {
+        <div class="mt-5" infiniteScroll [infiniteScrollDistance]="0.1" (scrolled)="onScroll()">
+          @for (group of grouped; track group) {
+            <div class="px-6 py-2.5 bg-surface-1">
+              <div class="text-[18px] font-semibold text-custom-primary">{{group[0]}}</div>
+            </div>
+            <div class="px-[20px] py-[8px]" *ngFor="let transaction of group[1]">
+              <app-account-account-payment [transaction]="transaction"
+                                           [onClickShowDetail]="true"
+                                           [hideStatus]="false"
+                                           (backAction)="getTransactionReload($event)">
+              </app-account-account-payment>
+            </div>
+          }
+
+          @if (!grouped?.length && !loading && !errorMessage) {
+            <div class="text-center py-8 text-custom-muted">
+              {{'salaryStatements.nothing_found' | translate}}
+            </div>
+          }
+
+          @if (errorMessage && !loading) {
+            <div class="text-center py-8 text-red-500">
+              {{ errorMessage }}
+            </div>
+          }
+        </div>
+        }
+      </div>
+
+      @if (loading) {
+        <div class="mb-4 px-6 space-y-2.5">
+          <span class="skeleton block rounded h-10 w-full"></span>
+          <span class="skeleton block rounded h-10 w-full"></span>
+          <span class="skeleton block rounded h-10 w-full"></span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

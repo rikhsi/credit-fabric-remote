@@ -1,0 +1,39 @@
+<div
+  matRipple
+  class="w-full h-full rounded-xl p-4 relative border overflow-hidden cursor-pointer"
+  [ngClass]="
+    notification.status === 'UNREAD'
+      ? 'bg-white border-secondary'
+      : 'bg-lime-25 border-cyan-75'
+  "
+  (click)="openNotification(notification)"
+ >
+  <h5 class="text-gray-950 text-base font-bold mb-1.5">
+    {{ notification.title }}
+  </h5>
+  <div class="flex gap-3.5 items-center mb-4">
+    <div class="flex gap-1 items-center">
+      <app-ui-svg-icon
+        path="./assets/icons/inputs-icons.svg#calendar"
+        svgClass="text-lime-550 w-5 h-5" />
+      <p class="text-gray-950 text-xs font-semibold">
+        {{ notification.createdAt | slice : 0 : 10 }}
+      </p>
+    </div>
+    <div class="flex gap-1 items-center">
+      <app-ui-svg-icon
+        path="./assets/icons/btn-icons.svg#deposit_clock"
+        svgClass="text-lime-550 w-5 h-5" />
+      <p class="text-gray-950 text-xs font-semibold">
+        {{ notification.createdAt | slice : 11 : 16 }}
+      </p>
+    </div>
+  </div>
+  <p class="text-neutral-550 text-sm font-medium text-auto-dots">
+    {{ notification.shortDesc }}
+  </p>
+  @if (notification.status === 'UNREAD') {
+    <span
+      class="block absolute w-1.5 h-11 -left-0.5 top-4 bg-secondary rounded-full"></span>
+  }
+</div>

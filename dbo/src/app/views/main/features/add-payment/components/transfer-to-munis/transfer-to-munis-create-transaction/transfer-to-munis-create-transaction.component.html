@@ -1,0 +1,437 @@
+<div class="bg-surface-2 flex flex-col relative rounded-[24px]" style="width: calc(95% - 25px)">
+  <div class="flex justify-between items-center p-[20px]">
+    <div class="flex gap-[14px] items-center">
+      <div (click)="backClick()" class="cursor-pointer gap-1 flex items-center">
+        <img [ngSrc]='theme.isDark() ? "./assets/new-icons/back-icon-white.svg" : "./assets/new-icons/back-icon.svg"'
+             [width]="12" [height]="12" alt="">
+        <span class="text-[16px] text-custom-primary font-medium">{{'templates.back' | translate}}</span>
+      </div>
+      <p class="text-[#171717] text-[18px] font-semibold">{{ 'createPayment.provider' | translate }}</p>
+    </div>
+    <div class="w-[30px] h-[30px] cursor-pointer bg-surface-4 flex justify-center items-center rounded-[10px]"><img
+      src="assets/new-icons/close.svg" (click)="closeBtn()" alt="close"></div>
+    <div (click)="this.openFindPurposes = false" *ngIf="this.openFindPurposes"
+         class="z-10 w-screen h-screen fixed top-0 left-0 right-0 bottom-0"></div>
+    <div (click)="this.selectId.set('')" *ngIf="this.selectId()"
+         class="z-10 w-screen h-screen fixed top-0 left-0 right-0 bottom-0"></div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="p-[20px] flex flex-col gap-5" [formGroup]="createForm">
+    <div class="flex gap-5 w-full">
+      <div class="w-full">
+        <div class="w-full flex flex-col border border-custom-border rounded-[20px] gap-5 p-5 bg-surface-4">
+          <h3 class="text-[12px] font-semibold uppercase text-custom-primary">{{'createPayment.payment_details' | translate}} <span
+            class="text-red-600">*</span></h3>
+          <div class="relative w-full flex">
+            <input type="text" [value]="servicesList()?.title" readonly
+                   placeholder=" " class="border-0 border-r rounded-[16px] border-custom-border
+            bg-surface-2 px-[60px] w-full text-custom-primary
+            h-[56px] outline-none" />
+            <img class="absolute w-[36px] h-[36px] object-contain top-[12px] left-[20px]" [src]="servicesList()?.logo?.path + '/' + servicesList()?.logo?.name" alt="">
+          </div>
+
+
+          <div *ngIf="servicesList()?.hasChild" class="relative w-full flex cursor-pointer flex-col gap-1" (click)="toggleDropdown()">
+            <input
+              readonly
+              [value]="recipientName()"
+              type="text"
+              placeholder=" "
+              [ngClass]="{
+  'border-red-500': serviceChildError()
+}"
+              class="peer relative border pt-4  cursor-pointer focus:border-[#008C79]
+          border-custom-border bg-surface-2 px-4 w-full text-custom-primary
+          placeholder:text-[14px] placeholder:text-custom-muted placeholder:font-medium
+          rounded-[16px] h-[56px] outline-none"
+            />
+
+            <span
+              class="absolute pointer-events-none left-[15px] text-custom-muted peer-placeholder-shown:font-medium peer-focus:font-normal transition-all
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+    {{ 'createPayment.choose_service' | translate }} <span class="text-red-500">*</span>
+  </span>
+
+            <img
+              src="./assets/icons/down.png"
+              alt=""
+              class="absolute bg-surface-4 right-5 top-[25px] text-[14px] text-[#9799A1] font-normal"
+            />
+            <span  *ngIf="serviceChildError()"
+                  class="absolute bottom-[-18px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+            <div
+              *ngIf="openFindPurposes && this.servicesList()?.hasChild"
+              @dropdownAnimation
+              style="box-shadow: 0 5px 20px 0 #00000040"
+              class="origin-top z-50 top-14 max-h-[220px] border border-custom-border px-1 py-1 overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4"
+            >
+              @for (service of this.servicesList()?.childServices; track service) {
+                <div [ngClass]="{ '!bg-[#EBEBEB] rounded-[16px]': recipientName() === service.title }"  class="flex cursor-pointer justify-between items-center"
+                (click)="setChildService(service.id, service.title)">
+                    <span
+                      class="h-[44px] text-custom-primary text-[16px] w-full px-3 flex items-center ">{{ service.title }}</span>
+                  <img class="mx-4" *ngIf="recipientName() === service.title" src="./assets/new-icons/check.svg" alt="">
+                </div>
+              }
+            </div>
+          </div>
+          @for (param of this.paramsList(); track param) {
+            @if (param.type === 'SELECT') {
+              <div class="relative w-full flex flex-col gap-1">
+                <input
+                  (focusin)="this.selectId.set(param.id)"
+                  readonly
+                  [value]="setParamValueToInput(param)"
+                  type="text"
+                  placeholder=" "
+                  [ngClass]="{
+  'border-red-500': isInvalid(param)
+}"
+                  class="peer relative border pt-4  cursor-pointer focus:border-[#008C79]
+          border-custom-border bg-surface-2 px-4 w-full text-custom-primary
+          placeholder:text-[14px] placeholder:text-custom-muted placeholder:font-medium
+          rounded-[16px] h-[56px] outline-none"
+                />
+
+                <span
+                  class="absolute pointer-events-none left-[15px] text-custom-muted peer-placeholder-shown:font-medium peer-focus:font-normal transition-all
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+    {{ param.title }} <span *ngIf="param.required" class="text-red-500">*</span>
+  </span>
+
+                <img
+                  src="./assets/icons/down.png"
+                  alt=""
+                  class="absolute bg-surface-4 right-5 top-[25px] text-[14px] text-[#9799A1] font-normal"
+                />
+                <span  *ngIf="isInvalid(param)"
+                       class="absolute pointer-events-none bottom-[-18px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+                <div
+                  *ngIf="this.selectId() === param.id"
+                  @dropdownAnimation
+                  style="box-shadow: 0 5px 20px 0 #00000040"
+                  class="origin-top z-50 top-14 max-h-[220px] border border-custom-border overflow-auto px-1 py-1 absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4"
+                >
+                  @for (selectValue of param.selectValue; track selectValue) {
+                    <div [ngClass]="{ '!bg-[#EBEBEB] rounded-[16px]': setParamValueToInput(param) === selectValue.title }" class="flex cursor-pointer justify-between items-center"
+                         (click)="onSelect(param.id, selectValue)">
+                    <span
+                      class="h-[44px]  pointer-events-none text-custom-primary text-[16px] w-full px-3 flex items-center ">{{ selectValue.title }}</span>
+                       <img class="mx-4" *ngIf="setParamValueToInput(param) === selectValue.title" src="./assets/new-icons/check.svg" alt="">
+                    </div>
+                  }
+                </div>
+              </div>
+            } @else if (param.type === 'STRING') {
+              <div class="relative w-full">
+                <input
+                  #inputEl
+                  inputmode="numeric"
+                  type="text"
+                  [value]="getParamValue(param.id)"
+                  (input)="setParamValue(param.id, inputEl.value)"
+                  placeholder=" "
+                  [ngClass]="{
+      'border-red-500': isInvalid(param)
+    }" class="peer border focus:border-[#008C79] border-custom-border bg-surface-2 px-4 w-full
+           placeholder:text-transparent text-[14px] text-custom-primary font-medium
+           rounded-[16px] h-[56px] outline-none pt-4" />
+
+                <span class="pointer-events-none absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[6px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[6px] text-[12px]">{{param.title}} <span *ngIf="param.required" class="text-red-500">*</span>
+          </span>
+                <span *ngIf="isInvalid(param)"
+                      class="absolute bottom-[-18px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+              </div>
+            } @else if (param.type === 'INTEGER') {
+              <div class="relative w-full">
+                <input
+                  #inputEl1
+                  inputmode="numeric"
+                  type="number"
+                  placeholder=" "
+                  [value]="getParamValue(param.id)"
+                  (input)="setParamValue(param.id, inputEl1.value)"
+                  [ngClass]="{
+      'border-red-500': isInvalid(param)
+    }" class="peer border focus:border-[#008C79] border-custom-border bg-surface-2 px-4 w-full
+           placeholder:text-transparent text-[14px] text-custom-primary font-medium
+           rounded-[16px] h-[56px] outline-none pt-4" />
+
+                <span class="absolute pointer-events-none left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[6px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[6px] text-[12px]">{{param.title}} <span *ngIf="param.required" class="text-red-500">*</span>
+          </span>
+                <span *ngIf="createForm.get('recipient.tax')?.invalid && createForm.get('recipient.tax')?.touched"
+                      class="absolute bottom-[-18px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+              </div>
+            } @else if (param.type === 'PHONE') {
+              <div class="relative w-full">
+                <input
+                  #inputEl2
+                  mask="000 00 000 00 00"
+                  prefix=" "
+                  placeholder=" "
+                  [value]="getParamValue(param.id)"
+                  (input)="setParamValue(param.id, inputEl2.value)"
+                  [ngClass]="{
+      'border-red-500': isInvalid(param)
+    }"
+                  class="peer border focus:border-[#008C79] border-custom-border bg-surface-2 px-4 w-full
+           placeholder:text-transparent text-[14px] text-custom-primary font-medium
+           rounded-[16px] h-[56px] outline-none pt-4" />
+
+                <span class="absolute pointer-events-none left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[6px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[6px] text-[12px]">{{param.title}} <span *ngIf="param.required" class="text-red-500">*</span>
+          </span>
+                <span *ngIf="isInvalid(param)"
+                      class="absolute bottom-[-18px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+              </div>
+            } @else if (param.type === 'MONEY') {
+              <div class="relative w-full  flex">
+                <div
+                  [ngClass]="{
+      'border-red-500': isInvalid(param)
+    }"
+                  class="relative flex w-full p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px] border border-custom-border">
+
+                  <input #inputEl3 (input)="setParamValue(param.id, inputEl3.value)" type="text" mask="separator.2"
+                         placeholder=" " class="peer pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary
+            placeholder:text-[14px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-[16px]" />
+
+                  <span style="pointer-events: none" class="absolute pointer-events-none left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{param.title}} <span *ngIf="param.required" class="text-red-500">*</span>
+            </span>
+
+<!--                  <div class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]-->
+<!--           items-center text-center flex justify-center rounded-r-[12px]">-->
+<!--                    UZS-->
+<!--                  </div>-->
+
+                </div>
+<!--                <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"-->
+<!--                      class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>-->
+<!--                <span *ngIf="!this.balanceErrorOver"-->
+<!--                      class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords }}</span>-->
+<!--                <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver }}</span>-->
+              </div>
+            }
+          }
+          <div *ngIf="checkParams() !== null" class="bg-surface-2 flex flex-col rounded-[16px] p-[24px] gap-3">
+              <div *ngFor="let param of checkParams()?.params">
+                <p class="text-custom-muted font-normal text-[16px]">{{ param.title }}</p>
+                <span class="text-custom-primary font-normal text-[16px]">{{ param.value }}</span>
+              </div>
+          </div>
+        </div>
+        <div *ngIf="this.checkParams() === null" class="flex justify-end mt-5" >
+          <button type="button" (click)="checkService()" class="bg-[#008C79] px-4 py-3 w-fit disabled:bg-gray-400 text-[16px] text-[#FFFFFF]  rounded-[12px]  font-medium">Открыть детали</button>
+        </div>
+      </div>
+      <div class="w-full relative flex flex-col gap-5">
+        <div [ngClass]="{'opacity-50': this.checkParams() === null}" class="flex flex-col p-5 gap-5 bg-surface-4 rounded-[20px] border border-custom-border">
+          <p  class="text-custom-primary font-semibold uppercase text-[12px]">{{'createPayment.document_info' | translate}}</p>
+          <div class="flex gap-5">
+            <div class="relative w-full">
+              <input 
+                  inputmode="numeric"
+                  type="text"
+                  appNumericOnly
+                    maxlength="12"
+                     [ngClass]="{'!bg-[#F7F7F7] pointer-events-none': this.checkParams() === null}"
+                     [style.background-color]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' ? '#F5F5F5' : ''"
+                     [style.pointer-events]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' ? 'none' : ''"
+                     [disabled]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' || this.checkParams() === null"
+                     [readOnly]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' || this.checkParams() === null"
+                     formControlName="docNum" placeholder=" " class="peer border  focus:border-[#008C79]
+              font-medium text-custom-primary border-custom-border bg-surface-2 px-4 w-full
+              text-[14px] rounded-[16px] h-[56px] outline-none pt-4" />
+              <span class="absolute left-[15px] text-custom-muted transition-all
+                peer-placeholder-shown:font-medium
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]  peer-focus:font-normal
+           top-[8px] text-[12px]">
+                {{'createPayment.document_number' | translate}}
+              </span>
+            </div>
+            <!--            <mat-form-field appearance="outline">-->
+            <!--              <mat-label>Дата документа</mat-label>-->
+            <!--              <input matInput [matDatepicker]="picker" placeholder="Выберите дату">-->
+            <!--              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+            <!--              <mat-datepicker #picker></mat-datepicker>-->
+            <!--            </mat-form-field>-->
+
+            <!--            <mat-form-field appearance="outline">-->
+            <!--              <mat-label>Период</mat-label>-->
+            <!--              <mat-date-range-input [rangePicker]="rangePicker">-->
+            <!--                <input matStartDate placeholder="Начало">-->
+            <!--                <input matEndDate placeholder="Конец">-->
+            <!--              </mat-date-range-input>-->
+            <!--              <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>-->
+            <!--              <mat-date-range-picker #rangePicker></mat-date-range-picker>-->
+            <!--            </mat-form-field>-->
+            <div
+              [style.pointer-events]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' || this.checkParams() === null ? 'none' : ''"
+              class="relative w-full cursor-pointer" (click)="picker.open()"
+              [class.focus-within]="createForm.get('docDate')?.value || createForm.get('docDate')?.touched">
+              <input type="text"
+                     [min]="minDate()"
+                     [style.background-color]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' ? '#F5F5F5' : ''"
+                     [style.pointer-events]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' ? 'none' : ''"
+                     [disabled]="this.route.snapshot.queryParamMap.get('type') === 'create' || this.route.snapshot.queryParamMap.get('type') === 'edit' ||  this.checkParams() === null"
+                     formControlName="docDate" readonly [matDatepicker]="picker"
+                     [ngClass]="{
+      'border-red-500':
+        createForm.get('docDate')?.invalid &&
+        createForm.get('docDate')?.touched,
+        '!bg-[#F7F7F7]': this.checkParams() === null
+    }"
+                     placeholder=" " class="peer border  focus:border-[#008C79]
+              font-medium text-custom-primary border-custom-border pt-4 bg-surface-2 px-4 w-full
+              text-[14px] rounded-[16px] h-[56px] outline-none" />
+              <!--              <mat-datepicker-toggle class="absolute top-0 left-0" matSuffix [for]="picker"></mat-datepicker-toggle>-->
+              <mat-datepicker class="w-full" #picker></mat-datepicker>
+
+              <span class="absolute left-[15px] text-custom-muted transition-all
+                peer-placeholder-shown:font-medium
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]  peer-focus:font-normal
+           top-[8px] text-[12px]">
+                {{'createPayment.document_date' | translate}}
+              </span>
+              <img class="absolute right-[20px] top-[15px]" src="./assets/icons/calendar.svg" alt="">
+            </div>
+          </div>
+        </div>
+        <div [ngClass]="{'pointer-events-none opacity-50': this.checkParams() === null}" class="flex flex-col  p-5 gap-5  bg-surface-4 rounded-[20px] border border-custom-border">
+          <p class="text-custom-primary font-semibold uppercase text-[12px]">{{'new.invoice_for_payment' | translate}}</p>
+          <div [ngClass]="{'!bg-[#F7F7F7]': this.checkParams() === null}" (click)="this.openAccount = !this.openAccount" [style.border]="openAccount ? '1px solid #008C79' : ''"
+               class="relative cursor-pointer p-5 min-h-[110px] border border-custom-border rounded-[16px] flex justify-between items-center bg-surface-2 w-full">
+            <div  *ngIf="this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+              <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+              <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-primary font-semibold text-[18px]">{{ Number(this.choosedAcount().balance?.amount) /
+                100 | mask:'separator' }} {{ this.choosedAcount().balance?.currency}}</span>
+                <span class="text-custom-muted text-[14px] font-medium">{{ this.choosedAcount().accountType }}</span>
+                <p class="text-custom-secondary text-[12px] font-medium">{{ this.choosedAcount().altAcctId }}</p>
+              </div>
+            </div>
+            <div *ngIf="!this.choosedAcount()?.altAcctId" class="flex gap-5 items-center">
+              <div class="flex flex-col gap-[1px]">
+                <span class="text-custom-muted bg-surface-2 font-normal text-[14px]">{{ 'accounts.choose' | translate }}</span>
+              </div>
+            </div>
+            <img src="./assets/icons/down.png" class="mx-4" alt="">
+            <div *ngIf="openAccount" @dropdownAnimation style="box-shadow: 0 5px 20px 0 #00000040"
+                 class="origin-top z-50 top-28 max-h-[328px] border border-custom-border overflow-auto absolute left-0 mt-2 w-full rounded-[16px] bg-surface-4">
+              @for (account of accounts(); track account) {
+                <div [ngClass]="{'opacity-30 cursor-not-allowed': account.status === 'BLOCKED'}" class="flex items-center justify-between" (click)="account.status !== 'BLOCKED' ? this.chooseAccFunc(account) : {}">
+                  <div class="flex gap-5 items-center p-4" >
+                    <img class="rounded-full" src="./assets/icons/flag-uz.svg" alt="">
+                    <div class="flex flex-col gap-[1px]">
+                    <span class="text-custom-primary font-semibold text-[18px]">{{ Number(account.balance.amount) / 100 |
+                      mask:'separator' }} {{ account.balance?.currency }}</span>
+                      <span class="text-custom-secondary text-[14px] font-medium">{{ account.accountType }}</span>
+                      <p class="text-custom-muted text-[12px] font-medium">{{ account.altAcctId }}</p>
+                    </div>
+                  </div>
+                  <img  class="mx-4" *ngIf="choosedAcount().altAcctId === account.altAcctId && account.status !== 'BLOCKED'" src="./assets/icons/check.svg"
+                        alt="">
+                  <span *ngIf="account.status === 'BLOCKED'"
+                        class="inline-flex bg-[#FFEBEC] mx-3 rounded-[6px] items-center w-fit gap-1">
+                   <img class="ml-1" src="./assets/new-icons/clock.svg" width="12" height="12" alt="">
+                   <span class=" text-xs text-[#FB3748] pr-2 font-medium">
+                  {{ 'accounts.blocked' | translate }}
+                    </span>
+                 </span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div [ngClass]="{'pointer-events-none opacity-50': this.checkParams() === null}" class="w-full flex flex-col border border-custom-border rounded-[20px] gap-5 p-5 bg-surface-4">
+          <h3 class="text-[12px] font-semibold uppercase text-custom-primary">{{'createPayment.payment_details' | translate}} <span
+            class="text-red-600">*</span></h3>
+          <div formGroupName="balance" class="relative w-full  flex">
+            <div
+              [ngClass]="{'!border-red-500': (createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched) || balanceErrorOver.length > 0 }"
+              class="relative flex w-full mb-[21px] p-[1px]
+         focus-within:border-[#008C79]
+         rounded-[16px] border border-custom-border">
+
+              <input [readOnly]="!editableAmount()" [ngClass]="{'!bg-[#F7F7F7]': this.checkParams() === null}" (input)="this.convertAmountIntoWords()" type="text" formControlName="amount" mask="separator.2"
+                     placeholder=" " class="peer border-0 border-r pt-4 border-custom-border
+            bg-surface-2 px-4 w-full text-custom-primary
+            placeholder:text-[14px] placeholder:text-custom-muted placeholder:font-medium
+            h-[56px] outline-none rounded-l-[12px]" />
+
+              <span style="pointer-events: none" class="absolute left-[15px] text-custom-muted transition-all peer-placeholder-shown:font-medium peer-focus:font-normal
+           peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[14px]
+           peer-focus:top-[8px] peer-focus:-translate-y-0 peer-focus:text-[12px]
+           top-[8px] text-[12px]">
+              {{'createPayment.amount' | translate}}
+            </span>
+
+              <div [ngClass]="{'!bg-[#F7F7F7]': this.checkParams() === null}" class="text-[14px] text-custom-primary font-normal bg-surface-2 w-[69px] h-[56px]
+           items-center text-center flex justify-center rounded-r-[12px]">
+                UZS
+              </div>
+
+            </div>
+            <span *ngIf="createForm.get('balance.amount')?.invalid && createForm.get('balance.amount')?.touched"
+                  class="absolute bottom-[0] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+            <span *ngIf="!this.balanceErrorOver"
+                  class="absolute bottom-[-5px] text-[12px] font-normal text-[#171717] left-[15px]">{{ amountInWords }}</span>
+            <span class="absolute bottom-[-5px] text-[12px] left-[15px] text-red-500">{{ this.balanceErrorOver }}</span>
+          </div>
+
+          <div [ngClass]="{'!opacity-0': !editableAmount()}" class="flex flex-wrap gap-2 items-center" *ngIf="this.servicesList()?.suggestedAmounts">
+            <span (click)="setSuggestAmount(amount.amount)" *ngFor="let amount of this.servicesList()?.suggestedAmounts"  class="bg-surface-2 cursor-pointer border-custom-border border px-[6px] py-[4px] rounded-[10px] text-[14px] font-medium">{{ integerPart(amount.amount) }}.{{ decimalPart(amount.amount) }} {{ amount.currency }}</span>
+          </div>
+
+          <div class="relative w-full flex flex-col gap-1">
+          <span style="width: calc(100% - 18px)"
+                class="absolute top-[9px] text-[13px] left-[16px] text-custom-primary font-medium">{{'createPayment.purpose' | translate}}</span>
+            <textarea maxlength="450" type="text" formControlName="description"
+                      placeholder="{{'createPayment.payment_purpose_description' | translate}}"
+                      [ngClass]="{'border-red-500': createForm.get('description')?.invalid && createForm.get('description')?.touched, '!bg-[#F7F7F7]': this.checkParams() === null}"
+                      class="border  focus:border-[#008C79] h-[110px] text-custom-primary border-custom-border px-4 py-8 disabled:bg-custom-muted bg-surface-2  w-full placeholder:text-[13px] placeholder:text-custom-muted placeholder:font-normal rounded-[16px] outline-none">
+            </textarea>
+            <span [ngClass]="{'!bg-[#F7F7F7]': this.checkParams() === null}" class="absolute bg-surface-2 bottom-[8px] right-[12px] text-[#797B83]">{{
+                this.createForm.value.description?.length }}
+              /450</span>
+            <span *ngIf="createForm.get('description')?.invalid && createForm.get('description')?.touched"
+                  class="absolute bottom-[-20px] text-[12px] left-[15px] text-red-500">{{'createPayment.field_required' | translate}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex justify-end text-end">
+      <button [disabled]="this.checkParams() === null" (click)="this.route.snapshot.queryParamMap.get('type') === 'edit' ? editTransaction() : submit()" class="bg-[#008C79] p-2.5 text-[16px] w-[193px] text-[#FFFFFF] disabled:bg-[#F7F7F7] disabled:text-[#D1D1D1]  rounded-[12px]  font-medium"
+      >{{'new.create_a_payment' | translate}}
+      </button>
+    </div>
+  </div>
+  <div *ngIf="spinnerState()" class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-[1001]" style="background: rgb(255 255 255 / 76%);">
+    <app-spinner></app-spinner>
+  </div>
+<!--  <app-details-office-modal [open]="detailsModal()" (data)="checkParams()" >-->
+<!--    -->
+<!--  </app-details-office-modal>-->
+</div>

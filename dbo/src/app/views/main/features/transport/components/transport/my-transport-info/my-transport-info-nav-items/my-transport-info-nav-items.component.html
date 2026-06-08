@@ -1,0 +1,95 @@
+<ng-container *ngIf="isLoading; else content">
+  <div class="flex flex-wrap items-stretch gap-3">
+    <span
+      class="skeleton block w-full h-[136px] rounded-xl"
+      *ngFor="let item of [].constructor(2).fill(0)"></span>
+  </div>
+</ng-container>
+
+<ng-template #content>
+  <div class="flex flex-wrap items-stretch gap-3">
+    <div
+      class="bg-white shadow-light rounded-xl border-cyan-75 border-2 p-3 flex flex-col flex-1 min-w-[300px] min-h-[136px]">
+      <div class="flex items-center mb-4 space-x-2">
+        <app-ui-svg-icon
+          svgClass="w-9 h-9"
+          path="./assets/icons/transports/transports-nav.svg#shield"></app-ui-svg-icon>
+
+        <p class="font-semibold text-sm text-gray-950">
+          {{ 'social.insurance' | translate }}
+        </p>
+      </div>
+      <div class="flex justify-between mt-auto">
+        <div>
+          <p class="font-normal text-xs text-neutral-550">
+            {{ 'state.servicePrice' | translate }}
+          </p>
+          <p class="font-medium text-xs text-gray-950">
+            {{ 'common.free' | translate }}
+          </p>
+        </div>
+        <button
+          (click)="getInsurance()"
+          class="w-[140px] h-9 rounded-lg bg-lime-550 flex justify-center items-center font-medium text-white text-sm">
+          {{ 'state.getService' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- <div
+      class="bg-white shadow-light rounded-xl border-cyan-75 border-2 p-3">
+      <div class="flex justify-start items-center gap-x-3">
+        <app-ui-svg-icon
+          svgClass="w-9 h-9"
+          path="./assets/icons/transports/transports-nav.svg#cards"></app-ui-svg-icon>
+
+        <div>
+          <div class="flex gap-x-1 items-center">
+            <p class="text-neutral-450 text-xs font-medium">Штрафы</p>
+            <p
+              class="rounded-full w-4 h-4 bg-cyan-75 flex justify-center items-center">
+              <span class="font-medium text-xs text-neutral-450">2</span>
+            </p>
+          </div>
+          <div class="flex items-center gap-x-1">
+            <p class="font-semibold text-gray-950 text-sm">420 000 UZS</p>
+            <p class="line-through text-error font-normal text-xs">600 000 UZS</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div
+      class="bg-white shadow-light rounded-xl border-cyan-75 border-2 p-3 relative cursor-pointer flex flex-col flex-1 min-w-[300px] min-h-[136px]"
+      (click)="openOilDetails()">
+      <div
+        *ngIf="oil.day === -1"
+        class="bg-lime-550 icon-6 rounded-full absolute -right-1 -top-1">
+        <app-ui-svg-icon
+          path="./assets/icons/plus.svg#plus"
+          svgClass="icon-6 scale-[0.60] text-white"></app-ui-svg-icon>
+      </div>
+      <app-ui-svg-icon
+        svgClass="w-9 h-9 mb-2"
+        path="./assets/icons/transports/transports-nav.svg#water"></app-ui-svg-icon>
+      <p class="font-medium text-xs text-neutral-450 mb-1">
+        {{ 'transport.next-oil-change' | translate }}
+      </p>
+      <p *ngIf="oil.day !== -1">
+        {{ 'transport.left' | translate }} {{ formatDate(oil.day) }}
+      </p>
+
+      <ng-container *ngIf="oil.day === -1; else km">
+        <p class="text-xs text-gray-950 mt-auto">
+          {{ 'transport.add-to-get-info' | translate }}
+        </p>
+      </ng-container>
+      <ng-template #km>
+        <p class="flex items-center gap-1 text-sm text-gray-950 font-semibold">
+          <span>{{ oil.km }} {{ 'transport.km' | translate | uppercase }}</span>
+          <span class="text-xs text-neutral-450"> ≈ {{ oil.date }}</span>
+        </p>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,184 @@
+<form [formGroup]="filterForm" class="flex flex-col">
+
+  <div class="flex flex-col gap-y-[15px]">
+
+    <div class="flex gap-3 flex-wrap w-full  items-center text-start">
+
+      <div class="relative w-[300px]">
+        <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14.5 14.75L10.0001 10.25M11.5 6.5C11.5 9.3995 9.1495 11.75 6.25 11.75C3.3505 11.75 1 9.3995 1 6.5C1 3.6005 3.3505 1.25 6.25 1.25C9.1495 1.25 11.5 3.6005 11.5 6.5Z"
+              stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+
+        <input type="text" placeholder="{{'accounts.search' | translate}}" (input)="this.inputSubject.next($event)"
+          formControlName="searchText"
+          class="w-full pl-10 pr-4 py-2 border border-custom-border bg-surface-2 text-custom-primary rounded-[10px] focus:outline-none text-sm" />
+      </div>
+
+
+      <div class="border cursor-pointer border-custom-border bg-surface-2 rounded-[10px]" #transactionTrigger="matMenuTrigger"
+        [ngClass]="{'!border-[#00A38D]': transactionTrigger.menuOpen || this.filterForm?.value?.currencyEnum?.length}"
+        [matMenuTriggerFor]="transactionMenu">
+        <div class="flex items-center h-[40px] p-2 gap-3 text-custom-primary">
+          <p>{{"accounts.currency" | translate}}</p>
+
+          <ng-container *ngIf="this.filterForm?.value?.currencyEnum?.length">
+            <mat-chip *ngFor="let currency of this.filterForm?.value?.currencyEnum" [removable]="true"
+              (removed)="removeCurrency(currency)" class="!bg-surface-1 !h-[32px]">
+              <div class="flex items-center gap-2">
+                @for (accCurr of currencyList(); track $index) {
+                @if (accCurr.code === currency) {
+                <div>
+                  <img class="w-5 h-5 object-cover rounded-full" [src]="accCurr.flag" [alt]="accCurr.code">
+                </div>
+                }
+                }
+                <span class="text-custom-primary text-[12px] font-medium">{{currency}}</span>
+              </div>
+              <button matChipRemove>
+                               <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+              </button>
+            </mat-chip>
+          </ng-container>
+
+          <img src="./assets/new-icons/arrow-down.svg" alt="">
+        </div>
+
+        <mat-menu #transactionMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            @for (currency of currencyList(); track $index) {
+            <div (click)="setFilter(currency.code, 'currencyEnum'); $event.stopPropagation()"
+              class="flex cursor-pointer text-start items-center hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+              [ngClass]="{'bg-[#E6F7F4]': isCurrencySelected(currency.code)}">
+
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="isCurrencySelected(currency.code)"
+                  class="w-[16px] h-[16px] bg-[#00A38D] rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div *ngIf="!isCurrencySelected(currency.code)"
+                  class="w-[16px] h-[16px] border-2 border-gray-300 rounded"></div>
+              </div>
+
+              <div class="w-[20px] flex text-start">
+                <img class="w-full h-full rounded-full object-cover" [src]="currency.flag" [alt]="currency.code">
+              </div>
+              <span class="w-[120px] text-[14px] text-custom-secondary font-medium">{{currency.code}}</span>
+            </div>
+            }
+          </div>
+        </mat-menu>
+      </div>
+
+      <div #statusTrigger="matMenuTrigger" *ngIf="hasStatus && !(loanService.isLoanEmpty$$ | async)"
+        [ngClass]="{'!border-[#00A38D]': statusTrigger.menuOpen || filterForm.value?.status}"
+        class="border cursor-pointer border-custom-border bg-surface-2 rounded-[10px]" 
+        [matMenuTriggerFor]="statusMenu">
+        
+        <div class="flex items-center p-2 gap-3 h-[40px] text-custom-primary">
+          <p>{{'accounts.status' | translate}}</p>
+
+          <mat-chip 
+            [removable]="true" 
+            *ngIf="filterForm.value?.status"
+            (removed)="removeFilter('status')" 
+            class="!bg-surface-1 !h-[32px]">
+            <span class="text-custom-primary text-[12px] font-medium">
+              {{ statusLabel | translate }}
+            </span>
+            <button matChipRemove>
+              <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+            </button>
+          </mat-chip>
+
+          <img ngSrc="./assets/new-icons/arrow-down.svg" alt="" height="8" width="12">
+        </div>
+
+        <mat-menu #statusMenu="matMenu" xPosition="after" class="menu-actions mt-2">
+          <div class="flex flex-col items-center gap-1 p-[4px]">
+            <div *ngFor="let status of statusList" 
+              (click)="setFilter(status.value, 'status'); $event.stopPropagation()"
+              class="flex cursor-pointer text-start items-center hover:bg-surface-1 rounded-[12px] gap-2 py-[4px] px-[6px]"
+              [ngClass]="{'bg-[#E6F7F4]': filterForm.value?.status! == status.value}">
+
+              <div class="w-[20px] h-[20px] flex items-center justify-center">
+                <div *ngIf="filterForm.value?.status! == status.value"
+                  class="w-[16px] h-[16px] bg-[#00A38D] rounded flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6L5 9L10 3" stroke="white" stroke-width="2" 
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div *ngIf="filterForm.value?.status! !== status.value"
+                  class="w-[16px] h-[16px] border-2 border-gray-300 rounded"></div>
+              </div>
+
+              <div class="flex items-center justify-center w-6 h-6 rounded-[9px] bg-surface-1">
+                <img [src]="status.img" width="12" height="12" alt="">
+              </div>
+              <span class="w-[140px] text-[14px] text-custom-secondary font-medium">
+                {{ status.translateKey | translate }}
+              </span>
+            </div>
+          </div>
+        </mat-menu>
+      </div>
+
+      <div *ngIf="this.filterForm.value.fromAmount && this.filterForm.value.toAmount"
+        class="flex rounded-[10px] items-center p-2 gap-3 h-[40px] border border-[#00A38D] bg-surface-2">
+        <p class="text-custom-primary">{{'createPayment.amount' | translate}}</p>
+        <mat-chip [removable]="true" (removed)="removeFilter('fromAmount');removeFilter('toAmount')"
+          class="!bg-surface-1 !h-[32px]">
+          <span class="text-custom-primary text-[12px] font-medium">{{'salaryStatements.from' | translate}}:
+            {{this.filterForm.value?.fromAmount?.toLocaleString('ru') + ' - '}}</span>
+          <span class="text-custom-primary text-[12px] font-medium">{{'salaryStatements.to' | translate}}:
+            {{this.filterForm.value?.toAmount?.toLocaleString('ru')}}</span>
+          <button matChipRemove>
+                           <mat-icon class="text-5xl text-custom-primary">close</mat-icon>
+          </button>
+        </mat-chip>
+      </div>
+
+      <div *ngIf="hasAnyFilter()" class="flex items-center gap-1 cursor-pointer" (click)="clearAllFilters()">
+        <span class="text-[#008C79] font-medium">{{'global.clear_all'| translate}} </span>
+        <img width="30" height="30" src="./assets/svg/close-active.svg" alt="">
+      </div>
+    </div>
+
+  </div>
+
+</form>
+
+<ng-template #triggerTemplate let-selectedValue>
+  <div>
+    @if (selectedValue) {
+    <span>{{ selectedValue }}</span>
+    } @else {
+    <span>{{'global.choose_item' | translate}}...</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option>
+  <div>
+    <span>{{ option }}</span>
+  </div>
+</ng-template>
+
+<ng-template #header>
+  @if (!toggleActive) {
+  <div class="mt-3">
+    <button type="button" (click)="panelState = !panelState"
+      class="p-2.5 flex items-center rounded-[10px] border-custom-border border bg-surface-2">
+      <!-- <img src="./assets/new-icons/filter.svg" alt="filter"> -->
+       <app-svg-icon [name]="'hamkor_filter'" classes="text-custom-primary"></app-svg-icon>
+    </button>
+  </div>
+  }
+</ng-template>

@@ -1,0 +1,188 @@
+<div class="flex gap-x-[15px] max-w-[1136px]">
+  <div
+    class="grow flex flex-col gap-y-[30px] p-[30px] bg-white rounded-[15px] shadow-sm"
+  >
+    <div class="flex flex-col gap-y-5">
+      <app-container-nav
+        [navs]="navs"
+      ></app-container-nav>
+      <app-container-title
+        [title]="title()"
+      ></app-container-title>
+    </div>
+    <div class="text-black text-xl font-medium">Пополнение депозита</div>
+<div class="flex flex-col w-full">
+  <div class="h-10  border-b border-[#eff4f9] justify-start items-center gap-4 inline-flex">
+    <div class="grow shrink basis-0 h-[17px] justify-start items-start flex">
+      <div class="text-[#7c8897] text-sm font-normal">Номер договора</div>
+    </div>
+    <div class="grow shrink basis-0 h-[19px] justify-end items-start flex">
+      <div class="text-black text-base font-normal">{{ depositDetail()?.contractNumber }}</div>
+    </div>
+  </div>
+  <div class="h-10  border-b border-[#eff4f9] justify-start items-center gap-4 inline-flex">
+    <div class="grow shrink basis-0 h-[17px] justify-start items-start flex">
+      <div class="text-[#7c8897] text-sm font-normal">Вид депозита</div>
+    </div>
+    <div class="grow shrink basis-0 h-[19px] justify-end items-start flex">
+      <div class="text-black text-base font-normal"></div>
+    </div>
+  </div>
+  <div class="h-10 border-b border-[#eff4f9] justify-start items-center gap-4 inline-flex">
+    <div class="grow shrink basis-0 h-[17px] justify-start items-start flex">
+      <div class="text-[#7c8897] text-sm font-normal">Валюта</div>
+    </div>
+    <div class="grow shrink basis-0 h-[19px] justify-end items-start flex">
+      <div class="text-black text-base font-normal">{{depositDetail()?.currency}}</div>
+    </div>
+  </div>
+  <div class="h-10 border-b border-[#eff4f9] justify-start items-center gap-4 inline-flex">
+    <div class="grow shrink basis-0 h-[17px] justify-start items-start flex">
+      <div class="text-[#7c8897] text-sm font-normal">Сумма депозита</div>
+    </div>
+    <div class="grow shrink basis-0 h-[19px] justify-end items-start flex">
+      <div *ngIf="depositDetail()?.amount" class="text-black text-base font-normal">{{amountService.convertToAmount(depositDetail()!.amount)}}</div>
+    </div>
+  </div>
+  <div class="h-10 border-b border-[#eff4f9] justify-start items-center gap-4 inline-flex">
+    <div class="grow shrink basis-0 h-[17px] justify-start items-start flex">
+      <div class="text-[#7c8897] text-sm font-normal">Остаток</div>
+    </div>
+    <div class="grow shrink basis-0 h-[19px] justify-end items-start flex">
+      <div *ngIf="depositDetail()?.depSaldo" class="text-black text-base font-normal">{{amountService.convertToAmount(depositDetail()!.depSaldo.amount)}}</div>
+    </div>
+  </div>
+</div>
+    <form [formGroup]="signForm" >
+      <div class="flex flex-col gap-y-5">
+        <app-account-select
+          class="w-full"
+          [label]="'Счет списания'"
+          [required]="true"
+          [touched]="receiverAccountTouched"
+          [accounts]="accounts"
+          (accountSelected)="setSenderAccount($event)"
+        ></app-account-select>
+
+        <div class="flex flex-col gap-y-4">
+          <div class="flex flex-row-reverse">
+            <div class="flex cursor-pointer" (click)="toggleRequisites()">
+              <div
+                class="select-none flex items-center gap-x-2.5 text-sm"
+              >
+                <img ngSrc="./assets/svg/info-circle-gray.svg" alt="info" width="20" height="20">
+                <div class="w-[142px] leading-[22px] text-[#2B2D33] text-nowrap">{{ isOpenRequisites ? 'Скрыть реквизиты' : 'Показать реквизиты' }}</div>
+              </div>
+            </div>
+          </div>
+
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="isOpenRequisites">
+              @if(businessUser) {
+                <div class="flex items-center gap-10 justify-center py-2.5 flex-wrap">
+                  <div>
+                    <span>Наименование: </span>
+                    <span class="text-end text-[#8A97A4]"> {{ businessUser.name }}</span>
+                  </div>
+                  <div>
+                    <span>ИНН: </span>
+                    <span class="text-end text-[#8A97A4]"> {{ businessUser.inn }}</span>
+                  </div>
+                  <div>
+                    <span>МФО: </span>
+                    <span class="text-end text-[#8A97A4]"> {{ businessUser.mfo }}</span>
+                  </div>
+                </div>
+              }
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+      </div>
+
+      <div class="flex flex-col gap-y-4">
+        <mat-form-field
+          formGroupName="saldo"
+          class="small w-full"
+          appearance="outline"
+
+        >
+          <mat-label class="font-medium leading-5 mb-2">Сумма</mat-label>
+          <input
+            matInput
+            (input)="convertAmountIntoWords()"
+            formControlName="amount"
+            placeholder="Введите сумму"
+            mask="separator.2"
+          />
+          <div class="absolute pt-[5px] text-[12px]">
+
+
+          </div>
+        </mat-form-field>
+        <div
+
+          class="mt-2.5 text-sm leading-[22px] text-[#2B2D33]">
+          Сумма прописью: <span>{{ amountInWords }}</span>
+        </div>
+<!--        <div class="flex flex-col gap-y-[30px]">-->
+<!--          <app-searchable-select-->
+<!--            class="small w-full"-->
+<!--            [label]="'Код назначения платежа (КНП)'"-->
+<!--            [parentForm]="signForm"-->
+<!--            controlName="purpose"-->
+<!--            [customTriggerTemplate]="triggerTemplate"-->
+<!--            [customOptionTemplate]="optionTemplate"-->
+<!--            [displayOption]="displayOption"-->
+<!--            [options]="purposes"-->
+<!--            (inputChange)="searchPurpose($event)"-->
+<!--            (focusin)="getPurposes()"-->
+<!--            (scrolled)="scrollPurpose()"-->
+<!--          ></app-searchable-select>-->
+
+<!--          <mat-form-field appearance="outline" class="small w-full description-field h-[102px]">-->
+<!--      <textarea-->
+<!--        matInput-->
+<!--        formControlName="description"-->
+<!--        placeholder="Введите назначение платежа"-->
+<!--        maxlength="210"-->
+<!--        style="resize: none"-->
+<!--      ></textarea>-->
+<!--            <span matSuffix class="align-bottom pr-3">{{ paymentDescription.length }} / 210</span>-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
+      </div>
+
+      <div class="flex justify-between gap-x-5 mt-5">
+        <button
+          (click)="submit('SEND')"
+          class="px-5 py-2.5 rounded-[5px] text-sm bg-[#264796] text-white leading-[20px]"
+        >Создать</button>
+
+        <div class="flex gap-x-2.5">
+          <button
+            (click)="submit()"
+            class="px-5 py-2.5 rounded-[5px] text-sm bg-[#DDECFC] text-[#264796] leading-[20px]"
+          >Создать платёж</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<ng-template #triggerTemplate let-selectedValue>
+  <div>
+    @if(selectedValue) {
+      <span>{{ selectedValue.code }} - {{ selectedValue.name }}</span>
+    } @else {
+      <span>Choose an item...</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option>
+  <div>
+    <span>{{ option.code }} - {{ option.name }}</span>
+  </div>
+</ng-template>

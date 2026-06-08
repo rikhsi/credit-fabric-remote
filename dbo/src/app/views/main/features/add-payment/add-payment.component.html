@@ -1,0 +1,105 @@
+<div class="flex flex-col space-y-4">
+  <div
+    class="self-stretch w-full  py-6 px-1 rounded-2xl inline-flex flex-col justify-center items-start overflow-hidden">
+    <div class="justify-start text-custom-primary text-3xl font-bold">{{'createPayment.create_payments' | translate}}</div>
+    <!--    <div class="flex gap-[10px] cursor-pointer p-[5px] rounded-[5px] items-center overflow-auto w-full">-->
+    <!--      @for (tab of tabs; track tab) {-->
+    <!--        <a routerLinkActive="active"-->
+    <!--           [routerLink]="['/payment', tab.link]"-->
+    <!--           class="bg-white cursor-pointer w-[150px] flex flex-col justify-between gap-2 items-start h-[100px] rounded-[8px] p-[16px]">-->
+    <!--          <img alt="s" width="20" height="20" [src]="tab.icons" class=""/>-->
+    <!--          <span-->
+    <!--            class="relative font-medium rounded-[5px] text-[14px] text-[#2C3531]"-->
+    <!--          >{{ tab.title }}-->
+    <!--          </span>-->
+    <!--        </a>-->
+    <!--      }-->
+    <!--    </div>-->
+    <div class="flex items-center space-x-12 py-12  ">
+      <div class="flex items-center space-x-16">
+        <a [routerLink]="'/history'" [queryParams]="{tab: 'signature'}" class="flex border-custom-border border bg-surface-2 relative rounded-[20px] h-[116px] px-[26px] py-[20px] w-[216px] flex-col items-start space-y-2 cursor-pointer">
+          <div
+            class="w-[56px] h-[56px]">
+            <img width="30" height="30" src="./assets/new-icons/sign.svg" alt="action">
+          </div>
+          <div class="text-custom-primary text-[18px] leading-4  font-semibold">{{'createPayment.to_sign' | translate}}</div>
+          <span class="absolute top-[11px] right-[26px] bg-red-500 rounded-full text-white p-[4px] w-[20px] h-[20px] text-[12px] flex justify-center items-center">{{ this.signatureCount() }}</span>
+        </a>
+        @for (type of PAYMENT_HEADER_TYPES; track type) {
+          <div (click)="navigate(type)"
+               class="flex flex-col items-center space-y-2 cursor-pointer"
+               [matTooltip]="permissionsToTemplates(type.link) ? '' : 'У вас нет прав'"
+               [style.user-select]="permissionsToTemplates(type.link) ? '' : 'none'"
+               [style.opacity]="permissionsToTemplates(type.link) ? '1' : '0.3'"
+               [style.cursor]="permissionsToTemplates(type.link) ? 'pointer' : 'not-allowed'"
+          >
+            <div
+              class="w-[56px] h-[56px] p-2 flex bg-surface-2 justify-center items-center gap-2.5 border-custom-border border rounded-full">
+              <img src="{{ type.img }}" alt="action">
+            </div>
+            <div class="text-custom-primary text-[14px] leading-4  font-semibold">{{ type.translateKey | translate }}</div>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="h-[1px] my-2 w-full bg-[#EBEBEB]"></div>
+    <div class="justify-start text-custom-primary text-xl pt-6 font-semibold  leading-loose">{{'createPayment.in_sums' | translate}}</div>
+    <div class="grid grid-rows-3 grid-flow-col gap-x-36">
+      @for (item of PAYMENT_ACTIONS; track item.title) {
+        <div
+          (click)="navigateTransactions(item)"
+          class="flex items-center gap-4 py-4 cursor-pointer"
+          [matTooltip]="requestPermissions(item.link) ? '' : 'У вас нет прав'"
+          [style.user-select]="requestPermissions(item.link) ? '' : 'none'"
+          [style.opacity]="requestPermissions(item.link) ? '1' : '0.3'"
+          [style.cursor]="requestPermissions(item.link) ? 'pointer' : 'not-allowed'"
+        >
+          <div
+            class="p-3 bg-surface-2 rounded-[50px] inline-flex justify-start items-center gap-2.5"
+          >
+            <img [src]="item.img" alt="icon" class="w-6 h-6" />
+          </div>
+          <div class="flex flex-col">
+        <span class="text-custom-primary text-base font-medium leading-normal tracking-tight">
+          {{ item.titleTranslateKey | translate}}
+        </span>
+            <span class="text-custom-muted text-base font-normal leading-normal tracking-tight">
+          {{ item.textTranslateKey | translate}}
+        </span>
+          </div>
+        </div>
+      }
+    </div>
+
+
+
+<!--    <div class="w-full bg-white z-10 mt-4 p-6 rounded-[8px]">-->
+<!--      <h3 class="font-semibold text-[20px] mb-3  text-[#2C3531]">Последние платежи</h3>-->
+<!--      &lt;!&ndash;      <div class="flex gap-2">&ndash;&gt;-->
+<!--      &lt;!&ndash;        <span>2 выбрано</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;        <div>&ndash;&gt;-->
+<!--      &lt;!&ndash;          <img src="./assets/svg/close.svg" alt="">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <span>&ndash;&gt;-->
+<!--      &lt;!&ndash;            Отменить&ndash;&gt;-->
+<!--      &lt;!&ndash;          </span>&ndash;&gt;-->
+<!--      &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--      &lt;!&ndash;        <div>&ndash;&gt;-->
+<!--      &lt;!&ndash;          <img src="./assets/svg/" alt="">&ndash;&gt;-->
+<!--      &lt;!&ndash;          <span>&ndash;&gt;-->
+<!--      &lt;!&ndash;            Отправить на доработку&ndash;&gt;-->
+<!--      &lt;!&ndash;          </span></div>&ndash;&gt;-->
+<!--      &lt;!&ndash;        <div>Подписать</div>&ndash;&gt;-->
+<!--      &lt;!&ndash;      </div>&ndash;&gt;-->
+<!--      <div class="mb-2 flex items-center justify-between">-->
+<!--        <app-table-actions [tableActionBtns]="PaymentTableAction" (onClick)="onActionClick($event)"/>-->
+<!--      </div>-->
+<!--      <app-container-table-->
+<!--        [columns]="DashboardTableColumnsHeaders"-->
+<!--        [data]="this.transactionHistory()"-->
+<!--        [numbering]="true"-->
+<!--        [custom]="true"-->
+<!--        [loading]="this.loading()"-->
+<!--      ></app-container-table>-->
+<!--    </div>-->
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="flex flex-col gap-y-5 bg-white rounded-[15px] p-6">
+  <app-container-nav [navs]="navs"></app-container-nav>
+  <app-container-title [title]="title"></app-container-title>
+  <app-operations-filter [create]="create"></app-operations-filter>
+<div class="flex justify-between items-center">
+  <app-table-actions
+    [tableActionBtns]="tableActionBtns"
+    (onClick)="onActionClick($event)"
+  ></app-table-actions>
+  <div class="flex items-center gap-x-[15px]">
+    <app-filter-button
+      (click)="filterState = !filterState"
+      [classes]="!filterState ? 'bg-[#264796] text-white' : ''"
+      [src]="!filterState ? './assets/svg/filter-white.svg' : './assets/svg/filter-black.svg'"
+    ></app-filter-button>
+  </div>
+</div>
+  <app-swift-filter
+    (filterChange)="setFilter($event)"
+    [toggleActive]="true"
+    [panelState]="filterState"
+  ></app-swift-filter>
+
+  <app-container-table
+    [columns]="tableColumns"
+    [data]="tableData"
+    [custom]="true"
+    [actionTemplate]="conversionActionTemplate"
+    [errorMessage]="errorMessage"
+    (rowClicked)="openDetails($event)"
+    [loading]="loading"
+    (selectedRows)="onSelectedRows($event)"
+  ></app-container-table>
+  <app-paginator
+    [itemsPerPage]="pageSize"
+    [currentPage]="pageIndex + 1"
+    [totalItems]="totalItems"
+    (pageChange)="pageChange($event)"
+  ></app-paginator>
+</div>
+
+<ng-template #conversionActionTemplate let-row>
+  <div class="w-full h-full cursor-pointer flex items-center justify-center" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionsSwift">
+    <img ngSrc="./assets/svg/more.svg" alt="more" width="24" height="24">
+  </div>
+  <mat-menu #actionsSwift="matMenu" xPosition="before" class="menu-actions">
+    <button
+      (click)="sign(row)" class="w-full p-2 flex gap-x-2 items-center cursor-pointer"
+    >
+      <img class="min-w-[24px]" ngSrc="./assets/svg/edit-2.svg" alt="info" width="24" height="24">
+      <div class="text-xs">Подписать</div>
+    </button>
+  </mat-menu>
+</ng-template>

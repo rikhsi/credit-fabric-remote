@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 14px !important;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    @page {
+      size: landscape;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    td {
+      padding: 4px 6px;
+      text-align: start;
+      font-size: 10px;
+    }
+
+    .item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    th {
+      font-size: 10px;
+    }
+
+    thead tr td {
+      text-align: start;
+    }
+
+    .line-break::before {
+      content: "\A";
+      white-space: pre;
+    }
+
+    .page-break {
+      page-break-before: always; /* Forces a page break before the element */
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+  <div class="item">
+
+    <div class="text-center flex flex-col items-center mb-2.5">
+      <div class="text-center">Справка о работе счета</div>
+    </div>
+
+    <div style="padding-bottom: 10px" class="border w-full flex flex-col text-[11px]">
+
+      <div>
+        <span>{{ data.mfo }}-{{ data.bankBranchName }}</span>
+      </div>
+
+      <div>
+        <span>История по счету </span>
+        <span class="font-bold">{{ data.accountNumber }}</span>
+      </div>
+
+      <div>
+        <span>{{ data.businessName }}</span>
+      </div>
+
+      <div style="padding-bottom: 5px">
+        <span>За <span class="font-bold">{{ data.startDate }} - {{ data.endDate }}</span> </span>
+      </div>
+
+      <div class="border-t font-bold">
+        <span>Остаток на начала периода {{ data.balanceBefore }}</span>
+      </div>
+    </div>
+
+    <table class="w-full border border-collapse">
+      <thead>
+      <tr>
+        <td class="border border-collapse font-bold">№</td>
+        <td class="border border-collapse font-bold">Счет корреспондента</td>
+        <td class="border border-collapse font-bold">МФО</td>
+        <td class="border border-collapse font-bold">Сумма дебет</td>
+        <td class="border border-collapse font-bold">Сумма кредит</td>
+        <td class="border border-collapse font-bold">Дата</td>
+        <td class="border border-collapse font-bold">№ документа</td>
+        <td class="border border-collapse font-bold">Наименование корреспондента</td>
+        <td class="border border-collapse break-words font-bold">
+          <span>МФО/БХМ</span>
+          <span class="line-break">корееспондента</span>
+        </td>
+        <td class="border border-collapse font-bold">Назначение платежа</td>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      {{#data.transactions}}
+        <tr style="page-break-inside: avoid;">
+          <td class="border border-collapse">{{ idx }}</td>
+          <td class="border border-collapse">{{ transAcc }}</td>
+          <td class="border border-collapse">{{ transMfo }}</td>
+          <td class="border border-collapse text-end text-nowrap">{{ debitAmount }}</td>
+          <td class="border border-collapse text-end text-nowrap">{{ creditAmount }} </td>
+          <td class="border border-collapse">{{ date }}</td>
+          <td class="border border-collapse">{{ numberTrans }}</td>
+          <td class="border border-collapse">{{ dtAccName }}</td>
+          <td class="border border-collapse text-center">{{ dtMfo }}</td>
+          <td class="border border-collapse text-wrap">{{ purpose }}</td>
+        </tr>
+      {{/data.transactions}}
+      <tr class="font-bold border border-collapse">
+        <td></td>
+        <td colspan="2">Итого</td>
+        <td class="text-end text-nowrap">{{ data.totalDebit }}</td>
+        <td class="text-end text-nowrap">{{ data.totalCredit }}</td>
+        <td colspan="5"></td>
+      </tr>
+
+      <tr class="font-bold border border-collapse">
+        <td></td>
+        <td colspan="9">Остаток на конец периода {{ data.balanceAfter }}</td>
+      </tr>
+
+      <tr class="font-bold border border-collapse">
+        <td></td>
+        <td colspan="9" class="font-normal">*****Конец отчета</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+<script>
+</script>
+</html>

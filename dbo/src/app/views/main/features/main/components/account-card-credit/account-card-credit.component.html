@@ -1,0 +1,120 @@
+<div class="flex bg-white p-6 rounded-2xl gap-4 flex-col justify-center">
+  <div class="relative w-full">
+    <div class="-mx-6">
+      <div class="border-b border-[#E0E0E0]">
+        <div class="flex justify-between items-end pb-2 px-6">
+          <div class="flex space-x-6">
+            @for (tab of tabs(); track tab; let i = $index) {
+              <ng-container>
+                <button
+                  (click)="activeTab.set(i)"
+                  class="relative text-sm font-medium leading-[18px]"
+                  [ngClass]="{
+              'text-[#008C79]': activeTab() === i,
+              'text-[#2C3531]': activeTab() !== i
+            }"
+                >
+                  {{ tab }}
+                  @if (activeTab() === i) {
+                    <span
+                      class="absolute -bottom-2 left-0 w-full h-[2px] bg-[#008C79] rounded-tr-3xl rounded-tl-3xl transition-all duration-300"
+                    ></span>
+                  }
+                </button>
+              </ng-container>
+            }
+
+          </div>
+          <button (click)="this.router.navigate(['/accounts-and-payments'])" class="text-sm flex items-center text-[#007AFF] font-medium leading-4 hover:underline">
+            Посмотреть все
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#007AFF" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    <div class="my-4">
+      <ng-container>
+        @switch (activeTab()) {
+          @case (0) {
+            <div class="flex overflow-x-auto space-x-4">
+              @if (isLoading()) {
+                @for (i of [1, 2, 3, 4]; track i) {
+                  <div
+                    class="gap-2 flex flex-col bg-[#F3F5F5] rounded-2xl p-4 justify-items-end items-start !min-w-[218px] animate-skeleton">
+                    <div class="h-4 w-1/3 rounded skeleton-field"></div>
+                    <div class="space-y-2">
+                      <div class="h-4 w-3/4 rounded skeleton-text"></div>
+                      <div class="h-5 w-1/2 rounded skeleton-text"></div>
+                    </div>
+                    <div class="h-4 w-2/3 rounded skeleton-text"></div>
+                  </div>
+                }
+              } @else {
+                @for (account of accounts(); track account) {
+                  <div mat-ripple (click)="accountRequisite.emit({ account: String(account.account), id: String(account?.id), codeFilial: String(account?.codeFilial)})"
+                       class="space-y-2 cursor-pointer flex flex-col bg-[#F3F5F5] rounded-2xl p-4 justify-items-end items-start !max-w-[250px] !min-w-[250px]">
+                    <div *ngIf="account && account.saldo && account.saldo.currency && account.saldo.currency.length > 0" class="text-[#9799A1] text-[13px] font-medium leading-[18px]">{{ account?.saldo?.currency }}
+                    </div>
+                    <div *ngIf="account && account.saldo && !account.saldo.currency" class="text-[#9799A1] opacity-0  text-[13px] font-medium leading-[18px]">UZS
+                    </div>
+                    <div>
+                      <div
+                        class="text-sm font-normal text-[#9799A1]  leading-5">{{ (account?.nameAcc?.length ?? 0) >= 25
+                        ? ((account?.nameAcc ?? '') | slice:0:25) + '...'
+                        : (account?.nameAcc ?? '') }}
+                      </div>
+                      <div
+                        class="text-[16px] font-normal text-[#2C3531] leading-6">{{ ((account?.saldo?.amount ?? 0) / 100).toFixed(2) | mask:'separator.2' }}
+                      </div>
+                    </div>
+                    <div class="text-sm font-normal text-[#9799A1] leading-5">{{ account.id }}</div>
+                  </div>
+                }
+              }
+            </div>
+          }
+          @case (1) {
+            <div class="flex space-x-4 items-center">
+              <img src="./assets/svg/empty-card.svg" alt="#">
+              <div class="flex flex-col gap-2">
+                <div class="flex flex-col">
+                  <span class="text-[18px] font-semibold leading-6 text-[#2C3531]">В настоящее время пусто</span>
+                  <span class="text-sm leading-[18px] font-normal text-[#9799A1]">На данный момент у вас ещё нет оформленных корпоративных карт. Вы можете заказать новую карту, чтобы начать пользоваться всеми преимуществами корпоративного обслуживания.</span>
+                </div>
+                <div>
+                  <button
+                    class="flex h-10 py-2 px-4 justify-center items-center rounded-[40px] bg-[#008C79] outline-none text-white text-sm font-medium leading-[18px]">
+                    Открыть карту
+                    <img src="./assets/svg/add-active.svg" alt="#">
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+          @case (2) {
+            <div class="flex space-x-4 items-center">
+              <img src="./assets/svg/bill-empty.svg" alt="#">
+              <div class="flex flex-col gap-2">
+                <div class="flex flex-col">
+                  <span class="text-[18px] font-semibold leading-6 text-[#2C3531]">В настоящее время пусто</span>
+                  <span class="text-sm leading-[18px] font-normal text-[#9799A1]">На вашем счёте отсутствуют активные кредиты. Вы можете оформить новый, чтобы использовать кредитные возможности в полной мере.</span>
+                </div>
+                <div>
+                  <button
+                    class="flex h-10 py-2 px-4 justify-center items-center rounded-[40px] bg-[#008C79] outline-none text-white text-sm font-medium leading-[18px]">
+                    Подать заявку на кредит
+                    <img src="./assets/svg/add-active.svg" alt="#">
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </ng-container>
+    </div>
+  </div>
+</div>

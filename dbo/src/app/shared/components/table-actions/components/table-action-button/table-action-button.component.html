@@ -1,0 +1,13 @@
+<div
+  (click)="clicked(data.id)"
+  class="flex items-center px-4 py-2.5 rounded-[12px] "
+  [ngClass]="data.active ? data.bgColor : ''"
+  [style]="data.hideBgColor ? 'background: #FFFFFF; gap: 8px' : 'background: #F3F5F5; gap: 16px'"
+>
+  <img *ngIf="this.selectedRows  && !this.data?.hideBgColor" [ngSrc]="data.active ? data.src.slice(0, -4) + '-active.svg' : data.src" [alt]="data.title" width="24" height="24">
+  <span class="text-[14px] text-[#9799A1]" *ngIf="this.selectedRows && this.data?.hideBgColor">{{ selectedRows }}</span>
+  <span
+    class="text-[14px] text-[#9799A1] font-normal"
+    [ngClass]="data.active ? data.activeColor : ''"
+  >{{ data.title }}</span>
+</div>

@@ -1,0 +1,38 @@
+<form [formGroup]="parentForm">
+  <mat-form-field appearance="outline" class="small w-full payment-select searchable relative">
+    @if(label) {
+      <mat-label>{{ label }}</mat-label>
+    }
+    <div class="flex justify-between items-center">
+      <input
+        #inputElement
+        type="text"
+        alphaNumericSymbolMask
+        aria-label="Purpose code"
+        matInput
+        class="ms-2"
+        [formControlName]="controlName"
+        [placeholder]="placeholder"
+        (input)="onInput($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        (change)="onChange($event)"
+        [matAutocomplete]="auto"
+        [ngClass]="{
+            'border-red-500': parentForm.get(controlName)?.invalid && parentForm.get(controlName)?.touched,
+            'border-secondary': parentForm.get(controlName)?.valid || !parentForm.get(controlName)?.touched
+          }"
+      />
+      <app-ui-svg-icon
+        [path]="iconPath"
+        svgClass="w-6 h-6"
+      ></app-ui-svg-icon>
+    </div>
+    <mat-autocomplete disableRipple #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+      <mat-option *ngFor="let option of options" [value]="option.bic" (click)="onSelectOption(option)">
+        {{ option.bic }} - {{ option.orgName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+</form>

@@ -1,0 +1,151 @@
+<div class="flex gap-x-5 w-full justify-between" [formGroup]="autoPayForm">
+  <div class="flex flex-col flex-grow gap-y-[30px]">
+    <div class="flex flex-col gap-y-5">
+      <app-container-nav [navs]="navs"></app-container-nav>
+
+      <app-container-title [title]="title"></app-container-title>
+    </div>
+
+    <mat-form-field class="small w-full" appearance="outline">
+      <mat-label>Наименование</mat-label>
+      <input
+        matInput
+        formControlName="name"
+      >
+    </mat-form-field>
+
+    <mat-form-field class="small w-full" appearance="outline">
+      <mat-label>Периодичность</mat-label>
+
+      <mat-select formControlName="paymentFrequency">
+        @for(freq of autoPayPeriod; track freq.value) {
+          <mat-option
+            [value]="freq.value"
+          >{{ freq.label }}</mat-option>
+        }
+      </mat-select>
+
+      <mat-icon matSuffix>
+        <img ngSrc="./assets/svg/chevron-down.svg" class="rotate-90" alt="chevron-down" width="24" height="24">
+      </mat-icon>
+    </mat-form-field>
+
+    @if(autoPayForm.getRawValue().paymentFrequency === 'MONTHLY') {
+      <div class="flex justify-between" formArrayName="months">
+        @for(month of monthsData; track month.value; let i = $index) {
+          <div class="flex flex-col items-center gap-2">
+            <mat-checkbox
+              [formControlName]="i"
+              color="#008C79"
+              class="top-checkbox blue-checkbox"
+            >{{ month.label }}</mat-checkbox>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="flex justify-between" formArrayName="days">
+        @for(day of weeksData; track day.value; let i = $index) {
+          <div class="flex flex-col items-center gap-2">
+            <mat-checkbox
+              [formControlName]="i"
+              color="primary"
+              class="top-checkbox blue-checkbox"
+            >{{ day.label }}</mat-checkbox>
+          </div>
+        }
+      </div>
+    }
+
+    <div
+      class="flex items-center gap-x-5"
+    >
+      @if(autoPayForm.getRawValue().paymentFrequency === 'MONTHLY') {
+        <mat-form-field class="small w-full" appearance="outline" floatLabel="always">
+          <mat-label>День оплаты</mat-label>
+
+          <mat-select placeholder="дд" formControlName="paymentDay">
+            @for(day of [].constructor(31).fill(0); track $index) {
+              <mat-option [value]="$index + 1">{{ $index + 1 }}</mat-option>
+            }
+          </mat-select>
+
+          <mat-icon matSuffix>
+            <img ngSrc="./assets/svg/calendar-gray.svg" alt="chevron-down" width="24" height="24">
+          </mat-icon>
+        </mat-form-field>
+      }
+
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Время оплаты</mat-label>
+
+        <input
+          matInput
+          #timeInput
+          formControlName="paymentTime"
+          type="time"
+          name="week"
+          max="23:59"
+          min="00:00"
+        >
+
+        <mat-icon matSuffix class="text-gray-300" (click)="timeInput.showPicker()">access_time</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="small w-full" appearance="outline" floatLabel="always">
+        <mat-label>Дата отключения платежа</mat-label>
+        <input
+          matInput
+          formControlName="dateEnd"
+          [matDatepicker]="picker"
+          placeholder="дд.мм.гггг"
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker">
+
+          <mat-icon matDatepickerToggleIcon>
+            <img ngSrc="./assets/svg/calendar-gray.svg" alt="chevron-down" width="24" height="24">
+          </mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field>
+    </div>
+
+<!--    <div class="flex flex-col gap-y-[15px]">-->
+<!--      <mat-checkbox-->
+<!--        class="blue-checkbox"-->
+<!--        formControlName="isAutoSend"-->
+<!--      >Автоматическая отправка</mat-checkbox>-->
+
+<!--      <div class="flex items-center gap-x-2">-->
+<!--        <img ngSrc="./assets/svg/info-circle-gray.svg" alt="info" width="24" height="24">-->
+
+<!--        <span class="text-sm leading-[17px] text-[#7C8897]">Платежи перед отправкой в банк формируются в состоянии Создан</span>-->
+<!--      </div>-->
+<!--    </div>-->
+
+    <div class="flex gap-x-5 items-center">
+      <mat-checkbox
+        class="blue-checkbox"
+        formControlName="withNotification"
+      >
+        <span class="text-nowrap">Уведомить до отправки</span>
+      </mat-checkbox>
+
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Уведомление</mat-label>
+
+        <mat-select formControlName="notificationBeforeTime">
+          @for(time of notificationTimes; track time.value) {
+            <mat-option [value]="time.value">{{ time.title }}</mat-option>
+          }
+        </mat-select>
+
+        <mat-icon matSuffix>
+          <img ngSrc="./assets/svg/chevron-down.svg" class="rotate-90" alt="chevron-down" width="24" height="24">
+        </mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="border-b border-[#EFF4F9]"></div>
+  </div>
+</div>

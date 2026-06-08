@@ -1,0 +1,69 @@
+<!--<main class="relative  flex w-full" [ngClass]="{'flex':isAuth}">-->
+<!--  @if (isAuth) {-->
+<!--    <div class="m-5 px-4 py-6 bg-white rounded-2xl">-->
+<!--      <app-menu-list class="flex-none" (toggleMenu)="isLeftMenu = $event"></app-menu-list>-->
+<!--    </div>-->
+<!--  }-->
+<!--  <div class="flex flex-col " style="width: calc(100% - 322px)">-->
+<!--    <app-header *ngIf="isAuth"></app-header>-->
+<!--    <div class="relative"-->
+<!--         [ngClass]="{-->
+<!--       'w-full mt-4 rounded-12px mr-0 2xl:max-w-full':isAuth,-->
+<!--       'min-h-screen': !isAuth,-->
+<!--       }">-->
+<!--      <div [@routeAnimations]="routeAnimationData" [ngClass]="{ 'mr-[10px] lg:mr-[20px] min-h-full': isAuth }">-->
+<!--        <router-outlet></router-outlet>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--&lt;!&ndash;  @if (isAuth) {&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="m-4 min-w-[320px] max-w-[320px] bg-white rounded-12px">&ndash;&gt;-->
+<!--&lt;!&ndash;      <app-right-bar class="w-full"></app-right-bar>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  }&ndash;&gt;-->
+<!--</main>-->
+<!--@if (utilsService.spinnerState$$ | async) {-->
+<!--  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-[1001]" style="background: rgb(255 255 255 / 76%);">-->
+<!--    <app-spinner></app-spinner>-->
+<!--  </div>-->
+<!--}-->
+@if (isAuth) {
+  <app-new-header></app-new-header>
+}
+<main class="bg-surface-1 relative w-full settings-big-box gap-5 dark:bg-[#333333]"  [ngClass]="{
+    'flex': isAuth,
+    'gap-5': isAuth && !isSettingsPage(),
+    '!gap-0 !p-0': isSettingsPage()
+  }">
+  @if (isAuth && !checkUrl()) {
+      <app-new-menu-list></app-new-menu-list>
+<!--      <app-menu-list class="flex-none" (toggleMenu)="isLeftMenu = $event"></app-menu-list>-->
+  }
+  <app-service-controller-check></app-service-controller-check>
+  <div class="relative dark:bg-[#333333]"
+       [ngClass]="{
+       'w-full pt-4 rounded-12px mr-0 max-w-[calc(100%-297px)] lg:max-w-[calc(100%-297px)] min-h-[calc(100%-80px)] 2xl:!w-[calc(100%-297px]':isAuth,
+       'min-h-screen': !isAuth,
+       }">
+    <div [@routeAnimations]="routeAnimationData" [ngClass]="{ ' mr-[10px] lg:mr-[20px] max-h-full': isAuth }">
+       <app-toastr-progress-container></app-toastr-progress-container>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <!--  @if (isAuth) {-->
+  <!--    <div class="m-4 min-w-[320px] max-w-[320px] bg-white rounded-12px">-->
+  <!--      <app-right-bar class="w-full"></app-right-bar>-->
+  <!--    </div>-->
+  <!--  }-->
+</main>
+@if (utilsService.spinnerState$$ | async) {
+  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center z-[1001]" style="background: rgb(255 255 255 / 76%);">
+    <app-spinner></app-spinner>
+  </div>
+}
+<div (click)="openChat()" class="fixed bottom-[20px] right-[20px]   flex w-[64px] h-[64px] rounded-[32px] bg-[#008077] justify-center items-center cursor-pointer select-none" style="z-index: 999">
+  <img src="assets/icons/message-circle-02.svg" alt="icon" /> 
+</div>
+

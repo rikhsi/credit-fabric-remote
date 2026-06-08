@@ -1,0 +1,90 @@
+<div class="p-6 bg-white rounded-xl h-full flex flex-col gap-y-4 relative" [formGroup]="paymentServiceForm" (ngSubmit)="onSubmit()">
+<!--  <p class="text-[11px] text-secondary leading-[13.2px]">Главная / Мой офис / Оплаты / {{service?.title}}</p>-->
+  <div class="menu-item flex justify-between items-center font-medium my-4">
+    <h4 class="text-2xl">{{service?.title}}</h4>
+    <button class="flex items-center" (click)="onBack()">
+      <app-ui-svg-icon path="./assets/icons/btn-icons.svg#back_btn" svgClass="w-6 h-6 mr-1"></app-ui-svg-icon>Назад</button>
+  </div>
+  <div class="p-4 border-1px border-secondary rounded-xl">
+    <div class="flex mb-6">
+      <!-- <div class="w-1/2 flex flex-col pr-2">
+        <p class="font-medium leading-20px mb-2">Введите лицевой счет</p>
+        <input type="text" class="rounded-12px border-1px border-secondary w-full h-11 px-2 outline-none" placeholder="1234567">
+      </div> -->
+      <div class="w-full flex flex-col">
+        <app-account-select [label]="'Счет для списания *'" [accounts]="accounts" (accountSelected)="getAccount($event)"></app-account-select>
+      </div>
+    </div>
+    <div class="relative mb-6">
+      <mat-form-field class="small w-full" appearance="outline">
+        <mat-label>Сумма</mat-label>
+        <input matInput mask="separator.2" class="rounded-xl border-1px border-secondary w-full h-11 px-2 outline-none" placeholder="Введите сумму" formControlName="amount">
+      </mat-form-field>
+    </div>
+<!--    <div class="border-1px border-secondary rounded-xl">-->
+<!--      <div class="flex justify-between font-medium p-4 cursor-pointer" (click)="isOpen = !isOpen">-->
+<!--        <p>Детали платежа</p>-->
+<!--        <div class="flex">-->
+<!--          <p class="text-[#FF3333]">-44 457.49 UZS</p>-->
+<!--          @if(isOpen) {-->
+<!--            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down" svgClass="w-6 h-6 rotate-180 ml-2.5"></app-ui-svg-icon>-->
+<!--          } @else {-->
+<!--            <app-ui-svg-icon path="./assets/icons/btn-icons.svg#arrow_down" svgClass="w-6 h-6 ml-2.5"></app-ui-svg-icon>-->
+<!--          }-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="px-4 pb-4" *ngIf="isOpen" [@dropDownMenu]>-->
+<!--        <ul>-->
+<!--          <li class="menu-item flex justify-between items-center py-3 border-b-[1px] border-secondary">-->
+<!--            <span class="text-[#A1A1A1]">Адрес</span>-->
+<!--            <span class="text-dark">28% в год</span>-->
+<!--          </li>-->
+<!--          <li class="menu-item flex justify-between items-center py-3 border-b-[1px] border-secondary">-->
+<!--            <span class="text-[#A1A1A1]">Ф.И.О.</span>-->
+<!--            <span class="text-dark">500 000 000 сум</span>-->
+<!--          </li>-->
+<!--          <li class="menu-item flex justify-between items-center py-3 border-b-[1px] border-secondary">-->
+<!--            <span class="text-[#A1A1A1]">Лицевой счёт</span>-->
+<!--            <span class="text-dark">Кредит на образование для женщин</span>-->
+<!--          </li>-->
+<!--          <li class="menu-item flex justify-between items-center py-3 border-b-[1px] border-secondary">-->
+<!--            <span class="text-[#A1A1A1]">Последняя оплата</span>-->
+<!--            <span class="text-dark">Перечислением на банковский счет продавца</span>-->
+<!--          </li>-->
+<!--          <li class="menu-item flex justify-between items-center py-3 border-b-[1px] border-secondary">-->
+<!--            <span class="text-[#A1A1A1]">Дата последней оплаты</span>-->
+<!--            <span class="text-dark">Ежемесячно</span>-->
+<!--          </li>-->
+<!--          <li class="menu-item flex justify-between items-center pt-4">-->
+<!--            <span class="text-[#A1A1A1]">Показание счетчика</span>-->
+<!--            <span class="text-dark">04.06.2022</span>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+    <button type="submit" class="w-full h-11 bg-secondary py-1.5 text-white rounded-xl mt-6" (click)="onSubmit()"
+    [disabled]="paymentServiceForm.invalid"
+    [ngClass]="paymentServiceForm.valid ? 'text-white bg-secondary' : 'text-[#B0B8C1] bg-disabled-button cursor-not-allowed'"
+>Оплатить</button>
+  </div>
+<!--  <div class="p-4 border-1px border-secondary rounded-xl">-->
+<!--    <p class="font-medium mb-4">Мониторинг</p>-->
+<!--    <ul class="p-2 border-1px border-secondary rounded-xl">-->
+<!--      <li class="flex justify-between items-center px-2 py-4 border-b-1px border-secondary last:border-none last:pb-2 first:pt-2">-->
+<!--        <div class="flex justify-center items-center w-10 h-10 bg-[#EFF0F2] rounded-md mr-6">-->
+<!--          <app-ui-svg-icon path="./assets/icons/inputs-icons.svg#electricity" svgClass="w-8 h-8"></app-ui-svg-icon>-->
+<!--        </div>-->
+<!--        <div class="flex justify-between w-full">-->
+<!--          <p class="w-1/4 text-center">Электроэнергия</p>-->
+<!--          <span class="block w-[1px] bg-secondary"></span>-->
+<!--          <p class="w-1/4 text-center">1234567</p>-->
+<!--          <span class="block w-[1px] bg-secondary"></span>-->
+<!--          <p class="w-1/4 text-center text-[#05BC74]">+17 000.00 UZS</p>-->
+<!--          <app-ui-svg-icon path="./assets/icons/btn-icons.svg#salary_actions"-->
+<!--          svgClass="w-6 h-6 text-white mx-auto cursor-pointer rotate-90"></app-ui-svg-icon>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+</div>
+

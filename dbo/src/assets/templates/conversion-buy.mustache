@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    th {
+      border-collapse: collapse;
+      border: 1px solid darkgray;
+      padding: 5px 10px;
+    }
+
+    td {
+      text-align: center;
+      border-collapse: collapse;
+      border: 1px solid darkgray;
+      padding: 5px 10px;
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+<div class="w-full text-center">Заявления на покупку иностранной валюты</div>
+<div class="flex items-center justify-center">
+  <table>
+    <tr>
+      <th>ID Заявления</th>
+      <th>Дата</th>
+      <th>Номер</th>
+      <th>Курс</th>
+      <th>Сумма в валюте</th>
+      <th>Валюта</th>
+      <th>Сумма в UZS</th>
+      <th>Статус</th>
+    </tr>
+    {{#data}}
+      <tr style="page-break-inside: avoid;">
+        <td>{{ applicationId }}</td>
+        <td>{{ date }}</td>
+        <td>{{ docNum }}</td>
+        <td class="text-end">{{ rate }}</td>
+        <td class="text-end">{{ amountCurr }}</td>
+        <td>{{ curr }}</td>
+        <td class="text-end">{{ amount }}</td>
+        <td>{{ status }}</td>
+      </tr>
+    {{/data}}
+  </table>
+</div>
+
+
+</body>
+
+</html>

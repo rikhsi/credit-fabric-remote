@@ -1,0 +1,96 @@
+@for (data of transactions; track data) {
+  <div class="p-4 w-full mt-4  rounded-xl border border-secondary flex-col justify-start items-start flex">
+    <div class="self-stretch justify-between items-center inline-flex">
+      <div class="text-secondary text-xs font-normal">{{ data?.date }}</div>
+      <div class="flex gap-2 items-center" >
+
+      </div>      </div>
+    <div class="self-stretch justify-between items-center inline-flex">
+      <p class="flex items-center text-base mb-2.5">ID: {{ data.numberTrans }} <span
+        class="block w-[4px] h-[4px] rounded-full bg-secondary mx-2"></span> <span class="text-secondary text-sm">{{ data.purpose }} </span>
+      </p>
+      <div class="p-1.5 border-secondary rounded-[10px] max-w-min flex mr-2.5"
+           style="border-bottom-left-radius: 2px;">
+        <app-ui-svg-icon path="./assets/icons/btn-icons.svg#{{ data.isDebit ? 'deposit_topup' : 'deposit_send' }}"
+                         svgClass="w-6 h-6"></app-ui-svg-icon>
+      </div>
+    </div>
+
+    <div class="p-2 bg-lime-50 w-full rounded-xl grid grid-cols-2 gap-2">
+      <div class="flex flex-col gap-1">
+        <p>Дебет</p>
+        <table>
+          <tr>
+            <td class="text-secondary text-sm font-normal ">Имя:</td>
+            <td class="text-dark text-sm font-normal">{{ data.dtAccName }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">Счет:</td>
+            <td class="text-dark text-sm font-normal">{{ data.dtAcc }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">МФО:</td>
+            <td class="text-dark text-sm font-normal">{{ data.dtMfo }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">Сумма:</td>
+            <td class="text-dark text-sm font-normal">
+                  <span
+                    class="text-[#007aff] text-sm font-normal"
+                  >{{ data.debit.amount / 100 |mask:'separator' }}</span>
+              <span class="text-[#007aff] text-sm font-normal "> {{ data.debit.currency }}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <p>Кредит</p>
+        <table>
+          <tr class="align-top">
+            <td class="text-secondary text-sm font-normal ">Имя:</td>
+            <td class="text-dark text-sm font-normal">{{ data.ctAccName }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">Счет:</td>
+            <td class="text-dark text-sm font-normal">{{ data.ctAcc }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">МФО:</td>
+            <td class="text-dark text-sm font-normal">{{ data.ctMfo }}</td>
+          </tr>
+
+          <tr>
+            <td class="text-secondary text-sm font-normal ">Сумма:</td>
+            <td class="text-dark text-sm font-normal">
+                  <span
+                    class="text-[#007aff] text-sm font-normal"
+                  >{{ data.credit.amount / 100 | mask:'separator' }}</span>
+              <span class="text-[#007aff] text-sm font-normal "> {{ data.credit.currency }}</span>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+  </div>
+}
+
+@if(!transactions.length && !loading) {
+  <div class="my-4 text-center">Нет результатов</div>
+}
+
+@if(loading) {
+  <ul>
+    @for (items of [1,2,3,4,5] ; track items){
+      <li>
+        <span class="skeleton block rounded-12px h-10 w-full mb-2"></span>
+      </li>
+    }
+  </ul>
+}

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>{{name}}</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-size: 14px !important;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    @page {
+      size: landscape;
+    }
+
+    .border-dashed {
+      border-bottom-style: dashed !important;
+    }
+
+    td {
+      padding: 4px 6px;
+      text-align: start;
+      font-size: 10px;
+    }
+
+    .item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    th {
+      font-size: 10px;
+    }
+
+    thead tr td {
+      text-align: start;
+    }
+
+    .line-break::before {
+      content: "\A";
+      white-space: pre;
+    }
+
+    .page-break {
+      page-break-before: always; /* Forces a page break before the element */
+    }
+
+    .custom-table th,.custom-table td {
+      border: 1px solid gray;
+      border-collapse: collapse;
+    }
+
+  </style>
+</head>
+
+
+<body class="m-3">
+  <div class="item">
+    <table>
+      <tr class="border border-collapse text-center flex flex-col items-center">
+        <div class="text-center">Выписка лицевых счетов</div>
+        <div class="text-center">за {{ data.startDate }} - {{ data.endDate }}</div>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Дата изготовления</td>
+        <td colspan="2">{{ data.currentDate }}</td>
+        <td>Дата последней проводки</td>
+        <td>{{ data.lastDate }}</td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Номер счета</td>
+        <td colspan="2">{{ data.accountNumber }}</td>
+        <td>Ответ исполнитель</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td>наименование счета</td>
+        <td colspan="2">{{ data.accountTitle }}</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Остаток: Начало периода</td>
+        <td colspan="2">{{ data.balanceBefore }}</td>
+        <td>Остаток: Конец периода</td>
+        <td>{{ data.balanceAfter }}</td>
+      </tr>
+    </table>
+
+    <table class="custom-table">
+      <thead>
+      <tr>
+        <td class="font-bold" >№</td>
+        <td class="font-bold" >Номер документа</td>
+        <td class="font-bold" >№ Счета, наименование счета</td>
+        <td class="font-bold" >МФО</td>
+        <td class="font-bold" >Дата</td>
+        <td class="font-bold text-nowrap">Обороты по дебету</td>
+        <td class="font-bold text-nowrap">Обороты по кредиту</td>
+        <td class="font-bold" >Назначение платежа</td>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      {{#data.transactions}}
+        <tr style="page-break-inside: avoid;">
+          <td >{{ idx }}</td>
+          <td >{{ numberTrans }}</td>
+          <td >
+            <span>{{ dtAcc }}</span>
+            <span class="line-break">{{ dtAccName }}</span>
+          </td>
+          <td >{{ dtMfo }}</td>
+          <td >{{ date }}</td>
+          <td class="text-end">{{ debitAmount }}</td>
+          <td class="text-end">{{ creditAmount }} </td>
+          <td >{{ purpose }}</td>
+        </tr>
+      {{/data.transactions}}
+      <tr class="font-bold">
+        <td></td>
+        <td></td>
+        <td>Итого оборотов</td>
+        <td></td>
+        <td></td>
+        <td class="text-end">{{ data.totalDebit }}</td>
+        <td class="text-end">{{ data.totalCredit }}</td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+<script>
+</script>
+</html>

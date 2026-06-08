@@ -1,0 +1,52 @@
+<div class="organization mt-2 p-5">
+  <section class="mb-8">
+    <div
+      *ngIf="routerInfoItems()?.length; else fileIcon1 "
+    >
+
+      <div
+        class="w-full  bg-white rounded-2xl shadow-md  p-6 mx-auto mt-10"
+      >
+        <div class="flex justify-between">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Маршруты</h2>
+          <button
+            (click)="toggleEditing()"
+            class="px-4 py-2 text-sm font-medium border rounded-lg transition
+        border-gray-300 text-gray-700 hover:bg-gray-50"
+          >
+            Изменить
+          </button>
+        </div>
+
+        <div
+          *ngFor="let item of routerInfoItems()"
+          class="flex items-center justify-between py-3 "
+        >
+          <span *ngIf="item?.isUsed" class="text-gray-700 font-medium">{{ item.name }}</span>
+
+        </div>
+
+        <div class="flex justify-end gap-3 mt-6">
+
+
+<!--          <button-->
+<!--            (click)="save()"-->
+<!--            [disabled]="!editing || selectedRouterId === null"-->
+<!--            class="px-4 py-2 text-sm font-medium rounded-lg transition-->
+<!--        text-white bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"-->
+<!--          >-->
+<!--            Сохранить-->
+<!--          </button>-->
+        </div>
+      </div>
+
+    </div>
+    <ng-template #fileIcon1>
+      <div class="mt-10 text-center font-semibold text-[#FB3748]">
+        <span class="">
+          {{errorMessage()}}
+        </span>
+      </div>
+    </ng-template>
+  </section>
+</div>

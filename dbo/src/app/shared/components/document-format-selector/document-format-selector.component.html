@@ -1,0 +1,21 @@
+<div class="flex space-x-2">
+  <div *ngFor="let format of formats" (click)="selectFormat(format)"
+    class="flex items-center justify-center cursor-pointer">
+    @if (format === 'html') {
+      <img [src]="`./assets/new-icons/${selectedFormat() === format ? 'HTML' : 'HTML_2'}.svg`" alt="#" [style]="{height: '35px', width: '35px', opacity: selectedFormat() === format ? '1' : '0.6'}" />
+    }
+    @if (format === 'pdf') {
+      <img [src]="`./assets/new-icons/${selectedFormat() === format ? 'PDF' : 'PDF_2'}.svg`" alt="#" [style]="{height: '35px', width: '35px', opacity: selectedFormat() === format ? '1' : '0.6'}" />
+    }
+    @if (format === 'excel') {
+      <img [src]="`./assets/new-icons/${selectedFormat() === format ? 'EXCEL' : 'EXCEL_2'}.svg`" alt="#" [style]="{height: '35px', width: '35px', opacity: selectedFormat() === format ? '1' : '0.6'}" />
+    }
+    @if (format === 'word') {
+      <img [src]="`./assets/new-icons/${selectedFormat() === format ? 'DOC' : 'DOC_2'}.svg`" alt="#" [style]="{height: '35px', width: '35px', opacity: selectedFormat() === format ? '1' : '0.6'}" />
+    }
+    @if (format === 'csv') {
+      <img [src]="`./assets/new-icons/${selectedFormat() === format ? 'CSV' : 'CSV_2'}.svg`" alt="#" [style]="{height: '35px', width: '35px', opacity: selectedFormat() === format ? '1' : '0.6'}" />
+    }
+  </div>
+
+</div>

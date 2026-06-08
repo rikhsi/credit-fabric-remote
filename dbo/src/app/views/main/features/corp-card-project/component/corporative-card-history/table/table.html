@@ -1,0 +1,131 @@
+<!--  -->
+
+
+<div (click)="openHistoryRequisites()"
+  class="dark-box grid grid-cols-[auto_1fr_auto] px-2.5 gap-x-6 py-[12px] items-center cursor-pointer rounded-xl hover:bg-gray-50 dark:hover:!bg-[#262626]">
+  <div class="flex flex-col col-span-1 min-w-[100px] gap-1 text-end">
+    <div *ngIf="transaction?.amount?.amount" class="flex items-center gap-x-1 justify-start text-nowrap min-w-[200px]">
+      <span [style.color]="transaction?.isCredit && transaction.status == 'SUCCESS' ?  '#00A38D' : ''"
+        class="font-bold dark:text-white">
+        <span>
+          {{ transaction?.isCredit ? '+' : '-' }}
+        </span>
+        <span [style.color]="transaction?.isCredit && transaction.status == 'SUCCESS' ? '#00A38D' : ''"
+          class="text-[#171717] text-[18px] font-bold leading-10 dark:text-white">
+          {{(Math.floor(transaction?.amount?.amount / 100) | mask:'separator')}}
+        </span>
+        <span [style.color]="transaction?.isCredit && transaction.status == 'SUCCESS' ? '#00A38D' : ''"
+          class="text-[16px] leading-10 font-normal text-[#171717] dark:text-white">
+          .{{(Math.abs(transaction?.amount?.amount) % 100).toString().padStart(2, '0')}}
+        </span>
+        <span [style.color]="transaction?.isCredit && transaction.status == 'SUCCESS' ? '#00A38D' : ''"
+          class="text-[#171717] text-[18px] font-bold leading-10 dark:text-white">{{ transaction?.amount?.currency
+          }}</span>
+      </span>
+    </div>
+    <div *ngIf="!transaction?.amount?.amount" class="flex items-center gap-x-1 justify-start text-nowrap min-w-[200px]">
+      <span class="text-[#171717] text-[18px] font-bold leading-10 dark:text-white">0</span>
+      <span class="text-[#171717] text-[18px] font-bold leading-10 dark:text-white">{{ transaction?.amount?.currency
+        }}</span>
+    </div>
+    <div class="text-[13px] leading-[16.9px] text-[#7C8897] flex gap-1 justify-start items-center text-end">
+      <div class="bg-[#F7F7F7] rounded-full p-2">
+        <img [src]="transaction.statusLogo.path + transaction.statusLogo.name" width="12" height="12" alt="">
+      </div>
+      <span class="text-[12px] rounded-[10px] px-[2px] font-medium text-[#5C5C5C]">
+        {{ transaction.statusNameFront }}
+      </span>
+    </div>
+  </div>
+
+
+  <div class="flex flex-col col-span-1">
+    <div class="text-[#2D2D2D] text-[16px] font-medium leading-6 dark:text-white">
+      {{transaction.merchantName}}
+    </div>
+
+    <div class="flex text-[13px] leading-[16.9px] text-[#7C8897]">
+      <div>
+        <span>{{ transaction.description }}</span>
+        <div class="text-[#7C8897] mr-2">
+          {{ transaction.docNum ? '№' + transaction.docNum : '' }}
+          {{ formatDocDate(transaction.date) }},
+          {{ transaction.time }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-span-1 gap-3 min-w-[150px] flex justify-end items-center">
+    <button *ngIf="transaction?.canUserSign" class="flex gap-1 bg-[#00A38D] items-center px-2 rounded-[8px] h-[24px]">
+      <img width="12" height="12" src="./assets/new-icons/sign-icon.svg" alt="">
+      <p class="text-white text-[12px] font-semibold">{{'accounts.sign' | translate}}</p>
+    </button>
+
+    <button (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu" class="min-h-7 min-w-7">
+      <!--      <img src="assets/new-icons/dots-vertical.svg" alt="menu">-->
+      <span class="need">
+        <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+
+<!-- Three dot actions menu -->
+<mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+  <div *ngIf="checkProcessing(transaction.processing)" (click)="fromAccountToCard(transaction?.id)"
+    class="flex space-x-2  items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7]  text-custom-primary hover:text-[#008C79] hover:rounded-[6px]">
+    <!-- <img src="./assets/new-icons/reverse-right.svg" alt="#"> -->
+    <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.9102 5.08594H6.34766C4.17304 5.08594 2.41016 6.84882 2.41016 9.02344C2.41016 11.1981 4.17304 12.9609 6.34766 12.9609H12.9102M12.9102 5.08594L10.2852 2.46094M12.9102 5.08594L10.2852 7.71094"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <div class="text-[#5C5C5C] text-sm font-medium leading-5">{{'main.retry_alt' | translate}}</div>
+  </div>
+
+  <div (click)="share()"
+    class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] text-custom-primary hover:text-[#008C79] ">
+    <!-- <img src="./assets/new-icons/share-06.svg" alt="#"> -->
+    <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.5877 9.08557C12.7383 8.95645 12.8136 8.89189 12.8412 8.81507C12.8654 8.74764 12.8654 8.67389 12.8412 8.60646C12.8136 8.52963 12.7383 8.46508 12.5877 8.33596L7.36074 3.85574C7.10143 3.63348 6.97178 3.52235 6.86201 3.51963C6.76661 3.51726 6.67549 3.55917 6.6152 3.63314C6.54583 3.71826 6.54583 3.88902 6.54583 4.23054V6.88096C5.22861 7.1114 4.02305 7.77886 3.12716 8.78102C2.15043 9.87361 1.61014 11.2876 1.60938 12.7531V13.1307C2.25688 12.3507 3.06532 11.7198 3.97934 11.2814C4.78518 10.8948 5.65629 10.6658 6.54583 10.6055V13.191C6.54583 13.5325 6.54583 13.7033 6.6152 13.7884C6.67549 13.8624 6.76661 13.9043 6.86201 13.9019C6.97178 13.8992 7.10143 13.788 7.36074 13.5658L12.5877 9.08557Z"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <div class="text-[#5C5C5C] text-sm font-medium leading-5">{{'accounts.share' | translate}}</div>
+  </div>
+
+  @if(transaction.status == "SUCCESS"){
+  <div (click)="printPdf(transaction?.id)"
+    class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-[#F7F7F7] hover:rounded-[6px] text-custom-primary hover:text-[#008C79]">
+    <!-- <img src="./assets/new-icons/printer.svg" alt="#"> -->
+    <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clip-path="url(#clip0_3236_68125)">
+        <path
+          d="M11.7859 5.02344V3.87594C11.7859 3.16187 11.7859 2.80484 11.647 2.5321C11.5247 2.29219 11.3297 2.09714 11.0898 1.9749C10.817 1.83594 10.46 1.83594 9.74594 1.83594H6.17594C5.46187 1.83594 5.10484 1.83594 4.8321 1.9749C4.59219 2.09714 4.39714 2.29219 4.2749 2.5321C4.13594 2.80484 4.13594 3.16187 4.13594 3.87594V5.02344M4.13594 12.0359C3.54308 12.0359 3.24665 12.0359 3.00345 11.9708C2.34346 11.7939 1.82795 11.2784 1.6511 10.6184C1.58594 10.3752 1.58594 10.0788 1.58594 9.48594V8.08344C1.58594 7.01234 1.58594 6.47679 1.79439 6.06768C1.97775 5.70782 2.27032 5.41525 2.63018 5.23189C3.03929 5.02344 3.57484 5.02344 4.64594 5.02344H11.2759C12.347 5.02344 12.8826 5.02344 13.2917 5.23189C13.6516 5.41525 13.9441 5.70782 14.1275 6.06768C14.3359 6.47679 14.3359 7.01234 14.3359 8.08344V9.48594C14.3359 10.0788 14.3359 10.3752 14.2708 10.6184C14.0939 11.2784 13.5784 11.7939 12.9184 11.9708C12.6752 12.0359 12.3788 12.0359 11.7859 12.0359M9.87344 7.25469H11.7859M6.17594 14.5859H9.74594C10.46 14.5859 10.817 14.5859 11.0898 14.447C11.3297 14.3247 11.5247 14.1297 11.647 13.8898C11.7859 13.617 11.7859 13.26 11.7859 12.5459V11.5259C11.7859 10.8119 11.7859 10.4548 11.647 10.1821C11.5247 9.94219 11.3297 9.74714 11.0898 9.6249C10.817 9.48594 10.46 9.48594 9.74594 9.48594H6.17594C5.46187 9.48594 5.10484 9.48594 4.8321 9.6249C4.59219 9.74714 4.39714 9.94219 4.2749 10.1821C4.13594 10.4548 4.13594 10.8119 4.13594 11.5259V12.5459C4.13594 13.26 4.13594 13.617 4.2749 13.8898C4.39714 14.1297 4.59219 14.3247 4.8321 14.447C5.10484 14.5859 5.46187 14.5859 6.17594 14.5859Z"
+          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+      <defs>
+        <clipPath id="clip0_3236_68125">
+          <rect width="15" height="15" fill="white" transform="translate(0 0.5)" />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <div class="text-[#5C5C5C] text-sm font-medium leading-5"> {{'main.print' | translate}}</div>
+  </div>
+  }
+
+</mat-menu>

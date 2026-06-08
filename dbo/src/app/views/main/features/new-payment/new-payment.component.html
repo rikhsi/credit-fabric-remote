@@ -1,0 +1,292 @@
+<div class="flex gap-x-[15px]">
+
+  <div [formGroup]="signForm" class="grow p-[30px] bg-white rounded-[15px] shadow-sm">
+    <div class="flex flex-col gap-y-[30px]">
+      <div class="flex gap-x-2 items-center">
+        <mat-icon appLocationBack>arrow_back</mat-icon>
+        <span> Платежное поручениу № {{ docNum }} от {{ docDate }}</span>
+      </div>
+
+      <div class="flex gap-x-[30px]">
+        <div class="text-[14px] text-[#808185]">Номер и дата будет присвоен автоматически</div>
+        <div>Изменить</div>
+      </div>
+
+      <div>Плательщик</div>
+
+
+
+      <div class="w-full flex flex-col gap-[10px]">
+        <mat-form-field class="w-full" color="primary" appearance="outline" floatLabel="always">
+          <mat-label>Счет списания</mat-label>
+
+          <mat-select [(value)]="selectedAccount" placeholder="Выберите счет">
+            <mat-select-trigger>
+              @if(selectedAccount) {
+                <div class="grow border-l-transparent flex justify-between pe-[15px]">
+                  <div>
+                <span>
+                  {{ selectedAccount.accountTitle }} / {{ selectedAccount.altAcctId }}
+                </span>
+                  </div>
+
+                  <div>
+                    <span>{{ Number(selectedAccount.balance.amount) / 100 | mask:'separator' }}</span>
+                    <span class="text-[#8A97A4]">,{{ (Number(selectedAccount.balance.amount) % 100).toString().padStart(2, '0') }}</span>
+                    <span class="text-[#8A97A4]"> {{ selectedAccount.balance.currency }}</span>
+                  </div>
+                </div>
+              }
+            </mat-select-trigger>
+
+            @for(account of accounts; track account;) {
+              <mat-option [value]="account" (click)="selectSenderAccount(account)">
+                <div class="grow border-l-transparent flex justify-between">
+                  <div>
+                <span>
+                  {{ account.accountTitle }} / {{ account.altAcctId }}
+                </span>
+                  </div>
+
+                  <div>
+                    <span>{{ account.balance.amount / 100 | mask:'separator' }}</span>
+                    <span class="text-[#8A97A4]">,{{ (account.balance.amount % 100).toString().padStart(2, '0') }}</span>
+                    <span class="text-[#8A97A4]"> {{ account.balance.currency }}</span>
+                  </div>
+                </div>
+              </mat-option>
+            }
+          </mat-select>
+          <mat-icon matSuffix>
+            <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+          </mat-icon>
+        </mat-form-field>
+
+
+        <div class="self-end">
+          <div class="flex cursor-pointer" (click)="toggleRequisites()">
+            <div
+              class="select-none text-sm w-[142px] me-[8px]"
+            >
+              <span class="text-[#007AFF]">{{ isOpenRequisites ? 'Скрыть реквизиты' : 'Показать реквизиты' }}</span>
+            </div>
+          </div>
+        </div>
+
+
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="isOpenRequisites">
+            @if(businessUser) {
+              <div class="flex items-center gap-10 justify-center py-2.5 flex-wrap">
+                <div>
+                  <span>Наименование: </span>
+                  <span class="text-end text-[#8A97A4]"> {{ businessUser.name }}</span>
+                </div>
+                <div>
+                  <span>ИНН: </span>
+                  <span class="text-end text-[#8A97A4]"> {{ businessUser.inn }}</span>
+                </div>
+                <div>
+                  <span>МФО: </span>
+                  <span class="text-end text-[#8A97A4]"> {{ businessUser.mfo }}</span>
+                </div>
+              </div>
+            }
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+
+
+
+      <div class="font-medium text-[20px] text-[#2B2D33]">Получатель</div>
+
+      <div class="flex gap-[10px] p-[5px] w-fit rounded-[5px] items-center bg-[#EFF4F9]">
+        @for(mode of transactionModes; track mode.value) {
+          <div
+            class="py-[5px] px-[20px] rounded-[5px] cursor-pointer text-[#B0B8C1]"
+            (click)="selectMode(mode)"
+            [ngClass]="{'bg-[#264796] text-white': selectedMode?.value == mode.value }"
+          >
+            <div>{{ mode.name }}</div>
+          </div>
+        }
+      </div>
+
+      <div class="flex gap-[30px] flex-wrap" formGroupName="recipient">
+        @if( selectedMode?.value === 'TRANSACTION' ) {
+          <mat-form-field class="w-[calc(50%-15px)]" appearance="outline">
+            <mat-label>Код банка получателя</mat-label>
+            <input matInput formControlName="codeFilial">
+          </mat-form-field>
+        }
+
+        @if( selectedMode?.value === 'TRANSACTION' ) {
+          <mat-form-field class="w-[calc(50%-15px)]" appearance="outline">
+            <mat-label>Наименование банка получателя</mat-label>
+            <input matInput formControlName="pinfl">
+          </mat-form-field>
+        }
+
+        <mat-form-field class="w-[calc(50%-15px)]" appearance="outline">
+          <mat-label>Счет получателя</mat-label>
+          <input matInput formControlName="account">
+        </mat-form-field>
+
+        <mat-form-field class="w-[calc(50%-15px)]" appearance="outline">
+          <mat-label>ИНН / ПИНФЛ</mat-label>
+          <input matInput formControlName="tax">
+        </mat-form-field>
+
+        <mat-form-field class="grow" appearance="outline">
+          <mat-label>Наименование получателя</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex flex-col mt-[32px]" formGroupName="saldo">
+      <mat-form-field appearance="outline" class="amount-field">
+        <mat-label>Сумма</mat-label>
+        <input placeholder="Введите сумму" matInput type="number" formControlName="amount" />
+        @if (signForm.get('saldo.amount')?.valid) {
+          <span class="text-[#808185] pr-2" matSuffix>UZS</span>
+        }
+      </mat-form-field>
+    </div>
+
+    @if(selectedMode?.value === 'BUDGET') {
+      <div class="flex flex-col mt-[24px]">
+        <div class="mb-[4px] text-[#808185]">Код траншевого символа</div>
+        <mat-form-field appearance="outline">
+          <input matInput>
+        </mat-form-field>
+      </div>
+    }
+
+    <div class="flex flex-col mt-[24px]">
+      <div class="mb-[4px] text-[#808185]">Код назначения платежа (КНП)</div>
+      <mat-form-field appearance="outline">
+        <mat-select
+          [(value)]="selectedPurpose"
+          placeholder="Выберите код назначения"
+          panelClass="custom-select-panel"
+          disableRipple
+        >
+
+          <mat-form-field appearance="outline" class="w-full p-2">
+            <mat-label>Поиск</mat-label>
+            <input matInput placeholder="Введите текст для поиска..." [formControl]="searchText" />
+          </mat-form-field>
+
+          <mat-select-trigger>
+            <div class="flex gap-2">
+              @if(selectedPurpose) {
+                <div>{{ selectedPurpose.code }}</div>
+                <div>{{ selectedPurpose ? '-' : '' }}</div>
+                <div>{{ selectedPurpose.name }}</div>
+              }
+            </div>
+          </mat-select-trigger>
+
+          @for (p of purposes; track p.value;) {
+            <mat-option [value]="p" (click)="selectCode(p)">
+              <div class="flex gap-2">
+                <div>{{ p.code }}</div>
+                <div>-</div>
+                <div>{{ p.name }}</div>
+              </div>
+            </mat-option>
+          }
+
+          <mat-option class="!h-0 opacity-0 !hidden"> </mat-option>
+        </mat-select>
+
+
+        <mat-icon matSuffix>
+          <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />
+        </mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col mt-[24px]">
+      <div class="mb-[4px] text-[#808185]">Назначение платежа</div>
+
+      <mat-form-field appearance="outline" class="description-field h-[102px]">
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Введите назначение платежа"
+        maxlength="210"
+        style="resize: none"
+      ></textarea>
+        <span matSuffix class="align-bottom">{{ paymentDescription.length }} / 210</span>
+      </mat-form-field>
+    </div>
+
+    <div class="mt-[24px]">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-4">
+          @if(fromQuery !== 'templates') {
+            <button
+              (click)="submit('SEND')"
+              type="submit"
+              class="py-[11px] px-[24px] rounded-[8px] border border-[#D5D5D6]"
+              [ngClass]="{'text-[#2b2d333d] bg-[#E9EAEA]': !signForm.valid}"
+            >Подтвердить и отправить</button>
+          }
+          <button
+            (click)="submit()"
+            class="py-[11px] px-[24px] rounded-[8px] border border-[#D5D5D6]"
+          >
+            <span>Создать</span>
+            @if(fromQuery === 'templates') {
+              <span> шаблон</span>
+            }
+          </button>
+        </div>
+
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-select placeholder="Еще действия">-->
+<!--            <mat-option></mat-option>-->
+<!--          </mat-select>-->
+
+<!--          <mat-icon matSuffix>-->
+<!--            <img class="rotate-90" ngSrc="./assets/svg/chevron-down.svg" alt="chevron" width="24" height="24" />-->
+<!--          </mat-icon>-->
+<!--        </mat-form-field>-->
+
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="flex justify-between items-center">
+      <div class="uppercase text-[#333] font-medium">ШАБЛОНЫ</div>
+      <img ngSrc="./assets/svg/pattern-menu.svg" alt="chevron" width="30" height="30" />
+    </div>
+
+    <div class="mt-[11px] flex flex-col gap-y-[11px]">
+      @for(pattern of patterns; track pattern) {
+        <div class="w-[270px] flex flex-col gap-y-[5px] p-[15px] bg-white rounded-[12px]">
+          <div>{{ pattern.name ?? 'Default Name' }} </div>
+          <div class="text-[#7C8897] text-sm">
+            <span>{{ pattern.senderAmount.amount / 100 | mask: 'separator' }}</span>
+            <span>,{{ (pattern.senderAmount.amount % 100).toString().padStart(2, '0') }}</span>
+            <span> {{ pattern.senderAmount.currency }}</span>
+          </div>
+          <div
+            (click)="showPattern(pattern)"
+            class="bg-[#EFF4F9] py-[9px] px-[13px] self-end rounded-[30px]"
+          >
+            <img ngSrc="./assets/svg/Vector.svg" alt="vector" width="6" height="12" />
+          </div>
+        </div>
+      }
+
+      @if(!patterns.length) {
+        <div class="w-[270px] p-[15px] bg-white rounded-[12px] font-medium text-[#7C8897] text-sm">Пусто</div>
+      }
+    </div>
+  </div>
+</div>

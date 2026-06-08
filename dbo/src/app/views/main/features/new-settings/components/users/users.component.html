@@ -1,0 +1,179 @@
+<div class="space-y-6 px-5">
+  <div *ngIf="currentUser() && !errorMessage()">
+    <div>
+      <div  class="bg-white rounded-3xl p-4  border border-[#ebebebe]">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div >
+              <img src="./assets/icons/settings-user-icon.png" height="64" width="64" class="rounded-[17px]">
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <h2 class="text-sm font-semibold text-[#171717]">{{currentUser()?.lastname}} {{currentUser()?.firstname}}</h2>
+
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.886719" y="0.660156" width="24" height="24" rx="9" fill="#F5F5F5" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8867 6.66016C9.57301 6.66016 6.88672 9.34645 6.88672 12.6602C6.88672 15.9739 9.57301 18.6602 12.8867 18.6602C16.2004 18.6602 18.8867 15.9739 18.8867 12.6602C18.8867 9.34645 16.2004 6.66016 12.8867 6.66016ZM15.727 11.4095C15.94 11.1965 15.94 10.8511 15.727 10.6381C15.5139 10.4251 15.1686 10.4251 14.9556 10.6381L12.0685 13.5251L10.8179 12.2745C10.6049 12.0614 10.2595 12.0614 10.0465 12.2745C9.83347 12.4875 9.83347 12.8328 10.0465 13.0459L11.6828 14.6822C11.8959 14.8952 12.2412 14.8952 12.4542 14.6822L15.727 11.4095Z" fill="#1FC16B" />
+                  </svg>
+                  <span class="text-xs font-medium text-gray-600">
+                   {{'accounts.active' | translate}}
+                  </span>
+
+              </div>
+              <p class="green-text font-medium text-xs mb-1">{{currentUser()?.role?.displayName}}</p>
+              <p class="gray-text text-xs font-normal"> {{'settings.in_use' | translate}}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 border rounded-xl dark:border-[#333333] py-[7px] pr-1">
+              <span></span>
+              <span class=" font-medium text-sm !dark:text-[#f1f1f1]">{{'settings.company_owner_alt' | translate}}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                <rect x="0.886719" y="0.660156" width="24" height="24" rx="9" fill="#F5F5F5"/>
+                <path d="M12.8867 7.99414C12.7586 7.9941 12.6326 8.0269 12.5207 8.08939C12.4088 8.15189 12.3148 8.242 12.2477 8.35114L10.3867 12.6601L7.5387 9.67814C7.41717 9.60082 7.27594 9.56013 7.1319 9.56094C6.98786 9.56175 6.8471 9.60402 6.72644 9.6827C6.60578 9.76138 6.51034 9.87314 6.45151 10.0046C6.39268 10.1361 6.37296 10.2817 6.3947 10.4241L7.3537 16.6891C7.38074 16.8665 7.47047 17.0283 7.60661 17.1452C7.74275 17.2621 7.91628 17.3263 8.0957 17.3261H17.6777C17.8571 17.3263 18.0307 17.2621 18.1668 17.1452C18.3029 17.0283 18.3927 16.8665 18.4197 16.6891L19.3797 10.4241C19.4016 10.2816 19.382 10.1358 19.3231 10.0041C19.2642 9.87245 19.1687 9.76055 19.0478 9.68183C18.927 9.6031 18.786 9.56088 18.6418 9.56023C18.4976 9.55957 18.3562 9.60051 18.2347 9.67814L15.3867 12.6601L13.5257 8.35114C13.4586 8.242 13.3646 8.15189 13.2527 8.08939C13.1408 8.0269 13.0148 7.9941 12.8867 7.99414Z" fill="#00A38D"/>
+              </svg>
+            </div>
+            <img width="24" src="./assets/new-icons/setting-arrow-right.svg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex gap-2 font-semibold text-xl">
+        Пользователи
+      </div>
+      <button *ngIf="!errorMessage()"  (click)="openUserCreateDialog()" class="flex items-center gap-2 font-semibold border border-[#ebebeb] rounded-[12px] py-[10px] pr-[14px] pl-[16px] shadow-[0_1px_2px_0_rgba(10,13,20,0.03)] bg-white">
+        <span class="font-medium"> {{'settings.add' | translate}}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7.5 0.833333C7.5 0.373096 7.1269 0 6.66667 0C6.20643 0 5.83333 0.373096 5.83333 0.833333V5.83333H0.833333C0.373096 5.83333 0 6.20643 0 6.66667C0 7.1269 0.373096 7.5 0.833333 7.5H5.83333V12.5C5.83333 12.9602 6.20643 13.3333 6.66667 13.3333C7.1269 13.3333 7.5 12.9602 7.5 12.5V7.5H12.5C12.9602 7.5 13.3333 7.1269 13.3333 6.66667C13.3333 6.20643 12.9602 5.83333 12.5 5.83333H7.5V0.833333Z" fill="#00A38D"/>
+        </svg>
+      </button>
+    </div>
+      <div>
+        <div *ngIf="isLoading()" class="text-center mt-4">Загрузка...</div>
+          @if (userItems()?.length) {
+            <div  class="space-y-4">
+              <div *ngFor="let user of this.userItems()">
+                <div  (click)="loadUserInfo(user)" *ngIf="user.uuid !== currentUser()?.uuid" class=" rounded-3xl p-4 mb-[10px]  border border-[#ebebebe] select-none">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                      <div >
+                        <img src="./assets/icons/settings-user-icon.png" height="64" width="64" class="rounded-[17px]">
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2 mb-1">
+                          <h2 class="text-sm font-semibold text-[#171717]">{{user.lastname}} {{user.firstname}}</h2>
+                          @if (user?.status ==='ACTIVE'){
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="0.886719" y="0.660156" width="24" height="24" rx="9" fill="#F5F5F5" />
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8867 6.66016C9.57301 6.66016 6.88672 9.34645 6.88672 12.6602C6.88672 15.9739 9.57301 18.6602 12.8867 18.6602C16.2004 18.6602 18.8867 15.9739 18.8867 12.6602C18.8867 9.34645 16.2004 6.66016 12.8867 6.66016ZM15.727 11.4095C15.94 11.1965 15.94 10.8511 15.727 10.6381C15.5139 10.4251 15.1686 10.4251 14.9556 10.6381L12.0685 13.5251L10.8179 12.2745C10.6049 12.0614 10.2595 12.0614 10.0465 12.2745C9.83347 12.4875 9.83347 12.8328 10.0465 13.0459L11.6828 14.6822C11.8959 14.8952 12.2412 14.8952 12.4542 14.6822L15.727 11.4095Z" fill="#1FC16B" />
+                            </svg>
+                            <span class="text-xs font-medium text-gray-600">
+                                {{'accounts.active' | translate}}
+                            </span>
+                          } @else if (user?.status ==='NEW'){
+                          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.886719" y="0.660156" width="24" height="24" rx="9" fill="#F5F5F5" />
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8867 6.66016C9.57301 6.66016 6.88672 9.34645 6.88672 12.6602C6.88672 15.9739 9.57301 18.6602 12.8867 18.6602C16.2004 18.6602 18.8867 15.9739 18.8867 12.6602C18.8867 9.34645 16.2004 6.66016 12.8867 6.66016ZM15.727 11.4095C15.94 11.1965 15.94 10.8511 15.727 10.6381C15.5139 10.4251 15.1686 10.4251 14.9556 10.6381L12.0685 13.5251L10.8179 12.2745C10.6049 12.0614 10.2595 12.0614 10.0465 12.2745C9.83347 12.4875 9.83347 12.8328 10.0465 13.0459L11.6828 14.6822C11.8959 14.8952 12.2412 14.8952 12.4542 14.6822L15.727 11.4095Z" fill="#1FC16B" />
+                          </svg>
+                          <span class="text-xs font-medium text-gray-600">{{'new.awaiting_activation' | translate}}</span>
+                        }
+
+                        @else {
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0Z" fill="#FF4433" />
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.65431 3.38111C6.65431 3.01961 6.36126 2.72656 5.99976 2.72656C5.63826 2.72656 5.34521 3.01961 5.34521 3.38111V5.99929C5.34521 6.36079 5.63826 6.65384 5.99976 6.65384C6.36126 6.65384 6.65431 6.36079 6.65431 5.99929V3.38111ZM5.99976 7.96293C5.63826 7.96293 5.34521 8.25598 5.34521 8.61747C5.34521 8.97897 5.63826 9.27202 5.99976 9.27202H6.00631C6.3678 9.27202 6.66085 8.97897 6.66085 8.61747C6.66085 8.25598 6.3678 7.96293 6.00631 7.96293H5.99976Z" fill="white" />
+                            </svg>
+                            <span class="text-xs font-medium text-gray-600"> {{'myAccounts.blocked' | translate}}</span>
+                          }
+
+                        </div>
+                        <p class="green-text font-medium text-xs mb-1">{{user?.role?.displayName}}</p>
+                        <p class="text-custom-secondary text-xs font-medium flex items-center gap-1 mt-[6px]" *ngIf="user.lastSeen">
+                          <span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_14548_29779)">
+                                <path d="M13.9993 7.99935C13.9993 4.68564 11.3131 1.99935 7.99935 1.99935C4.68564 1.99935 1.99935 4.68564 1.99935 7.99935C1.99935 11.3131 4.68564 13.9993 7.99935 13.9993C11.3131 13.9993 13.9993 11.3131 13.9993 7.99935ZM7.33268 3.99935C7.33268 3.63116 7.63116 3.33268 7.99935 3.33268C8.36754 3.33268 8.66602 3.63116 8.66602 3.99935V7.58724L10.9642 8.73633C11.2935 8.90099 11.427 9.30154 11.2624 9.63086C11.0977 9.96018 10.6972 10.0937 10.3678 9.92904L7.70117 8.5957C7.47532 8.48277 7.33268 8.25186 7.33268 7.99935V3.99935ZM15.3327 7.99935C15.3327 12.0494 12.0494 15.3327 7.99935 15.3327C3.94926 15.3327 0.666016 12.0494 0.666016 7.99935C0.666016 3.94926 3.94926 0.666016 7.99935 0.666016C12.0494 0.666016 15.3327 3.94926 15.3327 7.99935Z" fill="#5C5C5C"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_14548_29779">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                                </defs>
+                                </svg>
+                          </span>
+                        <span>{{user.lastSeen}}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+<!--                      <img width="24" src="./assets/new-icons/setting-arrow-right.svg" alt="">-->
+                      <div class="w-[24px] dark-box">
+                        <span class="need">
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9.88672 18.6602L15.8867 12.6602L9.88672 6.66016" stroke="currentColor"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+            <div *ngIf="!isLoading() && !userItems().length" class="font-semibold text-xl text-center">
+              @if (errorMessage()) {
+                <span class="text-[#FB3748]">{{errorMessage()}}</span>
+              } @else {
+                <span> {{'new.no_information' | translate}}</span>
+              }
+             </div>
+
+        </div>
+  </div>
+  <ng-template #dialogDeleteTemplate>
+    <div style="overflow: hidden !important;"  class="bg-white rounded-[32px] w-[359px] flex flex-col items-center justify-between p-5 relative">
+
+      <button
+        mat-dialog-close
+        type="button"
+        class="flex justify-center items-center absolute right-[16px] top-[16px]
+             rounded-[50px] p-[2px] w-[32px] h-[32px] bg-[#f5f5f5] hover:bg-[#e5e5e5] transition"
+      >
+        <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.293 1.03906C10.6835 0.648538 11.3165 0.648538 11.707 1.03906C12.0975 1.42959 12.0975 2.06261 11.707 2.45312L7.41406 6.74609L11.707 11.0391C12.0975 11.4296 12.0975 12.0626 11.707 12.4531C11.3165 12.8436 10.6835 12.8436 10.293 12.4531L6 8.16016L1.70703 12.4531C1.31651 12.8436 0.683495 12.8436 0.292969 12.4531C-0.0975555 12.0626 -0.0975554 11.4296 0.292969 11.0391L4.58594 6.74609L0.292969 2.45312C-0.0975555 2.0626 -0.0975555 1.42959 0.292969 1.03906C0.683493 0.648538 1.31651 0.648538 1.70703 1.03906L6 5.33203L10.293 1.03906Z" fill="#73757B" />
+        </svg>
+      </button>
+
+      <div class="flex-shrink-0 mt-2">
+        <div class="w-[57px] h-[57px] bg-gray-100 rounded-[14px] flex items-center justify-center">
+          <img width="24" src="./assets/new-icons/alert-triangle.svg" alt="">
+        </div>
+      </div>
+      <div class="flex-1 p-1 mt-6 flex flex-col items-center justify-center text-center">
+        <h2 class="text-xl font-bold text-gray-900 mb-3">
+          Вы уверены, что хотите удалить?
+        </h2>
+        <p class="text-gray-500 text-base px-2 leading-relaxed">
+          Это действие нельзя будет отменить. Все связанные операции будут приостановлены.
+        </p>
+      </div>
+      <div class="flex gap-3 w-full flex-shrink-0 mt-6">
+        <button (click)="deleteUser()" class="rounded-xl px-4 py-0 w-[151px] h-12 min-h-12 bg-[#f3f4f6] font-semibold text-[15px]">
+          Подтвердить
+        </button>
+        <button (click)="closeDialog()" class="rounded-xl px-4 py-0 w-[151px] font-semibold text-[15px]  h-12 min-h-12 bg-[#008c79] text-white">
+          Отмена
+        </button>
+      </div>
+
+    </div>
+  </ng-template>
+
+</div>

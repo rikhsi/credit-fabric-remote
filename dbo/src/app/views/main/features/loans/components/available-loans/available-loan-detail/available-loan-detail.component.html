@@ -1,0 +1,152 @@
+<div class="p-[30px] bg-white rounded-[15px] shadow flex-col justify-start items-start gap-[30px] inline-flex">
+  <div class="flex flex-col gap-y-5">
+    <app-container-nav [navs]="navs"></app-container-nav>
+    <app-container-title [title]="title"></app-container-title>
+  </div>
+
+  <app-loan-header [loan]="loan"></app-loan-header>
+
+<!--  <div class="self-end">-->
+<!--    <button-->
+<!--      [routerLink]="['/loans/create-loan', loan?.id]"-->
+<!--      matRipple-->
+<!--      class="w-[220px] h-10 px-5 py-2.5 bg-[#264796] rounded-[5px] border justify-center items-center gap-2 inline-flex text-white">-->
+<!--      Подать заявку-->
+<!--    </button>-->
+<!--  </div>-->
+
+  <div class="mb-4 w-full rounded-[10px] loan-tab">
+    <div style="overflow:hidden">
+      <div>
+        <ul class="p-[5px] bg-[#eff4f9] rounded-lg justify-start items-center mb-6 gap-2.5 inline-flex">
+          <button matRipple class="px-2.5 py-[5px]  rounded-[5px] justify-center items-center gap-2 inline-flex"
+                  [class.active]="viewMode == 'about'" rel="about" (click)="viewMode = 'about'">
+            О кредите
+          </button>
+          <button matRipple class="px-2.5 py-[5px]  rounded-[5px] justify-center items-center gap-2 inline-flex"
+                  [class.active]="viewMode == 'rates'" rel="rates" (click)="viewMode = 'rates'">
+            Тарифы и условия
+          </button>
+          <button matRipple class="px-2.5 py-[5px]  rounded-[5px] justify-center items-center gap-2 inline-flex"
+                  [class.active]="viewMode == 'terms'" rel="terms" (click)="viewMode = 'terms'">
+            Условия и требования
+          </button>
+          <button matRipple class="px-2.5 py-[5px]  rounded-[5px] justify-center items-center gap-2 inline-flex"
+                  [class.active]="viewMode == 'docs'" rel="docs" (click)="viewMode = 'docs'">
+            Документы
+          </button>
+        </ul>
+        <div class="leading-[21px] self-stretch" [ngSwitch]="viewMode">
+          <div class="pb-2" id="about" *ngSwitchCase="'about'">
+            <ul class="list-disc pl-[30px] flex flex-col gap-y-5">
+              <li>
+                {{ loan.aimCredit }};
+              </li>
+              @if(loan.withLoanLine) {
+                <li>
+                  С открытой или без открытия кредитной линии;
+                </li>
+              }
+              <li>Количество создаваемых новых рабочих мест - от 3 до 5 человек;</li>
+              <li>Срок кредита - до {{ loan.period }} месяцев;</li>
+              <li>Льготный период - до {{ loan.period }} месяцев;</li>
+            </ul>
+
+            <div class="mt-5">Процентная ставка по кредиту:</div>
+
+            <ul class="list-disc pl-[30px] flex flex-col gap-y-5">
+              @for (map of getPerentages(); track map) {
+                <li>
+                  <span>Срок кредита до {{ map.month }} месяцев – {{ map.percent }},00% в национальной валюте, - {{ map.currency }},00% в иностранной валюте;</span>
+                </li>
+              }
+              <li>Сумма кредита - до {{ separateAmount((loan.maxAmount || 0)/100) }} ({{ amountService.numberToWordsRU((loan.maxAmount || 0)/100)}}) сум экв.</li>
+              <li>{{ loan.description1 }}</li>
+              <li>{{ loan.description2 }}</li>
+              <li>{{ loan.description3 }}</li>
+
+            </ul>
+          </div>
+
+          <div class="pb-2 w-full" id="rates" *ngSwitchCase="'rates'">
+            <ul class="w-full">
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Процентная ставка</span>
+                <span class="text-dark">{{ loan.percentage }}%</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Сумма кредита</span>
+                <span class="text-dark">{{ amountService.convertToAmount((loan.maxAmount || 0)) }}</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Цель кредита</span>
+                <span class="text-dark">{{ loan.aimCreditShort }}</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Форма предоставления</span>
+                <span class="text-dark">{{ loan.submissionForm }}</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Периодичность платежей</span>
+                <span class="text-dark">{{ fequencyMap[loan.frequencyPayment || 'MONTHLY'] }}</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Способ погашения</span>
+                <span class="text-dark">{{ loan.repaymentTypes }}</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Срок кредита</span>
+                <span class="text-dark">до {{ loan.period }} месяцев</span>
+              </li>
+              <li class="flex justify-between items-center py-4 border-b-[1px] border-secondary">
+                <span class="text-[#A1A1A1]">Способ оформления кредита</span>
+                <span class="text-dark">{{ loan.loanOfferType }}</span>
+              </li>
+              <li class="flex justify-between items-center pt-4">
+                <span class="text-[#A1A1A1]">Льготный период</span>
+                <span class="text-dark">{{ loan.gracePeriod }}</span>
+              </li>
+            </ul>
+          </div>
+
+
+          <div class="pb-2 flex flex-col gap-y-4" id="terms" *ngSwitchCase="'terms'">
+            <div class="text-[20px] text-[#040404] font-medium">
+              Для получения кредита необходимо представить в банк следующие документы:
+            </div>
+
+            <ul class="list-disc pl-5 flex flex-col gap-y-5">
+              @for(d of loan.necessaryDocumentInfoList; track $index) {
+                <li>{{ d }}</li>
+              }
+            </ul>
+          </div>
+
+          <div id="docs" class="flex flex-col gap-y-6" *ngSwitchCase="'docs'">
+            @for(item of loan.necessaryDocumentList | keyvalue; track item.key) {
+              <div class="flex flex-col gap-y-5 p-4 rounded-[8px] border border-[#EFF4F9]">
+                <div class="leading-[21px]">{{ item.key }}</div>
+
+                <div class="flex justify-between">
+                  <div class="flex gap-x-5 items-center">
+                    <a [href]="item.value.fileUrl" download class="flex gap-x-2 items-center">
+                      <img ngSrc="./assets/svg/fi_download.svg" alt="download" width="24" height="24">
+                      <span class="text-[#264796]">Скачать</span>
+                    </a>
+
+                    <a [href]="item.value.fileUrl" target="_blank" class="text-[#007AFF]">Просмотр</a>
+                  </div>
+
+                  <div class="flex gap-x-6 items-center">
+                    <span class="text-sm text-[#A1A1A1]">Размер: {{ getFileSize(item.value.fileSize) }}</span>
+                    <span class="text-sm text-[#A1A1A1]">Формат: {{ getFileType(item.value.fileType) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="relative">
+  <mat-menu #monthMenu="matMenu" class="menu-actions !rounded-2xl !p-0 !overflow-hidden">
+    <div class="w-[300px]" (click)="$event.stopPropagation()">
+      <div class="px-5 pt-4">
+        <p class="text-center font-semibold text-custom-primary mb-6">Добавьте период</p>
+
+        <!-- Year selector -->
+        <div class="flex items-center justify-between mb-4 bg-surface-1 p-1.5 rounded-xl">
+          <button
+            class="w-6 h-6 rounded-[8px] border border-custom-border flex items-center justify-center bg-white cursor-pointer"
+            (click)="changeYear(-1)">
+            <app-icon icon="chevronLeft" size="14" svgClass="fill-[#00A38D]"></app-icon>
+          </button>
+          <span class="text-sm font-medium text-custom-secondary">{{ year() }}</span>
+          <button
+            class="w-6 h-6 rounded-[8px] border border-custom-border flex items-center justify-center bg-white cursor-pointer"
+            (click)="changeYear(1)">
+            <app-icon icon="chevronRight" size="14" svgClass="fill-[#00A38D]"></app-icon>
+          </button>
+        </div>
+
+        <!-- Month grid -->
+        <div class="grid grid-cols-3 gap-0.5 mb-4">
+          @for (month of months; track month.index) {
+            <button
+              class="py-2 text-[13px] border-none cursor-pointer w-full rounded-xl transition-colors"
+              [ngClass]="getMonthClasses(month.index)"
+              (click)="selectMonth(month.index)">
+              {{ month.name }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-2 px-4 py-3 border-t border-custom-border">
+        <button
+          class="flex-1 h-9 rounded-xl bg-surface-1 text-custom-primary text-[13px] font-medium border border-custom-border cursor-pointer"
+          (click)="cancel()">
+          Отменить
+        </button>
+        <button
+          class="flex-1 h-9 rounded-xl text-[13px] font-medium border-none transition-opacity duration-150"
+          [class.bg-[#00A38D]]="canApply()"
+          [class.text-white]="canApply()"
+          [class.opacity-50]="!canApply()"
+          [class.cursor-pointer]="canApply()"
+          [class.cursor-not-allowed]="!canApply()"
+          [disabled]="!canApply()"
+          (click)="apply()">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </mat-menu>
+
+  <!-- Trigger: has value -->
+  @if (appliedMonths().size > 0) {
+    @let labels = appliedLabels();
+    <div
+      class="border cursor-pointer bg-white border-custom-border rounded-[10px]"
+      #trigger="matMenuTrigger"
+      [matMenuTriggerFor]="monthMenu"
+      [class.!border-[#00A38D]]="trigger.menuOpen">
+      <div class="flex items-center min-h-8 gap-2 px-3 py-1.5 flex-wrap">
+        <span class="text-sm text-custom-primary shrink-0">Период</span>
+
+        <!-- Individual month chips -->
+          <mat-chip
+            class="!bg-surface-1 !h-[20px] selected_date"
+            [style.border-radius.px]="borderRadius()"
+            [style.border-width.px]="borderWidth()"
+            [style.border-style]="borderStyle()"
+            [style.border-color]="borderColor()"
+            [removable]="true"
+            (removed)="clearAll()">
+            <span class="text-custom-primary text-xs font-medium">
+              {{ appliedLabels().join(', ') }}
+            </span>
+            <app-icon matChipRemove icon="xClose" size="16" svgClass="fill-custom-primary"></app-icon>
+          </mat-chip>
+
+        <!-- Clear all -->
+        <!-- <button
+          class="ml-auto p-0.5 rounded-full hover:bg-surface-1 transition-colors"
+          (click)="clearAll(); $event.stopPropagation()">
+          <app-icon icon="xClose" size="14" svgClass="fill-custom-muted"></app-icon>
+        </button> -->
+
+        <app-icon icon="calendar" size="18" svgClass="fill-custom-muted"></app-icon>
+      </div>
+    </div>
+
+  <!-- Trigger: empty -->
+  } @else {
+    <button
+      class="flex items-center gap-1.5 px-3.5 py-2 bg-white border border-custom-border rounded-[10px] shadow-[0px_1px_2px_rgba(10,13,20,0.03)] cursor-pointer"
+      #trigger="matMenuTrigger"
+      [matMenuTriggerFor]="monthMenu"
+      (menuClosed)="store.monthsControl.markAsTouched()"
+      [class.!border-[#00A38D]]="trigger.menuOpen"
+      [class.!border-red-500]="store.monthsInvalid()">
+      <span class="text-xs font-semibold text-custom-primary">Добавить период</span>
+      <app-icon icon="plus" size="16" svgClass="fill-[#00A38D]"></app-icon>
+    </button>
+    @if (store.monthsInvalid()) {
+      <span class="text-[12px] font-medium text-[#FB3748]">Необходимо выбрать период</span>
+    }
+  }
+</div>

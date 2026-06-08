@@ -1,0 +1,55 @@
+<div
+  *ngIf="office"
+  (click)="setOffice(office)"
+  [ngClass]="
+      selected?.uuid === office.uuid
+        ? 'bg-secondary'
+        : 'bg-transparent'
+    "
+  class="p-2 w-[239px] h-[83px] rounded-2xl border border-solid border-[rgba(114,121,112,0.16)] flex flex-col gap-1  cursor-pointer">
+<div class="flex justify-between ">
+ <div  class="rounded-lg p-2 bg-gray-200">
+   <app-ui-svg-icon
+     path="./assets/icons/btn-icons.svg#buildings"
+     svgClass="h-6 w-6"></app-ui-svg-icon>
+ </div>
+  <div>
+@if(office.uuid === selected?.uuid){
+  <app-ui-svg-icon
+    [matMenuTriggerFor]="menu"
+    path="./assets/icons/btn-icons.svg#more-light"
+    svgClass="w-6 h-6 cursor-pointer"></app-ui-svg-icon>
+} @else {
+  <app-ui-svg-icon
+    [matMenuTriggerFor]="menu"
+    path="./assets/icons/btn-icons.svg#more"
+    svgClass="w-6 h-6 cursor-pointer"></app-ui-svg-icon>
+
+}
+  </div>
+</div>
+    <span  [ngClass]="
+      office.uuid === selected?.uuid
+        ? 'text-white'
+        : 'text-secondary'
+    " class="text-base font-normal ">
+      {{ office.name }}
+
+    </span>
+<mat-menu #menu="matMenu" xPosition="before" class="menu-actions">
+<div (click)="doAction('edit')" class=" p-2 flex gap-x-2 items-center cursor-pointer">
+  <app-ui-svg-icon
+    path="./assets/icons/btn-icons.svg#edit-2"
+    svgClass="w-4 h-4"></app-ui-svg-icon>
+  <div class="text-xs">Редактировать</div>
+</div>
+  <div (click)="doAction('delete')" class="p-2 flex gap-x-2 items-center  cursor-pointer">
+    <app-ui-svg-icon
+      path="./assets/icons/btn-icons.svg#trash"
+      svgClass="w-4 h-4"></app-ui-svg-icon>
+    <div class="text-xs">Удалить</div>
+  </div>
+</mat-menu>
+
+
+</div>

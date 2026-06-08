@@ -1,0 +1,16 @@
+<div class="flex flex-col gap-y-3">
+  <div class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Сумма</span>
+    <span>{{ amountService.convertToAmount(detail.amount) }}</span>
+  </div>
+
+  <div class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Период</span>
+    <span>{{ detail.period + ' дней' }}</span>
+  </div>
+
+  <div class="flex gap-x-4 items-center text-[14px]">
+    <span class="w-[130px] text-secondary">Счёт зачисления</span>
+    <span>{{ detail.senderAccount }}</span>
+  </div>
+</div>

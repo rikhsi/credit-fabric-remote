@@ -1,0 +1,176 @@
+<!-- new-account-items.component.html -->
+
+<div (click)="navigateAccount()"
+     class="grid items-center gap-x-4
+           grid-cols-[330px_1fr_60px_1fr_1fr_40px_40px_40px]
+            hover:bg-surface-1 cursor-pointer px-[20px] py-4  bg-surface-2">
+
+  <div class="flex items-center space-x-3 flex-shrink-0  pr-4">
+    @if (accounts()?.balance?.logo) {
+      <img [src]="`${accounts()?.balance?.logo?.path}${accounts()?.balance?.logo?.name}`"
+           width="35" height="35" class="flex-shrink-0" alt="">
+    }
+    <div class="flex flex-col flex-wrap">
+      <div class="text-custom-primary text-base font-medium flex items-center gap-2">
+        @if (!isHidden(accounts()?.altAcctId)) {
+          <span class="whitespace-wrap" [appHighlight]="searchText()" highlightClass="bg-transparent text-primary-base">{{accounts()?.altAcctId}}</span>
+        } @else {
+          <!-- <img src="./assets/new-icons/account-hide-dots.svg" width="132" alt=""> -->
+            <app-svg-icon [name]="'hamkor_account-hide-dots'" [width]="132"></app-svg-icon>
+        }
+        <span (click)="copyAcctId($event)" class="flex-shrink-0">
+          <svg class="w-5 h-5 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25" fill="none">
+            <path d="M16 8.5V5.7C16 4.5799 16 4.01984 15.782 3.59202C15.5903 3.21569 15.2843 2.90973 14.908 2.71799C14.4802 2.5 13.9201 2.5 12.8 2.5H5.2C4.0799 2.5 3.51984 2.5 3.09202 2.71799C2.71569 2.90973 2.40973 3.21569 2.21799 3.59202C2 4.01984 2 4.5799 2 5.7V13.3C2 14.4201 2 14.9802 2.21799 15.408C2.40973 15.7843 2.71569 16.0903 3.09202 16.282C3.51984 16.5 4.0799 16.5 5.2 16.5H8M11.2 22.5H18.8C19.9201 22.5 20.4802 22.5 20.908 22.282C21.2843 22.0903 21.5903 21.7843 21.782 21.408C22 20.9802 22 20.4201 22 19.3V11.7C22 10.5799 22 10.0198 21.782 9.59202C21.5903 9.21569 21.2843 8.90973 20.908 8.71799C20.4802 8.5 19.9201 8.5 18.8 8.5H11.2C10.0799 8.5 9.51984 8.5 9.09202 8.71799C8.71569 8.90973 8.40973 9.21569 8.21799 9.59202C8 10.0198 8 10.5799 8 11.7V19.3C8 20.4201 8 20.9802 8.21799 21.408C8.40973 21.7843 8.71569 22.0903 9.09202 22.282C9.51984 22.5 10.0799 22.5 11.2 22.5Z"
+                  stroke="#9799A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+
+      @if(accounts()?.status === 'ACTIVE') {
+      <div class="inline-flex w-fit items-center rounded-[6px] gap-1.5 mt-1">
+        <div class="w-6 h-6 flex-shrink-0 bg-surface-1 rounded-[9px] flex items-center justify-center">
+            <img src="./assets/new-icons/active-account.svg" width="12" height="12" alt="">
+        </div>
+        <span [style.color]="accounts()?.status === 'BLOCKED' ? '#FB3748' : 'var(--text-secondary)'" class="text-xs pr-2 font-medium">
+          {{'myAccounts.active' | translate}}
+        </span>
+      </div>
+      }@else {
+          <div class="flex items-center gap-[6px]">
+                  <div class="bg-[#FFEBEC] flex items-center gap-[6px] rounded-[7px] py-[4px] px-[8px]">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M6 1C4.34315 1 3 2.34315 3 4V5.01357C2.95663 5.01596 2.91466 5.01878 2.87409 5.0221C2.59304 5.04506 2.33469 5.09434 2.09202 5.21799C1.7157 5.40973 1.40973 5.7157 1.21799 6.09202C1.09434 6.33469 1.04506 6.59304 1.0221 6.87409C0.999989 7.14468 0.999994 7.47686 1 7.87934V8.12065C0.999994 8.52313 0.999989 8.85532 1.0221 9.12591C1.04506 9.40696 1.09434 9.66531 1.21799 9.90798C1.40973 10.2843 1.7157 10.5903 2.09202 10.782C2.33469 10.9057 2.59304 10.9549 2.87409 10.9779C3.14469 11 3.47687 11 3.87936 11H8.12064C8.52313 11 8.85531 11 9.12591 10.9779C9.40696 10.9549 9.66531 10.9057 9.90798 10.782C10.2843 10.5903 10.5903 10.2843 10.782 9.90798C10.9057 9.66531 10.9549 9.40696 10.9779 9.12591C11 8.85532 11 8.52314 11 8.12066V7.87934C11 7.47686 11 7.14468 10.9779 6.87409C10.9549 6.59304 10.9057 6.33469 10.782 6.09202C10.5903 5.7157 10.2843 5.40973 9.90798 5.21799C9.66531 5.09434 9.40696 5.04506 9.12591 5.0221C9.08534 5.01878 9.04338 5.01596 9 5.01357V4C9 2.34315 7.65685 1 6 1ZM8 5V4C8 2.89543 7.10457 2 6 2C4.89543 2 4 2.89543 4 4V5H8Z"
+                            fill="#FB3748"/>
+                    </svg>
+                    <span class="text-[#FB3748] text-xs">{{ 'myAccounts.blocked' | translate}}</span>
+                    <button
+                      type="button"
+                      class="cursor-pointer flex items-center justify-center"
+                      [matTooltip]="blockedTooltip"
+                      matTooltipPosition="right"
+                      matTooltipClass="blocked-tooltip-right"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_19322_232702)">
+                          <path
+                            d="M12.5 8C12.5 5.51472 10.4853 3.5 8 3.5C5.51472 3.5 3.5 5.51472 3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8ZM7.5 10V8C7.5 7.72386 7.72386 7.5 8 7.5C8.27614 7.5 8.5 7.72386 8.5 8V10C8.5 10.2761 8.27614 10.5 8 10.5C7.72386 10.5 7.5 10.2761 7.5 10ZM8.00488 5.5C8.28103 5.5 8.50488 5.72386 8.50488 6C8.50488 6.27614 8.28103 6.5 8.00488 6.5H8C7.72386 6.5 7.5 6.27614 7.5 6C7.5 5.72386 7.72386 5.5 8 5.5H8.00488ZM13.5 8C13.5 11.0376 11.0376 13.5 8 13.5C4.96243 13.5 2.5 11.0376 2.5 8C2.5 4.96243 4.96243 2.5 8 2.5C11.0376 2.5 13.5 4.96243 13.5 8Z"
+                            fill="#FB3748"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_19322_232702">
+                            <rect width="12" height="12" fill="white" transform="translate(2 2)"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </button>
+                  </div>
+            </div>
+      }
+
+
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-1 min-w-0 ">
+    <div *ngIf="accounts()?.accountType as type"
+         class="text-custom-primary text-sm font-medium leading-5">
+<!--      {{ type.length > 30 ? type.slice(0,29) + '...' : type }}-->
+      {{type}}  
+    </div>
+
+  </div>
+  <!-- don't remove empty div it is for styling  -->
+    <div></div>
+    <div class="text-custom-secondary text-xs leading-5 truncate ">
+      <!-- truncate -->
+            <!-- {{'global.mfo' | translate}}  -->
+{{ accounts()?.codeFilial }}
+    </div>
+  <div class="text-custom-primary text-[14px] font-medium leading-5 whitespace-nowrap min-w-0 px-2  truncate flex">
+    <!-- truncate -->
+    <div *ngIf="!isHidden(accounts()?.altAcctId) && accounts()?.balance as balance;else imgData">
+      {{ integerPart(balance.amount) }},{{ decimalPart(balance.amount) }} {{ balance.currency }}
+    </div>
+    <ng-template #imgData>
+      @if (isHidden(accounts()?.altAcctId)) {
+        <!-- <img src="./assets/new-icons/account-hide-dots.svg" width="132" alt=""> -->
+           <app-svg-icon [name]="'hamkor_account-hide-dots'" classes="text-[132px] w-[132px]" [width]="132"></app-svg-icon>
+      }
+    </ng-template>
+  </div>
+<!-- (click)="(this.userService.hasAction('ACCOUNTS') && accounts()?.status !== 'BLOCKED') ? onPinClick($event) : null" -->
+  <div class="flex-shrink-0 w-10 h-10 flex justify-center items-center"
+       (click)="this.userService.hasAction('ACCOUNTS') && onPinClick($event)"
+       [style.cursor]="this.userService.hasAction('ACCOUNTS') ? 'pointer' : 'not-allowed'">
+    @if (accounts()?.hasPinned) {
+      <img width="22" src="assets/new-icons/pin-active.svg" class="cursor-pointer" alt="">
+    } @else {
+      <img width="22" src="assets/new-icons/pin-inactive.svg" class="cursor-pointer" alt="">
+    }
+  </div>
+
+  <div 
+       class="flex-shrink-0 w-10 h-10 flex justify-center items-center"
+       (click)="toggleAccountVisibility($event, accounts()?.altAcctId)">
+    @if (!isHidden(accounts()?.altAcctId)) {
+      <img width="22" class="cursor-pointer" src="assets/new-icons/eye-off.svg" alt="">
+    } @else {
+      <img width="22" class="cursor-pointer" src="assets/new-icons/eye.svg" alt="">
+    }
+  </div>
+
+  <div class="flex-shrink-0 flex justify-center items-center">
+    <button (click)="$event.stopPropagation()"
+        class="min-w-7 min-h-7"
+            [matMenuTriggerFor]="this.userService.hasAction('ACCOUNTS') ? menu : null"
+            [style.opacity]="this.userService.hasAction('ACCOUNTS') ? '1' : '0.3'">
+      <!-- <img src="assets/new-icons/dots-vertical.svg" alt="menu"> -->
+       <app-svg-icon classes="text-custom-primary" [name]="'hamkor_dots-vertical'"></app-svg-icon>
+    </button>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu" xPosition="before" (click)="$event.stopPropagation()" class="menu-actions">
+<!--  @if(accounts()?.status === 'BLOCKED') {-->
+<!--    <div class="w-[500px] p-4">-->
+<!--      <p class="text-custom-primary">{{ accounts()?.accBlockReason }}</p>-->
+<!--    </div>-->
+<!--  } @else {-->
+    <div class="space-x-2 hidden items-center p-[6px] cursor-pointer hover:bg-surface-1 hover:rounded-[6px]"
+         (click)="blockAccount()">
+      <app-svg-icon name="hamkor_blocked_outline" [size]="20"></app-svg-icon>
+      <div class="text-custom-secondary text-sm font-medium leading-5">{{'accounts.block'| translate}}</div>
+    </div>
+    <div
+      [matTooltip]="this.userService.hasAction('STATEMENTS') ? '' : 'У вас нет прав'"
+      [style.user-select]="this.userService.hasAction('STATEMENTS') ? '' : 'none'"
+      [style.opacity]="this.userService.hasAction('STATEMENTS') ? '1' : '0.3'"
+      [style.cursor]="this.userService.hasAction('STATEMENTS') ? 'pointer' : 'not-allowed'"
+      class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-surface-1 hover:rounded-[6px]"
+         (click)="this.userService.hasAction('STATEMENTS') ? navigateToStatements() : {}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path
+          d="M16.6666 8.75008V5.66675C16.6666 4.26662 16.6666 3.56655 16.3941 3.03177C16.1544 2.56137 15.772 2.17892 15.3016 1.93923C14.7668 1.66675 14.0667 1.66675 12.6666 1.66675H7.33325C5.93312 1.66675 5.23306 1.66675 4.69828 1.93923C4.22787 2.17892 3.84542 2.56137 3.60574 3.03177C3.33325 3.56655 3.33325 4.26662 3.33325 5.66675V14.3334C3.33325 15.7335 3.33325 16.4336 3.60574 16.9684C3.84542 17.4388 4.22787 17.8212 4.69828 18.0609C5.23306 18.3334 5.93312 18.3334 7.33325 18.3334H9.99992M11.6666 9.16675H6.66659M8.33325 12.5001H6.66659M13.3333 5.83341H6.66659M14.9999 17.5001V12.5001M12.4999 15.0001H17.4999"
+          stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div class="text-custom-secondary text-sm font-medium leading-5">{{'accounts.statement' | translate}}</div>
+    </div>
+    <div (click)="requisite.emit({ altAcctId: accounts()?.altAcctId, id: accounts()?.id })"
+         class="flex space-x-2 items-center p-[6px] cursor-pointer hover:bg-surface-1 hover:rounded-[6px]">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <g clip-path="url(#clip0_2818_198886)">
+          <path
+            d="M10.0001 13.3334V10.0001M10.0001 6.66675H10.0084M18.3334 10.0001C18.3334 14.6025 14.6025 18.3334 10.0001 18.3334C5.39771 18.3334 1.66675 14.6025 1.66675 10.0001C1.66675 5.39771 5.39771 1.66675 10.0001 1.66675C14.6025 1.66675 18.3334 5.39771 18.3334 10.0001Z"
+            stroke="#008C79" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <defs>
+          <clipPath id="clip0_2818_198886">
+            <rect width="20" height="20" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+      <div class="text-custom-secondary text-sm font-medium leading-5">{{'accounts.details' | translate}}</div>
+    </div>
+<!--  }-->
+</mat-menu>

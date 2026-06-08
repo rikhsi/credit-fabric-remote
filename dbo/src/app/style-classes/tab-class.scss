@@ -1,0 +1,27 @@
+.tab {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  color: #5c5c5c;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f4f7fb;
+    color: #171717;
+  }
+}
+.tab.tab2 {
+  font-size: 0.8rem;
+  color: #9e9d9d;
+  &:hover {
+    background-color: #f8f8f8;
+  }
+}
+.tab.active_tab {
+  background-color: white !important;
+  color: #171717 !important;
+  border-radius: 12px !important;
+  border: 1px solid #ebebeb !important;
+}

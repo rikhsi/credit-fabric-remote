@@ -1,0 +1,173 @@
+<div class=" bg-white relative h-screen w-screen">
+  <div class="px-[120px] w-full h-full flex flex-col">
+    <div class="flex flex-1 flex-col items-center">
+      <div class="h-[100px] flex justify-between w-full">
+        <img src='./assets/new-icons/logo-auth.svg' width="128" height="40" alt="">
+        <div class="flex items-center gap-[20px]">
+          <a href="https://ebanking.hamkorbank.uz/cib/instruction/instruction.htm" class="flex cursor-pointer items-center gap-2">
+            <img src="./assets/new-icons/instuction.svg" alt="">
+            <span class="text-custom-secondary">{{ 'authorization.instruction' | translate }}</span>
+          </a>
+          <div (click)="sendPhoneEvent()" class="flex items-center gap-2">
+            <img src="./assets/new-icons/phone.svg" alt="">
+            <span class="text-[#5C5C5C]">1809</span>
+          </div>
+          <a href="https://t.me/MMSBBusinessconsultant_bot"  target="_blank" rel="noopener noreferrer" class="flex items-center gap-2">
+            <img src="./assets/new-icons/telegram.svg" alt="">
+            <span class="text-custom-secondary">{{'authorization.write_to_telegram' | translate}}</span>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col w-[480px] items-center gap-8 my-auto">
+        <div (click)="this.router.navigate(['/'])" class="flex gap-2 items-center justify-start w-full">
+          <img src="./assets/icons/back-icon.png" alt="">
+          <p>Назад</p>
+        </div>
+        <div class="flex items-center flex-col gap-2">
+          <img src="./assets/new-icons/user-esp.svg" alt="">
+          <h3 class="text-[32px] font-bold">Здравствуйте, Максадали</h3>
+          <span class="text-[#A3A3A3] text-[16px] font-normal">Введите ПИН-код виртуальная ЭЦП</span>
+        </div>
+        <div>
+<!--          <app-ui-otp-input-->
+<!--            [count]="4"-->
+<!--            [isOtpIncorrect]="false"-->
+<!--            (otpComplete)="handleOtp($event)">-->
+<!--          </app-ui-otp-input>-->
+        </div>
+        <div class="w-full flex flex-col items-center gap-3">
+          <button class=" text-white w-full h-[56px] bg-[#00A38D] rounded-[13px]">Войти</button>
+          <span>Не пришел пин код?</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center w-full items-center flex-col gap-4 mb-4">
+      <div class="flex gap-8 items-center">
+        <div class="hidden gap-1 items-center">
+          <img src="./assets/new-icons/help-circle.svg" alt="">
+          <span>Помощь</span>
+        </div>
+        <div class="flex gap-1 items-center">
+          <img src="./assets/new-icons/moon.svg" alt="">
+          <span>Темная тема</span>
+        </div>
+        <div class="flex gap-1 items-center">
+          <img src="./assets/new-icons/globe.svg" alt="">
+          <span>Русский</span>
+        </div>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-[14px] text-[#A3A3A3] font-normal">© 2025 АКБ «Hamkorbank» Лицензия № 64 ЦБ РУз от 31 августа 1991 г.</span>
+        <span class="text-[14px] text-[#A3A3A3] underline font-normal">Политика обработки персональных данных</span>
+      </div>
+    </div>
+  </div>
+  <modal-esp
+    [visible]="chooseType"
+    title="{{'authorization.choose_eds_type' | translate}}"
+    (close)="chooseType = false; selectTypeBack()"
+  >
+    <div class="flex flex-col gap-2">
+      <div (click)="virtualKeys() !== 0 && onSubAction(true)" [style.opacity]="virtualKeys() === 0  ? '0.5' : '1'" [style.user-select]="virtualKeys() === 0  ? 'none' : 'all'" [style.cursor]="virtualKeys() === 0 ?  'not-allowed' : 'pointer'" class="flex gap-3 cursor-pointer items-center bg-[#F5F5F5] rounded-[20px] px-4 py-5">
+        <img src="./assets/new-icons/with-mob-esp.svg" alt="">
+        <div class="flex flex-col gap-1">
+          <p class="text-[16px] font-medium">{{'authorization.virtual_eds' | translate}}</p>
+          <span class="text-[#5C5C5C] text-[14px] font-medium">{{'authorization.use_virtual_eds' | translate}}</span>
+        </div>
+      </div>
+      <div (click)="physicalKeys() !== 0  && onSubAction(false)" [style.opacity]="physicalKeys() === 0 ? '0.5' : '1'" [style.user-select]="physicalKeys() === 0 ? 'none' : 'all'" [style.cursor]="physicalKeys() === 0 ?  'not-allowed' : 'pointer'" class="flex  gap-3 cursor-pointer items-center bg-[#F5F5F5] rounded-[20px] px-4 py-5">
+        <img src="./assets/new-icons/with-phys-esp.svg" alt="">
+        <div class="flex flex-col gap-1">
+          <p class="text-[16px] font-medium">{{'authorization.physical_eds_alt' | translate}}</p>
+          <span class="text-[#5C5C5C] text-[14px] font-medium">{{'authorization.use_physical_eds' | translate}}</span>
+        </div>
+      </div>
+    </div>
+  </modal-esp>
+  <modal-esp
+    [visible]="false"
+    title="Вход с помощью ЭЦП ключа"
+    (close)="false"
+  >
+    <div class="flex flex-col gap-10">
+      <span class="text-[#A3A3A3] text-center text-[18px] font-normal">Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.</span>
+      <button class="bg-[#00A38D] text-white h-[56px] rounded-[13px]">Подключить</button>
+    </div>
+  </modal-esp>
+  <modal-esp
+    [visible]="false"
+    title="Вход с помощью ЭЦП ключа"
+    (close)="false"
+  >
+    <div class="flex flex-col gap-6">
+      <span class="text-[#A3A3A3] text-center text-[18px] font-normal">Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.</span>
+      <div class="bg-[#F5F5F5] rounded-[12px] p-6 ">
+        <div class="flex items-start gap-3">
+          <img src="./assets/new-icons/info-esp.svg" alt="">
+          <div class="flex flex-col gap-1">
+            <p class="text-[16px] font-semibold">Ключ не соответствует учётной записи</p>
+            <span class="text-[14px] font-normal text-[#5C5C5C]">Вставьте верный ключ и попробуйте снова.</span>
+          </div>
+        </div>
+      </div>
+      <button class="bg-[#00A38D] text-white h-[56px] rounded-[13px]">Подключить</button>
+    </div>
+  </modal-esp>
+  <modal-esp
+    [visible]="false"
+    title="Вход с помощью ЭЦП ключа"
+    (close)="false"
+  >
+    <div class="flex flex-col gap-6">
+      <span class="text-[#A3A3A3] text-center text-[18px] font-normal">Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.</span>
+      <div class="bg-[#F5F5F5] rounded-[12px] p-6 ">
+        <div class="flex items-start gap-3">
+          <img src="./assets/new-icons/info-esp.svg" alt="">
+          <div class="flex flex-col gap-1">
+            <p class="text-[16px] font-semibold">Стикс клиент не открыт</p>
+            <span class="text-[14px] font-normal text-[#5C5C5C]">Вставьте верный ключ и попробуйте снова.</span>
+          </div>
+        </div>
+      </div>
+      <button class="bg-[#00A38D] text-white h-[56px] rounded-[13px]">Подключить</button>
+    </div>
+  </modal-esp>
+  <modal-esp
+    [visible]="false"
+    title="Вход с помощью ЭЦП ключа"
+    (close)="false"
+  >
+    <div class="flex flex-col gap-6">
+      <span class="text-[#A3A3A3] text-center text-[18px] font-normal">Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.</span>
+      <div class="bg-[#F5F5F5] rounded-[12px] p-6 ">
+        <div class="flex items-start gap-3">
+          <img src="./assets/new-icons/info-esp.svg" alt="">
+          <div class="flex flex-col gap-1">
+            <p class="text-[16px] font-semibold">Устарела версия программы стикс клиент</p>
+            <span class="text-[14px] font-normal text-[#5C5C5C]">Обновите версию и попробуйте снова.</span>
+          </div>
+        </div>
+      </div>
+      <button class="bg-[#00A38D] text-white h-[56px] rounded-[13px]">Подключить</button>
+    </div>
+  </modal-esp>
+  <modal-esp
+    [visible]="false"
+    title="Вход с помощью ЭЦП ключа"
+    (close)="false"
+  >
+    <div class="flex flex-col gap-6">
+      <span class="text-[#A3A3A3] text-center text-[18px] font-normal">Откройте Styx client и вставьте флешку с ключом в компьютер и нажмите “Подключить”.</span>
+      <div class="bg-[#F5F5F5] rounded-[12px] p-6 ">
+        <div class="flex items-start gap-3">
+          <img src="./assets/new-icons/info-esp.svg" alt="">
+          <div class="flex flex-col gap-1">
+            <p class="text-[16px] font-semibold">Не удалось установить соединение</p>
+            <span class="text-[14px] font-normal text-[#5C5C5C]">Обновите версию и попробуйте снова.</span>
+          </div>
+        </div>
+      </div>
+      <button class="bg-[#00A38D] text-white h-[56px] rounded-[13px]">Подключить</button>
+    </div>
+  </modal-esp>
+</div>
