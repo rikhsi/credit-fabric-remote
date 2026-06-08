@@ -16,14 +16,7 @@ import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
 import { provideIcon, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
 import { routes } from '@app/app.routes';
-import {
-  apiInterceptor,
-  cacheInterceptor,
-  errorInterceptor,
-  headersInterceptor,
-  langInterceptor,
-  tokenInterceptor,
-} from '@core/interceptors';
+import { apiInterceptor, cacheInterceptor, errorInterceptor, headersInterceptor, langInterceptor } from '@core/interceptors';
 import { DEFAULT_LANGUAGE } from '@app/constants/language';
 
 registerLocaleData(ru, 'ru');
@@ -48,7 +41,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(
-      withInterceptors([apiInterceptor, errorInterceptor, tokenInterceptor, langInterceptor, headersInterceptor, cacheInterceptor]),
+      withInterceptors([apiInterceptor, errorInterceptor, langInterceptor, headersInterceptor, cacheInterceptor]),
       withFetch(),
     ),
     provideTransloco({

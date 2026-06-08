@@ -1,19 +1,11 @@
 import { Routes } from '@angular/router';
 import { RootRoute } from './constants/route-path';
 import { RouteParam } from './constants/route-param';
-import { authGuard, mainGuard } from '@core/guards';
-import { AuthLayout, LoanLayout } from '@layouts/views';
+import { LoanLayout } from '@layouts/views';
 
 export const routes: Routes = [
   {
-    path: RootRoute.Auth,
-    component: AuthLayout,
-    canActivate: [authGuard],
-    loadChildren: () => import('@pages/auth/auth.routes').then((r) => r.routes),
-  },
-  {
     path: '',
-    canActivate: [mainGuard],
     children: [
       {
         path: RootRoute.Loan,
@@ -53,6 +45,6 @@ export const routes: Routes = [
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: RootRoute.Auth,
+    redirectTo: RootRoute.Loan,
   },
 ];

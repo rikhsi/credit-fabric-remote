@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { loanAdvantagesResolver, loanDocsResolver } from './resolvers';
-import { checkLoanIdGuard } from '@core/guards';
+import { checkLoanIdGuard } from './guards';
 import { LoanRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 

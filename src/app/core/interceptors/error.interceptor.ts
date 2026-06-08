@@ -3,12 +3,10 @@ import { inject } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { catchError, throwError } from 'rxjs';
 import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
-import { AuthService } from '@core/services/auth.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notification = inject(NzNotificationService);
   const showError = req.context.get(SHOW_ERROR_NOTIFICATION);
-  const authService = inject(AuthService);
 
   return next(req).pipe(
     catchError((result: HttpErrorResponse) => {
