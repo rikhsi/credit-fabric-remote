@@ -574,9 +574,8 @@ languages = languages
     }) ;
   }
 
-  showSelections(type: string) {
-
-    return this.confirmTypes().some(item => item.type === type);
+  showSelections(_type: string) {
+    return true;
   }
   selectionValues(type: string) {
     return this.confirmTypes()?.find(item => item.type === type)?.contact;
