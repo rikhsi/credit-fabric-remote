@@ -17,9 +17,9 @@ export interface OnlineStartProcessingFinData {
   month2Income: number;
   month3Revenue: number;
   month3Income: number;
-  monthYear1: number;
-  monthYear2: number;
-  monthYear3: number;
+  monthYear1: string;
+  monthYear2: string;
+  monthYear3: string;
 }
 
 export interface OnlineStartProcessingAddress {
