@@ -1,9 +1,0 @@
-<select
-  class="border-x-[12px] border-y-[9px] border-white flex gap-x-[8px] outline outline-1 outline-[#D5D5D6] cursor-pointer rounded-[5px] text-[#2B2D33]"
-  (change)="onChange($event)"
-  [value]="selectedValue"
->
-  @for (value of values; track value; let idx = $index;) {
-    <option [value]="value">{{ titles[idx] }}</option>
-  }
-</select>

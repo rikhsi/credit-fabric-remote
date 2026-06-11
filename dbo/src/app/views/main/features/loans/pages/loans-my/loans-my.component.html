@@ -1,9 +1,0 @@
-<div class="py-5 px-6">
-  <app-table-filters [filterConfig]="filterConfig"></app-table-filters>
-</div>
-<div>
-  <app-loans-table [data]="loanData()" [pinLoan]="pinLoan"></app-loans-table>
-  <div *ngIf="loanData()?.length === 0" class="bg-white h-[400px] rounded-[10px]">
-    <p class="flex justify-center items-center mx-auto text-[#171717] my-auto h-full font-bold text-[16px]">У вас пока нет кредитов</p>
-  </div>
-</div>

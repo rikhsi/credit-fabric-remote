@@ -1,9 +1,0 @@
-<div class="icon-container" (click)="clicked.emit()" [style.gap.px]="gap()" [attr.aria-label]="ariaLabel()">
-  <mat-icon
-    [class]="classes()"
-    [svgIcon]="name() ?? ''"
-    [ngStyle]="getIconStyles()"
-    >
-  </mat-icon>
-  <ng-content></ng-content>
-</div>
