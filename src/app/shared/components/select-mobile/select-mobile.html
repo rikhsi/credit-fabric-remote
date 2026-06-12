@@ -19,24 +19,22 @@
           [nzShowSearch]="false"
           [nzPlaceHolder]="placeholder() ?? t('control.select.placeholder')"
           [nzLoading]="isLoading()"
-          [disabled]="disabled() || !optionList().length || isLoading()"
+          [disabled]="disabled() || !bottomSheetOptions().length || isLoading()"
           (nzBlur)="onBlur()"
         >
-          @for (option of optionList(); track option.nzValue) {
-          <nz-option [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
-          }
+          <ng-content />
         </nz-select>
 
         <button
           type="button"
           class="select-mobile__trigger"
-          [disabled]="disabled() || !optionList().length || isLoading()"
+          [disabled]="disabled() || !bottomSheetOptions().length || isLoading()"
           (click)="openBottomSheet()"
         ></button>
 
         <cf-select-bottom-sheet
           [(value)]="value"
-          [options]="selectOptions()"
+          [options]="bottomSheetOptions()"
           [placeholder]="placeholder() ?? t('control.select.placeholder')"
           (closed)="onBlur()"
         />

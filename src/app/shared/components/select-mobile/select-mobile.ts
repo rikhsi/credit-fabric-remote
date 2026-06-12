@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, contentChildren, input, model, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzOptionComponent, NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SelectBottomSheet } from '../select-bottom-sheet/select-bottom-sheet';
+import { SelectBottomSheetOption } from '@app/typings/select';
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
-import { mapNzOptionsToBottomSheet } from '@shared/utils/select-option';
 
 @Component({
   selector: 'cf-select-mobile',
@@ -26,18 +26,16 @@ import { mapNzOptionsToBottomSheet } from '@shared/utils/select-option';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectMobile extends ControlBaseDirective<number | boolean | string> {
-  readonly optionList = contentChildren(NzOptionComponent);
   readonly bottomSheet = viewChild.required(SelectBottomSheet);
 
   value = model(null);
 
   readonly showSearch = input<boolean>(true);
   readonly isLoading = input<boolean>(false);
-
-  readonly selectOptions = computed(() => mapNzOptionsToBottomSheet(this.optionList()));
+  readonly bottomSheetOptions = input<SelectBottomSheetOption[]>([]);
 
   openBottomSheet(): void {
-    if (this.disabled() || !this.optionList().length || this.isLoading()) {
+    if (this.disabled() || !this.bottomSheetOptions().length || this.isLoading()) {
       return;
     }
 

@@ -1,11 +1,13 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, inject, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, contentChildren, inject, input, model } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { map } from 'rxjs';
 import { SelectDefault } from '../select-default/select-default';
 import { SelectMobile } from '../select-mobile/select-mobile';
 import { Breakpoint } from '@app/constants/breakpoint';
 import { ControlBaseDirective } from '@shared/directives';
+import { mapNzOptionsToBottomSheet } from '@shared/utils/select-option';
 
 @Component({
   selector: 'cf-select-wrapper',
@@ -24,4 +26,7 @@ export class SelectWrapper extends ControlBaseDirective<number | boolean | strin
   readonly isXs = toSignal(this.breakpointObserver.observe(Breakpoint.XS).pipe(map((state) => state.matches)), {
     initialValue: false,
   });
+
+  readonly optionList = contentChildren(NzOptionComponent);
+  readonly bottomSheetOptions = computed(() => mapNzOptionsToBottomSheet(this.optionList()));
 }
