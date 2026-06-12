@@ -3,8 +3,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { InputDefault, LabelControlSecondary, SelectDate, SelectDefault } from '@shared/components';
+import { InputDefault, LabelControlSecondary, SelectDate, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
+import { HandbookSelectOptionsPipe } from '@shared/pipes';
 import { OnlineBorrower } from '@api/models/los/application';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 
@@ -15,6 +16,8 @@ import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing
     LabelControlSecondary,
     InputDefault,
     SelectDefault,
+    SelectDefaultMobile,
+    HandbookSelectOptionsPipe,
     SelectDate,
     FormField,
     HandbookDirective,

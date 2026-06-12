@@ -5,9 +5,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
-import { InputDefault, LabelControlSecondary, SelectDefault } from '@shared/components';
+import { InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { PluralizePipe } from '@shared/pipes';
+import { HandbookSelectOptionsPipe, PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-finance-form',
@@ -16,6 +16,8 @@ import { PluralizePipe } from '@shared/pipes';
     InputDefault,
     LabelControlSecondary,
     SelectDefault,
+    SelectDefaultMobile,
+    HandbookSelectOptionsPipe,
     NzOptionComponent,
     TranslocoDirective,
     HandbookDirective,

@@ -12,13 +12,26 @@
   <div>
     <cf-label-control-secondary [label]="t('prop.credit_purpose')"></cf-label-control-secondary>
 
-    <cf-select-default [formField]="form().dirCreditPurposeId" [placeholder]="t('control.select.placeholder')" size="large">
-      <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
+    <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
+      <cf-select-default
+        class="cf-hide-xs"
+        [formField]="form().dirCreditPurposeId"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      >
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
         }
-      </ng-container>
-    </cf-select-default>
+      </cf-select-default>
+
+      <cf-select-default-mobile
+        class="cf-show-xs"
+        [formField]="form().dirCreditPurposeId"
+        [options]="items | handbookSelectOptions"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      />
+    </ng-container>
   </div>
 
   <div>

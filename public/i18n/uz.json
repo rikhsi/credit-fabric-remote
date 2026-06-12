@@ -270,7 +270,9 @@
       "label": "Parol"
     },
     "select": {
-      "placeholder": "Ma`lumotni tanlang"
+      "placeholder": "Tanlang",
+      "search": "Qidirish",
+      "empty": "Hech narsa topilmadi"
     }
   },
   "auth": {

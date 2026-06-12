@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.select-default-mobile {
+  position: relative;
+  width: 100%;
+
+  ::ng-deep cf-select-default .ant-select {
+    pointer-events: none;
+  }
+}
+
+.select-default-mobile__trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

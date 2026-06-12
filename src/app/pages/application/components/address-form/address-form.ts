@@ -3,10 +3,10 @@ import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { FormBox, InputDefault, LabelControlSecondary, SelectDefault } from '@shared/components';
+import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { ResetVillageOnCityChangeDirective } from '@pages/application/directives';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookPipe } from '@shared/pipes';
+import { HandbookPipe, HandbookSelectOptionsPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
@@ -16,6 +16,8 @@ import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
     InputDefault,
     LabelControlSecondary,
     SelectDefault,
+    SelectDefaultMobile,
+    HandbookSelectOptionsPipe,
     NzOptionComponent,
     TranslocoDirective,
     HandbookDirective,

@@ -270,7 +270,9 @@
       "label": "Password"
     },
     "select": {
-      "placeholder": "Select the field"
+      "placeholder": "Select",
+      "search": "Search",
+      "empty": "No results found"
     }
   },
   "auth": {
