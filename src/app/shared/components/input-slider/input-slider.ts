@@ -10,6 +10,34 @@ import { formatScaledNumber, pluralize } from '@shared/utils';
 import { PLURALIZE_FORMS_BY_TYPE, SCALE_PREFIXES_BY_VALUE } from '@app/constants/prefix';
 import { PluralizeType } from '@app/typings/pluralize';
 
+function snapToStep(value: number, min: number, max: number, step: number): number {
+  const snapped = Math.round((value - min) / step) * step + min;
+
+  return Math.min(max, Math.max(min, snapped));
+}
+
+function shouldSnapToStep(min: number, max: number, step?: number): boolean {
+  return step != null && step > 0 && (max - min) / step <= 5;
+}
+
+function clampToRange(value: number, min: number | null | undefined, max: number | null | undefined, step?: number): number {
+  let result = value;
+
+  if (min != null && result < min) {
+    result = min;
+  }
+
+  if (max != null && result > max) {
+    result = max;
+  }
+
+  if (min != null && max != null && shouldSnapToStep(min, max, step)) {
+    result = snapToStep(result, min, max, step!);
+  }
+
+  return result;
+}
+
 @Component({
   selector: 'cf-input-slider',
   imports: [FormsModule, NzSliderModule, NzInputDirective, FormsModule, NgxMaskDirective, PluralizePipe],
@@ -27,10 +55,10 @@ export class InputSlider extends ControlBaseDirective<number> {
   marksArray = computed(() => {
     const min = this.min();
     const max = this.max();
+    const step = this.step();
 
-    if (!min || !max) return [];
+    if (min == null || max == null) return [];
 
-    const mid = Math.round(min + (max - min) / 2);
     const type = this.prefixType();
 
     const make = (v: number) => {
@@ -40,6 +68,22 @@ export class InputSlider extends ControlBaseDirective<number> {
 
       return `${v} ${translate(pluralize(v, PLURALIZE_FORMS_BY_TYPE[type]))}`;
     };
+
+    if (shouldSnapToStep(min, max, step)) {
+      const marks = [];
+
+      for (let value = min; value <= max; value += step) {
+        marks.push({
+          value,
+          label: make(value),
+          pos: max === min ? 0 : ((value - min) / (max - min)) * 100,
+        });
+      }
+
+      return marks;
+    }
+
+    const mid = Math.round(min + (max - min) / 2);
 
     return [
       { value: min, label: make(min), pos: 0 },
@@ -52,15 +96,13 @@ export class InputSlider extends ControlBaseDirective<number> {
     effect(() => {
       const min = this.min();
       const max = this.max();
+      const step = this.step();
 
       const val = untracked(() => this.value());
 
       if (val === null) return;
 
-      let newVal = val;
-
-      if (min !== null && val < min) newVal = min;
-      if (max !== null && val > max) newVal = max;
+      const newVal = clampToRange(val, min, max, step);
 
       if (newVal !== val) {
         this.value.set(newVal);
@@ -74,18 +116,7 @@ export class InputSlider extends ControlBaseDirective<number> {
     const val = this.value();
     if (val === null) return;
 
-    const min = this.min();
-    const max = this.max();
-
-    let newVal = val;
-
-    if (min !== null && val < min) {
-      newVal = min;
-    }
-
-    if (max !== null && val > max) {
-      newVal = max;
-    }
+    const newVal = clampToRange(val, this.min(), this.max(), this.step());
 
     if (newVal !== val) {
       this.value.set(newVal);

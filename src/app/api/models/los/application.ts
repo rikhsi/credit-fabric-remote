@@ -21,20 +21,37 @@ export interface DocumentItem {
 
 export type DocumentType = 'LOAN_DECISION' | 'LOAN_AGREEMENT';
 
+export interface OnlineBorrowerAddress {
+  addresSysIndividualLegalEntityId: string;
+  dirCityId: string;
+  dirCountryId: string;
+  dirRegionId: string;
+  dirVillageId: string | null;
+  dirVillageTx: string | null;
+  employmentId: number | null;
+  id: number;
+  street: string;
+  sysAddressTypeId: string;
+  sysAddressTypeIndividualId: string;
+  sysAddressTypeLegalEntityId: string;
+  zipCode: string;
+}
+
 export interface OnlineBorrower {
+  addresses?: OnlineBorrowerAddress[];
   docPersonalLegalNo: string;
   email: string;
-  employees: number;
+  employees: number | null;
   id: number;
   legalForm: HandbookItem;
   name: string;
-  newEmployees: number;
+  newEmployees: number | null;
   oked: HandbookItem;
   ownershipCode: HandbookItem;
   registrationDate: Date;
   registrationNumber: string;
   registrationPlaceCode: string;
-  workPhone: string;
+  workPhone: string | null;
 }
 
 export interface OnlineApplication {

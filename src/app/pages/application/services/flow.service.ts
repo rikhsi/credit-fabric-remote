@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
-import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
+import { buildRequiredAddresses, isFlowAddressFilled, mapBorrowerAddressesToForm } from '../utils/address';
 import { createDefaultFinanceForm } from '../utils/finance-months';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
@@ -86,7 +86,7 @@ export class FlowService {
       registrationPlaceCode: application.borrower.registrationPlaceCode,
       workPhone: this.authService.user()?.phone,
       email: this.authService.user()?.email,
-      addresses: buildRequiredAddresses(),
+      addresses: mapBorrowerAddressesToForm(application.borrower.addresses),
       extraInformation: {
         sectorEconomy: null,
         objectNewFormation: null,
