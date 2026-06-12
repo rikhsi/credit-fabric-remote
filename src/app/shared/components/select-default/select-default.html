@@ -9,6 +9,18 @@
       [nzWarningTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
       [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
+      @if (isXs()) {
+      <cf-select-bottom-sheet
+        [(value)]="value"
+        [options]="selectOptions()"
+        [placeholder]="placeholder() ?? t('control.select.placeholder')"
+        [disabled]="disabled() || !optionList().length || isLoading()"
+        [isLoading]="isLoading()"
+        [size]="size()"
+        (opened)="clicked.emit()"
+        (closed)="onBlur()"
+      />
+      } @else {
       <nz-select
         nzDropdownClassName="cf-select-default-dropdown"
         [nzSize]="size()"
@@ -26,6 +38,7 @@
         <nz-option [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
         }
       </nz-select>
+      }
     </nz-form-control>
   </nz-form-item>
 </ng-container>

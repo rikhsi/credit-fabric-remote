@@ -1,4 +1,6 @@
 export * from './select-default/select-default';
+export * from './select-bottom-sheet/select-bottom-sheet';
+export * from './select-bottom-sheet/select-option';
 export * from './modal-confirm/modal-confirm.component';
 export * from './logo/logo';
 export * from './input-default/input-default';

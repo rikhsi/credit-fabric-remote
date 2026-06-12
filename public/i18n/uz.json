@@ -272,7 +272,9 @@
       "label": "Parol"
     },
     "select": {
-      "placeholder": "Tanlang"
+      "placeholder": "Tanlang",
+      "search": "Qidirish",
+      "empty": "Hech narsa topilmadi"
     }
   },
   "auth": {

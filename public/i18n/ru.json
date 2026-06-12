@@ -272,7 +272,9 @@
       "label": "Пароль"
     },
     "select": {
-      "placeholder": "Выберите"
+      "placeholder": "Выберите",
+      "search": "Поиск",
+      "empty": "Ничего не найдено"
     }
   },
   "auth": {

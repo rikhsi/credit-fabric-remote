@@ -1,0 +1,54 @@
+<ng-container *transloco="let t">
+  <button
+    type="button"
+    class="select-bottom-sheet__trigger"
+    [class.select-bottom-sheet__trigger--large]="size() === 'large'"
+    [class.select-bottom-sheet__trigger--small]="size() === 'small'"
+    [class.select-bottom-sheet__trigger--empty]="!selectedLabel()"
+    [disabled]="disabled() || isLoading()"
+    (click)="open()"
+  >
+    <span class="select-bottom-sheet__value">{{ selectedLabel() || placeholder() || t('control.select.placeholder') }}</span>
+
+    <nz-icon nzType="down" class="select-bottom-sheet__icon" />
+  </button>
+
+  <nz-drawer
+    [nzVisible]="visible()"
+    [nzHeight]="'75vh'"
+    [nzClosable]="true"
+    nzPlacement="bottom"
+    [nzTitle]="placeholder() || t('control.select.placeholder')"
+    (nzOnClose)="close()"
+  >
+    <ng-container *nzDrawerContent>
+      <div class="select-bottom-sheet__panel">
+        <nz-input-wrapper class="select-bottom-sheet__search">
+          <nz-icon nzInputPrefix nzType="search" />
+          <input nz-input [placeholder]="t('control.select.search')" [ngModel]="search()" (ngModelChange)="search.set($event)" />
+        </nz-input-wrapper>
+
+        <ul class="select-bottom-sheet__list">
+          @for (option of filteredOptions(); track option.value) {
+          <li>
+            <button
+              type="button"
+              class="select-bottom-sheet__option"
+              [class.select-bottom-sheet__option--selected]="option.value === value()"
+              (click)="selectOption(option)"
+            >
+              <span>{{ option.label }}</span>
+
+              @if (option.value === value()) {
+              <nz-icon nzType="check" />
+              }
+            </button>
+          </li>
+          } @empty {
+          <li class="select-bottom-sheet__empty">{{ t('control.select.empty') }}</li>
+          }
+        </ul>
+      </div>
+    </ng-container>
+  </nz-drawer>
+</ng-container>
