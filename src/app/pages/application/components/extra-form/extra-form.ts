@@ -9,15 +9,6 @@ import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-pro
 
 @Component({
   selector: 'cf-extra-form',
-  styles: `
-    .form-fields {
-      display: flex;
-      flex-direction: column;
-      row-gap: 16px;
-      width: 100%;
-      min-width: 0;
-    }
-  `,
   imports: [SelectDefault, NzOptionComponent, FormBox, LabelControlSecondary, TranslocoDirective, HandbookDirective, FormField],
   templateUrl: './extra-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

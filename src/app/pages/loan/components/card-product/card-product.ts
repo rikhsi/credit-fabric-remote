@@ -1,4 +1,4 @@
-import { DecimalPipe, LowerCasePipe, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -22,7 +22,6 @@ import { BounceDirective } from '@shared/directives';
     NgTemplateOutlet,
     DecimalPipe,
     PluralizePipe,
-    LowerCasePipe,
     BounceDirective,
   ],
   templateUrl: './card-product.html',
