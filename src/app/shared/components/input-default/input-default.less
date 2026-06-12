@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  ::ng-deep .ant-form-item {
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  ::ng-deep .ant-form-item-control-input,
+  ::ng-deep .ant-form-item-control-input-content {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  ::ng-deep .ant-input-affix-wrapper,
+  ::ng-deep .ant-input {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}

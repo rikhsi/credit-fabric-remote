@@ -23,19 +23,37 @@
 
 :host {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   column-gap: 8px;
 
   .icon {
     padding: 10px;
     border-radius: 50%;
+    flex-shrink: 0;
   }
 
   .box {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    flex: 1;
 
     .textMixin(@font-weight-strong, @font-size-lg, @line-height-sm);
+  }
+
+  ::ng-deep cf-select-default,
+  ::ng-deep cf-input-default,
+  ::ng-deep cf-select-date,
+  ::ng-deep cf-input-slider {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   label {

@@ -16,6 +16,8 @@ import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
       display: flex;
       flex-direction: column;
       row-gap: 16px;
+      width: 100%;
+      min-width: 0;
     }
   `,
   imports: [

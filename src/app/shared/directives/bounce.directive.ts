@@ -11,46 +11,57 @@ export class BounceDirective {
 
   readonly delay = input(100, { alias: 'cfBounce', transform: coerceBounceDelay });
 
-  private skipNext = false;
   private pending = false;
+  private passThrough = false;
   private timeoutId: ReturnType<typeof setTimeout> | null = null;
 
   @HostListener('click', ['$event'])
   onClick(event: Event): void {
     const delayMs = this.delay();
 
-    if (delayMs <= 0 || this.skipNext) {
-      this.skipNext = false;
-      this.clearPressed();
+    if (this.passThrough) {
+      this.passThrough = false;
       return;
     }
 
-    if (this.pending) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+    if (delayMs <= 0) {
       return;
     }
 
     event.preventDefault();
     event.stopImmediatePropagation();
+
+    if (this.pending) {
+      return;
+    }
+
     this.pending = true;
+    this.lockInteraction();
     this.renderer.addClass(this.elementRef.nativeElement, 'cf-bounce--pressed');
 
     this.timeoutId = window.setTimeout(() => {
       this.timeoutId = null;
+      this.renderer.removeClass(this.elementRef.nativeElement, 'cf-bounce--pressed');
+      this.unlockInteraction();
+      this.passThrough = true;
+
+      this.elementRef.nativeElement.dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        }),
+      );
+
       this.pending = false;
-      this.clearPressed();
-      this.skipNext = true;
-      this.elementRef.nativeElement.click();
     }, delayMs);
   }
 
-  private clearPressed(): void {
-    this.renderer.removeClass(this.elementRef.nativeElement, 'cf-bounce--pressed');
+  private lockInteraction(): void {
+    this.renderer.setStyle(this.elementRef.nativeElement, 'pointer-events', 'none');
+  }
 
-    if (this.timeoutId != null) {
-      window.clearTimeout(this.timeoutId);
-      this.timeoutId = null;
-    }
+  private unlockInteraction(): void {
+    this.renderer.removeStyle(this.elementRef.nativeElement, 'pointer-events');
   }
 }

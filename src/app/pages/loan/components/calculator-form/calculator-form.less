@@ -1,3 +1,24 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   flex: 1;
+  width: 100%;
+  min-width: 0;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  cf-label-control-secondary,
+  cf-input-slider,
+  cf-select-default,
+  nz-radio-group {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
 }

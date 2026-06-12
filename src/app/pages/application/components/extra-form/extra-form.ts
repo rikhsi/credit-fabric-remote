@@ -14,6 +14,8 @@ import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-pro
       display: flex;
       flex-direction: column;
       row-gap: 16px;
+      width: 100%;
+      min-width: 0;
     }
   `,
   imports: [SelectDefault, NzOptionComponent, FormBox, LabelControlSecondary, TranslocoDirective, HandbookDirective, FormField],
