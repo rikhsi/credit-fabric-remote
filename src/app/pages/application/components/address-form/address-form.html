@@ -17,18 +17,18 @@
     </ng-container>
 
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.city')">
-      <cf-select-wrapper [formField]="addressForm.dirCityId" [placeholder]="t('control.select.placeholder')" size="large">
+      <cf-select-default [formField]="addressForm.dirCityId" [placeholder]="t('control.select.placeholder')" size="large">
         <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
         </ng-container>
-      </cf-select-wrapper>
+      </cf-select-default>
     </cf-label-control-secondary>
 
     @if (addressForm.dirCityId().value()) {
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.street')">
-      <cf-select-wrapper
+      <cf-select-default
         [formField]="addressForm.dirVillageId"
         [cfResetVillageOnCityChange]="addressForm"
         [placeholder]="t('control.select.placeholder')"
@@ -39,7 +39,7 @@
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
         </ng-container>
-      </cf-select-wrapper>
+      </cf-select-default>
     </cf-label-control-secondary>
     }
 

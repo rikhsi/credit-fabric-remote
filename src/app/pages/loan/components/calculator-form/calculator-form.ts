@@ -3,7 +3,7 @@ import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
-import { InputSlider, LabelControlSecondary, SelectWrapper } from '@shared/components';
+import { InputSlider, LabelControlSecondary, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { CalculatorFormModel } from '@pages/loan/models';
 
@@ -12,7 +12,7 @@ import { CalculatorFormModel } from '@pages/loan/models';
   imports: [
     InputSlider,
     LabelControlSecondary,
-    SelectWrapper,
+    SelectDefault,
     NzOptionComponent,
     NzRadioComponent,
     NzRadioGroupComponent,

@@ -3,13 +3,13 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { form, FormField, required } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { FormBox, LabelControlSecondary, SelectWrapper } from '@shared/components';
+import { FormBox, LabelControlSecondary, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-extra-form',
-  imports: [SelectWrapper, NzOptionComponent, FormBox, LabelControlSecondary, TranslocoDirective, HandbookDirective, FormField],
+  imports: [SelectDefault, NzOptionComponent, FormBox, LabelControlSecondary, TranslocoDirective, HandbookDirective, FormField],
   templateUrl: './extra-form.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

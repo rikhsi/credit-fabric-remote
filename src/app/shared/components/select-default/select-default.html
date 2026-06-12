@@ -17,12 +17,14 @@
         [nzShowSearch]="showSearch()"
         [nzPlaceHolder]="placeholder() ?? t('control.select.placeholder')"
         [nzLoading]="isLoading()"
-        [disabled]="disabled() || isLoading()"
+        [disabled]="disabled() || !optionList().length || isLoading()"
         (click)="clicked.emit()"
         (nzFocus)="focusChange.emit()"
         (nzBlur)="onBlur()"
       >
-        <ng-content />
+        @for (option of optionList(); track option.nzValue) {
+        <nz-option [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
+        }
       </nz-select>
     </nz-form-control>
   </nz-form-item>

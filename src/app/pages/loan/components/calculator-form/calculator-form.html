@@ -12,13 +12,13 @@
   <div>
     <cf-label-control-secondary [label]="t('prop.credit_purpose')"></cf-label-control-secondary>
 
-    <cf-select-wrapper [formField]="form().dirCreditPurposeId" [placeholder]="t('control.select.placeholder')" size="large">
+    <cf-select-default [formField]="form().dirCreditPurposeId" [placeholder]="t('control.select.placeholder')" size="large">
       <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
         }
       </ng-container>
-    </cf-select-wrapper>
+    </cf-select-default>
   </div>
 
   <div>

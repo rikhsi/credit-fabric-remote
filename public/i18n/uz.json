@@ -240,8 +240,7 @@
       "signed": "Imzolangan",
       "decline": "Rad etilgan",
       "decline_client": "Mijoz tomonidan rad etilgan",
-      "issued": "Berilgan",
-      "error": "Xatolik"
+      "issued": "Berilgan"
     },
     "tag": {
       "in_progress": "Arizangiz ko‘rib chiqilmoqda",
@@ -251,8 +250,7 @@
       "signed": "Barcha hujjatlar imzolandi",
       "decline": "Afsuski, kreditni tasdiqlay olmaymiz",
       "decline_client": "Siz tomonidan rad etildi",
-      "issued": "Kredit olindi",
-      "error": "Arizani qayta ishlashda xatolik yuz berdi"
+      "issued": "Kredit olindi"
     },
     "comment": {
       "approved": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
@@ -263,7 +261,7 @@
   },
   "control": {
     "input": {
-      "placeholder": "Matnni to'ldiring"
+      "placeholder": "Ma`lumotni kiriting"
     },
     "login": {
       "label": "Login"
@@ -272,9 +270,7 @@
       "label": "Parol"
     },
     "select": {
-      "placeholder": "Tanlang",
-      "search": "Qidirish",
-      "empty": "Hech narsa topilmadi"
+      "placeholder": "Ma`lumotni tanlang"
     }
   },
   "auth": {
