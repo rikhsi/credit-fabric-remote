@@ -1,6 +1,6 @@
 import { DecimalPipe, LowerCasePipe, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
@@ -18,7 +18,6 @@ import { BounceDirective } from '@shared/directives';
     Card,
     TranslocoDirective,
     LabelControl,
-    RouterLink,
     NzTypographyComponent,
     NgTemplateOutlet,
     DecimalPipe,
@@ -31,6 +30,9 @@ import { BounceDirective } from '@shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardProduct {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   id = input<string>();
   title = input<string>('Потоковое кредитование');
   description = input<string>('Для начинающих предпринимателей');
@@ -38,4 +40,8 @@ export class CardProduct {
   annualRate = input<number>(18);
   loanAmount = input<number>(30);
   loanTerm = input<number>(3);
+
+  apply(): void {
+    void this.router.navigate(['../', 'details', this.id().toLowerCase()], { relativeTo: this.route });
+  }
 }

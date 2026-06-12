@@ -5,7 +5,7 @@
         <h4 nz-typography>{{ items | handbook: item().sysAddressTypeId }}</h4>
       </ng-container>
 
-      <button nz-button nzType="link" nzSize="large" type="button" (click)="edit.emit()">
+      <button cfBounce nz-button nzType="link" nzSize="large" type="button" (clicked)="edit.emit()">
         <nz-icon nzType="f:pencil" />
       </button>
     </div>

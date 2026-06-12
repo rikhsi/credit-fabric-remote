@@ -10,5 +10,5 @@
   <cf-address-info [items]="flowForm().addresses().value()" (edit)="openAddressForm($event)" />
   <cf-extra-info [form]="flowForm()" [item]="flowForm().extraInformation().value()" (add)="openExtraForm()" (edit)="openExtraForm()" />
 
-  <button nz-button nzType="primary" nzSize="large" (click)="continue()" class="submit">{{t('action.continue')}}</button>
+  <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="continue()" class="submit">{{t('action.continue')}}</button>
 </ng-container>

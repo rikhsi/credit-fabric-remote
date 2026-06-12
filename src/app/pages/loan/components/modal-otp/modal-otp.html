@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <div class="header">
-    <button nz-button nzShape="round" nzSize="small" class="close" (click)="close()">
+    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
       <nz-icon nzType="close" />
     </button>
   </div>
@@ -16,14 +16,22 @@
     </div>
 
     <div class="actions">
-      <button nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (click)="resendOtp()">
+      <button cfBounce nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (clicked)="resendOtp()">
         <strong>{{t('action.send_code', {time: running() ? (leftTime() | secondsToTime) : null})}}</strong>
       </button>
     </div>
   </div>
 
   <div class="footer">
-    <button nz-button [disabled]="form.code().invalid()" [nzLoading]="isLoading()" nzType="primary" nzSize="large" (click)="submit()">
+    <button
+      cfBounce
+      nz-button
+      [disabled]="form.code().invalid()"
+      [nzLoading]="isLoading()"
+      nzType="primary"
+      nzSize="large"
+      (clicked)="submit()"
+    >
       {{t('action.confirm')}}
     </button>
   </div>

@@ -18,4 +18,8 @@ export class ProductAcception {
   public readonly form = input<FieldTree<AgreementFormModel>>();
 
   clicked = output<boolean>();
+
+  apply(): void {
+    this.clicked.emit(true);
+  }
 }

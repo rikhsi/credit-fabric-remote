@@ -2,7 +2,7 @@
   <img width="100%" height="100%" src="images/logo-faded.png" alt="logo" class="logo" />
 
   <div class="header">
-    <button nz-button nzShape="round" nzSize="small" class="close" (click)="cancel()">
+    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="cancel()">
       <nz-icon nzType="close" />
     </button>
   </div>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="footer">
-    <button nz-button nzType="primary" nzSize="large" [nzDanger]="config()?.submit?.danger" (click)="submit()">
+    <button cfBounce nz-button nzType="primary" nzSize="large" [nzDanger]="config()?.submit?.danger" (clicked)="submit()">
       <strong>{{ t(config()?.submit?.title) }}</strong>
     </button>
   </div>

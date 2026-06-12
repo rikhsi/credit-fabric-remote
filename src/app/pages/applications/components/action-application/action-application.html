@@ -1,6 +1,8 @@
 <ng-container *transloco="let t">
   @switch (status()) { @case('APPROVED') {
-  <button nz-button nzSize="small" [disabled]="disabled()" (click)="declined.emit()">{{t('action.decline')}}</button>
-  <button nz-button nzSize="small" [disabled]="disabled()" nzType="primary" (click)="approved.emit()">{{t('action.approve')}}</button>
+  <button cfBounce nz-button nzSize="small" [disabled]="disabled()" (clicked)="declined.emit()">{{t('action.decline')}}</button>
+  <button cfBounce nz-button nzSize="small" [disabled]="disabled()" nzType="primary" (clicked)="approved.emit()">
+    {{t('action.approve')}}
+  </button>
   } }
 </ng-container>

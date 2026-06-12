@@ -4,11 +4,12 @@
   </label>
 
   <button
+    cfBounce
     nz-button
     nzType="primary"
     nzSize="large"
     [disabled]="!form().offer().value() || form()().disabled()"
-    (click)="clicked.emit(true)"
+    (clicked)="apply()"
   >
     <nz-icon nzType="f:arrowUpRight" />
     {{t('action.apply')}}

@@ -4,7 +4,7 @@
   <cf-card [titleRef]="titleRef" [showSpace]="valid" class="bordered">
     <div actions>
       @if (!valid) {
-      <button nz-button nzType="default" nzSize="default" nzGhost (click)="add.emit()">
+      <button cfBounce nz-button nzType="default" nzSize="default" nzGhost (clicked)="add.emit()">
         <strong>{{ t('action.add') }}</strong>
 
         <nz-icon nzType="plus" class="primary" />

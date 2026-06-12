@@ -6,7 +6,7 @@
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu nzSelectable>
       @for (item of [] | enumItems: 'language'; track item.value) {
-      <li cfBounce nz-menu-item [nzSelected]="item?.value === currentLang()" (click)="changeLang.emit(item.value)">
+      <li cfBounce nz-menu-item [nzSelected]="item?.value === currentLang()" (clicked)="changeLang.emit(item.value)">
         <nz-icon [nzType]="item.value | langFlag" />
         {{t(item?.key)}}
       </li>

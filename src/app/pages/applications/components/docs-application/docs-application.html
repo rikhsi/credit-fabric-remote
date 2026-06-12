@@ -32,7 +32,7 @@
 
           <div class="actions">
             @if (!item.isSigned) {
-            <button [routerLink]="[ '/', 'document', item.id]" nz-button nzShape="round" nzSize="small" class="sign">
+            <button cfBounce nz-button nzShape="round" nzSize="small" class="sign" (clicked)="openDocument(item.id)">
               <nz-icon nzType="right" />
             </button>
             }

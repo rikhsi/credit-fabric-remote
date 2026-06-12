@@ -5,7 +5,16 @@
     <cf-finance-form [form]="flowForm()" />
   </cf-card>
 
-  <button nz-button nzType="primary" nzSize="large" [nzLoading]="submitting()" [disabled]="submitting()" (click)="finish()" class="submit">
+  <button
+    cfBounce
+    nz-button
+    nzType="primary"
+    nzSize="large"
+    [nzLoading]="submitting()"
+    [disabled]="submitting()"
+    (clicked)="finish()"
+    class="submit"
+  >
     {{ t('action.finish') }}
   </button>
 </ng-container>
