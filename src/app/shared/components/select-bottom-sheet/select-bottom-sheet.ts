@@ -5,7 +5,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
-import { SelectBottomSheetOption } from './select-option';
+import { SelectBottomSheetOption } from '@app/typings/select';
 
 @Component({
   selector: 'cf-select-bottom-sheet',

@@ -8,7 +8,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzOptionComponent, NzSelectModule } from 'ng-zorro-antd/select';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SelectBottomSheet } from '../select-bottom-sheet/select-bottom-sheet';
-import { SelectBottomSheetOption } from '../select-bottom-sheet/select-option';
+import { SelectBottomSheetOption } from '@app/typings/select';
 import { Breakpoint } from '@app/constants/breakpoint';
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';

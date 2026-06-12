@@ -4,17 +4,17 @@
   :host {
     .select-bottom-sheet__trigger {
       background: @component-background;
-      border-color: @border-color-base;
+      border-color: @border-color;
       color: @text-color;
 
       &:disabled {
-        background: @input-disabled-bg;
-        color: @disabled-color;
+        background: @component-background-secondary;
+        color: @text-color-tertiary;
       }
     }
 
     .select-bottom-sheet__trigger--empty .select-bottom-sheet__value {
-      color: @input-placeholder-color;
+      color: @text-color-tertiary;
     }
 
     .select-bottom-sheet__icon {
@@ -25,12 +25,12 @@
       color: @text-color;
 
       &:hover {
-        background: @item-hover-bg;
+        background: fade(@cf-black-900, 5%);
       }
 
       &--selected {
         color: @primary-color;
-        background: @primary-1;
+        background: @cf-green-500-16;
       }
     }
 
