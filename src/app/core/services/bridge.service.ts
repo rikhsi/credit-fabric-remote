@@ -38,8 +38,6 @@ export class BridgeService {
       try {
         const parsed = JSON.parse(raw);
 
-        this.notificationService.success('success', JSON.stringify(parsed, null, 2));
-
         return parsed;
       } catch (error: NzSafeAny) {}
 
