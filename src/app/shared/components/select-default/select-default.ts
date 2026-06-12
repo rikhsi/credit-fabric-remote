@@ -60,4 +60,9 @@ export class SelectDefault extends ControlBaseDirective<number | boolean | strin
   });
 
   readonly selectOptions = computed(() => mapNzOptions(this.optionList()));
+
+  openBottomSheet(bottomSheet: SelectBottomSheet): void {
+    bottomSheet.open();
+    this.clicked.emit();
+  }
 }

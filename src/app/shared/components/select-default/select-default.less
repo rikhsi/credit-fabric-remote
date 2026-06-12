@@ -46,3 +46,29 @@
     line-height: inherit !important;
   }
 }
+
+.cf-select-default__control {
+  position: relative;
+  width: 100%;
+
+  &--sheet {
+    ::ng-deep .ant-select {
+      pointer-events: none;
+    }
+  }
+}
+
+.cf-select-default__sheet-trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

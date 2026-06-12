@@ -9,36 +9,40 @@
       [nzWarningTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
       [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
-      @if (isXs()) {
-      <cf-select-bottom-sheet
-        [(value)]="value"
-        [options]="selectOptions()"
-        [placeholder]="placeholder() ?? t('control.select.placeholder')"
-        [disabled]="disabled() || !optionList().length || isLoading()"
-        [isLoading]="isLoading()"
-        [size]="size()"
-        (opened)="clicked.emit()"
-        (closed)="onBlur()"
-      />
-      } @else {
-      <nz-select
-        nzDropdownClassName="cf-select-default-dropdown"
-        [nzSize]="size()"
-        [nzId]="id()"
-        [(ngModel)]="value"
-        [nzShowSearch]="showSearch()"
-        [nzPlaceHolder]="placeholder() ?? t('control.select.placeholder')"
-        [nzLoading]="isLoading()"
-        [disabled]="disabled() || !optionList().length || isLoading()"
-        (click)="clicked.emit()"
-        (nzFocus)="focusChange.emit()"
-        (nzBlur)="onBlur()"
-      >
-        @for (option of optionList(); track option.nzValue) {
-        <nz-option [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
+      <div class="cf-select-default__control" [class.cf-select-default__control--sheet]="isXs()">
+        <nz-select
+          nzDropdownClassName="cf-select-default-dropdown"
+          [nzSize]="size()"
+          [nzId]="id()"
+          [(ngModel)]="value"
+          [nzShowSearch]="showSearch() && !isXs()"
+          [nzPlaceHolder]="placeholder() ?? t('control.select.placeholder')"
+          [nzLoading]="isLoading()"
+          [disabled]="disabled() || !optionList().length || isLoading()"
+          (click)="!isXs() && clicked.emit()"
+          (nzFocus)="focusChange.emit()"
+          (nzBlur)="onBlur()"
+        >
+          <ng-content />
+        </nz-select>
+
+        @if (isXs()) {
+        <button
+          type="button"
+          class="cf-select-default__sheet-trigger"
+          [disabled]="disabled() || !optionList().length || isLoading()"
+          (click)="openBottomSheet(bottomSheet)"
+        ></button>
+
+        <cf-select-bottom-sheet
+          #bottomSheet
+          [(value)]="value"
+          [options]="selectOptions()"
+          [placeholder]="placeholder() ?? t('control.select.placeholder')"
+          (closed)="onBlur()"
+        />
         }
-      </nz-select>
-      }
+      </div>
     </nz-form-control>
   </nz-form-item>
 </ng-container>

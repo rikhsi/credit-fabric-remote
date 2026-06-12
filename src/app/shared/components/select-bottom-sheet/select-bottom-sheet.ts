@@ -5,7 +5,6 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
 import { SelectBottomSheetOption } from '@app/typings/select';
 import { BounceDirective } from '@shared/directives';
 
@@ -20,11 +19,7 @@ export class SelectBottomSheet {
   readonly value = model<string | number | boolean | null>(null);
   readonly options = input.required<SelectBottomSheetOption[]>();
   readonly placeholder = input<string | null>(null);
-  readonly disabled = input<boolean>(false);
-  readonly size = input<NzSizeLDSType>('default');
-  readonly isLoading = input<boolean>(false);
 
-  readonly opened = output<void>();
   readonly closed = output<void>();
 
   readonly visible = signal(false);
@@ -40,20 +35,9 @@ export class SelectBottomSheet {
     return this.options().filter((option) => option.label.toLowerCase().includes(query));
   });
 
-  readonly selectedLabel = computed(() => {
-    const currentValue = this.value();
-
-    return this.options().find((option) => option.value === currentValue)?.label ?? '';
-  });
-
   open(): void {
-    if (this.disabled() || this.isLoading()) {
-      return;
-    }
-
     this.search.set('');
     this.visible.set(true);
-    this.opened.emit();
   }
 
   close(markClosed = true): void {
