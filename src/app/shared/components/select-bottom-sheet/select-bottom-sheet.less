@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
@@ -21,17 +22,27 @@
       color: @text-color-secondary;
     }
 
+    .select-bottom-sheet__title {
+      color: @text-color;
+    }
+
     .select-bottom-sheet__option {
       color: @text-color;
 
-      &:hover {
+      &:hover,
+      &:active {
         background: fade(@cf-black-900, 5%);
       }
 
       &--selected {
-        color: @primary-color;
+        color: @text-color;
         background: @cf-green-500-16;
+        font-weight: 600;
       }
+    }
+
+    .select-bottom-sheet__check {
+      color: @primary-color;
     }
 
     .select-bottom-sheet__empty {
@@ -43,6 +54,36 @@
 :host {
   display: block;
   width: 100%;
+
+  ::ng-deep .cf-select-bottom-sheet-drawer {
+    .ant-drawer-content-wrapper {
+      border-radius: @border-radius-xl @border-radius-xl 0 0;
+      overflow: hidden;
+    }
+
+    .ant-drawer-content {
+      border-radius: @border-radius-xl @border-radius-xl 0 0;
+    }
+
+    .ant-drawer-header {
+      padding: 16px 16px 12px;
+      border-bottom: 0;
+    }
+
+    .ant-drawer-header-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ant-drawer-title {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ant-drawer-body {
+      padding: 0 16px 16px;
+    }
+  }
 }
 
 .select-bottom-sheet__trigger {
@@ -81,10 +122,26 @@
   font-size: 12px;
 }
 
+.select-bottom-sheet__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.select-bottom-sheet__title {
+  flex: 1;
+  min-width: 0;
+  font-size: @font-size-lg;
+  font-weight: @btn-font-weight-strong;
+  line-height: 1.4;
+}
+
 .select-bottom-sheet__panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   height: 100%;
 }
 
@@ -104,22 +161,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   width: 100%;
-  padding: 12px 8px;
+  min-height: 32px;
+  padding: 5px 12px;
   border: 0;
   background: transparent;
   text-align: left;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: @border-radius-round;
+  font-size: @font-size-base;
+  line-height: 1.5715;
+  transition: background 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  span {
-    min-width: 0;
-    white-space: normal;
-    word-break: break-word;
-  }
+.select-bottom-sheet__option-content {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.4;
+}
+
+.select-bottom-sheet__check {
+  flex-shrink: 0;
+  font-size: 14px;
 }
 
 .select-bottom-sheet__empty {
-  padding: 16px 8px;
+  padding: 16px 12px;
   text-align: center;
+  font-size: @font-size-base;
+  line-height: 1.5715;
 }

@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSizeLDSType } from 'ng-zorro-antd/core/types';
 import { SelectBottomSheetOption } from '@app/typings/select';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-select-bottom-sheet',
-  imports: [FormsModule, NzDrawerModule, NzInputModule, NzIconModule, TranslocoDirective],
+  imports: [FormsModule, NzDrawerModule, NzInputModule, NzIconModule, NzButtonComponent, BounceDirective, TranslocoDirective],
   templateUrl: './select-bottom-sheet.html',
   styleUrl: './select-bottom-sheet.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -14,13 +14,24 @@
   </button>
 
   <nz-drawer
+    nzWrapClassName="cf-select-bottom-sheet-drawer"
     [nzVisible]="visible()"
     [nzHeight]="'75vh'"
-    [nzClosable]="true"
+    [nzClosable]="false"
     nzPlacement="bottom"
-    [nzTitle]="placeholder() || t('control.select.placeholder')"
+    [nzTitle]="titleTpl"
     (nzOnClose)="close()"
   >
+    <ng-template #titleTpl>
+      <div class="select-bottom-sheet__header">
+        <span class="select-bottom-sheet__title">{{ placeholder() || t('control.select.placeholder') }}</span>
+
+        <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+          <nz-icon nzType="close" />
+        </button>
+      </div>
+    </ng-template>
+
     <ng-container *nzDrawerContent>
       <div class="select-bottom-sheet__panel">
         <nz-input-wrapper class="select-bottom-sheet__search">
@@ -37,10 +48,10 @@
               [class.select-bottom-sheet__option--selected]="option.value === value()"
               (click)="selectOption(option)"
             >
-              <span>{{ option.label }}</span>
+              <span class="select-bottom-sheet__option-content">{{ option.label }}</span>
 
               @if (option.value === value()) {
-              <nz-icon nzType="check" />
+              <nz-icon nzType="check" class="select-bottom-sheet__check" />
               }
             </button>
           </li>
