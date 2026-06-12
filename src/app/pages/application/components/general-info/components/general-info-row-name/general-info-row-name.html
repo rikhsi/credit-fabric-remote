@@ -11,13 +11,13 @@
   </cf-label-control-secondary>
   } @else {
   <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.ownership_form')">
-    <cf-select-default [formField]="form().ownershipCode" [placeholder]="t('control.select.placeholder')" size="large">
+    <cf-select-wrapper [formField]="form().ownershipCode" [placeholder]="t('control.select.placeholder')" size="large">
       <ng-container *cfHandbook="{url: 'dir-ownership-code'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
         }
       </ng-container>
-    </cf-select-default>
+    </cf-select-wrapper>
   </cf-label-control-secondary>
   } @if (borrower()?.registrationDate) {
   <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.registration_date')">

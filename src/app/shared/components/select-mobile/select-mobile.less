@@ -20,6 +20,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    pointer-events: none;
   }
 
   ::ng-deep .ant-select-selector {
@@ -44,5 +45,25 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: inherit !important;
+  }
+}
+
+.select-mobile__control {
+  position: relative;
+  width: 100%;
+}
+
+.select-mobile__trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }

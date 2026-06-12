@@ -2,13 +2,13 @@
   <div class="finance-form">
     <div class="finance-form__general">
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.actual_business_activity')">
-        <cf-select-default [formField]="form().finData.dirCompanyActivityId" [placeholder]="t('control.select.placeholder')" size="large">
+        <cf-select-wrapper [formField]="form().finData.dirCompanyActivityId" [placeholder]="t('control.select.placeholder')" size="large">
           <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
           </ng-container>
-        </cf-select-default>
+        </cf-select-wrapper>
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.experience_in_business_activity')">

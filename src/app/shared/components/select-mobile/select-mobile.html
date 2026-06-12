@@ -1,0 +1,46 @@
+<ng-container *transloco="let t">
+  @let showErrors = dirty() || touched();
+  <nz-form-item>
+    <nz-form-control
+      [nzValidateStatus]="firstError() | validationStatus: showErrors"
+      [nzHasFeedback]="isFeedback()"
+      [nzErrorTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzValidatingTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzWarningTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+    >
+      <div class="select-mobile__control">
+        <nz-select
+          nzDropdownClassName="cf-select-default-dropdown"
+          [nzSize]="size()"
+          [nzId]="id()"
+          [nzOpen]="false"
+          [(ngModel)]="value"
+          [nzShowSearch]="false"
+          [nzPlaceHolder]="placeholder() ?? t('control.select.placeholder')"
+          [nzLoading]="isLoading()"
+          [disabled]="disabled() || !optionList().length || isLoading()"
+          (nzBlur)="onBlur()"
+        >
+          @for (option of optionList(); track option.nzValue) {
+          <nz-option [nzValue]="option.nzValue" [nzLabel]="option.nzLabel"></nz-option>
+          }
+        </nz-select>
+
+        <button
+          type="button"
+          class="select-mobile__trigger"
+          [disabled]="disabled() || !optionList().length || isLoading()"
+          (click)="openBottomSheet()"
+        ></button>
+
+        <cf-select-bottom-sheet
+          [(value)]="value"
+          [options]="selectOptions()"
+          [placeholder]="placeholder() ?? t('control.select.placeholder')"
+          (closed)="onBlur()"
+        />
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+</ng-container>

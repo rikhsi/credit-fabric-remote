@@ -1,0 +1,39 @@
+@if (isXs()) {
+<cf-select-mobile
+  [(value)]="value"
+  [(touched)]="touched"
+  [(disabled)]="disabled"
+  [errors]="errors()"
+  [dirty]="dirty()"
+  [id]="id()"
+  [placeholder]="placeholder()"
+  [size]="size()"
+  [isFeedback]="isFeedback()"
+  [showSearch]="showSearch()"
+  [isLoading]="isLoading()"
+  (clicked)="clicked.emit()"
+  (focusChange)="focusChange.emit()"
+  (blurChange)="blurChange.emit()"
+>
+  <ng-content />
+</cf-select-mobile>
+} @else {
+<cf-select-default
+  [(value)]="value"
+  [(touched)]="touched"
+  [(disabled)]="disabled"
+  [errors]="errors()"
+  [dirty]="dirty()"
+  [id]="id()"
+  [placeholder]="placeholder()"
+  [size]="size()"
+  [isFeedback]="isFeedback()"
+  [showSearch]="showSearch()"
+  [isLoading]="isLoading()"
+  (clicked)="clicked.emit()"
+  (focusChange)="focusChange.emit()"
+  (blurChange)="blurChange.emit()"
+>
+  <ng-content />
+</cf-select-default>
+}
