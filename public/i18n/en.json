@@ -240,7 +240,8 @@
       "signed": "Signed",
       "decline": "Declined",
       "decline_client": "Declined by client",
-      "issued": "Issued"
+      "issued": "Issued",
+      "error": "Error"
     },
     "tag": {
       "in_progress": "We are reviewing your application",
@@ -250,7 +251,8 @@
       "signed": "All documents have been signed",
       "decline": "Unfortunately, we are unable to approve your loan",
       "decline_client": "Declined by you",
-      "issued": "Loan received"
+      "issued": "Loan received",
+      "error": "An error occurred while processing the application"
     },
     "comment": {
       "approved": "Congratulations! Your loan has been approved. Please review and accept the terms"
@@ -261,7 +263,7 @@
   },
   "control": {
     "input": {
-      "placeholder": "Fill the field"
+      "placeholder": "Fill in text"
     },
     "login": {
       "label": "Login"
@@ -270,7 +272,7 @@
       "label": "Password"
     },
     "select": {
-      "placeholder": "Select the field"
+      "placeholder": "Select"
     }
   },
   "auth": {

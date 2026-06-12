@@ -10,10 +10,11 @@ import { OnlineApiService } from '@api/controllers/los';
 import { RootRoute } from '@app/constants/route-path';
 import { SplashService } from '@core/services/splash.service';
 import { BridgeService } from '@core/services/bridge.service';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-document',
-  imports: [NzButtonComponent, NzIconDirective, TranslocoDirective, NgxExtendedPdfViewerModule, NzSpinComponent],
+  imports: [NzButtonComponent, NzIconDirective, TranslocoDirective, NgxExtendedPdfViewerModule, NzSpinComponent, BounceDirective],
   templateUrl: './document.html',
   styleUrl: './document.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -7,10 +7,11 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { Card } from '@shared/components';
 import { ExtraInfoItem } from '@pages/application/components/extra-info/components';
 import { OnlineCreateApplicationPayload, OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-extra-info',
-  imports: [Card, NzButtonComponent, NzIconDirective, TranslocoDirective, ExtraInfoItem, NzTagComponent],
+  imports: [Card, NzButtonComponent, NzIconDirective, TranslocoDirective, ExtraInfoItem, NzTagComponent, BounceDirective],
   templateUrl: './extra-info.html',
   styleUrl: './extra-info.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

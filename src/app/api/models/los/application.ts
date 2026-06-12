@@ -9,6 +9,7 @@ export enum ApplicationStatus {
   Issued = 'ISSUED',
   Decline = 'DECLINE',
   DeclineClient = 'DECLINE_CLIENT',
+  Error = 'ERROR',
 }
 
 export interface DocumentItem {

@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { ApplicationStatus } from '@api/models/los/application';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-action-application',
-  imports: [NzButtonComponent, TranslocoDirective],
+  imports: [NzButtonComponent, TranslocoDirective, BounceDirective],
   templateUrl: './action-application.html',
   styleUrl: './action-application.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

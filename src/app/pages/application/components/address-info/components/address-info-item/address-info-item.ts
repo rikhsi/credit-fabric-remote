@@ -3,14 +3,14 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
-import { HandbookDirective } from '@shared/directives';
+import { BounceDirective, HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { isFlowAddressFilled } from '@pages/application/utils/address';
 
 @Component({
   selector: 'cf-address-info-item',
-  imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent, HandbookDirective, HandbookPipe],
+  imports: [Card, NzButtonComponent, NzIconDirective, NzTypographyComponent, HandbookDirective, HandbookPipe, BounceDirective],
   templateUrl: './address-info-item.html',
   styleUrl: './address-info-item.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

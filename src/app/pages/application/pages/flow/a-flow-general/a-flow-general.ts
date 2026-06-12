@@ -16,10 +16,11 @@ import { isGeneralStepValid } from '@pages/application/utils/flow-step.validatio
 import { AuthService } from '@core/services/auth.service';
 import { OnlineApplication } from '@api/models/los/application';
 import { OnlineStartProcessingExtraInformation, OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-a-flow-general',
-  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, AddressInfo, TranslocoDirective],
+  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, AddressInfo, TranslocoDirective, BounceDirective],
   templateUrl: './a-flow-general.html',
   styleUrl: './a-flow-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

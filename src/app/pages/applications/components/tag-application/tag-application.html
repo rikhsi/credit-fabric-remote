@@ -15,5 +15,7 @@
   <nz-tag class="tag decline">{{t('application.tag.decline_client')}}</nz-tag>
   } @case('ISSUED') {
   <nz-tag class="tag success">{{t('application.tag.issued')}}</nz-tag>
+  } @case('ERROR') {
+  <nz-tag class="tag decline">{{t('application.tag.error')}}</nz-tag>
   } }
 </ng-container>

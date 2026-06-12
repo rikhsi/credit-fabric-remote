@@ -2,24 +2,30 @@
   @if (borrower()?.name) {
   <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.name')">{{ borrower()!.name }}</cf-label-control-secondary>
   } @else {
-  <cf-input-default [formField]="form().name" [placeholder]="t('prop.name')" size="large" />
+  <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.name')">
+    <cf-input-default [formField]="form().name" [placeholder]="t('control.input.placeholder')" size="large" />
+  </cf-label-control-secondary>
   } @if (borrower()?.ownershipCode?.value) {
   <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.ownership_form')">
     {{ borrower()!.ownershipCode.value }}
   </cf-label-control-secondary>
   } @else {
-  <cf-select-default [formField]="form().ownershipCode" [placeholder]="t('prop.ownership_form')" size="large">
-    <ng-container *cfHandbook="{url: 'dir-ownership-code'}; let items">
-      @for (item of items; track item.id) {
-      <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-      }
-    </ng-container>
-  </cf-select-default>
+  <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.ownership_form')">
+    <cf-select-default [formField]="form().ownershipCode" [placeholder]="t('control.select.placeholder')" size="large">
+      <ng-container *cfHandbook="{url: 'dir-ownership-code'}; let items">
+        @for (item of items; track item.id) {
+        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+        }
+      </ng-container>
+    </cf-select-default>
+  </cf-label-control-secondary>
   } @if (borrower()?.registrationDate) {
   <cf-label-control-secondary style="align-items: flex-start" [label]="t('prop.registration_date')">
     {{ borrower()!.registrationDate | date: 'dd.MM.yyyy' }}
   </cf-label-control-secondary>
   } @else {
-  <cf-select-date [formField]="form().registrationDate" [placeholder]="t('prop.registration_date')" size="large" />
+  <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.registration_date')">
+    <cf-select-date [formField]="form().registrationDate" [placeholder]="t('control.select.placeholder')" size="large" />
+  </cf-label-control-secondary>
   }
 </ng-container>

@@ -6,10 +6,11 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { DecimalPipe } from '@angular/common';
 import { PluralizePipe } from '@shared/pipes';
 import { SuccessModalData } from '@pages/application/data/modal';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-success-modal',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, DecimalPipe, PluralizePipe],
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, DecimalPipe, PluralizePipe, BounceDirective],
   templateUrl: './success-modal.html',
   styleUrl: './success-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

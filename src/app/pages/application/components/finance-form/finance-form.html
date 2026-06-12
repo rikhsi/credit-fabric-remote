@@ -1,22 +1,26 @@
 <ng-container *transloco="let t">
   <div class="finance-form">
     <div class="finance-form__general">
-      <cf-select-default [formField]="form().finData.dirCompanyActivityId" [placeholder]="t('prop.actual_business_activity')" size="large">
-        <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
-          @for (item of items; track item.id) {
-          <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-          }
-        </ng-container>
-      </cf-select-default>
+      <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.actual_business_activity')">
+        <cf-select-default [formField]="form().finData.dirCompanyActivityId" [placeholder]="t('control.select.placeholder')" size="large">
+          <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
+            @for (item of items; track item.id) {
+            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+            }
+          </ng-container>
+        </cf-select-default>
+      </cf-label-control-secondary>
 
-      <cf-input-default
-        [suffix]="form().finData.activityTerm().value()| pluralize: 'month' : false"
-        [formField]="form().finData.activityTerm"
-        mask="separator.0"
-        thousandSeparator=" "
-        [placeholder]="t('prop.experience_in_business_activity')"
-        size="large"
-      />
+      <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.experience_in_business_activity')">
+        <cf-input-default
+          [suffix]="form().finData.activityTerm().value()| pluralize: 'month' : false"
+          [formField]="form().finData.activityTerm"
+          mask="separator.0"
+          thousandSeparator=" "
+          [placeholder]="t('control.input.placeholder')"
+          size="large"
+        />
+      </cf-label-control-secondary>
     </div>
 
     <h4 class="finance-form__title">{{ t('prop.financial_activity_over') }}</h4>
@@ -25,67 +29,79 @@
       <article class="month-card">
         <h5 class="month-card__label">{{ 1 | financeMonth | date: 'MMMM y' }}</h5>
 
-        <cf-input-default
-          [formField]="form().finData.month1Revenue"
-          [placeholder]="t('prop.benefit')"
-          mask="separator.0"
-          thousandSeparator=" "
-          [suffix]="form().finData.month1Revenue().value()| pluralize: 'money' : false"
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month1Revenue"
+            [placeholder]="t('control.input.placeholder')"
+            mask="separator.0"
+            thousandSeparator=" "
+            [suffix]="form().finData.month1Revenue().value()| pluralize: 'money' : false"
+            size="large"
+          />
+        </cf-label-control-secondary>
 
-        <cf-input-default
-          [formField]="form().finData.month1Income"
-          [suffix]="form().finData.month1Income().value()| pluralize: 'money' : false"
-          [placeholder]="t('prop.pure_benefit')"
-          mask="separator.0"
-          thousandSeparator=" "
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.pure_benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month1Income"
+            [suffix]="form().finData.month1Income().value()| pluralize: 'money' : false"
+            [placeholder]="t('control.input.placeholder')"
+            mask="separator.0"
+            thousandSeparator=" "
+            size="large"
+          />
+        </cf-label-control-secondary>
       </article>
 
       <article class="month-card">
         <h5 class="month-card__label">{{ 2 | financeMonth | date : 'MMMM y' }}</h5>
 
-        <cf-input-default
-          [formField]="form().finData.month2Revenue"
-          [suffix]="form().finData.month2Revenue().value()| pluralize: 'money' : false"
-          [placeholder]="t('prop.benefit')"
-          mask="separator.0"
-          thousandSeparator=" "
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month2Revenue"
+            [suffix]="form().finData.month2Revenue().value()| pluralize: 'money' : false"
+            [placeholder]="t('control.input.placeholder')"
+            mask="separator.0"
+            thousandSeparator=" "
+            size="large"
+          />
+        </cf-label-control-secondary>
 
-        <cf-input-default
-          [formField]="form().finData.month2Income"
-          [suffix]="form().finData.month2Income().value()| pluralize: 'money' : false"
-          [placeholder]="t('prop.benefit')"
-          mask="separator.0"
-          thousandSeparator=" "
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.pure_benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month2Income"
+            [suffix]="form().finData.month2Income().value()| pluralize: 'money' : false"
+            [placeholder]="t('control.input.placeholder')"
+            mask="separator.0"
+            thousandSeparator=" "
+            size="large"
+          />
+        </cf-label-control-secondary>
       </article>
 
       <article class="month-card">
         <h5 class="month-card__label">{{ 3 | financeMonth | date : 'MMMM y' }}</h5>
 
-        <cf-input-default
-          [formField]="form().finData.month3Revenue"
-          [suffix]="form().finData.month3Revenue().value()| pluralize: 'money' : false"
-          [placeholder]="t('prop.benefit')"
-          mask="separator.0"
-          thousandSeparator=" "
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month3Revenue"
+            [suffix]="form().finData.month3Revenue().value()| pluralize: 'money' : false"
+            [placeholder]="t('control.input.placeholder')"
+            mask="separator.0"
+            thousandSeparator=" "
+            size="large"
+          />
+        </cf-label-control-secondary>
 
-        <cf-input-default
-          [formField]="form().finData.month3Income"
-          [placeholder]="t('prop.pure_benefit')"
-          [suffix]="form().finData.month3Income().value()| pluralize: 'money' : false"
-          mask="separator.0"
-          thousandSeparator=" "
-          size="large"
-        />
+        <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.pure_benefit')" size="small">
+          <cf-input-default
+            [formField]="form().finData.month3Income"
+            [placeholder]="t('control.input.placeholder')"
+            [suffix]="form().finData.month3Income().value()| pluralize: 'money' : false"
+            mask="separator.0"
+            thousandSeparator=" "
+            size="large"
+          />
+        </cf-label-control-secondary>
       </article>
     </div>
   </div>

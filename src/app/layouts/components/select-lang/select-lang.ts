@@ -6,10 +6,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { LangFlagPipe } from '@layouts/pipes';
 import { EnumItemsPipe } from '@shared/pipes';
 import { Language } from '@app/constants/language';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-select-lang',
-  imports: [NzButtonComponent, NzIconDirective, LangFlagPipe, NzDropdownModule, EnumItemsPipe, TranslocoDirective],
+  imports: [NzButtonComponent, NzIconDirective, LangFlagPipe, NzDropdownModule, EnumItemsPipe, TranslocoDirective, BounceDirective],
   templateUrl: './select-lang.html',
   styleUrl: './select-lang.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

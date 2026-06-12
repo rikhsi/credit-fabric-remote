@@ -29,6 +29,9 @@ export class ApplicationStatusPipe implements PipeTransform {
       case ApplicationStatus.Issued: {
         return 'application.status.issued';
       }
+      case ApplicationStatus.Error: {
+        return 'application.status.error';
+      }
       default: {
         return 'application.status.unknown';
       }

@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
-import { InputDefault, SelectDefault } from '@shared/components';
+import { InputDefault, LabelControlSecondary, SelectDefault } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
 
@@ -14,6 +14,7 @@ import { PluralizePipe } from '@shared/pipes';
   imports: [
     FinanceMonthPipe,
     InputDefault,
+    LabelControlSecondary,
     SelectDefault,
     NzOptionComponent,
     TranslocoDirective,

@@ -15,10 +15,11 @@ import { SuccessModal } from '@pages/application/components/success-modal/succes
 import { SuccessModalData } from '@pages/application/data/modal';
 import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
 import { buildCreateApplicationPayload } from '@pages/application/utils/finance-months';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-a-flow-finance',
-  imports: [NzButtonComponent, FinanceForm, Card, Steps, TranslocoDirective],
+  imports: [NzButtonComponent, FinanceForm, Card, Steps, TranslocoDirective, BounceDirective],
   templateUrl: './a-flow-finance.html',
   styleUrl: './a-flow-finance.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

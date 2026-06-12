@@ -13,6 +13,7 @@ import { InputOtp } from '@shared/components';
 import { TimerService } from '@shared/services';
 import { OnlineApiService } from '@api/controllers/los';
 import { otpFormModel } from '@pages/loan/data';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-modal-otp',
@@ -26,6 +27,7 @@ import { otpFormModel } from '@pages/loan/data';
     FormField,
     SecondsToTimePipe,
     PhoneNumberPipe,
+    BounceDirective,
   ],
   templateUrl: './modal-otp.html',
   styleUrl: './modal-otp.less',

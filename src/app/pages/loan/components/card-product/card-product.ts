@@ -7,6 +7,7 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { Card, LabelControl } from '@shared/components';
 import { PluralizePipe } from '@shared/pipes';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-card-product',
@@ -23,6 +24,7 @@ import { PluralizePipe } from '@shared/pipes';
     DecimalPipe,
     PluralizePipe,
     LowerCasePipe,
+    BounceDirective,
   ],
   templateUrl: './card-product.html',
   styleUrl: './card-product.less',

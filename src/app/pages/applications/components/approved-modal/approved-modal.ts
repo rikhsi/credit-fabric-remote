@@ -4,10 +4,11 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalRef, NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { ConfirmModal } from '@app/typings/modal';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-approved-modal',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective],
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, BounceDirective],
   templateUrl: './approved-modal.html',
   styleUrl: './approved-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

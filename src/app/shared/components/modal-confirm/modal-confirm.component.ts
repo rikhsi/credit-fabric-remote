@@ -4,10 +4,11 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { ConfirmModal } from '@app/typings/modal';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-modal-confirm',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective],
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, BounceDirective],
   templateUrl: './modal-confirm.component.html',
   styleUrl: './modal-confirm.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

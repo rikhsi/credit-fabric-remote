@@ -6,10 +6,11 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { ApplicationStatus, DocumentItem } from '@api/models/los/application';
+import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-docs-application',
-  imports: [RouterLink, TranslocoDirective, NzTagComponent, NzIconDirective, DatePipe, LowerCasePipe, NzButtonComponent],
+  imports: [RouterLink, TranslocoDirective, NzTagComponent, NzIconDirective, DatePipe, LowerCasePipe, NzButtonComponent, BounceDirective],
   templateUrl: './docs-application.html',
   styleUrl: './docs-application.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
