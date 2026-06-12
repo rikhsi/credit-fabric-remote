@@ -6,7 +6,7 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { ResetVillageOnCityChangeDirective } from '@pages/application/directives';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookPipe, HandbookSelectOptionsPipe } from '@shared/pipes';
+import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
@@ -17,7 +17,6 @@ import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
     LabelControlSecondary,
     SelectDefault,
     SelectDefaultMobile,
-    HandbookSelectOptionsPipe,
     NzOptionComponent,
     TranslocoDirective,
     HandbookDirective,

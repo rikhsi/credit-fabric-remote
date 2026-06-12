@@ -5,7 +5,6 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { InputDefault, LabelControlSecondary, SelectDate, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookSelectOptionsPipe } from '@shared/pipes';
 import { OnlineBorrower } from '@api/models/los/application';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 
@@ -17,7 +16,6 @@ import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing
     InputDefault,
     SelectDefault,
     SelectDefaultMobile,
-    HandbookSelectOptionsPipe,
     SelectDate,
     FormField,
     HandbookDirective,

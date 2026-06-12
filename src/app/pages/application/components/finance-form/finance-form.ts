@@ -7,7 +7,7 @@ import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing
 import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
 import { InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookSelectOptionsPipe, PluralizePipe } from '@shared/pipes';
+import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-finance-form',
@@ -17,7 +17,6 @@ import { HandbookSelectOptionsPipe, PluralizePipe } from '@shared/pipes';
     LabelControlSecondary,
     SelectDefault,
     SelectDefaultMobile,
-    HandbookSelectOptionsPipe,
     NzOptionComponent,
     TranslocoDirective,
     HandbookDirective,

@@ -5,7 +5,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { FormBox, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookSelectOptionsPipe } from '@shared/pipes';
 import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-processing';
 
 @Component({
@@ -13,7 +12,6 @@ import { OnlineStartProcessingExtraInformation } from '@api/models/los/start-pro
   imports: [
     SelectDefault,
     SelectDefaultMobile,
-    HandbookSelectOptionsPipe,
     NzOptionComponent,
     FormBox,
     LabelControlSecondary,

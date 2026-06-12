@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, input, model, viewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, effect, inject, input, model, signal, viewChild } from '@angular/core';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { BottomSheet } from '../bottom-sheet/bottom-sheet';
 import { SelectDefault } from '../select-default/select-default';
+import { HandbookRequest } from '@app/typings/handbook';
 import { SelectOption } from '@app/typings/select';
 import { ControlBaseDirective } from '@shared/directives';
+import { fetchHandbookItems, mapHandbookItemsToSelectOptions } from '@shared/utils/handbook-select';
 
 @Component({
   selector: 'cf-select-default-mobile',
@@ -13,16 +16,50 @@ import { ControlBaseDirective } from '@shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectDefaultMobile extends ControlBaseDirective<number | boolean | string> {
+  private readonly http = inject(HttpClient);
+
   readonly bottomSheet = viewChild.required(BottomSheet);
 
   value = model(null);
 
-  readonly options = input.required<SelectOption[]>();
+  readonly handbook = input.required<HandbookRequest>();
   readonly showSearch = input<boolean>(true);
-  readonly isLoading = input<boolean>(false);
+
+  readonly options = signal<SelectOption[]>([]);
+  readonly handbookLoading = signal(false);
+
+  constructor() {
+    effect((onCleanup) => {
+      const request = this.handbook();
+
+      if (!request?.url) {
+        this.options.set([]);
+        this.handbookLoading.set(false);
+
+        return;
+      }
+
+      this.handbookLoading.set(true);
+
+      const subscription = fetchHandbookItems(this.http, request).subscribe({
+        next: (items) => {
+          this.options.set(mapHandbookItemsToSelectOptions(items));
+          this.handbookLoading.set(false);
+        },
+        error: () => {
+          this.options.set([]);
+          this.handbookLoading.set(false);
+        },
+      });
+
+      onCleanup(() => subscription.unsubscribe());
+    });
+
+    super();
+  }
 
   openSheet(): void {
-    if (this.disabled() || !this.options().length || this.isLoading()) {
+    if (this.disabled() || this.handbookLoading()) {
       return;
     }
 

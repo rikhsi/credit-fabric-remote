@@ -2,95 +2,90 @@
   <cf-form-box [submitDisabled]="form().invalid()" [title]="t('action.add_extra_params')" (closeClick)="close()" (submitClick)="submit()">
     <div class="form-fields">
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.industry_sector')">
-        <ng-container *cfHandbook="{url: 'dir-sector-economy'}; let items">
-          <cf-select-default
-            class="cf-hide-xs"
-            [formField]="form.sectorEconomy"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          >
+        <cf-select-default class="cf-hide-xs" [formField]="form.sectorEconomy" [placeholder]="t('control.select.placeholder')" size="large">
+          <ng-container *cfHandbook="{url: 'dir-sector-economy'}; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
-          </cf-select-default>
+          </ng-container>
+        </cf-select-default>
 
-          <cf-select-default-mobile
-            class="cf-show-xs"
-            [formField]="form.sectorEconomy"
-            [options]="items | handbookSelectOptions"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          />
-        </ng-container>
+        <cf-select-default-mobile
+          class="cf-show-xs"
+          [formField]="form.sectorEconomy"
+          [handbook]="{ url: 'dir-sector-economy' }"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.new_entity_indicator')">
-        <ng-container *cfHandbook="{url: 'dir-enterprise-classifier'}; let items">
-          <cf-select-default
-            class="cf-hide-xs"
-            [formField]="form.enterpriseClassfier"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          >
+        <cf-select-default
+          class="cf-hide-xs"
+          [formField]="form.enterpriseClassfier"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        >
+          <ng-container *cfHandbook="{url: 'dir-enterprise-classifier'}; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
-          </cf-select-default>
+          </ng-container>
+        </cf-select-default>
 
-          <cf-select-default-mobile
-            class="cf-show-xs"
-            [formField]="form.enterpriseClassfier"
-            [options]="items | handbookSelectOptions"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          />
-        </ng-container>
+        <cf-select-default-mobile
+          class="cf-show-xs"
+          [formField]="form.enterpriseClassfier"
+          [handbook]="{ url: 'dir-enterprise-classifier' }"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.business_classification')">
-        <ng-container *cfHandbook="{url: 'dir-object-new-formation'}; let items">
-          <cf-select-default
-            class="cf-hide-xs"
-            [formField]="form.objectNewFormation"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          >
+        <cf-select-default
+          class="cf-hide-xs"
+          [formField]="form.objectNewFormation"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        >
+          <ng-container *cfHandbook="{url: 'dir-object-new-formation'}; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
-          </cf-select-default>
+          </ng-container>
+        </cf-select-default>
 
-          <cf-select-default-mobile
-            class="cf-show-xs"
-            [formField]="form.objectNewFormation"
-            [options]="items | handbookSelectOptions"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          />
-        </ng-container>
+        <cf-select-default-mobile
+          class="cf-show-xs"
+          [formField]="form.objectNewFormation"
+          [handbook]="{ url: 'dir-object-new-formation' }"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.environmental_impact_classification')">
-        <ng-container *cfHandbook="{url: 'dir-ecological-impact-code'}; let items">
-          <cf-select-default
-            class="cf-hide-xs"
-            [formField]="form.ecologicalImpactCode"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          >
+        <cf-select-default
+          class="cf-hide-xs"
+          [formField]="form.ecologicalImpactCode"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        >
+          <ng-container *cfHandbook="{url: 'dir-ecological-impact-code'}; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
-          </cf-select-default>
+          </ng-container>
+        </cf-select-default>
 
-          <cf-select-default-mobile
-            class="cf-show-xs"
-            [formField]="form.ecologicalImpactCode"
-            [options]="items | handbookSelectOptions"
-            [placeholder]="t('control.select.placeholder')"
-            size="large"
-          />
-        </ng-container>
+        <cf-select-default-mobile
+          class="cf-show-xs"
+          [formField]="form.ecologicalImpactCode"
+          [handbook]="{ url: 'dir-ecological-impact-code' }"
+          [placeholder]="t('control.select.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
     </div>
   </cf-form-box>

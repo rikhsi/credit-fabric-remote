@@ -17,52 +17,52 @@
     </ng-container>
 
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.city')">
-      <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
-        <cf-select-default
-          class="cf-hide-xs"
-          [formField]="addressForm.dirCityId"
-          [placeholder]="t('control.select.placeholder')"
-          size="large"
-        >
+      <cf-select-default
+        class="cf-hide-xs"
+        [formField]="addressForm.dirCityId"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      >
+        <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
-        </cf-select-default>
+        </ng-container>
+      </cf-select-default>
 
-        <cf-select-default-mobile
-          class="cf-show-xs"
-          [formField]="addressForm.dirCityId"
-          [options]="items | handbookSelectOptions"
-          [placeholder]="t('control.select.placeholder')"
-          size="large"
-        />
-      </ng-container>
+      <cf-select-default-mobile
+        class="cf-show-xs"
+        [formField]="addressForm.dirCityId"
+        [handbook]="{ url: 'dir-city' }"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      />
     </cf-label-control-secondary>
 
     @if (addressForm.dirCityId().value()) {
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.street')">
-      <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }; let items">
-        <cf-select-default
-          class="cf-hide-xs"
-          [formField]="addressForm.dirVillageId"
-          [cfResetVillageOnCityChange]="addressForm"
-          [placeholder]="t('control.select.placeholder')"
-          size="large"
-        >
+      <cf-select-default
+        class="cf-hide-xs"
+        [formField]="addressForm.dirVillageId"
+        [cfResetVillageOnCityChange]="addressForm"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      >
+        <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
-        </cf-select-default>
+        </ng-container>
+      </cf-select-default>
 
-        <cf-select-default-mobile
-          class="cf-show-xs"
-          [formField]="addressForm.dirVillageId"
-          [cfResetVillageOnCityChange]="addressForm"
-          [options]="items | handbookSelectOptions"
-          [placeholder]="t('control.select.placeholder')"
-          size="large"
-        />
-      </ng-container>
+      <cf-select-default-mobile
+        class="cf-show-xs"
+        [formField]="addressForm.dirVillageId"
+        [cfResetVillageOnCityChange]="addressForm"
+        [handbook]="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }"
+        [placeholder]="t('control.select.placeholder')"
+        size="large"
+      />
     </cf-label-control-secondary>
     }
 

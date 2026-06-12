@@ -5,7 +5,6 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { InputSlider, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookSelectOptionsPipe } from '@shared/pipes';
 import { CalculatorFormModel } from '@pages/loan/models';
 
 @Component({
@@ -15,7 +14,6 @@ import { CalculatorFormModel } from '@pages/loan/models';
     LabelControlSecondary,
     SelectDefault,
     SelectDefaultMobile,
-    HandbookSelectOptionsPipe,
     NzOptionComponent,
     NzRadioComponent,
     NzRadioGroupComponent,

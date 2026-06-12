@@ -1,20 +1,20 @@
 <ng-container *transloco="let t">
   <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.oked')">
-    <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
-      <cf-select-default class="cf-hide-xs" [formField]="form().oked" [placeholder]="t('control.select.placeholder')" size="large">
+    <cf-select-default class="cf-hide-xs" [formField]="form().oked" [placeholder]="t('control.select.placeholder')" size="large">
+      <ng-container *cfHandbook="{url: 'dir-oked'}; let items">
         @for (item of items; track item.id) {
         <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
         }
-      </cf-select-default>
+      </ng-container>
+    </cf-select-default>
 
-      <cf-select-default-mobile
-        class="cf-show-xs"
-        [formField]="form().oked"
-        [options]="items | handbookSelectOptions"
-        [placeholder]="t('control.select.placeholder')"
-        size="large"
-      />
-    </ng-container>
+    <cf-select-default-mobile
+      class="cf-show-xs"
+      [formField]="form().oked"
+      [handbook]="{ url: 'dir-oked' }"
+      [placeholder]="t('control.select.placeholder')"
+      size="large"
+    />
   </cf-label-control-secondary>
 
   <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.employee_count')">
