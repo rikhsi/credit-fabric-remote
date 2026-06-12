@@ -69,10 +69,20 @@
   margin-bottom: 12px;
 }
 
+.cf-bottom-sheet {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
 .cf-bottom-sheet__list {
   margin: 0;
   padding: 0;
   list-style: none;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .cf-bottom-sheet__option {

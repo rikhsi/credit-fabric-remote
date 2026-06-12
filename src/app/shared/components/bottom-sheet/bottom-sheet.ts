@@ -8,8 +8,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { SelectOption } from '@app/typings/select';
 import { BounceDirective } from '@shared/directives';
 
-const SWIPE_CLOSE_THRESHOLD = 72;
-
 @Component({
   selector: 'cf-bottom-sheet',
   imports: [FormsModule, NzDrawerModule, NzInputModule, NzIconModule, NzButtonComponent, BounceDirective, TranslocoDirective],
@@ -27,8 +25,6 @@ export class BottomSheet {
   readonly closed = output<void>();
 
   readonly search = signal('');
-  private touchStartY = 0;
-  private touchDeltaY = 0;
 
   readonly filteredOptions = computed(() => {
     const query = this.search().trim().toLowerCase();
@@ -47,8 +43,6 @@ export class BottomSheet {
 
   close(markClosed = true): void {
     this.visible.set(false);
-    this.touchStartY = 0;
-    this.touchDeltaY = 0;
 
     if (markClosed) {
       this.closed.emit();
@@ -58,24 +52,5 @@ export class BottomSheet {
   selectOption(option: SelectOption): void {
     this.value.set(option.value);
     this.close();
-  }
-
-  onTouchStart(event: TouchEvent): void {
-    this.touchStartY = event.touches[0]?.clientY ?? 0;
-    this.touchDeltaY = 0;
-  }
-
-  onTouchMove(event: TouchEvent): void {
-    const currentY = event.touches[0]?.clientY ?? 0;
-    this.touchDeltaY = Math.max(0, currentY - this.touchStartY);
-  }
-
-  onTouchEnd(): void {
-    if (this.touchDeltaY >= SWIPE_CLOSE_THRESHOLD) {
-      this.close();
-    }
-
-    this.touchStartY = 0;
-    this.touchDeltaY = 0;
   }
 }

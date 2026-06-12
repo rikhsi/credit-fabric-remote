@@ -2,14 +2,14 @@
   <nz-drawer
     nzWrapClassName="cf-bottom-sheet-drawer"
     [nzVisible]="visible()"
-    [nzHeight]="'auto'"
+    [nzHeight]="'75vh'"
     [nzClosable]="false"
     nzPlacement="bottom"
     [nzMaskClosable]="true"
     (nzOnClose)="close()"
   >
     <ng-container *nzDrawerContent>
-      <div class="cf-bottom-sheet" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()">
+      <div class="cf-bottom-sheet">
         <div class="cf-bottom-sheet__handle"></div>
 
         <div class="cf-bottom-sheet__header">
