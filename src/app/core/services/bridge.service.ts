@@ -15,25 +15,25 @@ export class BridgeService {
     return window as NzSafeAny;
   }
 
-  private get mobileApp() {
-    return this.windowRef?.MobileApp;
+  private get bridge() {
+    return this.windowRef?.Bridge;
   }
 
   public onCloseClick(): void {
-    if (this.mobileApp) {
-      this.mobileApp.close();
+    if (this.bridge) {
+      this.bridge.close();
     }
   }
 
   public onSignClick(file: string): void {
-    if (this.mobileApp) {
-      this.mobileApp.signBase64File(file, environment.projectTag);
+    if (this.bridge) {
+      this.bridge.signBase64File(file, environment.projectTag);
     }
   }
 
   public getUserInfo(): UserItem {
-    if (this.mobileApp) {
-      const raw = this.mobileApp.getUserInfo();
+    if (this.bridge) {
+      const raw = this.bridge.getUserInfo();
 
       try {
         const parsed = JSON.parse(raw);
