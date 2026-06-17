@@ -5,3 +5,4 @@ export * from './error';
 export * from './calculate';
 export * from './file';
 export * from './handbook-select';
+export * from './phone';

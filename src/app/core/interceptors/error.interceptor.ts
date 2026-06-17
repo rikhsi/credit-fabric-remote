@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((result: HttpErrorResponse) => {
       // 🔐 auth errors
       if (result.status === 401 || result.status === 403) {
-        // authService.logout();
+        return throwError(() => result);
       }
 
       // 🌐 CORS / network error

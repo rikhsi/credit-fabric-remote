@@ -4,6 +4,9 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/development';
 import { UserItem } from '@api/models/base';
 import { NativeEvent } from '@app/typings/bridge';
+import { normalizePhoneNumber } from '@shared/utils/phone';
+
+const TOKEN_REFRESH_TIMEOUT_MS = 30_000;
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +14,21 @@ import { NativeEvent } from '@app/typings/bridge';
 export class BridgeService {
   notificationService = inject(NzNotificationService);
 
+  private listenerInitialized = false;
+  private refreshPromise: Promise<boolean> | null = null;
+  private resolveRefresh: ((success: boolean) => void) | null = null;
+  private refreshTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
   private get windowRef() {
     return window as NzSafeAny;
   }
 
   private get bridge() {
     return this.windowRef?.Bridge;
+  }
+
+  public hasBridge(): boolean {
+    return Boolean(this.bridge);
   }
 
   public onCloseClick(): void {
@@ -31,14 +43,44 @@ export class BridgeService {
     }
   }
 
+  public setToken(): void {
+    if (this.bridge) {
+      this.bridge.setToken(environment.projectTag);
+    }
+  }
+
+  public refreshToken(): Promise<boolean> {
+    if (!this.hasBridge()) {
+      return Promise.resolve(false);
+    }
+
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise = new Promise<boolean>((resolve) => {
+      this.resolveRefresh = resolve;
+      this.setToken();
+
+      this.refreshTimeoutId = setTimeout(() => {
+        this.completeTokenRefresh(false);
+      }, TOKEN_REFRESH_TIMEOUT_MS);
+    });
+
+    return this.refreshPromise;
+  }
+
   public getUserInfo(): UserItem {
     if (this.bridge) {
       const raw = this.bridge.getUserInfo();
 
       try {
-        const parsed = JSON.parse(raw);
+        const parsed = JSON.parse(raw) as UserItem;
 
-        return parsed;
+        return {
+          ...parsed,
+          phone: normalizePhoneNumber(parsed.phone),
+        };
       } catch (error: NzSafeAny) {}
 
       return null;
@@ -48,8 +90,40 @@ export class BridgeService {
   }
 
   public initSignListener(): void {
-    window.addEventListener('message', (event: MessageEvent<NativeEvent<string>>) => {
-      this.notificationService.success(event.data.event, event.data.data.event_name);
-    });
+    if (this.listenerInitialized) {
+      return;
+    }
+
+    this.listenerInitialized = true;
+    window.addEventListener('message', this.onWindowMessage);
+  }
+
+  private readonly onWindowMessage = (event: MessageEvent<NativeEvent<NzSafeAny>>): void => {
+    const payload = event.data;
+
+    if (!payload?.event) {
+      return;
+    }
+
+    if (payload.event === 'tokenRefreshed') {
+      this.completeTokenRefresh(payload.data?.status === 'success');
+
+      return;
+    }
+
+    if (payload.data?.event_name) {
+      this.notificationService.success(payload.event, payload.data.event_name);
+    }
+  };
+
+  private completeTokenRefresh(success: boolean): void {
+    if (this.refreshTimeoutId) {
+      clearTimeout(this.refreshTimeoutId);
+      this.refreshTimeoutId = null;
+    }
+
+    this.resolveRefresh?.(success);
+    this.resolveRefresh = null;
+    this.refreshPromise = null;
   }
 }
