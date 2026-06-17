@@ -29,7 +29,9 @@
         </cf-label-control-secondary>
       </div>
 
+      @if (!actionsDisabled()) {
       <cf-action-application (goToApplication)="goToApplication.emit()" />
+      }
     </div>
   </cf-card>
 

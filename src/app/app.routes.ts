@@ -21,12 +21,7 @@ export const routes: Routes = [
         path: RootRoute.Applications,
         component: LoanLayout,
         data: { title: 'prop.my_applications' },
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('@pages/applications/applications').then((c) => c.Applications),
-          },
-        ],
+        loadChildren: () => import('@pages/applications/applications.routes').then((r) => r.routes),
       },
       {
         path: `${RootRoute.Document}/:${RouteParam.DocId}`,
