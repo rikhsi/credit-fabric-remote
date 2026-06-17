@@ -6,7 +6,6 @@ import { CommentApplication } from '../comment-application/comment-application';
 import { ActionApplication } from '../action-application/action-application';
 import { TagApplication } from '../tag-application/tag-application';
 import { StatusApplication } from '../status-application/status-application';
-import { DocsApplication } from '../docs-application/docs-application';
 import { Card, LabelControlSecondary } from '@shared/components';
 import { ApplicationStatus } from '@api/models/los/application';
 
@@ -23,7 +22,6 @@ import { ApplicationStatus } from '@api/models/los/application';
     TagApplication,
     CommentApplication,
     ActionApplication,
-    DocsApplication,
   ],
   templateUrl: './card-application.html',
   styleUrl: './card-application.less',
@@ -41,6 +39,5 @@ export class CardApplication {
 
   actionsDisabled = input<boolean>();
 
-  declined = output<void>();
-  approved = output<void>();
+  goToApplication = output<void>();
 }

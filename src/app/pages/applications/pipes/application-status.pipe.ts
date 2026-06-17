@@ -14,8 +14,11 @@ export class ApplicationStatusPipe implements PipeTransform {
       case ApplicationStatus.OnDesign: {
         return 'application.status.on_design';
       }
-      case ApplicationStatus.OnAssign: {
-        return 'application.status.on_assign';
+      case ApplicationStatus.OnFormFill: {
+        return 'application.status.on_form_fill';
+      }
+      case ApplicationStatus.OnDecision: {
+        return 'application.status.on_decision';
       }
       case ApplicationStatus.Signed: {
         return 'application.status.signed';

@@ -5,8 +5,10 @@
   <nz-tag class="tag success">{{t('application.tag.approved')}}</nz-tag>
   } @case('ON_DESIGN') {
   <nz-tag class="tag warning">{{t('application.tag.on_design')}}</nz-tag>
-  } @case('ON_ASSIGN') {
-  <nz-tag class="tag warning">{{t('application.tag.on_assign')}}</nz-tag>
+  } @case('ON_FORM_FILL') {
+  <nz-tag class="tag warning">{{t('application.tag.on_form_fill')}}</nz-tag>
+  } @case('ON_DECISION') {
+  <nz-tag class="tag warning">{{t('application.tag.on_decision')}}</nz-tag>
   } @case('SIGNED') {
   <nz-tag class="tag success">{{t('application.tag.signed')}}</nz-tag>
   } @case('DECLINE') {

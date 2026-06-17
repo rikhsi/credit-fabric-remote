@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { ApplicationStatus } from '@api/models/los/application';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
@@ -12,9 +11,5 @@ import { BounceDirective } from '@shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionApplication {
-  status = input<ApplicationStatus>();
-  disabled = input<boolean>();
-
-  declined = output<void>();
-  approved = output<void>();
+  goToApplication = output<void>();
 }

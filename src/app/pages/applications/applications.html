@@ -11,8 +11,7 @@
     [title]="item.productName"
     [paymentType]="item.paymentType"
     [rate]="item.rate"
-    (declined)="declined()"
-    (approved)="approved()"
+    (goToApplication)="goToApplication(item.id)"
   />
   } @empty {
   <cf-empty [title]="t('applicaitons.empty.title')" [description]="t('applications.empty.description')" />

@@ -29,10 +29,8 @@
         </cf-label-control-secondary>
       </div>
 
-      <cf-action-application [status]="status()" [disabled]="actionsDisabled()" (declined)="declined.emit()" (approved)="approved.emit()" />
+      <cf-action-application (goToApplication)="goToApplication.emit()" />
     </div>
-
-    <cf-docs-application [status]="status()" />
   </cf-card>
 
   <ng-template #baseRef>
