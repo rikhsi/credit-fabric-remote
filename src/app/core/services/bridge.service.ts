@@ -45,7 +45,7 @@ export class BridgeService {
 
   public setToken(): void {
     if (this.bridge) {
-      this.bridge.setToken(environment.projectTag);
+      this.bridge.onTokenExpired();
     }
   }
 
@@ -114,6 +114,8 @@ export class BridgeService {
     if (payload.data?.event_name) {
       this.notificationService.success(payload.event, payload.data.event_name);
     }
+
+    this.notificationService.success(payload.event, payload.data.event_name);
   };
 
   private completeTokenRefresh(success: boolean): void {
