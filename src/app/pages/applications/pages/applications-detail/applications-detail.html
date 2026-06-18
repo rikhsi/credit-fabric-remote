@@ -1,4 +1,4 @@
-@switch (mock.sysStatusId) { @case (status.InProgress) {
+@switch (application()?.sysStatusId) { @case (status.InProgress) {
 <cf-view-in-progress />
 } @case (status.OnDecision) {
 <cf-view-on-decision />

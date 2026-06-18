@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { APPLICATION_DETAIL_MOCK } from './applications-detail.mock';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
   ViewDecline,
   ViewDeclineClient,
@@ -11,6 +10,7 @@ import {
   ViewSigned,
 } from './components';
 import { ApplicationStatus } from '@api/models/los/application';
+import { OnlineGetInfoResult } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-applications-detail',
@@ -20,6 +20,19 @@ import { ApplicationStatus } from '@api/models/los/application';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationsDetail {
-  readonly mock = APPLICATION_DETAIL_MOCK;
+  readonly application = signal<OnlineGetInfoResult>({
+    id: 1,
+    creditAgreementId: 0,
+    decisionId: 0,
+    currency: 'UZS',
+    loanAmount: 50_000_000,
+    loanTerm: 18,
+    paymentType: 'annuity',
+    productName: 'Biznesga qadam',
+    rate: 25,
+    sysStatusId: ApplicationStatus.OnDecision,
+    docs: [],
+  });
+
   readonly status = ApplicationStatus;
 }
