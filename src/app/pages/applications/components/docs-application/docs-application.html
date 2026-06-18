@@ -1,10 +1,17 @@
 <ng-container *transloco="let t">
-  @switch (status()) { @case('ON_DESIGN') {
+  @if (status() === 'ON_DESIGN' || status() === 'SIGNED') {
   <div class="top">
+    @if (status() === 'ON_DESIGN') {
     <nz-tag class="tag warning">
       <nz-icon nzType="info-circle" />
       {{t('application.docs.sign')}}
     </nz-tag>
+    } @else {
+    <nz-tag class="tag success">
+      <nz-icon nzType="check" />
+      {{t('application.tag.signed')}}
+    </nz-tag>
+    }
 
     <div class="list">
       @for (item of docs(); track item.id) {
@@ -42,5 +49,5 @@
       }
     </div>
   </div>
-  } }
+  }
 </ng-container>
