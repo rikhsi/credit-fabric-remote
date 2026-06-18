@@ -1,0 +1,21 @@
+@switch (mock.sysStatusId) { @case (status.InProgress) {
+<cf-view-in-progress />
+} @case (status.Approved) {
+<cf-view-approved />
+} @case (status.Decline) {
+<cf-view-decline />
+} @case (status.DeclineClient) {
+<cf-view-decline-client />
+} @case (status.Error) {
+<cf-view-error />
+} @case (status.OnDesign) {
+<cf-view-on-design />
+} @case (status.OnFormFill) {
+<cf-view-on-form-fill />
+} @case (status.OnDecision) {
+<cf-view-on-decision />
+} @case (status.Signed) {
+<cf-view-signed />
+} @case (status.Issued) {
+<cf-view-issued />
+} }

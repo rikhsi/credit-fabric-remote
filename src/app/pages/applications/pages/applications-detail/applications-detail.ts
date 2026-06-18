@@ -1,9 +1,38 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { APPLICATION_DETAIL_MOCK } from './applications-detail.mock';
+import {
+  ViewApproved,
+  ViewDecline,
+  ViewDeclineClient,
+  ViewError,
+  ViewInProgress,
+  ViewIssued,
+  ViewOnDecision,
+  ViewOnDesign,
+  ViewOnFormFill,
+  ViewSigned,
+} from './components';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-applications-detail',
+  imports: [
+    ViewInProgress,
+    ViewDecline,
+    ViewApproved,
+    ViewError,
+    ViewOnDesign,
+    ViewOnFormFill,
+    ViewOnDecision,
+    ViewSigned,
+    ViewIssued,
+    ViewDeclineClient,
+  ],
   templateUrl: './applications-detail.html',
   styleUrl: './applications-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ApplicationsDetail {}
+export class ApplicationsDetail {
+  readonly mock = APPLICATION_DETAIL_MOCK;
+  readonly status = ApplicationStatus;
+}

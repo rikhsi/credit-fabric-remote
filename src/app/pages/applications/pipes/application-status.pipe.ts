@@ -3,7 +3,7 @@ import { ApplicationStatus } from '@api/models/los/application';
 
 @Pipe({ name: 'applicationStatus' })
 export class ApplicationStatusPipe implements PipeTransform {
-  transform(value: ApplicationStatus): string {
+  transform(value: string): string {
     switch (value) {
       case ApplicationStatus.InProgress: {
         return 'application.status.in_progress';
