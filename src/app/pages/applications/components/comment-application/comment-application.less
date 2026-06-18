@@ -24,6 +24,14 @@
     }
 });
 
+:host {
+  &.borderless {
+    .top {
+      border: none;
+    }
+  }
+}
+
 .top {
   width: 100%;
   border-top: 1px solid;
@@ -32,9 +40,12 @@
 
 .tag {
   width: fit-content;
+  margin: 0;
   margin-bottom: 12px;
   font-weight: @font-weight-medium;
   white-space: wrap;
+  padding: 8px;
+  border-radius: 8px;
 
   .icon {
     font-size: 16px;

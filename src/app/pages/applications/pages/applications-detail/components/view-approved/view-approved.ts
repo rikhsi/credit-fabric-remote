@@ -5,7 +5,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
-import { CommentApplication, StatusApplication, TagApplication } from '../../../../components';
+import { CommentApplication, StatusApplication } from '../../../../components';
 import { Card, LabelControlSecondary, SelectBill } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 
@@ -15,7 +15,6 @@ import { BounceDirective } from '@shared/directives';
     TranslocoDirective,
     Card,
     StatusApplication,
-    TagApplication,
     CommentApplication,
     LabelControlSecondary,
     SelectBill,

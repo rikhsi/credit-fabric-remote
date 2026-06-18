@@ -1,1 +1,67 @@
-@import '../view-state.less';
+@import 'mixins';
+@import 'custom';
+
+.themeMixin({
+  :host {
+    background: @component-background;
+
+    p {
+      color: @text-color-secondary;
+    }
+
+    .icon {
+        background: @component-background-secondary;
+        color: @text-color;
+    }
+  }
+});
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  border-radius: @border-radius-xl;
+  padding: 20px;
+  min-height: 50svh;
+  row-gap: 16px;
+  text-align: center;
+
+  h4 {
+    margin: 0;
+    font-weight: @font-weight-bold;
+  }
+
+  p {
+    margin: 0;
+    max-width: 360px;
+  }
+
+  .spinner {
+    margin-bottom: 8px;
+  }
+
+  .icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    nz-icon {
+      font-size: 32px;
+    }
+
+    .media(@media-md, {
+      width: 56px;
+      height: 56px;
+
+      nz-icon {
+        font-size: 28px;
+      }
+    });
+  }
+}
