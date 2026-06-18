@@ -1,11 +1,11 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { disabled, form, max, min, required } from '@angular/forms/signals';
-import { map, tap } from 'rxjs';
+import { map, switchMap, tap, throwError } from 'rxjs';
 import { agreementFormModel, calculatorFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { OnlineApiService, ProductApiService } from '@api/controllers/los';
-import { mergeProductConditions } from '@api/utils';
+import { mergeProductConditions, isShortApplicationError } from '@api/utils';
 import { environment } from 'src/environments/development';
 import { ProductConditionItem } from '@api/models/los/product';
 
@@ -88,6 +88,7 @@ export class LoanDetailService {
         sysPaymentTypeId: type.toUpperCase(),
       })
       .pipe(
+        switchMap((result) => (isShortApplicationError(result) ? throwError(() => result) : [result])),
         tap({
           next: () => this.isDisabled.set(false),
           error: () => this.isDisabled.set(false),
