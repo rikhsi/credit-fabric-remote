@@ -12,6 +12,6 @@ export const APPLICATION_DETAIL_MOCK: OnlineGetInfoResult = {
   paymentType: 'annuity',
   productName: 'Biznesga qadam',
   rate: 25,
-  sysStatusId: ApplicationStatus.Error,
+  sysStatusId: ApplicationStatus.Approved,
   docs: [],
 };

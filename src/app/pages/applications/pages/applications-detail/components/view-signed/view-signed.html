@@ -1,13 +1,8 @@
 <ng-container *transloco="let t">
-  <cf-card [showSpace]="false" [titleRef]="headerRef" class="bordered card">
+  <cf-card [showSpace]="true" [titleRef]="headerRef" class="bordered card">
     <div actions>
-      <nz-tag class="tag success message">
-        <nz-icon nzType="check" class="icon" />
-        {{ t('application.tag.signed') }}
-      </nz-tag>
+      <nz-tag class="tag decline message">Какой то текст</nz-tag>
     </div>
-
-    <nz-tag class="tag warning validity">Решение банка будет действительно 5 календарных дней до 23.01.2026 включительно</nz-tag>
 
     <div class="section">
       <div class="section-header">
@@ -41,7 +36,7 @@
       </div>
     </div>
 
-    <cf-docs-application [status]="'SIGNED'" [docs]="docs" />
+    <cf-docs-application [status]="'SIGNED'" [docs]="docs" class="docs borderless" />
 
     <div class="section">
       <h5 nz-typography class="section-title">Счёт зачисления</h5>
