@@ -8,9 +8,6 @@ export class ApplicationStatusPipe implements PipeTransform {
       case ApplicationStatus.InProgress: {
         return 'application.status.in_progress';
       }
-      case ApplicationStatus.Approved: {
-        return 'application.status.approved';
-      }
       case ApplicationStatus.OnDesign: {
         return 'application.status.on_design';
       }

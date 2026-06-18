@@ -1,6 +1,5 @@
 export * from './view-in-progress/view-in-progress';
 export * from './view-decline/view-decline';
-export * from './view-approved/view-approved';
 export * from './view-error/view-error';
 export * from './view-on-design/view-on-design';
 export * from './view-on-decision/view-on-decision';

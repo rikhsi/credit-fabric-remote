@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <cf-card [showSpace]="false" [titleRef]="headerRef" class="bordered card">
     <div actions>
-      <cf-comment-application [status]="'APPROVED'" class="borderless" />
+      <cf-comment-application [status]="'ON_DECISION'" class="borderless" />
     </div>
 
     <nz-tag class="tag warning validity">Решение банка будет действительно 5 календарных дней до 23.01.2026 включительно</nz-tag>
@@ -60,7 +60,7 @@
 
   <ng-template #headerRef>
     <div class="base">
-      <cf-status-application [status]="'APPROVED'" />
+      <cf-status-application [status]="'ON_DECISION'" />
     </div>
   </ng-template>
 </ng-container>

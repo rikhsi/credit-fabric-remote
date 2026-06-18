@@ -1,0 +1,64 @@
+<ng-container *transloco="let t">
+  <cf-card [showSpace]="true" [titleRef]="headerRef" class="bordered card">
+    <div actions>
+      <nz-tag class="tag warning message">
+        <nz-icon nzType="info-circle" class="icon" />
+        {{ t('application.tag.on_design') }}
+      </nz-tag>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h5 nz-typography>Условия кредита</h5>
+      </div>
+
+      <div class="infos">
+        <cf-label-control-secondary [label]="t('prop.product')" [size]="'small'">
+          <h6 nz-typography>Biznesga qadam</h6>
+        </cf-label-control-secondary>
+
+        <cf-label-control-secondary [label]="t('prop.loan_amount_full')" [size]="'small'">
+          <h6 nz-typography>50 000 000 UZS</h6>
+        </cf-label-control-secondary>
+
+        <cf-label-control-secondary [label]="t('prop.loan_term_full')" [size]="'small'">
+          <h6 nz-typography>18 мес</h6>
+        </cf-label-control-secondary>
+
+        <cf-label-control-secondary [label]="t('prop.loan_percent_full')" [size]="'small'">
+          <h6 nz-typography>25%</h6>
+        </cf-label-control-secondary>
+
+        <cf-label-control-secondary [label]="t('prop.loan_calculation_type')" [size]="'small'">
+          <h6 nz-typography>{{ t('prop.annuity' | lowercase) }}</h6>
+        </cf-label-control-secondary>
+
+        <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')" [size]="'small'">
+          <h6 nz-typography>3 400 000 UZS</h6>
+        </cf-label-control-secondary>
+      </div>
+    </div>
+
+    <cf-docs-application [status]="'ON_DESIGN'" [docs]="docs" class="docs borderless" />
+
+    <div class="section">
+      <h5 nz-typography class="section-title">Счёт зачисления</h5>
+
+      <cf-select-bill [readonly]="true" />
+
+      <div class="notice">
+        <nz-icon nzType="info-circle" />
+        <p nz-typography>
+          Средства будут перечислены на выбранный счёт. Для дальнейшего оформления необходимо обратиться в филиал банка, в котором открыт
+          счёт.
+        </p>
+      </div>
+    </div>
+  </cf-card>
+
+  <ng-template #headerRef>
+    <div class="base">
+      <cf-status-application [status]="'ON_DESIGN'" />
+    </div>
+  </ng-template>
+</ng-container>

@@ -8,15 +8,10 @@
       &.warning {
         background: @cf-yellow-100;
       }
-
-      &.muted {
-        background: @component-background-secondary;
-        color: @text-color-secondary;
-      }
     }
 
     .section {
-        border-color: @border-color;
+      border-color: @border-color;
     }
 
     .notice {
@@ -46,13 +41,18 @@
   });
 }
 
-.validity {
+.message {
   width: fit-content;
   white-space: normal;
   padding: 8px;
   border-radius: 8px;
   margin: 0;
-  margin-bottom: 16px;
+  font-weight: @font-weight-medium;
+
+  .icon {
+    font-size: 16px;
+    margin-right: 4px;
+  }
 }
 
 .section {
@@ -78,6 +78,10 @@
   margin: 0;
 }
 
+.docs {
+  margin-bottom: 16px;
+}
+
 .infos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -96,21 +100,4 @@
   p {
     margin: 0;
   }
-}
-
-.footer {
-  display: flex;
-  justify-content: flex-end;
-  column-gap: 12px;
-  flex-wrap: wrap;
-  row-gap: 16px;
-  margin-top: 8px;
-
-  .media(@media-xs, {
-    flex-direction: column;
-
-    [nz-button] {
-      width: 100%;
-    }
-  });
 }

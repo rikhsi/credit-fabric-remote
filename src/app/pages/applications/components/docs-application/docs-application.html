@@ -1,10 +1,15 @@
 <ng-container *transloco="let t">
-  @if (status() === 'ON_DESIGN' || status() === 'SIGNED') {
+  @if (status() === 'ON_DESIGN' || status() === 'SIGNED' || status() === 'ISSUED') {
   <div class="top">
     @if (status() === 'ON_DESIGN') {
     <nz-tag class="tag warning">
       <nz-icon nzType="info-circle" />
       {{t('application.docs.sign')}}
+    </nz-tag>
+    } @else if (status() === 'ISSUED') {
+    <nz-tag class="tag success">
+      <nz-icon nzType="check" />
+      {{t('application.tag.issued')}}
     </nz-tag>
     } @else {
     <nz-tag class="tag success">
