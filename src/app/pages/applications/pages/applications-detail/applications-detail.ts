@@ -9,25 +9,13 @@ import {
   ViewIssued,
   ViewOnDecision,
   ViewOnDesign,
-  ViewOnFormFill,
   ViewSigned,
 } from './components';
 import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-applications-detail',
-  imports: [
-    ViewInProgress,
-    ViewDecline,
-    ViewApproved,
-    ViewError,
-    ViewOnDesign,
-    ViewOnFormFill,
-    ViewOnDecision,
-    ViewSigned,
-    ViewIssued,
-    ViewDeclineClient,
-  ],
+  imports: [ViewInProgress, ViewDecline, ViewApproved, ViewError, ViewOnDesign, ViewOnDecision, ViewSigned, ViewIssued, ViewDeclineClient],
   templateUrl: './applications-detail.html',
   styleUrl: './applications-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
