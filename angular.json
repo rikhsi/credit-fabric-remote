@@ -45,6 +45,40 @@
       "prefix": "cf",
       "architect": {
         "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "credit-fabric-remote:esbuild:production",
+            "cacheExternalArtifacts": true
+          },
+          "configurations": {
+            "production": {
+              "target": "credit-fabric-remote:esbuild:production"
+            },
+            "testing": {
+              "target": "credit-fabric-remote:esbuild:testing"
+            },
+            "development": {
+              "target": "credit-fabric-remote:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "credit-fabric-remote:serve-original:development",
+            "rebuildDelay": 500,
+            "cacheExternalArtifacts": true,
+            "dev": true,
+            "devServer": true,
+            "port": 4202
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        },
+        "esbuild": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
@@ -81,7 +115,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["public/styles"]
-            }
+            },
+            "polyfills": ["es-module-shims"]
           },
           "configurations": {
             "production": {
@@ -108,23 +143,6 @@
               "extractLicenses": true,
               "outputHashing": "all"
             },
-            "testing-serve": {
-              "baseHref": "/sme-kk-js/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/development.ts",
-                  "with": "src/environments/testing.ts"
-                }
-              ],
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            },
-            "development-server": {
-              "optimization": true,
-              "extractLicenses": true,
-              "outputHashing": "all"
-            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -132,23 +150,23 @@
             }
           }
         },
-        "serve": {
+        "serve-original": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "credit-fabric-remote:build:production"
+              "buildTarget": "credit-fabric-remote:esbuild:production"
             },
             "testing": {
-              "buildTarget": "credit-fabric-remote:build:testing-serve"
+              "buildTarget": "credit-fabric-remote:esbuild:testing"
             },
             "development": {
-              "buildTarget": "credit-fabric-remote:build:development"
+              "buildTarget": "credit-fabric-remote:esbuild:development"
             }
           },
-          "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4202
+          }
         }
       }
     }

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { filter, forkJoin, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
@@ -12,7 +11,6 @@ import { MonthsToYearsPipe } from '@shared/pipes';
 import { RouteParam } from '@app/constants/route-param';
 import { ApplicationFlowRoute, RootRoute } from '@app/constants/route-path';
 import { AuthService } from '@core/services/auth.service';
-import { ShortApplicationResult } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -29,7 +27,6 @@ export class LoanDetail implements OnInit {
   private vcRef = inject(ViewContainerRef);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
-  private notification = inject(NzNotificationService);
 
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -69,21 +66,11 @@ export class LoanDetail implements OnInit {
     const navigate = (applicationId: number) =>
       this.router.navigate([RootRoute.Application, this.loanId, applicationId, ApplicationFlowRoute.General]);
 
-    const onShortApplicationError = (error: unknown) => {
-      if (!error || typeof error !== 'object' || !('statusTitle' in error) || !('statusDesc' in error)) {
-        return;
-      }
-
-      const { statusTitle, statusDesc } = error as ShortApplicationResult;
-      this.notification.error(statusTitle, statusDesc);
-    };
-
     if (this.isValidated()) {
       this.ldService.createShortApplication$().subscribe({
         next: ({ applicationId }) => {
           navigate(applicationId);
         },
-        error: onShortApplicationError,
       });
     } else {
       this.nmService
@@ -108,7 +95,6 @@ export class LoanDetail implements OnInit {
         )
         .subscribe({
           next: ({ applicationId }) => navigate(applicationId),
-          error: onShortApplicationError,
         });
     }
   }

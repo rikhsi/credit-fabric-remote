@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-tag-application',
@@ -10,5 +11,5 @@ import { TranslocoDirective } from '@jsverse/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagApplication {
-  status = input<string>();
+  status = input<ApplicationStatus>();
 }

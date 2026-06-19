@@ -235,9 +235,10 @@
     },
     "status": {
       "in_progress": "Ko‘rib chiqilmoqda",
+      "approved": "Tasdiqlangan",
       "on_design": "Hujjat kutilmoqda",
       "on_form_fill": "Formani to‘ldiring",
-      "on_decision": "Tasdiqlangan",
+      "on_decision": "Shartlarni qabul qiling",
       "signed": "Imzolangan",
       "decline": "Rad etilgan",
       "decline_client": "Mijoz tomonidan rad etilgan",
@@ -247,9 +248,10 @@
     },
     "tag": {
       "in_progress": "Arizangiz ko‘rib chiqilmoqda",
+      "approved": "Kredit tasdiqlandi",
       "on_design": "Imzolangan hujjatni yuklang",
       "on_form_fill": "Formani to‘ldiring va yuboring",
-      "on_decision": "Kredit tasdiqlandi",
+      "on_decision": "Shartlarni qabul qiling va hisobni tanlang",
       "signed": "Barcha hujjatlar imzolandi",
       "decline": "Afsuski, kreditni tasdiqlay olmaymiz",
       "decline_client": "Siz tomonidan rad etildi",
@@ -257,7 +259,7 @@
       "error": "Arizani qayta ishlashda xatolik yuz berdi"
     },
     "comment": {
-      "on_decision": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
+      "approved": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
     }
   },
   "question": {

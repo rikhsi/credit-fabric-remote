@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
+import { provideRouter, withHashLocation, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import ru from '@angular/common/locales/ru';
@@ -36,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
+      withHashLocation(),
       withViewTransitions(),
       withRouterConfig({
         paramsInheritanceStrategy: 'always',

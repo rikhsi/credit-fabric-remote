@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ApplicationStatusPipe } from '@pages/applications/pipes';
+import { ApplicationStatus } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-status-application',
@@ -11,5 +12,5 @@ import { ApplicationStatusPipe } from '@pages/applications/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusApplication {
-  status = input<string>();
+  status = input<ApplicationStatus>();
 }

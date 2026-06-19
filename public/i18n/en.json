@@ -235,9 +235,10 @@
     },
     "status": {
       "in_progress": "Under review",
+      "approved": "Approved",
       "on_design": "Awaiting document",
       "on_form_fill": "Fill in the form",
-      "on_decision": "Approved",
+      "on_decision": "Accept terms",
       "signed": "Signed",
       "decline": "Declined",
       "decline_client": "Declined by client",
@@ -247,9 +248,10 @@
     },
     "tag": {
       "in_progress": "We are reviewing your application",
+      "approved": "Loan approved",
       "on_design": "Upload the signed document",
       "on_form_fill": "Fill in and submit the form",
-      "on_decision": "Loan approved",
+      "on_decision": "Accept the terms and select an account",
       "signed": "All documents have been signed",
       "decline": "Unfortunately, we are unable to approve your loan",
       "decline_client": "Declined by you",
@@ -257,7 +259,7 @@
       "error": "An error occurred while processing the application"
     },
     "comment": {
-      "on_decision": "Congratulations! Your loan has been approved. Please review and accept the terms"
+      "approved": "Congratulations! Your loan has been approved. Please review and accept the terms"
     }
   },
   "question": {

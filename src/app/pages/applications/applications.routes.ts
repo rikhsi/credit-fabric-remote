@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: `:${RouteParam.AppId}`,
     data: {
-      title: 'Заявка №1',
+      title: 'prop.application_to_loan',
       backConfig: { link: ['/', RootRoute.Applications] },
     },
     loadComponent: () => import('./pages/applications-detail/applications-detail').then((c) => c.ApplicationsDetail),

@@ -1,11 +1,11 @@
 <ng-container *transloco="let t">
-  @switch (status()) { @case('IN_PROGRESS') { } @case('ON_DECISION') {
+  @switch (status()) { @case('IN_PROGRESS') { } @case('APPROVED') {
   <div class="top">
     <nz-tag class="tag success">
       <nz-icon nzType="f:lightning" class="icon" />
-      {{t('application.comment.on_decision')}}
+      {{t('application.comment.approved')}}
     </nz-tag>
   </div>
-  } @case('ON_DESIGN') { } @case('ON_FORM_FILL') { } @case('SIGNED') { } @case('DECLINE') { } @case('DECLINE_CLIENT') { } @case('ISSUED') {
-  } }
+  } @case('ON_DESIGN') { } @case('ON_FORM_FILL') { } @case('ON_DECISION') { } @case('SIGNED') { } @case('DECLINE') { }
+  @case('DECLINE_CLIENT') { } @case('ISSUED') { } }
 </ng-container>

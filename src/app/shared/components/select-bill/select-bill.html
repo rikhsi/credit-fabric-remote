@@ -1,14 +1,8 @@
-@if (readonly()) {
-<div class="select readonly">
-  <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
-</div>
-} @else {
 <a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="select">
   <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
 
   <nz-icon nzType="f:down" class="down" />
 </a>
-}
 
 <ng-template #billInfoRef>
   <div class="info">
