@@ -8,6 +8,7 @@ export const environment = {
   appVersion: '99.99.99',
   deviceRoot: '0',
   mode: 'testing',
+  assetsBaseUrl: '/sme-kk-js/',
   user: {
     pinfl: '52001016860016',
     phone: '990031497',

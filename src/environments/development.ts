@@ -21,4 +21,5 @@ export const environment = {
     language: 'ru',
   },
   mode: 'development',
+  assetsBaseUrl: '',
 };
