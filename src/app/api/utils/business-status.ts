@@ -6,8 +6,10 @@ export interface BusinessStatusResponse {
   statusTitle: string;
 }
 
+const SUCCESS_STATUS_CODES = new Set(['0', '200']);
+
 export function isBusinessStatusError({ statusCode }: BusinessStatusResponse): boolean {
-  return statusCode !== '0';
+  return !SUCCESS_STATUS_CODES.has(statusCode);
 }
 
 export function isValidApplicationId(applicationId: number): boolean {
