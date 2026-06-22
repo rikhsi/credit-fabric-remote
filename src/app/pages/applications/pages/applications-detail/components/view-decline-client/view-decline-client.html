@@ -1,13 +1,8 @@
 <ng-container *transloco="let t">
-  <cf-card [showSpace]="false" [titleRef]="headerRef" class="bordered card">
+  <cf-card [showSpace]="true" [titleRef]="headerRef" class="bordered card">
     <div actions>
-      <nz-tag class="tag decline message">
-        <nz-icon nzType="close" class="icon" />
-        Вы отказались от условий кредита
-      </nz-tag>
+      <nz-tag class="tag decline message">Вы отказались от условий кредита</nz-tag>
     </div>
-
-    <nz-tag class="tag warning validity">Решение банка будет действительно 5 календарных дней до 23.01.2026 включительно</nz-tag>
 
     <div class="section">
       <div class="section-header">
@@ -44,7 +39,7 @@
     <div class="section">
       <h5 nz-typography class="section-title">Счёт зачисления</h5>
 
-      <cf-select-bill />
+      <cf-select-bill [readonly]="true" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
