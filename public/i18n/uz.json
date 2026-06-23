@@ -78,6 +78,14 @@
     "error_exist_application": {
       "description": "Sizda allaqachon tasdiqlangan ariza mavjud. U bo‘yicha qaror qabul qiling",
       "title": "Sizda allaqachon tasdiqlangan ariza bor"
+    },
+    "error_not_finished_application": {
+      "description": "Yakunlanmagan ariza topildi",
+      "title": "Diqqat!"
+    },
+    "error_unknown": {
+      "description": "Noma'lum xatolik",
+      "title": "Xatolik"
     }
   },
   "otp": {

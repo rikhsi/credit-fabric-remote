@@ -116,7 +116,13 @@ export interface ShortApplicationPayload {
 
 export interface ShortApplicationResult {
   applicationId: number;
-  statusCode: string;
-  statusDesc: string;
-  statusTitle: string;
 }
+
+export interface ShortApplicationError {
+  applicationId: number;
+  errorMsg: string;
+}
+
+export const ShortApplicationErrorMsg = {
+  NotFinishedApplicationFound: 'not_finished_application_found',
+} as const;

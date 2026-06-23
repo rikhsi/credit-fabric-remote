@@ -78,6 +78,14 @@
     "error_exist_application": {
       "description": "You already have an approved application. Please make a decision on it",
       "title": "You already have an approved application"
+    },
+    "error_not_finished_application": {
+      "description": "An unfinished application was found",
+      "title": "Attention!"
+    },
+    "error_unknown": {
+      "description": "Unknown error",
+      "title": "Error"
     }
   },
   "otp": {

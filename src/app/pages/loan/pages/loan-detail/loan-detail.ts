@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { filter, forkJoin, switchMap } from 'rxjs';
@@ -12,7 +13,6 @@ import { MonthsToYearsPipe } from '@shared/pipes';
 import { RouteParam } from '@app/constants/route-param';
 import { ApplicationFlowRoute, RootRoute } from '@app/constants/route-path';
 import { AuthService } from '@core/services/auth.service';
-import { ShortApplicationResult } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -30,6 +30,7 @@ export class LoanDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private notification = inject(NzNotificationService);
+  private transloco = inject(TranslocoService);
 
   public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -70,12 +71,18 @@ export class LoanDetail implements OnInit {
       this.router.navigate([RootRoute.Application, this.loanId, applicationId, ApplicationFlowRoute.General]);
 
     const onShortApplicationError = (error: unknown) => {
-      if (!error || typeof error !== 'object' || !('statusTitle' in error) || !('statusDesc' in error)) {
+      if (error instanceof HttpErrorResponse && error.status === 409) {
+        this.notification.error(
+          this.transloco.translate('modal.error_not_finished_application.title'),
+          this.transloco.translate('modal.error_not_finished_application.description'),
+        );
         return;
       }
 
-      const { statusTitle, statusDesc } = error as ShortApplicationResult;
-      this.notification.error(statusTitle, statusDesc);
+      this.notification.error(
+        this.transloco.translate('modal.error_unknown.title'),
+        this.transloco.translate('modal.error_unknown.description'),
+      );
     };
 
     if (this.isValidated()) {

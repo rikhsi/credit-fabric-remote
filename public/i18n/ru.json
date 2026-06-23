@@ -78,6 +78,14 @@
     "error_exist_application": {
       "description": "У вас есть одобренная заявка. Примите по ней решение",
       "title": "У вас уже есть одобренная заявка"
+    },
+    "error_not_finished_application": {
+      "description": "Найдена незавершенная заявка",
+      "title": "Внимание!"
+    },
+    "error_unknown": {
+      "description": "Неизвестная ошибка",
+      "title": "Ошибка"
     }
   },
   "otp": {
