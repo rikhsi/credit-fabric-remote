@@ -1,6 +1,8 @@
-<div class="spinner">
-  <nz-spin nzSimple nzSize="large" />
-</div>
+<ng-container *transloco="let t">
+  <div class="spinner">
+    <nz-spin nzSimple nzSize="large" />
+  </div>
 
-<h4 nz-typography>Обрабатываем вашу заявку</h4>
-<p nz-typography>Сейчас мы проверяем данные и подготавливаем решение. Это может занять несколько минут.</p>
+  <h4 nz-typography>{{ t('application.detail.in_progress.title') }}</h4>
+  <p nz-typography>{{ t('application.detail.in_progress.description') }}</p>
+</ng-container>

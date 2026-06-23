@@ -12,16 +12,13 @@
     <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" class="docs borderless" />
 
     <div class="section">
-      <h5 nz-typography class="section-title">Счёт зачисления</h5>
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
 
       <cf-select-bill [readonly]="true" [accountNo]="application().accountNo" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
-        <p nz-typography>
-          Средства будут перечислены на выбранный счёт. Для дальнейшего оформления необходимо обратиться в филиал банка, в котором открыт
-          счёт.
-        </p>
+        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
       </div>
     </div>
   </cf-card>

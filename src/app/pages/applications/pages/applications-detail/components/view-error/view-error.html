@@ -1,6 +1,8 @@
-<div class="icon error">
-  <nz-icon nzType="close" />
-</div>
+<ng-container *transloco="let t">
+  <div class="icon error">
+    <nz-icon nzType="close" />
+  </div>
 
-<h4 nz-typography>Произошла ошибка при обработке заявки</h4>
-<p nz-typography>Попробуйте позже или обратитесь в поддержку банка</p>
+  <h4 nz-typography>{{ t('application.detail.error.title') }}</h4>
+  <p nz-typography>{{ t('application.detail.error.description') }}</p>
+</ng-container>

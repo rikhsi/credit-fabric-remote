@@ -4,27 +4,24 @@
       <cf-comment-application [status]="application().sysStatusId" class="borderless" />
     </div>
 
-    <nz-tag class="tag warning validity">Решение банка будет действительно 5 календарных дней до 23.01.2026 включительно</nz-tag>
+    <nz-tag class="tag warning validity">{{ t('application.detail.decision_validity') }}</nz-tag>
 
     <cf-application-product-info [product]="application().product" />
 
     <div class="section">
-      <h5 nz-typography class="section-title">Счёт зачисления</h5>
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
 
       <cf-select-bill [accountNo]="application().accountNo" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
-        <p nz-typography>
-          Средства будут перечислены на выбранный счёт. Для дальнейшего оформления необходимо обратиться в филиал банка, в котором открыт
-          счёт.
-        </p>
+        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
       </div>
     </div>
 
     <div class="footer">
-      <button cfBounce nz-button nzType="default" nzSize="large">Отказаться</button>
-      <button cfBounce nz-button nzType="primary" nzSize="large">Принять</button>
+      <button cfBounce nz-button nzType="default" nzSize="large">{{ t('application.detail.refuse') }}</button>
+      <button cfBounce nz-button nzType="primary" nzSize="large">{{ t('action.approve') }}</button>
     </div>
   </cf-card>
 

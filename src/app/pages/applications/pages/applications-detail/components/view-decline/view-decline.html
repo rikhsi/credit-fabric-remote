@@ -1,6 +1,8 @@
-<div class="icon decline">
-  <nz-icon nzType="close" />
-</div>
+<ng-container *transloco="let t">
+  <div class="icon decline">
+    <nz-icon nzType="close" />
+  </div>
 
-<h4 nz-typography>К сожалению, заявка на кредит не одобрена</h4>
-<p nz-typography>Вы можете подать новую заявку позже</p>
+  <h4 nz-typography>{{ t('application.detail.decline.title') }}</h4>
+  <p nz-typography>{{ t('application.detail.decline.description') }}</p>
+</ng-container>

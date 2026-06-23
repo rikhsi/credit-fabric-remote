@@ -1,22 +1,19 @@
 <ng-container *transloco="let t">
   <cf-card [showSpace]="true" [titleRef]="headerRef" class="bordered card">
     <div actions>
-      <nz-tag class="tag decline message">Вы отказались от условий кредита</nz-tag>
+      <nz-tag class="tag decline message">{{ t('application.detail.decline_client_message') }}</nz-tag>
     </div>
 
     <cf-application-product-info [product]="application().product" />
 
     <div class="section">
-      <h5 nz-typography class="section-title">Счёт зачисления</h5>
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
 
       <cf-select-bill [readonly]="true" [accountNo]="application().accountNo" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
-        <p nz-typography>
-          Средства будут перечислены на выбранный счёт. Для дальнейшего оформления необходимо обратиться в филиал банка, в котором открыт
-          счёт.
-        </p>
+        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
       </div>
     </div>
   </cf-card>

@@ -3,7 +3,7 @@
     <div actions>
       <nz-tag class="tag success message">
         <nz-icon nzType="check" class="icon" />
-        {{ t('application.tag.issued') }}
+        {{ t('application.detail.issued_message') }}
       </nz-tag>
     </div>
 
@@ -12,15 +12,13 @@
     <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" class="docs borderless" />
 
     <div class="section">
-      <h5 nz-typography class="section-title">Счёт зачисления</h5>
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
 
       <cf-select-bill [readonly]="true" [accountNo]="application().accountNo" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
-        <p nz-typography>
-          Средства перечислены на выбранный счёт. Для дальнейшего обслуживания кредита обратитесь в филиал банка, в котором открыт счёт.
-        </p>
+        <p nz-typography>{{ t('application.detail.account_notice_issued') }}</p>
       </div>
     </div>
   </cf-card>

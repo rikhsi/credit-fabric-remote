@@ -247,7 +247,7 @@
     },
     "tag": {
       "in_progress": "Arizangiz ko‘rib chiqilmoqda",
-      "on_design": "Imzolangan hujjatni yuklang",
+      "on_design": "Hujjatlarni bank filiallarida imzolang",
       "on_form_fill": "Formani to‘ldiring va yuboring",
       "on_decision": "Kredit tasdiqlandi",
       "signed": "Barcha hujjatlar imzolandi",
@@ -258,6 +258,28 @@
     },
     "comment": {
       "on_decision": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
+    },
+    "detail": {
+      "loan_conditions": "Kredit shartlari",
+      "decision_validity": "Bank qarori 23.01.2026 yilgacha 5 kalendar kuni amal qiladi",
+      "account_notice": "Mablag‘lar tanlangan hisob raqamiga o‘tkaziladi. Keyingi rasmiylashtirish uchun hisob ochilgan bank filialiga murojaat qiling.",
+      "account_notice_issued": "Mablag‘lar tanlangan hisob raqamiga o‘tkazildi. Kreditni keyingi xizmat ko‘rsatish uchun hisob ochilgan bank filialiga murojaat qiling.",
+      "refuse": "Rad etish",
+      "decline_client_message": "Siz kredit shartlaridan voz kechdingiz",
+      "signed_message": "Hujjatlar imzolangan",
+      "issued_message": "Kredit berildi",
+      "in_progress": {
+        "title": "Arizangiz ko‘rib chiqilmoqda",
+        "description": "Hozir ma’lumotlaringizni tekshiryapmiz va qaror tayyorlayapmiz. Bu bir necha daqiqa vaqt olishi mumkin."
+      },
+      "decline": {
+        "title": "Afsuski, kredit arizasi tasdiqlanmadi",
+        "description": "Keyinroq yangi ariza topshirishingiz mumkin"
+      },
+      "error": {
+        "title": "Arizani qayta ishlashda xatolik yuz berdi",
+        "description": "Keyinroq urinib ko‘ring yoki bank qo‘llab-quvvatlash xizmatiga murojaat qiling"
+      }
     }
   },
   "question": {
