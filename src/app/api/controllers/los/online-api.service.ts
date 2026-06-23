@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OnlineApplication, ShortApplicationPayload, ShortApplicationResult } from '@api/models/los/application';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { OnlineCreateApplicationPayload, OnlineCreateApplicationResult } from '@api/models/los/start-processing';
 import { buildHttpParams } from '@api/utils';
+import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,9 @@ export class OnlineApiService {
   }
 
   public createShortApplication$(payload: ShortApplicationPayload) {
-    return this.http.post<ShortApplicationResult>('short-application-create', payload);
+    return this.http.post<ShortApplicationResult>('short-application-create', payload, {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public getFile$(fileId: number) {

@@ -3,13 +3,10 @@ import { ApplicationStatus } from '@api/models/los/application';
 
 @Pipe({ name: 'applicationStatus' })
 export class ApplicationStatusPipe implements PipeTransform {
-  transform(value: ApplicationStatus): string {
+  transform(value: string): string {
     switch (value) {
       case ApplicationStatus.InProgress: {
         return 'application.status.in_progress';
-      }
-      case ApplicationStatus.Approved: {
-        return 'application.status.approved';
       }
       case ApplicationStatus.OnDesign: {
         return 'application.status.on_design';

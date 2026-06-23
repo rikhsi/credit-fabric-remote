@@ -1,0 +1,31 @@
+<ng-container *transloco="let t">
+  <cf-card [showSpace]="true" [titleRef]="headerRef" class="bordered card">
+    <div actions>
+      <nz-tag class="tag success message">
+        <nz-icon nzType="check" class="icon" />
+        {{ t('application.detail.signed_message') }}
+      </nz-tag>
+    </div>
+
+    <cf-application-product-info [product]="application().product" />
+
+    <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" class="docs borderless" />
+
+    <div class="section">
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
+
+      <cf-select-bill [readonly]="true" />
+
+      <div class="notice">
+        <nz-icon nzType="info-circle" />
+        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
+      </div>
+    </div>
+  </cf-card>
+
+  <ng-template #headerRef>
+    <div class="base">
+      <cf-status-application [status]="application().sysStatusId" />
+    </div>
+  </ng-template>
+</ng-container>

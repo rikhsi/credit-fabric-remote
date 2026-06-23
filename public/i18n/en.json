@@ -78,6 +78,14 @@
     "error_exist_application": {
       "description": "You already have an approved application. Please make a decision on it",
       "title": "You already have an approved application"
+    },
+    "error_not_finished_application": {
+      "description": "An unfinished application was found",
+      "title": "Attention!"
+    },
+    "error_unknown": {
+      "description": "Unknown error",
+      "title": "Error"
     }
   },
   "otp": {
@@ -235,10 +243,9 @@
     },
     "status": {
       "in_progress": "Under review",
-      "approved": "Approved",
       "on_design": "Awaiting document",
       "on_form_fill": "Fill in the form",
-      "on_decision": "Accept terms",
+      "on_decision": "Approved",
       "signed": "Signed",
       "decline": "Declined",
       "decline_client": "Declined by client",
@@ -248,10 +255,9 @@
     },
     "tag": {
       "in_progress": "We are reviewing your application",
-      "approved": "Loan approved",
-      "on_design": "Upload the signed document",
+      "on_design": "Sign the documents at bank branches",
       "on_form_fill": "Fill in and submit the form",
-      "on_decision": "Accept the terms and select an account",
+      "on_decision": "Loan approved",
       "signed": "All documents have been signed",
       "decline": "Unfortunately, we are unable to approve your loan",
       "decline_client": "Declined by you",
@@ -259,7 +265,29 @@
       "error": "An error occurred while processing the application"
     },
     "comment": {
-      "approved": "Congratulations! Your loan has been approved. Please review and accept the terms"
+      "on_decision": "Congratulations! Your loan has been approved. Please review and accept the terms"
+    },
+    "detail": {
+      "loan_conditions": "Loan terms",
+      "decision_validity": "The bank's decision is valid for 5 calendar days until 23.01.2026 inclusive",
+      "account_notice": "Funds will be transferred to the selected account. To complete the process, please visit the bank branch where the account is opened.",
+      "account_notice_issued": "Funds have been transferred to the selected account. For further loan servicing, please contact the bank branch where the account is opened.",
+      "refuse": "Decline",
+      "decline_client_message": "You declined the loan terms",
+      "signed_message": "Documents signed",
+      "issued_message": "Loan issued",
+      "in_progress": {
+        "title": "Processing your application",
+        "description": "We are currently reviewing your data and preparing a decision. This may take a few minutes."
+      },
+      "decline": {
+        "title": "Unfortunately, your loan application was not approved",
+        "description": "You can submit a new application later"
+      },
+      "error": {
+        "title": "An error occurred while processing the application",
+        "description": "Please try again later or contact bank support"
+      }
     }
   },
   "question": {

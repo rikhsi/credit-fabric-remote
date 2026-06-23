@@ -1,0 +1,33 @@
+<ng-container *transloco="let t">
+  <div class="section">
+    <div class="section-header">
+      <h5 nz-typography>{{ t('application.detail.loan_conditions') }}</h5>
+    </div>
+
+    <div class="infos">
+      <cf-label-control-secondary [label]="t('prop.product')" [size]="'small'">
+        <h6 nz-typography>{{ product().product }}</h6>
+      </cf-label-control-secondary>
+
+      <cf-label-control-secondary [label]="t('prop.loan_amount_full')" [size]="'small'">
+        <h6 nz-typography>{{ product().loanAmount | number }} UZS</h6>
+      </cf-label-control-secondary>
+
+      <cf-label-control-secondary [label]="t('prop.loan_term_full')" [size]="'small'">
+        <h6 nz-typography>{{ product().loanTerm | number }}</h6>
+      </cf-label-control-secondary>
+
+      <cf-label-control-secondary [label]="t('prop.loan_percent_full')" [size]="'small'">
+        <h6 nz-typography>{{ product().loanRate | number }}%</h6>
+      </cf-label-control-secondary>
+
+      <cf-label-control-secondary [label]="t('prop.loan_calculation_type')" [size]="'small'">
+        <h6 nz-typography>{{ t('prop.' + product().paymentType | lowercase) }}</h6>
+      </cf-label-control-secondary>
+
+      <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')" [size]="'small'">
+        <h6 nz-typography>{{ product().monthlyPayment | number }} UZS</h6>
+      </cf-label-control-secondary>
+    </div>
+  </div>
+</ng-container>

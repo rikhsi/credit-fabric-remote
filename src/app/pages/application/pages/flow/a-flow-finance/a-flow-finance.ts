@@ -126,14 +126,14 @@ export class AFlowFinance {
       nzCentered: true,
       nzWidth: 'auto',
       nzData: {
-        id: null,
+        id: this.applicationId,
         amount: null,
       },
       nzContent: SuccessModal,
     });
 
     modalRef.afterClose.pipe(take(1)).subscribe(() => {
-      void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
+      void this.router.navigate(['/', RootRoute.Applications, this.applicationId], { replaceUrl: true });
     });
   }
 

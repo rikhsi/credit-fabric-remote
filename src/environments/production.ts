@@ -8,5 +8,5 @@ export const environment = {
   appVersion: '99.99.99',
   deviceRoot: '0',
   mode: 'production',
-  assetsBaseUrl: '/sme-kk-js/',
+  assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
 };

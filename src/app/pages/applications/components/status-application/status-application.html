@@ -2,14 +2,12 @@
   <div class="icon">
     @switch (status()) { @case('IN_PROGRESS') {
     <nz-icon nzType="f:clock" class="warning" />
-    } @case('APPROVED') {
-    <nz-icon nzType="f:success" class="success" />
     } @case('ON_DESIGN') {
     <nz-icon nzType="f:doc" class="design" />
     } @case('ON_FORM_FILL') {
     <nz-icon nzType="f:pencil" class="form-fill" />
     } @case('ON_DECISION') {
-    <nz-icon nzType="f:money" class="decision" />
+    <nz-icon nzType="f:success" class="success" />
     } @case('SIGNED') {
     <nz-icon nzType="f:success" class="success" />
     } @case('DECLINE') {
