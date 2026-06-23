@@ -1,3 +1,4 @@
+export * from './application-product-info/application-product-info';
 export * from './view-in-progress/view-in-progress';
 export * from './view-decline/view-decline';
 export * from './view-error/view-error';

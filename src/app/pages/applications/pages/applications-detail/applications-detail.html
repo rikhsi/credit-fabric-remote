@@ -1,17 +1,19 @@
-@switch (application()?.sysStatusId) { @case (status.InProgress) {
+@if (isLoading()) {
+<nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
+} @else if (application(); as app) { @switch (app.sysStatusId) { @case (status.InProgress) {
 <cf-view-in-progress />
 } @case (status.OnDecision) {
-<cf-view-on-decision />
+<cf-view-on-decision [application]="app" />
 } @case (status.Decline) {
 <cf-view-decline />
 } @case (status.DeclineClient) {
-<cf-view-decline-client />
+<cf-view-decline-client [application]="app" />
 } @case (status.Error) {
 <cf-view-error />
 } @case (status.OnDesign) {
-<cf-view-on-design />
+<cf-view-on-design [application]="app" />
 } @case (status.Signed) {
-<cf-view-signed />
+<cf-view-signed [application]="app" />
 } @case (status.Issued) {
-<cf-view-issued />
-} }
+<cf-view-issued [application]="app" />
+} } }

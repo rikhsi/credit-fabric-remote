@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { LowerCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
+import { ApplicationProductInfo } from '../application-product-info/application-product-info';
 import { DocsApplication, StatusApplication } from '../../../../components';
-import { Card, LabelControlSecondary, SelectBill } from '@shared/components';
-import { DocumentItem } from '@api/models/los/application';
+import { Card, SelectBill } from '@shared/components';
+import { OnlineApplication } from '@api/models/los/application';
 
 @Component({
   selector: 'cf-view-on-design',
@@ -15,32 +15,18 @@ import { DocumentItem } from '@api/models/los/application';
     Card,
     StatusApplication,
     DocsApplication,
-    LabelControlSecondary,
+    ApplicationProductInfo,
     SelectBill,
     NzTagComponent,
     NzIconDirective,
     NzTypographyComponent,
-    LowerCasePipe,
   ],
   templateUrl: './view-on-design.html',
   styleUrl: './view-on-design.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewOnDesign {
-  readonly docs: DocumentItem[] = [
-    {
-      id: 1,
-      type: 'credit_agreement',
-      createdDate: '2026-01-15',
-      signedDate: '2026-01-25',
-      isSigned: false,
-    },
-    {
-      id: 2,
-      type: 'desicion_protocol',
-      createdDate: '2026-01-15',
-      signedDate: '2026-01-25',
-      isSigned: false,
-    },
-  ];
+  application = input.required<OnlineApplication>();
+
+  readonly docs = computed(() => this.application().docs ?? []);
 }

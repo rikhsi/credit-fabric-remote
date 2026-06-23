@@ -4,44 +4,14 @@
       <nz-tag class="tag decline message">Какой то текст</nz-tag>
     </div>
 
-    <div class="section">
-      <div class="section-header">
-        <h5 nz-typography>Условия кредита</h5>
-      </div>
+    <cf-application-product-info [product]="application().product" />
 
-      <div class="infos">
-        <cf-label-control-secondary [label]="t('prop.product')" [size]="'small'">
-          <h6 nz-typography>Biznesga qadam</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_amount_full')" [size]="'small'">
-          <h6 nz-typography>50 000 000 UZS</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_term_full')" [size]="'small'">
-          <h6 nz-typography>18 мес</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_percent_full')" [size]="'small'">
-          <h6 nz-typography>25%</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_calculation_type')" [size]="'small'">
-          <h6 nz-typography>{{ t('prop.annuity' | lowercase) }}</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')" [size]="'small'">
-          <h6 nz-typography>3 400 000 UZS</h6>
-        </cf-label-control-secondary>
-      </div>
-    </div>
-
-    <cf-docs-application [status]="'SIGNED'" [docs]="docs" class="docs borderless" />
+    <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" class="docs borderless" />
 
     <div class="section">
       <h5 nz-typography class="section-title">Счёт зачисления</h5>
 
-      <cf-select-bill [readonly]="true" />
+      <cf-select-bill [readonly]="true" [accountNo]="application().accountNo" />
 
       <div class="notice">
         <nz-icon nzType="info-circle" />
@@ -55,7 +25,7 @@
 
   <ng-template #headerRef>
     <div class="base">
-      <cf-status-application [status]="'SIGNED'" />
+      <cf-status-application [status]="application().sysStatusId" />
     </div>
   </ng-template>
 </ng-container>

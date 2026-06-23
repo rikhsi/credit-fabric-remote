@@ -13,4 +13,5 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 })
 export class SelectBill {
   readonly = input<boolean>(false);
+  accountNo = input<string>();
 }
