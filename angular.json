@@ -60,6 +60,9 @@
             "development": {
               "target": "credit-fabric-remote:esbuild:development",
               "dev": true
+            },
+            "development-server": {
+              "target": "credit-fabric-remote:esbuild:development-server"
             }
           },
           "defaultConfiguration": "production"
@@ -73,7 +76,25 @@
             "dev": true,
             "devServer": true,
             "port": 4202
-          }
+          },
+          "configurations": {
+            "development": {
+              "target": "credit-fabric-remote:serve-original:development",
+              "dev": true,
+              "devServer": true
+            },
+            "testing": {
+              "target": "credit-fabric-remote:serve-original:testing",
+              "dev": true,
+              "devServer": true
+            },
+            "production": {
+              "target": "credit-fabric-remote:serve-original:production",
+              "dev": false,
+              "devServer": true
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular/build:unit-test"
@@ -143,6 +164,23 @@
               "extractLicenses": true,
               "outputHashing": "all"
             },
+            "testing-serve": {
+              "baseHref": "/sme-kk-js/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/development.ts",
+                  "with": "src/environments/testing.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "development-server": {
+              "optimization": true,
+              "extractLicenses": true,
+              "outputHashing": "all"
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -157,7 +195,7 @@
               "buildTarget": "credit-fabric-remote:esbuild:production"
             },
             "testing": {
-              "buildTarget": "credit-fabric-remote:esbuild:testing"
+              "buildTarget": "credit-fabric-remote:esbuild:testing-serve"
             },
             "development": {
               "buildTarget": "credit-fabric-remote:esbuild:development"
