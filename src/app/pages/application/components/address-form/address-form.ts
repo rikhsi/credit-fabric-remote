@@ -46,7 +46,6 @@ export class AddressForm implements OnInit {
       required(schemaPath.dirVillageId);
       required(schemaPath.dirCityId);
       required(schemaPath.street);
-      required(schemaPath.zipCode);
     },
   );
 
