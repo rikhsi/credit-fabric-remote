@@ -77,6 +77,8 @@ export class BridgeService {
       try {
         const parsed = JSON.parse(raw) as UserItem;
 
+        console.log(parsed);
+
         return {
           ...parsed,
           phone: normalizePhoneNumber(parsed.phone),
@@ -99,19 +101,21 @@ export class BridgeService {
   }
 
   private readonly onWindowMessage = (event: MessageEvent<NativeEvent<NzSafeAny>>): void => {
+    console.log(event);
     const payload = event.data;
 
-    if (!payload?.event) {
+    if (payload?.event !== environment.projectTag) {
       return;
     }
 
-    if (payload.event === 'tokenRefreshed') {
+    const eventName = payload.data?.event_name;
+
+    if (eventName === 'tokenRefreshed') {
       this.completeTokenRefresh(payload.data?.status === 'success');
-
       return;
     }
 
-    if (payload.data?.event_name) {
+    if (eventName === 'onChangeTheme') {
       this.notificationService.success(payload.event, payload.data.event_name);
     }
 

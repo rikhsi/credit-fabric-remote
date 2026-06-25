@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withHashLocation, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withRouterConfig, withViewTransitions } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import ru from '@angular/common/locales/ru';
@@ -14,7 +14,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
-import { provideIcon, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
+import { provideIcon, provideLang, provideLocaleId, TranslocoProvider } from '@core/providers';
 import { routes } from '@app/app.routes';
 import {
   apiInterceptor,
@@ -36,7 +36,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
-      withHashLocation(),
       withViewTransitions(),
       withRouterConfig({
         paramsInheritanceStrategy: 'always',
@@ -64,7 +63,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(JwtModule.forRoot({})),
     provideEnvironmentNgxMask(),
     provideNzConfig(ngZorroConfig),
-    provideTheme,
+    // provideTheme,
     provideLang,
     provideIcon,
     provideLocaleId(),

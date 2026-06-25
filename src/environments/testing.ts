@@ -8,6 +8,7 @@ export const environment = {
   appVersion: '99.99.99',
   deviceRoot: '0',
   mode: 'testing',
+  imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
   assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
   user: {
     pinfl: '52001016860016',

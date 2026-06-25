@@ -18,9 +18,7 @@
     "module": "preserve",
     "paths": {
       "@core/*": ["src/app/core/*"],
-      "@constants": ["src/app/constants"],
       "@shared/*": ["src/app/shared/*"],
-      "@typings": ["src/app/typings"],
       "@api/*": ["src/app/api/*"],
       "@pages/*": ["src/app/pages/*"],
       "@layouts/*": ["src/app/layouts/*"],

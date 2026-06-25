@@ -9,4 +9,5 @@ export const environment = {
   deviceRoot: '0',
   mode: 'production',
   assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
+  imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
 };

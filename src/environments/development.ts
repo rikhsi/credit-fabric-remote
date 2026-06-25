@@ -6,6 +6,7 @@ export const environment = {
   projectTag: 'kk-sme',
   deviceType: 'vebview',
   appVersion: '99.99.99',
+  imageUrl: '',
   deviceRoot: '0',
   user: {
     pinfl: '52001016860016',
