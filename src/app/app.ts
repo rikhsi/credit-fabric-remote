@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'cf-root',
   imports: [RouterOutlet],
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: '../styles.less',
   template: `
     <router-outlet />
   `,
