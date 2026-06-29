@@ -1,31 +1,27 @@
 @import 'mixins';
 @import 'colors';
 
-.themeMixin({
-  :host {
-    .select {
-      border-color: @border-color;
-    }
-
-    .name {
-      color: @text-color-tertiary;
-    }
-
-    .number {
-      color: @text-color-secondary;
-    }
-
-    .down {
-      color: @text-color;
-    }
-
-    .list {
-        background: @component-background;
-    }
-  }
-});
-
 :host {
+  .select {
+    border-color: #ebebeb;
+  }
+
+  .name {
+    color: #a3a3a3;
+  }
+
+  .number {
+    color: #5c5c5c;
+  }
+
+  .down {
+    color: #101010;
+  }
+
+  .list {
+    background: #ffffff;
+  }
+
   display: block;
 }
 

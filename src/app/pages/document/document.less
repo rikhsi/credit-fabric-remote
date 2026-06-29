@@ -1,27 +1,23 @@
 @import 'mixins';
 
-.themeMixin({
-    :host {
-        .link {
-            color: @text-color;
-
-            &:hover {
-                color: @primary-color;
-            }
-        }
-
-        .content {
-            border-color: @border-color;
-            background: @component-background-thirty;
-        }
-
-        ::ng-deep ngx-extended-pdf-viewer .pdfViewer#viewer {
-            background-color: @component-background-thirty;
-        }
-    }
-});
-
 :host {
+  .link {
+    color: #101010;
+
+    &:hover {
+      color: #00a38d;
+    }
+  }
+
+  .content {
+    border-color: #ebebeb;
+    background: #ebebeb;
+  }
+
+  ::ng-deep ngx-extended-pdf-viewer .pdfViewer#viewer {
+    background-color: #ebebeb;
+  }
+
   display: flex;
   flex-direction: column;
   row-gap: 18px;

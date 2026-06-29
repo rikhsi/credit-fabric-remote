@@ -5,19 +5,6 @@
 @media-xl: ~'(min-width: 1200px)';
 @media-xxl: ~'(max-width: 1400px)';
 
-.themeMixin(@rules) {
-  html {
-    &.light {
-      @import './theme/light.less';
-      @rules();
-    }
-    &.dark {
-      @import './theme/dark.less';
-      @rules();
-    }
-  }
-}
-
 .textMixin( @fw, @fz, @lh) {
   font-weight: @fw;
   font-size: @fz;

@@ -1,25 +1,21 @@
 @import 'mixins';
 @import 'custom';
 
-.themeMixin({
-    :host {
-        background: @component-background;
-
-        .icon {
-            background: @component-background-secondary;
-        }
-
-        .text p {
-            color: @text-color-tertiary;
-        }
-
-        h1 {
-            color: @primary-color;
-        }
-    }
-});
-
 :host {
+  background: #ffffff;
+
+  .icon {
+    background: #f5f5f5;
+  }
+
+  .text p {
+    color: #a3a3a3;
+  }
+
+  h1 {
+    color: #00a38d;
+  }
+
   display: block;
   box-sizing: border-box;
   min-width: 540px;

@@ -1,19 +1,15 @@
 @import 'mixins';
 @import 'custom';
 
-.themeMixin({
-  :host {
-    .input {
-      border-color: @border-color;
-    }
-
-    .mark__label {
-      color: @text-color-secondary;
-    }
-  }
-});
-
 :host {
+  .input {
+    border-color: #ebebeb;
+  }
+
+  .mark__label {
+    color: #5c5c5c;
+  }
+
   display: block;
 }
 
@@ -37,7 +33,7 @@
 }
 
 .marks {
-  position: relative; 
+  position: relative;
   top: -20px;
   display: flex;
   justify-content: space-between;

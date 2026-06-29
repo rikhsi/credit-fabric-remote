@@ -1,22 +1,18 @@
 @import 'mixins';
 
-.themeMixin({
-  :host {
-    .card {
-      background: @component-background-secondary;
-    }
-
-    .card-advantage__title {
-      color: @text-color;
-    }
-
-    .card-advantage__description {
-      color: @text-color-secondary;
-    }
-    }
-});
-
 :host {
+  .card {
+    background: #f5f5f5;
+  }
+
+  .card-advantage__title {
+    color: #101010;
+  }
+
+  .card-advantage__description {
+    color: #5c5c5c;
+  }
+
   display: block;
   display: flex;
   flex-direction: column;

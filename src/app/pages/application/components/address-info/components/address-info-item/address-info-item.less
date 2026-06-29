@@ -11,20 +11,6 @@ cf-card {
   width: 100%;
 }
 
-.themeMixin({
-  :host {
-    .row {
-      p {
-        color: @text-color-secondary;
-      }
-
-      .placeholder {
-        color: @text-color-secondary;
-      }
-    }
-  }
-});
-
 .row {
   display: flex;
   flex-direction: column;
@@ -32,6 +18,11 @@ cf-card {
 
   h4 {
     margin-bottom: 4px;
+  }
+
+  p,
+  .placeholder {
+    color: #5c5c5c;
   }
 }
 

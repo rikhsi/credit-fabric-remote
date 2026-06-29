@@ -1,27 +1,21 @@
 @import 'mixins';
 @import 'colors';
 
-.themeMixin({
-    :host {
-        .tag {
-            &.warning {
-              background: @warning-color;
-            }
-
-            &.success {
-              background: @success-bg-color;
-            }
-
-            &.decline {
-              background: @error-bg-color;
-            }
-        }
-    }
-});
-
 .tag {
   white-space: wrap;
   padding: 8px;
   border-radius: 8px;
   margin: 0;
+
+  &.warning {
+    background: #fffaeb;
+  }
+
+  &.success {
+    background: #e0faec;
+  }
+
+  &.decline {
+    background: #ffebec;
+  }
 }

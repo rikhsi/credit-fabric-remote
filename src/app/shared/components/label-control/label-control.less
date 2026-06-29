@@ -1,27 +1,23 @@
 @import 'mixins';
 @import 'custom';
 
-.themeMixin({
-  :host {
-    .box {
-      color: @text-color-secondary;
-    }
+:host {
+  .box {
+    color: #5c5c5c;
+  }
 
-    .icon {
-      background: @component-background-secondary;
-    }
+  .icon {
+    background: #f5f5f5;
+  }
 
-    label {
-      color: @text-color;
+  label {
+    color: #101010;
 
-      &.required::before {
-        color: @error-color;
-      }
+    &.required::before {
+      color: #fb3748;
     }
   }
-});
 
-:host {
   display: flex;
   align-items: center;
   column-gap: 8px;
@@ -44,7 +40,8 @@
         margin-top: 6px;
       }
 
-      li, h3 {
+      li,
+      h3 {
         margin-top: 0;
         height: 10px;
       }
