@@ -1,17 +1,30 @@
 @import 'mixins';
 @import 'custom';
 
+.themeMixin({
+    :host {
+        background: @component-background;
+
+        &.bordered {
+          border-color: @border-color;
+
+          &.bottom {
+               border-color: @border-color;
+
+          }
+
+          &.ant-form-item-explain-error {
+            border-color: @error-color;
+          }
+        }
+
+        &.gray {
+          background: @component-background-secondary;
+        }
+    }
+});
+
 :host {
-  background: #ffffff;
-
-  &.ant-form-item-explain-error {
-    border-color: #fb3748;
-  }
-
-  &.gray {
-    background: #f5f5f5;
-  }
-
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -25,12 +38,10 @@
 
   &.bordered {
     border: 1px solid;
-    border-color: #ebebeb;
 
     &.bottom {
       border: none;
       border-bottom: 1px solid;
-      border-color: #ebebeb;
     }
   }
 

@@ -16,6 +16,7 @@ export const environment = {
     clientId: 962909,
     clientUid: 351594,
     inn: 302638303,
+    theme: 'dark',
     lon: 0,
     lat: 0,
     language: 'ru',

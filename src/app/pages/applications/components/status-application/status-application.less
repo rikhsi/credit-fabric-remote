@@ -2,15 +2,19 @@
 @import 'custom';
 @import 'mixins';
 
+.themeMixin({
+    :host {
+        .icon {
+            background: @body-background;
+        }
+
+        b {
+          color: @text-color-secondary;
+        }
+    }
+});
+
 :host {
-  .icon {
-    background: #f7f7f7;
-  }
-
-  b {
-    color: #5c5c5c;
-  }
-
   display: flex;
   column-gap: 4px;
   align-items: center;

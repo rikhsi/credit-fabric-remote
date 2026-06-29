@@ -2,13 +2,17 @@
 @import 'custom';
 @import 'colors';
 
-:host {
-  background: #00a38d;
+.themeMixin({
+  :host {
+    background: @primary-color;
 
-  [nz-button] {
-    color: #101010;
+    [nz-button] {
+        color: @text-color;
+    }
   }
+});
 
+:host {
   position: relative;
   display: block;
   width: 100%;

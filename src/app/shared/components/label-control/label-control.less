@@ -1,23 +1,27 @@
 @import 'mixins';
 @import 'custom';
 
-:host {
-  .box {
-    color: #5c5c5c;
-  }
+.themeMixin({
+  :host {
+    .box {
+      color: @text-color-secondary;
+    }
 
-  .icon {
-    background: #f5f5f5;
-  }
+    .icon {
+      background: @component-background-secondary;
+    }
 
-  label {
-    color: #101010;
+    label {
+      color: @text-color;
 
-    &.required::before {
-      color: #fb3748;
+      &.required::before {
+        color: @error-color;
+      }
     }
   }
+});
 
+:host {
   display: flex;
   align-items: center;
   column-gap: 8px;

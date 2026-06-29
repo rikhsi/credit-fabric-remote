@@ -115,6 +115,10 @@ export class BridgeService {
       return;
     }
 
+    if (eventName === 'onChangeTheme') {
+      this.notificationService.success(payload.event, payload.data.event_name);
+    }
+
     this.notificationService.success(payload.event, payload.data.event_name);
   };
 

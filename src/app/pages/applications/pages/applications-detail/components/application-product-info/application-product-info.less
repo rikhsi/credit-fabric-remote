@@ -2,11 +2,15 @@
 @import 'colors';
 @import 'custom';
 
-:host {
-  .section {
-    border-color: #ebebeb;
+.themeMixin({
+  :host {
+    .section {
+      border-color: @border-color;
+    }
   }
+});
 
+:host {
   display: block;
 }
 

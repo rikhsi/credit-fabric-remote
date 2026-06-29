@@ -1,5 +1,27 @@
 @import 'mixins';
 
+.themeMixin({
+    :host {
+        .row {
+            p {
+                color: @text-color-secondary;
+            }
+        }
+
+        
+        .titleRef {
+          nz-tag {
+            background: @error-bg-color;
+            color: @error-color;
+          }
+
+          nz-icon {
+            color: @error-color;
+          }
+        }
+    }
+});
+
 .list {
   display: grid;
   grid-template-columns: repeat(auto, minmax(300px, 300px));
@@ -12,10 +34,6 @@
 
     h4 {
       margin-bottom: 4px;
-    }
-
-    p {
-      color: #5c5c5c;
     }
   }
 
@@ -47,14 +65,8 @@
     margin: 0;
   }
 
-  nz-tag {
-    background: #ffebec;
-    color: #fb3748;
-  }
-
   nz-icon {
     margin-right: 4px;
     font-size: 14px;
-    color: #fb3748;
   }
 }

@@ -2,27 +2,31 @@
 @import 'colors';
 @import 'custom';
 
+.themeMixin({
+  :host {
+    .tag {
+      &.success {
+        background: @success-bg-color;
+        color: @success-color;
+      }
+    }
+
+    .section {
+      border-color: @border-color;
+    }
+
+    .notice {
+      background: @component-background-secondary;
+      color: @text-color-secondary;
+
+      nz-icon {
+        color: @primary-color;
+      }
+    }
+  }
+});
+
 :host {
-  .tag {
-    &.success {
-      background: #e0faec;
-      color: #00a38d;
-    }
-  }
-
-  .section {
-    border-color: #ebebeb;
-  }
-
-  .notice {
-    background: #f5f5f5;
-    color: #5c5c5c;
-
-    nz-icon {
-      color: #00a38d;
-    }
-  }
-
   display: block;
 }
 

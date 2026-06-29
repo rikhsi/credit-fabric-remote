@@ -1,0 +1,3 @@
+<button cfBounce id="select-theme" nz-button nzShape="circle" nzGhost (clicked)="changeTheme.emit()">
+  <nz-icon [nzType]="currentTheme() === 'light' ? 'sun' : 'moon'" />
+</button>

@@ -1,19 +1,23 @@
 @import 'mixins';
 
+.themeMixin({
+  :host {
+    .month-card {
+      background: @component-background-secondary;
+      border: 1px solid @border-color;
+    }
+
+    .month-card__label {
+      color: @text-color;
+    }
+
+    .finance-form__title {
+      color: @text-color;
+    }
+  }
+});
+
 :host {
-  .month-card {
-    background: #f5f5f5;
-    border: 1px solid #ebebeb;
-  }
-
-  .month-card__label {
-    color: #101010;
-  }
-
-  .finance-form__title {
-    color: #101010;
-  }
-
   display: block;
 }
 

@@ -1,10 +1,14 @@
 @import 'mixins';
 
-:host {
-  .card {
-    background: #e4fbf8;
-  }
+.themeMixin({
+    :host {
+      .card {
+        background: @component-background-light;
+      }
+    }
+});
 
+:host {
   display: flex;
   flex-direction: column;
   flex: 1;

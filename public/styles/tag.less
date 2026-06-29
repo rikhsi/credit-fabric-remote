@@ -1,11 +1,16 @@
+.themeMixin({
+  .ant-tag {
+    color: @text-color;
+    background: @tag-default-bg;
+  }
+});
+
 .ant-tag {
   display: flex;
   align-items: center;
   padding: 4px 8px;
   border: none;
   margin: 0;
-  color: #101010;
-  background: #00a38d29;
 
   .textMixin(@font-weight-medium,@font-size-sm,@line-height-base);
 }

@@ -1,11 +1,42 @@
 @import 'mixins';
 
+.themeMixin({
+  :host {
+    .cf-bottom-sheet__handle {
+      background: fade(@cf-black-900, 15%);
+    }
+
+    .cf-bottom-sheet__title {
+      color: @text-color;
+    }
+
+    .cf-bottom-sheet__option {
+      color: @text-color;
+
+      &:active {
+        background: fade(@cf-black-900, 5%);
+      }
+
+      &--selected {
+        font-weight: 600;
+      }
+    }
+
+    .cf-bottom-sheet__check {
+      color: @primary-color;
+    }
+
+    .cf-bottom-sheet__empty {
+      color: @text-color-secondary;
+    }
+  }
+});
+
 .cf-bottom-sheet__handle {
   width: 40px;
   height: 4px;
   margin: 8px auto 16px;
   border-radius: 999px;
-  background: fade(#101010, 15%);
 }
 
 .cf-bottom-sheet__header {
@@ -24,7 +55,6 @@
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
-  color: #101010;
 }
 
 .cf-bottom-sheet__header .close {
@@ -69,15 +99,6 @@
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
-  color: #101010;
-
-  &:active {
-    background: fade(#101010, 5%);
-  }
-
-  &--selected {
-    font-weight: 600;
-  }
 
   span {
     flex: 1;
@@ -90,12 +111,10 @@
 .cf-bottom-sheet__check {
   flex-shrink: 0;
   font-size: 18px;
-  color: #00a38d;
 }
 
 .cf-bottom-sheet__empty {
   padding: 20px 4px;
   text-align: center;
   font-size: 16px;
-  color: #5c5c5c;
 }

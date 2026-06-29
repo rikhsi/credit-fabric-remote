@@ -1,13 +1,17 @@
 @import 'mixins';
 @import 'custom';
 
-:host {
-  background: #ffffff;
+.themeMixin({
+  :host {
+    background: @component-background;
 
-  p {
-    color: #5c5c5c;
+    p {
+      color: @text-color-secondary;
+    }
   }
+});
 
+:host {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,5 +1,17 @@
 @import 'mixins';
 
+.themeMixin({
+    :host {
+        .line {
+            background: @component-background-thirty;
+
+            &.active {
+                background: @primary-color;
+            }
+        }
+    }
+});
+
 .steps {
   display: flex;
   align-items: center;
@@ -10,10 +22,5 @@
     flex: 1;
     border-radius: 2px;
     height: 6px;
-    background: #ebebeb;
-
-    &.active {
-      background: #00a38d;
-    }
   }
 }

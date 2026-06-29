@@ -1,52 +1,56 @@
 @import 'mixins';
 @import 'colors';
 
+.themeMixin({
+    :host {
+        .top {
+            border-color: @border-color;
+        }
+
+        .text {
+            .info {
+                color: @text-color-secondary;
+            }
+        }
+
+        .tag {
+            &.warning {
+              background: @cf-yellow-100;
+            }
+
+            &.success {
+              background: @success-bg-color;
+            }
+
+            &.decline {
+              background: @error-bg-color;
+            }
+        }
+
+        .card {
+            border-color: @border-color;
+
+            .icon {
+                background: @component-background-secondary;
+            }
+        }
+
+        .sign {
+            border-color: @border-color;
+            background: @component-background;
+
+            nz-icon {
+                color: @primary-color;
+            }
+
+            &:hover {
+                border-color: @primary-color;
+            }
+        }
+    }
+});
+
 :host {
-  .top {
-    border-color: #ebebeb;
-  }
-
-  .text {
-    .info {
-      color: #5c5c5c;
-    }
-  }
-
-  .tag {
-    &.warning {
-      background: #fff3eb;
-    }
-
-    &.success {
-      background: #e0faec;
-    }
-
-    &.decline {
-      background: #ffebec;
-    }
-  }
-
-  .card {
-    border-color: #ebebeb;
-
-    .icon {
-      background: #f5f5f5;
-    }
-  }
-
-  .sign {
-    border-color: #ebebeb;
-    background: #ffffff;
-
-    nz-icon {
-      color: #00a38d;
-    }
-
-    &:hover {
-      border-color: #00a38d;
-    }
-  }
-
   &.borderless {
     .top {
       border: none;

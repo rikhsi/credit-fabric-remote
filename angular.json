@@ -122,7 +122,17 @@
               }
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              {
+                "input": "public/styles/light.less",
+                "bundleName": "light",
+                "inject": false
+              },
+              {
+                "input": "public/styles/dark.less",
+                "bundleName": "dark",
+                "inject": false
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["public/styles"]

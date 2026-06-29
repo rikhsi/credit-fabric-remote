@@ -1,5 +1,15 @@
 @import 'mixins';
 
+.themeMixin({
+  :host {
+    .row {
+      p {
+        color: @text-color-secondary;
+      }
+    }
+  }
+});
+
 .row {
   display: flex;
   flex-direction: column;
@@ -7,10 +17,6 @@
 
   h4 {
     margin-bottom: 4px;
-  }
-
-  p {
-    color: #5c5c5c;
   }
 }
 
