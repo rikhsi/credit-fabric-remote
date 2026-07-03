@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { FlowService } from './services';
 import { applicationFlowFinanceGuard } from './guards/application-flow-finance.guard';
-import { applicationResolver, financeResolver } from './resolvers';
+import { accountsResolver, applicationResolver, financeResolver } from './resolvers';
 import { ApplicationFlowRoute, ApplicationRoute, LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 
@@ -11,6 +11,7 @@ export const routes: Routes = [
     providers: [FlowService],
     resolve: {
       application: applicationResolver,
+      accounts: accountsResolver,
     },
     children: [
       {

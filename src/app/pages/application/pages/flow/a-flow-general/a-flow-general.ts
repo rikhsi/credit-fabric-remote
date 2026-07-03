@@ -10,17 +10,19 @@ import { AddressInfo } from '@pages/application/components/address-info/address-
 import { ContactInfo } from '@pages/application/components/contact-info/contact-info';
 import { ExtraInfo } from '@pages/application/components/extra-info/extra-info';
 import { ExtraForm } from '@pages/application/components/extra-form/extra-form';
+import { BillInfo } from '@pages/application/components/bill-info/bill-info';
 import { GeneralInfo } from '@pages/application/components/general-info/general-info';
 import { ApplicationFlowRoute } from '@app/constants/route-path';
 import { isGeneralStepValid } from '@pages/application/utils/flow-step.validation';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineApplication } from '@api/models/los/application';
+import { OnlineAccount } from '@api/models/los/account';
 import { OnlineStartProcessingExtraInformation, OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-a-flow-general',
-  imports: [ContactInfo, GeneralInfo, ExtraInfo, NzButtonComponent, AddressInfo, TranslocoDirective, BounceDirective],
+  imports: [ContactInfo, GeneralInfo, ExtraInfo, BillInfo, NzButtonComponent, AddressInfo, TranslocoDirective, BounceDirective],
   templateUrl: './a-flow-general.html',
   styleUrl: './a-flow-general.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,9 +37,14 @@ export class AFlowGeneral implements OnInit {
 
   public readonly user = computed(() => this.authService.user());
   public readonly flowForm = linkedSignal(() => this.flowService.flowForm);
+  public readonly accounts = computed(() => this.flowService.accounts());
 
   get application(): OnlineApplication {
     return this.route.snapshot.data['application'];
+  }
+
+  get accountsData(): OnlineAccount[] {
+    return this.route.snapshot.data['accounts'] ?? [];
   }
 
   get applicationId(): number {
@@ -45,7 +52,7 @@ export class AFlowGeneral implements OnInit {
   }
 
   ngOnInit(): void {
-    this.flowService.initApplication(this.application, this.applicationId);
+    this.flowService.initApplication(this.application, this.applicationId, this.accountsData);
   }
 
   openExtraForm(): void {
@@ -121,6 +128,7 @@ export class AFlowGeneral implements OnInit {
     this.flowForm().name().markAsDirty();
     this.flowForm().addresses().markAsDirty();
     this.flowForm().extraInformation().markAsDirty();
+    this.flowForm().accountNo().markAsDirty();
 
     this.scrollToInvalidElement();
   }

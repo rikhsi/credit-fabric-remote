@@ -19,7 +19,8 @@ function isFlowScalarsValid(form: OnlineCreateApplicationPayload): boolean {
     isPresent(form.workPhone) &&
     isPresent(form.docPersonalLegalNo) &&
     isPresent(form.email) &&
-    isPresent(form.name)
+    isPresent(form.name) &&
+    isPresent(form.accountNo)
   );
 }
 

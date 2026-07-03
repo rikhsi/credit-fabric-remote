@@ -3,6 +3,7 @@ import { form, maxLength, minLength, required, requiredError, validate } from '@
 import { buildRequiredAddresses, isFlowAddressFilled, mapBorrowerAddressesToForm } from '../utils/address';
 import { createDefaultFinanceForm } from '../utils/finance-months';
 import { AuthService } from '@core/services/auth.service';
+import { OnlineAccount } from '@api/models/los/account';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import { OnlineApplication } from '@api/models/los/application';
 
@@ -11,8 +12,11 @@ export class FlowService {
   private authService = inject(AuthService);
   private initializedApplicationId: number | null = null;
 
+  public readonly accounts = signal<OnlineAccount[]>([]);
+
   public readonly flowForm = form(
     signal<OnlineCreateApplicationPayload>({
+      accountNo: null,
       name: null,
       applicationId: null,
       ownershipCode: null,
@@ -46,6 +50,7 @@ export class FlowService {
       required(schemaPath.registrationPlaceCode);
       required(schemaPath.docPersonalLegalNo);
       required(schemaPath.name);
+      required(schemaPath.accountNo);
       required(schemaPath.extraInformation.sectorEconomy);
       required(schemaPath.extraInformation.ecologicalImpactCode);
       required(schemaPath.extraInformation.enterpriseClassfier);
@@ -64,7 +69,7 @@ export class FlowService {
     },
   );
 
-  public initApplication(application: OnlineApplication, applicationId: number | string): void {
+  public initApplication(application: OnlineApplication, applicationId: number | string, accounts: OnlineAccount[]): void {
     const id = Number(applicationId);
 
     if (this.initializedApplicationId === id) {
@@ -73,7 +78,10 @@ export class FlowService {
 
     this.initializedApplicationId = id;
 
+    this.accounts.set(accounts);
+
     this.flowForm().value.set({
+      accountNo: application.accountNo || accounts[0]?.account || null,
       applicationId: id,
       docPersonalLegalNo: application.borrower.docPersonalLegalNo,
       employees: application.borrower.employees,

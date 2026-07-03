@@ -1,5 +1,6 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OnlineAccount } from '@api/models/los/account';
 import { OnlineApplication, ShortApplicationPayload, ShortApplicationResult } from '@api/models/los/application';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
@@ -29,6 +30,12 @@ export class OnlineApiService {
 
   public getApplication$(applicationId: number) {
     return this.http.get<OnlineApplication>(`online/application/${applicationId}`);
+  }
+
+  public getAccounts$(applicationId: number) {
+    return this.http.get<OnlineAccount[]>('online/accounts', {
+      params: buildHttpParams({ applicationId }),
+    });
   }
 
   public getApplications$() {

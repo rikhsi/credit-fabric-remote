@@ -43,6 +43,7 @@ export class ApplicationsDetail implements OnInit {
 
   readonly isLoading = computed(() => this.applicationsDetailService.isLoading());
   readonly application = computed(() => this.applicationsDetailService.application());
+  readonly accounts = computed(() => this.applicationsDetailService.accounts());
   readonly status = ApplicationStatus;
 
   get applicationId(): number {
