@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { FlowService } from './services';
 import { applicationFlowFinanceGuard } from './guards/application-flow-finance.guard';
+import { applicationFlowOneIdGuard } from './guards/application-flow-one-id.guard';
 import { accountsResolver, applicationResolver, financeResolver } from './resolvers';
 import { ApplicationFlowRoute, ApplicationRoute, LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
@@ -32,6 +33,14 @@ export const routes: Routes = [
           title: 'prop.application_to_loan',
         },
         loadComponent: () => import('./pages/flow/a-flow-finance/a-flow-finance').then((c) => c.AFlowFinance),
+      },
+      {
+        path: ApplicationFlowRoute.OneId,
+        canActivate: [applicationFlowOneIdGuard],
+        data: {
+          title: 'prop.application_to_loan',
+        },
+        loadComponent: () => import('./pages/flow/a-flow-one-id/a-flow-one-id').then((c) => c.AFlowOneId),
       },
       {
         path: '**',

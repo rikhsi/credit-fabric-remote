@@ -38,6 +38,12 @@ export class OnlineApiService {
     });
   }
 
+  public checkOneId$(applicationId: number) {
+    return this.http.get<boolean>('online/application/check-one-id', {
+      params: buildHttpParams({ applicationId }),
+    });
+  }
+
   public getApplications$() {
     return this.http.get<OnlineGetInfoResult[]>(`online/get-info`);
   }

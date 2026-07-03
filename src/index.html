@@ -6,6 +6,46 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('theme');
+          var theme = raw ? JSON.parse(raw) : 'light';
+          if (theme !== 'light' && theme !== 'dark') {
+            theme = 'light';
+          }
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <style>
+      .splash {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow: hidden;
+        z-index: 2147483647;
+        background: #ffffff;
+      }
+      html.dark .splash {
+        background: #17181b;
+      }
+      .splash.none {
+        display: none;
+      }
+      .splash-image {
+        object-fit: contain;
+      }
+    </style>
   </head>
   <body>
     <cf-root></cf-root>

@@ -27,7 +27,54 @@
     "decline_yes": "Xa, rad qilish",
     "close": "Yopish",
     "sign": "Imzolash va yuborish",
-    "back": "Ortga"
+    "back": "Ortga",
+    "open_instruction": "Yo‘riqnomani ochish",
+    "one_id_granted": "Ruxsat berdim",
+    "go_to_one_id": "OneID’ga o‘tish"
+  },
+  "flow": {
+    "one_id": {
+      "consent": {
+        "title": "OneID’da rozilik bering",
+        "description": "Hisob ochish uchun OneID orqali ma’lumotlaringizga ruxsatni tasdiqlang.",
+        "not_granted_title": "Rozilik topilmadi",
+        "not_granted_description": "Siz hali OneID’da ruxsat bermagansiz. Ruxsat bering va qayta urinib ko‘ring."
+      },
+      "instruction": {
+        "title": "Hisob ochish uchun One ID’ni qanday ulash mumkin",
+        "ip_note": "Agar siz YaTT bo‘lsangiz — 2–3-qadamlarni o‘tkazib yuboring",
+        "step": {
+          "authorize": {
+            "title": "Avtorizatsiyadan o‘ting",
+            "description": "One ID’ga qulay usulda kiring"
+          },
+          "legal_entity": {
+            "title": "«Yuridik shaxs»ni tanlang",
+            "description": "Bosh sahifada ushbu bo‘limni tanlang"
+          },
+          "inn": {
+            "title": "INN kiriting",
+            "description": "Ro‘yxatda kompaniyangiz paydo bo‘ladi"
+          },
+          "management": {
+            "title": "«Boshqaruv» bo‘limiga o‘ting",
+            "description": "Pastki paneldagi bo‘limni oching"
+          },
+          "select_bank": {
+            "title": "HamkorBank’ni tanlang",
+            "description": "Tashkilotlar ro‘yxatidan HamkorBank’ni toping"
+          },
+          "allow": {
+            "title": "«Ruxsat berish»ni bosing",
+            "description": "Paydo bo‘lgan oynada ruxsat bering"
+          },
+          "done": {
+            "title": "Tayyor!",
+            "description": "Bank ilovasiga qayting va hisob ochishni davom ettiring"
+          }
+        }
+      }
+    }
   },
   "alert": {
     "fill_fields": "Maydonlarni to‘ldiring"

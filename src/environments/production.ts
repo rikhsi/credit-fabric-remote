@@ -10,4 +10,5 @@ export const environment = {
   mode: 'production',
   assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
   imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
+  oneIdUrl: 'https://oneid.uz',
 };

@@ -1,0 +1,74 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+  :host {
+    .title {
+      color: @text-color;
+    }
+
+    .note {
+      background: @component-background-secondary;
+      color: @text-color-secondary;
+
+      nz-icon {
+        color: @primary-color;
+      }
+    }
+  }
+});
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+
+  nz-icon {
+    font-size: 56px;
+  }
+}
+
+.title {
+  margin: 16px 0 8px;
+  text-align: center;
+  .textMixin(700, 24px, 130%);
+
+  .media(@media-sm, {
+    font-size: 20px;
+  });
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+
+  nz-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 12px;
+
+  .media(@media-sm, {
+    flex-direction: column-reverse;
+  });
+}

@@ -1,0 +1,74 @@
+@import 'mixins';
+@import 'colors';
+
+.themeMixin({
+  :host {
+    .step {
+      border: 1px solid @border-color;
+      background: @component-background;
+
+      &.done {
+        border-color: @primary-color;
+      }
+    }
+
+    .badge {
+      background: @success-bg-color;
+      color: @primary-color;
+    }
+
+    .step.done .badge {
+      background: @primary-color;
+      color: @cf-white-0;
+    }
+
+    .title {
+      color: @text-color;
+    }
+
+    .desc {
+      color: @text-color-secondary;
+    }
+  }
+});
+
+:host {
+  display: block;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+
+.badge {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.desc {
+  font-size: 13px;
+}

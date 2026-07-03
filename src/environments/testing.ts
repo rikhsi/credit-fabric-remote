@@ -10,6 +10,7 @@ export const environment = {
   mode: 'testing',
   imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
   assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
+  oneIdUrl: 'https://oneid.uz',
   user: {
     pinfl: '52001016860016',
     phone: '990031497',

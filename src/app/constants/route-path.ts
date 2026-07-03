@@ -17,4 +17,5 @@ export enum ApplicationRoute {
 export enum ApplicationFlowRoute {
   General = 'general',
   Finance = 'finance',
+  OneId = 'one-id',
 }

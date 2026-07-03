@@ -1,0 +1,5 @@
+@switch (view()) { @case ('consent') {
+<cf-one-id-consent [loading]="loading()" (grant)="grant()" (openInstruction)="openInstruction()" />
+} @case ('instruction') {
+<cf-one-id-instruction [steps]="steps" (back)="backToConsent()" (goToOneId)="goToOneId()" />
+} }
