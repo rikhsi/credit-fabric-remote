@@ -5,6 +5,10 @@
   :host {
     .select {
       border-color: @border-color;
+
+      &:not(.readonly):hover {
+        background: @hover-bg;
+      }
     }
 
     .name {
@@ -21,6 +25,10 @@
 
     .list {
         background: @component-background;
+    }
+
+    .item:hover {
+      background: @hover-bg;
     }
   }
 });
@@ -42,10 +50,6 @@
   max-width: 495px;
 
   transition: 0.3s all;
-
-  &:hover {
-    background: fade(@cf-black-900, 5%);
-  }
 
   .media(@media-sm, {
     padding: 12px;
@@ -146,10 +150,6 @@
     .media(@media-xs, {
         padding: 8px;
     });
-
-    &:hover {
-      background: fade(@cf-black-900, 5%);
-    }
 
     &.readonly {
       cursor: default;
