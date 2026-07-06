@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { applicationDetailTitleResolver } from './resolvers/application-detail-title.resolver';
 import { RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 
@@ -9,8 +10,11 @@ export const routes: Routes = [
   },
   {
     path: `:${RouteParam.AppId}`,
+    resolve: {
+      titleParams: applicationDetailTitleResolver,
+    },
     data: {
-      title: 'Заявка №1',
+      title: 'application.number',
       backConfig: { link: ['/', RootRoute.Applications] },
     },
     loadComponent: () => import('./pages/applications-detail/applications-detail').then((c) => c.ApplicationsDetail),

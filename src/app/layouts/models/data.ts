@@ -6,5 +6,6 @@ export interface LoanLayoutBackConfig {
 
 export interface LoanLayoutData {
   title: string;
+  titleParams?: Record<string, unknown>;
   backConfig: LoanLayoutBackConfig;
 }

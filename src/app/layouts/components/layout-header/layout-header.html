@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-card [topWrap]="false" [title]="t(title())" [link]="backConfig()?.link" class="bordered bottom">
+  <cf-card [topWrap]="false" [title]="t(title(), titleParams() ?? {})" [link]="backConfig()?.link" class="bordered bottom">
     <div actions class="actions">
       <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="closeClick.emit()">
         <nz-icon nzType="close" />
