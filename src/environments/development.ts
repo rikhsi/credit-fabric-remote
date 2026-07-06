@@ -19,7 +19,7 @@ export const environment = {
     theme: 'dark',
     lon: 0,
     lat: 0,
-    language: 'ru',
+    language: 'RUS',
   },
   mode: 'development',
   assetsBaseUrl: '',

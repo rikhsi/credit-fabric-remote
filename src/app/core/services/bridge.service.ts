@@ -70,22 +70,20 @@ export class BridgeService {
     return this.refreshPromise;
   }
 
-  public getUserInfo(): UserItem {
+  public getUserInfo(): UserItem | null {
     if (this.bridge) {
       const raw = this.bridge.getUserInfo();
 
       try {
         const parsed = JSON.parse(raw) as UserItem;
 
-        console.log(parsed);
-
         return {
           ...parsed,
           phone: normalizePhoneNumber(parsed.phone),
         };
-      } catch (error: NzSafeAny) {}
-
-      return null;
+      } catch {
+        return null;
+      }
     }
 
     return null;

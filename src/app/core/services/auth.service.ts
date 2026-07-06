@@ -17,14 +17,9 @@ export class AuthService {
     } else {
       switch (environment.mode) {
         case 'testing':
-          this.user.set(environment.user);
-          break;
         case 'development':
           this.user.set(environment.user);
           break;
-        default: {
-          break;
-        }
       }
     }
 
