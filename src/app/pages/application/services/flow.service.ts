@@ -69,16 +69,13 @@ export class FlowService {
       validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
 
       const validateMonthRevenueIncome = (month: 1 | 2 | 3) => {
-        const revenuePath = schemaPath.finData[`month${month}Revenue` as const];
         const incomePath = schemaPath.finData[`month${month}Income` as const];
-        const check = () => {
+
+        validate(incomePath, () => {
           const finData = this.flowForm().value().finData;
 
           return validateFinanceMonthRevenueIncome(finData[`month${month}Revenue` as const], finData[`month${month}Income` as const]);
-        };
-
-        validate(incomePath, check);
-        validate(revenuePath, check);
+        });
       };
 
       validateMonthRevenueIncome(1);
