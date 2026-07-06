@@ -33,7 +33,7 @@ export class OnlineApiService {
   }
 
   public getAccounts$(applicationId: number) {
-    return this.http.get<OnlineAccount[]>('online/accounts', {
+    return this.http.get<OnlineAccount[]>('online/accounts/', {
       params: buildHttpParams({ applicationId }),
     });
   }
