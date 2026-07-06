@@ -1,12 +1,17 @@
 <ng-container *transloco="let t">
+  @let showErrors = dirty() || touched();
   <nz-form-item>
-    <nz-form-control [nzValidateStatus]="firstError() | validationStatus: dirty()">
+    <nz-form-control
+      [nzValidateStatus]="firstError() | validationStatus: showErrors"
+      [nzErrorTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+    >
       <nz-input-otp
         [(ngModel)]="value"
         [id]="id()"
         [nzLength]="6"
+        [nzFormatter]="otpFormatter"
         [disabled]="disabled()"
-        (blur)="blurChange.emit()"
+        (blur)="onBlur()"
         (focus)="focusChange.emit()"
         [nzSize]="size()"
         (click)="clicked.emit()"

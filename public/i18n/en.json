@@ -362,11 +362,18 @@
     "description": {
       "login": "Write login and password",
       "one_id": "Go to OneId to enter the system"
+    },
+    "error": {
+      "session": {
+        "title": "Authorization error",
+        "restart": "Please restart the application"
+      }
     }
   },
   "validation": {
     "error": {
-      "required": "Required field"
+      "required": "Required field",
+      "invalidOtp": "Invalid code"
     }
   }
 }

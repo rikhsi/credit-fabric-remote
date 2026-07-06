@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  untracked,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -42,6 +53,8 @@ export class ModalOtp implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private notification = inject(NzNotificationService);
 
+  @ViewChild(InputOtp) private inputOtp?: InputOtp;
+
   public readonly form = form(signal(otpFormModel), (schemaPath) => {
     required(schemaPath.code);
     minLength(schemaPath.code, 6);
@@ -56,13 +69,21 @@ export class ModalOtp implements OnInit {
   public readonly leftTime = computed(() => this.timerService.leftTime());
   public readonly running = computed(() => this.timerService.running());
 
+  constructor() {
+    effect(() => {
+      this.form.code().value();
+
+      untracked(() => {
+        if (this.otpError()) {
+          this.otpError.set(false);
+        }
+      });
+    });
+  }
+
   ngOnInit(): void {
     this.timerService.start();
     this.resendOtp();
-  }
-
-  clearOtpError(): void {
-    this.otpError.set(false);
   }
 
   close(): void {
@@ -105,8 +126,7 @@ export class ModalOtp implements OnInit {
           this.nmRef.close(true);
         } else {
           this.otpError.set(true);
-
-          this.notification.error(state.errorCode, '');
+          this.inputOtp?.touched.set(true);
         }
 
         this.isLoading.set(false);

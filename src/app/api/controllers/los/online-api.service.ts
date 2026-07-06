@@ -21,11 +21,15 @@ export class OnlineApiService {
   }
 
   public sendOtp$(payload: OnlineSendOtpResponse) {
-    return this.http.post<OnlineSendOtpResult>('online/public-offer/otp-send', payload);
+    return this.http.post<OnlineSendOtpResult>('online/public-offer/otp-send', payload, {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public checkOtp$(payload: OnlineCheckOtpResponse) {
-    return this.http.post<OnlineCheckOtpResult>('online/public-offer/otp-validate', payload);
+    return this.http.post<OnlineCheckOtpResult>('online/public-offer/otp-validate', payload, {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public getApplication$(applicationId: number) {

@@ -18,11 +18,11 @@ import { provideIcon, provideHostInit, provideLang, provideLocaleId, provideThem
 import { routes } from '@app/app.routes';
 import {
   apiInterceptor,
-  authInterceptor,
   cacheInterceptor,
   errorInterceptor,
   headersInterceptor,
   langInterceptor,
+  tokenRefreshInterceptor,
 } from '@core/interceptors';
 import { DEFAULT_LANGUAGE } from '@app/constants/language';
 
@@ -48,7 +48,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(
-      withInterceptors([apiInterceptor, authInterceptor, errorInterceptor, langInterceptor, headersInterceptor, cacheInterceptor]),
+      withInterceptors([apiInterceptor, errorInterceptor, tokenRefreshInterceptor, langInterceptor, headersInterceptor, cacheInterceptor]),
       withFetch(),
     ),
     provideTransloco({
