@@ -12,15 +12,15 @@
         <p nz-typography class="desc">{{ t('flow.one_id.consent.description') }}</p>
       </div>
     </div>
+
+    <div class="actions">
+      <button cfBounce nz-button nzType="primary" nzSize="large" [nzLoading]="loading()" [disabled]="loading()" (clicked)="grant.emit()">
+        {{ t('action.one_id_granted') }}
+      </button>
+
+      <button cfBounce nz-button nzType="default" nzSize="large" [disabled]="loading()" (clicked)="openInstruction.emit()">
+        {{ t('action.open_instruction') }}
+      </button>
+    </div>
   </cf-card>
-
-  <div class="actions">
-    <button cfBounce nz-button nzType="primary" nzSize="large" [nzLoading]="loading()" [disabled]="loading()" (clicked)="grant.emit()">
-      {{ t('action.one_id_granted') }}
-    </button>
-
-    <button cfBounce nz-button nzType="default" nzSize="large" [disabled]="loading()" (clicked)="openInstruction.emit()">
-      {{ t('action.open_instruction') }}
-    </button>
-  </div>
 </ng-container>

@@ -23,5 +23,5 @@ export const environment = {
   },
   mode: 'development',
   assetsBaseUrl: '',
-  oneIdUrl: 'https://oneid.uz',
+  oneIdUrl: 'https://id.egov.uz/ru',
 };

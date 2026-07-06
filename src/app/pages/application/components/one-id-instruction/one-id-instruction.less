@@ -19,9 +19,7 @@
 });
 
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: block;
 }
 
 .logo {
@@ -67,6 +65,7 @@
   display: flex;
   justify-content: flex-end;
   column-gap: 12px;
+  margin-top: 24px;
 
   .media(@media-sm, {
     flex-direction: column-reverse;

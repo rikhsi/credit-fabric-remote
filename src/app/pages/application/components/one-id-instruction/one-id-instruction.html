@@ -17,11 +17,11 @@
       </div>
       } }
     </div>
+
+    <div class="actions">
+      <button cfBounce nz-button nzType="default" nzSize="large" (clicked)="back.emit()">{{ t('action.back') }}</button>
+
+      <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="goToOneId.emit()">{{ t('action.go_to_one_id') }}</button>
+    </div>
   </cf-card>
-
-  <div class="actions">
-    <button cfBounce nz-button nzType="default" nzSize="large" (clicked)="back.emit()">{{ t('action.back') }}</button>
-
-    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="goToOneId.emit()">{{ t('action.go_to_one_id') }}</button>
-  </div>
 </ng-container>
