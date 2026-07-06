@@ -33,4 +33,4 @@ export class ViewIssued {
 
   readonly docs = computed(() => this.application().docs ?? []);
   readonly accountItems = computed(() => matchSelectedAccount(this.accounts(), this.application().accountNo));
- }
+}
