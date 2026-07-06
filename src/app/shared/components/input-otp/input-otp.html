@@ -1,9 +1,10 @@
 <ng-container *transloco="let t">
-  @let showErrors = dirty() || touched();
+  @let error = visibleError();
+  @let showErrors = (dirty() || touched()) && !!error;
   <nz-form-item>
     <nz-form-control
-      [nzValidateStatus]="firstError() | validationStatus: showErrors"
-      [nzErrorTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
+      [nzValidateStatus]="error | validationStatus: showErrors"
+      [nzErrorTip]="showErrors ? t(error | validationMsg: true, { count: errorCount() }) : null"
     >
       <nz-input-otp
         [(ngModel)]="value"
