@@ -10,13 +10,26 @@
     <script>
       (function () {
         try {
+          var html = document.documentElement;
           var raw = localStorage.getItem('theme');
-          var theme = raw ? JSON.parse(raw) : 'light';
+          var theme;
+
+          if (raw) {
+            theme = JSON.parse(raw);
+          } else if (html.classList.contains('dark')) {
+            theme = 'dark';
+          } else if (html.classList.contains('light')) {
+            theme = 'light';
+          } else {
+            theme = 'light';
+          }
+
           if (theme !== 'light' && theme !== 'dark') {
             theme = 'light';
           }
-          document.documentElement.classList.remove('light', 'dark');
-          document.documentElement.classList.add(theme);
+
+          html.classList.remove('light', 'dark');
+          html.classList.add(theme);
         } catch (e) {}
       })();
     </script>

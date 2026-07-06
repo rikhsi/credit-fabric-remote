@@ -26,6 +26,7 @@ export class ThemeService {
     const prevTheme = this.currentTheme();
 
     if (prevTheme === theme && this.isThemeLoaded(theme)) {
+      this.applyThemeClass(theme);
       this.lsService.setItem(LocalStorageItem.Theme, theme);
 
       return of(theme);
@@ -37,12 +38,18 @@ export class ThemeService {
           this.removeTheme(prevTheme);
         }
 
-        this.renderer.addClass(this.document.documentElement, theme);
+        this.applyThemeClass(theme);
         this.currentTheme.set(theme);
 
         this.lsService.setItem(LocalStorageItem.Theme, theme);
       }),
     );
+  }
+
+  private applyThemeClass(theme: Theme): void {
+    this.renderer.removeClass(this.document.documentElement, Theme.Light);
+    this.renderer.removeClass(this.document.documentElement, Theme.Dark);
+    this.renderer.addClass(this.document.documentElement, theme);
   }
 
   private loadCss$(theme: Theme): Observable<Theme> {
