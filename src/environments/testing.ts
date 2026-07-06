@@ -8,6 +8,9 @@ export const environment = {
   appVersion: '99.99.99',
   deviceRoot: '0',
   mode: 'testing',
+  imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
+  assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
+  oneIdUrl: 'https://id.egov.uz/ru',
   user: {
     pinfl: '52001016860016',
     phone: '990031497',
@@ -19,6 +22,6 @@ export const environment = {
     theme: 'dark',
     lon: 0,
     lat: 0,
-    language: 'ru',
+    language: 'RUS',
   },
 };

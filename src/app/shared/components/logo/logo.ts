@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { ImagePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-logo',
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, ImagePipe],
   templateUrl: './logo.html',
   styleUrl: './logo.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

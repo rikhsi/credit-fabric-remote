@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <img [ngSrc]="image()" height="196" width="282" alt="loan" />
+      <img [ngSrc]="image() | image" height="196" width="282" alt="loan" />
 
       <div class="more mobile">
         <ng-container [ngTemplateOutlet]="applyBtnRef"></ng-container>

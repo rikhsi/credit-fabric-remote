@@ -1,0 +1,15 @@
+<div class="step" [class.done]="done()">
+  <div class="badge">
+    @if (done()) {
+    <nz-icon nzType="check" />
+    } @else { {{ number() }} }
+  </div>
+
+  <div class="info">
+    <b nz-typography class="title">{{ title() }}</b>
+
+    @if (description()) {
+    <span nz-typography class="desc">{{ description() }}</span>
+    }
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { ResolveFn, Router, UrlTree } from '@angular/router';
 import { catchError, EMPTY } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
-import { RootRoute } from '@app/constants/route-path';
+import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { OnlineApplication } from '@api/models/los/application';
 
 export const applicationResolver: ResolveFn<OnlineApplication | UrlTree> = (route) => {
@@ -13,7 +13,7 @@ export const applicationResolver: ResolveFn<OnlineApplication | UrlTree> = (rout
 
   return api.getApplication$(applicationId).pipe(
     catchError(() => {
-      void router.navigate(['/', RootRoute.Loan]);
+      void router.navigate(['/', RootRoute.Loan, LoanRoute.List]);
       return EMPTY;
     }),
   );

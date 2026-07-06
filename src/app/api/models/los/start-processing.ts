@@ -32,6 +32,7 @@ export interface OnlineStartProcessingAddress {
 }
 
 export interface OnlineCreateApplicationPayload {
+  accountNo: string;
   addresses: OnlineStartProcessingAddress[];
   applicationId: number;
   docPersonalLegalNo: string;

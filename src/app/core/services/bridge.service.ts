@@ -70,7 +70,7 @@ export class BridgeService {
     return this.refreshPromise;
   }
 
-  public getUserInfo(): UserItem {
+  public getUserInfo(): UserItem | null {
     if (this.bridge) {
       const raw = this.bridge.getUserInfo();
 
@@ -81,9 +81,9 @@ export class BridgeService {
           ...parsed,
           phone: normalizePhoneNumber(parsed.phone),
         };
-      } catch (error: NzSafeAny) {}
-
-      return null;
+      } catch {
+        return null;
+      }
     }
 
     return null;
@@ -99,19 +99,21 @@ export class BridgeService {
   }
 
   private readonly onWindowMessage = (event: MessageEvent<NativeEvent<NzSafeAny>>): void => {
+    console.log(event);
     const payload = event.data;
 
-    if (!payload?.event) {
+    if (payload?.event !== environment.projectTag) {
       return;
     }
 
-    if (payload.event === 'tokenRefreshed') {
+    const eventName = payload.data?.event_name;
+
+    if (eventName === 'tokenRefreshed') {
       this.completeTokenRefresh(payload.data?.status === 'success');
-
       return;
     }
 
-    if (payload.data?.event_name) {
+    if (eventName === 'onChangeTheme') {
       this.notificationService.success(payload.event, payload.data.event_name);
     }
 

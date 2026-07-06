@@ -1,54 +1,51 @@
 @if (readonly()) {
 <div class="select readonly">
-  <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+  <ng-container [ngTemplateOutlet]="billInfoRef" [ngTemplateOutletContext]="{ account: selectedAccount() }"></ng-container>
 </div>
 } @else {
-<a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="select">
-  <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+<a
+  nz-dropdown
+  [nzDropdownMenu]="menu"
+  nzTrigger="click"
+  class="select"
+  [nzVisible]="dropdownVisible()"
+  (nzVisibleChange)="dropdownVisible.set($event)"
+>
+  <ng-container [ngTemplateOutlet]="billInfoRef" [ngTemplateOutletContext]="{ account: selectedAccount() }"></ng-container>
 
   <nz-icon nzType="f:down" class="down" />
 </a>
 }
 
-<ng-template #billInfoRef>
+<ng-template #billInfoRef let-account="account">
+  @if (account) {
   <div class="info">
     <div class="flag">
       <nz-icon nzType="c:uzFlag" />
     </div>
 
     <div class="text">
-      <h2 nz-typography>56 321 916 .44 UZS</h2>
-
-      <b class="name">Основной, Расчётный счёт</b>
-      <b class="number">{{ accountNo() ?? '20208・・001' }}</b>
+      @if (!readonly() || account.balance) {
+      <h2 nz-typography>{{ account.balance | number }} {{ account.currency }}</h2>
+      } @if (account.name) {
+      <b class="name">{{ account.name }}</b>
+      }
+      <b class="number">{{ maskAccountNumber(account.account) }}</b>
     </div>
   </div>
+  }
 </ng-template>
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <div class="list">
-    <div class="item">
-      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
+    @for (account of accounts(); track account.account) {
+    <div class="item" (click)="selectAccount(account)">
+      <ng-container [ngTemplateOutlet]="billInfoRef" [ngTemplateOutletContext]="{ account }"></ng-container>
 
-      @if (true) {
+      @if (account.account === value()) {
       <nz-icon nzType="check" />
       }
     </div>
-
-    <div class="item">
-      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
-
-      @if (false) {
-      <nz-icon nzType="check" />
-      }
-    </div>
-
-    <div class="item">
-      <ng-container [ngTemplateOutlet]="billInfoRef"></ng-container>
-
-      @if (false) {
-      <nz-icon nzType="check" />
-      }
-    </div>
+    }
   </div>
 </nz-dropdown-menu>

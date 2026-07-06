@@ -6,7 +6,7 @@ import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { Card, LabelControl } from '@shared/components';
-import { PluralizePipe } from '@shared/pipes';
+import { ImagePipe, PluralizePipe } from '@shared/pipes';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
@@ -23,6 +23,7 @@ import { BounceDirective } from '@shared/directives';
     DecimalPipe,
     PluralizePipe,
     BounceDirective,
+    ImagePipe,
   ],
   templateUrl: './card-product.html',
   styleUrl: './card-product.less',
@@ -35,7 +36,7 @@ export class CardProduct {
   id = input<string>();
   title = input<string>('Потоковое кредитование');
   description = input<string>('Для начинающих предпринимателей');
-  image = input<string>('images/loan.png');
+  image = input<string>('loan.png');
   annualRate = input<number>(18);
   loanAmount = input<number>(30);
   loanTerm = input<number>(3);

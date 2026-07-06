@@ -26,3 +26,24 @@ export const LANGUAGE_FLAG: Record<string, string> = {
   [Language.Russian]: 'c:ruFlag',
   [Language.Uzbek]: 'c:uzFlag',
 };
+
+export function mapBridgeLanguageToAppLanguage(value: string | null | undefined): Language | null {
+  if (!value) {
+    return null;
+  }
+
+  switch (value.trim().toUpperCase()) {
+    case 'UZB':
+    case 'KRL':
+    case 'UZ':
+      return Language.Uzbek;
+    case 'RUS':
+    case 'RU':
+      return Language.Russian;
+    case 'ENG':
+    case 'EN':
+      return Language.English;
+    default:
+      return null;
+  }
+}

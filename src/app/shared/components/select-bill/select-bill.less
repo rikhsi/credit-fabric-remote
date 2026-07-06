@@ -5,6 +5,10 @@
   :host {
     .select {
       border-color: @border-color;
+
+      &:not(.readonly):hover {
+        background: @hover-bg;
+      }
     }
 
     .name {
@@ -21,6 +25,10 @@
 
     .list {
         background: @component-background;
+    }
+
+    .item:hover {
+      background: @hover-bg;
     }
   }
 });
@@ -42,10 +50,6 @@
   max-width: 495px;
 
   transition: 0.3s all;
-
-  &:hover {
-    background: fade(@cf-black-900, 5%);
-  }
 
   .media(@media-sm, {
     padding: 12px;
@@ -95,11 +99,16 @@
     min-width: 0;
 
     h2,
-    .name,
     .number {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .name {
+      white-space: normal;
+      overflow: visible;
+      word-break: break-word;
     }
 
     h2 {
@@ -134,7 +143,8 @@
   .item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    column-gap: 12px;
 
     padding: 10px 12px;
     border-radius: 12px;
@@ -146,10 +156,6 @@
     .media(@media-xs, {
         padding: 8px;
     });
-
-    &:hover {
-      background: fade(@cf-black-900, 5%);
-    }
 
     &.readonly {
       cursor: default;

@@ -14,8 +14,7 @@
     <div class="section">
       <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
 
-      <cf-select-bill [readonly]="true" [accountNo]="application().accountNo" />
-
+      <cf-select-bill [readonly]="true" [accounts]="accountItems()" />
       <div class="notice">
         <nz-icon nzType="info-circle" />
         <p nz-typography>{{ t('application.detail.account_notice') }}</p>

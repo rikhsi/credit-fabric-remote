@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
   <cf-card [title]="t('prop.debit_account')" [showSpace]="true" class="bordered">
-    <cf-select-bill />
+    <cf-select-bill [accounts]="accounts()" [formField]="form().accountNo" />
   </cf-card>
 </ng-container>

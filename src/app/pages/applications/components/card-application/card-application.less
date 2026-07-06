@@ -20,15 +20,16 @@
 
 .box {
   display: flex;
-
-  .media(@media-md, {
-    flex-direction: column;
-  });
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
 }
 
 .infos {
+  flex: 1 1 420px;
+  min-width: 0;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px 24px;
-  max-width: 70vw;
 }

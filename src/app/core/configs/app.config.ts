@@ -14,7 +14,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
-import { provideIcon, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
+import { provideIcon, provideHostInit, provideLang, provideLocaleId, provideTheme, TranslocoProvider } from '@core/providers';
 import { routes } from '@app/app.routes';
 import {
   apiInterceptor,
@@ -64,6 +64,7 @@ export const appConfig: ApplicationConfig = {
     provideEnvironmentNgxMask(),
     provideNzConfig(ngZorroConfig),
     provideTheme,
+    provideHostInit,
     provideLang,
     provideIcon,
     provideLocaleId(),

@@ -1,0 +1,51 @@
+import { withNativeFederation } from '@angular-architects/native-federation/config.js';
+
+export default withNativeFederation({
+  name: 'credit-fabric-remote',
+
+  exposes: {
+    './mount': './src/mount.ts',
+  },
+
+  shared: {},
+
+  skip: [
+    '@core/interceptors',
+    '@core/providers',
+    '@core/configs',
+    '@core/services',
+    '@shared/components',
+    '@shared/directives',
+    '@shared/pipes',
+    '@shared/services',
+    '@shared/utils',
+    '@api/utils',
+    '@api/controllers',
+    '@api/models',
+    '@layouts/components',
+    '@layouts/models',
+    '@layouts/pipes',
+    '@layouts/services',
+    '@layouts/utils',
+    '@layouts/views',
+    '@pages/application',
+    '@pages/applications',
+    '@pages/document',
+    '@pages/loan',
+    '@app/api',
+    '@app/constants',
+    '@app/core',
+    '@app/layouts',
+    '@app/pages',
+    '@app/shared',
+    '@app/typings',
+    '@core/*',
+    '@constants',
+    '@shared/*',
+    '@typings',
+    '@api/*',
+    '@pages/*',
+    '@layouts/*',
+    '@app/*',
+  ],
+});

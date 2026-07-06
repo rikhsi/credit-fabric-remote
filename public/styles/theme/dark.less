@@ -2,26 +2,29 @@
 @import (multiple) 'colors';
 
 @primary-color: @cf-green-500;
-@body-background: @cf-black-800;
-@component-background-thirty: @cf-gray-200;
-@component-background-secondary: @cf-gray-100;
-@component-background-light: @cf-blue-50;
-@component-background: @cf-black-900;
-@border-color: @cf-white-0;
-@text-color: @cf-white-0;
-@text-color-secondary: @cf-gray-700;
-@text-color-tertiary: @cf-gray-500;
-@success-color: @cf-green-500;
-@success-bg-color: @cf-green-100;
-@warning-color: @cf-yellow-50;
-@heading-color: @cf-black-900;
+@body-background: @cf-dark-body;
+@component-background-thirty: @cf-dark-surface-thirty;
+@component-background-secondary: @cf-dark-surface-secondary;
+@component-background-light: @cf-dark-green-bg;
+@component-background: @cf-dark-surface;
+@text-color: @cf-dark-text;
+@border-color: @cf-dark-border;
+@text-color-secondary: @cf-dark-text-secondary;
+@text-color-tertiary: @cf-dark-text-tertiary;
+@success-color: @cf-green-200;
+@success-bg-color: @cf-dark-success-bg;
+@warning-color: @cf-dark-warning-bg;
+@heading-color: @cf-dark-text;
 @error-color: @cf-red-500;
-@error-bg-color: @cf-red-50;
+@error-bg-color: @cf-dark-error-bg;
+
+//hover
+@hover-bg: fade(@cf-white-0, 6%);
 
 //btn
-@btn-default-bg: @component-background;
+@btn-default-bg: @component-background-secondary;
 @btn-default-color: @text-color;
-@btn-default-border: @border-color-base;
+@btn-default-border: @border-color;
 
 //tag
-@tag-deafault-bg: @cf-green-500-16;
+@tag-default-bg: @cf-green-500-16;

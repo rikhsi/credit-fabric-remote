@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, OnIni
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { ApplicationsDetailService } from '../../services';
 import {
   ViewDecline,
   ViewDeclineClient,
@@ -12,7 +13,6 @@ import {
   ViewOnDesign,
   ViewSigned,
 } from './components';
-import { ApplicationsDetailService } from '../../services';
 import { ApplicationStatus } from '@api/models/los/application';
 import { RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
@@ -43,6 +43,7 @@ export class ApplicationsDetail implements OnInit {
 
   readonly isLoading = computed(() => this.applicationsDetailService.isLoading());
   readonly application = computed(() => this.applicationsDetailService.application());
+  readonly accounts = computed(() => this.applicationsDetailService.accounts());
   readonly status = ApplicationStatus;
 
   get applicationId(): number {

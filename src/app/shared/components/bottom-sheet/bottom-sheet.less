@@ -3,7 +3,7 @@
 .themeMixin({
   :host {
     .cf-bottom-sheet__handle {
-      background: fade(@cf-black-900, 15%);
+      background: @text-color-tertiary;
     }
 
     .cf-bottom-sheet__title {
@@ -14,7 +14,7 @@
       color: @text-color;
 
       &:active {
-        background: fade(@cf-black-900, 5%);
+        background: @hover-bg;
       }
 
       &--selected {

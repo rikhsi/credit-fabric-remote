@@ -5,10 +5,11 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalRef, NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { ConfirmModal } from '@app/typings/modal';
 import { BounceDirective } from '@shared/directives';
+import { ImagePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-approved-modal',
-  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, BounceDirective],
+  imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, BounceDirective, ImagePipe],
   templateUrl: './approved-modal.html',
   styleUrl: './approved-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

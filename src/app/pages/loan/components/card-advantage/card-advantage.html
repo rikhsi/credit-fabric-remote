@@ -9,7 +9,7 @@
         <p nz-typography>{{ t(description()) }}</p>
       </div>
       <div class="card-advantage__media">
-        <img class="card-advantage__photo" [ngSrc]="photo()" [alt]="title()" loading="lazy" width="40" height="40" />
+        <img class="card-advantage__photo" [ngSrc]="photo() | image" [alt]="title()" loading="lazy" width="40" height="40" />
       </div>
     </div>
   </cf-card>

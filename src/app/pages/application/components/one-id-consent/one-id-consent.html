@@ -1,0 +1,26 @@
+<ng-container *transloco="let t">
+  <cf-card [showSpace]="true" class="bordered">
+    <cf-steps [stepsLength]="3" [currentStep]="3" class="step" />
+
+    <div class="content">
+      <div class="logo">
+        <nz-icon nzType="c:oneId" />
+      </div>
+
+      <div class="text">
+        <h2 nz-typography class="title">{{ t('flow.one_id.consent.title') }}</h2>
+        <p nz-typography class="desc">{{ t('flow.one_id.consent.description') }}</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button cfBounce nz-button nzType="primary" nzSize="large" [nzLoading]="loading()" [disabled]="loading()" (clicked)="grant.emit()">
+        {{ t('action.one_id_granted') }}
+      </button>
+
+      <button cfBounce nz-button nzType="default" nzSize="large" [disabled]="loading()" (clicked)="openInstruction.emit()">
+        {{ t('action.open_instruction') }}
+      </button>
+    </div>
+  </cf-card>
+</ng-container>

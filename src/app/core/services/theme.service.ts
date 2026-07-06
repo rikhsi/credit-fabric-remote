@@ -3,6 +3,7 @@ import { Observable, of, tap } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageItem } from '@app/constants/local-storage';
 import { Theme } from '@app/constants/theme';
+import { resolveAssetUrl } from '@shared/utils/assets-base-url';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class ThemeService {
   public setTheme(theme: Theme): Observable<Theme> {
     const prevTheme = this.currentTheme();
 
-    if (prevTheme === theme) {
+    if (prevTheme === theme && this.isThemeLoaded(theme)) {
       this.lsService.setItem(LocalStorageItem.Theme, theme);
 
       return of(theme);
@@ -32,7 +33,7 @@ export class ThemeService {
 
     return this.loadCss$(theme).pipe(
       tap(() => {
-        if (prevTheme) {
+        if (prevTheme && prevTheme !== theme) {
           this.removeTheme(prevTheme);
         }
 
@@ -45,7 +46,7 @@ export class ThemeService {
   }
 
   private loadCss$(theme: Theme): Observable<Theme> {
-    if (this.document.getElementById(theme)) {
+    if (this.isThemeLoaded(theme)) {
       return of(theme);
     }
 
@@ -53,7 +54,7 @@ export class ThemeService {
       const link = this.renderer.createElement('link');
 
       this.renderer.setAttribute(link, 'rel', 'stylesheet');
-      this.renderer.setAttribute(link, 'href', `${theme}.css`);
+      this.renderer.setAttribute(link, 'href', this.getThemeHref(theme));
       this.renderer.setAttribute(link, 'id', theme);
 
       link.onload = () => {
@@ -67,13 +68,20 @@ export class ThemeService {
     });
   }
 
+  private isThemeLoaded(theme: Theme): boolean {
+    return !!this.document.getElementById(theme);
+  }
+
+  private getThemeHref(theme: Theme): string {
+    return resolveAssetUrl(this.document, `${theme}.css`);
+  }
+
   private removeTheme(theme: Theme): void {
     const link = this.document.getElementById(theme);
 
     if (link) {
       this.renderer.removeClass(this.document.documentElement, theme);
       this.renderer.removeChild(this.document.head, link);
-      this.lsService.removeItem(LocalStorageItem.Theme);
     }
   }
 }
