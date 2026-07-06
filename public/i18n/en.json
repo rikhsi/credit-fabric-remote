@@ -78,7 +78,7 @@
   },
   "alert": {
     "fill_fields": "Fill in the fields",
-    "revenue_less_than_income": "Revenue must be greater than net profit"
+    "revenue_less_than_income": "Revenue cannot be less than net profit"
   },
   "benefit": {
     "fast": {

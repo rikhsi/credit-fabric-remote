@@ -78,7 +78,7 @@
   },
   "alert": {
     "fill_fields": "Заполните данные",
-    "revenue_less_than_income": "Выручка должна быть больше чистой прибыли"
+    "revenue_less_than_income": "Выручка не может быть меньше чистой прибыли"
   },
   "benefit": {
     "fast": {

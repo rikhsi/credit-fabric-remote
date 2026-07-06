@@ -20,7 +20,7 @@ export function isFinanceMonthRevenueGreaterThanIncome(revenue: unknown, income:
     return true;
   }
 
-  return parseFinanceAmount(revenue) > parseFinanceAmount(income);
+  return parseFinanceAmount(revenue) >= parseFinanceAmount(income);
 }
 
 export function isFinanceRevenueIncomeValid(finData: OnlineStartProcessingFinData): boolean {
