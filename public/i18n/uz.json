@@ -362,11 +362,18 @@
     "description": {
       "login": "Kirish uchun login va parolni kiriting",
       "one_id": "Kirish uchun OneId ga o`ting"
+    },
+    "error": {
+      "session": {
+        "title": "Avtorizatsiya xatosi",
+        "restart": "Ilovani qayta ishga tushiring"
+      }
     }
   },
   "validation": {
     "error": {
-      "required": "Majburiy maydon"
+      "required": "Majburiy maydon",
+      "invalidOtp": "Noto'g'ri kod"
     }
   }
 }

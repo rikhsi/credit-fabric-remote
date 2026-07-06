@@ -4,20 +4,17 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/development';
 import { UserItem } from '@api/models/base';
 import { NativeEvent } from '@app/typings/bridge';
+import { TokenRefreshService } from '@core/services/token-refresh.service';
 import { normalizePhoneNumber } from '@shared/utils/phone';
-
-const TOKEN_REFRESH_TIMEOUT_MS = 30_000;
 
 @Injectable({
   providedIn: 'root',
 })
 export class BridgeService {
   notificationService = inject(NzNotificationService);
+  private tokenRefreshService = inject(TokenRefreshService);
 
   private listenerInitialized = false;
-  private refreshPromise: Promise<boolean> | null = null;
-  private resolveRefresh: ((success: boolean) => void) | null = null;
-  private refreshTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   private get windowRef() {
     return window as NzSafeAny;
@@ -43,31 +40,10 @@ export class BridgeService {
     }
   }
 
-  public setToken(): void {
+  public refreshToken(): void {
     if (this.bridge) {
       this.bridge.onTokenExpired();
     }
-  }
-
-  public refreshToken(): Promise<boolean> {
-    if (!this.hasBridge()) {
-      return Promise.resolve(false);
-    }
-
-    if (this.refreshPromise) {
-      return this.refreshPromise;
-    }
-
-    this.refreshPromise = new Promise<boolean>((resolve) => {
-      this.resolveRefresh = resolve;
-      this.setToken();
-
-      this.refreshTimeoutId = setTimeout(() => {
-        this.completeTokenRefresh(false);
-      }, TOKEN_REFRESH_TIMEOUT_MS);
-    });
-
-    return this.refreshPromise;
   }
 
   public getUserInfo(): UserItem | null {
@@ -99,7 +75,6 @@ export class BridgeService {
   }
 
   private readonly onWindowMessage = (event: MessageEvent<NativeEvent<NzSafeAny>>): void => {
-    console.log(event);
     const payload = event.data;
 
     if (payload?.event !== environment.projectTag) {
@@ -108,26 +83,16 @@ export class BridgeService {
 
     const eventName = payload.data?.event_name;
 
-    if (eventName === 'tokenRefreshed') {
-      this.completeTokenRefresh(payload.data?.status === 'success');
+    if (eventName === 'onTokenRefresh') {
+      this.tokenRefreshService.completeRefresh(payload.data?.status === 'success');
       return;
     }
 
     if (eventName === 'onChangeTheme') {
       this.notificationService.success(payload.event, payload.data.event_name);
+      return;
     }
 
     this.notificationService.success(payload.event, payload.data.event_name);
   };
-
-  private completeTokenRefresh(success: boolean): void {
-    if (this.refreshTimeoutId) {
-      clearTimeout(this.refreshTimeoutId);
-      this.refreshTimeoutId = null;
-    }
-
-    this.resolveRefresh?.(success);
-    this.resolveRefresh = null;
-    this.refreshPromise = null;
-  }
 }
