@@ -6,7 +6,7 @@ variables:
   IMAGE_NAME: "docker-new-dbo-nexus.hamkorbank.uz/loan-processing/credit-fabric-remote"
   MANIFEST_REPO_URL: "gitlab.hamkorbank.uz/new_dbo_le/infra/dbo-manifest.git"
   MANIFEST_BRANCH: "main"
-  TARGET_ENV: "prod"
+  TARGET_ENV: "dev"
 
 build:
   image:
