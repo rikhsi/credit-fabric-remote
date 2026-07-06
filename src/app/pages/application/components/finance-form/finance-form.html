@@ -38,6 +38,13 @@
 
     <h4 class="finance-form__title">{{ t('prop.financial_activity_over') }}</h4>
 
+    @if (showRevenueIncomeAlert()) {
+    <nz-tag class="finance-form__alert">
+      <nz-icon nzType="info-circle" />
+      {{ t('alert.revenue_less_than_income') }}
+    </nz-tag>
+    }
+
     <div class="finance-form__months">
       <article class="month-card">
         <h5 class="month-card__label">{{ 1 | financeMonth | date: 'MMMM y' }}</h5>

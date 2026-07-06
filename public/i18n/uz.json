@@ -77,7 +77,8 @@
     }
   },
   "alert": {
-    "fill_fields": "Maydonlarni to‘ldiring"
+    "fill_fields": "Maydonlarni to‘ldiring",
+    "revenue_less_than_income": "Daromad sof foydadan katta bo‘lishi kerak"
   },
   "benefit": {
     "fast": {

@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
 import { buildRequiredAddresses, isFlowAddressFilled, mapBorrowerAddressesToForm } from '../utils/address';
 import { createDefaultFinanceForm } from '../utils/finance-months';
+import { validateFinanceMonthRevenueIncome } from '../utils/flow-step.validation';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineAccount } from '@api/models/los/account';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
@@ -66,6 +67,23 @@ export class FlowService {
       minLength(schemaPath.docPersonalLegalNo, 14);
       maxLength(schemaPath.docPersonalLegalNo, 14);
       validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
+
+      const validateMonthRevenueIncome = (month: 1 | 2 | 3) => {
+        const revenuePath = schemaPath.finData[`month${month}Revenue` as const];
+        const incomePath = schemaPath.finData[`month${month}Income` as const];
+        const check = () => {
+          const finData = this.flowForm().value().finData;
+
+          return validateFinanceMonthRevenueIncome(finData[`month${month}Revenue` as const], finData[`month${month}Income` as const]);
+        };
+
+        validate(incomePath, check);
+        validate(revenuePath, check);
+      };
+
+      validateMonthRevenueIncome(1);
+      validateMonthRevenueIncome(2);
+      validateMonthRevenueIncome(3);
     },
   );
 

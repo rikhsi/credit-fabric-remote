@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { DatePipe } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
+import { isFinanceRevenueIncomeValid } from '@pages/application/utils/flow-step.validation';
 import { InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
@@ -18,6 +21,8 @@ import { PluralizePipe } from '@shared/pipes';
     SelectDefault,
     SelectDefaultMobile,
     NzOptionComponent,
+    NzIconDirective,
+    NzTagComponent,
     TranslocoDirective,
     HandbookDirective,
     FormField,
@@ -30,4 +35,6 @@ import { PluralizePipe } from '@shared/pipes';
 })
 export class FinanceForm {
   readonly form = input.required<FieldTree<OnlineCreateApplicationPayload>>();
+
+  readonly showRevenueIncomeAlert = computed(() => !isFinanceRevenueIncomeValid(this.form()().value().finData));
 }

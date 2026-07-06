@@ -2,7 +2,7 @@ import { FinanceMonthPeriod } from '../data/finance';
 import { OnlineCreateApplicationPayload, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 
 /** Masked inputs store numeric values as strings (e.g. "4 434 343"). */
-function toApiNumber(value: unknown): number {
+export function parseFinanceAmount(value: unknown): number {
   if (typeof value === 'number') {
     return value;
   }
@@ -60,16 +60,16 @@ function normalizeFinDataForApi(
 ): OnlineStartProcessingFinData {
   return {
     dirCompanyActivityId: finData.dirCompanyActivityId,
-    activityTerm: toApiNumber(finData.activityTerm),
+    activityTerm: parseFinanceAmount(finData.activityTerm),
     sysMonth1Id: financeMonths.sysMonth1Id,
     sysMonth2Id: financeMonths.sysMonth2Id,
     sysMonth3Id: financeMonths.sysMonth3Id,
-    month1Revenue: toApiNumber(finData.month1Revenue),
-    month1Income: toApiNumber(finData.month1Income),
-    month2Revenue: toApiNumber(finData.month2Revenue),
-    month2Income: toApiNumber(finData.month2Income),
-    month3Revenue: toApiNumber(finData.month3Revenue),
-    month3Income: toApiNumber(finData.month3Income),
+    month1Revenue: parseFinanceAmount(finData.month1Revenue),
+    month1Income: parseFinanceAmount(finData.month1Income),
+    month2Revenue: parseFinanceAmount(finData.month2Revenue),
+    month2Income: parseFinanceAmount(finData.month2Income),
+    month3Revenue: parseFinanceAmount(finData.month3Revenue),
+    month3Income: parseFinanceAmount(finData.month3Income),
     monthYear1: financeMonths.monthYear1,
     monthYear2: financeMonths.monthYear2,
     monthYear3: financeMonths.monthYear3,
@@ -81,8 +81,8 @@ export function buildCreateApplicationPayload(formValue: OnlineCreateApplication
 
   return {
     ...formValue,
-    employees: toApiNumber(formValue.employees),
-    newEmployees: toApiNumber(formValue.newEmployees),
+    employees: parseFinanceAmount(formValue.employees),
+    newEmployees: parseFinanceAmount(formValue.newEmployees),
     finData: normalizeFinDataForApi(formValue.finData, financeMonths),
   };
 }
