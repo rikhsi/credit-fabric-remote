@@ -104,6 +104,19 @@ export interface OnlineApplication {
   sysStatusId: ApplicationStatus;
 }
 
+export interface ClaimLoanPayload {
+  accountNo: string;
+  applicationId: number;
+  isAccepted: boolean;
+}
+
+export interface ClaimLoanResult {
+  is_show_toastr: boolean;
+  statusCode: string;
+  statusDesc: string;
+  statusTitle: string;
+}
+
 export interface ShortApplicationPayload {
   applicantPersonalNo: string;
   dirCreditPurposeId: string;

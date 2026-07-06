@@ -20,8 +20,28 @@
     </div>
 
     <div class="footer">
-      <button cfBounce nz-button nzType="default" nzSize="large">{{ t('application.detail.refuse') }}</button>
-      <button cfBounce nz-button nzType="primary" nzSize="large">{{ t('action.approve') }}</button>
+      <button
+        cfBounce
+        nz-button
+        nzType="default"
+        nzSize="large"
+        [nzLoading]="isClaiming()"
+        [disabled]="isClaiming()"
+        (clicked)="openRefuseConfirm()"
+      >
+        {{ t('application.detail.refuse') }}
+      </button>
+      <button
+        cfBounce
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        [nzLoading]="isClaiming()"
+        [disabled]="isClaiming()"
+        (clicked)="openApproveConfirm()"
+      >
+        {{ t('action.approve') }}
+      </button>
     </div>
   </cf-card>
 

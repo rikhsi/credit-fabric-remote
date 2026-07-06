@@ -3,7 +3,7 @@
 } @else if (application(); as app) { @switch (app.sysStatusId) { @case (status.InProgress) {
 <cf-view-in-progress />
 } @case (status.OnDecision) {
-<cf-view-on-decision [application]="app" [accounts]="accounts()" />
+<cf-view-on-decision [application]="app" [applicationId]="applicationId" [accounts]="accounts()" />
 } @case (status.Decline) {
 <cf-view-decline />
 } @case (status.DeclineClient) {
