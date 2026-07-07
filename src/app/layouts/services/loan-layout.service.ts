@@ -14,6 +14,7 @@ export class LoanLayoutService {
 
   public initRouterEvents(): Observable<NavigationEnd> {
     queueMicrotask(() => {
+      this.updateActions();
       this.router.navigate([], { onSameUrlNavigation: 'reload', queryParamsHandling: 'preserve' });
     });
 
