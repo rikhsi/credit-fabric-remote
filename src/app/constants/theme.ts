@@ -24,10 +24,6 @@ export function resolveTheme(document: Document, savedTheme: Theme | null | unde
     return Theme.Dark;
   }
 
-  if (classList.contains(Theme.Light)) {
-    return Theme.Light;
-  }
-
   return DEFAULT_THEME;
 }
 

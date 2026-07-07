@@ -48,8 +48,13 @@ export class ThemeService {
 
   private applyThemeClass(theme: Theme): void {
     this.renderer.removeClass(this.document.documentElement, Theme.Light);
+
+    if (theme === Theme.Dark) {
+      this.renderer.addClass(this.document.documentElement, Theme.Dark);
+      return;
+    }
+
     this.renderer.removeClass(this.document.documentElement, Theme.Dark);
-    this.renderer.addClass(this.document.documentElement, theme);
   }
 
   private loadCss$(theme: Theme): Observable<Theme> {
