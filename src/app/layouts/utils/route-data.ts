@@ -5,11 +5,13 @@ export function getRootSnapshot(router: Router): ActivatedRouteSnapshot {
 }
 
 export function getCurrentRouteData<T = Record<string, unknown>>(snapshot: ActivatedRouteSnapshot): T {
-  let deepest: ActivatedRouteSnapshot = snapshot.root;
+  const merged: Record<string, unknown> = {};
+  let current: ActivatedRouteSnapshot | null = snapshot.root;
 
-  while (deepest.firstChild) {
-    deepest = deepest.firstChild;
+  while (current) {
+    Object.assign(merged, current.data);
+    current = current.firstChild;
   }
 
-  return <T>deepest.data ?? <T>{};
+  return merged as T;
 }

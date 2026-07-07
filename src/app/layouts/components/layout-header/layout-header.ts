@@ -15,7 +15,6 @@ import { BounceDirective } from '@shared/directives';
 })
 export class LayoutHeader {
   title = input<string>();
-  titleParams = input<Record<string, unknown>>();
   backConfig = input<LoanLayoutBackConfig>();
 
   closeClick = output<void>();

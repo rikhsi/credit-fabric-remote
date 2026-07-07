@@ -11,10 +11,9 @@ export const routes: Routes = [
   {
     path: `:${RouteParam.AppId}`,
     resolve: {
-      titleParams: applicationDetailTitleResolver,
+      title: applicationDetailTitleResolver,
     },
     data: {
-      title: 'application.number',
       backConfig: { link: ['/', RootRoute.Applications] },
     },
     loadComponent: () => import('./pages/applications-detail/applications-detail').then((c) => c.ApplicationsDetail),

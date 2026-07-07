@@ -1,4 +1,4 @@
-<cf-layout-header [title]="data()?.title" [titleParams]="data()?.titleParams" [backConfig]="data()?.backConfig" (closeClick)="onClose()" />
+<cf-layout-header [title]="pageTitle()" [backConfig]="data()?.backConfig" (closeClick)="onClose()" />
 
 <main class="main">
   <router-outlet />
