@@ -294,6 +294,7 @@
       "on_design": "Awaiting document",
       "on_form_fill": "Fill in the form",
       "on_decision": "Approved",
+      "approved": "Approved",
       "signed": "Signed",
       "decline": "Declined",
       "decline_client": "Declined by client",
@@ -306,6 +307,7 @@
       "on_design": "Sign the documents at bank branches",
       "on_form_fill": "Fill in and submit the form",
       "on_decision": "Loan approved",
+      "approved": "Loan approved",
       "signed": "All documents have been signed",
       "decline": "Unfortunately, we are unable to approve your loan",
       "decline_client": "Declined by you",
@@ -313,7 +315,8 @@
       "error": "An error occurred while processing the application"
     },
     "comment": {
-      "on_decision": "Congratulations! Your loan has been approved. Please review and accept the terms"
+      "on_decision": "Congratulations! Your loan has been approved. Please review and accept the terms",
+      "approved": "Congratulations! Your loan has been approved. Please review and accept the terms"
     },
     "detail": {
       "loan_conditions": "Loan terms",

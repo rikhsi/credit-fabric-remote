@@ -1,0 +1,53 @@
+<ng-container *transloco="let t">
+  <cf-card [showSpace]="false" [titleRef]="headerRef" class="bordered card">
+    <div actions>
+      <cf-comment-application [status]="application().sysStatusId" class="borderless" />
+    </div>
+
+    <nz-tag class="tag warning validity">{{ t('application.detail.decision_validity') }}</nz-tag>
+
+    <cf-application-product-info [product]="application().product" />
+
+    <div class="section">
+      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
+
+      <cf-select-bill [readonly]="true" [accounts]="accountItems()" />
+
+      <div class="notice">
+        <nz-icon nzType="info-circle" />
+        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button
+        cfBounce
+        nz-button
+        nzType="default"
+        nzSize="large"
+        [nzLoading]="isClaiming()"
+        [disabled]="isClaiming()"
+        (clicked)="openRefuseConfirm()"
+      >
+        {{ t('application.detail.refuse') }}
+      </button>
+      <button
+        cfBounce
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        [nzLoading]="isClaiming()"
+        [disabled]="isClaiming()"
+        (clicked)="openApproveConfirm()"
+      >
+        {{ t('action.approve') }}
+      </button>
+    </div>
+  </cf-card>
+
+  <ng-template #headerRef>
+    <div class="base">
+      <cf-status-application [status]="application().sysStatusId" />
+    </div>
+  </ng-template>
+</ng-container>

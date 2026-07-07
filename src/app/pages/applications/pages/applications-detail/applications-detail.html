@@ -4,6 +4,8 @@
 <cf-view-in-progress />
 } @case (status.OnDecision) {
 <cf-view-on-decision [application]="app" [applicationId]="applicationId" [accounts]="accounts()" />
+} @case (status.Approved) {
+<cf-view-approved [application]="app" [applicationId]="applicationId" [accounts]="accounts()" />
 } @case (status.Decline) {
 <cf-view-decline />
 } @case (status.DeclineClient) {

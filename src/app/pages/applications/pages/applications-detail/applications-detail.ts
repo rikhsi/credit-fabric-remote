@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { ApplicationsDetailService } from '../../services';
 import {
+  ViewApproved,
   ViewDecline,
   ViewDeclineClient,
   ViewError,
@@ -26,6 +27,7 @@ import { RouteParam } from '@app/constants/route-param';
     ViewError,
     ViewOnDesign,
     ViewOnDecision,
+    ViewApproved,
     ViewSigned,
     ViewIssued,
     ViewDeclineClient,

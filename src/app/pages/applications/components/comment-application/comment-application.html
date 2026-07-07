@@ -6,6 +6,13 @@
       {{t('application.comment.on_decision')}}
     </nz-tag>
   </div>
+  } @case('APPROVED') {
+  <div class="top">
+    <nz-tag class="tag success">
+      <nz-icon nzType="f:lightning" class="icon" />
+      {{t('application.comment.approved')}}
+    </nz-tag>
+  </div>
   } @case('ON_DESIGN') { } @case('ON_FORM_FILL') { } @case('SIGNED') { } @case('DECLINE') { } @case('DECLINE_CLIENT') { } @case('ISSUED') {
   } }
 </ng-container>
