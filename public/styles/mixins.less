@@ -6,15 +6,14 @@
 @media-xxl: ~'(max-width: 1400px)';
 
 .themeMixin(@rules) {
-  html {
-    &.light {
-      @import './theme/light.less';
-      @rules();
-    }
-    &.dark {
-      @import './theme/dark.less';
-      @rules();
-    }
+  html:not(.dark) {
+    @import './theme/light.less';
+    @rules();
+  }
+
+  html.dark {
+    @import './theme/dark.less';
+    @rules();
   }
 }
 
