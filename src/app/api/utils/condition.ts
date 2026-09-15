@@ -12,6 +12,6 @@ export function mergeProductConditions(conditions: ProductConditionItem[]): Prod
     maxAmount: Math.max(...conditions.map((c) => c.maxAmount ?? 0)),
 
     minTerm: Math.min(...conditions.map((c) => c.minTerm ?? 0)),
-    maxTerm: Math.max(...conditions.map((c) => c.maxAmount ?? 0)),
+    maxTerm: Math.max(...conditions.map((c) => c.maxTerm ?? 0)),
   };
 }
