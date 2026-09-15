@@ -1,1 +1,8 @@
-<p>not-eligible works!</p>
+<ng-container *transloco="let t">
+  <nz-icon nzType="f:hourglass" class="icon" />
+
+  <h4 nz-typography>{{ t('loan.not_eligible.title') }}</h4>
+  <p nz-typography>{{ t('loan.not_eligible.description') }}</p>
+
+  <button cfBounce nz-button nzType="primary" nzSize="small" type="button" (clicked)="findBranch()">{{ t('action.find_place') }}</button>
+</ng-container>
