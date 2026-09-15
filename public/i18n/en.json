@@ -100,6 +100,12 @@
     },
     "title": "Benefits of online loan"
   },
+  "loan": {
+    "not_eligible": {
+      "title": "Online application is unavailable",
+      "description": "Visit a bank branch or contact support at 1020"
+    }
+  },
   "modal": {
     "application_approved": {
       "title": "Terms accepted",
