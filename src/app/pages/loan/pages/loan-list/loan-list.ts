@@ -4,13 +4,22 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { delay, of, switchMap, tap } from 'rxjs';
 import { OnlineApiService, ProductApiService } from '@api/controllers/los';
 import { CardProduct, NotEligible } from '@pages/loan/components';
-import { EmptyListPipe } from '@shared/pipes';
+import { EmptyListPipe, MonthsToYearsPipe } from '@shared/pipes';
 import { ProductItem } from '@api/models/los/product';
 import { ConditionAmountPipe, ConditionRatePipe, ConditionTermPipe } from '@pages/loan/pipes';
 
 @Component({
   selector: 'cf-loan-list',
-  imports: [CardProduct, NzSkeletonModule, EmptyListPipe, NotEligible, ConditionAmountPipe, ConditionRatePipe, ConditionTermPipe],
+  imports: [
+    CardProduct,
+    NzSkeletonModule,
+    EmptyListPipe,
+    MonthsToYearsPipe,
+    NotEligible,
+    ConditionAmountPipe,
+    ConditionRatePipe,
+    ConditionTermPipe,
+  ],
   templateUrl: './loan-list.html',
   styleUrl: './loan-list.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

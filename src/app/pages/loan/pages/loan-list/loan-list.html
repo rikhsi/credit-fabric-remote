@@ -8,7 +8,7 @@
   [image]=""
   [annualRate]="item.conditions | conditionRate"
   [loanAmount]="item.conditions | conditionAmount"
-  [loanTerm]="item.conditions | conditionTerm"
+  [loanTerm]="item.conditions | conditionTerm | monthsToYears"
 />
 } } @else {
 <cf-not-eligible />
