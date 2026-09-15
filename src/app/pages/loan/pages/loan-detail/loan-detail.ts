@@ -53,7 +53,7 @@ export class LoanDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.ldService.getCondition$(this.loanId), this.ldService.checkValidate$(this.user()?.pinfl)]).subscribe({
+    forkJoin([this.ldService.checkValidate$(this.user()?.pinfl)]).subscribe({
       next: () => {
         this.ldService.isLoading.set(false);
         this.ldService.isDisabled.set(false);

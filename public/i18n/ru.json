@@ -30,7 +30,8 @@
     "back": "Назад",
     "open_instruction": "Открыть инструкцию",
     "one_id_granted": "Я открыл доступ",
-    "go_to_one_id": "Перейти в OneID"
+    "go_to_one_id": "Перейти в OneID",
+    "fill_application": "Заполнить заявку"
   },
   "flow": {
     "one_id": {

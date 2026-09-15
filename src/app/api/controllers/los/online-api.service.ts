@@ -8,7 +8,7 @@ import {
   ShortApplicationPayload,
   ShortApplicationResult,
 } from '@api/models/los/application';
-import { OnlineGetInfoResult } from '@api/models/los/online';
+import { EligibilityResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { OnlineCreateApplicationPayload, OnlineCreateApplicationResult } from '@api/models/los/start-processing';
 import { buildHttpParams } from '@api/utils';
@@ -76,5 +76,9 @@ export class OnlineApiService {
     return this.http.get(`attachment/get-attachment/${fileId}`, {
       responseType: 'text',
     });
+  }
+
+  public checkEligibility$() {
+    return this.http.get<EligibilityResult>('online/eligibility');
   }
 }

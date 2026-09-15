@@ -13,3 +13,7 @@ export interface OnlineGetInfoResult {
   rate: number;
   sysStatusId: ApplicationStatus;
 }
+
+export interface EligibilityResult {
+  eligible: boolean;
+}

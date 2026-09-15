@@ -5,3 +5,4 @@ export * from './card-advantage/card-advantage';
 export * from './product-info/product-info';
 export * from './product-acception/product-acception';
 export * from './modal-otp/modal-otp';
+export * from './not-eligible/not-eligible';

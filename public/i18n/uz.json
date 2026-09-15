@@ -30,7 +30,8 @@
     "back": "Ortga",
     "open_instruction": "Yo‘riqnomani ochish",
     "one_id_granted": "Ruxsat berdim",
-    "go_to_one_id": "OneID’ga o‘tish"
+    "go_to_one_id": "OneID’ga o‘tish",
+    "fill_application": "Arizani to‘ldirish"
   },
   "flow": {
     "one_id": {

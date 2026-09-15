@@ -30,7 +30,8 @@
     "back": "Back",
     "open_instruction": "Open instruction",
     "one_id_granted": "I granted access",
-    "go_to_one_id": "Go to OneID"
+    "go_to_one_id": "Go to OneID",
+    "fill_application": "Fill out the application"
   },
   "flow": {
     "one_id": {

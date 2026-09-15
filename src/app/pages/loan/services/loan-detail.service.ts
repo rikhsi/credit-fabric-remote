@@ -20,10 +20,10 @@ export class LoanDetailService {
   public readonly productCondition = signal<ProductConditionItem>(null);
 
   public readonly calculatorForm = form(signal(calculatorFormModel), (schemaPath) => {
-    min(schemaPath.amount, () => this.productCondition()?.min_amount ?? 0);
-    max(schemaPath.amount, () => this.productCondition()?.max_amount ?? 0);
-    min(schemaPath.term, () => this.productCondition()?.min_term ?? 0);
-    max(schemaPath.term, () => this.productCondition()?.max_term ?? 0);
+    min(schemaPath.amount, () => this.productCondition()?.minAmount ?? 0);
+    max(schemaPath.amount, () => this.productCondition()?.maxAmount ?? 0);
+    min(schemaPath.term, () => this.productCondition()?.minTerm ?? 0);
+    max(schemaPath.term, () => this.productCondition()?.maxTerm ?? 0);
     required(schemaPath.dirCreditPurposeId);
     disabled(schemaPath, () => this.isDisabled());
   });
@@ -39,7 +39,7 @@ export class LoanDetailService {
     const input: CreditInput = {
       amount: amount().value(),
       term: term().value(),
-      annualRate: this.productCondition()?.interest_rate,
+      annualRate: this.productCondition()?.interestRate,
     };
 
     if (type().value() === 'annuity') {
@@ -51,25 +51,6 @@ export class LoanDetailService {
 
   public checkValidate$(pinfl: string) {
     return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ isOtpValidated }) => this.isValidated.set(isOtpValidated)));
-  }
-
-  public getCondition$(productId: string) {
-    return this.productApiService.productCondition$({ fk_entity_id: productId.toUpperCase() }).pipe(
-      map(({ data }) => data.filter((d) => d.product_id === productId.toUpperCase())),
-      tap({
-        next: (data) => {
-          const merged = mergeProductConditions(data);
-
-          this.productCondition.set(merged);
-
-          this.calculatorForm().value.update((cur) => ({
-            ...cur,
-            amount: merged?.max_amount,
-            term: merged?.max_term,
-          }));
-        },
-      }),
-    );
   }
 
   public createShortApplication$() {

@@ -2,9 +2,9 @@
   <cf-product-info
     [isGuarant]="true"
     [isLoading]="isLoading()"
-    [annualRate]="productCondition()?.interest_rate"
-    [loanTerm]="productCondition()?.max_term | monthsToYears"
-    [loanAmount]="productCondition()?.max_amount"
+    [annualRate]="productCondition()?.interestRate"
+    [loanTerm]="productCondition()?.maxTerm | monthsToYears"
+    [loanAmount]="productCondition()?.maxAmount"
   />
 
   @if (advantages?.length) {

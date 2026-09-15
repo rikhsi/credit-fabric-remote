@@ -33,13 +33,13 @@ export class CardProduct {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  id = input<string>();
-  title = input<string>('Потоковое кредитование');
+  id = input<string>('');
+  title = input<string>('');
   description = input<string>('Для начинающих предпринимателей');
   image = input<string>('loan.png');
-  annualRate = input<number>(18);
-  loanAmount = input<number>(30);
-  loanTerm = input<number>(3);
+  annualRate = input<number>(0);
+  loanAmount = input<number>(0);
+  loanTerm = input<number>(0);
 
   apply(): void {
     void this.router.navigate(['../', 'details', this.id().toLowerCase()], { relativeTo: this.route });
