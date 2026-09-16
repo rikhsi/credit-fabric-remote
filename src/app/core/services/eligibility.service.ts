@@ -6,7 +6,7 @@ import { OnlineApiService } from '@api/controllers/los';
 export class EligibilityService {
   private readonly onlineApiService = inject(OnlineApiService);
 
-  public readonly isEligible = signal(false);
+  public readonly isEligible = signal<boolean>(false);
 
   public init$() {
     return this.onlineApiService.checkEligibility$().pipe(

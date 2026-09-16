@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { delay } from 'rxjs';
@@ -30,24 +30,24 @@ export class LoanList implements OnInit {
   private readonly eligibilityService = inject(EligibilityService);
   private readonly destroyRef = inject(DestroyRef);
 
-  public readonly isEligible = this.eligibilityService.isEligible;
-  public readonly isLoading = signal(this.isEligible());
+  public readonly isEligible = computed(() => this.eligibilityService.isEligible());
+  public readonly isLoading = signal<boolean>(true);
   public readonly items = signal<ProductItem[]>([]);
 
   ngOnInit(): void {
-    if (!this.isEligible()) {
-      return;
+    if (this.isEligible()) {
+      this.productApiService
+        .getProducts$()
+        .pipe(delay(300), takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (res: ProductItem[]) => {
+            this.items.set(res);
+            this.isLoading.set(false);
+          },
+          error: () => this.isLoading.set(false),
+        });
+    } else {
+      this.isLoading.set(false);
     }
-
-    this.productApiService
-      .getProducts$()
-      .pipe(delay(300), takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (res: ProductItem[]) => {
-          this.items.set(res);
-          this.isLoading.set(false);
-        },
-        error: () => this.isLoading.set(false),
-      });
   }
 }
