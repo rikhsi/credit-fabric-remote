@@ -103,7 +103,7 @@
   "loan": {
     "not_eligible": {
       "title": "Online application is unavailable",
-      "description": "Visit a bank branch or contact support at 1020"
+      "description": "Visit a bank branch or contact support at {{phone}}"
     }
   },
   "modal": {

@@ -103,7 +103,7 @@
   "loan": {
     "not_eligible": {
       "title": "Onlayn rasmiylashtirish mavjud emas",
-      "description": "Bank filialiga murojaat qiling yoki 1020 qo‘llab-quvvatlash xizmati bilan bog‘laning"
+      "description": "Bank filialiga murojaat qiling yoki {{phone}} qo‘llab-quvvatlash xizmati bilan bog‘laning"
     }
   },
   "modal": {
