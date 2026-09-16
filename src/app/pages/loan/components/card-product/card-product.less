@@ -72,6 +72,18 @@
 });
 
 .media(@media-xs, {
+  .card {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+    transition: transform 160ms ease;
+
+    &:has(.hitarea:active),
+    &:has(.hitarea.cf-bounce--pressed) {
+      transform: scale(0.97);
+    }
+  }
+
   .hitarea {
     position: absolute;
     inset: 0;
@@ -83,6 +95,14 @@
     border: 0;
     background: transparent;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background-color 160ms ease;
+
+    &:active,
+    &.cf-bounce--pressed {
+      background: fade(#000, 4%);
+    }
   }
 
   .box {
