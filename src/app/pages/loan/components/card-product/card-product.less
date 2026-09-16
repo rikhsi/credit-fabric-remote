@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'custom';
 
 .card {
   position: relative;
@@ -104,13 +105,13 @@
     }
 
     .title {
-      .textMixin(@font-weight-strong, @font-size-lg, @line-height-base);
+      .textMixin(@font-weight-strong, @font-size-md, @line-height-base);
     }
   }
 
   .infos,
   .more {
-    display: none;
+    display: none !important;
   }
 
   .chips {
@@ -120,11 +121,10 @@
   }
 
   img {
-    width: 42%;
-    max-width: 148px;
+    width: 50%;
+    max-width: 200px;
     height: auto;
-    align-self: center;
+    align-self: flex-end;
     flex-shrink: 0;
-    padding-right: 8px;
   }
 });

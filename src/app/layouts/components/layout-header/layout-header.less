@@ -1,8 +1,25 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
     background: inherit;
+
+    .media(@media-xs, {
+      background: @cf-gray-50;
+    });
+
+    .header {
+        .media(@media-xs, {
+          background: @cf-gray-50;
+        });
+    }
+
+    .close {
+       .media(@media-xs, {
+          background: @component-background;
+        });
+    }
   }
 });
 
@@ -19,6 +36,12 @@
   align-items: center;
   justify-content: space-between;
   column-gap: 12px;
+}
+
+.bordered {
+  .media(@media-xs, {
+    border: none !important;
+  });
 }
 
 .back {
@@ -47,6 +70,11 @@
   display: none;
 }
 
+.close {
+  width: 32px;
+  height: 32px;
+}
+
 .media(@media-xs, {
   :host {
     padding: 8px 0 12px;
@@ -65,6 +93,7 @@
 
     .title {
       .textMixin(@font-weight-medium, @font-size-lg, @line-height-base);
+
       overflow: hidden;
       text-align: center;
       text-overflow: ellipsis;
@@ -74,6 +103,7 @@
     .close {
       grid-column: 3;
       justify-self: end;
+      border-radius: 50%;
     }
 
     &:not(.has-back) .title {
@@ -93,7 +123,7 @@
       .title--aside {
         display: block;
         grid-column: 2;
-        text-align: start;
+        text-align: center;
       }
     }
   }
