@@ -1,4 +1,5 @@
 export * from './host.provider';
+export * from './eligibility.provider';
 export * from './transloco.provider';
 export * from './theme.provider';
 export * from './lang.provider';

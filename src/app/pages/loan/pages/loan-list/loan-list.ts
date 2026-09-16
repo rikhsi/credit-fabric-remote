@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { catchError, delay, of, switchMap, tap, throwError } from 'rxjs';
-import { OnlineApiService, ProductApiService } from '@api/controllers/los';
+import { delay } from 'rxjs';
+import { ProductApiService } from '@api/controllers/los';
 import { CardProduct, NotEligible } from '@pages/loan/components';
 import { EmptyListPipe, MonthsToYearsPipe } from '@shared/pipes';
 import { ProductItem } from '@api/models/los/product';
 import { ConditionAmountPipe, ConditionRatePipe, ConditionTermPipe } from '@pages/loan/pipes';
-import { HttpErrorResponse } from '@angular/common/http';
+import { EligibilityService } from '@core/services/eligibility.service';
 
 @Component({
   selector: 'cf-loan-list',
@@ -27,37 +27,26 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LoanList implements OnInit {
   private readonly productApiService = inject(ProductApiService);
-  private readonly onlineApiService = inject(OnlineApiService);
+  private readonly eligibilityService = inject(EligibilityService);
   private readonly destroyRef = inject(DestroyRef);
 
-  public readonly isLoading = signal<boolean>(true);
-  public readonly isEligible = signal<boolean>(false);
+  public readonly isEligible = this.eligibilityService.isEligible;
+  public readonly isLoading = signal(this.isEligible());
   public readonly items = signal<ProductItem[]>([]);
 
   ngOnInit(): void {
-    this.onlineApiService
-      .checkEligibility$()
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          if (err.status === 404) {
-            return of({ eligible: Boolean(err.error?.['eligible']) });
-          }
+    if (!this.isEligible()) {
+      return;
+    }
 
-          return throwError(() => err);
-        }),
-        delay(300),
-        tap(({ eligible }) => this.isEligible.set(eligible)),
-        switchMap(({ eligible }) => {
-          if (eligible) {
-            return this.productApiService.getProducts$().pipe(tap((res) => this.items.set(res)));
-          }
-
-          return of([]);
-        }),
-        takeUntilDestroyed(this.destroyRef),
-      )
+    this.productApiService
+      .getProducts$()
+      .pipe(delay(300), takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => this.isLoading.set(false),
+        next: (res: ProductItem[]) => {
+          this.items.set(res);
+          this.isLoading.set(false);
+        },
         error: () => this.isLoading.set(false),
       });
   }
