@@ -20,6 +20,7 @@ export class Card {
   title = input<string>();
   titleRef = input<TemplateRef<NzSafeAny>>();
   topWrap = input<boolean>(true);
+  showTop = input<boolean>(true);
 
   link = input<UrlTree | string | string[]>();
   showSpace = input<boolean>(false);

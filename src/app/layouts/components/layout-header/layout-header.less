@@ -1,5 +1,4 @@
 @import 'mixins';
-@import 'colors';
 
 .themeMixin({
   :host {
@@ -15,8 +14,87 @@
   padding: 20px 0 18px;
 }
 
-.actions {
+.header {
   display: flex;
   align-items: center;
-  column-gap: 16px;
+  justify-content: space-between;
+  column-gap: 12px;
 }
+
+.back {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  min-width: 0;
+  text-align: start;
+
+  nz-icon {
+    flex-shrink: 0;
+  }
+
+  .title {
+    display: inline;
+    color: inherit;
+  }
+}
+
+.title {
+  min-width: 0;
+  margin: 0;
+}
+
+.title--aside {
+  display: none;
+}
+
+.media(@media-xs, {
+  :host {
+    padding: 8px 0 12px;
+  }
+
+  .header-card {
+    flex: none;
+    padding: 0;
+  }
+
+  .header {
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    align-items: center;
+    column-gap: 8px;
+
+    .title {
+      .textMixin(@font-weight-medium, @font-size-lg, @line-height-base);
+      overflow: hidden;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .close {
+      grid-column: 3;
+      justify-self: end;
+    }
+
+    &:not(.has-back) .title {
+      grid-column: 2;
+    }
+
+    &.has-back {
+      .back {
+        grid-column: 1;
+        justify-self: start;
+      }
+
+      .title--linked {
+        display: none;
+      }
+
+      .title--aside {
+        display: block;
+        grid-column: 2;
+        text-align: start;
+      }
+    }
+  }
+});
