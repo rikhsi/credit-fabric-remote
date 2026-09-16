@@ -5,12 +5,14 @@ import { loanDetailFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
-import { OnlineApiService } from '@api/controllers/los';
+import { mergeProductConditions } from '@api/utils';
+import { OnlineApiService, ProductApiService } from '@api/controllers/los';
 import { ProductConditionItem } from '@api/models/los/product';
 
 @Injectable()
 export class LoanDetailService {
-  private onlineApiService = inject(OnlineApiService);
+  private readonly onlineApiService = inject(OnlineApiService);
+  private readonly productApiService = inject(ProductApiService);
 
   public readonly isValidated = signal<boolean>(false);
   public readonly isLoading = signal<boolean>(true);
@@ -46,5 +48,20 @@ export class LoanDetailService {
 
   public checkValidate$(pinfl: string) {
     return this.onlineApiService.checkValidated$(pinfl).pipe(tap(({ isOtpValidated }) => this.isValidated.set(isOtpValidated)));
+  }
+
+  public getProduct$(productId: string) {
+    return this.productApiService.getProduct$(productId).pipe(
+      tap((product) => {
+        const condition = mergeProductConditions(product.conditions);
+
+        this.productCondition.set(condition);
+        this.form().value.update((cur) => ({
+          ...cur,
+          amount: condition?.defaultAmount ?? condition?.minAmount ?? cur.amount,
+          term: condition?.defaultTerm ?? condition?.minTerm ?? cur.term,
+        }));
+      }),
+    );
   }
 }

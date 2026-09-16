@@ -15,8 +15,8 @@ export class ProductApiService {
     });
   }
 
-  public getProduct$() {
-    return this.http.get<ProductItem>('online/product', {
+  public getProduct$(productId: string) {
+    return this.http.get<ProductItem>(`online/product/${productId}`, {
       context: new HttpContext().set(USE_HTTP_CACHE, true),
     });
   }

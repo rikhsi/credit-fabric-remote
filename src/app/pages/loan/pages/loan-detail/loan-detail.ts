@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, forkJoin, take } from 'rxjs';
@@ -7,6 +8,7 @@ import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcce
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
+import { RouteParam } from '@app/constants/route-param';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
@@ -23,6 +25,7 @@ export class LoanDetail implements OnInit {
   private readonly vcRef = inject(ViewContainerRef);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly calculationResult = computed(() => this.ldService.calculationResult());
@@ -33,13 +36,23 @@ export class LoanDetail implements OnInit {
     return this.route.snapshot.data['docs'] || [];
   }
 
+  get loanId(): string {
+    return this.route.snapshot.params[RouteParam.LoanId];
+  }
+
   ngOnInit(): void {
-    forkJoin([this.ldService.checkValidate$(this.user()?.pinfl)]).subscribe({
-      next: () => {
-        this.ldService.isLoading.set(false);
-        this.ldService.isDisabled.set(false);
-      },
-    });
+    forkJoin([this.ldService.getProduct$(this.loanId), this.ldService.checkValidate$(this.user()?.pinfl)])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.ldService.isLoading.set(false);
+          this.ldService.isDisabled.set(false);
+        },
+        error: () => {
+          this.ldService.isLoading.set(false);
+          this.ldService.isDisabled.set(false);
+        },
+      });
   }
 
   openAddressForm(editIndex: number): void {
