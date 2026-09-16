@@ -79,6 +79,8 @@ export class OnlineApiService {
   }
 
   public checkEligibility$() {
-    return this.http.get<EligibilityResult>('online/eligibility');
+    return this.http.get<EligibilityResult>('online/eligibility', {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 }
