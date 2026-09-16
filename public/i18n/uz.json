@@ -31,7 +31,8 @@
     "open_instruction": "Yo‘riqnomani ochish",
     "one_id_granted": "Ruxsat berdim",
     "go_to_one_id": "OneID’ga o‘tish",
-    "fill_application": "Arizani to‘ldirish"
+    "fill_application": "Arizani to‘ldirish",
+    "fill": "To‘ldirish"
   },
   "flow": {
     "one_id": {
@@ -80,25 +81,6 @@
   "alert": {
     "fill_fields": "Maydonlarni to‘ldiring",
     "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak"
-  },
-  "benefit": {
-    "fast": {
-      "description": "Qarorni 1 daqiqada onlayn bilib oling",
-      "title": "Tez qaror"
-    },
-    "goal": {
-      "description": "Pulni istalgan maqsadda ishlating",
-      "title": "Istalgan maqsad uchun"
-    },
-    "pay": {
-      "description": "Oylik to‘lovni Hamkor mobil ilovasida amalga oshiring",
-      "title": "Qulay to‘lov"
-    },
-    "percent": {
-      "description": "Foydali shartlarda kredit oling",
-      "title": "Past foiz stavkasi"
-    },
-    "title": "Onlayn kredit afzalliklari"
   },
   "loan": {
     "not_eligible": {
@@ -236,7 +218,6 @@
     "finances": "Moliya",
     "financial_activity_over": "So‘nggi 3 to‘liq oy faoliyati haqida ma’lumot",
     "general_info": "Umumiy ma’lumot",
-    "guarant": "Kafolat",
     "industry_sector": "Iqtisodiyot sektori",
     "legal_form": "Tashkiliy-huquqiy shakl",
     "loan_amount": "{{amount}} mln {{prefix}} gacha",
@@ -252,7 +233,6 @@
     "name": "Yuridik shaxs/YTT nomi",
     "new_entity_indicator": "Korxona klassifikatori",
     "new_jobs_count": "Yangi ish o‘rinlari soni",
-    "no_collateral": "Garovsiz",
     "online_credit_calc": "Onlayn kredit hisoblash",
     "oked": "OKED",
     "ownership_form": "Mulk shakli",
@@ -272,7 +252,6 @@
     "empty_finance_info": "Moliyaviy ma’lumotlar mavjud emas",
     "add_finance_info": "Arizani yuborish uchun moliyaviy ma’lumotlarni qo‘shing",
     "email": "Email",
-    "conditions": "Shartlar",
     "total_amount": "Miqdor",
     "term": "Muddat",
     "standart": "Kamayib boruvchi",

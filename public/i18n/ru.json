@@ -31,7 +31,8 @@
     "open_instruction": "Открыть инструкцию",
     "one_id_granted": "Я открыл доступ",
     "go_to_one_id": "Перейти в OneID",
-    "fill_application": "Заполнить заявку"
+    "fill_application": "Заполнить заявку",
+    "fill": "Заполнить"
   },
   "flow": {
     "one_id": {
@@ -80,25 +81,6 @@
   "alert": {
     "fill_fields": "Заполните данные",
     "revenue_less_than_income": "Выручка не может быть меньше чистой прибыли"
-  },
-  "benefit": {
-    "fast": {
-      "description": "Узнайте о решении онлайн за 1 минуту",
-      "title": "Быстрое решение"
-    },
-    "goal": {
-      "description": "Используйте деньги на любые цели",
-      "title": "На любые цели"
-    },
-    "pay": {
-      "description": "Вносите ежемесячный платеж в мобильном приложении Hamkor",
-      "title": "Удобно погашать"
-    },
-    "percent": {
-      "description": "Получите кредит на выгодных условиях",
-      "title": "Низкий процент"
-    },
-    "title": "Преимущества онлайн кредита"
   },
   "loan": {
     "not_eligible": {
@@ -236,7 +218,6 @@
     "finances": "Финансы",
     "financial_activity_over": "Информация о деятельности за последние 3 полных месяца",
     "general_info": "Общая информация",
-    "guarant": "Гарант",
     "industry_sector": "Сектор экономики",
     "legal_form": "Организационно-правовая форма",
     "loan_amount": "До {{amount}} млн {{prefix}}",
@@ -252,7 +233,6 @@
     "name": "Наименование ЮЛ/ИП",
     "new_entity_indicator": "Классификатор предприятия",
     "new_jobs_count": "Количество новых рабочих мест",
-    "no_collateral": "Без залога",
     "online_credit_calc": "Рассчитать онлайн-кредит",
     "oked": "ОКЭД",
     "ownership_form": "Форма собственности",
@@ -272,7 +252,6 @@
     "empty_finance_info": "Финансовых данных нет",
     "add_finance_info": "Добавьте финансовые данные, чтобы подать заявку",
     "email": "Почта",
-    "conditions": "Условия",
     "total_amount": "Сумма",
     "term": "Срок",
     "standart": "По убыванию",

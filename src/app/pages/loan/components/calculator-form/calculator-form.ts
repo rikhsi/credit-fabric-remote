@@ -5,7 +5,7 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
 import { InputSlider, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { CalculatorFormModel } from '@pages/loan/models';
+import { LoanDetailFormModel } from '@pages/loan/models';
 
 @Component({
   selector: 'cf-calculator-form',
@@ -26,5 +26,5 @@ import { CalculatorFormModel } from '@pages/loan/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculatorForm {
-  public readonly form = input<FieldTree<CalculatorFormModel>>();
+  public readonly form = input<FieldTree<LoanDetailFormModel>>();
 }

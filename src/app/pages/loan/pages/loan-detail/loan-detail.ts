@@ -1,55 +1,36 @@
 import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { filter, forkJoin, switchMap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CalculatorForm, CalculatorResult, CardAdvantage, ModalOtp, ProductAcception, ProductInfo } from '@pages/loan/components';
-import { LoanAdvantageItem, OtpModalData } from '@pages/loan/models';
+import { filter, forkJoin, take } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
-import { MonthsToYearsPipe } from '@shared/pipes';
-import { RouteParam } from '@app/constants/route-param';
-import { ApplicationFlowRoute, RootRoute } from '@app/constants/route-path';
 import { AuthService } from '@core/services/auth.service';
+import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-loan-detail',
-  imports: [CardAdvantage, ProductInfo, CalculatorForm, CalculatorResult, ProductAcception, Card, TranslocoDirective, MonthsToYearsPipe],
+  imports: [AddressInfo, CalculatorForm, CalculatorResult, ProductAcception, Card, TranslocoDirective],
   templateUrl: './loan-detail.html',
   styleUrl: './loan-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LoanDetailService],
 })
 export class LoanDetail implements OnInit {
-  private nmService = inject(NzModalService);
-  private router = inject(Router);
-  private ldService = inject(LoanDetailService);
-  private vcRef = inject(ViewContainerRef);
-  private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
-  private notification = inject(NzNotificationService);
-  private transloco = inject(TranslocoService);
+  private readonly nmService = inject(NzModalService);
+  private readonly ldService = inject(LoanDetailService);
+  private readonly vcRef = inject(ViewContainerRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
 
-  public readonly calculatorForm = linkedSignal(() => this.ldService.calculatorForm);
-  public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
+  public readonly form = linkedSignal(() => this.ldService.form);
   public readonly calculationResult = computed(() => this.ldService.calculationResult());
-  public readonly productCondition = computed(() => this.ldService.productCondition());
-  public readonly isValidated = computed(() => this.ldService.isValidated());
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
 
-  get advantages(): LoanAdvantageItem[] {
-    return this.route.snapshot.data['advantages'] || [];
-  }
-
   get docs(): string[] {
     return this.route.snapshot.data['docs'] || [];
-  }
-
-  get loanId(): string {
-    return this.route.snapshot.params[RouteParam.LoanId];
   }
 
   ngOnInit(): void {
@@ -61,62 +42,35 @@ export class LoanDetail implements OnInit {
     });
   }
 
-  openConfirm(): void {
-    if (this.calculatorForm().dirCreditPurposeId().invalid()) {
-      this.calculatorForm().dirCreditPurposeId().markAsDirty();
-      return;
-    }
+  openAddressForm(editIndex: number): void {
+    const items = this.ldService.form().value().addresses;
+    const nzData = items[editIndex];
 
-    const navigate = (applicationId: number) =>
-      this.router.navigate([RootRoute.Application, this.loanId, applicationId, ApplicationFlowRoute.General]);
+    const modalRef = this.nmService.create<AddressForm, OnlineStartProcessingAddress, OnlineStartProcessingAddress>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: AddressForm,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzViewContainerRef: this.vcRef,
+      nzData,
+    });
 
-    const onShortApplicationError = (error: unknown) => {
-      if (error instanceof HttpErrorResponse && error.status === 409) {
-        this.notification.error(
-          this.transloco.translate('modal.error_not_finished_application.title'),
-          this.transloco.translate('modal.error_not_finished_application.description'),
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.ldService.form().value.update((cur) => {
+        const addresses = cur.addresses.map((item, index) =>
+          index === editIndex ? { ...value, sysAddressTypeId: item.sysAddressTypeId } : item,
         );
-        return;
-      }
 
-      this.notification.error(
-        this.transloco.translate('modal.error_unknown.title'),
-        this.transloco.translate('modal.error_unknown.description'),
-      );
-    };
-
-    if (this.isValidated()) {
-      this.ldService.createShortApplication$().subscribe({
-        next: ({ applicationId }) => {
-          navigate(applicationId);
-        },
-        error: onShortApplicationError,
+        return {
+          ...cur,
+          addresses,
+        };
       });
-    } else {
-      this.nmService
-        .create<ModalOtp, OtpModalData, boolean>({
-          nzContent: ModalOtp,
-          nzFooter: null,
-          nzTitle: null,
-          nzClosable: null,
-          nzCentered: true,
-          nzCloseIcon: null,
-          nzWidth: 'auto',
-          nzMaskClosable: false,
-          nzViewContainerRef: this.vcRef,
-          nzData: {
-            phoneNumber: this.user()?.phone,
-            pinfl: this.user()?.pinfl,
-          },
-        })
-        .afterClose.pipe(
-          filter((result) => !!result),
-          switchMap(() => this.ldService.createShortApplication$()),
-        )
-        .subscribe({
-          next: ({ applicationId }) => navigate(applicationId),
-          error: onShortApplicationError,
-        });
-    }
+    });
   }
+
+  submit(): void {}
 }

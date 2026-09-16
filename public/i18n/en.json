@@ -31,7 +31,8 @@
     "open_instruction": "Open instruction",
     "one_id_granted": "I granted access",
     "go_to_one_id": "Go to OneID",
-    "fill_application": "Fill out the application"
+    "fill_application": "Fill out the application",
+    "fill": "Fill"
   },
   "flow": {
     "one_id": {
@@ -80,25 +81,6 @@
   "alert": {
     "fill_fields": "Fill in the fields",
     "revenue_less_than_income": "Revenue cannot be less than net profit"
-  },
-  "benefit": {
-    "fast": {
-      "description": "Learn about the decision online in 1 minute",
-      "title": "Fast decision"
-    },
-    "goal": {
-      "description": "Use money for any purpose",
-      "title": "For any purpose"
-    },
-    "pay": {
-      "description": "Make monthly payments in the Hamkor mobile app",
-      "title": "Easy repayment"
-    },
-    "percent": {
-      "description": "Get a loan on favorable terms",
-      "title": "Low interest rate"
-    },
-    "title": "Benefits of online loan"
   },
   "loan": {
     "not_eligible": {
@@ -236,7 +218,6 @@
     "finances": "Finances",
     "financial_activity_over": "Activity information for the last 3 full months",
     "general_info": "General information",
-    "guarant": "Guarantor",
     "industry_sector": "Economic sector",
     "legal_form": "Legal form",
     "loan_amount": "Up to {{amount}} mln {{prefix}}",
@@ -252,7 +233,6 @@
     "name": "Legal entity/IE name",
     "new_entity_indicator": "Enterprise classifier",
     "new_jobs_count": "Number of new jobs",
-    "no_collateral": "No collateral",
     "online_credit_calc": "Online loan calculator",
     "oked": "OKED",
     "ownership_form": "Ownership form",
@@ -272,7 +252,6 @@
     "empty_finance_info": "No financial data available",
     "add_finance_info": "Add financial data to submit the application",
     "email": "Email",
-    "conditions": "Conditions",
     "total_amount": "Amount",
     "term": "Term",
     "standart": "Decreasing",

@@ -1,25 +1,7 @@
 <ng-container *transloco="let t">
-  <cf-product-info
-    [isGuarant]="true"
-    [isLoading]="isLoading()"
-    [annualRate]="productCondition()?.interestRate"
-    [loanTerm]="productCondition()?.maxTerm | monthsToYears"
-    [loanAmount]="productCondition()?.maxAmount"
-  />
-
-  @if (advantages?.length) {
-  <cf-card [showSpace]="true" [title]="t('benefit.title')" class="bordered">
-    <div class="advantages">
-      @for (item of advantages; track item.title) {
-      <cf-card-advantage [isLoading]="isLoading()" [title]="item.title" [description]="item.description" [photo]="item.photo" />
-      }
-    </div>
-  </cf-card>
-  }
-
   <cf-card [title]="t('prop.online_credit_calc')" [showSpace]="true" class="bordered">
     <div class="calculator">
-      <cf-calculator-form [form]="calculatorForm()" />
+      <cf-calculator-form [form]="form()" />
 
       <cf-calculator-result
         [loanAmount]="calculationResult().amount"
@@ -27,10 +9,12 @@
         [annualRate]="calculationResult().annualRate"
         [isLoading]="isLoading()"
         [documents]="docs"
-        [creditType]="calculatorForm().type().value()"
+        [creditType]="form().type().value()"
       />
     </div>
-
-    <cf-product-acception [form]="agreementForm()" (clicked)="openConfirm()" />
   </cf-card>
+
+  <cf-address-info [items]="form().addresses().value()" (edit)="openAddressForm($event)" />
+
+  <cf-product-acception [form]="form()" (clicked)="submit()" />
 </ng-container>

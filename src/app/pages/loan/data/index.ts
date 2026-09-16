@@ -1,2 +1,2 @@
-export * from './advantages';
 export * from './form';
+export * from './address-type';

@@ -4,7 +4,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { AgreementFormModel } from '@pages/loan/models';
+import { LoanDetailFormModel } from '@pages/loan/models';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
@@ -15,7 +15,7 @@ import { BounceDirective } from '@shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAcception {
-  public readonly form = input<FieldTree<AgreementFormModel>>();
+  public readonly form = input<FieldTree<LoanDetailFormModel>>();
 
   clicked = output<boolean>();
 

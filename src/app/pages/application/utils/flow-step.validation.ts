@@ -1,5 +1,5 @@
 import { FieldTree, ValidationError } from '@angular/forms/signals';
-import { isFlowAddressFilled } from './address';
+import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { parseFinanceAmount } from './finance-months';
 import {
   OnlineCreateApplicationPayload,

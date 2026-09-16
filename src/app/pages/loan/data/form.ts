@@ -1,4 +1,5 @@
-import { AgreementFormModel, CalculatorFormModel, OtpFormModel } from '../models';
+import { AgreementFormModel, CalculatorFormModel, LoanDetailFormModel, OtpFormModel } from '../models';
+import { buildRequiredAddresses } from '../utils/address';
 
 export const calculatorFormModel: CalculatorFormModel = {
   amount: 0,
@@ -9,6 +10,12 @@ export const calculatorFormModel: CalculatorFormModel = {
 
 export const agreementFormModel: AgreementFormModel = {
   offer: false,
+};
+
+export const loanDetailFormModel: LoanDetailFormModel = {
+  ...calculatorFormModel,
+  ...agreementFormModel,
+  addresses: buildRequiredAddresses(),
 };
 
 export const otpFormModel: OtpFormModel = {

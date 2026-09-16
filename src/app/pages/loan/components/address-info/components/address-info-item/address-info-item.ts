@@ -6,7 +6,7 @@ import { Card } from '@shared/components';
 import { BounceDirective, HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
-import { isFlowAddressFilled } from '@pages/application/utils/address';
+import { isFlowAddressFilled } from '@pages/loan/utils/address';
 
 @Component({
   selector: 'cf-address-info-item',
