@@ -1,8 +1,10 @@
 <ng-container *transloco="let t">
-  <nz-icon nzType="f:hourglass" class="icon" />
+  <div class="circle">
+    <nz-icon nzType="o:hourglass" class="icon" />
+  </div>
 
   <h4 nz-typography>{{ t('loan.not_eligible.title') }}</h4>
   <p nz-typography>{{ t('loan.not_eligible.description') }}</p>
 
-  <button cfBounce nz-button nzType="primary" nzSize="small" type="button" (clicked)="findBranch()">{{ t('action.find_place') }}</button>
+  <button cfBounce nz-button nzType="primary" nzSize="large" type="button" (clicked)="findBranch()">{{ t('action.find_place') }}</button>
 </ng-container>

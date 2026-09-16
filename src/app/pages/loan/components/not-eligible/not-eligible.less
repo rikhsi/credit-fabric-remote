@@ -4,6 +4,13 @@
 
 .themeMixin({
   :host {
+
+    background: @component-background;
+
+    .circle {
+      background: @body-background;
+    }
+
     p {
       color: @text-color-secondary;
     }
@@ -24,15 +31,27 @@
   padding: 20px;
   row-gap: 8px;
   text-align: center;
+  border-radius: @border-radius-xl;
+
+  .circle {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
 
   h4 {
     margin: 16px 0 0;
+    font-size: 18px;
     font-weight: @font-weight-bold;
   }
 
   p {
     margin: 0 0 16px;
     max-width: 360px;
+    font-size: 16px;
   }
 
   .icon {

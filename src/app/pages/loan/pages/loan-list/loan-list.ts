@@ -7,6 +7,7 @@ import { CardProduct, NotEligible } from '@pages/loan/components';
 import { EmptyListPipe, MonthsToYearsPipe } from '@shared/pipes';
 import { ProductItem } from '@api/models/los/product';
 import { ConditionAmountPipe, ConditionRatePipe, ConditionTermPipe } from '@pages/loan/pipes';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'cf-loan-list',
@@ -38,7 +39,14 @@ export class LoanList implements OnInit {
       .checkEligibility$()
       .pipe(
         delay(300),
-        tap(({ eligible }) => this.isEligible.set(eligible)),
+        tap({
+          next: ({ eligible }) => {
+            this.isEligible.set(eligible);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.isEligible.set(err.error['eligible']);
+          },
+        }),
         switchMap(({ eligible }) => {
           if (eligible) {
             return this.productApiService.getProducts$().pipe(tap((res) => this.items.set(res)));
