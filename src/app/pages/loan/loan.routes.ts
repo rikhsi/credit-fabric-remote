@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { loanDocsResolver } from './resolvers';
-import { checkEligibilityGuard, checkLoanIdGuard } from './guards';
+import { checkEligibilityGuard } from './guards';
 import { LoanRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 
@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: `${LoanRoute.Details}/:${RouteParam.LoanId}`,
     data: { title: 'prop.application_to_loan', backConfig: { link: '../list' } },
     resolve: { docs: loanDocsResolver },
-    canActivate: [checkEligibilityGuard, checkLoanIdGuard],
+    canActivate: [checkEligibilityGuard],
     loadComponent: () => import('./pages/loan-detail/loan-detail').then((c) => c.LoanDetail),
   },
   {
