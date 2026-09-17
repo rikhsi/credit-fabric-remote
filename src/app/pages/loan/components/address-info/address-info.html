@@ -3,7 +3,7 @@
 <ng-container *transloco="let t">
   <cf-card [titleRef]="titleRef" [showSpace]="!incomplete" class="bordered">
     <div actions>
-      <button cfBounce nz-button nzType="default" nzSize="default" [disabled]="isLoading()" (clicked)="onFill()">
+      <button cfBounce nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onFill()">
         <strong>{{ incomplete ? t('action.fill') : t('action.edit') }}</strong>
         @if (isLoading()) {
         <nz-spin nzSimple nzSize="small" />
