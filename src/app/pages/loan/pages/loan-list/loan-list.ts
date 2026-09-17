@@ -44,7 +44,7 @@ export class LoanList implements OnInit {
             this.items.set(res);
             this.isLoading.set(false);
           },
-          error: () => this.isLoading.set(false),
+          error: () => this.isLoading.set(true),
         });
     } else {
       this.isLoading.set(false);
