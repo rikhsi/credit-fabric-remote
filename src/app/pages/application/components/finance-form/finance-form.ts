@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
-import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';
+import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
 import { isFinanceRevenueIncomeValid } from '@pages/application/utils/flow-step.validation';
 import { InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
@@ -34,7 +34,7 @@ import { PluralizePipe } from '@shared/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinanceForm {
-  readonly form = input.required<FieldTree<OnlineCreateApplicationPayload>>();
+  readonly form = input.required<FieldTree<{ finData: OnlineStartProcessingFinData }>>();
 
   readonly showRevenueIncomeAlert = computed(() => !isFinanceRevenueIncomeValid(this.form()().value().finData));
 }

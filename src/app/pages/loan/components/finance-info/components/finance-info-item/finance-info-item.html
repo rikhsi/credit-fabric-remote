@@ -1,0 +1,18 @@
+<cf-card class="gray lg">
+  <div class="row">
+    <div class="col">
+      <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
+        <h4 nz-typography>{{ items | handbook: item().dirCompanyActivityId }}</h4>
+      </ng-container>
+
+      <button cfBounce nz-button nzType="link" nzSize="large" type="button" (clicked)="edit.emit()">
+        <nz-icon nzType="f:pencil" />
+      </button>
+    </div>
+
+    <p nz-typography>{{ amount(item().activityTerm) | pluralize: 'month' }}</p>
+    <p nz-typography>{{ 1 | financeMonth | date: 'MMMM' }} — {{ amount(item().month1Revenue) | number }}-{{ amount(item().month1Income) | number }}</p>
+    <p nz-typography>{{ 2 | financeMonth | date: 'MMMM' }} — {{ amount(item().month2Revenue) | number }}-{{ amount(item().month2Income) | number }}</p>
+    <p nz-typography>{{ 3 | financeMonth | date: 'MMMM' }} — {{ amount(item().month3Revenue) | number }}-{{ amount(item().month3Income) | number }}</p>
+  </div>
+</cf-card>

@@ -1,0 +1,37 @@
+@let filled = isFilled();
+
+<ng-container *transloco="let t">
+  <cf-card [titleRef]="titleRef" [showSpace]="filled" class="bordered">
+    <div actions>
+      @if (!filled) {
+      <button cfBounce nz-button nzType="default" nzSize="default" nzGhost [disabled]="isLoading()" (clicked)="onFill()">
+        <strong>{{ t('action.fill') }}</strong>
+        @if (isLoading()) {
+        <nz-spin nzSimple nzSize="small" />
+        } @else {
+        <nz-icon nzType="f:pencil" class="primary" />
+        }
+      </button>
+      }
+    </div>
+
+    @if (filled && item(); as financeItem) {
+    <div class="list">
+      <cf-finance-info-item [item]="financeItem" (edit)="edit.emit()" />
+    </div>
+    }
+  </cf-card>
+
+  <ng-template #titleRef>
+    <div class="titleRef">
+      <h2 nz-typography>{{ t('prop.finances') }}</h2>
+
+      @if (!filled) {
+      <nz-tag>
+        <nz-icon nzType="info-circle" />
+        {{ t('alert.fill_fields') }}
+      </nz-tag>
+      }
+    </div>
+  </ng-template>
+</ng-container>

@@ -6,3 +6,5 @@ export * from './modal-otp/modal-otp';
 export * from './not-eligible/not-eligible';
 export * from './address-form/address-form';
 export * from './address-info/address-info';
+export * from './finance-info/finance-info';
+export * from './finance-modal/finance-modal';

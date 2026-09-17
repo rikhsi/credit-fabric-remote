@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, forkJoin, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcception } from '@pages/loan/components';
+import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, FinanceInfo, FinanceModal, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
@@ -13,12 +13,12 @@ import { EligibilityService } from '@core/services/eligibility.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
-import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { OnlineStartProcessingAddress, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems } from '@shared/utils';
 
 @Component({
   selector: 'cf-loan-detail',
-  imports: [AddressInfo, CalculatorForm, CalculatorResult, ProductAcception, Card, TranslocoDirective],
+  imports: [AddressInfo, CalculatorForm, CalculatorResult, FinanceInfo, ProductAcception, Card, TranslocoDirective],
   templateUrl: './loan-detail.html',
   styleUrl: './loan-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +56,7 @@ export class LoanDetail implements OnInit {
       this.ldService.checkValidate$(this.user()?.pinfl),
       fetchHandbookItems(this.http, { url: 'sys-address-type' }),
       fetchHandbookItems(this.http, { url: 'dir-city' }),
+      fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
     ])
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -101,6 +102,31 @@ export class LoanDetail implements OnInit {
           addresses,
         };
       });
+    });
+  }
+
+  openFinanceForm(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    const modalRef = this.nmService.create<FinanceModal, OnlineStartProcessingFinData, OnlineStartProcessingFinData>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: FinanceModal,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzViewContainerRef: this.vcRef,
+      nzData: this.ldService.form().value().finData,
+    });
+
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.ldService.form().value.update((cur) => ({
+        ...cur,
+        finData: value,
+      }));
     });
   }
 

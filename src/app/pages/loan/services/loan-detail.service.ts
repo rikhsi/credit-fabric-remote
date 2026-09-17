@@ -5,6 +5,7 @@ import { loanDetailFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
+import { isFinDataFilled } from '@pages/application/utils/flow-step.validation';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';
@@ -26,6 +27,7 @@ export class LoanDetailService {
     required(schemaPath.dirCreditPurposeId);
     required(schemaPath.offer);
     validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
+    validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());
   });
 

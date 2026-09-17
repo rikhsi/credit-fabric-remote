@@ -1,0 +1,44 @@
+@import 'mixins';
+
+:host {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+cf-card {
+  flex: 1;
+  width: 100%;
+}
+
+.themeMixin({
+  :host {
+    .row {
+      p {
+        color: @text-color-secondary;
+      }
+    }
+  }
+});
+
+.row {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+
+  h4 {
+    margin-bottom: 4px;
+  }
+
+  p {
+    margin: 0;
+    text-transform: capitalize;
+  }
+}
+
+.col {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 20px;
+}
