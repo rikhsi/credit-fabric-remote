@@ -1,9 +1,6 @@
 <ng-container *transloco="let t">
-  <cf-card [title]="t('prop.credit_terms')" [showSpace]="true" [ngClass]="{hidden: isLoading()}" class="card bordered accent">
-    @if (isLoading()) {
-    <nz-skeleton-element nzType="button" [nzActive]="true" [nzSize]="'large'" class="skeleton" />
-    }
-    <div [ngClass]="{hidden: isLoading()}" class="box">
+  <cf-card [title]="t('prop.credit_terms')" [showSpace]="true" class="card bordered accent">
+    <div class="box">
       <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')">
         @if (creditType() === 'standart') { {{t('prop.from', {amount: monthlyPayment() | number})}} {{loanAmount() | pluralize: 'money' :
         false | transloco}} } @else { {{ monthlyPayment() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}} }
