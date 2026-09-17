@@ -217,6 +217,7 @@
     "credit_calc": "Loan calculation",
     "credit_terms": "Loan terms",
     "street": "Street",
+    "postal_code": "Postal code",
     "month": "Month",
     "benefit": "Revenue, sum",
     "pure_benefit": "Net profit, sum",
