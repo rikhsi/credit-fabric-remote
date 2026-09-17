@@ -7,8 +7,7 @@ import { CardApplication } from '../../components';
 import { ApplicationsService } from '../../services';
 import { EmptyListPipe } from '@shared/pipes';
 import { Empty } from '@shared/components';
-import { ApplicationRoute, RootRoute } from '@app/constants/route-path';
-import { ApplicationStatus } from '@api/models/los/application';
+import { RootRoute } from '@app/constants/route-path';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 
 @Component({
@@ -32,11 +31,6 @@ export class ApplicationsList implements OnInit {
   }
 
   goToApplication(item: OnlineGetInfoResult): void {
-    if (item.sysStatusId === ApplicationStatus.OnFormFill) {
-      void this.router.navigate(['/', RootRoute.Application, ApplicationRoute.Flow, item.id]);
-      return;
-    }
-
     void this.router.navigate(['/', RootRoute.Applications, item.id]);
   }
 }

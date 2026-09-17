@@ -1,13 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OnlineAccount } from '@api/models/los/account';
-import {
-  ClaimLoanPayload,
-  ClaimLoanResult,
-  OnlineApplication,
-  ShortApplicationPayload,
-  ShortApplicationResult,
-} from '@api/models/los/application';
+import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication } from '@api/models/los/application';
 import { EligibilityResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { OnlineCreateApplicationPayload, OnlineCreateApplicationResult } from '@api/models/los/start-processing';
@@ -52,10 +46,8 @@ export class OnlineApiService {
     });
   }
 
-  public checkOneId$(applicationId: number) {
-    return this.http.get<boolean>('online/application/check-one-id', {
-      params: buildHttpParams({ applicationId }),
-    });
+  public checkOneId$() {
+    return this.http.get<boolean>('online/application/check-one-id');
   }
 
   public getApplications$() {
@@ -64,12 +56,6 @@ export class OnlineApiService {
 
   public createApplication$(payload: OnlineCreateApplicationPayload) {
     return this.http.post<OnlineCreateApplicationResult>('online/application/start-processing', payload);
-  }
-
-  public createShortApplication$(payload: ShortApplicationPayload) {
-    return this.http.post<ShortApplicationResult>('short-application-create', payload, {
-      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
-    });
   }
 
   public getFile$(fileId: number) {

@@ -1,25 +1,17 @@
 <ng-container *transloco="let t">
-  <cf-card [ngClass]="{hidden: isLoading()}" class="card">
+  <cf-card [title]="t('prop.credit_terms')" [showSpace]="true" [ngClass]="{hidden: isLoading()}" class="card bordered accent">
     @if (isLoading()) {
     <nz-skeleton-element nzType="button" [nzActive]="true" [nzSize]="'large'" class="skeleton" />
     }
     <div [ngClass]="{hidden: isLoading()}" class="box">
-      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{ annualRate() | number }}%</cf-label-control-secondary>
-      <cf-label-control-secondary [label]="t('prop.loan_amount_full')">
-        {{ loanAmount() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}}
-      </cf-label-control-secondary>
       <cf-label-control-secondary [label]="t('prop.loan_monthly_payment')">
         @if (creditType() === 'standart') { {{t('prop.from', {amount: monthlyPayment() | number})}} {{loanAmount() | pluralize: 'money' :
         false | transloco}} } @else { {{ monthlyPayment() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}} }
       </cf-label-control-secondary>
-
-      <cf-label-control-secondary [label]="t('prop.loan_needed_docs')">
-        <div class="box__tags">
-          @for (doc of documents(); track doc) {
-          <nz-tag>{{ doc }}</nz-tag>
-          }
-        </div>
+      <cf-label-control-secondary [label]="t('prop.loan_amount_full')">
+        {{ loanAmount() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}}
       </cf-label-control-secondary>
+      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{ annualRate() | number }}%</cf-label-control-secondary>
     </div>
   </cf-card>
 </ng-container>

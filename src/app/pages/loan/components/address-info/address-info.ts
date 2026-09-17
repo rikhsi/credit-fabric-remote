@@ -42,6 +42,6 @@ export class AddressInfo {
       return;
     }
 
-    this.edit.emit(this.firstIncompleteIndex());
+    this.edit.emit(this.hasIncomplete() ? this.firstIncompleteIndex() : 0);
   }
 }

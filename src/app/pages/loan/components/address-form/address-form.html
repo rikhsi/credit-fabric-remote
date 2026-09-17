@@ -5,17 +5,6 @@
     (closeClick)="close()"
     (submitClick)="submit()"
   >
-    <ng-container *cfHandbook="{ url: 'sys-address-type' }; let items">
-      <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.address_type')">
-        <cf-input-default
-          [disabled]="true"
-          [value]="items | handbook: addressForm.sysAddressTypeId().value()"
-          [placeholder]="t('control.input.placeholder')"
-          size="large"
-        />
-      </cf-label-control-secondary>
-    </ng-container>
-
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.city')">
       <cf-select-default
         class="cf-hide-xs"
@@ -68,10 +57,6 @@
 
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.address')">
       <cf-input-default [formField]="addressForm.street" [placeholder]="t('control.input.placeholder')" size="large" />
-    </cf-label-control-secondary>
-
-    <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.postal_code')">
-      <cf-input-default [formField]="addressForm.zipCode" [placeholder]="t('control.input.placeholder')" size="large" />
     </cf-label-control-secondary>
   </cf-form-box>
 </ng-container>

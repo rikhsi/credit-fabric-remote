@@ -117,26 +117,3 @@ export interface ClaimLoanResult {
   statusDesc: string;
   statusTitle: string;
 }
-
-export interface ShortApplicationPayload {
-  applicantPersonalNo: string;
-  dirCreditPurposeId: string;
-  dirCurrencyId: string;
-  initUsername: string;
-  loanAmount: number;
-  loanTerm: number;
-  sysPaymentTypeId: string;
-}
-
-export interface ShortApplicationResult {
-  applicationId: number;
-}
-
-export interface ShortApplicationError {
-  applicationId: number;
-  errorMsg: string;
-}
-
-export const ShortApplicationErrorMsg = {
-  NotFinishedApplicationFound: 'not_finished_application_found',
-} as const;

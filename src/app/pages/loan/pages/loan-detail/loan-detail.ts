@@ -41,10 +41,6 @@ export class LoanDetail implements OnInit {
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
 
-  get docs(): string[] {
-    return this.route.snapshot.data['docs'] || [];
-  }
-
   get loanId(): string {
     return this.route.snapshot.params[RouteParam.LoanId];
   }

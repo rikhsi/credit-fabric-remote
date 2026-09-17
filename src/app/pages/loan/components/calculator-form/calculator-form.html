@@ -10,32 +10,10 @@
   </div>
 
   <div>
-    <cf-label-control-secondary [label]="t('prop.credit_purpose')"></cf-label-control-secondary>
-
-    <cf-select-default
-      class="cf-hide-xs"
-      [formField]="form().dirCreditPurposeId"
-      [placeholder]="t('control.select.placeholder')"
-      size="large"
-    >
-      <ng-container *cfHandbook="{ url: 'dir-credit-purpose' }; let items">
-        @for (item of items; track item.id) {
-        <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-        }
-      </ng-container>
-    </cf-select-default>
-
-    <cf-select-default-mobile
-      class="cf-show-xs"
-      [formField]="form().dirCreditPurposeId"
-      [handbook]="{ url: 'dir-credit-purpose' }"
-      [placeholder]="t('control.select.placeholder')"
-      size="large"
-    />
-  </div>
-
-  <div>
-    <cf-label-control-secondary [label]="t('prop.loan_calculation_type')"></cf-label-control-secondary>
+    <div class="field-label">
+      <span>{{ t('prop.loan_calculation_type') }}</span>
+      <nz-icon nzType="info-circle" class="primary info-icon" />
+    </div>
 
     <nz-radio-group [formField]="form().type">
       <label nz-radio nzValue="annuity">{{t('prop.annuity')}}</label>

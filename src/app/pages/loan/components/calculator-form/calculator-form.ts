@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NzRadioComponent, NzRadioGroupComponent } from 'ng-zorro-antd/radio';
-import { InputSlider, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
-import { HandbookDirective } from '@shared/directives';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { InputSlider, LabelControlSecondary } from '@shared/components';
 import { LoanDetailFormModel } from '@pages/loan/models';
 
 @Component({
@@ -12,14 +11,11 @@ import { LoanDetailFormModel } from '@pages/loan/models';
   imports: [
     InputSlider,
     LabelControlSecondary,
-    SelectDefault,
-    SelectDefaultMobile,
-    NzOptionComponent,
     NzRadioComponent,
     NzRadioGroupComponent,
+    NzIconDirective,
     FormField,
     TranslocoDirective,
-    HandbookDirective,
   ],
   templateUrl: './calculator-form.html',
   styleUrl: './calculator-form.less',

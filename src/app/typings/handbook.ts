@@ -15,16 +15,7 @@ export interface HandbookRequest {
 }
 
 export type HandbookQueryType =
-  | 'dir-oked'
   | 'sys-address-type'
   | 'dir-city'
-  | 'dir-enterprise-classifier'
   | 'dir-company-activity'
-  | 'dir-credit-purpose'
-  | 'dir-country'
-  | 'dir-ecological-impact-code'
-  | 'dir-object-new-formation'
-  | 'dir-sector-economy'
-  | 'dir-village'
-  | 'dir-legal-form'
-  | 'dir-ownership-code';
+  | 'dir-village';

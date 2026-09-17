@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { DecimalPipe, NgClass } from '@angular/common';
 import { TranslocoPipe, TranslocoDirective } from '@jsverse/transloco';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -11,7 +10,6 @@ import { CreditType } from '@app/typings/calculator';
   selector: 'cf-calculator-result',
   imports: [
     Card,
-    NzTagComponent,
     DecimalPipe,
     PluralizePipe,
     TranslocoPipe,
@@ -30,5 +28,4 @@ export class CalculatorResult {
   readonly monthlyPayment = input<number>();
   readonly isLoading = input<boolean>(false);
   readonly annualRate = input<number>();
-  readonly documents = input<string[]>([]);
 }

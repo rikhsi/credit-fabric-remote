@@ -6,7 +6,6 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { ResetVillageOnCityChangeDirective } from '@pages/loan/directives';
 import { HandbookDirective } from '@shared/directives';
-import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
 @Component({
@@ -21,7 +20,6 @@ import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
     TranslocoDirective,
     HandbookDirective,
     FormField,
-    HandbookPipe,
     ResetVillageOnCityChangeDirective,
   ],
   templateUrl: './address-form.html',

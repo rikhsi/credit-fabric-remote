@@ -1,9 +1,20 @@
+@import 'mixins';
+
+.themeMixin({
+  :host {
+    .field-label {
+      color: @text-color-secondary;
+    }
+  }
+});
+
 :host {
   display: flex;
   flex-direction: column;
   flex: 1;
   width: 100%;
   min-width: 0;
+  row-gap: 20px;
 
   > div {
     display: flex;
@@ -14,11 +25,21 @@
 
   cf-label-control-secondary,
   cf-input-slider,
-  cf-select-default,
-  cf-select-default-mobile,
   nz-radio-group {
     width: 100%;
     max-width: 100%;
     min-width: 0;
+  }
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+  margin-bottom: 6px;
+  .textMixin(@font-weight-medium, @font-size-base, @line-height-base);
+
+  .info-icon {
+    font-size: 14px;
   }
 }

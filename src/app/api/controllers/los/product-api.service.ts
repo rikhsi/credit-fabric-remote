@@ -10,13 +10,7 @@ export class ProductApiService {
   constructor(private http: HttpClient) {}
 
   public getProducts$() {
-    return this.http.get<ProductItem[]>('online/products', {
-      context: new HttpContext().set(USE_HTTP_CACHE, true),
-    });
-  }
-
-  public getProduct$(productId: string) {
-    return this.http.get<ProductItem>(`online/product/${productId}`, {
+    return this.http.get<ProductItem[]>('online/product', {
       context: new HttpContext().set(USE_HTTP_CACHE, true),
     });
   }

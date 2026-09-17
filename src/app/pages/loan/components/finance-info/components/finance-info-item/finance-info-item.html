@@ -4,10 +4,6 @@
       <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
         <h4 nz-typography>{{ items | handbook: item().dirCompanyActivityId }}</h4>
       </ng-container>
-
-      <button cfBounce nz-button nzType="link" nzSize="large" type="button" (clicked)="edit.emit()">
-        <nz-icon nzType="f:pencil" />
-      </button>
     </div>
 
     <p nz-typography>{{ amount(item().activityTerm) | pluralize: 'month' }}</p>
