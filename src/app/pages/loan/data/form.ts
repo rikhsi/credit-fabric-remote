@@ -1,6 +1,6 @@
 import { AgreementFormModel, CalculatorFormModel, LoanDetailFormModel, OtpFormModel } from '../models';
 import { buildRequiredAddresses } from '../utils/address';
-import { createDefaultFinanceForm } from '@pages/application/utils/finance-months';
+import { createDefaultFinanceForm } from '@pages/loan/utils/finance-months';
 
 export const calculatorFormModel: CalculatorFormModel = {
   amount: 0,

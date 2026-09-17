@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, forkJoin, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, FinanceInfo, FinanceModal, ProductAcception } from '@pages/loan/components';
+import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, FinanceForm, FinanceInfo, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
@@ -110,11 +110,11 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    const modalRef = this.nmService.create<FinanceModal, OnlineStartProcessingFinData, OnlineStartProcessingFinData>({
+    const modalRef = this.nmService.create<FinanceForm, OnlineStartProcessingFinData, OnlineStartProcessingFinData>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
-      nzContent: FinanceModal,
+      nzContent: FinanceForm,
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',

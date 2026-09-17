@@ -9,7 +9,7 @@ import { FinanceInfoItem } from './components';
 import { Card } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
-import { isFinDataFilled } from '@pages/application/utils/flow-step.validation';
+import { isFinDataFilled } from '@pages/loan/utils/finance';
 
 @Component({
   selector: 'cf-finance-info',

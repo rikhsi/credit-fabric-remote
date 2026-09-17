@@ -16,7 +16,7 @@ import { OneIdInstruction } from '@pages/application/components/one-id-instructi
 import { SuccessModal } from '@pages/application/components/success-modal/success-modal';
 import { SuccessModalData } from '@pages/application/data/modal';
 import { ONE_ID_INSTRUCTION_STEPS } from '@pages/application/data/one-id';
-import { buildCreateApplicationPayload } from '@pages/application/utils/finance-months';
+import { buildCreateApplicationPayload } from '@pages/loan/utils/finance-months';
 
 type OneIdView = 'consent' | 'instruction';
 

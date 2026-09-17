@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { form, maxLength, minLength, required, requiredError, validate } from '@angular/forms/signals';
 import { buildRequiredAddresses, isFlowAddressFilled, mapBorrowerAddressesToForm } from '@pages/loan/utils/address';
-import { createDefaultFinanceForm } from '../utils/finance-months';
-import { validateFinanceMonthRevenueIncome } from '../utils/flow-step.validation';
+import { createDefaultFinanceForm } from '@pages/loan/utils/finance-months';
+import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineAccount } from '@api/models/los/account';
 import { OnlineCreateApplicationPayload } from '@api/models/los/start-processing';

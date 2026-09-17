@@ -5,7 +5,7 @@ import { loanDetailFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
-import { isFinDataFilled } from '@pages/application/utils/flow-step.validation';
+import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';

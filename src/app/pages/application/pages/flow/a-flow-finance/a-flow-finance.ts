@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Card, Steps } from '@shared/components';
 import { FlowService } from '@pages/application/services';
 import { ApplicationFlowRoute } from '@app/constants/route-path';
-import { FinanceForm } from '@pages/application/components/finance-form/finance-form';
+import { FinanceForm } from '@pages/loan/components';
 import { isFinanceStepValid } from '@pages/application/utils/flow-step.validation';
 import { BounceDirective } from '@shared/directives';
 

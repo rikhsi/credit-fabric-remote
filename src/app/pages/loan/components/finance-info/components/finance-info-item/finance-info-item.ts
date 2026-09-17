@@ -6,8 +6,8 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { BounceDirective, HandbookDirective } from '@shared/directives';
 import { HandbookPipe, PluralizePipe } from '@shared/pipes';
-import { FinanceMonthPipe } from '@pages/application/pipes/finance-month.pipe';
-import { parseFinanceAmount } from '@pages/application/utils/finance-months';
+import { FinanceMonthPipe } from '@pages/loan/pipes';
+import { parseFinanceAmount } from '@pages/loan/utils/finance-months';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 
 @Component({
