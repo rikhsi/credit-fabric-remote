@@ -12,14 +12,15 @@ export class LoanProductsService {
 
   public load$() {
     return this.productApiService.getProducts$().pipe(
-      tap((items) => this.items.set(items)),
+      tap((items) => {
+        this.items.set(items);
+        this.isLoading.set(false);
+      }),
       catchError(() => {
         this.items.set([]);
-        this.isLoading.set(false)
 
         return of<ProductItem[]>([]);
       }),
-      finalize(() => this.isLoading.set(false)),
     );
   }
 
