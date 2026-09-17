@@ -1,5 +1,5 @@
 import { DecimalPipe, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -8,6 +8,7 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { Card, LabelControl } from '@shared/components';
 import { ImagePipe, PluralizePipe } from '@shared/pipes';
 import { BounceDirective } from '@shared/directives';
+import { normalizeNumber } from '@shared/utils';
 
 @Component({
   selector: 'cf-card-product',
@@ -40,6 +41,8 @@ export class CardProduct {
   annualRate = input<number>(0);
   loanAmount = input<number>(0);
   loanTerm = input<number>(0);
+
+  readonly amountInMillions = computed(() => normalizeNumber(this.loanAmount()).value);
 
   apply(): void {
     void this.router.navigate(['../', 'details', this.id().toLowerCase()], { relativeTo: this.route });

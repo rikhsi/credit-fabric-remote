@@ -1,12 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { delay } from 'rxjs';
-import { ProductApiService } from '@api/controllers/los';
 import { CardProduct, NotEligible } from '@pages/loan/components';
 import { EmptyListPipe, MonthsToYearsPipe } from '@shared/pipes';
-import { ProductItem } from '@api/models/los/product';
 import { ConditionAmountPipe, ConditionRatePipe, ConditionTermPipe } from '@pages/loan/pipes';
+import { LoanProductsService } from '@pages/loan/services';
 import { EligibilityService } from '@core/services/eligibility.service';
 
 @Component({
@@ -25,29 +22,11 @@ import { EligibilityService } from '@core/services/eligibility.service';
   styleUrl: './loan-list.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoanList implements OnInit {
-  private readonly productApiService = inject(ProductApiService);
+export class LoanList {
+  private readonly productsService = inject(LoanProductsService);
   private readonly eligibilityService = inject(EligibilityService);
-  private readonly destroyRef = inject(DestroyRef);
 
   public readonly isEligible = computed(() => this.eligibilityService.isEligible());
-  public readonly isLoading = signal<boolean>(true);
-  public readonly items = signal<ProductItem[]>([]);
-
-  ngOnInit(): void {
-    if (this.isEligible()) {
-      this.productApiService
-        .getProducts$()
-        .pipe(delay(300), takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (res: ProductItem[]) => {
-            this.items.set(res);
-            this.isLoading.set(false);
-          },
-          error: () => this.isLoading.set(true),
-        });
-    } else {
-      this.isLoading.set(false);
-    }
-  }
+  public readonly isLoading = computed(() => this.productsService.isLoading());
+  public readonly items = computed(() => this.productsService.items());
 }

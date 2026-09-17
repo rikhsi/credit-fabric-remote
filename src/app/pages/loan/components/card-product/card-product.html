@@ -11,7 +11,7 @@
         <div class="infos">
           <cf-label-control
             [icon]="'f:money'"
-            [label]="t('prop.loan_amount', { amount: loanAmount() | number, prefix: loanAmount() | pluralize: 'money': false})"
+            [label]="t('prop.loan_amount', { amount: amountInMillions() | number, prefix: loanAmount() | pluralize: 'money': false})"
           >
             {{t('prop.loan_amount_full')}}
           </cf-label-control>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="chips">
-          <nz-tag>{{t('prop.loan_amount', { amount: loanAmount() | number, prefix: loanAmount() | pluralize: 'money': false})}}</nz-tag>
+          <nz-tag>{{t('prop.loan_amount', { amount: amountInMillions() | number, prefix: loanAmount() | pluralize: 'money': false})}}</nz-tag>
           <nz-tag>{{t('prop.loan_term', { years: loanTerm() | number ,prefix: loanAmount() | pluralize: 'year': false })}}</nz-tag>
           <nz-tag>{{t('prop.loan_percent', { percent: annualRate() | number, prefix: loanAmount() | pluralize: 'money'})}}</nz-tag>
         </div>

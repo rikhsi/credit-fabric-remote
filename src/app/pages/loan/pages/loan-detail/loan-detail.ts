@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, linke
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, forkJoin, take } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
-import { LoanDetailService } from '@pages/loan/services';
+import { LoanDetailService, LoanProductsService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
 import { RouteParam } from '@app/constants/route-param';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
@@ -22,6 +22,7 @@ import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 export class LoanDetail implements OnInit {
   private readonly nmService = inject(NzModalService);
   private readonly ldService = inject(LoanDetailService);
+  private readonly productsService = inject(LoanProductsService);
   private readonly vcRef = inject(ViewContainerRef);
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
@@ -41,7 +42,14 @@ export class LoanDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.ldService.getProduct$(this.loanId), this.ldService.checkValidate$(this.user()?.pinfl)])
+    const product = this.productsService.getById(this.loanId);
+
+    if (product) {
+      this.ldService.applyProduct(product);
+    }
+
+    this.ldService
+      .checkValidate$(this.user()?.pinfl)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
