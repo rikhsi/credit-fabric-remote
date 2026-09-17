@@ -6,8 +6,9 @@ import { filter, take } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
-import { LoanDetailService, LoanProductsService } from '@pages/loan/services';
+import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
+import { LoanProductsService } from '@core/services/loan-products.service';
 import { RouteParam } from '@app/constants/route-param';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
