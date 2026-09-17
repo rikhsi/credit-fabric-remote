@@ -1,16 +1,20 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, take } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { filter, forkJoin, take } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, ProductAcception } from '@pages/loan/components';
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
+import { EligibilityService } from '@core/services/eligibility.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
+import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { fetchHandbookItems } from '@shared/utils';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -26,8 +30,11 @@ export class LoanDetail implements OnInit {
   private readonly productsService = inject(LoanProductsService);
   private readonly vcRef = inject(ViewContainerRef);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly eligibilityService = inject(EligibilityService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly http = inject(HttpClient);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly calculationResult = computed(() => this.ldService.calculationResult());
@@ -43,14 +50,13 @@ export class LoanDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    const product = this.productsService.getById(this.loanId);
+    this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
-    if (product) {
-      this.ldService.applyProduct(product);
-    }
-
-    this.ldService
-      .checkValidate$(this.user()?.pinfl)
+    forkJoin([
+      this.ldService.checkValidate$(this.user()?.pinfl),
+      fetchHandbookItems(this.http, { url: 'sys-address-type' }),
+      fetchHandbookItems(this.http, { url: 'dir-city' }),
+    ])
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -58,13 +64,17 @@ export class LoanDetail implements OnInit {
           this.ldService.isDisabled.set(false);
         },
         error: () => {
-          this.ldService.isLoading.set(false);
-          this.ldService.isDisabled.set(false);
+          this.eligibilityService.isEligible.set(false);
+          void this.router.navigate([RootRoute.Loan, LoanRoute.List]);
         },
       });
   }
 
   openAddressForm(editIndex: number): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     const items = this.ldService.form().value().addresses;
     const nzData = items[editIndex];
 

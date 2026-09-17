@@ -14,7 +14,7 @@
     </div>
   </cf-card>
 
-  <cf-address-info [items]="form().addresses().value()" (edit)="openAddressForm($event)" />
+  <cf-address-info [items]="form().addresses().value()" [isLoading]="isLoading()" (edit)="openAddressForm($event)" />
 
   <cf-product-acception [form]="form()" (clicked)="submit()" />
 </ng-container>

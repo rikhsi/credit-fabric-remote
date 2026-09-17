@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { AddressInfoItem } from './components';
@@ -16,6 +17,7 @@ import { isFlowAddressFilled } from '@pages/loan/utils/address';
     Card,
     NzButtonComponent,
     NzIconDirective,
+    NzSpinComponent,
     NzTypographyComponent,
     NzTagComponent,
     TranslocoDirective,
@@ -28,9 +30,18 @@ import { isFlowAddressFilled } from '@pages/loan/utils/address';
 })
 export class AddressInfo {
   readonly items = input<OnlineStartProcessingAddress[]>([]);
+  readonly isLoading = input(false);
 
   readonly hasIncomplete = computed(() => this.items().some((item) => !isFlowAddressFilled(item)));
   readonly firstIncompleteIndex = computed(() => this.items().findIndex((item) => !isFlowAddressFilled(item)));
 
   readonly edit = output<number>();
+
+  onFill(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    this.edit.emit(this.firstIncompleteIndex());
+  }
 }

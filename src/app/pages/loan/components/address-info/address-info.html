@@ -4,9 +4,13 @@
   <cf-card [titleRef]="titleRef" [showSpace]="!incomplete" class="bordered">
     <div actions>
       @if (incomplete) {
-      <button cfBounce nz-button nzType="default" nzSize="default" nzGhost (clicked)="edit.emit(firstIncompleteIndex())">
+      <button cfBounce nz-button nzType="default" nzSize="default" nzGhost [disabled]="isLoading()" (clicked)="onFill()">
         <strong>{{ t('action.fill') }}</strong>
+        @if (isLoading()) {
+        <nz-spin nzSimple nzSize="small" />
+        } @else {
         <nz-icon nzType="f:pencil" class="primary" />
+        }
       </button>
       }
     </div>
