@@ -4,7 +4,7 @@ import { ProductApiService } from '@api/controllers/los';
 import { ProductItem } from '@api/models/los/product';
 import { EligibilityService } from '@core/services/eligibility.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LoanProductsService {
   private readonly productApiService = inject(ProductApiService);
   private readonly eligibilityService = inject(EligibilityService);

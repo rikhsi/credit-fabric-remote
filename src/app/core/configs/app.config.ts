@@ -16,6 +16,7 @@ import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
 import {
   provideEligibility,
+  provideLoanProducts,
   provideIcon,
   provideHostInit,
   provideLang,
@@ -74,6 +75,7 @@ export const appConfig: ApplicationConfig = {
     provideTheme,
     provideHostInit,
     provideEligibility,
+    provideLoanProducts,
     provideLang,
     provideIcon,
     provideLocaleId(),
