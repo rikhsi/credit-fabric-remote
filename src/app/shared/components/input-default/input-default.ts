@@ -6,6 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputDirective, NzInputSuffixDirective, NzInputWrapperComponent } from 'ng-zorro-antd/input';
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
+import { NgClass } from '@angular/common';
 
 function isBlank(value: unknown): boolean {
   return value == null || value === '';
@@ -23,6 +24,7 @@ function isBlank(value: unknown): boolean {
     ValidationMsgPipe,
     FormsModule,
     NzInputSuffixDirective,
+    NgClass,
   ],
   templateUrl: './input-default.html',
   styleUrl: './input-default.less',
