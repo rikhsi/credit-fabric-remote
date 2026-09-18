@@ -36,6 +36,13 @@
     max-width: 100%;
     min-width: 0;
   }
+
+  /** Inside the affix wrapper the input is a flex item: it has to share the row with the suffix. */
+  ::ng-deep .ant-input-affix-wrapper > .ant-input {
+    width: auto;
+    flex: 1 1 auto;
+    text-overflow: ellipsis;
+  }
 }
 
 .suffix {

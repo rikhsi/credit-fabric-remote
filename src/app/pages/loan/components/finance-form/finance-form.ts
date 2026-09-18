@@ -12,6 +12,7 @@ import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
 import { FormBox, InfoModal, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
+import { markTreeAsDirty } from '@shared/utils';
 import { InfoModalData } from '@app/typings/modal';
 
 @Component({
@@ -112,7 +113,7 @@ export class FinanceForm implements OnInit {
       return;
     }
 
-    this.localForm().markAsDirty();
+    markTreeAsDirty(this.localForm);
   }
 
   private openInfoModal(nzData: InfoModalData): void {

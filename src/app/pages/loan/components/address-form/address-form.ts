@@ -6,6 +6,7 @@ import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { ResetVillageOnCityChangeDirective } from '@pages/loan/directives';
 import { HandbookDirective } from '@shared/directives';
+import { markTreeAsDirty } from '@shared/utils';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { HandbookRequest } from '@app/typings/handbook';
 
@@ -85,6 +86,6 @@ export class AddressForm implements OnInit {
       return;
     }
 
-    this.addressForm().markAsDirty();
+    markTreeAsDirty(this.addressForm);
   }
 }
