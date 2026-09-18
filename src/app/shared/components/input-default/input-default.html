@@ -9,7 +9,7 @@
       [nzWarningTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
       [nzSuccessTip]="showErrors && firstError() ? t(firstError() | validationMsg: true, { count: errorCount() }) : null"
     >
-      <nz-input-wrapper [nzPrefix]="prefix()" [nzSuffix]="suffix()">
+      <nz-input-wrapper [nzPrefix]="prefix()" [nzSuffix]="suffix() ? suffixTpl : null">
         <input
           nz-input
           [mask]="mask()"
@@ -30,3 +30,7 @@
     </nz-form-control>
   </nz-form-item>
 </ng-container>
+
+<ng-template #suffixTpl>
+  <span class="suffix">{{ suffix() }}</span>
+</ng-template>

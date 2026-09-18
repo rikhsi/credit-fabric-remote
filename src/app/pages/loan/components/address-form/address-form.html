@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <cf-form-box
     [submitDisabled]="addressForm().disabled() || addressForm().invalid()"
-    [title]="t('action.add_address')"
+    [title]="t('prop.address')"
     (closeClick)="close()"
     (submitClick)="submit()"
   >
@@ -28,7 +28,6 @@
       />
     </cf-label-control-secondary>
 
-    @if (addressForm.dirCityId().value()) {
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.street')">
       <cf-select-default
         class="cf-hide-xs"
@@ -37,23 +36,24 @@
         [placeholder]="t('control.select.placeholder')"
         size="large"
       >
-        <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }; let items">
+        @if (addressForm.dirCityId().value(); as cityId) {
+        <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: cityId } }; let items">
           @for (item of items; track item.id) {
           <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
           }
         </ng-container>
+        }
       </cf-select-default>
 
       <cf-select-default-mobile
         class="cf-show-xs"
         [formField]="addressForm.dirVillageId"
         [cfResetVillageOnCityChange]="addressForm"
-        [handbook]="{ url: 'dir-village', params: { dir_city_id: addressForm.dirCityId().value() } }"
+        [handbook]="villageHandbook()"
         [placeholder]="t('control.select.placeholder')"
         size="large"
       />
     </cf-label-control-secondary>
-    }
 
     <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.address')">
       <cf-input-default [formField]="addressForm.street" [placeholder]="t('control.input.placeholder')" size="large" />

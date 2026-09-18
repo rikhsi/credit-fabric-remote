@@ -22,7 +22,7 @@ export class SelectDefaultMobile extends ControlBaseDirective<number | boolean |
 
   value = model(null);
 
-  readonly handbook = input.required<HandbookRequest>();
+  readonly handbook = input<HandbookRequest | null>(null);
   readonly showSearch = input<boolean>(true);
 
   readonly options = signal<SelectOption[]>([]);

@@ -4,15 +4,13 @@ import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { createDefaultFinanceForm, resolveFinanceMonthsForSubmit } from '@pages/loan/utils/finance-months';
 import { isFinanceRevenueIncomeValid, validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
-import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
+import { FormBox, InputDefault, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
-import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'cf-finance-form',
@@ -20,16 +18,13 @@ import { PluralizePipe } from '@shared/pipes';
     FinanceMonthPipe,
     FormBox,
     InputDefault,
-    LabelControlSecondary,
     SelectDefault,
     SelectDefaultMobile,
     NzOptionComponent,
     NzIconDirective,
-    NzTagComponent,
     TranslocoDirective,
     HandbookDirective,
     FormField,
-    PluralizePipe,
     DatePipe,
     NgTemplateOutlet,
   ],

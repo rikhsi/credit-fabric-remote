@@ -1,5 +1,16 @@
 @import 'mixins';
 
+.themeMixin({
+  :host {
+    .error {
+      ::ng-deep .ant-checkbox-inner {
+        border-color: @error-color;
+        background: @error-bg-color;
+      }
+    }
+  }
+});
+
 :host {
   display: flex;
   justify-content: space-between;

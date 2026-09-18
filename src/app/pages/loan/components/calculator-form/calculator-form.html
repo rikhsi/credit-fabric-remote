@@ -12,7 +12,7 @@
   <div>
     <div class="field-label">
       <span>{{ t('prop.loan_calculation_type') }}</span>
-      <nz-icon nzType="info-circle" class="primary info-icon" />
+      <nz-icon nzType="info-circle" class="primary info-icon" (click)="openCalculationTypeInfo()" />
     </div>
 
     <nz-radio-group [formField]="form().type">

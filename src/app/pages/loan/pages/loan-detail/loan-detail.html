@@ -12,9 +12,9 @@
     </div>
   </cf-card>
 
-  <cf-address-info [items]="form().addresses().value()" [isLoading]="isLoading()" (edit)="openAddressForm($event)" />
+  <cf-address-info #addressSection [items]="form().addresses().value()" [isLoading]="isLoading()" (edit)="openAddressForm($event)" />
 
-  <cf-finance-info [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
+  <cf-finance-info #financeSection [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
 
   <cf-product-acception [form]="form()" (clicked)="submit()" />
 </ng-container>

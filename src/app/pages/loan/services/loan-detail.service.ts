@@ -25,6 +25,7 @@ export class LoanDetailService {
     min(schemaPath.term, () => this.productCondition()?.minTerm ?? 0);
     max(schemaPath.term, () => this.productCondition()?.maxTerm ?? 0);
     required(schemaPath.offer);
+    validate(schemaPath.offer, ({ value }) => (value() ? null : requiredError()));
     validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());

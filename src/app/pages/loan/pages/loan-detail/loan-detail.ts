@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, linkedSignal, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, linkedSignal, OnInit, viewChild, ViewContainerRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -15,6 +15,8 @@ import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { OnlineStartProcessingAddress, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems } from '@shared/utils';
+import { isFlowAddressFilled } from '@pages/loan/utils/address';
+import { isFinDataFilled } from '@pages/loan/utils/finance';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -40,6 +42,9 @@ export class LoanDetail implements OnInit {
   public readonly calculationResult = computed(() => this.ldService.calculationResult());
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
+
+  private readonly addressSection = viewChild('addressSection', { read: ElementRef });
+  private readonly financeSection = viewChild('financeSection', { read: ElementRef });
 
   get loanId(): string {
     return this.route.snapshot.params[RouteParam.LoanId];
@@ -126,5 +131,36 @@ export class LoanDetail implements OnInit {
     });
   }
 
-  submit(): void {}
+  submit(): void {
+    this.ldService.form().markAsDirty();
+
+    const { addresses, finData } = this.ldService.form().value();
+
+    if (!addresses.every(isFlowAddressFilled)) {
+      this.scrollToSection(this.addressSection());
+      return;
+    }
+
+    if (!isFinDataFilled(finData)) {
+      this.scrollToSection(this.financeSection());
+      return;
+    }
+
+    if (this.ldService.form().invalid()) {
+      return;
+    }
+  }
+
+  private scrollToSection(target: ElementRef<HTMLElement> | undefined): void {
+    const el = target?.nativeElement;
+
+    if (!el) {
+      return;
+    }
+
+    const headerHeight = document.querySelector('cf-layout-header')?.getBoundingClientRect().height ?? 0;
+    const top = window.scrollY + el.getBoundingClientRect().top - headerHeight - 8;
+
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  }
 }

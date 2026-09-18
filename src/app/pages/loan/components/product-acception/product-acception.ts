@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { FieldTree, FormField } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -18,7 +18,13 @@ export class ProductAcception {
 
   clicked = output<boolean>();
 
+  private readonly submitted = signal(false);
+
+  readonly showOfferError = computed(() => this.submitted() && this.form()?.offer().value() !== true);
+
   apply(): void {
+    this.submitted.set(true);
+    this.form()?.offer().markAsDirty();
     this.clicked.emit(true);
   }
 }

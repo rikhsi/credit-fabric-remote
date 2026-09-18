@@ -29,7 +29,8 @@
     "go_to_one_id": "OneID’ga o‘tish",
     "fill_application": "Arizani to‘ldirish",
     "fill": "To‘ldirish",
-    "edit": "Tahrirlash"
+    "edit": "Tahrirlash",
+    "got_it": "Tushunarli"
   },
   "flow": {
     "one_id": {
@@ -77,6 +78,7 @@
   },
   "alert": {
     "fill_fields": "Maydonlarni to‘ldiring",
+    "finance_fill": "Moliyaviy ma’lumotlarni, kompaniyaning daromadi va sof foydasini oxirgi 3 oy uchun to‘ldiring",
     "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak"
   },
   "loan": {
@@ -120,6 +122,10 @@
     "error_unknown": {
       "description": "Noma'lum xatolik",
       "title": "Xatolik"
+    },
+    "calculation_type": {
+      "annuity": "Annuitet (teng to‘lovlar): kredit to‘lovlari teng miqdorlarda va teng vaqt oralig‘ida amalga oshiriladi",
+      "standart": "Differensial (kamayib boruvchi): kredit to‘lovlari turli miqdorlarda amalga oshiriladi, oylik to‘lov esa asta-sekin kamayadi"
     }
   },
   "otp": {
@@ -221,6 +227,9 @@
     "month": "Oy",
     "benefit": "Tushum, so‘m",
     "pure_benefit": "Sof foyda, so‘m",
+    "income": "Daromad",
+    "net_profit": "Sof foyda",
+    "amount_in_words": "Summa so‘z bilan shu yerda paydo bo‘ladi",
     "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman",
     "total_amount": "Miqdor",
     "term": "Muddat",

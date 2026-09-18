@@ -1,16 +1,9 @@
 <ng-container *transloco="let t">
-  <label nz-checkbox [formField]="form().offer">
+  <label nz-checkbox [formField]="form().offer" [class.error]="showOfferError()">
     <span [innerHTML]="t('prop.public_offer')"></span>
   </label>
 
-  <button
-    cfBounce
-    nz-button
-    nzType="primary"
-    nzSize="large"
-    [disabled]="!form().offer().value() || form()().disabled()"
-    (clicked)="apply()"
-  >
+  <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="apply()">
     {{t('action.apply')}}
   </button>
 </ng-container>

@@ -1,20 +1,22 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
     .month-card {
       background: @component-background-secondary;
-      border: 1px solid @border-color;
     }
 
     .month-card__label {
       color: @text-color;
     }
 
-    .finance-form__title {
-      color: @text-color;
+    .month-card__index,
+    .month-card__hint {
+      color: @text-color-tertiary;
     }
 
+    .finance-form__info,
     .finance-form__alert {
       background: @error-bg-color;
       color: @error-color;
@@ -33,38 +35,47 @@
 .finance-form {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 16px;
+}
+
+.finance-form__info,
+.finance-form__alert {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 8px;
+  padding: 12px 16px;
+  border-radius: 16px;
+
+  nz-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 16px;
+  }
+
+  span {
+    .textMixin(@font-weight-medium, @font-size-sm, @line-height-base);
+  }
 }
 
 .finance-form__general {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  column-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
 
   > * {
     width: 100%;
     min-width: 0;
   }
-}
 
-.finance-form__title {
-  margin: 0;
-  .textMixin(600, 18px, 130%);
-}
-
-.finance-form__alert {
-  align-self: flex-start;
-
-  nz-icon {
-    margin-right: 4px;
-    font-size: 14px;
+  ::ng-deep .ant-form-item {
+    margin-bottom: 0;
   }
 }
 
 .finance-form__months {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .month-card {
@@ -74,14 +85,34 @@
   border-radius: 16px;
   min-width: 0;
 
-  cf-label-control-secondary {
-    width: 100%;
-    min-width: 0;
+  ::ng-deep .ant-form-item {
+    margin-bottom: 0;
   }
+}
+
+.month-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 12px;
+  margin-bottom: 12px;
 }
 
 .month-card__label {
   margin: 0;
   text-transform: capitalize;
   .textMixin(600, 16px, 130%);
+}
+
+.month-card__index {
+  .textMixin(@font-weight-medium, @font-size-sm, @line-height-base);
+}
+
+.month-card__hint {
+  margin: 4px 0 12px;
+  .textMixin(@font-weight-base, @font-size-sm, @line-height-base);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }

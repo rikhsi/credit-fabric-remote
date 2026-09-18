@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -7,6 +7,7 @@ import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefa
 import { ResetVillageOnCityChangeDirective } from '@pages/loan/directives';
 import { HandbookDirective } from '@shared/directives';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { HandbookRequest } from '@app/typings/handbook';
 
 @Component({
   selector: 'cf-address-form',
@@ -41,11 +42,18 @@ export class AddressForm implements OnInit {
     }),
     (schemaPath) => {
       disabled(schemaPath, () => this.isLoading());
+      disabled(schemaPath.dirVillageId, () => !this.addressForm.dirCityId().value());
       required(schemaPath.dirVillageId);
       required(schemaPath.dirCityId);
       required(schemaPath.street);
     },
   );
+
+  public readonly villageHandbook = computed<HandbookRequest | null>(() => {
+    const cityId = this.addressForm.dirCityId().value();
+
+    return cityId ? { url: 'dir-village', params: { dir_city_id: cityId } } : null;
+  });
 
   public ngOnInit(): void {
     setTimeout(() => {

@@ -1,0 +1,24 @@
+<ng-container *transloco="let t">
+  <div class="header">
+    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+      <nz-icon nzType="close" />
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="icon">
+      <nz-icon nzType="info-circle" />
+    </div>
+    <div class="text">
+      <h1 nz-typography>{{ t('prop.loan_calculation_type') }}</h1>
+      <p nz-typography>{{ t('modal.calculation_type.annuity') }}</p>
+      <p nz-typography>{{ t('modal.calculation_type.standart') }}</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="close()">
+      <strong>{{ t('action.got_it') }}</strong>
+    </button>
+  </div>
+</ng-container>

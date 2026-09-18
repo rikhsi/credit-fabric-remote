@@ -29,7 +29,8 @@
     "go_to_one_id": "Go to OneID",
     "fill_application": "Fill out the application",
     "fill": "Fill",
-    "edit": "Edit"
+    "edit": "Edit",
+    "got_it": "Got it"
   },
   "flow": {
     "one_id": {
@@ -77,6 +78,7 @@
   },
   "alert": {
     "fill_fields": "Fill in the fields",
+    "finance_fill": "Fill in the financial data, company income and net profit for the last 3 months",
     "revenue_less_than_income": "Revenue cannot be less than net profit"
   },
   "loan": {
@@ -120,6 +122,10 @@
     "error_unknown": {
       "description": "Unknown error",
       "title": "Error"
+    },
+    "calculation_type": {
+      "annuity": "Annuity (equal installments): loan payments are made in equal amounts at equal intervals",
+      "standart": "Differentiated (decreasing): loan payments are made in different amounts, and the monthly payment gradually decreases"
     }
   },
   "otp": {
@@ -221,6 +227,9 @@
     "month": "Month",
     "benefit": "Revenue, sum",
     "pure_benefit": "Net profit, sum",
+    "income": "Income",
+    "net_profit": "Net profit",
+    "amount_in_words": "Amount in words will appear here",
     "public_offer": "By filling out the form, I agree to the <a>public offer</a>",
     "total_amount": "Amount",
     "term": "Term",
