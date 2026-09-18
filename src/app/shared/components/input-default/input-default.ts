@@ -3,7 +3,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputDirective, NzInputWrapperComponent } from 'ng-zorro-antd/input';
+import { NzInputDirective, NzInputSuffixDirective, NzInputWrapperComponent } from 'ng-zorro-antd/input';
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
 
@@ -18,6 +18,7 @@ import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
     ValidationStatusPipe,
     ValidationMsgPipe,
     FormsModule,
+    NzInputSuffixDirective,
   ],
   templateUrl: './input-default.html',
   styleUrl: './input-default.less',

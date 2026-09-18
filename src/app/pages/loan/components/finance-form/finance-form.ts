@@ -8,7 +8,7 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { createDefaultFinanceForm, resolveFinanceMonthsForSubmit } from '@pages/loan/utils/finance-months';
-import { isFinanceRevenueIncomeValid, validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
+import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
 import { FormBox, InputDefault, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 
@@ -64,8 +64,6 @@ export class FinanceForm implements OnInit {
   });
 
   public readonly financeForm = computed(() => this.form() ?? this.localForm);
-
-  readonly showRevenueIncomeAlert = computed(() => !isFinanceRevenueIncomeValid(this.financeForm()().value().finData));
 
   public ngOnInit(): void {
     if (!this.isModal) {

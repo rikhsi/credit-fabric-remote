@@ -16,10 +16,8 @@
       color: @text-color-tertiary;
     }
 
-    .finance-form__info,
-    .finance-form__alert {
-      background: @error-bg-color;
-      color: @error-color;
+    .finance-form__info {
+      background: @body-background;
 
       nz-icon {
         color: @error-color;
@@ -35,32 +33,31 @@
 .finance-form {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 10px;
 }
 
-.finance-form__info,
-.finance-form__alert {
+.finance-form__info {
   display: flex;
   align-items: flex-start;
   column-gap: 8px;
-  padding: 12px 16px;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 12px;
 
   nz-icon {
     flex-shrink: 0;
     margin-top: 2px;
-    font-size: 16px;
+    font-size: 20px;
   }
 
   span {
-    .textMixin(@font-weight-medium, @font-size-sm, @line-height-base);
+    .textMixin(@font-weight-medium, @font-size-md, @line-height-base);
   }
 }
 
 .finance-form__general {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  row-gap: 10px;
 
   > * {
     width: 100%;
@@ -75,7 +72,7 @@
 .finance-form__months {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  row-gap: 10px;
 }
 
 .month-card {
@@ -83,6 +80,7 @@
   flex-direction: column;
   padding: 16px;
   border-radius: 16px;
+  row-gap: 10px;
   min-width: 0;
 
   ::ng-deep .ant-form-item {
@@ -105,14 +103,5 @@
 }
 
 .month-card__index {
-  .textMixin(@font-weight-medium, @font-size-sm, @line-height-base);
-}
-
-.month-card__hint {
-  margin: 4px 0 12px;
-  .textMixin(@font-weight-base, @font-size-sm, @line-height-base);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
+  .textMixin(400, 14px, @line-height-base);
 }

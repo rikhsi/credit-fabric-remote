@@ -47,13 +47,6 @@
         />
       </div>
 
-      @if (showRevenueIncomeAlert()) {
-      <div class="finance-form__alert">
-        <nz-icon nzType="info-circle" />
-        <span>{{ t('alert.revenue_less_than_income') }}</span>
-      </div>
-      }
-
       <div class="finance-form__months">
         <article class="month-card">
           <div class="month-card__head">
@@ -69,7 +62,6 @@
             suffix="UZS"
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
 
           <cf-input-default
             [formField]="financeForm().finData.month1Income"
@@ -79,7 +71,6 @@
             thousandSeparator=" "
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
         </article>
 
         <article class="month-card">
@@ -96,7 +87,6 @@
             thousandSeparator=" "
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
 
           <cf-input-default
             [formField]="financeForm().finData.month2Income"
@@ -106,7 +96,6 @@
             thousandSeparator=" "
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
         </article>
 
         <article class="month-card">
@@ -123,7 +112,6 @@
             thousandSeparator=" "
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
 
           <cf-input-default
             [formField]="financeForm().finData.month3Income"
@@ -133,7 +121,6 @@
             thousandSeparator=" "
             size="large"
           />
-          <p class="month-card__hint">{{ t('prop.amount_in_words') }}</p>
         </article>
       </div>
     </div>

@@ -1,3 +1,12 @@
+@import 'mixins';
+
+.themeMixin({
+  .ant-select-selection-placeholder  {
+    color: @text-color-tertiary;
+  }
+});
+
+
 nz-select {
   max-width: 100%;
   min-width: 0;
@@ -19,6 +28,8 @@ nz-select {
     flex: 1;
     min-width: 0;
     max-width: 100%;
+    font-size: 14px !important;
+    font-weight: 400 !important;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -43,4 +54,9 @@ nz-select {
     word-break: break-word;
     line-height: 1.4;
   }
+}
+
+.ant-select-selection-placeholder {
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }

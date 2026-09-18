@@ -1,3 +1,11 @@
+@import 'mixins';
+
+.themeMixin({
+.ant-input::placeholder   {
+    color: @text-color-tertiary;
+  }
+});
+
 .ant-otp-input {
   width: 46px;
   height: 55px;
@@ -8,4 +16,40 @@
 
 .ant-input-number {
   width: 100%;
+}
+
+.ant-form-item {
+  margin-bottom: 12px;
+}
+
+.ant-form-item-with-help {
+  margin-bottom: 0px;
+}
+
+.ant-form-item-explain .ant-form-item-explain-connected {
+  min-height: auto !important;
+}
+
+.ant-form-item-with-help .ant-form-item-explain {
+  min-height: auto !important;
+}
+
+.ant-form-item-explain-error {
+  font-size: 12px;
+  font-weight: 400;
+  padding-top: 6px;
+  padding-left: 12px;
+  padding-bottom: 6px;
+}
+
+.ant-input:placeholder-shown {
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 4px;
+  display: inline-block;
+}
+
+.ant-input-lg {
+  font-size: 14px;
+  font-weight: 400;
 }
