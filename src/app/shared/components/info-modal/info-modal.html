@@ -10,9 +10,11 @@
       <nz-icon nzType="info-circle" />
     </div>
     <div class="text">
-      <h1 nz-typography>{{ t('prop.loan_calculation_type') }}</h1>
-      <p nz-typography>{{ t('modal.calculation_type.annuity') }}</p>
-      <p nz-typography>{{ t('modal.calculation_type.standart') }}</p>
+      <h1 nz-typography>{{ t(config.title) }}</h1>
+
+      @for (description of config.descriptions; track description) {
+      <p nz-typography>{{ t(description) }}</p>
+      }
     </div>
   </div>
 

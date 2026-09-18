@@ -10,15 +10,13 @@
       <h1 nz-typography>{{title()}}</h1>
     </div>
 
-    <div class="body">
+    <div #body class="body">
       <ng-content />
     </div>
   </div>
 
   <div class="footer">
     <button cfBounce nz-button nzType="default" nzSize="large" (clicked)="closeClick.emit()">{{t('action.cancel')}}</button>
-    <button cfBounce [disabled]="submitDisabled()" nz-button nzType="primary" nzSize="large" (clicked)="submitClick.emit()">
-      {{t('action.add')}}
-    </button>
+    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{t('action.add')}}</button>
   </div>
 </ng-container>

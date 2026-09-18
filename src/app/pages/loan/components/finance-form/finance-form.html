@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   @if (isModal) {
-  <cf-form-box [submitDisabled]="financeForm()().invalid()" [title]="t('prop.finances')" (closeClick)="close()" (submitClick)="submit()">
+  <cf-form-box [title]="t('prop.finances')" (closeClick)="close()" (submitClick)="submit()">
     <ng-container [ngTemplateOutlet]="fields" />
   </cf-form-box>
   } @else {
@@ -17,110 +17,137 @@
       </div>
 
       <div class="finance-form__general">
-        <cf-select-default
-          class="cf-hide-xs"
-          [formField]="financeForm().finData.dirCompanyActivityId"
-          [placeholder]="t('prop.actual_business_activity')"
-          size="large"
+        <cf-label-control-secondary
+          style="align-items: flex-start; width: 100%"
+          [label]="t('prop.business_activity')"
+          [hint]="true"
+          (hintClick)="openBusinessActivityInfo()"
         >
-          <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
-            @for (item of items; track item.id) {
-            <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
-            }
-          </ng-container>
-        </cf-select-default>
+          <cf-select-default
+            class="cf-hide-xs"
+            [formField]="financeForm().finData.dirCompanyActivityId"
+            [placeholder]="t('control.select.placeholder')"
+            size="large"
+          >
+            <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
+              @for (item of items; track item.id) {
+              <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
+              }
+            </ng-container>
+          </cf-select-default>
 
-        <cf-select-default-mobile
-          class="cf-show-xs"
-          [formField]="financeForm().finData.dirCompanyActivityId"
-          [handbook]="{ url: 'dir-company-activity' }"
-          [placeholder]="t('prop.actual_business_activity')"
-          size="large"
-        />
+          <cf-select-default-mobile
+            class="cf-show-xs"
+            [formField]="financeForm().finData.dirCompanyActivityId"
+            [handbook]="{ url: 'dir-company-activity' }"
+            [placeholder]="t('control.select.placeholder')"
+            size="large"
+          />
+        </cf-label-control-secondary>
 
-        <cf-input-default
-          [formField]="financeForm().finData.activityTerm"
-          mask="separator.0"
-          thousandSeparator=" "
-          [placeholder]="t('prop.experience_in_business_activity')"
-          size="large"
-        />
+        <cf-label-control-secondary
+          style="align-items: flex-start; width: 100%"
+          [label]="t('prop.activity_term')"
+          [hint]="true"
+          (hintClick)="openActivityTermInfo()"
+        >
+          <cf-input-default
+            [formField]="financeForm().finData.activityTerm"
+            [suffix]="financeForm().finData.activityTerm().value() | pluralize: 'month' : false"
+            mask="separator.0"
+            thousandSeparator=" "
+            [placeholder]="t('control.input.placeholder')"
+            size="large"
+          />
+        </cf-label-control-secondary>
       </div>
 
       <div class="finance-form__months">
         <article class="month-card">
           <div class="month-card__head">
-            <h5 class="month-card__label">{{ 1 | financeMonth | date: 'MMMM y' }}</h5>
+            <h5 class="month-card__label">{{ 1 | financeMonth | date: 'LLLL' }}</h5>
             <span class="month-card__index">№1</span>
           </div>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month1Revenue"
-            [placeholder]="t('prop.income')"
-            mask="separator.0"
-            thousandSeparator=" "
-            suffix="UZS"
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+            <cf-input-default
+              [formField]="financeForm().finData.month1Revenue"
+              [placeholder]="t('control.input.placeholder')"
+              mask="separator.0"
+              thousandSeparator=" "
+              suffix="UZS"
+              size="large"
+            />
+          </cf-label-control-secondary>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month1Income"
-            suffix="UZS"
-            [placeholder]="t('prop.net_profit')"
-            mask="separator.0"
-            thousandSeparator=" "
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+            <cf-input-default
+              [formField]="financeForm().finData.month1Income"
+              suffix="UZS"
+              [placeholder]="t('control.input.placeholder')"
+              mask="separator.0"
+              thousandSeparator=" "
+              size="large"
+            />
+          </cf-label-control-secondary>
         </article>
 
         <article class="month-card">
           <div class="month-card__head">
-            <h5 class="month-card__label">{{ 2 | financeMonth | date : 'MMMM y' }}</h5>
+            <h5 class="month-card__label">{{ 2 | financeMonth | date: 'LLLL' }}</h5>
             <span class="month-card__index">№2</span>
           </div>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month2Revenue"
-            suffix="UZS"
-            [placeholder]="t('prop.income')"
-            mask="separator.0"
-            thousandSeparator=" "
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+            <cf-input-default
+              [formField]="financeForm().finData.month2Revenue"
+              suffix="UZS"
+              [placeholder]="t('control.input.placeholder')"
+              mask="separator.0"
+              thousandSeparator=" "
+              size="large"
+            />
+          </cf-label-control-secondary>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month2Income"
-            suffix="UZS"
-            [placeholder]="t('prop.net_profit')"
-            mask="separator.0"
-            thousandSeparator=" "
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+            <cf-input-default
+              [formField]="financeForm().finData.month2Income"
+              suffix="UZS"
+              [placeholder]="t('control.input.placeholder')"
+              mask="separator.0"
+              thousandSeparator=" "
+              size="large"
+            />
+          </cf-label-control-secondary>
         </article>
 
         <article class="month-card">
           <div class="month-card__head">
-            <h5 class="month-card__label">{{ 3 | financeMonth | date : 'MMMM y' }}</h5>
+            <h5 class="month-card__label">{{ 3 | financeMonth | date: 'LLLL' }}</h5>
             <span class="month-card__index">№3</span>
           </div>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month3Revenue"
-            suffix="UZS"
-            [placeholder]="t('prop.income')"
-            mask="separator.0"
-            thousandSeparator=" "
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+            <cf-input-default
+              [formField]="financeForm().finData.month3Revenue"
+              suffix="UZS"
+              [placeholder]="t('control.input.placeholder')"
+              mask="separator.0"
+              thousandSeparator=" "
+              size="large"
+            />
+          </cf-label-control-secondary>
 
-          <cf-input-default
-            [formField]="financeForm().finData.month3Income"
-            [placeholder]="t('prop.net_profit')"
-            suffix="UZS"
-            mask="separator.0"
-            thousandSeparator=" "
-            size="large"
-          />
+          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+            <cf-input-default
+              [formField]="financeForm().finData.month3Income"
+              [placeholder]="t('control.input.placeholder')"
+              suffix="UZS"
+              mask="separator.0"
+              thousandSeparator=" "
+              size="large"
+            />
+          </cf-label-control-secondary>
         </article>
       </div>
     </div>

@@ -7,6 +7,10 @@ import { NzInputDirective, NzInputSuffixDirective, NzInputWrapperComponent } fro
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
 
+function isBlank(value: unknown): boolean {
+  return value == null || value === '';
+}
+
 @Component({
   selector: 'cf-input-default',
   imports: [
@@ -33,4 +37,15 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   mask = input<string>('');
   maskPrefix = input<string>('');
   thousandSeparator = input<string>('');
+
+  onValueChange(next: string | null): void {
+    const current = this.value();
+
+    /** ngx-mask echoes the value back on init, which would mark an untouched field as dirty. */
+    if (next === current || (isBlank(next) && isBlank(current))) {
+      return;
+    }
+
+    this.value.set(next);
+  }
 }

@@ -14,3 +14,8 @@ export interface ConfirmModal extends BaseModal {
   submit: ModalButtonBase;
   icon?: string;
 }
+
+export interface InfoModalData {
+  title: string;
+  descriptions: string[];
+}

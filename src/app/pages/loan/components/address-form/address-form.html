@@ -1,10 +1,5 @@
 <ng-container *transloco="let t">
-  <cf-form-box
-    [submitDisabled]="addressForm().disabled() || addressForm().invalid()"
-    [title]="t('prop.address')"
-    (closeClick)="close()"
-    (submitClick)="submit()"
-  >
+  <cf-form-box [title]="t('prop.address')" (closeClick)="close()" (submitClick)="submit()">
     <div class="list">
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.city')">
         <cf-select-default

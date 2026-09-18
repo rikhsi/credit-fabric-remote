@@ -126,6 +126,12 @@
     "calculation_type": {
       "annuity": "Annuitet (teng to‘lovlar): kredit to‘lovlari teng miqdorlarda va teng vaqt oralig‘ida amalga oshiriladi",
       "standart": "Differensial (kamayib boruvchi): kredit to‘lovlari turli miqdorlarda amalga oshiriladi, oylik to‘lov esa asta-sekin kamayadi"
+    },
+    "business_activity": {
+      "description": "Kompaniyangiz amalda shug‘ullanadigan faoliyat turini ko‘rsating"
+    },
+    "activity_term": {
+      "description": "Ushbu faoliyat turi bo‘yicha amaldagi ish muddatini ko‘rsating. Eng kam muddat — 3 oy"
     }
   },
   "otp": {
@@ -203,13 +209,11 @@
   "prop": {
     "product": "Mahsulot",
     "my_applications": "Mening arizalarim",
-    "actual_business_activity": "Amaldagi faoliyat turi",
     "address": "Manzil",
     "annuity": "Teng to‘lovlar",
     "loan_application_submit": "Kredit arizasini topshirish",
     "credits": "Kreditlar",
     "debit_account": "Hisob raqami",
-    "experience_in_business_activity": "Mazkur faoliyat bo‘yicha ish tajribasi (kamida 3 oy)",
     "finances": "Moliya",
     "financial_activity_over": "So‘nggi 3 to‘liq oy faoliyati haqida ma’lumot",
     "loan_amount": "{{amount}} mln {{prefix}} gacha",
@@ -229,6 +233,8 @@
     "pure_benefit": "Sof foyda, so‘m",
     "income": "Daromad",
     "net_profit": "Sof foyda",
+    "business_activity": "Faoliyat turi",
+    "activity_term": "Ish muddati",
     "amount_in_words": "Summa so‘z bilan shu yerda paydo bo‘ladi",
     "public_offer": "Formani to‘ldirish orqali men <a>ommaviy oferta</a>ga rozilik bildiraman",
     "total_amount": "Miqdor",

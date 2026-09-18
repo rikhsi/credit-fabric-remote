@@ -91,6 +91,22 @@
       overflow-x: hidden;
       overflow-y: auto;
       padding: 0 24px;
+      scrollbar-width: thin;
+      scrollbar-color: #d1d1d1 #ebebeb;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #ebebeb;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #d1d1d1;
+        border-radius: 4px;
+      }
     }
   }
 

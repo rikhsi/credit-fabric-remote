@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { NzSizeDSType } from 'ng-zorro-antd/core/types';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 
@@ -14,6 +14,9 @@ export class LabelControlSecondary {
   label = input<string>();
   id = input<string>();
   icon = input<string>();
+  hint = input<boolean>(false);
   required = input<boolean>();
   size = input<NzSizeDSType>('default');
+
+  hintClick = output<void>();
 }

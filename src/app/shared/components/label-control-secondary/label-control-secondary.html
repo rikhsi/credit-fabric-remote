@@ -2,7 +2,13 @@
 <nz-icon [nzType]="icon" class="icon" />
 }
 <div class="box">
-  <label [for]="id()" [ngClass]="{required: required(), small: size() === 'small'}">{{label()}}</label>
+  <div class="label">
+    <label [for]="id()" [ngClass]="{required: required(), small: size() === 'small'}">{{label()}}</label>
+
+    @if (hint()) {
+    <nz-icon nzType="info-circle" class="primary hint" (click)="hintClick.emit()" />
+    }
+  </div>
 
   <ng-content />
 </div>

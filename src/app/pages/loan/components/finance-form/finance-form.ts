@@ -4,13 +4,15 @@ import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { createDefaultFinanceForm, resolveFinanceMonthsForSubmit } from '@pages/loan/utils/finance-months';
 import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
-import { FormBox, InputDefault, SelectDefault, SelectDefaultMobile } from '@shared/components';
+import { FormBox, InfoModal, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
+import { PluralizePipe } from '@shared/pipes';
+import { InfoModalData } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-finance-form',
@@ -18,6 +20,7 @@ import { HandbookDirective } from '@shared/directives';
     FinanceMonthPipe,
     FormBox,
     InputDefault,
+    LabelControlSecondary,
     SelectDefault,
     SelectDefaultMobile,
     NzOptionComponent,
@@ -27,6 +30,7 @@ import { HandbookDirective } from '@shared/directives';
     FormField,
     DatePipe,
     NgTemplateOutlet,
+    PluralizePipe,
   ],
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
@@ -34,6 +38,7 @@ import { HandbookDirective } from '@shared/directives';
 })
 export class FinanceForm implements OnInit {
   private readonly modalRef = inject(NzModalRef, { optional: true });
+  private readonly nmService = inject(NzModalService);
   private readonly nzModalData = inject<OnlineStartProcessingFinData | null>(NZ_MODAL_DATA, { optional: true });
 
   readonly form = input<FieldTree<{ finData: OnlineStartProcessingFinData }>>();
@@ -80,6 +85,20 @@ export class FinanceForm implements OnInit {
     }, 0);
   }
 
+  public openBusinessActivityInfo(): void {
+    this.openInfoModal({
+      title: 'prop.business_activity',
+      descriptions: ['modal.business_activity.description'],
+    });
+  }
+
+  public openActivityTermInfo(): void {
+    this.openInfoModal({
+      title: 'prop.activity_term',
+      descriptions: ['modal.activity_term.description'],
+    });
+  }
+
   public close(): void {
     this.modalRef?.close(null);
   }
@@ -94,5 +113,18 @@ export class FinanceForm implements OnInit {
     }
 
     this.localForm().markAsDirty();
+  }
+
+  private openInfoModal(nzData: InfoModalData): void {
+    this.nmService.create<InfoModal, InfoModalData>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: InfoModal,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzData,
+    });
   }
 }

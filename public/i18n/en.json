@@ -126,6 +126,12 @@
     "calculation_type": {
       "annuity": "Annuity (equal installments): loan payments are made in equal amounts at equal intervals",
       "standart": "Differentiated (decreasing): loan payments are made in different amounts, and the monthly payment gradually decreases"
+    },
+    "business_activity": {
+      "description": "Specify the actual line of business your company operates in"
+    },
+    "activity_term": {
+      "description": "Specify how long you have actually worked in this line of business. The minimum is 3 months"
     }
   },
   "otp": {
@@ -203,13 +209,11 @@
   "prop": {
     "product": "Product",
     "my_applications": "My applications",
-    "actual_business_activity": "Actual business activity",
     "address": "Address",
     "annuity": "Equal installments",
     "loan_application_submit": "Submit loan application",
     "credits": "Loans",
     "debit_account": "Credit account",
-    "experience_in_business_activity": "Actual duration in this activity (min. 3 months)",
     "finances": "Finances",
     "financial_activity_over": "Activity information for the last 3 full months",
     "loan_amount": "Up to {{amount}} mln {{prefix}}",
@@ -229,6 +233,8 @@
     "pure_benefit": "Net profit, sum",
     "income": "Income",
     "net_profit": "Net profit",
+    "business_activity": "Line of business",
+    "activity_term": "Work duration",
     "amount_in_words": "Amount in words will appear here",
     "public_offer": "By filling out the form, I agree to the <a>public offer</a>",
     "total_amount": "Amount",

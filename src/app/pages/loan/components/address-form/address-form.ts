@@ -76,6 +76,10 @@ export class AddressForm implements OnInit {
   }
 
   public submit(): void {
+    if (this.addressForm().disabled()) {
+      return;
+    }
+
     if (this.addressForm().valid()) {
       this.modalRef.close(this.addressForm().value());
       return;

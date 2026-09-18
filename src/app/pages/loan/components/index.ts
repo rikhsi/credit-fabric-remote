@@ -1,7 +1,6 @@
 export * from './card-product/card-product';
 export * from './calculator-form/calculator-form';
 export * from './calculator-result/calculator-result';
-export * from './calculation-type-modal/calculation-type-modal';
 export * from './product-acception/product-acception';
 export * from './modal-otp/modal-otp';
 export * from './not-eligible/not-eligible';

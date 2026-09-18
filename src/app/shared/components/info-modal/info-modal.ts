@@ -1,19 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { InfoModalData } from '@app/typings/modal';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
-  selector: 'cf-calculation-type-modal',
+  selector: 'cf-info-modal',
   imports: [NzButtonComponent, TranslocoDirective, NzIconDirective, BounceDirective],
-  templateUrl: './calculation-type-modal.html',
-  styleUrl: './calculation-type-modal.less',
+  templateUrl: './info-modal.html',
+  styleUrl: './info-modal.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CalculationTypeModal {
+export class InfoModal {
   private readonly modalRef = inject(NzModalRef);
+
+  public readonly config = inject<InfoModalData>(NZ_MODAL_DATA);
 
   close(): void {
     this.modalRef.close();
