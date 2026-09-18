@@ -24,6 +24,7 @@ import { HandbookRequest } from '@app/typings/handbook';
     ResetVillageOnCityChangeDirective,
   ],
   templateUrl: './address-form.html',
+  styleUrls: ['./address-form.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressForm implements OnInit {
