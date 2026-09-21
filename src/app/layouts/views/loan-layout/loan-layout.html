@@ -1,5 +1,7 @@
-<cf-layout-header [title]="pageTitle()" [backConfig]="data()?.backConfig" (closeClick)="onClose()" />
+<div class="layout" [cfSwipeBack]="canSwipeBack()" (swiped)="onSwipeBack()">
+  <cf-layout-header [title]="pageTitle()" [backConfig]="data()?.backConfig" (closeClick)="onClose()" />
 
-<main class="main">
-  <router-outlet />
-</main>
+  <main class="main">
+    <router-outlet />
+  </main>
+</div>

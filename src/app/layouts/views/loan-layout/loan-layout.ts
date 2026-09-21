@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
@@ -7,6 +7,7 @@ import { LayoutHeader } from '@layouts/components';
 import { LoanLayoutService } from '@layouts/services';
 import { getRouteParam } from '@layouts/utils';
 import { RouteParam } from '@app/constants/route-param';
+import { SwipeBackDirective } from '@shared/directives';
 
 function isTranslationKey(title: string): boolean {
   return /^[a-z][\w.]*$/i.test(title);
@@ -14,7 +15,7 @@ function isTranslationKey(title: string): boolean {
 
 @Component({
   selector: 'cf-loan-layout',
-  imports: [LayoutHeader, RouterOutlet],
+  imports: [LayoutHeader, RouterOutlet, SwipeBackDirective],
   templateUrl: './loan-layout.html',
   styleUrl: './loan-layout.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +28,10 @@ export class LoanLayout implements OnInit {
   private transloco = inject(TranslocoService);
   private router = inject(Router);
 
+  private readonly header = viewChild.required(LayoutHeader);
+
   public data = computed(() => this.loanLayoutService.routData());
+  public readonly canSwipeBack = computed(() => Boolean(this.data()?.backConfig?.link));
   public pageTitle = computed(() => {
     const title = this.data()?.title;
 
@@ -50,5 +54,13 @@ export class LoanLayout implements OnInit {
 
   onClose(): void {
     this.bridgeService.onCloseClick();
+  }
+
+  onSwipeBack(): void {
+    if (!this.canSwipeBack()) {
+      return;
+    }
+
+    this.header().goBack();
   }
 }
