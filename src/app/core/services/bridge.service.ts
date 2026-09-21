@@ -1,18 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/development';
 import { UserItem } from '@api/models/base';
 import { NativeEvent } from '@app/typings/bridge';
 import { TokenRefreshService } from '@core/services/token-refresh.service';
+import { ToastService } from '@core/services/toast.service';
 import { normalizePhoneNumber } from '@shared/utils/phone';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BridgeService {
-  notificationService = inject(NzNotificationService);
-  private tokenRefreshService = inject(TokenRefreshService);
+  private readonly toast = inject(ToastService);
+  private readonly tokenRefreshService = inject(TokenRefreshService);
 
   private listenerInitialized = false;
 
@@ -89,10 +89,10 @@ export class BridgeService {
     }
 
     if (eventName === 'onChangeTheme') {
-      this.notificationService.success(payload.event, payload.data.event_name);
+      this.toast.success(payload.event, payload.data.event_name);
       return;
     }
 
-    this.notificationService.success(payload.event, payload.data.event_name);
+    this.toast.success(payload.event, payload.data.event_name);
   };
 }

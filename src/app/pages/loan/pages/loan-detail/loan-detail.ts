@@ -27,21 +27,21 @@ import {
   ModalOtp,
   ProductAcception,
 } from '@pages/loan/components';
-import { Card, ModalConfirmComponent } from '@shared/components';
+import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
 import { EligibilityService } from '@core/services/eligibility.service';
 import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
+import { ToastService } from '@core/services/toast.service';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
+import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
 import { OtpModalData } from '@pages/loan/models';
-import { ConfirmModal } from '@app/typings/modal';
-
 @Component({
   selector: 'cf-loan-detail',
   imports: [AddressInfo, CalculatorForm, CalculatorResult, FinanceInfo, ProductAcception, Card, TranslocoDirective],
@@ -62,6 +62,7 @@ export class LoanDetail implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly http = inject(HttpClient);
   private readonly loanDraft = inject(LoanDraftService);
+  private readonly toast = inject(ToastService);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -218,10 +219,7 @@ export class LoanDetail implements OnInit {
       .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (granted) => (granted ? this.startProcessing() : this.goToOneId()),
-        error: () => {
-          this.isSubmitting.set(false);
-          this.openErrorModal();
-        },
+        error: () => this.finishWithError(),
       });
   }
 
@@ -241,32 +239,22 @@ export class LoanDetail implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => {
-          void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
-        },
-        error: () => this.openErrorModal(),
+        next: () => this.finishWithSuccess(),
+        error: () => this.finishWithError(),
       });
   }
 
-  private openErrorModal(): void {
-    this.nmService.create<ModalConfirmComponent, ConfirmModal, boolean>({
-      nzTitle: null,
-      nzClosable: false,
-      nzCloseIcon: null,
-      nzContent: ModalConfirmComponent,
-      nzData: {
-        icon: 'close',
-        title: 'modal.error_application.title',
-        description: 'modal.error_application.description',
-        submit: {
-          title: 'action.close',
-          danger: false,
-        },
-      },
-      nzCentered: true,
-      nzFooter: null,
-      nzWidth: 'auto',
-    });
+  private finishWithSuccess(): void {
+    this.loanDraft.clear();
+    showApplicationSuccessToast(this.toast);
+    void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
+  }
+
+  private finishWithError(): void {
+    this.isSubmitting.set(false);
+    this.loanDraft.clear();
+    showApplicationErrorToast(this.toast);
+    void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
   }
 
   private scrollToSection(target: ElementRef<HTMLElement> | undefined): void {

@@ -4,7 +4,8 @@ import { catchError, map, of, switchMap } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { LoanDraftService } from '@core/services/loan-draft.service';
-import { isStartProcessingPayloadFilled } from '@pages/loan/utils';
+import { ToastService } from '@core/services/toast.service';
+import { isStartProcessingPayloadFilled, showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils';
 
 /**
  * The page only makes sense in the middle of an application flow:
@@ -13,9 +14,11 @@ import { isStartProcessingPayloadFilled } from '@pages/loan/utils';
 export const checkOneIdGuard: CanActivateFn = () => {
   const loanDraft = inject(LoanDraftService);
   const onlineApiService = inject(OnlineApiService);
+  const toast = inject(ToastService);
   const router = inject(Router);
 
   const toLoanList = () => new RedirectCommand(router.createUrlTree(['/', RootRoute.Loan, LoanRoute.List]));
+  const toApplications = () => new RedirectCommand(router.createUrlTree(['/', RootRoute.Applications]));
   const draft = loanDraft.read();
 
   if (!isStartProcessingPayloadFilled(draft)) {
@@ -31,11 +34,23 @@ export const checkOneIdGuard: CanActivateFn = () => {
       return onlineApiService.startProcessing$(draft).pipe(
         map(() => {
           loanDraft.clear();
+          showApplicationSuccessToast(toast);
 
-          return new RedirectCommand(router.createUrlTree(['/', RootRoute.Applications]));
+          return toApplications();
+        }),
+        catchError(() => {
+          loanDraft.clear();
+          showApplicationErrorToast(toast);
+
+          return of(toApplications());
         }),
       );
     }),
-    catchError(() => of(toLoanList())),
+    catchError(() => {
+      loanDraft.clear();
+      showApplicationErrorToast(toast);
+
+      return of(toApplications());
+    }),
   );
 };

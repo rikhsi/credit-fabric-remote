@@ -1,0 +1,27 @@
+<div class="toast-host" aria-live="polite" aria-relevant="additions">
+  @for (item of items(); track item.id) {
+  <button
+    cfBounce="300"
+    type="button"
+    class="toast"
+    [class.toast--success]="item.type === 'success'"
+    [class.toast--error]="item.type === 'error'"
+    (clicked)="dismiss(item)"
+  >
+    <span class="toast__icon" aria-hidden="true">
+      <nz-icon [nzType]="iconType(item.type)" nzTheme="fill" />
+    </span>
+
+    <span class="toast__body">
+      <span class="toast__title">{{ item.title }}</span>
+      @if (item.description) {
+      <span class="toast__description">{{ item.description }}</span>
+      }
+    </span>
+
+    <span class="toast__close" aria-hidden="true">
+      <nz-icon nzType="close" />
+    </span>
+  </button>
+  }
+</div>

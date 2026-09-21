@@ -1,0 +1,127 @@
+@import 'mixins';
+
+.themeMixin({
+  :host {
+    .toast {
+      background: @component-background;
+      box-shadow: 0 8px 24px fade(@cf-black-900, 10%);
+      color: @text-color;
+    }
+
+    .toast__title {
+      color: @heading-color;
+    }
+
+    .toast__description {
+      color: @text-color;
+    }
+
+    .toast__close {
+      color: @text-color;
+    }
+
+    .toast--success .toast__icon {
+      background: @success-bg-color;
+      color: @success-color;
+    }
+
+    .toast--error .toast__icon {
+      background: @error-bg-color;
+      color: @error-color;
+    }
+  }
+});
+
+:host {
+  position: fixed;
+  top: 110px;
+  right: 24px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 12px;
+  width: min(420px, calc(100vw - 48px));
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 20px;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: toast-enter 220ms ease;
+  transition: transform 100ms ease, opacity 180ms ease;
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.toast__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+  padding-top: 2px;
+}
+
+.toast__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.toast__description {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.toast__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.media(@media-xs, {
+  :host {
+    right: 16px;
+    width: min(420px, calc(100vw - 32px));
+  }
+});

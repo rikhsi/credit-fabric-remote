@@ -16,3 +16,4 @@ export * from './select-bill/select-bill';
 export * from './input-password/input-password';
 export * from './input-otp/input-otp';
 export * from './empty/empty';
+export * from './toast-host/toast-host';

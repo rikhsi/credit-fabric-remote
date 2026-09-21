@@ -17,7 +17,6 @@ import { disabled, form, FormField, maxLength, minLength, required, validate } f
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { OtpModalData } from '@pages/loan/models';
 import { PhoneNumberPipe, SecondsToTimePipe } from '@shared/pipes';
 import { InputOtp } from '@shared/components';
@@ -25,6 +24,7 @@ import { TimerService } from '@shared/services';
 import { OnlineApiService } from '@api/controllers/los';
 import { otpFormModel } from '@pages/loan/data';
 import { BounceDirective } from '@shared/directives';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'cf-modal-otp',
@@ -51,7 +51,7 @@ export class ModalOtp implements OnInit {
   public readonly modalData = inject<OtpModalData>(NZ_MODAL_DATA);
   private readonly onlineApiService = inject(OnlineApiService);
   private readonly destroyRef = inject(DestroyRef);
-  private notification = inject(NzNotificationService);
+  private toast = inject(ToastService);
 
   @ViewChild(InputOtp) private inputOtp?: InputOtp;
 
@@ -105,7 +105,7 @@ export class ModalOtp implements OnInit {
           this.isLoading.set(false);
 
           if (!state.isOtpSent) {
-            this.notification.error(state.errorCode, '');
+            this.toast.error(state.errorCode, '');
           }
         },
       });

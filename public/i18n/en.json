@@ -337,5 +337,15 @@
       "required": "Required field",
       "invalidOtp": "Invalid code"
     }
+  },
+  "toast": {
+    "application_success": {
+      "title": "Loan application submitted",
+      "description": "We will notify you about the bank’s decision."
+    },
+    "service_unavailable": {
+      "title": "Service temporarily unavailable",
+      "description": "We are already working on restoring it. Please try again later."
+    }
   }
 }

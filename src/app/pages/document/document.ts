@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +9,7 @@ import { OnlineApiService } from '@api/controllers/los';
 import { RootRoute } from '@app/constants/route-path';
 import { SplashService } from '@core/services/splash.service';
 import { BridgeService } from '@core/services/bridge.service';
+import { ToastService } from '@core/services/toast.service';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
@@ -25,7 +25,7 @@ export class Document implements OnInit {
   private router = inject(Router);
   private bridge = inject(BridgeService);
   private api = inject(OnlineApiService);
-  private notification = inject(NzNotificationService);
+  private toast = inject(ToastService);
 
   public readonly isLoading = signal<boolean>(true);
   public readonly file = signal<string>(null);
@@ -61,7 +61,7 @@ export class Document implements OnInit {
   }
 
   pdfFailed(): void {
-    this.notification.error(translate('pdf.failed.title'), translate('pdf.failed.desc'));
+    this.toast.error(translate('pdf.failed.title'), translate('pdf.failed.desc'));
 
     this.router.navigate([RootRoute.Applications]);
   }

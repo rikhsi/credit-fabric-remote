@@ -337,5 +337,15 @@
       "required": "Majburiy maydon",
       "invalidOtp": "Noto'g'ri kod"
     }
+  },
+  "toast": {
+    "application_success": {
+      "title": "Kredit arizasi yuborildi",
+      "description": "Bank qarori haqida xabar beramiz."
+    },
+    "service_unavailable": {
+      "title": "Xizmat vaqtincha ishlamayapti",
+      "description": "Biz allaqachon tiklash ustida ishlayapmiz. Keyinroq urinib ko‘ring."
+    }
   }
 }
