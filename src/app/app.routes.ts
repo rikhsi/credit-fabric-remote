@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { RootRoute, LoanRoute } from './constants/route-path';
+import { RootRoute } from './constants/route-path';
 import { RouteParam } from './constants/route-param';
 import { LoanLayout } from '@layouts/views';
-import { checkOneIdGuard } from '@pages/oneid/guards';
 
 export const routes: Routes = [
   {
@@ -16,12 +15,7 @@ export const routes: Routes = [
       {
         path: RootRoute.OneId,
         component: LoanLayout,
-        data: {
-          title: 'prop.loan_application_submit',
-          backConfig: { link: ['/', RootRoute.Loan, LoanRoute.List] },
-        },
-        canActivate: [checkOneIdGuard],
-        loadComponent: () => import('@pages/oneid/oneid').then((c) => c.OneId),
+        loadChildren: () => import('@pages/oneid/oneid.routes').then((r) => r.routes),
       },
       {
         path: RootRoute.Applications,
