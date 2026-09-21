@@ -13,9 +13,9 @@ export const routes: Routes = [
         loadChildren: () => import('@pages/loan/loan.routes').then((r) => r.routes),
       },
       {
-        path: RootRoute.MyId,
+        path: RootRoute.OneId,
         component: LoanLayout,
-        loadChildren: () => import('@pages/myid/myid.routes').then((r) => r.routes),
+        loadChildren: () => import('@pages/oneid/oneid.routes').then((r) => r.routes),
       },
       {
         path: RootRoute.Applications,

@@ -9,6 +9,7 @@ import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';
+import { StartProcessingPayload } from '@api/models/los/start-processing';
 import { buildStartProcessingPayload } from '@pages/loan/utils/finance-months';
 
 @Injectable()
@@ -57,8 +58,16 @@ export class LoanDetailService {
     return this.onlineApiService.checkValidated$().pipe(tap(({ isOtpValidated }) => this.isValidated.set(isOtpValidated)));
   }
 
+  public checkOneId$() {
+    return this.onlineApiService.checkOneId$();
+  }
+
   public startProcessing$() {
-    return this.onlineApiService.startProcessing$(buildStartProcessingPayload(this.form().value()));
+    return this.onlineApiService.startProcessing$(this.buildPayload());
+  }
+
+  public buildPayload(): StartProcessingPayload {
+    return buildStartProcessingPayload(this.form().value());
   }
 
   public applyProduct(product: ProductItem): void {
