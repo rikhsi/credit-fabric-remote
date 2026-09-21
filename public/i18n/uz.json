@@ -241,7 +241,8 @@
     "term": "Muddat",
     "standart": "Kamayib boruvchi",
     "from": "{{amount}} dan",
-    "city": "Shahar"
+    "city": "Shahar",
+    "country": "O'zbekiston Respublikasi"
   },
   "application": {
     "number": "Ariza № {{id}}",

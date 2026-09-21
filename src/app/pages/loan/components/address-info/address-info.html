@@ -14,9 +14,14 @@
     </div>
 
     @if (filled && item(); as addressItem) {
-    <div class="list">
-      <cf-address-info-item [item]="addressItem" />
-    </div>
+    <ng-container *cfHandbook="{ url: 'dir-city' }; let cities">
+      <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressItem.dirCityId } }; let villages">
+        @let city = cities | handbook: addressItem.dirCityId;
+        @let village = villages | handbook: addressItem.dirVillageId;
+
+        <p nz-typography class="address">{{ addressItem | addressLine: city : village : t('prop.country') }}</p>
+      </ng-container>
+    </ng-container>
     }
   </cf-card>
 

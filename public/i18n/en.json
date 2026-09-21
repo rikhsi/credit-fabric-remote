@@ -241,7 +241,8 @@
     "term": "Term",
     "standart": "Decreasing",
     "from": "from {{amount}}",
-    "city": "City"
+    "city": "City",
+    "country": "Republic of Uzbekistan"
   },
   "application": {
     "number": "Application № {{id}}",

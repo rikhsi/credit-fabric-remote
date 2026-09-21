@@ -241,7 +241,8 @@
     "term": "Срок",
     "standart": "По убыванию",
     "from": "от {{amount}}",
-    "city": "Город"
+    "city": "Город",
+    "country": "Республика Узбекистан"
   },
   "application": {
     "number": "Заявка № {{id}}",

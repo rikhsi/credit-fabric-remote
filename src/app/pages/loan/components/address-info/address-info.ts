@@ -5,11 +5,12 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
-import { AddressInfoItem } from './components';
 import { Card } from '@shared/components';
-import { BounceDirective } from '@shared/directives';
+import { BounceDirective, HandbookDirective } from '@shared/directives';
+import { HandbookPipe } from '@shared/pipes';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
+import { AddressLinePipe } from '@pages/loan/pipes';
 
 @Component({
   selector: 'cf-address-info',
@@ -21,8 +22,10 @@ import { isFlowAddressFilled } from '@pages/loan/utils/address';
     NzTypographyComponent,
     NzTagComponent,
     TranslocoDirective,
-    AddressInfoItem,
     BounceDirective,
+    HandbookDirective,
+    HandbookPipe,
+    AddressLinePipe,
   ],
   templateUrl: './address-info.html',
   styleUrl: './address-info.less',
