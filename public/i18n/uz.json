@@ -16,6 +16,7 @@
     "finish": "Yakunlash",
     "find_place": "Filialni topish",
     "go": "O‘tish",
+    "go_to_application": "Arizaga o‘tish",
     "go_my_applications": "Mening arizalarimga o‘tish",
     "send_code": "Kod yuborish {{time}}",
     "decline": "Rad qilish",
@@ -233,6 +234,7 @@
   },
   "application": {
     "number": "Ariza № {{id}}",
+    "number_short": "№ {{id}}",
     "docs": {
       "sign": "Hujjatlarni imzolang",
       "valid_until": "{{date}} gacha amal qiladi",

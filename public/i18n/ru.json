@@ -16,6 +16,7 @@
     "finish": "Завершить",
     "find_place": "Найти филиал",
     "go": "Перейти",
+    "go_to_application": "Перейти к заявке",
     "go_my_applications": "Перейти в Мои заявки",
     "send_code": "Отправить код {{time}}",
     "decline": "Отказать",
@@ -233,6 +234,7 @@
   },
   "application": {
     "number": "Заявка № {{id}}",
+    "number_short": "№ {{id}}",
     "docs": {
       "sign": "Подпишите документы",
       "valid_until": "Действителен до {{date}}",

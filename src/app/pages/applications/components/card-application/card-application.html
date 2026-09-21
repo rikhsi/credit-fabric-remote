@@ -1,45 +1,68 @@
 <ng-container *transloco="let t">
-  <cf-card [showSpace]="true" [titleRef]="baseRef" class="bordered card">
-    <div actions>
-      <cf-tag-application [status]="status()" />
-    </div>
-
-    <cf-comment-application [status]="status()" />
-
-    <div class="box">
-      <div class="infos">
-        <cf-label-control-secondary [label]="t('prop.product')" [size]="'small'">
-          <h6 nz-typography>{{title()}}</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_amount_full')" [size]="'small'">
-          <h6 nz-typography>{{amount() | number}} {{currency()}}</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_term_full')" [size]="'small'">
-          <h6 nz-typography>{{term() | number}}</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_percent_full')" [size]="'small'">
-          <h6 nz-typography>{{rate() | number}}%</h6>
-        </cf-label-control-secondary>
-
-        <cf-label-control-secondary [label]="t('prop.loan_calculation_type')" [size]="'small'">
-          <h6 nz-typography>{{t('prop.' + paymentType() | lowercase)}}</h6>
-        </cf-label-control-secondary>
+  <div class="header">
+    <div class="badges">
+      <div class="status-badge" [class.warning]="statusTone() === 'warning'" [class.success]="statusTone() === 'success'" [class.decline]="statusTone() === 'decline'" [class.info]="statusTone() === 'info'">
+        <cf-status-application [status]="status()" />
       </div>
 
-      @if (!actionsDisabled()) {
-      <cf-action-application (goToApplication)="goToApplication.emit()" />
-      }
+      <div class="id-badge desktop-only">
+        <nz-icon nzType="f:doc" />
+        <span>{{ t('application.number', { id: id() }) }}</span>
+      </div>
     </div>
-  </cf-card>
+  </div>
 
-  <ng-template #baseRef>
-    <div class="base">
-      <h5 nz-typography>{{t('application.number', {id: id()})}}</h5>
+  <div class="body">
+    <div class="content">
+      <h3 class="amount">{{ amount() | number }} {{ currency() }}</h3>
 
-      <cf-status-application [status]="status()" />
+      <div class="details">
+        <p class="detail">
+          <span class="detail-label">{{ t('prop.loan_monthly_payment') }}</span>
+          @if (monthlyPayment(); as payment) {
+          <b class="detail-value">
+            @if (isDifferential()) {
+            {{ t('prop.from', { amount: payment | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+            } @else {
+            {{ payment | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+            }
+          </b>
+          }
+        </p>
+
+        <span class="separator desktop-only" aria-hidden="true">•</span>
+
+        <p class="detail">
+          <span class="detail-label">{{ t('prop.loan_term_full') }}</span>
+          <b class="detail-value">{{ term() | pluralize: 'month' }}</b>
+        </p>
+      </div>
+
+      <p class="meta mobile-only">{{ t('application.number_short', { id: id() }) }}</p>
     </div>
-  </ng-template>
+
+    @if (!actionsDisabled()) {
+    <button
+      cfBounce
+      nz-button
+      nzType="default"
+      class="action action-desktop desktop-only"
+      (clicked)="goToApplication.emit()"
+    >
+      {{ t('action.go_to_application') }}
+      <nz-icon nzType="f:arrowNarrowRight" />
+    </button>
+
+    <button
+      cfBounce
+      nz-button
+      nzType="default"
+      class="action action-mobile mobile-only"
+      (clicked)="goToApplication.emit()"
+      [attr.aria-label]="t('action.go_to_application')"
+    >
+      <nz-icon nzType="right" />
+    </button>
+    }
+  </div>
 </ng-container>

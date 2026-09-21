@@ -4,7 +4,10 @@
   :host {
     .toast {
       background: @component-background;
-      box-shadow: 0 8px 24px fade(@cf-black-900, 10%);
+      // Soft warm lift, close to the design mock.
+      box-shadow:
+        0 2px 8px fade(#6b5240, 6%),
+        0 10px 28px fade(#6b5240, 10%);
       color: @text-color;
     }
 
@@ -35,13 +38,17 @@
 :host {
   position: fixed;
   top: 110px;
-  right: 24px;
+  left: 50%;
   z-index: 1100;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   row-gap: 12px;
-  width: min(420px, calc(100vw - 48px));
+  width: 100%;
+  max-width: 480px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -110,18 +117,18 @@
 @keyframes toast-enter {
   from {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateY(-8px);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-.media(@media-xs, {
+.media(@media-sm, {
   :host {
-    right: 16px;
-    width: min(420px, calc(100vw - 32px));
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    padding: 0 12px;
   }
 });
