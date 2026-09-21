@@ -2,9 +2,10 @@
 
 // Drawer content is portaled outside :host, so themed rules must not be nested under :host.
 .themeMixin({
-  .cf-bottom-sheet__handle {
-    background: @text-color-tertiary;
-  }
+  :host {
+      .cf-bottom-sheet__handle {
+        background: @text-color-tertiary;
+      }
 
   .cf-bottom-sheet__title {
     color: @text-color;
@@ -20,6 +21,7 @@
 
     &--selected {
       font-weight: 600;
+        background: @component-background-secondary;
     }
   }
 
@@ -29,6 +31,7 @@
 
   .cf-bottom-sheet__empty {
     color: @text-color-secondary;
+  }
   }
 });
 
@@ -104,7 +107,9 @@
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
-  transition: background-color 120ms ease, transform 100ms ease;
+  transition:
+    background-color 120ms ease,
+    transform 100ms ease;
 
   span {
     flex: 1;
