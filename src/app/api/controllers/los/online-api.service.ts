@@ -37,7 +37,9 @@ export class OnlineApiService {
   }
 
   public checkOneId$() {
-    return this.http.get<boolean>('online/application/check-one-id');
+    return this.http.get<boolean>('online/application/check-one-id', {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public getApplications$() {
