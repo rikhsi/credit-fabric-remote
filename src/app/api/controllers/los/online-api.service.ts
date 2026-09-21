@@ -4,7 +4,7 @@ import { OnlineAccount } from '@api/models/los/account';
 import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication } from '@api/models/los/application';
 import { EligibilityResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
-import { OnlineCreateApplicationPayload, OnlineCreateApplicationResult } from '@api/models/los/start-processing';
+import { StartProcessingPayload, StartProcessingResult } from '@api/models/los/start-processing';
 import { buildHttpParams } from '@api/utils';
 import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
 
@@ -14,10 +14,8 @@ import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
 export class OnlineApiService {
   constructor(private http: HttpClient) {}
 
-  public checkValidated$(pinfl: string) {
-    return this.http.get<OnlineCheckOtpResult>('online/public-offer/is-validated', {
-      params: buildHttpParams({ pinfl }),
-    });
+  public checkValidated$() {
+    return this.http.get<OnlineCheckOtpResult>('online/public-offer/is-validated');
   }
 
   public sendOtp$(payload: OnlineSendOtpResponse) {
@@ -54,8 +52,8 @@ export class OnlineApiService {
     return this.http.get<OnlineGetInfoResult[]>(`online/get-info`);
   }
 
-  public createApplication$(payload: OnlineCreateApplicationPayload) {
-    return this.http.post<OnlineCreateApplicationResult>('online/application/start-processing', payload);
+  public startProcessing$(payload: StartProcessingPayload) {
+    return this.http.post<StartProcessingResult>('online/application/start-processing', payload);
   }
 
   public getFile$(fileId: number) {

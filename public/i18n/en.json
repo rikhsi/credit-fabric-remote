@@ -161,8 +161,8 @@
     },
     "money": {
       "one": "sum",
-      "second": "sum",
-      "third": "sum"
+      "second": "sums",
+      "third": "sums"
     },
     "month": {
       "one": "month",

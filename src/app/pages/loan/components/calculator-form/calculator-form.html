@@ -1,12 +1,12 @@
 <ng-container *transloco="let t">
   <div>
     <cf-label-control-secondary [label]="t('prop.total_amount')"></cf-label-control-secondary>
-    <cf-input-slider [formField]="form().amount" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
+    <cf-input-slider [formField]="form().loanAmount" [step]="10000" [prefixType]="'money'" [prefixInputType]="'money'" />
   </div>
 
   <div>
     <cf-label-control-secondary [label]="t('prop.term')"></cf-label-control-secondary>
-    <cf-input-slider [formField]="form().term" [step]="12" [prefixType]="'month_short'" [prefixInputType]="'month'" />
+    <cf-input-slider [formField]="form().loanTerm" [step]="12" [prefixType]="'month_short'" [prefixInputType]="'month'" />
   </div>
 
   <div>
@@ -15,7 +15,7 @@
       <nz-icon nzType="info-circle" class="primary info-icon" (click)="openCalculationTypeInfo()" />
     </div>
 
-    <nz-radio-group [formField]="form().type">
+    <nz-radio-group [formField]="form().sysPaymentTypeId">
       <label nz-radio nzValue="annuity">{{t('prop.annuity')}}</label>
       <label nz-radio nzValue="standart">{{t('prop.standart')}}</label>
     </nz-radio-group>

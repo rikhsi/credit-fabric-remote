@@ -3,7 +3,7 @@
     <span [innerHTML]="t('prop.public_offer')"></span>
   </label>
 
-  <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="apply()">
+  <button cfBounce nz-button nzType="primary" nzSize="large" [nzLoading]="isSubmitting()" [disabled]="isSubmitting()" (clicked)="apply()">
     {{t('action.apply')}}
   </button>
 </ng-container>

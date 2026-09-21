@@ -7,7 +7,7 @@
         [loanAmount]="calculationResult().amount"
         [monthlyPayment]="calculationResult().monthlyPayment"
         [annualRate]="calculationResult().annualRate"
-        [creditType]="form().type().value()"
+        [creditType]="form().sysPaymentTypeId().value()"
       />
     </div>
   </cf-card>
@@ -16,5 +16,5 @@
 
   <cf-finance-info #financeSection [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
 
-  <cf-product-acception [form]="form()" (clicked)="submit()" />
+  <cf-product-acception [form]="agreementForm()" [isSubmitting]="isSubmitting()" (clicked)="submit()" />
 </ng-container>

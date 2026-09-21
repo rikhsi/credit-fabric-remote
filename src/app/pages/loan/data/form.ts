@@ -3,10 +3,9 @@ import { buildFlowAddresses } from '../utils/address';
 import { createDefaultFinanceForm } from '@pages/loan/utils/finance-months';
 
 export const calculatorFormModel: CalculatorFormModel = {
-  amount: 0,
-  dirCreditPurposeId: null,
-  term: 0,
-  type: 'annuity',
+  loanAmount: 0,
+  loanTerm: 0,
+  sysPaymentTypeId: 'annuity',
 };
 
 export const agreementFormModel: AgreementFormModel = {
@@ -15,7 +14,7 @@ export const agreementFormModel: AgreementFormModel = {
 
 export const loanDetailFormModel: LoanDetailFormModel = {
   ...calculatorFormModel,
-  ...agreementFormModel,
+  filialCode: null,
   addresses: buildFlowAddresses(),
   finData: createDefaultFinanceForm(),
 };

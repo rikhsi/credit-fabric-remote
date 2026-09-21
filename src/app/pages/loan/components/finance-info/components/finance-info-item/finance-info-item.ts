@@ -6,7 +6,7 @@ import { HandbookDirective } from '@shared/directives';
 import { HandbookPipe, PluralizePipe } from '@shared/pipes';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { parseFinanceAmount } from '@pages/loan/utils/finance-months';
-import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingFinData } from '@api/models/los/start-processing';
 
 @Component({
   selector: 'cf-finance-info-item',
@@ -16,7 +16,7 @@ import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinanceInfoItem {
-  readonly item = input.required<OnlineStartProcessingFinData>();
+  readonly item = input.required<StartProcessingFinData>();
 
   amount(value: unknown): number {
     return parseFinanceAmount(value);

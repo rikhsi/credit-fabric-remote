@@ -1,22 +1,45 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, linkedSignal, OnInit, viewChild, ViewContainerRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  linkedSignal,
+  OnInit,
+  signal,
+  viewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, forkJoin, take } from 'rxjs';
+import { filter, finalize, forkJoin, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AddressForm, AddressInfo, CalculatorForm, CalculatorResult, FinanceForm, FinanceInfo, ProductAcception } from '@pages/loan/components';
-import { Card } from '@shared/components';
+import {
+  AddressForm,
+  AddressInfo,
+  CalculatorForm,
+  CalculatorResult,
+  FinanceForm,
+  FinanceInfo,
+  ModalOtp,
+  ProductAcception,
+} from '@pages/loan/components';
+import { Card, ModalConfirmComponent } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
 import { EligibilityService } from '@core/services/eligibility.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
-import { OnlineStartProcessingAddress, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
+import { OtpModalData } from '@pages/loan/models';
+import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-loan-detail',
@@ -39,9 +62,11 @@ export class LoanDetail implements OnInit {
   private readonly http = inject(HttpClient);
 
   public readonly form = linkedSignal(() => this.ldService.form);
+  public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
   public readonly calculationResult = computed(() => this.ldService.calculationResult());
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
+  public readonly isSubmitting = signal(false);
 
   private readonly addressSection = viewChild('addressSection', { read: ElementRef });
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
@@ -54,7 +79,7 @@ export class LoanDetail implements OnInit {
     this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
     forkJoin([
-      this.ldService.checkValidate$(this.user()?.pinfl),
+      this.ldService.checkValidate$(),
       fetchHandbookItems(this.http, { url: 'dir-city' }),
       fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
     ])
@@ -78,7 +103,7 @@ export class LoanDetail implements OnInit {
 
     const [nzData] = this.ldService.form().value().addresses;
 
-    const modalRef = this.nmService.create<AddressForm, OnlineStartProcessingAddress, OnlineStartProcessingAddress>({
+    const modalRef = this.nmService.create<AddressForm, StartProcessingAddress, StartProcessingAddress>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -93,7 +118,7 @@ export class LoanDetail implements OnInit {
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
       this.ldService.form().value.update((cur) => ({
         ...cur,
-        addresses: cur.addresses.map((item) => ({ ...value, sysAddressTypeId: item.sysAddressTypeId })),
+        addresses: [value],
       }));
     });
   }
@@ -103,7 +128,7 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    const modalRef = this.nmService.create<FinanceForm, OnlineStartProcessingFinData, OnlineStartProcessingFinData>({
+    const modalRef = this.nmService.create<FinanceForm, StartProcessingFinData, StartProcessingFinData>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -138,9 +163,94 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    if (this.ldService.form().invalid()) {
+    if (this.ldService.form().invalid() || this.ldService.agreementForm().invalid() || this.isSubmitting()) {
       return;
     }
+
+    this.isSubmitting.set(true);
+
+    this.ldService
+      .checkValidate$()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ isOtpValidated }) => {
+          if (isOtpValidated) {
+            this.startProcessing();
+            return;
+          }
+
+          this.openOtp();
+        },
+        error: () => {
+          this.isSubmitting.set(false);
+          this.openErrorModal();
+        },
+      });
+  }
+
+  private openOtp(): void {
+    const user = this.user();
+
+    const modalRef = this.nmService.create<ModalOtp, OtpModalData, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalOtp,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzViewContainerRef: this.vcRef,
+      nzData: {
+        pinfl: user?.pinfl,
+        phoneNumber: user?.phone,
+      },
+    });
+
+    modalRef.afterClose.pipe(take(1)).subscribe((confirmed) => {
+      if (confirmed) {
+        this.startProcessing();
+        return;
+      }
+
+      this.isSubmitting.set(false);
+    });
+  }
+
+  private startProcessing(): void {
+    this.ldService
+      .startProcessing$()
+      .pipe(
+        take(1),
+        finalize(() => this.isSubmitting.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: () => {
+          void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
+        },
+        error: () => this.openErrorModal(),
+      });
+  }
+
+  private openErrorModal(): void {
+    this.nmService.create<ModalConfirmComponent, ConfirmModal, boolean>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalConfirmComponent,
+      nzData: {
+        icon: 'close',
+        title: 'modal.error_application.title',
+        description: 'modal.error_application.description',
+        submit: {
+          title: 'action.close',
+          danger: false,
+        },
+      },
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
   }
 
   private scrollToSection(target: ElementRef<HTMLElement> | undefined): void {

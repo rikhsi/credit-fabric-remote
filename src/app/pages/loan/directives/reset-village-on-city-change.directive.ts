@@ -1,12 +1,12 @@
 import { Directive, effect, input } from '@angular/core';
 import { FieldTree } from '@angular/forms/signals';
-import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { StartProcessingAddress } from '@api/models/los/start-processing';
 
 @Directive({
   selector: '[cfResetVillageOnCityChange]',
 })
 export class ResetVillageOnCityChangeDirective {
-  readonly form = input.required<FieldTree<OnlineStartProcessingAddress>>({ alias: 'cfResetVillageOnCityChange' });
+  readonly form = input.required<FieldTree<StartProcessingAddress>>({ alias: 'cfResetVillageOnCityChange' });
 
   private previousCityId: string;
 

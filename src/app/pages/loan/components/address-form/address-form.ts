@@ -8,7 +8,7 @@ import { ResetVillageOnCityChangeDirective } from '@pages/loan/directives';
 import { HandbookDirective } from '@shared/directives';
 import { markTreeAsDirty } from '@shared/utils';
 import { createEmptyAddress } from '@pages/loan/utils/address';
-import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { StartProcessingAddress } from '@api/models/los/start-processing';
 import { HandbookRequest } from '@app/typings/handbook';
 
 @Component({
@@ -31,10 +31,10 @@ import { HandbookRequest } from '@app/typings/handbook';
 })
 export class AddressForm {
   private readonly modalRef = inject(NzModalRef);
-  private readonly nzModalData = inject<OnlineStartProcessingAddress | null>(NZ_MODAL_DATA, { optional: true });
+  private readonly nzModalData = inject<StartProcessingAddress | null>(NZ_MODAL_DATA, { optional: true });
 
   public readonly addressForm = form(
-    signal<OnlineStartProcessingAddress>({ ...createEmptyAddress(), ...(this.nzModalData ?? {}) }),
+    signal<StartProcessingAddress>({ ...createEmptyAddress(), ...(this.nzModalData ?? {}) }),
     (schemaPath) => {
       disabled(schemaPath.dirVillageId, () => !this.addressForm.dirCityId().value());
       required(schemaPath.dirVillageId);

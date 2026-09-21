@@ -1,5 +1,6 @@
 import { FinanceMonthPeriod } from '../data/finance';
-import { OnlineCreateApplicationPayload, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { LoanDetailFormModel } from '../models';
+import { StartProcessingFinData, StartProcessingPayload } from '@api/models/los/start-processing';
 
 /** Masked inputs store numeric values as strings (e.g. "4 434 343"). */
 export function parseFinanceAmount(value: unknown): number {
@@ -41,7 +42,7 @@ export function toSysMonthId(month: number): string {
 
 export function resolveFinanceMonthsForSubmit(
   date = new Date(),
-): Pick<OnlineStartProcessingFinData, 'sysMonth1Id' | 'sysMonth2Id' | 'sysMonth3Id' | 'monthYear1' | 'monthYear2' | 'monthYear3'> {
+): Pick<StartProcessingFinData, 'sysMonth1Id' | 'sysMonth2Id' | 'sysMonth3Id' | 'monthYear1' | 'monthYear2' | 'monthYear3'> {
   const periods = getLastThreeFinanceMonthPeriods(date);
 
   return {
@@ -55,9 +56,9 @@ export function resolveFinanceMonthsForSubmit(
 }
 
 function normalizeFinDataForApi(
-  finData: OnlineStartProcessingFinData,
+  finData: StartProcessingFinData,
   financeMonths: ReturnType<typeof resolveFinanceMonthsForSubmit>,
-): OnlineStartProcessingFinData {
+): StartProcessingFinData {
   return {
     dirCompanyActivityId: finData.dirCompanyActivityId,
     activityTerm: parseFinanceAmount(finData.activityTerm),
@@ -76,18 +77,20 @@ function normalizeFinDataForApi(
   };
 }
 
-export function buildCreateApplicationPayload(formValue: OnlineCreateApplicationPayload): OnlineCreateApplicationPayload {
+export function buildStartProcessingPayload(formValue: LoanDetailFormModel): StartProcessingPayload {
   const financeMonths = resolveFinanceMonthsForSubmit();
 
   return {
-    ...formValue,
-    employees: parseFinanceAmount(formValue.employees),
-    newEmployees: parseFinanceAmount(formValue.newEmployees),
+    loanAmount: formValue.loanAmount,
+    loanTerm: formValue.loanTerm,
+    sysPaymentTypeId: formValue.sysPaymentTypeId,
+    filialCode: formValue.filialCode,
+    addresses: formValue.addresses,
     finData: normalizeFinDataForApi(formValue.finData, financeMonths),
   };
 }
 
-export function createDefaultFinanceForm(existing?: Partial<OnlineStartProcessingFinData> | null): OnlineStartProcessingFinData {
+export function createDefaultFinanceForm(existing?: Partial<StartProcessingFinData> | null): StartProcessingFinData {
   return {
     dirCompanyActivityId: null,
     activityTerm: null,

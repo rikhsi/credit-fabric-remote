@@ -1,5 +1,5 @@
 import { ValidationError } from '@angular/forms/signals';
-import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingFinData } from '@api/models/los/start-processing';
 import { parseFinanceAmount } from './finance-months';
 
 function isPresent(value: unknown): boolean {
@@ -18,7 +18,7 @@ export function isFinanceMonthRevenueGreaterThanIncome(revenue: unknown, income:
   return parseFinanceAmount(revenue) >= parseFinanceAmount(income);
 }
 
-export function isFinanceRevenueIncomeValid(finData: OnlineStartProcessingFinData): boolean {
+export function isFinanceRevenueIncomeValid(finData: StartProcessingFinData): boolean {
   return (
     isFinanceMonthRevenueGreaterThanIncome(finData.month1Revenue, finData.month1Income) &&
     isFinanceMonthRevenueGreaterThanIncome(finData.month2Revenue, finData.month2Income) &&
@@ -30,7 +30,7 @@ export function validateFinanceMonthRevenueIncome(revenue: unknown, income: unkn
   return isFinanceMonthRevenueGreaterThanIncome(revenue, income) ? null : financeRevenueIncomeError();
 }
 
-export function isFinDataFilled(finData: OnlineStartProcessingFinData | null | undefined): boolean {
+export function isFinDataFilled(finData: StartProcessingFinData | null | undefined): boolean {
   if (!finData) {
     return false;
   }

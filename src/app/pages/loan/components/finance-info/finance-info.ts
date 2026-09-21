@@ -8,7 +8,7 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { FinanceInfoItem } from './components';
 import { Card } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
-import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingFinData } from '@api/models/los/start-processing';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 
 @Component({
@@ -29,7 +29,7 @@ import { isFinDataFilled } from '@pages/loan/utils/finance';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FinanceInfo {
-  readonly item = input<OnlineStartProcessingFinData | null>(null);
+  readonly item = input<StartProcessingFinData | null>(null);
   readonly isLoading = input(false);
 
   readonly isFilled = computed(() => isFinDataFilled(this.item()));

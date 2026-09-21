@@ -1,11 +1,4 @@
-export interface OnlineStartProcessingExtraInformation {
-  ecologicalImpactCode: string;
-  enterpriseClassfier: string;
-  objectNewFormation: string;
-  sectorEconomy: string;
-}
-
-export interface OnlineStartProcessingFinData {
+export interface StartProcessingFinData {
   dirCompanyActivityId: string;
   activityTerm: number;
   sysMonth1Id: string;
@@ -22,36 +15,23 @@ export interface OnlineStartProcessingFinData {
   monthYear3: string;
 }
 
-export interface OnlineStartProcessingAddress {
-  sysAddressTypeId: string;
+export interface StartProcessingAddress {
   dirCityId: string;
   dirVillageId: string;
   street: string;
   zipCode: string;
-  dirCountryId: string;
 }
 
-export interface OnlineCreateApplicationPayload {
-  accountNo: string;
-  addresses: OnlineStartProcessingAddress[];
-  applicationId: number;
-  docPersonalLegalNo: string;
-  email: string;
-  employees: number;
-  extraInformation: OnlineStartProcessingExtraInformation;
-  finData: OnlineStartProcessingFinData;
-  legalForm: string;
-  name: string;
-  newEmployees: number;
-  oked: string;
-  ownershipCode: string;
-  registrationDate: Date;
-  registrationNumber: string;
-  registrationPlaceCode: string;
-  workPhone: string;
+export interface StartProcessingPayload {
+  loanAmount: number;
+  loanTerm: number;
+  sysPaymentTypeId: string;
+  filialCode: number;
+  addresses: StartProcessingAddress[];
+  finData: StartProcessingFinData;
 }
 
-export interface OnlineCreateApplicationResult {
+export interface StartProcessingResult {
   is_show_toastr: boolean;
   statusCode: string;
   statusDesc: string;

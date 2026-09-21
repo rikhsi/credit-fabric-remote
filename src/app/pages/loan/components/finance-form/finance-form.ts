@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { createDefaultFinanceForm, resolveFinanceMonthsForSubmit } from '@pages/loan/utils/finance-months';
 import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
@@ -40,9 +40,9 @@ import { InfoModalData } from '@app/typings/modal';
 export class FinanceForm {
   private readonly modalRef = inject(NzModalRef, { optional: true });
   private readonly nmService = inject(NzModalService);
-  private readonly nzModalData = inject<OnlineStartProcessingFinData | null>(NZ_MODAL_DATA, { optional: true });
+  private readonly nzModalData = inject<StartProcessingFinData | null>(NZ_MODAL_DATA, { optional: true });
 
-  readonly form = input<FieldTree<{ finData: OnlineStartProcessingFinData }>>();
+  readonly form = input<FieldTree<{ finData: StartProcessingFinData }>>();
 
   public readonly isModal = this.modalRef != null;
 

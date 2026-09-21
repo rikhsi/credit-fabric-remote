@@ -1,20 +1,21 @@
 import { CreditType } from '@app/typings/calculator';
-import { OnlineStartProcessingAddress, OnlineStartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 
 export interface CalculatorFormModel {
-  amount: number;
-  dirCreditPurposeId: string | null;
-  type: CreditType;
-  term: number;
+  loanAmount: number;
+  loanTerm: number;
+  sysPaymentTypeId: CreditType;
 }
 
+/** The public offer is a front-end only guard, it is never sent to start-processing. */
 export interface AgreementFormModel {
   offer: boolean;
 }
 
-export interface LoanDetailFormModel extends CalculatorFormModel, AgreementFormModel {
-  addresses: OnlineStartProcessingAddress[];
-  finData: OnlineStartProcessingFinData;
+export interface LoanDetailFormModel extends CalculatorFormModel {
+  filialCode: number | null;
+  addresses: StartProcessingAddress[];
+  finData: StartProcessingFinData;
 }
 
 export interface OtpFormModel {

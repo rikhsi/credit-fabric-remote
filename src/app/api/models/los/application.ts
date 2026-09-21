@@ -1,5 +1,4 @@
 import { HandbookItem } from './item';
-import { OnlineStartProcessingExtraInformation } from './start-processing';
 
 export enum ApplicationStatus {
   OnDesign = 'ON_DESIGN',
@@ -99,7 +98,6 @@ export interface OnlineApplication {
   accountNo: string;
   borrower: OnlineBorrower;
   docs?: DocumentItem[];
-  extraInformation: OnlineStartProcessingExtraInformation;
   finData: OnlineApplicationFinData[];
   product: OnlineApplicationProduct;
   sysStatusId: ApplicationStatus;

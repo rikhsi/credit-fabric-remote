@@ -8,8 +8,8 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { Card } from '@shared/components';
 import { BounceDirective, HandbookDirective } from '@shared/directives';
 import { HandbookPipe } from '@shared/pipes';
-import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
+import { StartProcessingAddress } from '@api/models/los/start-processing';
 import { AddressLinePipe } from '@pages/loan/pipes';
 
 @Component({
@@ -32,7 +32,7 @@ import { AddressLinePipe } from '@pages/loan/pipes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressInfo {
-  readonly item = input<OnlineStartProcessingAddress | null>(null);
+  readonly item = input<StartProcessingAddress | null>(null);
   readonly isLoading = input(false);
 
   readonly isFilled = computed(() => {

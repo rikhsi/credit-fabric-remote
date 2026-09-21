@@ -1,22 +1,19 @@
-import { FLOW_ADDRESS_TYPE_FACT } from '../data/address-type';
-import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
+import { StartProcessingAddress } from '@api/models/los/start-processing';
 
-export function createEmptyAddress(addressType: string = null): OnlineStartProcessingAddress {
+export function createEmptyAddress(): StartProcessingAddress {
   return {
-    sysAddressTypeId: addressType,
     dirCityId: null,
     dirVillageId: null,
     street: null,
     zipCode: null,
-    dirCountryId: 'UZB',
   };
 }
 
 /** The flow collects a single address, but the API still expects a list. */
-export function buildFlowAddresses(): OnlineStartProcessingAddress[] {
-  return [createEmptyAddress(FLOW_ADDRESS_TYPE_FACT)];
+export function buildFlowAddresses(): StartProcessingAddress[] {
+  return [createEmptyAddress()];
 }
 
-export function isFlowAddressFilled(item: OnlineStartProcessingAddress): boolean {
+export function isFlowAddressFilled(item: StartProcessingAddress): boolean {
   return item.dirCityId != null && item.dirVillageId != null && item.street != null;
 }
