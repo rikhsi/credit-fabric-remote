@@ -4,14 +4,16 @@
 .themeMixin({
   :host {
     background: @component-background;
+    border-radius: 20px;
 
     .brand-arrow {
       color: @text-color-tertiary;
+      font-size: 30px;
     }
 
     .desc,
     .step__desc {
-      color: @text-color-secondary;
+      color: @text-color-tertiary;
     }
 
     .step__badge {
@@ -46,7 +48,7 @@
   align-items: center;
   flex: 1;
   box-sizing: border-box;
-  padding: 20px 0 0;
+  padding: 20px 0;
   row-gap: 28px;
 }
 
@@ -63,7 +65,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 16px;
+  column-gap: 18px;
 }
 
 .brand {
@@ -92,17 +94,19 @@
   align-items: center;
   text-align: center;
   row-gap: 8px;
-  max-width: 520px;
+  max-width: 690px;
 }
 
 .title {
   margin: 0;
-  .textMixin(@font-weight-strong, @font-size-xl, @line-height-sm);
+  .textMixin(700, 32px, @line-height-sm);
 }
 
 .desc {
   margin: 0;
-  .textMixin(@font-weight-base, @font-size-base, @line-height-base);
+  max-width: 374px;
+  .textMixin(@font-weight-base, 16px, @line-height-base);
+  padding-bottom: 14px;
 }
 
 .steps {
@@ -112,6 +116,7 @@
   grid-auto-flow: column;
   column-gap: 24px;
   row-gap: 16px;
+  padding-bottom: 14px;
 }
 
 .step {
