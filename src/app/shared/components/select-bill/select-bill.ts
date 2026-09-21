@@ -3,9 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input, model, signal } fr
 import { NzDropdownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
-import { OnlineAccount } from '@api/models/los/account';
+import { BillAccount, maskAccountNumber } from '@shared/utils/account';
 import { ControlBaseDirective } from '@shared/directives';
-import { maskAccountNumber } from '@shared/utils/account';
 
 @Component({
   selector: 'cf-select-bill',
@@ -15,7 +14,7 @@ import { maskAccountNumber } from '@shared/utils/account';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectBill extends ControlBaseDirective<string | null> {
-  readonly accounts = input<OnlineAccount[]>([]);
+  readonly accounts = input<BillAccount[]>([]);
   value = model<string | null>(null);
 
   protected readonly dropdownVisible = signal(false);
@@ -33,7 +32,7 @@ export class SelectBill extends ControlBaseDirective<string | null> {
 
   protected readonly maskAccountNumber = maskAccountNumber;
 
-  protected selectAccount(account: OnlineAccount): void {
+  protected selectAccount(account: BillAccount): void {
     this.value.set(account.account);
     this.dropdownVisible.set(false);
   }

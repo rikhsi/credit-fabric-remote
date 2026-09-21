@@ -1,5 +1,56 @@
-@switch (view()) { @case ('consent') {
-<cf-one-id-consent [loading]="loading()" (grant)="grant()" (openInstruction)="openInstruction()" />
-} @case ('instruction') {
-<cf-one-id-instruction [steps]="steps" (back)="backToConsent()" (goToOneId)="goToOneId()" />
-} }
+<ng-container *transloco="let t">
+  <div class="brands">
+    <img class="brand brand--one-id" [src]="'one-id-logo.png' | image" alt="OneID" width="48" height="48" />
+    <nz-icon nzType="right" class="brand-arrow" />
+    <img class="brand brand--hamkor" [src]="'hamkor-biznes.jpg' | image" alt="Hamkor Biznes" height="42" />
+  </div>
+
+  <div class="intro">
+    <h1 nz-typography class="title">{{ t('flow.one_id.consent.title') }}</h1>
+    <p nz-typography class="desc">{{ t('flow.one_id.consent.description') }}</p>
+  </div>
+
+  <div class="steps">
+    @for (step of steps; track step.number) {
+    <article class="step" [attr.data-step]="step.number">
+      <div class="step__badge">{{ step.number }}</div>
+      <div class="step__card">
+        <b nz-typography class="step__title">{{ t(step.title) }}</b>
+        <span nz-typography class="step__desc">{{ t(step.description) }}</span>
+      </div>
+    </article>
+    }
+  </div>
+
+  <div class="guide">
+    <div class="guide__label">
+      <nz-icon nzType="f:doc" />
+      <span>{{ t('flow.one_id.instruction.title') }}</span>
+    </div>
+
+    <button cfBounce nz-button nzType="default" nzSize="small">
+      <strong>{{ t('action.download') }}</strong>
+    </button>
+  </div>
+
+  <div class="actions">
+    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="goToOneId()">
+      {{ t('action.go_to_one_id') }}
+    </button>
+
+    <button
+      cfBounce
+      nz-button
+      nzType="default"
+      nzSize="large"
+      [nzLoading]="loading()"
+      [disabled]="loading()"
+      (clicked)="checkPermission()"
+    >
+      @if (!loading()) {
+      <nz-icon nzType="f:repeat" />
+      }
+      <strong>{{ t('action.check_permission') }}</strong>
+    </button>
+  </div>
+</ng-container>

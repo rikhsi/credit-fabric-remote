@@ -6,9 +6,8 @@ import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { ApplicationProductInfo } from '../application-product-info/application-product-info';
 import { StatusApplication } from '../../../../components';
 import { Card, SelectBill } from '@shared/components';
-import { OnlineAccount } from '@api/models/los/account';
 import { OnlineApplication } from '@api/models/los/application';
-import { matchSelectedAccount } from '@shared/utils/account';
+import { toReadonlyAccountItems } from '@shared/utils/account';
 
 @Component({
   selector: 'cf-view-decline-client',
@@ -28,7 +27,6 @@ import { matchSelectedAccount } from '@shared/utils/account';
 })
 export class ViewDeclineClient {
   application = input.required<OnlineApplication>();
-  accounts = input<OnlineAccount[]>([]);
 
-  readonly accountItems = computed(() => matchSelectedAccount(this.accounts(), this.application().accountNo));
+  readonly accountItems = computed(() => toReadonlyAccountItems(this.application().accountNo));
 }

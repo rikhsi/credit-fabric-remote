@@ -24,53 +24,40 @@
     "close": "Yopish",
     "sign": "Imzolash va yuborish",
     "back": "Ortga",
-    "open_instruction": "Yo‘riqnomani ochish",
-    "one_id_granted": "Ruxsat berdim",
     "go_to_one_id": "OneID’ga o‘tish",
     "fill_application": "Arizani to‘ldirish",
     "fill": "To‘ldirish",
     "edit": "Tahrirlash",
-    "got_it": "Tushunarli"
+    "got_it": "Tushunarli",
+    "download": "Yuklab olish",
+    "check_permission": "Ruxsatni tekshirish"
   },
   "flow": {
     "one_id": {
       "consent": {
         "title": "OneID’da rozilik bering",
-        "description": "Hisob ochish uchun OneID orqali ma’lumotlaringizga ruxsatni tasdiqlang.",
+        "description": "Hamkor Biznes’dan foydalanish uchun OneID orqali ma’lumotlaringizga kirishga rozilik bering.",
         "not_granted_title": "Rozilik topilmadi",
-        "not_granted_description": "Siz hali OneID’da ruxsat bermagansiz. Ruxsat bering va qayta urinib ko‘ring."
+        "not_granted_description": "OneID’da hali ruxsat bermaganga o‘xshaysiz. Ruxsat berib, qayta urinib ko‘ring."
       },
       "instruction": {
-        "title": "Hisob ochish uchun One ID’ni qanday ulash mumkin",
-        "ip_note": "Agar siz YaTT bo‘lsangiz — 2–3-qadamlarni o‘tkazib yuboring",
+        "title": "Batafsil yo‘riqnoma",
         "step": {
           "authorize": {
-            "title": "Avtorizatsiyadan o‘ting",
+            "title": "Avtorizatsiya qiling",
             "description": "One ID’ga qulay usulda kiring"
           },
-          "legal_entity": {
-            "title": "«Yuridik shaxs»ni tanlang",
-            "description": "Bosh sahifada ushbu bo‘limni tanlang"
-          },
-          "inn": {
-            "title": "INN kiriting",
-            "description": "Ro‘yxatda kompaniyangiz paydo bo‘ladi"
-          },
           "management": {
-            "title": "«Boshqaruv» bo‘limiga o‘ting",
-            "description": "Pastki paneldagi bo‘limni oching"
-          },
-          "select_bank": {
-            "title": "HamkorBank’ni tanlang",
-            "description": "Tashkilotlar ro‘yxatidan HamkorBank’ni toping"
+            "title": "«Boshqaruv»ni oching",
+            "description": "Pastki paneldagi «Boshqaruv» bo‘limiga o‘ting"
           },
           "allow": {
-            "title": "«Ruxsat berish»ni bosing",
-            "description": "Paydo bo‘lgan oynada ruxsat bering"
+            "title": "HamkorBank’ga ruxsat bering",
+            "description": "Qidiruv orqali HamkorBank’ni toping va bosing"
           },
-          "done": {
-            "title": "Tayyor!",
-            "description": "Bank ilovasiga qayting va hisob ochishni davom ettiring"
+          "check": {
+            "title": "Ruxsatni tekshiring",
+            "description": "HamkorBank’ga qaytib, «Ruxsatni tekshirish»ni bosing"
           }
         }
       }

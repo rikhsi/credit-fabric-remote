@@ -1,4 +1,9 @@
-import { OnlineAccount } from '@api/models/los/account';
+export interface BillAccount {
+  account: string;
+  balance: number;
+  currency: string;
+  name: string;
+}
 
 export function maskAccountNumber(account: string | null | undefined): string {
   if (!account) {
@@ -12,7 +17,7 @@ export function maskAccountNumber(account: string | null | undefined): string {
   return `${account.slice(0, 5)}・・${account.slice(-3)}`;
 }
 
-export function toReadonlyAccountItems(accountNo: string | null | undefined): OnlineAccount[] {
+export function toReadonlyAccountItems(accountNo: string | null | undefined): BillAccount[] {
   if (!accountNo) {
     return [];
   }
@@ -25,15 +30,4 @@ export function toReadonlyAccountItems(accountNo: string | null | undefined): On
       balance: 0,
     },
   ];
-}
-
-/** Finds the account matching the saved accountNo among the fetched accounts to display it readonly. */
-export function matchSelectedAccount(accounts: OnlineAccount[], accountNo: string | null | undefined): OnlineAccount[] {
-  if (!accountNo) {
-    return [];
-  }
-
-  const matched = accounts.find((item) => item.account === accountNo);
-
-  return matched ? [matched] : toReadonlyAccountItems(accountNo);
 }

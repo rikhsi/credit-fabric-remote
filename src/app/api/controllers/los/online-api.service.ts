@@ -1,11 +1,9 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OnlineAccount } from '@api/models/los/account';
 import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication } from '@api/models/los/application';
 import { EligibilityResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { StartProcessingPayload, StartProcessingResult } from '@api/models/los/start-processing';
-import { buildHttpParams } from '@api/utils';
 import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
 
 @Injectable({
@@ -36,12 +34,6 @@ export class OnlineApiService {
 
   public claimLoan$(payload: ClaimLoanPayload) {
     return this.http.post<ClaimLoanResult>('online/application/claim-loan', payload);
-  }
-
-  public getAccounts$(applicationId: number) {
-    return this.http.get<OnlineAccount[]>('online/accounts/', {
-      params: buildHttpParams({ applicationId }),
-    });
   }
 
   public checkOneId$() {

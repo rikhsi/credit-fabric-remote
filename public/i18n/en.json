@@ -24,53 +24,40 @@
     "close": "Close",
     "sign": "Sign and share",
     "back": "Back",
-    "open_instruction": "Open instruction",
-    "one_id_granted": "I granted access",
     "go_to_one_id": "Go to OneID",
     "fill_application": "Fill out the application",
     "fill": "Fill",
     "edit": "Edit",
-    "got_it": "Got it"
+    "got_it": "Got it",
+    "download": "Download",
+    "check_permission": "Check permission"
   },
   "flow": {
     "one_id": {
       "consent": {
-        "title": "Grant consent in OneID",
-        "description": "Confirm access to your data via OneID to open an account.",
+        "title": "Give consent in OneID",
+        "description": "Confirm access to your data via OneID to use Hamkor Biznes.",
         "not_granted_title": "Consent not found",
-        "not_granted_description": "It looks like you haven't granted access in OneID yet. Grant access and try again."
+        "not_granted_description": "It looks like you have not granted access in OneID yet. Grant access and try again."
       },
       "instruction": {
-        "title": "How to connect One ID to open an account",
-        "ip_note": "If you are a sole proprietor — skip steps 2–3",
+        "title": "Detailed instruction",
         "step": {
           "authorize": {
             "title": "Sign in",
-            "description": "Log in to One ID in any convenient way"
-          },
-          "legal_entity": {
-            "title": "Select \"Legal entity\"",
-            "description": "Choose this section on the main page"
-          },
-          "inn": {
-            "title": "Enter the TIN",
-            "description": "Your company will appear in the list"
+            "description": "Sign in to One ID in any convenient way"
           },
           "management": {
-            "title": "Go to the \"Management\" section",
-            "description": "Open the section on the bottom bar"
-          },
-          "select_bank": {
-            "title": "Select HamkorBank",
-            "description": "Find HamkorBank in the list of organizations"
+            "title": "Open “Management”",
+            "description": "Go to the “Management” section on the bottom panel"
           },
           "allow": {
-            "title": "Tap \"Allow\"",
-            "description": "Grant access in the dialog that appears"
+            "title": "Allow HamkorBank access",
+            "description": "Find HamkorBank via search and tap allow"
           },
-          "done": {
-            "title": "Done!",
-            "description": "Return to the bank app and continue opening the account"
+          "check": {
+            "title": "Check permission",
+            "description": "Return to HamkorBank and tap “Check permission”"
           }
         }
       }

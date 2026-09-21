@@ -1,52 +1,44 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { translate } from '@jsverse/transloco';
+import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { finalize, take } from 'rxjs';
 import { environment } from 'src/environments/development';
 import { OnlineApiService } from '@api/controllers/los/online-api.service';
 import { ModalConfirmComponent } from '@shared/components';
+import { BounceDirective } from '@shared/directives';
+import { ImagePipe } from '@shared/pipes';
 import { ConfirmModal } from '@app/typings/modal';
 import { RootRoute } from '@app/constants/route-path';
-import { OneIdConsent } from '@pages/myid/components/one-id-consent/one-id-consent';
-import { OneIdInstruction } from '@pages/myid/components/one-id-instruction/one-id-instruction';
 import { SuccessModal } from '@pages/myid/components/success-modal/success-modal';
 import { SuccessModalData } from '@pages/myid/data/modal';
 import { ONE_ID_INSTRUCTION_STEPS } from '@pages/myid/data/one-id';
 
-type OneIdView = 'consent' | 'instruction';
-
 @Component({
   selector: 'cf-myid',
-  imports: [OneIdConsent, OneIdInstruction],
+  imports: [TranslocoDirective, NzButtonComponent, NzIconDirective, NzTypographyComponent, BounceDirective, ImagePipe],
   templateUrl: './myid.html',
   styleUrl: './myid.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyId {
-  private nzModalService = inject(NzModalService);
-  private notification = inject(NzNotificationService);
-  private onlineApi = inject(OnlineApiService);
-  private router = inject(Router);
+  private readonly nzModalService = inject(NzModalService);
+  private readonly notification = inject(NzNotificationService);
+  private readonly onlineApi = inject(OnlineApiService);
+  private readonly router = inject(Router);
 
-  protected readonly view = signal<OneIdView>('consent');
   protected readonly loading = signal(false);
   protected readonly steps = ONE_ID_INSTRUCTION_STEPS;
-
-  openInstruction(): void {
-    this.view.set('instruction');
-  }
-
-  backToConsent(): void {
-    this.view.set('consent');
-  }
 
   goToOneId(): void {
     window.open(environment.oneIdUrl, '_blank');
   }
 
-  grant(): void {
+  checkPermission(): void {
     if (this.loading()) {
       return;
     }

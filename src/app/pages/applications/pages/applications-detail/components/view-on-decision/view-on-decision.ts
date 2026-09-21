@@ -11,10 +11,9 @@ import { ApplicationProductInfo } from '../application-product-info/application-
 import { CommentApplication, StatusApplication } from '../../../../components';
 import { ApplicationsDetailService } from '../../../../services';
 import { Card, ModalConfirmComponent, SelectBill } from '@shared/components';
-import { OnlineAccount } from '@api/models/los/account';
 import { OnlineApplication } from '@api/models/los/application';
 import { BounceDirective } from '@shared/directives';
-import { matchSelectedAccount } from '@shared/utils/account';
+import { toReadonlyAccountItems } from '@shared/utils/account';
 import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
@@ -43,10 +42,9 @@ export class ViewOnDecision {
 
   application = input.required<OnlineApplication>();
   applicationId = input.required<number>();
-  accounts = input<OnlineAccount[]>([]);
 
   readonly isClaiming = signal(false);
-  readonly accountItems = computed(() => matchSelectedAccount(this.accounts(), this.application().accountNo));
+  readonly accountItems = computed(() => toReadonlyAccountItems(this.application().accountNo));
 
   openApproveConfirm(): void {
     this.openConfirmModal(
