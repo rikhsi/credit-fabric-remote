@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'custom';
 
 .themeMixin({
   :host {
@@ -84,7 +85,7 @@
 
 .desc {
   margin: 0;
-  .textMixin(@font-weight-regular, @font-size-base, @line-height-base);
+  .textMixin(@font-weight-base, @font-size-base, @line-height-base);
 }
 
 .steps {
@@ -150,7 +151,7 @@
 }
 
 .step__desc {
-  .textMixin(@font-weight-regular, @font-size-sm, @line-height-base);
+  .textMixin(@font-weight-base, @font-size-sm, @line-height-base);
 }
 
 .guide {
