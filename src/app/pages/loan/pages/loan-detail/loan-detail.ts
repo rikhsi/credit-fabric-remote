@@ -169,23 +169,12 @@ export class LoanDetail implements OnInit {
 
     this.isSubmitting.set(true);
 
-    this.ldService
-      .checkValidate$()
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: ({ isOtpValidated }) => {
-          if (isOtpValidated) {
-            this.startProcessing();
-            return;
-          }
+    if (this.ldService.isValidated()) {
+      this.startProcessing();
+      return;
+    }
 
-          this.openOtp();
-        },
-        error: () => {
-          this.isSubmitting.set(false);
-          this.openErrorModal();
-        },
-      });
+    this.openOtp();
   }
 
   private openOtp(): void {
@@ -208,6 +197,7 @@ export class LoanDetail implements OnInit {
 
     modalRef.afterClose.pipe(take(1)).subscribe((confirmed) => {
       if (confirmed) {
+        this.ldService.isValidated.set(true);
         this.startProcessing();
         return;
       }
