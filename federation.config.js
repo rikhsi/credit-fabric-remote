@@ -31,7 +31,7 @@ export default withNativeFederation({
     '@pages/applications',
     '@pages/document',
     '@pages/loan',
-    '@pages/myid',
+    '@pages/oneid',
     '@app/api',
     '@app/constants',
     '@app/core',

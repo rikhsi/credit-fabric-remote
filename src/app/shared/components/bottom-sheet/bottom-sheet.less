@@ -13,7 +13,8 @@
     .cf-bottom-sheet__option {
       color: @text-color;
 
-      &:active {
+      &:active,
+      &.cf-bounce--pressed {
         background: @hover-bg;
       }
 
@@ -74,6 +75,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .cf-bottom-sheet__list {
@@ -83,6 +86,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .cf-bottom-sheet__option {
@@ -99,6 +103,7 @@
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
+  transition: background-color 160ms ease, transform 100ms ease;
 
   span {
     flex: 1;

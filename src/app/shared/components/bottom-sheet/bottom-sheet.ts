@@ -6,11 +6,20 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { SelectOption } from '@app/typings/select';
-import { BounceDirective } from '@shared/directives';
+import { BounceDirective, SwipeDownDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-bottom-sheet',
-  imports: [FormsModule, NzDrawerModule, NzInputModule, NzIconModule, NzButtonComponent, BounceDirective, TranslocoDirective],
+  imports: [
+    FormsModule,
+    NzDrawerModule,
+    NzInputModule,
+    NzIconModule,
+    NzButtonComponent,
+    BounceDirective,
+    SwipeDownDirective,
+    TranslocoDirective,
+  ],
   templateUrl: './bottom-sheet.html',
   styleUrl: './bottom-sheet.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

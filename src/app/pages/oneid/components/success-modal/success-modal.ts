@@ -5,7 +5,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { DecimalPipe } from '@angular/common';
 import { PluralizePipe } from '@shared/pipes';
-import { SuccessModalData } from '@pages/myid/data/modal';
+import { SuccessModalData } from '@pages/oneid/data/modal';
 import { BounceDirective } from '@shared/directives';
 
 @Component({

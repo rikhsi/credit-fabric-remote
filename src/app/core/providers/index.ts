@@ -1,6 +1,7 @@
 export * from './host.provider';
 export * from './eligibility.provider';
 export * from './loan-products.provider';
+export * from './loan-draft.provider';
 export * from './transloco.provider';
 export * from './theme.provider';
 export * from './lang.provider';

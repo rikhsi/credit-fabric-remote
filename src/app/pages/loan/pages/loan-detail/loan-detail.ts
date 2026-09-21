@@ -31,6 +31,7 @@ import { Card, ModalConfirmComponent } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
 import { EligibilityService } from '@core/services/eligibility.service';
+import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
@@ -60,6 +61,7 @@ export class LoanDetail implements OnInit {
   private readonly eligibilityService = inject(EligibilityService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly http = inject(HttpClient);
+  private readonly loanDraft = inject(LoanDraftService);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -76,6 +78,9 @@ export class LoanDetail implements OnInit {
   }
 
   ngOnInit(): void {
+    // Any way back to the form starts a new application, the OneID draft must not survive it.
+    this.loanDraft.clear();
+
     this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
     forkJoin([
@@ -170,7 +175,7 @@ export class LoanDetail implements OnInit {
     this.isSubmitting.set(true);
 
     if (this.ldService.isValidated()) {
-      this.startProcessing();
+      this.checkOneId();
       return;
     }
 
@@ -198,12 +203,33 @@ export class LoanDetail implements OnInit {
     modalRef.afterClose.pipe(take(1)).subscribe((confirmed) => {
       if (confirmed) {
         this.ldService.isValidated.set(true);
-        this.startProcessing();
+        this.checkOneId();
         return;
       }
 
       this.isSubmitting.set(false);
     });
+  }
+
+  /** The application can only be processed once the client shared their data through OneID. */
+  private checkOneId(): void {
+    this.ldService
+      .checkOneId$()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (granted) => (granted ? this.startProcessing() : this.goToOneId()),
+        error: () => {
+          this.isSubmitting.set(false);
+          this.openErrorModal();
+        },
+      });
+  }
+
+  private goToOneId(): void {
+    this.loanDraft.save(this.ldService.buildPayload());
+    this.isSubmitting.set(false);
+
+    void this.router.navigate(['/', RootRoute.OneId]);
   }
 
   private startProcessing(): void {

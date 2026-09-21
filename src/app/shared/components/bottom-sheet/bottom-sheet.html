@@ -2,14 +2,14 @@
   <nz-drawer
     nzWrapClassName="cf-bottom-sheet-drawer"
     [nzVisible]="visible()"
-    [nzHeight]="'75vh'"
+    [nzHeight]="'100svh'"
     [nzClosable]="false"
     nzPlacement="bottom"
     [nzMaskClosable]="true"
     (nzOnClose)="close()"
   >
     <ng-container *nzDrawerContent>
-      <div class="cf-bottom-sheet">
+      <div class="cf-bottom-sheet" cfSwipeDown (swiped)="close()">
         <div class="cf-bottom-sheet__handle"></div>
 
         <div class="cf-bottom-sheet__header">
@@ -31,10 +31,11 @@
           @for (option of filteredOptions(); track option.value) {
           <li>
             <button
+              cfBounce="300"
               type="button"
               class="cf-bottom-sheet__option"
               [class.cf-bottom-sheet__option--selected]="option.value === value()"
-              (click)="selectOption(option)"
+              (clicked)="selectOption(option)"
             >
               <span>{{ option.label }}</span>
 

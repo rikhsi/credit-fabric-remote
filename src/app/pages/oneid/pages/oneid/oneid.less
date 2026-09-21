@@ -31,6 +31,12 @@
     .guide {
       background: @component-background-secondary;
     }
+
+    .guide__action {
+      background: @component-background;
+      border-color: @border-color;
+      color: @text-color;
+    }
   }
 });
 
@@ -39,11 +45,8 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
-  width: 100%;
-  max-width: none;
   box-sizing: border-box;
-  margin: 0 -20px;
-  padding: 0 20px 20px;
+  padding: 20px 0 0;
   row-gap: 28px;
 }
 
@@ -105,7 +108,7 @@
 .steps {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr 1fr;
   grid-auto-flow: column;
   column-gap: 24px;
   row-gap: 16px;
@@ -118,12 +121,13 @@
   column-gap: 12px;
   min-width: 0;
 
+  // Rows are equal, so the badge sits at 50% and the next one starts half a row below.
   &::before {
     content: '';
     position: absolute;
     left: 15px;
-    top: 36px;
-    bottom: -16px;
+    top: calc(50% + 16px);
+    bottom: calc(-50% - 1px);
     border-left: 1px dashed;
   }
 
@@ -213,6 +217,8 @@
 
   .steps {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: 1fr;
     grid-auto-flow: row;
   }
 
