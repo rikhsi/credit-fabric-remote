@@ -4,7 +4,7 @@ import { tap } from 'rxjs';
 import { loanDetailFormModel } from '../data';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
-import { buildRequiredAddresses, isFlowAddressFilled } from '../utils/address';
+import { buildFlowAddresses, isFlowAddressFilled } from '../utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
@@ -19,7 +19,7 @@ export class LoanDetailService {
   public readonly isDisabled = signal<boolean>(true);
   public readonly productCondition = signal<ProductConditionItem>(null);
 
-  public readonly form = form(signal({ ...loanDetailFormModel, addresses: buildRequiredAddresses() }), (schemaPath) => {
+  public readonly form = form(signal({ ...loanDetailFormModel, addresses: buildFlowAddresses() }), (schemaPath) => {
     min(schemaPath.amount, () => this.productCondition()?.minAmount ?? 0);
     max(schemaPath.amount, () => this.productCondition()?.maxAmount ?? 0);
     min(schemaPath.term, () => this.productCondition()?.minTerm ?? 0);

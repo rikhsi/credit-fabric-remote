@@ -55,7 +55,6 @@ export class LoanDetail implements OnInit {
 
     forkJoin([
       this.ldService.checkValidate$(this.user()?.pinfl),
-      fetchHandbookItems(this.http, { url: 'sys-address-type' }),
       fetchHandbookItems(this.http, { url: 'dir-city' }),
       fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
     ])
@@ -72,13 +71,12 @@ export class LoanDetail implements OnInit {
       });
   }
 
-  openAddressForm(editIndex: number): void {
+  openAddressForm(): void {
     if (this.isLoading()) {
       return;
     }
 
-    const items = this.ldService.form().value().addresses;
-    const nzData = items[editIndex];
+    const [nzData] = this.ldService.form().value().addresses;
 
     const modalRef = this.nmService.create<AddressForm, OnlineStartProcessingAddress, OnlineStartProcessingAddress>({
       nzTitle: null,
@@ -93,16 +91,10 @@ export class LoanDetail implements OnInit {
     });
 
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
-      this.ldService.form().value.update((cur) => {
-        const addresses = cur.addresses.map((item, index) =>
-          index === editIndex ? { ...value, sysAddressTypeId: item.sysAddressTypeId } : item,
-        );
-
-        return {
-          ...cur,
-          addresses,
-        };
-      });
+      this.ldService.form().value.update((cur) => ({
+        ...cur,
+        addresses: cur.addresses.map((item) => ({ ...value, sysAddressTypeId: item.sysAddressTypeId })),
+      }));
     });
   }
 

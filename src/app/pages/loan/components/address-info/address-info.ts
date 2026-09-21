@@ -29,19 +29,22 @@ import { isFlowAddressFilled } from '@pages/loan/utils/address';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressInfo {
-  readonly items = input<OnlineStartProcessingAddress[]>([]);
+  readonly item = input<OnlineStartProcessingAddress | null>(null);
   readonly isLoading = input(false);
 
-  readonly hasIncomplete = computed(() => this.items().some((item) => !isFlowAddressFilled(item)));
-  readonly firstIncompleteIndex = computed(() => this.items().findIndex((item) => !isFlowAddressFilled(item)));
+  readonly isFilled = computed(() => {
+    const item = this.item();
 
-  readonly edit = output<number>();
+    return item != null && isFlowAddressFilled(item);
+  });
+
+  readonly edit = output<void>();
 
   onFill(): void {
     if (this.isLoading()) {
       return;
     }
 
-    this.edit.emit(this.hasIncomplete() ? this.firstIncompleteIndex() : 0);
+    this.edit.emit();
   }
 }

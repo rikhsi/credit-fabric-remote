@@ -1,5 +1,5 @@
 import { AgreementFormModel, CalculatorFormModel, LoanDetailFormModel, OtpFormModel } from '../models';
-import { buildRequiredAddresses } from '../utils/address';
+import { buildFlowAddresses } from '../utils/address';
 import { createDefaultFinanceForm } from '@pages/loan/utils/finance-months';
 
 export const calculatorFormModel: CalculatorFormModel = {
@@ -16,7 +16,7 @@ export const agreementFormModel: AgreementFormModel = {
 export const loanDetailFormModel: LoanDetailFormModel = {
   ...calculatorFormModel,
   ...agreementFormModel,
-  addresses: buildRequiredAddresses(),
+  addresses: buildFlowAddresses(),
   finData: createDefaultFinanceForm(),
 };
 

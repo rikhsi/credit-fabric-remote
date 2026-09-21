@@ -1,26 +1,17 @@
-<cf-card class="gray lg" [class.bordered]="!isFilled()" [class.ant-form-item-explain-error]="!isFilled()">
+<cf-card class="gray lg">
   <div class="row">
-    <div class="col">
-      @if (isFilled()) {
-      <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
-        <h4 nz-typography>{{ items | handbook: item().dirCityId }}</h4>
-      </ng-container>
-      }
+    <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
+      <h4 nz-typography>{{ items | handbook: item().dirCityId }}</h4>
+    </ng-container>
 
-      <button cfBounce nz-button nzType="link" nzSize="large" type="button" (clicked)="edit.emit()">
-        <nz-icon nzType="f:pencil" />
-      </button>
-    </div>
-
-    @if (isFilled()) {
     <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: item().dirCityId } }; let items">
       <p nz-typography>{{ items | handbook: item().dirVillageId }}</p>
     </ng-container>
 
     <p nz-typography>{{ item().street }}</p>
+
+    @if (item().zipCode) {
     <p nz-typography>{{ item().zipCode }}</p>
-    } @else {
-    <p nz-typography class="placeholder">—</p>
     }
   </div>
 </cf-card>

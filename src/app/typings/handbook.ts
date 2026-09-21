@@ -15,7 +15,6 @@ export interface HandbookRequest {
 }
 
 export type HandbookQueryType =
-  | 'sys-address-type'
   | 'dir-city'
   | 'dir-company-activity'
   | 'dir-village';
