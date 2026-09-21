@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map } from 'rxjs';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -9,6 +12,7 @@ import { PluralizePipe } from '@shared/pipes';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { ApplicationStatus } from '@api/models/los/application';
 import { CreditInput } from '@app/typings/calculator';
+import { Breakpoint } from '@app/constants/breakpoint';
 
 type StatusTone = 'warning' | 'success' | 'decline' | 'info';
 
@@ -25,12 +29,16 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.Error]: 'decline',
 };
 
+/** Temporary placeholder until backend starts returning createdDate. */
+const PLACEHOLDER_CREATED_DATE = new Date(2026, 8, 12);
+
 @Component({
   selector: 'cf-card-application',
   imports: [
     StatusApplication,
     TranslocoDirective,
     DecimalPipe,
+    DatePipe,
     PluralizePipe,
     NzIconDirective,
     NzButtonComponent,
@@ -41,9 +49,13 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'card',
+    '[class.clickable]': 'isMobile() && !actionsDisabled()',
+    '(click)': 'onCardClick()',
   },
 })
 export class CardApplication {
+  private readonly breakpointObserver = inject(BreakpointObserver);
+
   id = input<number>();
   rate = input<number>();
   term = input<number>();
@@ -51,10 +63,20 @@ export class CardApplication {
   currency = input<string>();
   status = input<ApplicationStatus>();
   paymentType = input<string>();
+  createdDate = input<string | Date | null>(null);
 
   actionsDisabled = input<boolean>();
 
   goToApplication = output<void>();
+
+  readonly isMobile = toSignal(
+    this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
+    { initialValue: false },
+  );
+
+  readonly displayCurrency = computed(() => this.currency()?.trim() || 'UZS');
+
+  readonly displayDate = computed(() => this.createdDate() || PLACEHOLDER_CREATED_DATE);
 
   readonly statusTone = computed(() => {
     const status = this.status();
@@ -79,4 +101,12 @@ export class CardApplication {
 
     return this.isDifferential() ? calculateDifferential(input).monthlyPayment : calculateAnnuity(input).monthlyPayment;
   });
+
+  onCardClick(): void {
+    if (this.actionsDisabled() || !this.isMobile()) {
+      return;
+    }
+
+    this.goToApplication.emit();
+  }
 }

@@ -12,6 +12,8 @@ export interface OnlineGetInfoResult {
   productName: string;
   rate: number;
   sysStatusId: ApplicationStatus;
+  /** Optional until backend starts returning it. */
+  createdDate?: string;
 }
 
 export interface EligibilityResult {

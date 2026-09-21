@@ -1,7 +1,13 @@
 <ng-container *transloco="let t">
   <div class="header">
     <div class="badges">
-      <div class="status-badge" [class.warning]="statusTone() === 'warning'" [class.success]="statusTone() === 'success'" [class.decline]="statusTone() === 'decline'" [class.info]="statusTone() === 'info'">
+      <div
+        class="status-badge"
+        [class.warning]="statusTone() === 'warning'"
+        [class.success]="statusTone() === 'success'"
+        [class.decline]="statusTone() === 'decline'"
+        [class.info]="statusTone() === 'info'"
+      >
         <cf-status-application [status]="status()" />
       </div>
 
@@ -12,34 +18,38 @@
     </div>
   </div>
 
-  <div class="body">
-    <div class="content">
-      <h3 class="amount">{{ amount() | number }} {{ currency() }}</h3>
+  <div class="content">
+    <h3 class="amount">{{ amount() | number }} {{ displayCurrency() }}</h3>
 
-      <div class="details">
-        <p class="detail">
-          <span class="detail-label">{{ t('prop.loan_monthly_payment') }}</span>
-          @if (monthlyPayment(); as payment) {
-          <b class="detail-value">
-            @if (isDifferential()) {
-            {{ t('prop.from', { amount: payment | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
-            } @else {
-            {{ payment | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
-            }
-          </b>
+    <div class="details">
+      <p class="detail">
+        <span class="detail-label">{{ t('prop.loan_monthly_payment') }}</span>
+        @if (monthlyPayment(); as payment) {
+        <b class="detail-value">
+          @if (isDifferential()) {
+          {{ t('prop.from', { amount: payment | number }) }} {{ displayCurrency() }}/{{ t('prefix.month_short.one') }}
+          } @else {
+          {{ payment | number }} {{ displayCurrency() }}/{{ t('prefix.month_short.one') }}
           }
-        </p>
+        </b>
+        }
+      </p>
 
-        <span class="separator desktop-only" aria-hidden="true">•</span>
+      <span class="separator desktop-only" aria-hidden="true">•</span>
 
-        <p class="detail">
-          <span class="detail-label">{{ t('prop.loan_term_full') }}</span>
-          <b class="detail-value">{{ term() | pluralize: 'month' }}</b>
-        </p>
-      </div>
-
-      <p class="meta mobile-only">{{ t('application.number_short', { id: id() }) }}</p>
+      <p class="detail">
+        <span class="detail-label">{{ t('prop.loan_term_full') }}</span>
+        <b class="detail-value">{{ term() | pluralize: 'month' }}</b>
+      </p>
     </div>
+  </div>
+
+  <div class="footer">
+    <p class="meta">
+      {{ t('application.number_short', { id: id() }) }}
+      <span class="separator" aria-hidden="true">•</span>
+      {{ displayDate() | date: 'd MMMM y' }}
+    </p>
 
     @if (!actionsDisabled()) {
     <button
