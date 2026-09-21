@@ -103,8 +103,8 @@
       "title": "Sizda allaqachon tasdiqlangan ariza bor"
     },
     "error_not_finished_application": {
-      "description": "Yakunlanmagan ariza topildi",
-      "title": "Diqqat!"
+      "description": "Davom ettirish yoki yakunlash uchun «Mening arizalarim» bo‘limiga o‘ting.",
+      "title": "Yakunlanmagan ariza topildi"
     },
     "error_unknown": {
       "description": "Noma'lum xatolik",

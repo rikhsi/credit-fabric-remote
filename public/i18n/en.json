@@ -103,8 +103,8 @@
       "title": "You already have an approved application"
     },
     "error_not_finished_application": {
-      "description": "An unfinished application was found",
-      "title": "Attention!"
+      "description": "Go to My Applications to continue or finish it.",
+      "title": "Unfinished application found"
     },
     "error_unknown": {
       "description": "Unknown error",

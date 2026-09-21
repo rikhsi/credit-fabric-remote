@@ -68,7 +68,7 @@ export class OneId {
 
           this.finishWithSuccess();
         },
-        error: () => this.finishWithError(),
+        error: (error) => this.finishWithError(error),
       });
   }
 
@@ -82,9 +82,9 @@ export class OneId {
     void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
   }
 
-  private finishWithError(): void {
+  private finishWithError(error?: unknown): void {
     this.loanDraft.clear();
-    showApplicationErrorToast(this.toast);
+    showApplicationErrorToast(this.toast, error);
     void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
   }
 }

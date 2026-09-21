@@ -38,9 +38,9 @@ export const checkOneIdGuard: CanActivateFn = () => {
 
           return toApplications();
         }),
-        catchError(() => {
+        catchError((error) => {
           loanDraft.clear();
-          showApplicationErrorToast(toast);
+          showApplicationErrorToast(toast, error);
 
           return of(toApplications());
         }),

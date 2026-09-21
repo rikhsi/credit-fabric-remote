@@ -45,7 +45,9 @@ export class OnlineApiService {
   }
 
   public startProcessing$(payload: StartProcessingPayload) {
-    return this.http.post<StartProcessingResult>('online/application/start-processing', payload);
+    return this.http.post<StartProcessingResult>('online/application/start-processing', payload, {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public getFile$(fileId: number) {
