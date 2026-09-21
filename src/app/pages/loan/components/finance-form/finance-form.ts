@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { FieldTree, form, FormField, required, validate } from '@angular/forms/signals';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -37,7 +37,7 @@ import { InfoModalData } from '@app/typings/modal';
   styleUrl: './finance-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FinanceForm implements OnInit {
+export class FinanceForm {
   private readonly modalRef = inject(NzModalRef, { optional: true });
   private readonly nmService = inject(NzModalService);
   private readonly nzModalData = inject<OnlineStartProcessingFinData | null>(NZ_MODAL_DATA, { optional: true });
@@ -46,7 +46,7 @@ export class FinanceForm implements OnInit {
 
   public readonly isModal = this.modalRef != null;
 
-  public readonly localForm = form(signal({ finData: createDefaultFinanceForm() }), (schemaPath) => {
+  public readonly localForm = form(signal({ finData: createDefaultFinanceForm(this.nzModalData) }), (schemaPath) => {
     required(schemaPath.finData.dirCompanyActivityId);
     required(schemaPath.finData.activityTerm);
     required(schemaPath.finData.month1Revenue);
@@ -70,21 +70,6 @@ export class FinanceForm implements OnInit {
   });
 
   public readonly financeForm = computed(() => this.form() ?? this.localForm);
-
-  public ngOnInit(): void {
-    if (!this.isModal) {
-      return;
-    }
-
-    setTimeout(() => {
-      this.localForm().value.update((cur) => ({
-        finData: createDefaultFinanceForm({
-          ...cur.finData,
-          ...(this.nzModalData ?? {}),
-        }),
-      }));
-    }, 0);
-  }
 
   public openBusinessActivityInfo(): void {
     this.openInfoModal({

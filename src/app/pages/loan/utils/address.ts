@@ -1,7 +1,7 @@
 import { FLOW_ADDRESS_TYPE_FACT } from '../data/address-type';
 import { OnlineStartProcessingAddress } from '@api/models/los/start-processing';
 
-function createEmptyAddress(addressType: string): OnlineStartProcessingAddress {
+export function createEmptyAddress(addressType: string = null): OnlineStartProcessingAddress {
   return {
     sysAddressTypeId: addressType,
     dirCityId: null,
