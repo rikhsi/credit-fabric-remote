@@ -13,9 +13,8 @@
     .cf-bottom-sheet__option {
       color: @text-color;
 
-      &:active,
-      &.cf-bounce--pressed {
-        background: @hover-bg;
+      &:active {
+        background: @component-background-secondary;
       }
 
       &--selected {
@@ -24,7 +23,7 @@
     }
 
     .cf-bottom-sheet__check {
-      color: @primary-color;
+      color: @primary-color !important;
     }
 
     .cf-bottom-sheet__empty {
@@ -96,14 +95,16 @@
   gap: 12px;
   width: 100%;
   min-height: 52px;
-  padding: 14px 4px;
+  margin: 0 -4px;
+  padding: 14px 12px;
   border: 0;
+  border-radius: 12px;
   background: transparent;
   text-align: left;
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
-  transition: background-color 160ms ease, transform 100ms ease;
+  transition: background-color 120ms ease;
 
   span {
     flex: 1;
