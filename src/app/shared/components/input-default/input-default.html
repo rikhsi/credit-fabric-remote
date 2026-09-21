@@ -28,7 +28,7 @@
           [ngModel]="value()"
           (ngModelChange)="onValueChange($event)"
           (blur)="onBlur()"
-          (focus)="focusChange.emit()"
+          (focus)="onFocus()"
           (click)="clicked.emit()"
         />
       </nz-input-wrapper>
