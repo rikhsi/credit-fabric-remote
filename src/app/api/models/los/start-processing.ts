@@ -27,7 +27,7 @@ export interface StartProcessingPayload {
   loanTerm: number;
   sysPaymentTypeId: string;
   filialCode: number;
-  addresses: StartProcessingAddress[];
+  addresses: StartProcessingAddress;
   finData: StartProcessingFinData;
 }
 

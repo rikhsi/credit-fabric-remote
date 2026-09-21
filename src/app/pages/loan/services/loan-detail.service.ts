@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { disabled, form, max, min, required, requiredError, validate } from '@angular/forms/signals';
 import { tap } from 'rxjs';
 import { agreementFormModel, loanDetailFormModel } from '../data';
-import { buildFlowAddresses, isFlowAddressFilled } from '../utils/address';
+import { isFlowAddressFilled } from '../utils/address';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
@@ -20,12 +20,12 @@ export class LoanDetailService {
   public readonly isDisabled = signal<boolean>(true);
   public readonly productCondition = signal<ProductConditionItem>(null);
 
-  public readonly form = form(signal({ ...loanDetailFormModel, addresses: buildFlowAddresses() }), (schemaPath) => {
+  public readonly form = form(signal({ ...loanDetailFormModel }), (schemaPath) => {
     min(schemaPath.loanAmount, () => this.productCondition()?.minAmount ?? 0);
     max(schemaPath.loanAmount, () => this.productCondition()?.maxAmount ?? 0);
     min(schemaPath.loanTerm, () => this.productCondition()?.minTerm ?? 0);
     max(schemaPath.loanTerm, () => this.productCondition()?.maxTerm ?? 0);
-    validate(schemaPath.addresses, ({ value }) => (value().every(isFlowAddressFilled) ? null : requiredError()));
+    validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());
   });

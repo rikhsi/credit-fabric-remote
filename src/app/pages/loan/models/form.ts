@@ -14,7 +14,7 @@ export interface AgreementFormModel {
 
 export interface LoanDetailFormModel extends CalculatorFormModel {
   filialCode: number | null;
-  addresses: StartProcessingAddress[];
+  addresses: StartProcessingAddress;
   finData: StartProcessingFinData;
 }
 

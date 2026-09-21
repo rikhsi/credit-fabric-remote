@@ -101,7 +101,7 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    const [nzData] = this.ldService.form().value().addresses;
+    const nzData = this.ldService.form().value().addresses;
 
     const modalRef = this.nmService.create<AddressForm, StartProcessingAddress, StartProcessingAddress>({
       nzTitle: null,
@@ -118,7 +118,7 @@ export class LoanDetail implements OnInit {
     modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
       this.ldService.form().value.update((cur) => ({
         ...cur,
-        addresses: [value],
+        addresses: value,
       }));
     });
   }
@@ -153,7 +153,7 @@ export class LoanDetail implements OnInit {
 
     const { addresses, finData } = this.ldService.form().value();
 
-    if (!addresses.every(isFlowAddressFilled)) {
+    if (!isFlowAddressFilled(addresses)) {
       this.scrollToSection(this.addressSection());
       return;
     }

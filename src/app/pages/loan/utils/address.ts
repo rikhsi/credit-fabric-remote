@@ -9,11 +9,6 @@ export function createEmptyAddress(): StartProcessingAddress {
   };
 }
 
-/** The flow collects a single address, but the API still expects a list. */
-export function buildFlowAddresses(): StartProcessingAddress[] {
-  return [createEmptyAddress()];
-}
-
-export function isFlowAddressFilled(item: StartProcessingAddress): boolean {
-  return item.dirCityId != null && item.dirVillageId != null && item.street != null;
+export function isFlowAddressFilled(item: StartProcessingAddress | null | undefined): boolean {
+  return item != null && item.dirCityId != null && item.dirVillageId != null && item.street != null;
 }
