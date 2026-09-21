@@ -31,15 +31,16 @@
           @for (option of filteredOptions(); track option.value) {
           <li>
             <button
+              cfBounce="300"
               type="button"
               class="cf-bottom-sheet__option"
               [class.cf-bottom-sheet__option--selected]="option.value === value()"
-              (click)="selectOption(option)"
+              (clicked)="selectOption(option)"
             >
               <span>{{ option.label }}</span>
 
               @if (option.value === value()) {
-              <nz-icon nzType="check" nzTheme="outline" class="cf-bottom-sheet__check" />
+              <nz-icon nzType="check" class="cf-bottom-sheet__check primary" />
               }
             </button>
           </li>

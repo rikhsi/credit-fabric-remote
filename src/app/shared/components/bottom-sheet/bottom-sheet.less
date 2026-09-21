@@ -1,34 +1,34 @@
 @import 'mixins';
 
+// Drawer content is portaled outside :host, so themed rules must not be nested under :host.
 .themeMixin({
-  :host {
-    .cf-bottom-sheet__handle {
-      background: @text-color-tertiary;
+  .cf-bottom-sheet__handle {
+    background: @text-color-tertiary;
+  }
+
+  .cf-bottom-sheet__title {
+    color: @text-color;
+  }
+
+  .cf-bottom-sheet__option {
+    color: @text-color;
+
+    &:active,
+    &.cf-bounce--pressed {
+      background: @component-background-secondary;
     }
 
-    .cf-bottom-sheet__title {
-      color: @text-color;
+    &--selected {
+      font-weight: 600;
     }
+  }
 
-    .cf-bottom-sheet__option {
-      color: @text-color;
+  .cf-bottom-sheet__check {
+    color: @primary-color !important;
+  }
 
-      &:active {
-        background: @component-background-secondary;
-      }
-
-      &--selected {
-        font-weight: 600;
-      }
-    }
-
-    .cf-bottom-sheet__check {
-      color: @primary-color !important;
-    }
-
-    .cf-bottom-sheet__empty {
-      color: @text-color-secondary;
-    }
+  .cf-bottom-sheet__empty {
+    color: @text-color-secondary;
   }
 });
 
@@ -104,7 +104,7 @@
   cursor: pointer;
   font-size: 16px;
   line-height: 1.4;
-  transition: background-color 120ms ease;
+  transition: background-color 120ms ease, transform 100ms ease;
 
   span {
     flex: 1;
