@@ -7,8 +7,26 @@
     </div>
 
     <p nz-typography>{{ amount(item().activityTerm) | pluralize: 'month' }}</p>
-    <p nz-typography>{{ 1 | financeMonth | date: 'MMMM' }} — {{ amount(item().month1Revenue) | number }}-{{ amount(item().month1Income) | number }}</p>
-    <p nz-typography>{{ 2 | financeMonth | date: 'MMMM' }} — {{ amount(item().month2Revenue) | number }}-{{ amount(item().month2Income) | number }}</p>
-    <p nz-typography>{{ 3 | financeMonth | date: 'MMMM' }} — {{ amount(item().month3Revenue) | number }}-{{ amount(item().month3Income) | number }}</p>
+
+    @let month1Revenue = amount(item().month1Revenue);
+    @let month1Income = amount(item().month1Income);
+    <p nz-typography>
+      {{ 1 | financeMonth | date: 'MMMM' }} — {{ month1Revenue | number }} {{ month1Revenue | pluralize: 'money' : false }} -
+      {{ month1Income | number }} {{ month1Income | pluralize: 'money' : false }}
+    </p>
+
+    @let month2Revenue = amount(item().month2Revenue);
+    @let month2Income = amount(item().month2Income);
+    <p nz-typography>
+      {{ 2 | financeMonth | date: 'MMMM' }} — {{ month2Revenue | number }} {{ month2Revenue | pluralize: 'money' : false }} -
+      {{ month2Income | number }} {{ month2Income | pluralize: 'money' : false }}
+    </p>
+
+    @let month3Revenue = amount(item().month3Revenue);
+    @let month3Income = amount(item().month3Income);
+    <p nz-typography>
+      {{ 3 | financeMonth | date: 'MMMM' }} — {{ month3Revenue | number }} {{ month3Revenue | pluralize: 'money' : false }} -
+      {{ month3Income | number }} {{ month3Income | pluralize: 'money' : false }}
+    </p>
   </div>
 </cf-card>
