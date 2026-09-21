@@ -5,6 +5,7 @@ const CLOSE_DISTANCE = 120;
 const CLOSE_VELOCITY_DISTANCE = 40;
 const CLOSE_VELOCITY = 0.5;
 const CLOSE_DURATION = 240;
+const DEFAULT_PANEL_SELECTOR = '.ant-drawer-content-wrapper';
 
 @Directive({
   selector: '[cfSwipeDown]',
@@ -14,7 +15,8 @@ export class SwipeDownDirective {
   private readonly host: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly zone = inject(NgZone);
 
-  readonly panelSelector = input('.ant-drawer-content-wrapper', { alias: 'cfSwipeDown' });
+  /** Optional override; keep separate from `[cfSwipeDown]` so a bare attribute does not bind an empty selector. */
+  readonly panelSelector = input(DEFAULT_PANEL_SELECTOR, { alias: 'cfSwipeDownPanel' });
   readonly swiped = output<void>();
 
   private panel: HTMLElement | null = null;
@@ -54,6 +56,7 @@ export class SwipeDownDirective {
     }
 
     const touch = event.touches[0];
+    const selector = this.panelSelector().trim() || DEFAULT_PANEL_SELECTOR;
 
     this.tracking = true;
     this.dragging = false;
@@ -61,7 +64,7 @@ export class SwipeDownDirective {
     this.startY = touch.clientY;
     this.startX = touch.clientX;
     this.startTime = Date.now();
-    this.panel = this.host.closest<HTMLElement>(this.panelSelector());
+    this.panel = this.host.closest<HTMLElement>(selector);
 
     if (this.resetTimeoutId) {
       clearTimeout(this.resetTimeoutId);
