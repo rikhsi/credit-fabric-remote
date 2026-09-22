@@ -31,6 +31,26 @@
     border-radius: 20px;
   });
 
+  &.inline {
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    border-radius: 0;
+    background: transparent;
+
+    .content {
+      padding: 0;
+      row-gap: 20px;
+
+      .text {
+        text-align: start;
+      }
+    }
+
+    .footer {
+      padding: 24px 0 0;
+    }
+  }
   .header {
     display: flex;
     justify-content: flex-end;

@@ -9,6 +9,7 @@
     "add": "Add",
     "add_address": "Add address",
     "apply": "Apply",
+    "send_application": "Submit application",
     "back_home": "Back to Home",
     "back_to_loan": "Back to Loans",
     "cancel": "Cancel",
@@ -18,6 +19,7 @@
     "go": "Go",
     "go_to_application": "Go to application",
     "go_my_applications": "Go to My Applications",
+    "continue": "Continue",
     "send_code": "Send code {{time}}",
     "decline": "Reject",
     "approve": "Approve",
@@ -66,6 +68,7 @@
   },
   "alert": {
     "fill_fields": "Fill in the fields",
+    "address_fill": "Fill in the company address",
     "finance_fill": "Fill in the financial data, company income and net profit for the last 3 months",
     "revenue_less_than_income": "Revenue cannot be less than net profit"
   },

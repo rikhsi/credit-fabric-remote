@@ -11,8 +11,17 @@
       color: @text-color;
     }
 
-    .month-card__index {
+    .month-card__index,
+    .month-card__chevron {
       color: @text-color-tertiary;
+    }
+
+    .month-card__required {
+      color: @error-color;
+    }
+
+    .inline-title {
+      color: @heading-color;
     }
 
     .finance-form__info {
@@ -75,6 +84,10 @@
   padding: 16px 16px 6px 16px;
   border-radius: 16px;
   min-width: 0;
+
+  &--collapsed {
+    padding-bottom: 16px;
+  }
 }
 
 .month-card__head {
@@ -82,7 +95,22 @@
   align-items: center;
   justify-content: space-between;
   column-gap: 12px;
-  margin-bottom: 12px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+
+  &--static {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.month-card--collapsed .month-card__head {
+  margin-bottom: 0;
 }
 
 .month-card__label {
@@ -91,6 +119,32 @@
   .textMixin(600, 16px, 130%);
 }
 
+.month-card__required {
+  margin-left: 2px;
+}
+
+.month-card__chevron {
+  font-size: 12px;
+}
+
 .month-card__index {
   .textMixin(400, 14px, @line-height-base);
+}
+
+.month-card__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.inline {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.inline-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
 }

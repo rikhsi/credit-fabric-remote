@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { FieldTree, form, FormField, required, validate } from '@angular/forms/signals';
+import { form, FormField, required, validate } from '@angular/forms/signals';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { StartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
@@ -14,6 +15,8 @@ import { HandbookDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
 import { markTreeAsDirty } from '@shared/utils';
 import { InfoModalData } from '@app/typings/modal';
+
+type MonthSlot = 1 | 2 | 3;
 
 @Component({
   selector: 'cf-finance-form',
@@ -36,13 +39,18 @@ import { InfoModalData } from '@app/typings/modal';
   templateUrl: './finance-form.html',
   styleUrl: './finance-form.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.inline]': 'inline()',
+  },
 })
 export class FinanceForm {
   private readonly modalRef = inject(NzModalRef, { optional: true });
   private readonly nmService = inject(NzModalService);
   private readonly nzModalData = inject<StartProcessingFinData | null>(NZ_MODAL_DATA, { optional: true });
 
-  readonly form = input<FieldTree<{ finData: StartProcessingFinData }>>();
+  readonly form = input<NzSafeAny>();
+  readonly inline = input(false);
+  readonly collapsible = input(false);
 
   public readonly isModal = this.modalRef != null;
 
@@ -56,7 +64,7 @@ export class FinanceForm {
     required(schemaPath.finData.month3Revenue);
     required(schemaPath.finData.month3Income);
 
-    const validateMonth = (month: 1 | 2 | 3) => {
+    const validateMonth = (month: MonthSlot) => {
       validate(schemaPath.finData[`month${month}Income` as const], () => {
         const finData = this.localForm().value().finData;
 
@@ -70,6 +78,20 @@ export class FinanceForm {
   });
 
   public readonly financeForm = computed(() => this.form() ?? this.localForm);
+
+  readonly expandedMonths = signal<Record<MonthSlot, boolean>>({ 1: true, 2: false, 3: false });
+
+  isMonthExpanded(month: MonthSlot): boolean {
+    return !this.collapsible() || this.expandedMonths()[month];
+  }
+
+  toggleMonth(month: MonthSlot): void {
+    if (!this.collapsible()) {
+      return;
+    }
+
+    this.expandedMonths.update((cur) => ({ ...cur, [month]: !cur[month] }));
+  }
 
   public openBusinessActivityInfo(): void {
     this.openInfoModal({
@@ -99,6 +121,17 @@ export class FinanceForm {
     }
 
     markTreeAsDirty(this.localForm);
+  }
+
+  public validateInline(): boolean {
+    const tree = this.financeForm();
+
+    if (tree().valid()) {
+      return true;
+    }
+
+    markTreeAsDirty(tree);
+    return false;
   }
 
   private openInfoModal(nzData: InfoModalData): void {

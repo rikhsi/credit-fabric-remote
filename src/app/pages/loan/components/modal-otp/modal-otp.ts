@@ -5,7 +5,9 @@ import {
   DestroyRef,
   effect,
   inject,
+  input,
   OnInit,
+  output,
   signal,
   untracked,
   ViewChild,
@@ -34,7 +36,6 @@ import { ToastService } from '@core/services/toast.service';
     TranslocoDirective,
     InputOtp,
     NzTypographyComponent,
-    TranslocoDirective,
     FormField,
     SecondsToTimePipe,
     PhoneNumberPipe,
@@ -44,16 +45,26 @@ import { ToastService } from '@core/services/toast.service';
   styleUrl: './modal-otp.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TimerService],
+  host: {
+    '[class.inline]': 'inline()',
+  },
 })
 export class ModalOtp implements OnInit {
-  private readonly nmRef = inject(NzModalRef<OtpModalData>);
+  private readonly nmRef = inject(NzModalRef<OtpModalData>, { optional: true });
+  private readonly injectedData = inject<OtpModalData | null>(NZ_MODAL_DATA, { optional: true });
   private readonly timerService = inject(TimerService);
-  public readonly modalData = inject<OtpModalData>(NZ_MODAL_DATA);
   private readonly onlineApiService = inject(OnlineApiService);
   private readonly destroyRef = inject(DestroyRef);
-  private toast = inject(ToastService);
+  private readonly toast = inject(ToastService);
+
+  readonly inline = input(false);
+  readonly data = input<OtpModalData | null>(null);
+
+  readonly confirmed = output<boolean>();
 
   @ViewChild(InputOtp) private inputOtp?: InputOtp;
+
+  readonly modalData = computed(() => this.data() ?? this.injectedData!);
 
   public readonly form = form(signal(otpFormModel), (schemaPath) => {
     required(schemaPath.code);
@@ -87,16 +98,27 @@ export class ModalOtp implements OnInit {
   }
 
   close(): void {
-    this.nmRef.close(false);
+    if (this.inline()) {
+      this.confirmed.emit(false);
+      return;
+    }
+
+    this.nmRef?.close(false);
   }
 
   resendOtp(): void {
+    const data = this.modalData();
+
+    if (!data) {
+      return;
+    }
+
     this.isLoading.set(true);
 
     this.onlineApiService
       .sendOtp$({
-        pinfl: this.modalData.pinfl,
-        phoneNumber: this.modalData.phoneNumber,
+        pinfl: data.pinfl,
+        phoneNumber: data.phoneNumber,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -112,18 +134,28 @@ export class ModalOtp implements OnInit {
   }
 
   submit(): void {
+    const data = this.modalData();
+
+    if (!data) {
+      return;
+    }
+
     this.isLoading.set(true);
 
     this.onlineApiService
       .checkOtp$({
-        pinfl: this.modalData.pinfl,
-        phoneNumber: this.modalData.phoneNumber,
+        pinfl: data.pinfl,
+        phoneNumber: data.phoneNumber,
         otpCode: this.form.code().value(),
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
         if (state.isOtpValidated) {
-          this.nmRef.close(true);
+          if (this.inline()) {
+            this.confirmed.emit(true);
+          } else {
+            this.nmRef?.close(true);
+          }
         } else {
           this.otpError.set(true);
           this.inputOtp?.touched.set(true);

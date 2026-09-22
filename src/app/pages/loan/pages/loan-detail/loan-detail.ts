@@ -11,11 +11,12 @@ import {
   viewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, finalize, forkJoin, take } from 'rxjs';
+import { filter, finalize, forkJoin, map, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddressForm,
@@ -36,15 +37,30 @@ import { LoanProductsService } from '@core/services/loan-products.service';
 import { ToastService } from '@core/services/toast.service';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
+import { Breakpoint } from '@app/constants/breakpoint';
 import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
 import { OtpModalData } from '@pages/loan/models';
+
+export type MobileLoanStep = 'calc' | 'address' | 'finance' | 'otp';
+
 @Component({
   selector: 'cf-loan-detail',
-  imports: [AddressInfo, CalculatorForm, CalculatorResult, FinanceInfo, ProductAcception, Card, TranslocoDirective],
+  imports: [
+    AddressForm,
+    AddressInfo,
+    CalculatorForm,
+    CalculatorResult,
+    FinanceForm,
+    FinanceInfo,
+    ModalOtp,
+    ProductAcception,
+    Card,
+    TranslocoDirective,
+  ],
   templateUrl: './loan-detail.html',
   styleUrl: './loan-detail.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +79,7 @@ export class LoanDetail implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly loanDraft = inject(LoanDraftService);
   private readonly toast = inject(ToastService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -71,8 +88,27 @@ export class LoanDetail implements OnInit {
   public readonly isLoading = computed(() => this.ldService.isLoading());
   public readonly isSubmitting = signal(false);
 
+  readonly isMobile = toSignal(
+    this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
+    { initialValue: false },
+  );
+
+  readonly mobileStep = signal<MobileLoanStep>('calc');
+
+  readonly otpData = computed<OtpModalData | null>(() => {
+    const user = this.user();
+
+    if (!user?.pinfl || !user?.phone) {
+      return null;
+    }
+
+    return { pinfl: user.pinfl, phoneNumber: user.phone };
+  });
+
   private readonly addressSection = viewChild('addressSection', { read: ElementRef });
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
+  private readonly addressFormRef = viewChild(AddressForm);
+  private readonly financeFormRef = viewChild(FinanceForm);
 
   get loanId(): string {
     return this.route.snapshot.params[RouteParam.LoanId];
@@ -154,6 +190,53 @@ export class LoanDetail implements OnInit {
     });
   }
 
+  onMobileContinue(): void {
+    switch (this.mobileStep()) {
+      case 'calc':
+        this.agreementForm().offer().markAsDirty();
+
+        if (this.agreementForm()().invalid()) {
+          return;
+        }
+
+        this.goToMobileStep('address');
+        break;
+      case 'address':
+        this.ldService.form().markAsDirty();
+        this.addressFormRef()?.validateInline();
+
+        if (!isFlowAddressFilled(this.ldService.form().value().addresses)) {
+          return;
+        }
+
+        this.goToMobileStep('finance');
+        break;
+      case 'finance':
+        this.ldService.form().markAsDirty();
+        this.financeFormRef()?.validateInline();
+
+        if (!isFinDataFilled(this.ldService.form().value().finData)) {
+          return;
+        }
+
+        this.submitApplication();
+        break;
+      default:
+        break;
+    }
+  }
+
+  onOtpConfirmed(confirmed: boolean): void {
+    if (confirmed) {
+      this.ldService.isValidated.set(true);
+      this.checkOneId();
+      return;
+    }
+
+    this.isSubmitting.set(false);
+    this.goToMobileStep('finance');
+  }
+
   submit(): void {
     this.ldService.form().markAsDirty();
 
@@ -169,6 +252,10 @@ export class LoanDetail implements OnInit {
       return;
     }
 
+    this.submitApplication();
+  }
+
+  private submitApplication(): void {
     if (this.ldService.form().invalid() || this.ldService.agreementForm().invalid() || this.isSubmitting()) {
       return;
     }
@@ -180,10 +267,20 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    this.openOtp();
+    if (this.isMobile()) {
+      this.goToMobileStep('otp');
+      return;
+    }
+
+    this.openOtpModal();
   }
 
-  private openOtp(): void {
+  private goToMobileStep(step: MobileLoanStep): void {
+    this.mobileStep.set(step);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  private openOtpModal(): void {
     const user = this.user();
 
     const modalRef = this.nmService.create<ModalOtp, OtpModalData, boolean>({

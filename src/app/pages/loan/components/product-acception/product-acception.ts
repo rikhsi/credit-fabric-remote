@@ -16,12 +16,14 @@ import { BounceDirective } from '@shared/directives';
 export class ProductAcception {
   public readonly form = input<FieldTree<AgreementFormModel>>();
   public readonly isSubmitting = input(false);
+  public readonly showOffer = input(true);
+  public readonly submitLabel = input('action.apply');
 
   clicked = output<boolean>();
 
   private readonly submitted = signal(false);
 
-  readonly showOfferError = computed(() => this.submitted() && this.form()?.offer().value() !== true);
+  readonly showOfferError = computed(() => this.showOffer() && this.submitted() && this.form()?.offer().value() !== true);
 
   apply(): void {
     if (this.isSubmitting()) {
@@ -29,7 +31,11 @@ export class ProductAcception {
     }
 
     this.submitted.set(true);
-    this.form()?.offer().markAsDirty();
+
+    if (this.showOffer()) {
+      this.form()?.offer().markAsDirty();
+    }
+
     this.clicked.emit(true);
   }
 }

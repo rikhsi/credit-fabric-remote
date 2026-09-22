@@ -1,14 +1,16 @@
 <ng-container *transloco="let t">
+  @if (!inline()) {
   <div class="header">
     <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
       <nz-icon nzType="close" />
     </button>
   </div>
+  }
 
   <div class="content">
     <div class="text">
-      <h1 nz-typography>{{t('otp.title')}}</h1>
-      <p nz-typography>{{t('otp.description', {phone: modalData.phoneNumber | phoneNumber: true})}}</p>
+      <h1 nz-typography>{{ t('otp.title') }}</h1>
+      <p nz-typography>{{ t('otp.description', { phone: modalData().phoneNumber | phoneNumber: true }) }}</p>
     </div>
 
     <div class="otp">
@@ -17,7 +19,7 @@
 
     <div class="actions">
       <button cfBounce nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (clicked)="resendOtp()">
-        <strong>{{t('action.send_code', {time: running() ? (leftTime() | secondsToTime) : null})}}</strong>
+        <strong>{{ t('action.send_code', { time: running() ? (leftTime() | secondsToTime) : null }) }}</strong>
       </button>
     </div>
   </div>
@@ -32,7 +34,7 @@
       nzSize="large"
       (clicked)="submit()"
     >
-      {{t('action.confirm')}}
+      {{ t('action.confirm') }}
     </button>
   </div>
 </ng-container>

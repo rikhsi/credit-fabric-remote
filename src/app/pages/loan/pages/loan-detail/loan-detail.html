@@ -1,4 +1,70 @@
 <ng-container *transloco="let t">
+  @if (isMobile()) {
+  <div class="mobile-flow">
+    @switch (mobileStep()) {
+    @case ('calc') {
+    <div class="step-panel">
+      <cf-card [title]="t('prop.credit_calc')" [showSpace]="true" class="bordered">
+        <div class="calculator">
+          <cf-calculator-form [form]="form()" />
+
+          <cf-calculator-result
+            [loanAmount]="calculationResult().amount"
+            [monthlyPayment]="calculationResult().monthlyPayment"
+            [annualRate]="calculationResult().annualRate"
+            [creditType]="form().sysPaymentTypeId().value()"
+          />
+        </div>
+      </cf-card>
+
+      <cf-product-acception
+        [form]="agreementForm()"
+        [isSubmitting]="isSubmitting()"
+        [submitLabel]="'action.continue'"
+        (clicked)="onMobileContinue()"
+      />
+    </div>
+    }
+    @case ('address') {
+    <div class="step-panel">
+      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
+        <cf-address-form [inline]="true" [form]="form()" />
+      </cf-card>
+
+      <cf-product-acception
+        [form]="agreementForm()"
+        [showOffer]="false"
+        [isSubmitting]="isSubmitting()"
+        [submitLabel]="'action.continue'"
+        (clicked)="onMobileContinue()"
+      />
+    </div>
+    }
+    @case ('finance') {
+    <div class="step-panel">
+      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
+        <cf-finance-form [inline]="true" [collapsible]="true" [form]="form()" />
+      </cf-card>
+
+      <cf-product-acception
+        [form]="agreementForm()"
+        [showOffer]="false"
+        [isSubmitting]="isSubmitting()"
+        [submitLabel]="'action.send_application'"
+        (clicked)="onMobileContinue()"
+      />
+    </div>
+    }
+    @case ('otp') {
+    <div class="step-panel">
+      @if (otpData(); as data) {
+      <cf-modal-otp [inline]="true" [data]="data" (confirmed)="onOtpConfirmed($event)" />
+      }
+    </div>
+    }
+    }
+  </div>
+  } @else {
   <cf-card [title]="t('prop.credit_calc')" [showSpace]="true" class="bordered">
     <div class="calculator">
       <cf-calculator-form [form]="form()" />
@@ -17,4 +83,5 @@
   <cf-finance-info #financeSection [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
 
   <cf-product-acception [form]="agreementForm()" [isSubmitting]="isSubmitting()" (clicked)="submit()" />
+  }
 </ng-container>

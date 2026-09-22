@@ -1,10 +1,29 @@
 <ng-container *transloco="let t">
+  @if (isModal) {
   <cf-form-box [title]="t('prop.address')" (closeClick)="close()" (submitClick)="submit()">
+    <ng-container *ngTemplateOutlet="fields" />
+  </cf-form-box>
+  } @else {
+  <div class="inline">
+    <h2 class="inline-title">{{ t('prop.address') }}</h2>
+
+    <div class="inline-alert">
+      <nz-icon nzType="info-circle" />
+      <span>{{ t('alert.address_fill') }}</span>
+    </div>
+
+    <ng-container *ngTemplateOutlet="fields" />
+  </div>
+  }
+</ng-container>
+
+<ng-template #fields>
+  <ng-container *transloco="let t">
     <div class="list">
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.city')">
         <cf-select-default
           class="cf-hide-xs"
-          [formField]="addressForm.dirCityId"
+          [formField]="addressForm().dirCityId"
           [placeholder]="t('control.select.placeholder')"
           size="large"
         >
@@ -17,7 +36,7 @@
 
         <cf-select-default-mobile
           class="cf-show-xs"
-          [formField]="addressForm.dirCityId"
+          [formField]="addressForm().dirCityId"
           [handbook]="{ url: 'dir-city' }"
           [placeholder]="t('control.select.placeholder')"
           size="large"
@@ -27,12 +46,12 @@
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.street')">
         <cf-select-default
           class="cf-hide-xs"
-          [formField]="addressForm.dirVillageId"
-          [cfResetVillageOnCityChange]="addressForm"
+          [formField]="addressForm().dirVillageId"
+          [cfResetVillageOnCityChange]="addressForm()"
           [placeholder]="t('control.select.placeholder')"
           size="large"
         >
-          @if (addressForm.dirCityId().value(); as cityId) {
+          @if (addressForm().dirCityId().value(); as cityId) {
           <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: cityId } }; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
@@ -43,8 +62,8 @@
 
         <cf-select-default-mobile
           class="cf-show-xs"
-          [formField]="addressForm.dirVillageId"
-          [cfResetVillageOnCityChange]="addressForm"
+          [formField]="addressForm().dirVillageId"
+          [cfResetVillageOnCityChange]="addressForm()"
           [handbook]="villageHandbook()"
           [placeholder]="t('control.select.placeholder')"
           size="large"
@@ -52,12 +71,12 @@
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.address')">
-        <cf-input-default [formField]="addressForm.street" [placeholder]="t('control.input.placeholder')" size="large" />
+        <cf-input-default [formField]="addressForm().street" [placeholder]="t('control.input.placeholder')" size="large" />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.postal_code')">
-        <cf-input-default [formField]="addressForm.zipCode" [placeholder]="t('control.input.placeholder')" size="large" />
+        <cf-input-default [formField]="addressForm().zipCode" [placeholder]="t('control.input.placeholder')" size="large" />
       </cf-label-control-secondary>
     </div>
-  </cf-form-box>
-</ng-container>
+  </ng-container>
+</ng-template>

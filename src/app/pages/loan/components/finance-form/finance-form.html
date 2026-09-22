@@ -4,7 +4,10 @@
     <ng-container [ngTemplateOutlet]="fields" />
   </cf-form-box>
   } @else {
-  <ng-container [ngTemplateOutlet]="fields" />
+  <div class="inline">
+    <h2 class="inline-title">{{ t('prop.finances') }}</h2>
+    <ng-container [ngTemplateOutlet]="fields" />
+  </div>
   }
 </ng-container>
 
@@ -63,91 +66,130 @@
       </div>
 
       <div class="finance-form__months">
-        <article class="month-card">
-          <div class="month-card__head">
-            <h5 class="month-card__label">{{ 1 | financeMonth | date: 'LLLL' }}</h5>
+        <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(1)">
+          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(1)">
+            <h5 class="month-card__label">
+              {{ 1 | financeMonth | date: 'LLLL y' }}
+              @if (collapsible()) {
+              <span class="month-card__required" aria-hidden="true">*</span>
+              }
+            </h5>
+            @if (collapsible()) {
+            <nz-icon class="month-card__chevron" [nzType]="isMonthExpanded(1) ? 'up' : 'down'" />
+            } @else {
             <span class="month-card__index">№1</span>
+            }
+          </button>
+
+          @if (isMonthExpanded(1)) {
+          <div class="month-card__body">
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+              <cf-input-default
+                [formField]="financeForm().finData.month1Revenue"
+                [placeholder]="t('control.input.placeholder')"
+                mask="separator.0"
+                thousandSeparator=" "
+                suffix="UZS"
+                size="large"
+              />
+            </cf-label-control-secondary>
+
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+              <cf-input-default
+                [formField]="financeForm().finData.month1Income"
+                suffix="UZS"
+                [placeholder]="t('control.input.placeholder')"
+                mask="separator.0"
+                thousandSeparator=" "
+                size="large"
+              />
+            </cf-label-control-secondary>
           </div>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
-            <cf-input-default
-              [formField]="financeForm().finData.month1Revenue"
-              [placeholder]="t('control.input.placeholder')"
-              mask="separator.0"
-              thousandSeparator=" "
-              suffix="UZS"
-              size="large"
-            />
-          </cf-label-control-secondary>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
-            <cf-input-default
-              [formField]="financeForm().finData.month1Income"
-              suffix="UZS"
-              [placeholder]="t('control.input.placeholder')"
-              mask="separator.0"
-              thousandSeparator=" "
-              size="large"
-            />
-          </cf-label-control-secondary>
+          }
         </article>
 
-        <article class="month-card">
-          <div class="month-card__head">
-            <h5 class="month-card__label">{{ 2 | financeMonth | date: 'LLLL' }}</h5>
+        <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(2)">
+          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(2)">
+            <h5 class="month-card__label">
+              {{ 2 | financeMonth | date: 'LLLL y' }}
+              @if (collapsible()) {
+              <span class="month-card__required" aria-hidden="true">*</span>
+              }
+            </h5>
+            @if (collapsible()) {
+            <nz-icon class="month-card__chevron" [nzType]="isMonthExpanded(2) ? 'up' : 'down'" />
+            } @else {
             <span class="month-card__index">№2</span>
+            }
+          </button>
+
+          @if (isMonthExpanded(2)) {
+          <div class="month-card__body">
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+              <cf-input-default
+                [formField]="financeForm().finData.month2Revenue"
+                suffix="UZS"
+                [placeholder]="t('control.input.placeholder')"
+                mask="separator.0"
+                thousandSeparator=" "
+                size="large"
+              />
+            </cf-label-control-secondary>
+
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+              <cf-input-default
+                [formField]="financeForm().finData.month2Income"
+                suffix="UZS"
+                [placeholder]="t('control.input.placeholder')"
+                mask="separator.0"
+                thousandSeparator=" "
+                size="large"
+              />
+            </cf-label-control-secondary>
           </div>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
-            <cf-input-default
-              [formField]="financeForm().finData.month2Revenue"
-              suffix="UZS"
-              [placeholder]="t('control.input.placeholder')"
-              mask="separator.0"
-              thousandSeparator=" "
-              size="large"
-            />
-          </cf-label-control-secondary>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
-            <cf-input-default
-              [formField]="financeForm().finData.month2Income"
-              suffix="UZS"
-              [placeholder]="t('control.input.placeholder')"
-              mask="separator.0"
-              thousandSeparator=" "
-              size="large"
-            />
-          </cf-label-control-secondary>
+          }
         </article>
 
-        <article class="month-card">
-          <div class="month-card__head">
-            <h5 class="month-card__label">{{ 3 | financeMonth | date: 'LLLL' }}</h5>
+        <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(3)">
+          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(3)">
+            <h5 class="month-card__label">
+              {{ 3 | financeMonth | date: 'LLLL y' }}
+              @if (collapsible()) {
+              <span class="month-card__required" aria-hidden="true">*</span>
+              }
+            </h5>
+            @if (collapsible()) {
+            <nz-icon class="month-card__chevron" [nzType]="isMonthExpanded(3) ? 'up' : 'down'" />
+            } @else {
             <span class="month-card__index">№3</span>
+            }
+          </button>
+
+          @if (isMonthExpanded(3)) {
+          <div class="month-card__body">
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
+              <cf-input-default
+                [formField]="financeForm().finData.month3Revenue"
+                suffix="UZS"
+                [placeholder]="t('control.input.placeholder')"
+                mask="separator.0"
+                thousandSeparator=" "
+                size="large"
+              />
+            </cf-label-control-secondary>
+
+            <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
+              <cf-input-default
+                [formField]="financeForm().finData.month3Income"
+                [placeholder]="t('control.input.placeholder')"
+                suffix="UZS"
+                mask="separator.0"
+                thousandSeparator=" "
+                size="large"
+              />
+            </cf-label-control-secondary>
           </div>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
-            <cf-input-default
-              [formField]="financeForm().finData.month3Revenue"
-              suffix="UZS"
-              [placeholder]="t('control.input.placeholder')"
-              mask="separator.0"
-              thousandSeparator=" "
-              size="large"
-            />
-          </cf-label-control-secondary>
-
-          <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.net_profit')">
-            <cf-input-default
-              [formField]="financeForm().finData.month3Income"
-              [placeholder]="t('control.input.placeholder')"
-              suffix="UZS"
-              mask="separator.0"
-              thousandSeparator=" "
-              size="large"
-            />
-          </cf-label-control-secondary>
+          }
         </article>
       </div>
     </div>

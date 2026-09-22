@@ -1,9 +1,11 @@
 <ng-container *transloco="let t">
+  @if (showOffer()) {
   <label nz-checkbox [formField]="form().offer" [class.error]="showOfferError()">
     <span [innerHTML]="t('prop.public_offer')"></span>
   </label>
+  }
 
   <button cfBounce nz-button nzType="primary" nzSize="large" [nzLoading]="isSubmitting()" [disabled]="isSubmitting()" (clicked)="apply()">
-    {{t('action.apply')}}
+    {{ t(submitLabel()) }}
   </button>
 </ng-container>
