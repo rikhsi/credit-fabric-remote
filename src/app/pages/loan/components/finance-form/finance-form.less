@@ -11,9 +11,14 @@
       color: @text-color;
     }
 
-    .month-card__index,
-    .month-card__chevron {
+    .month-card__index {
       color: @text-color-tertiary;
+    }
+
+    .month-card__chevron {
+      color: @text-color;
+      background: @component-background;
+      border-color: @border-color;
     }
 
     .month-card__required {
@@ -124,6 +129,15 @@
 }
 
 .month-card__chevron {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border: 1px solid;
+  border-radius: 8px;
   font-size: 12px;
 }
 
