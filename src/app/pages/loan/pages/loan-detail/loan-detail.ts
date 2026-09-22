@@ -276,10 +276,9 @@ export class LoanDetail implements OnInit {
         this.goToMobileStep('branch');
         break;
       case 'branch':
-        this.ldService.form.filialCode().markAsDirty();
+        markTreeAsDirty(this.ldService.form.filialCode);
 
         if (this.ldService.form.filialCode().value() == null) {
-          markTreeAsDirty(this.ldService.form.filialCode);
           return;
         }
 
@@ -302,7 +301,7 @@ export class LoanDetail implements OnInit {
   }
 
   submit(): void {
-    this.ldService.form().markAsDirty();
+    markTreeAsDirty(this.ldService.form);
 
     const { addresses, finData, filialCode } = this.ldService.form().value();
 
