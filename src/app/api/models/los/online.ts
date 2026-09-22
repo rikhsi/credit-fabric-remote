@@ -19,3 +19,11 @@ export interface OnlineGetInfoResult {
 export interface EligibilityResult {
   eligible: boolean;
 }
+
+export interface OnlineBranchItem {
+  filialCode: number;
+}
+
+export interface OnlineBranchesResult {
+  branches: OnlineBranchItem[];
+}

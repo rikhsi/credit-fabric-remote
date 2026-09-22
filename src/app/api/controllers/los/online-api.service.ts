@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication } from '@api/models/los/application';
-import { EligibilityResult, OnlineGetInfoResult } from '@api/models/los/online';
+import { EligibilityResult, OnlineBranchesResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { StartProcessingPayload, StartProcessingResult } from '@api/models/los/start-processing';
 import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
@@ -44,6 +44,10 @@ export class OnlineApiService {
 
   public getApplications$() {
     return this.http.get<OnlineGetInfoResult[]>(`online/get-info`);
+  }
+
+  public getBranches$() {
+    return this.http.get<OnlineBranchesResult>('online/branches');
   }
 
   public startProcessing$(payload: StartProcessingPayload) {

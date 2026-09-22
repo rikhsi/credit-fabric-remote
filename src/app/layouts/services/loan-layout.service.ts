@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter, Observable, tap } from 'rxjs';
+import { NavigationEnd, Router, UrlTree } from '@angular/router';
+import { filter, Observable, Subject, tap } from 'rxjs';
 import { getRootSnapshot, getCurrentRouteData } from '@layouts/utils';
 import { LoanLayoutData } from '@layouts/models';
 import { SplashService } from '@core/services/splash.service';
@@ -11,6 +11,11 @@ export class LoanLayoutService {
   private splashService = inject(SplashService);
 
   readonly routData = signal<LoanLayoutData>(null);
+
+  private readonly backClickSubject = new Subject<void>();
+  readonly backClick$ = this.backClickSubject.asObservable();
+
+  private backHandled = false;
 
   public initRouterEvents(): Observable<NavigationEnd> {
     queueMicrotask(() => {
@@ -25,6 +30,40 @@ export class LoanLayoutService {
         this.splashService.hide = true;
       }),
     );
+  }
+
+  /** Header / swipe-back entry point. Page can claim the click via `handleBackClick()`. */
+  emitBackClick(): void {
+    this.backHandled = false;
+    this.backClickSubject.next();
+
+    if (!this.backHandled) {
+      this.navigateByBackConfig();
+    }
+  }
+
+  handleBackClick(): void {
+    this.backHandled = true;
+  }
+
+  navigateByBackConfig(): void {
+    const link = this.routData()?.backConfig?.link;
+
+    if (!link) {
+      return;
+    }
+
+    if (link instanceof UrlTree) {
+      void this.router.navigateByUrl(link);
+      return;
+    }
+
+    if (Array.isArray(link)) {
+      void this.router.navigate(link);
+      return;
+    }
+
+    void this.router.navigateByUrl(link);
   }
 
   private updateActions(): void {

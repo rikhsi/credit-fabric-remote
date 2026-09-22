@@ -35,6 +35,7 @@ import { EligibilityService } from '@core/services/eligibility.service';
 import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { ToastService } from '@core/services/toast.service';
+import { LoanLayoutService } from '@layouts/services';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
@@ -80,6 +81,7 @@ export class LoanDetail implements OnInit {
   private readonly loanDraft = inject(LoanDraftService);
   private readonly toast = inject(ToastService);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly loanLayoutService = inject(LoanLayoutService);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -118,6 +120,8 @@ export class LoanDetail implements OnInit {
     // Any way back to the form starts a new application, the OneID draft must not survive it.
     this.loanDraft.clear();
 
+    this.loanLayoutService.backClick$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.onHeaderBack());
+
     this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
     forkJoin([
@@ -136,6 +140,29 @@ export class LoanDetail implements OnInit {
           void this.router.navigate([RootRoute.Loan, LoanRoute.List]);
         },
       });
+  }
+
+  private onHeaderBack(): void {
+    this.loanLayoutService.handleBackClick();
+
+    if (this.isMobile()) {
+      switch (this.mobileStep()) {
+        case 'otp':
+          this.isSubmitting.set(false);
+          this.goToMobileStep('finance');
+          return;
+        case 'finance':
+          this.goToMobileStep('address');
+          return;
+        case 'address':
+          this.goToMobileStep('calc');
+          return;
+        default:
+          break;
+      }
+    }
+
+    this.loanLayoutService.navigateByBackConfig();
   }
 
   openAddressForm(): void {

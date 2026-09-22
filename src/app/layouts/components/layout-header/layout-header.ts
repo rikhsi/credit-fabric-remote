@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { Card } from '@shared/components';
 import { LoanLayoutBackConfig } from '@layouts/models';
+import { LoanLayoutService } from '@layouts/services';
 import { BounceDirective } from '@shared/directives';
 
 @Component({
@@ -16,7 +16,7 @@ import { BounceDirective } from '@shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutHeader {
-  private readonly router = inject(Router);
+  private readonly loanLayoutService = inject(LoanLayoutService);
 
   title = input<string>();
   backConfig = input<LoanLayoutBackConfig>();
@@ -24,22 +24,10 @@ export class LayoutHeader {
   closeClick = output<void>();
 
   goBack(): void {
-    const link = this.backConfig()?.link;
-
-    if (!link) {
+    if (!this.backConfig()?.link) {
       return;
     }
 
-    if (link instanceof UrlTree) {
-      void this.router.navigateByUrl(link);
-      return;
-    }
-
-    if (Array.isArray(link)) {
-      void this.router.navigate(link);
-      return;
-    }
-
-    void this.router.navigateByUrl(link);
+    this.loanLayoutService.emitBackClick();
   }
 }
