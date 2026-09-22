@@ -17,4 +17,5 @@ export interface HandbookRequest {
 export type HandbookQueryType =
   | 'dir-city'
   | 'dir-company-activity'
-  | 'dir-village';
+  | 'dir-village'
+  | 'dir-branch';

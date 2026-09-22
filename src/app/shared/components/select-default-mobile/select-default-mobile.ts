@@ -23,6 +23,8 @@ export class SelectDefaultMobile extends ControlBaseDirective<number | boolean |
   value = model(null);
 
   readonly handbook = input<HandbookRequest | null>(null);
+  /** When set, skips handbook fetch and uses these options. */
+  readonly staticOptions = input<SelectOption[] | null>(null);
   readonly showSearch = input<boolean>(true);
 
   readonly options = signal<SelectOption[]>([]);
@@ -30,6 +32,14 @@ export class SelectDefaultMobile extends ControlBaseDirective<number | boolean |
 
   constructor() {
     effect((onCleanup) => {
+      const staticOptions = this.staticOptions();
+
+      if (staticOptions) {
+        this.options.set(staticOptions);
+        this.handbookLoading.set(false);
+        return;
+      }
+
       const request = this.handbook();
 
       if (!request?.url) {

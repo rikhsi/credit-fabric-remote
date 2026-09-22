@@ -50,6 +50,21 @@
         [form]="agreementForm()"
         [showOffer]="false"
         [isSubmitting]="isSubmitting()"
+        [submitLabel]="'action.continue'"
+        (clicked)="onMobileContinue()"
+      />
+    </div>
+    }
+    @case ('branch') {
+    <div class="step-panel">
+      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
+        <cf-branch-select [inline]="true" [form]="form()" [options]="branchOptions()" [isLoading]="branchesLoading()" />
+      </cf-card>
+
+      <cf-product-acception
+        [form]="agreementForm()"
+        [showOffer]="false"
+        [isSubmitting]="isSubmitting()"
         [submitLabel]="'action.send_application'"
         (clicked)="onMobileContinue()"
       />
@@ -81,6 +96,10 @@
   <cf-address-info #addressSection [item]="form().addresses().value()" [isLoading]="isLoading()" (edit)="openAddressForm()" />
 
   <cf-finance-info #financeSection [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
+
+  <cf-card #branchSection [title]="t('prop.branch')" [showSpace]="true" class="bordered">
+    <cf-branch-select [form]="form()" [options]="branchOptions()" [isLoading]="branchesLoading()" />
+  </cf-card>
 
   <cf-product-acception [form]="agreementForm()" [isSubmitting]="isSubmitting()" (clicked)="submit()" />
   }

@@ -69,6 +69,7 @@
   "alert": {
     "fill_fields": "Maydonlarni to‘ldiring",
     "address_fill": "Kompaniya manzilini to‘ldiring",
+    "branch_fill": "Xizmat ko‘rsatuvchi filialni tanlang",
     "finance_fill": "Moliyaviy ma’lumotlarni, kompaniyaning daromadi va sof foydasini oxirgi 3 oy uchun to‘ldiring",
     "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak"
   },
@@ -201,6 +202,7 @@
     "product": "Mahsulot",
     "my_applications": "Mening arizalarim",
     "address": "Manzil",
+    "branch": "Filial",
     "annuity": "Teng to‘lovlar",
     "loan_application_submit": "Kredit arizasini topshirish",
     "credits": "Kreditlar",

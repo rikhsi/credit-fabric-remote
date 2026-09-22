@@ -8,3 +8,4 @@ export * from './address-form/address-form';
 export * from './address-info/address-info';
 export * from './finance-form/finance-form';
 export * from './finance-info/finance-info';
+export * from './branch-select/branch-select';

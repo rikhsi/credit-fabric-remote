@@ -69,6 +69,7 @@
   "alert": {
     "fill_fields": "Fill in the fields",
     "address_fill": "Fill in the company address",
+    "branch_fill": "Select a service branch",
     "finance_fill": "Fill in the financial data, company income and net profit for the last 3 months",
     "revenue_less_than_income": "Revenue cannot be less than net profit"
   },
@@ -201,6 +202,7 @@
     "product": "Product",
     "my_applications": "My applications",
     "address": "Address",
+    "branch": "Branch",
     "annuity": "Equal installments",
     "loan_application_submit": "Submit loan application",
     "credits": "Loans",

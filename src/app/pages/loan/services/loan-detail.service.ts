@@ -28,6 +28,7 @@ export class LoanDetailService {
     max(schemaPath.loanTerm, () => this.productCondition()?.maxTerm ?? 0);
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
+    required(schemaPath.filialCode);
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());
   });
 

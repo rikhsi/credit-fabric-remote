@@ -1,0 +1,56 @@
+@import 'mixins';
+@import 'custom';
+
+.themeMixin({
+  :host {
+    .inline-alert {
+      background: @body-background;
+
+      nz-icon {
+        color: @error-color;
+      }
+    }
+
+    .inline-title {
+      color: @heading-color;
+    }
+  }
+});
+
+:host {
+  display: block;
+}
+
+.branch-select {
+  display: flex;
+  flex-direction: column;
+}
+
+.branch-select--inline {
+  row-gap: 12px;
+}
+
+.inline-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.inline-alert {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+
+  nz-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 20px;
+  }
+
+  span {
+    .textMixin(@font-weight-medium, @font-size-md, @line-height-base);
+  }
+}

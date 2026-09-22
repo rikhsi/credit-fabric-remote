@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddressForm,
   AddressInfo,
+  BranchSelect,
   CalculatorForm,
   CalculatorResult,
   FinanceForm,
@@ -36,23 +37,27 @@ import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { ToastService } from '@core/services/toast.service';
 import { LoanLayoutService } from '@layouts/services';
+import { OnlineApiService } from '@api/controllers/los';
+import { HBranchApiService } from '@api/controllers/handbooks';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
 import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
-import { fetchHandbookItems } from '@shared/utils';
+import { fetchHandbookItems, markTreeAsDirty } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
 import { OtpModalData } from '@pages/loan/models';
+import { SelectOption } from '@app/typings/select';
 
-export type MobileLoanStep = 'calc' | 'address' | 'finance' | 'otp';
+export type MobileLoanStep = 'calc' | 'address' | 'finance' | 'branch' | 'otp';
 
 @Component({
   selector: 'cf-loan-detail',
   imports: [
     AddressForm,
     AddressInfo,
+    BranchSelect,
     CalculatorForm,
     CalculatorResult,
     FinanceForm,
@@ -82,6 +87,8 @@ export class LoanDetail implements OnInit {
   private readonly toast = inject(ToastService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly loanLayoutService = inject(LoanLayoutService);
+  private readonly onlineApiService = inject(OnlineApiService);
+  private readonly branchApiService = inject(HBranchApiService);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -89,6 +96,8 @@ export class LoanDetail implements OnInit {
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
   public readonly isSubmitting = signal(false);
+  public readonly branchOptions = signal<SelectOption[]>([]);
+  public readonly branchesLoading = signal(false);
 
   readonly isMobile = toSignal(
     this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
@@ -109,6 +118,7 @@ export class LoanDetail implements OnInit {
 
   private readonly addressSection = viewChild('addressSection', { read: ElementRef });
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
+  private readonly branchSection = viewChild('branchSection', { read: ElementRef });
   private readonly addressFormRef = viewChild(AddressForm);
   private readonly financeFormRef = viewChild(FinanceForm);
 
@@ -124,18 +134,32 @@ export class LoanDetail implements OnInit {
 
     this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
-    forkJoin([
-      this.ldService.checkValidate$(),
-      fetchHandbookItems(this.http, { url: 'dir-city' }),
-      fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
-    ])
+    this.branchesLoading.set(true);
+
+    forkJoin({
+      validate: this.ldService.checkValidate$(),
+      cities: fetchHandbookItems(this.http, { url: 'dir-city' }),
+      activities: fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
+      handbookBranches: this.branchApiService.getAll$(),
+      servedBranches: this.onlineApiService.getBranches$(),
+    })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: ({ handbookBranches, servedBranches }) => {
+          const servedCodes = new Set(servedBranches.branches.map((item) => item.filialCode));
+
+          this.branchOptions.set(
+            handbookBranches.data
+              .filter((item) => item.is_active && servedCodes.has(item.cbs_code))
+              .map((item) => ({ value: item.cbs_code, label: item.name })),
+          );
+
+          this.branchesLoading.set(false);
           this.ldService.isLoading.set(false);
           this.ldService.isDisabled.set(false);
         },
         error: () => {
+          this.branchesLoading.set(false);
           this.eligibilityService.isEligible.set(false);
           void this.router.navigate([RootRoute.Loan, LoanRoute.List]);
         },
@@ -149,6 +173,9 @@ export class LoanDetail implements OnInit {
       switch (this.mobileStep()) {
         case 'otp':
           this.isSubmitting.set(false);
+          this.goToMobileStep('branch');
+          return;
+        case 'branch':
           this.goToMobileStep('finance');
           return;
         case 'finance':
@@ -246,6 +273,16 @@ export class LoanDetail implements OnInit {
           return;
         }
 
+        this.goToMobileStep('branch');
+        break;
+      case 'branch':
+        this.ldService.form.filialCode().markAsDirty();
+
+        if (this.ldService.form.filialCode().value() == null) {
+          markTreeAsDirty(this.ldService.form.filialCode);
+          return;
+        }
+
         this.submitApplication();
         break;
       default:
@@ -261,13 +298,13 @@ export class LoanDetail implements OnInit {
     }
 
     this.isSubmitting.set(false);
-    this.goToMobileStep('finance');
+    this.goToMobileStep('branch');
   }
 
   submit(): void {
     this.ldService.form().markAsDirty();
 
-    const { addresses, finData } = this.ldService.form().value();
+    const { addresses, finData, filialCode } = this.ldService.form().value();
 
     if (!isFlowAddressFilled(addresses)) {
       this.scrollToSection(this.addressSection());
@@ -276,6 +313,11 @@ export class LoanDetail implements OnInit {
 
     if (!isFinDataFilled(finData)) {
       this.scrollToSection(this.financeSection());
+      return;
+    }
+
+    if (filialCode == null) {
+      this.scrollToSection(this.branchSection());
       return;
     }
 
