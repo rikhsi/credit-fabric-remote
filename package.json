@@ -84,5 +84,13 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "8.50.1",
     "vitest": "^4.0.8"
+  },
+  "optionalDependencies": {
+    "@napi-rs/magic-string-linux-x64-gnu": "0.3.4",
+    "@napi-rs/nice-linux-x64-gnu": "1.1.1",
+    "@oxc-parser/binding-linux-x64-gnu": "0.135.0",
+    "@rolldown/binding-linux-x64-gnu": "1.0.0-rc.4",
+    "@rollup/rollup-linux-x64-gnu": "4.60.0",
+    "@unrs/resolver-binding-linux-x64-gnu": "1.11.1"
   }
 }

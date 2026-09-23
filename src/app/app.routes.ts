@@ -3,6 +3,7 @@ import { RootRoute } from './constants/route-path';
 import { RouteParam } from './constants/route-param';
 import { LoanLayout } from '@layouts/views';
 
+
 export const routes: Routes = [
   {
     path: '',
