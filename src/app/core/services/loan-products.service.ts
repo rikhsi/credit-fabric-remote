@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { ProductApiService } from '@api/controllers/los';
 import { ProductItem } from '@api/models/los/product';
 
@@ -18,8 +18,9 @@ export class LoanProductsService {
       }),
       catchError(() => {
         this.items.set([]);
+        this.isLoading.set(false);
 
-        return of<ProductItem[]>([]);
+        return of(null);
       }),
     );
   }

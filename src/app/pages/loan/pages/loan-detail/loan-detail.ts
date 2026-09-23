@@ -32,13 +32,11 @@ import {
 import { Card } from '@shared/components';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
-import { EligibilityService } from '@core/services/eligibility.service';
+import { LoanBranchesService } from '@core/services/loan-branches.service';
 import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { ToastService } from '@core/services/toast.service';
 import { LoanLayoutService } from '@layouts/services';
-import { OnlineApiService } from '@api/controllers/los';
-import { HBranchApiService } from '@api/controllers/handbooks';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
@@ -48,7 +46,6 @@ import { isFlowAddressFilled } from '@pages/loan/utils/address';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
 import { OtpModalData } from '@pages/loan/models';
-import { SelectOption } from '@app/typings/select';
 
 export type MobileLoanStep = 'calc' | 'address' | 'finance' | 'branch' | 'otp';
 
@@ -76,19 +73,17 @@ export class LoanDetail implements OnInit {
   private readonly nmService = inject(NzModalService);
   private readonly ldService = inject(LoanDetailService);
   private readonly productsService = inject(LoanProductsService);
+  private readonly branchesService = inject(LoanBranchesService);
   private readonly vcRef = inject(ViewContainerRef);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-  private readonly eligibilityService = inject(EligibilityService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly http = inject(HttpClient);
   private readonly loanDraft = inject(LoanDraftService);
   private readonly toast = inject(ToastService);
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly loanLayoutService = inject(LoanLayoutService);
-  private readonly onlineApiService = inject(OnlineApiService);
-  private readonly branchApiService = inject(HBranchApiService);
 
   public readonly form = linkedSignal(() => this.ldService.form);
   public readonly agreementForm = linkedSignal(() => this.ldService.agreementForm);
@@ -96,8 +91,8 @@ export class LoanDetail implements OnInit {
   public readonly user = computed(() => this.authService.user());
   public readonly isLoading = computed(() => this.ldService.isLoading());
   public readonly isSubmitting = signal(false);
-  public readonly branchOptions = signal<SelectOption[]>([]);
-  public readonly branchesLoading = signal(false);
+  public readonly branchOptions = computed(() => this.branchesService.options());
+  public readonly branchesLoading = computed(() => this.branchesService.isLoading());
 
   readonly isMobile = toSignal(
     this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
@@ -134,33 +129,18 @@ export class LoanDetail implements OnInit {
 
     this.ldService.applyProduct(this.productsService.getById(this.loanId)!);
 
-    this.branchesLoading.set(true);
-
     forkJoin({
       validate: this.ldService.checkValidate$(),
       cities: fetchHandbookItems(this.http, { url: 'dir-city' }),
       activities: fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
-      handbookBranches: this.branchApiService.getAll$(),
-      servedBranches: this.onlineApiService.getBranches$(),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: ({ handbookBranches, servedBranches }) => {
-          const servedCodes = new Set(servedBranches.branches.map((item) => item.filialCode));
-
-          this.branchOptions.set(
-            handbookBranches.data
-              .filter((item) => item.is_active && servedCodes.has(item.cbs_code))
-              .map((item) => ({ value: item.cbs_code, label: item.name })),
-          );
-
-          this.branchesLoading.set(false);
+        next: () => {
           this.ldService.isLoading.set(false);
           this.ldService.isDisabled.set(false);
         },
         error: () => {
-          this.branchesLoading.set(false);
-          this.eligibilityService.isEligible.set(false);
           void this.router.navigate([RootRoute.Loan, LoanRoute.List]);
         },
       });
