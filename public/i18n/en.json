@@ -90,7 +90,8 @@
       "description": "If you decline, the application will be closed. You will be able to submit a new application later."
     },
     "application_confirm": {
-      "title": "Confirm application completion"
+      "title": "Get the loan on these terms?",
+      "description": "After confirmation, the bank will start processing the selected offer."
     },
     "error_not_finished_application": {
       "description": "Go to My Applications to continue or finish it.",
