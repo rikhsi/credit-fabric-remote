@@ -7,7 +7,7 @@ import { CardApplication } from '../../components';
 import { ApplicationsService } from '../../services';
 import { EmptyListPipe } from '@shared/pipes';
 import { Empty } from '@shared/components';
-import { RootRoute } from '@app/constants/route-path';
+import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 
 @Component({
@@ -32,5 +32,9 @@ export class ApplicationsList implements OnInit {
 
   goToApplication(item: OnlineGetInfoResult): void {
     void this.router.navigate(['/', RootRoute.Applications, item.id]);
+  }
+
+  goToLoan(): void {
+    void this.router.navigate(['/', RootRoute.Loan, LoanRoute.List]);
   }
 }

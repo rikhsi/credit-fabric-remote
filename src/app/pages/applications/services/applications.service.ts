@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineGetInfoResult } from '@api/models/los/online';
@@ -22,10 +22,11 @@ export class ApplicationsService {
         this.applicationsList.set(result);
         this.isLoading.set(false);
       }),
-      catchError((err) => {
+      catchError(() => {
+        this.applicationsList.set([]);
         this.isLoading.set(false);
 
-        return throwError(() => err);
+        return of([]);
       }),
     );
   }

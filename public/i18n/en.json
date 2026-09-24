@@ -79,6 +79,12 @@
       "description": "Visit a bank branch or contact support at {{phone}}"
     }
   },
+  "applications": {
+    "empty": {
+      "title": "No applications",
+      "description": "To get a loan, fill out and submit an application."
+    }
+  },
   "modal": {
     "application_approved": {
       "title": "Terms accepted",
@@ -240,6 +246,7 @@
   "application": {
     "number": "Application № {{id}}",
     "number_short": "№ {{id}}",
+    "submitted_date": "Submission date: {{date}}",
     "docs": {
       "sign": "Sign the documents",
       "valid_until": "Valid until {{date}}",

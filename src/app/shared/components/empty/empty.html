@@ -1,2 +1,17 @@
-<h4 nz-typography>{{title()}}</h4>
-<p nz-typography>{{description()}}</p>
+@if (icon(); as iconType) {
+<div class="circle">
+  <nz-icon [nzType]="iconType" class="icon" />
+</div>
+}
+
+@if (title(); as emptyTitle) {
+<h4 nz-typography>{{ emptyTitle }}</h4>
+}
+
+@if (description(); as emptyDescription) {
+<p nz-typography>{{ emptyDescription }}</p>
+}
+
+@if (actionLabel(); as label) {
+<button cfBounce nz-button nzType="primary" nzSize="large" type="button" (clicked)="actionClick.emit()">{{ label }}</button>
+}

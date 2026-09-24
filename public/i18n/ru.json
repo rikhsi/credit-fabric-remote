@@ -79,6 +79,12 @@
       "description": "Обратитесь в филиал банка или свяжитесь с поддержкой {{phone}}"
     }
   },
+  "applications": {
+    "empty": {
+      "title": "Заявок нет",
+      "description": "Для получения кредита, заполните и отправьте заявку."
+    }
+  },
   "modal": {
     "application_approved": {
       "title": "Условия приняты",
@@ -240,6 +246,7 @@
   "application": {
     "number": "Заявка № {{id}}",
     "number_short": "№ {{id}}",
+    "submitted_date": "Дата подачи: {{date}}",
     "docs": {
       "sign": "Подпишите документы",
       "valid_until": "Действителен до {{date}}",

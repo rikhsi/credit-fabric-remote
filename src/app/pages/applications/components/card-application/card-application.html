@@ -16,11 +16,15 @@
         <span>{{ t('application.number', { id: id() }) }}</span>
       </div>
     </div>
+
+    <p class="submitted-date desktop-only">
+      {{ t('application.submitted_date', { date: (displayDate() | date: 'd MMMM y') }) }}
+    </p>
   </div>
 
-  <div class="content">
-    <h3 class="amount">{{ amount() | number }} {{ displayCurrency() }}</h3>
+  <h3 class="amount">{{ amount() | number }} {{ displayCurrency() }}</h3>
 
+  <div class="bottom">
     <div class="details">
       <p class="detail">
         <span class="detail-label">{{ t('prop.loan_monthly_payment') }}</span>
@@ -42,37 +46,37 @@
         <b class="detail-value">{{ term() | pluralize: 'month' }}</b>
       </p>
     </div>
-  </div>
 
-  <div class="footer">
-    <p class="meta">
-      {{ t('application.number_short', { id: id() }) }}
-      <span class="separator" aria-hidden="true">•</span>
-      {{ displayDate() | date: 'd MMMM y' }}
-    </p>
+    <div class="footer">
+      <p class="meta mobile-only">
+        {{ t('application.number_short', { id: id() }) }}
+        <span class="separator" aria-hidden="true">•</span>
+        {{ displayDate() | date: 'd MMMM y' }}
+      </p>
 
-    @if (!actionsDisabled()) {
-    <button
-      cfBounce
-      nz-button
-      nzType="default"
-      class="action action-desktop desktop-only"
-      (clicked)="goToApplication.emit()"
-    >
-      {{ t('action.go_to_application') }}
-      <nz-icon nzType="f:arrowNarrowRight" />
-    </button>
+      @if (!actionsDisabled()) {
+      <button
+        cfBounce
+        nz-button
+        nzType="default"
+        class="action action-desktop desktop-only"
+        (clicked)="goToApplication.emit()"
+      >
+        {{ t('action.go_to_application') }}
+        <nz-icon nzType="f:arrowNarrowRight" />
+      </button>
 
-    <button
-      cfBounce
-      nz-button
-      nzType="default"
-      class="action action-mobile mobile-only"
-      (clicked)="goToApplication.emit()"
-      [attr.aria-label]="t('action.go_to_application')"
-    >
-      <nz-icon nzType="right" />
-    </button>
-    }
+      <button
+        cfBounce
+        nz-button
+        nzType="default"
+        class="action action-mobile mobile-only"
+        (clicked)="goToApplication.emit()"
+        [attr.aria-label]="t('action.go_to_application')"
+      >
+        <nz-icon nzType="right" />
+      </button>
+      }
+    </div>
   </div>
 </ng-container>

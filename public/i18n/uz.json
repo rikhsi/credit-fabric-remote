@@ -79,6 +79,12 @@
       "description": "Bank filialiga murojaat qiling yoki {{phone}} qo‘llab-quvvatlash xizmati bilan bog‘laning"
     }
   },
+  "applications": {
+    "empty": {
+      "title": "Arizalar yo‘q",
+      "description": "Kredit olish uchun arizani to‘ldiring va yuboring."
+    }
+  },
   "modal": {
     "application_approved": {
       "title": "Shartlar qabul qilindi",
@@ -240,6 +246,7 @@
   "application": {
     "number": "Ariza № {{id}}",
     "number_short": "№ {{id}}",
+    "submitted_date": "Topshirilgan sana: {{date}}",
     "docs": {
       "sign": "Hujjatlarni imzolang",
       "valid_until": "{{date}} gacha amal qiladi",
