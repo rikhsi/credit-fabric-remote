@@ -8,6 +8,12 @@
       border-color: @border-color;
     }
 
+    /* Multi fixed refuse: gray fill per design. */
+    .footer--fixed-multi .refuse {
+      background: @component-background-secondary;
+      border-color: transparent;
+    }
+
     .footer--fixed {
       background: @component-background;
     }
@@ -100,14 +106,16 @@
 
   &--fixed {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    /* loan-layout pads 20px; swipe transform makes fixed relative to that box */
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
     z-index: 5;
     flex-direction: column;
     justify-content: stretch;
     gap: 8px;
     margin: 0;
+    border-radius: 0;
     padding: 12px 20px calc(20px + env(safe-area-inset-bottom, 0px));
 
     [nz-button] {

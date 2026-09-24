@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, viewChild } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivationEnd, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
-import { filter, map, merge, startWith } from 'rxjs';
+import { filter, map, of, startWith, switchMap } from 'rxjs';
 import { BridgeService } from '@core/services/bridge.service';
 import { LayoutHeader } from '@layouts/components';
 import { LoanLayoutService } from '@layouts/services';
@@ -13,6 +13,8 @@ import { SwipeBackDirective } from '@shared/directives';
 function isTranslationKey(title: string): boolean {
   return /^[a-z][\w.]*$/i.test(title);
 }
+
+type TitleSpec = { key: string; params: Record<string, string>; raw?: string };
 
 @Component({
   selector: 'cf-loan-layout',
@@ -44,27 +46,9 @@ export class LoanLayout implements OnInit {
     { initialValue: this.router.url },
   );
 
-  /**
-   * Recompute titles after i18n JSON loads — sync `translate()` returns the key
-   * until `translationLoadSuccess`, which previously stuck the header on "application.number".
-   */
-  private readonly i18nTick = toSignal(
-    merge(
-      this.transloco.langChanges$,
-      this.transloco.events$.pipe(
-        filter((event) => event.type === 'translationLoadSuccess' || event.type === 'langChanged'),
-        map(() => this.transloco.getActiveLang()),
-      ),
-    ).pipe(startWith(this.transloco.getActiveLang())),
-    { initialValue: this.transloco.getActiveLang() },
-  );
-
-  public pageTitle = computed(() => {
-    this.i18nTick();
-
+  private readonly titleSpec = computed<TitleSpec>(() => {
     const data = this.data();
     const url = this.currentUrl();
-    // URL first — on hard reload child route data/params often lag behind the address bar.
     const id =
       getApplicationIdFromUrl(url) ||
       getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ||
@@ -72,17 +56,42 @@ export class LoanLayout implements OnInit {
       '';
 
     if (id || data?.title === 'application.number') {
-      return this.transloco.translate('application.number', { id });
+      return { key: 'application.number', params: { id } };
     }
 
     const title = data?.title;
 
     if (!title) {
-      return '';
+      return { key: '', params: {} };
     }
 
-    return isTranslationKey(title) ? this.transloco.translate(title) : title;
+    if (isTranslationKey(title)) {
+      return { key: title, params: {} };
+    }
+
+    return { key: '', params: {}, raw: title };
   });
+
+  /**
+   * `selectTranslate` waits until i18n JSON is loaded — sync `translate()` on hard reload
+   * returned the raw key ("application.number") and never refreshed when lang tick stayed the same.
+   */
+  public readonly pageTitle = toSignal(
+    toObservable(this.titleSpec).pipe(
+      switchMap((spec) => {
+        if (spec.raw) {
+          return of(spec.raw);
+        }
+
+        if (!spec.key) {
+          return of('');
+        }
+
+        return this.transloco.selectTranslate<string>(spec.key, spec.params);
+      }),
+    ),
+    { initialValue: '' },
+  );
 
   ngOnInit(): void {
     this.loanLayoutService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
