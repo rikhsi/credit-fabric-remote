@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, effect, inject, input, model, signal, viewChild } from '@angular/core';
 import { NzOptionComponent } from 'ng-zorro-antd/select';
+import { HandbookApiService } from '@api/controllers/handbooks';
 import { BottomSheet } from '../bottom-sheet/bottom-sheet';
 import { SelectDefault } from '../select-default/select-default';
 import { HandbookRequest } from '@app/typings/handbook';
@@ -16,7 +16,7 @@ import { fetchHandbookItems, mapHandbookItemsToSelectOptions } from '@shared/uti
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectDefaultMobile extends ControlBaseDirective<number | boolean | string> {
-  private readonly http = inject(HttpClient);
+  private readonly handbookApi = inject(HandbookApiService);
 
   readonly bottomSheet = viewChild.required(BottomSheet);
 
@@ -42,7 +42,7 @@ export class SelectDefaultMobile extends ControlBaseDirective<number | boolean |
 
       const request = this.handbook();
 
-      if (!request?.url) {
+      if (!request?.type) {
         this.options.set([]);
         this.handbookLoading.set(false);
 
@@ -51,7 +51,7 @@ export class SelectDefaultMobile extends ControlBaseDirective<number | boolean |
 
       this.handbookLoading.set(true);
 
-      const subscription = fetchHandbookItems(this.http, request).subscribe({
+      const subscription = fetchHandbookItems(this.handbookApi, request).subscribe({
         next: (items) => {
           this.options.set(mapHandbookItemsToSelectOptions(items));
           this.handbookLoading.set(false);

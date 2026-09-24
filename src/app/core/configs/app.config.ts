@@ -15,6 +15,7 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { provideNzConfig } from 'ng-zorro-antd/core/config';
 import { ngZorroConfig } from './nz.config';
 import {
+  provideApiMocks,
   provideEligibility,
   provideLoanDraftReset,
   provideLoanProducts,
@@ -74,6 +75,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(JwtModule.forRoot({})),
     provideEnvironmentNgxMask(),
     provideNzConfig(ngZorroConfig),
+    provideApiMocks(),
     provideTheme,
     provideHostInit,
     provideEligibility,

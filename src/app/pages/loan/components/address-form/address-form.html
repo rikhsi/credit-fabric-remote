@@ -27,7 +27,7 @@
           [placeholder]="t('control.select.placeholder')"
           size="large"
         >
-          <ng-container *cfHandbook="{ url: 'dir-city' }; let items">
+          <ng-container *cfHandbook="{ type: 'dir-city' }; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }
@@ -37,7 +37,7 @@
         <cf-select-default-mobile
           class="cf-show-xs"
           [formField]="addressForm().dirCityId"
-          [handbook]="{ url: 'dir-city' }"
+          [handbook]="{ type: 'dir-city' }"
           [placeholder]="t('control.select.placeholder')"
           size="large"
         />
@@ -52,7 +52,7 @@
           size="large"
         >
           @if (addressForm().dirCityId().value(); as cityId) {
-          <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: cityId } }; let items">
+          <ng-container *cfHandbook="{ type: 'dir-village', params: { dir_city_id: cityId } }; let items">
             @for (item of items; track item.id) {
             <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
             }

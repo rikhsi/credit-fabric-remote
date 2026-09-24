@@ -1,14 +1,13 @@
-import { Directive, TemplateRef, ViewContainerRef, input, effect } from '@angular/core';
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { TableOverview } from '@api/models/base';
-import { buildHttpParams } from '@api/utils';
-import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
+import { Directive, TemplateRef, ViewContainerRef, effect, inject, input } from '@angular/core';
+import { HandbookApiService } from '@api/controllers/handbooks';
 import { HandbookItem, HandbookRequest, HandbookContext } from '@app/typings/handbook';
 
 @Directive({
   selector: '[cfHandbook]',
 })
-export class HandbookDirective<T = HandbookItem> {
+export class HandbookDirective<T extends HandbookItem = HandbookItem> {
+  private readonly handbookApi = inject(HandbookApiService);
+
   public readonly handbookItem = input<HandbookRequest>(null, { alias: 'cfHandbook' });
 
   private context: HandbookContext<T> = {
@@ -18,24 +17,24 @@ export class HandbookDirective<T = HandbookItem> {
   constructor(
     private templateRef: TemplateRef<HandbookContext<T>>,
     private viewContainer: ViewContainerRef,
-    private http: HttpClient,
   ) {
-    effect(() => this.loadData());
-  }
+    effect((onCleanup) => {
+      const request = this.handbookItem();
 
-  private loadData() {
-    const { url, params } = this.handbookItem();
+      if (!request?.type) {
+        this.context.$implicit = [];
+        this.viewContainer.clear();
+        this.viewContainer.createEmbeddedView(this.templateRef, this.context);
+        return;
+      }
 
-    this.http
-      .get<TableOverview<T>>(url, {
-        context: new HttpContext().set(QUEUE_TYPE, 'handbook').set(USE_HTTP_CACHE, true),
-        params: buildHttpParams(params ?? {}),
-      })
-      .subscribe((res) => {
-        this.context.$implicit = res.data;
-
+      const subscription = this.handbookApi.getAll$<T>(request.type, request.params ?? {}).subscribe((items) => {
+        this.context.$implicit = items;
         this.viewContainer.clear();
         this.viewContainer.createEmbeddedView(this.templateRef, this.context);
       });
+
+      onCleanup(() => subscription.unsubscribe());
+    });
   }
 }

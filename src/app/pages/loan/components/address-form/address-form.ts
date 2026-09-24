@@ -59,7 +59,7 @@ export class AddressForm {
   public readonly villageHandbook = computed<HandbookRequest | null>(() => {
     const cityId = this.addressForm().dirCityId().value();
 
-    return cityId ? { url: 'dir-village', params: { dir_city_id: cityId } } : null;
+    return cityId ? { type: 'dir-village', params: { dir_city_id: cityId } } : null;
   });
 
   public close(): void {

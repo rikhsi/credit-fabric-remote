@@ -3,6 +3,7 @@ export * from './eligibility.provider';
 export * from './loan-products.provider';
 export * from './loan-branches.provider';
 export * from './loan-draft.provider';
+export * from './api-mocks.provider';
 export * from './transloco.provider';
 export * from './theme.provider';
 export * from './lang.provider';

@@ -22,6 +22,7 @@ export default withNativeFederation({
     '@api/utils',
     '@api/controllers',
     '@api/models',
+    '@api/mocks',
     '@layouts/components',
     '@layouts/models',
     '@layouts/pipes',

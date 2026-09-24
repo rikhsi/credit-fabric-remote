@@ -11,7 +11,7 @@ import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
 export class HVillageService {
   constructor(private http: HttpClient) {}
 
-  public getAll$(filters: VillageFilter) {
+  public getAll$(filters: Partial<VillageFilter> = {}) {
     return this.http.get<TableOverview<VillageItem>>('dir-village', {
       params: buildHttpParams(filters),
       context: new HttpContext().set(QUEUE_TYPE, 'handbook').set(USE_HTTP_CACHE, true),

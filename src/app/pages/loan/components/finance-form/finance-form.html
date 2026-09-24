@@ -32,7 +32,7 @@
             [placeholder]="t('control.select.placeholder')"
             size="large"
           >
-            <ng-container *cfHandbook="{ url: 'dir-company-activity' }; let items">
+            <ng-container *cfHandbook="{ type: 'dir-company-activity' }; let items">
               @for (item of items; track item.id) {
               <nz-option [nzValue]="item.id" [nzLabel]="item.name"></nz-option>
               }
@@ -42,7 +42,7 @@
           <cf-select-default-mobile
             class="cf-show-xs"
             [formField]="financeForm().finData.dirCompanyActivityId"
-            [handbook]="{ url: 'dir-company-activity' }"
+            [handbook]="{ type: 'dir-company-activity' }"
             [placeholder]="t('control.select.placeholder')"
             size="large"
           />

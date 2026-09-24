@@ -14,8 +14,8 @@
     </div>
 
     @if (filled && item(); as addressItem) {
-    <ng-container *cfHandbook="{ url: 'dir-city' }; let cities">
-      <ng-container *cfHandbook="{ url: 'dir-village', params: { dir_city_id: addressItem.dirCityId } }; let villages">
+    <ng-container *cfHandbook="{ type: 'dir-city' }; let cities">
+      <ng-container *cfHandbook="{ type: 'dir-village', params: { dir_city_id: addressItem.dirCityId } }; let villages">
         @let city = cities | handbook: addressItem.dirCityId;
         @let village = villages | handbook: addressItem.dirVillageId;
 

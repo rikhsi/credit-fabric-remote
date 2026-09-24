@@ -11,7 +11,7 @@ import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
 export class HCityApiService {
   constructor(private http: HttpClient) {}
 
-  public getAll$(filters: CityFilters) {
+  public getAll$(filters: Partial<CityFilters> = {}) {
     return this.http.get<TableOverview<CityItem>>('dir-city', {
       params: buildHttpParams(filters),
       context: new HttpContext().set(QUEUE_TYPE, 'handbook').set(USE_HTTP_CACHE, true),

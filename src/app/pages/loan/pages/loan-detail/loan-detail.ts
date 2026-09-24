@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { HttpClient } from '@angular/common/http';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, finalize, forkJoin, map, take } from 'rxjs';
@@ -37,6 +36,7 @@ import { LoanDraftService } from '@core/services/loan-draft.service';
 import { LoanProductsService } from '@core/services/loan-products.service';
 import { ToastService } from '@core/services/toast.service';
 import { LoanLayoutService } from '@layouts/services';
+import { HandbookApiService } from '@api/controllers/handbooks';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
@@ -79,7 +79,7 @@ export class LoanDetail implements OnInit {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly http = inject(HttpClient);
+  private readonly handbookApi = inject(HandbookApiService);
   private readonly loanDraft = inject(LoanDraftService);
   private readonly toast = inject(ToastService);
   private readonly breakpointObserver = inject(BreakpointObserver);
@@ -131,8 +131,8 @@ export class LoanDetail implements OnInit {
 
     forkJoin({
       validate: this.ldService.checkValidate$(),
-      cities: fetchHandbookItems(this.http, { url: 'dir-city' }),
-      activities: fetchHandbookItems(this.http, { url: 'dir-company-activity' }),
+      cities: fetchHandbookItems(this.handbookApi, { type: 'dir-city' }),
+      activities: fetchHandbookItems(this.handbookApi, { type: 'dir-company-activity' }),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
