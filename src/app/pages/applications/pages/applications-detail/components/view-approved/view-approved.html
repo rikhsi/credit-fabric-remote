@@ -4,7 +4,7 @@
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
   </div>
   } @else {
-  <div class="offers" [class.single]="isSingle()">
+  <div class="offers" [class.single]="isSingle()" [class.triple]="isTriple()">
     @for (offer of offers(); track offer.offerId) {
     <cf-application-conditions-card
       [source]="offer"

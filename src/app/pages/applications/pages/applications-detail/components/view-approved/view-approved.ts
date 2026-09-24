@@ -39,9 +39,20 @@ export class ViewApproved implements OnInit {
   readonly isClaiming = signal(false);
   readonly expandedOfferId = signal<string | null>(null);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
-  readonly offers = computed(() => this.applicationsDetailService.offers());
-  readonly isSingle = computed(() => this.offers().length === 1);
   readonly requestedAmount = computed(() => this.application().product.loanAmount);
+  readonly offers = computed(() => {
+    const requested = this.requestedAmount();
+    const list = [...this.applicationsDetailService.offers()];
+
+    return list.sort((left, right) => {
+      const leftMatch = left.loanAmount === requested ? 0 : 1;
+      const rightMatch = right.loanAmount === requested ? 0 : 1;
+
+      return leftMatch - rightMatch;
+    });
+  });
+  readonly isSingle = computed(() => this.offers().length === 1);
+  readonly isTriple = computed(() => this.offers().length === 3);
   readonly isMobile = toSignal(
     this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
     { initialValue: false },
@@ -52,7 +63,10 @@ export class ViewApproved implements OnInit {
       .getOffers$(this.applicationId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((offers) => {
-        this.expandedOfferId.set(offers[0]?.offerId ?? null);
+        const requested = this.requestedAmount();
+        const matched = offers.find((offer) => offer.loanAmount === requested);
+
+        this.expandedOfferId.set(matched?.offerId ?? offers[0]?.offerId ?? null);
       });
   }
 
