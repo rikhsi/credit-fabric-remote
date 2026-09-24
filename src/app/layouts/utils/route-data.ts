@@ -36,6 +36,10 @@ export function getRouteParam(snapshot: ActivatedRouteSnapshot, param: RoutePara
 
 /** Fallback when router snapshot is not ready yet on hard reload. */
 export function getApplicationIdFromUrl(url: string): string | null {
+  if (!url) {
+    return null;
+  }
+
   const match = url.match(new RegExp(`/${RootRoute.Applications}/([^/?#]+)`));
   const id = match?.[1]?.trim();
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, viewChild } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivationEnd, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { filter, map, startWith } from 'rxjs';
 import { BridgeService } from '@core/services/bridge.service';
@@ -45,19 +45,20 @@ export class LoanLayout implements OnInit {
   );
 
   public pageTitle = computed(() => {
-    const title = this.data()?.title;
+    const data = this.data();
     const url = this.currentUrl();
-    const idFromUrl = getApplicationIdFromUrl(url);
+    // URL first — on hard reload child route data/params often lag behind the address bar.
     const id =
+      getApplicationIdFromUrl(url) ||
       getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ||
-      this.data()?.applicationId ||
-      idFromUrl ||
+      data?.applicationId ||
       '';
 
-    // Hard reload can briefly expose only parent route data; URL still has the id.
-    if (title === 'application.number' || idFromUrl) {
+    if (id || data?.title === 'application.number') {
       return this.transloco.translate('application.number', { id });
     }
+
+    const title = data?.title;
 
     if (!title) {
       return '';
@@ -68,6 +69,14 @@ export class LoanLayout implements OnInit {
 
   ngOnInit(): void {
     this.loanLayoutService.initRouterEvents().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
+    // Lazy child activate can finish after the initial NavigationEnd we missed.
+    this.router.events
+      .pipe(
+        filter((event): event is ActivationEnd => event instanceof ActivationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.loanLayoutService.syncFromRouter());
   }
 
   onClose(): void {

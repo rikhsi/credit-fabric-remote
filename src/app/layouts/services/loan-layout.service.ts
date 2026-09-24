@@ -20,19 +20,23 @@ export class LoanLayoutService {
 
   public initRouterEvents(): Observable<NavigationEnd> {
     // Initial NavigationEnd can fire before LoanLayout subscribes (hard reload).
-    // Hide splash here; do not re-navigate — that raced route data / header id.
     queueMicrotask(() => {
-      this.updateActions();
+      this.syncFromRouter();
       this.splashService.hide = true;
     });
 
     return this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
       tap(() => {
-        this.updateActions();
+        this.syncFromRouter();
         this.splashService.hide = true;
       }),
     );
+  }
+
+  /** Re-read route tree (safe to call after ActivationEnd / hard reload). */
+  syncFromRouter(): void {
+    this.updateActions();
   }
 
   /** Header / swipe-back entry point. Page can claim the click via `handleBackClick()`. */
@@ -73,9 +77,10 @@ export class LoanLayoutService {
     const snapshot = getRootSnapshot(this.router);
     const currentSnapshot = getCurrentRouteData<LoanLayoutData>(snapshot);
     const applicationId =
+      getApplicationIdFromUrl(this.router.url) ||
       getRouteParam(snapshot, RouteParam.AppId) ||
       currentSnapshot?.applicationId ||
-      getApplicationIdFromUrl(this.router.url) ||
+      (typeof window !== 'undefined' ? getApplicationIdFromUrl(window.location.pathname) : null) ||
       undefined;
 
     this.routData.set({

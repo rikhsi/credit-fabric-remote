@@ -396,10 +396,14 @@
     display: flex;
   }
 
-  .summary-label,
-  .summary-value {
+  .summary-label {
     font-size: 12px;
     font-weight: 400;
+  }
+
+  .summary-value {
+    font-size: 12px;
+    font-weight: 600;
   }
 
   .conditions-title {
@@ -441,6 +445,9 @@
       [nz-button] {
         flex: 1;
         height: 32px;
+        min-height: 32px;
+        padding-block: 0;
+        line-height: 30px;
       }
     }
   }
