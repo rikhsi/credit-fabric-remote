@@ -27,31 +27,17 @@
   gap: 16px;
 
   &.single {
-    grid-template-columns: minmax(0, 480px);
+    grid-template-columns: minmax(0, 520px);
   }
 
   .media(@media-sm, {
     grid-template-columns: 1fr;
+    gap: 12px;
 
     &.single {
       grid-template-columns: 1fr;
     }
   });
-}
-
-.offer {
-  display: flex;
-  flex-direction: column;
-  row-gap: 16px;
-  min-width: 0;
-
-  cf-application-conditions-card {
-    flex: 1;
-  }
-}
-
-.accept {
-  width: 100%;
 }
 
 .skeleton {

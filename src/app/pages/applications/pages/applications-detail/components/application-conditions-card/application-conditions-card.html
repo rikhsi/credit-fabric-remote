@@ -1,28 +1,56 @@
 <ng-container *transloco="let t">
-  @if (showStatus() && status(); as statusValue) {
-  <div
-    class="status"
-    [class.warning]="statusTone() === 'warning'"
-    [class.success]="statusTone() === 'success'"
-    [class.decline]="statusTone() === 'decline'"
-    [class.info]="statusTone() === 'info'"
-  >
-    <cf-status-application [status]="statusValue" />
-  </div>
-  }
-
-  <h3 class="amount">{{ source().loanAmount | number }} {{ currency() }}</h3>
-
-  <p class="summary">
-    @if (isDifferential()) {
-    <span>{{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
-    } @else {
-    <span>{{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
+  <div class="summary-card">
+    @if (showStatus() && status(); as statusValue) {
+    <div
+      class="status"
+      [class.warning]="statusTone() === 'warning'"
+      [class.success]="statusTone() === 'success'"
+      [class.decline]="statusTone() === 'decline'"
+      [class.info]="statusTone() === 'info'"
+    >
+      <cf-status-application [status]="statusValue" />
+    </div>
     }
-    <span class="dot" aria-hidden="true">•</span>
-    <span>{{ source().loanTerm | pluralize: 'month' }}</span>
-  </p>
 
+    <h3 class="amount">{{ source().loanAmount | number }} {{ currency() }}</h3>
+
+    <div class="summary">
+      <p class="summary-line desktop-inline">
+        @if (isDifferential()) {
+        <span>{{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
+        } @else {
+        <span>{{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
+        }
+        <span class="dot" aria-hidden="true">•</span>
+        <span>{{ source().loanTerm | pluralize: 'month' }}</span>
+      </p>
+
+      <p class="summary-line mobile-stack">
+        <span class="summary-label">{{ t('prop.loan_monthly_payment') }}</span>
+        <span class="summary-value">
+          @if (isDifferential()) {
+          {{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+          } @else {
+          {{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+          }
+        </span>
+      </p>
+
+      <p class="summary-line mobile-stack">
+        <span class="summary-label">{{ t('prop.loan_term_full') }}</span>
+        <span class="summary-value">{{ source().loanTerm | pluralize: 'month' }}</span>
+      </p>
+
+      @if (issueDate(); as dateValue) {
+      <p class="summary-line mobile-stack">
+        <span class="summary-label">{{ t('prop.issue_date') }}</span>
+        <span class="summary-value">{{ dateValue | date: 'd MMMM y' }}</span>
+      </p>
+      }
+    </div>
+  </div>
+
+  @if (showConditions()) {
   <div class="conditions">
     <h5 nz-typography class="conditions-title">{{ t('application.detail.loan_conditions') }}</h5>
 
@@ -50,7 +78,7 @@
 
       <div class="row">
         <span class="label">{{ t('prop.loan_term_full') }}</span>
-        <span class="value">{{ source().loanTerm | pluralize: 'month' }}</span>
+        <span class="value">{{ source().loanTerm | pluralize: 'month_short' }}</span>
       </div>
 
       @if (showRate()) {
@@ -72,5 +100,18 @@
       </div>
       }
     </div>
+  </div>
+  }
+
+  <div class="card-actions" [class.with-toggle]="collapsible()">
+    <div class="card-actions__main">
+      <ng-content select="[cardActions]"></ng-content>
+    </div>
+
+    @if (collapsible()) {
+    <button type="button" class="collapse-toggle" (click)="toggleExpanded()" [attr.aria-expanded]="expanded()">
+      <nz-icon [nzType]="expanded() ? 'up' : 'down'" />
+    </button>
+    }
   </div>
 </ng-container>

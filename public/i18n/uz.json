@@ -215,6 +215,7 @@
     "standart": "Kamayib boruvchi",
     "from": "{{amount}} dan",
     "overpayment": "Ortiqcha to‘lov summasi",
+    "issue_date": "Berilgan sana",
     "city": "Shahar",
     "country": "O'zbekiston Respublikasi"
   },
@@ -253,6 +254,7 @@
     "detail": {
       "loan_conditions": "Kredit shartlari",
       "refuse": "Rad etish",
+      "accept": "Olish",
       "accept_offer": "Tasdiqlangan summani olish",
       "accept_more": "Ko‘proq olish",
       "approved_hint": "Ariza tasdiqlandi. Qaror qabul qilish qoldi"

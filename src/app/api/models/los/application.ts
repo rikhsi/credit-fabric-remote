@@ -101,6 +101,8 @@ export interface OnlineOffer {
   loanRate: number;
   loanTerm: number;
   paymentType: string;
+  /** Optional issue/disbursement date from backend. */
+  issueDate?: string;
 }
 
 export interface OnlineApplication {

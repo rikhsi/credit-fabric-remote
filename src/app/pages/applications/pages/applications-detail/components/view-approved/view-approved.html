@@ -1,41 +1,60 @@
 <ng-container *transloco="let t">
+  @if (!isSingle() && !isMobile()) {
   <p nz-typography class="hint">{{ t('application.detail.approved_hint') }}</p>
+  }
 
   @if (isOffersLoading()) {
-  <div class="offers">
-    @for (item of [] | emptyList:2; track $index) {
+  <div class="offers" [class.single]="true">
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
-    }
   </div>
   } @else {
-  <div class="offers" [class.single]="offers().length === 1">
+  <div class="offers" [class.single]="isSingle()">
     @for (offer of offers(); track offer.offerId) {
-    <div class="offer">
-      <cf-application-conditions-card
-        [source]="offer"
-        [showStatus]="false"
-        [showRate]="true"
-        [showOverpayment]="true"
-        [highlighted]="isHighlighted(offer)"
-      />
+    <cf-application-conditions-card
+      [source]="offer"
+      [status]="application().sysStatusId"
+      [issueDate]="offer.issueDate ?? null"
+      [showRate]="true"
+      [showOverpayment]="true"
+      [highlighted]="!isSingle() && isHighlighted(offer)"
+      [collapsible]="isCollapsible()"
+      [expanded]="isExpanded(offer)"
+      (expandedChange)="onExpandedChange(offer.offerId, $event)"
+      [splitLayout]="isSingle() && !!isMobile()"
+      [stackActions]="isSingle() && !!isMobile()"
+    >
+      <div cardActions>
+        @if (isSingle()) {
+        <button
+          cfBounce
+          nz-button
+          nzType="default"
+          nzSize="large"
+          [nzLoading]="isClaiming()"
+          [disabled]="isClaiming()"
+          (clicked)="openRefuseConfirm()"
+        >
+          {{ t('application.detail.refuse') }}
+        </button>
+        }
 
-      <button
-        cfBounce
-        nz-button
-        [nzType]="isHighlighted(offer) ? 'primary' : 'default'"
-        nzSize="large"
-        class="accept"
-        [nzLoading]="isClaiming()"
-        [disabled]="isClaiming()"
-        (clicked)="openAcceptConfirm(offer)"
-      >
-        {{ t(acceptLabelKey(offer)) }}
-      </button>
-    </div>
+        <button
+          cfBounce
+          nz-button
+          [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
+          nzSize="large"
+          [nzLoading]="isClaiming()"
+          [disabled]="isClaiming()"
+          (clicked)="openAcceptConfirm(offer)"
+        >
+          {{ t(acceptLabelKey(offer)) }}
+        </button>
+      </div>
+    </cf-application-conditions-card>
     }
   </div>
 
-  @if (offers().length) {
+  @if (!isSingle() && offers().length) {
   <div class="footer">
     <button
       cfBounce

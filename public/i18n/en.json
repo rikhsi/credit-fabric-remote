@@ -215,6 +215,7 @@
     "standart": "Decreasing",
     "from": "from {{amount}}",
     "overpayment": "Overpayment amount",
+    "issue_date": "Issue date",
     "city": "City",
     "country": "Republic of Uzbekistan"
   },
@@ -253,6 +254,7 @@
     "detail": {
       "loan_conditions": "Loan terms",
       "refuse": "Decline",
+      "accept": "Get",
       "accept_offer": "Get approved amount",
       "accept_more": "Get more",
       "approved_hint": "Application approved. A decision remains to be made"

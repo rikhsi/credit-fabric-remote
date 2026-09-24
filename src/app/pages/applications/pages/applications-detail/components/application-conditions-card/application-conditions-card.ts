@@ -1,6 +1,7 @@
-import { DecimalPipe, LowerCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { ApplicationStatus, OnlineApplicationProduct, OnlineOffer } from '@api/models/los/application';
 import { StatusApplication } from '../../../../components';
@@ -26,22 +27,42 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
 
 @Component({
   selector: 'cf-application-conditions-card',
-  imports: [TranslocoDirective, StatusApplication, NzTypographyComponent, DecimalPipe, LowerCasePipe, PluralizePipe],
+  imports: [
+    TranslocoDirective,
+    StatusApplication,
+    NzTypographyComponent,
+    NzIconDirective,
+    DecimalPipe,
+    DatePipe,
+    LowerCasePipe,
+    PluralizePipe,
+  ],
   templateUrl: './application-conditions-card.html',
   styleUrl: './application-conditions-card.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.highlighted]': 'highlighted()',
+    '[class.split]': 'splitLayout()',
+    '[class.collapsed]': 'collapsible() && !expanded()',
+    '[class.stack-actions]': 'stackActions()',
   },
 })
 export class ApplicationConditionsCard {
   source = input.required<ConditionsSource>();
   status = input<ApplicationStatus | null>(null);
   currency = input('UZS');
+  issueDate = input<string | Date | null>(null);
   showStatus = input(true);
   showRate = input(false);
   showOverpayment = input(false);
   highlighted = input(false);
+  /** Mobile multi-offer accordion. */
+  collapsible = input(false);
+  expanded = model(true);
+  /** Separate summary + conditions cards (non-approved mobile/desktop shell). */
+  splitLayout = input(false);
+  /** Stack accept/refuse full-width (single offer mobile). */
+  stackActions = input(false);
 
   readonly statusTone = computed<StatusTone | null>(() => {
     const status = this.status();
@@ -62,4 +83,14 @@ export class ApplicationConditionsCard {
 
     return calculateOverpayment(item.loanAmount, item.loanTerm, item.loanRate, item.paymentType);
   });
+
+  readonly showConditions = computed(() => !this.collapsible() || this.expanded());
+
+  toggleExpanded(): void {
+    if (!this.collapsible()) {
+      return;
+    }
+
+    this.expanded.update((value) => !value);
+  }
 }
