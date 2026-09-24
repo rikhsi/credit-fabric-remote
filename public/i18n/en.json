@@ -238,7 +238,6 @@
     "status": {
       "in_progress": "Under review",
       "on_design": "Awaiting document",
-      "on_form_fill": "Fill in the form",
       "on_decision": "Approved",
       "approved": "Approved",
       "signed": "Signed",

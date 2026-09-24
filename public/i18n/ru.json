@@ -238,7 +238,6 @@
     "status": {
       "in_progress": "На рассмотрении",
       "on_design": "Ожидаем документ",
-      "on_form_fill": "Заполните форму",
       "on_decision": "Одобрено",
       "approved": "Одобрено",
       "signed": "Подписано",

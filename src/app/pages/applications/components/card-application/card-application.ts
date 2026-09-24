@@ -19,7 +19,6 @@ type StatusTone = 'warning' | 'success' | 'decline' | 'info';
 const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.InProgress]: 'warning',
   [ApplicationStatus.OnDesign]: 'info',
-  [ApplicationStatus.OnFormFill]: 'warning',
   [ApplicationStatus.OnDecision]: 'success',
   [ApplicationStatus.Approved]: 'success',
   [ApplicationStatus.Signed]: 'success',

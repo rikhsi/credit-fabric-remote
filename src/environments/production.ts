@@ -8,6 +8,7 @@ export const environment = {
   appVersion: '99.99.99',
   deviceRoot: '0',
   mode: 'production',
+  mock: false,
   assetsBaseUrl: 'https://corp-api.hamkorbank.uz/sme-kk-js/',
   imageUrl: 'https://corp-api.hamkorbank.uz/sme-kk-js/images/',
   oneIdUrl: 'https://id.egov.uz/ru',
