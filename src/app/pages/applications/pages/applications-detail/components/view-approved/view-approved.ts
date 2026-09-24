@@ -53,6 +53,11 @@ export class ViewApproved implements OnInit {
   });
   readonly isSingle = computed(() => this.offers().length === 1);
   readonly isTriple = computed(() => this.offers().length === 3);
+  readonly isPair = computed(() => {
+    const count = this.offers().length;
+
+    return count === 2 || count > 3;
+  });
   readonly isMobile = toSignal(
     this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
     { initialValue: false },

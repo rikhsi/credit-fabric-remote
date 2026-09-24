@@ -31,17 +31,24 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  // ≤1199: 3 → 2; 2 and >3 stay at 2
   .media(@media-lg, {
     &.triple {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    &.pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   });
 
+  // mobile: always 1 column
   .media(@media-sm, {
     grid-template-columns: 1fr;
     gap: 12px;
 
     &.single,
+    &.pair,
     &.triple {
       grid-template-columns: 1fr;
     }
