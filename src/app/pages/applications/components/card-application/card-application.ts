@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -12,7 +9,6 @@ import { PluralizePipe } from '@shared/pipes';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { ApplicationStatus } from '@api/models/los/application';
 import { CreditInput } from '@app/typings/calculator';
-import { Breakpoint } from '@app/constants/breakpoint';
 
 type StatusTone = 'warning' | 'success' | 'decline' | 'info' | 'signing';
 
@@ -20,7 +16,6 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.InProgress]: 'warning',
   [ApplicationStatus.OnDesign]: 'signing',
   [ApplicationStatus.OnDecision]: 'success',
-  [ApplicationStatus.Approved]: 'success',
   [ApplicationStatus.Signed]: 'success',
   [ApplicationStatus.Issued]: 'success',
   [ApplicationStatus.Decline]: 'decline',
@@ -48,13 +43,10 @@ const PLACEHOLDER_CREATED_DATE = new Date(2026, 8, 12);
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'card',
-    '[class.clickable]': 'isMobile() && !actionsDisabled()',
-    '(click)': 'onCardClick()',
+    '[class.clickable]': '!actionsDisabled()',
   },
 })
 export class CardApplication {
-  private readonly breakpointObserver = inject(BreakpointObserver);
-
   id = input<number>();
   rate = input<number>();
   term = input<number>();
@@ -67,11 +59,6 @@ export class CardApplication {
   actionsDisabled = input<boolean>();
 
   goToApplication = output<void>();
-
-  readonly isMobile = toSignal(
-    this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
-    { initialValue: false },
-  );
 
   readonly displayCurrency = computed(() => this.currency()?.trim() || 'UZS');
 
@@ -100,12 +87,4 @@ export class CardApplication {
 
     return this.isDifferential() ? calculateDifferential(input).monthlyPayment : calculateAnnuity(input).monthlyPayment;
   });
-
-  onCardClick(): void {
-    if (this.actionsDisabled() || !this.isMobile()) {
-      return;
-    }
-
-    this.goToApplication.emit();
-  }
 }

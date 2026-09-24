@@ -239,7 +239,6 @@
       "in_progress": "Under review",
       "on_design": "Awaiting document",
       "on_decision": "Approved",
-      "approved": "Approved",
       "signed": "Signed",
       "decline": "Declined",
       "decline_client": "Declined by client",

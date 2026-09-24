@@ -1,4 +1,14 @@
 <ng-container *transloco="let t">
+  @if (!actionsDisabled()) {
+  <button
+    type="button"
+    class="hitarea"
+    cfBounce="300"
+    (clicked)="goToApplication.emit()"
+    [attr.aria-label]="t('action.go_to_application')"
+  ></button>
+  }
+
   <div class="header">
     <div class="badges">
       <div
@@ -57,7 +67,7 @@
 
       @if (!actionsDisabled()) {
       <button
-        cfBounce
+        cfBounce="300"
         nz-button
         nzType="default"
         nzSize="small"
@@ -69,7 +79,7 @@
       </button>
 
       <button
-        cfBounce
+        cfBounce="300"
         nz-button
         nzType="default"
         class="action action-mobile mobile-only"

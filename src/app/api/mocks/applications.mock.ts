@@ -68,10 +68,7 @@ function application(
   };
 }
 
-function offer(
-  offerId: string,
-  overrides: Partial<OnlineOffer> = {},
-): OnlineOffer {
+function offer(offerId: string, overrides: Partial<OnlineOffer> = {}): OnlineOffer {
   return {
     offerId,
     product: PRODUCT_NAME,
@@ -115,10 +112,9 @@ const docsSigned = [
 export const MockApplicationId = {
   InProgress: 845791,
   OnDesign: 845792,
-  OnDecision: 845793,
-  ApprovedOne: 845794,
-  ApprovedTwo: 845795,
-  ApprovedThree: 845796,
+  OnDecisionOne: 845794,
+  OnDecisionTwo: 845795,
+  OnDecisionThree: 845796,
   Signed: 845797,
   Issued: 845798,
   Decline: 845799,
@@ -129,14 +125,13 @@ export const MockApplicationId = {
 export const MOCK_APPLICATIONS_LIST: OnlineGetInfoResult[] = [
   listItem(MockApplicationId.InProgress, ApplicationStatus.InProgress),
   listItem(MockApplicationId.OnDesign, ApplicationStatus.OnDesign),
-  listItem(MockApplicationId.OnDecision, ApplicationStatus.OnDecision),
-  listItem(MockApplicationId.ApprovedOne, ApplicationStatus.Approved, {
+  listItem(MockApplicationId.OnDecisionOne, ApplicationStatus.OnDecision, {
     loanAmount: 40_000_000,
   }),
-  listItem(MockApplicationId.ApprovedTwo, ApplicationStatus.Approved, {
+  listItem(MockApplicationId.OnDecisionTwo, ApplicationStatus.OnDecision, {
     loanAmount: 50_000_000,
   }),
-  listItem(MockApplicationId.ApprovedThree, ApplicationStatus.Approved, {
+  listItem(MockApplicationId.OnDecisionThree, ApplicationStatus.OnDecision, {
     loanAmount: 60_000_000,
   }),
   listItem(MockApplicationId.Signed, ApplicationStatus.Signed),
@@ -149,18 +144,15 @@ export const MOCK_APPLICATIONS_LIST: OnlineGetInfoResult[] = [
 export const MOCK_APPLICATIONS_BY_ID: Record<number, OnlineApplication> = {
   [MockApplicationId.InProgress]: application(ApplicationStatus.InProgress),
   [MockApplicationId.OnDesign]: application(ApplicationStatus.OnDesign, { docs: docsUnsigned }),
-  [MockApplicationId.OnDecision]: application(ApplicationStatus.OnDecision, {
-    product: { ...baseProduct, loanAmount: 50_000_000 },
-  }),
-  [MockApplicationId.ApprovedOne]: application(ApplicationStatus.Approved, {
+  [MockApplicationId.OnDecisionOne]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 50_000_000 },
     offerId: 'offer-1',
   }),
-  [MockApplicationId.ApprovedTwo]: application(ApplicationStatus.Approved, {
+  [MockApplicationId.OnDecisionTwo]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 45_000_000 },
     offerId: 'offer-1',
   }),
-  [MockApplicationId.ApprovedThree]: application(ApplicationStatus.Approved, {
+  [MockApplicationId.OnDecisionThree]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 40_000_000 },
     offerId: 'offer-1',
   }),
@@ -172,17 +164,14 @@ export const MOCK_APPLICATIONS_BY_ID: Record<number, OnlineApplication> = {
 };
 
 export const MOCK_OFFERS_BY_ID: Record<number, OnlineOffer[]> = {
-  [MockApplicationId.OnDecision]: [
-    offer('offer-decision-1', { loanAmount: 50_000_000, loanTerm: 12 }),
-  ],
-  [MockApplicationId.ApprovedOne]: [
+  [MockApplicationId.OnDecisionOne]: [
     offer('offer-1', {
       loanAmount: 40_000_000,
       loanTerm: 12,
       loanRate: 15,
     }),
   ],
-  [MockApplicationId.ApprovedTwo]: [
+  [MockApplicationId.OnDecisionTwo]: [
     offer('offer-more', {
       loanAmount: 55_000_000,
       loanTerm: 18,
@@ -194,7 +183,7 @@ export const MOCK_OFFERS_BY_ID: Record<number, OnlineOffer[]> = {
       loanRate: 15,
     }),
   ],
-  [MockApplicationId.ApprovedThree]: [
+  [MockApplicationId.OnDecisionThree]: [
     offer('offer-more', {
       loanAmount: 60_000_000,
       loanTerm: 18,

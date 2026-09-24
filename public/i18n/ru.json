@@ -238,8 +238,7 @@
     "status": {
       "in_progress": "На рассмотрении",
       "on_design": "Ожидаем документ",
-      "on_decision": "В подписании",
-      "approved": "Одобрено",
+      "on_decision": "Одобрено",
       "signed": "Подписано",
       "decline": "Отказано",
       "decline_client": "Отказано вами",

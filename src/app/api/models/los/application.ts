@@ -3,7 +3,6 @@ import { HandbookItem } from './item';
 export enum ApplicationStatus {
   OnDesign = 'ON_DESIGN',
   OnDecision = 'ON_DECISION',
-  Approved = 'APPROVED',
   InProgress = 'IN_PROGRESS',
   Signed = 'SIGNED',
   Issued = 'ISSUED',
