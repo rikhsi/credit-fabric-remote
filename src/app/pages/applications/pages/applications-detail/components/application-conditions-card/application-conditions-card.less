@@ -5,10 +5,8 @@
 .themeMixin({
   :host {
     background: @component-background;
-    box-shadow:
-      0 2px 8px fade(#6b5240, 6%),
-      0 10px 28px fade(#6b5240, 10%);
-    border-color: transparent;
+    border-color: @border-color;
+    color: @text-color;
 
     &.highlighted {
       border-color: @primary-color;
@@ -66,15 +64,12 @@
     .media(@media-sm, {
       &.split {
         background: transparent;
-        box-shadow: none;
         border-color: transparent;
 
         .summary-card,
         .conditions {
           background: @component-background;
-          box-shadow:
-            0 2px 8px fade(#6b5240, 6%),
-            0 10px 28px fade(#6b5240, 10%);
+          border-color: @border-color;
         }
       }
     });
@@ -85,9 +80,11 @@
   display: flex;
   flex-direction: column;
   row-gap: 12px;
+  max-width: 580px;
+  width: 100%;
   padding: 20px;
-  border-radius: @border-radius-xl;
-  border: 1px solid transparent;
+  border-radius: 20px;
+  border: 1px solid;
 }
 
 .summary-card {
@@ -101,8 +98,10 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  padding: 4px 10px 4px 4px;
-  border-radius: 8px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
 
   ::ng-deep cf-status-application {
     column-gap: 6px;
@@ -122,8 +121,8 @@
 }
 
 .amount {
-  margin: 4px 0 0;
-  font-size: 32px;
+  margin: 16px 0 0;
+  font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -146,9 +145,15 @@
   line-height: 1.4;
 }
 
-.summary-label,
+.summary-label {
+  margin-right: 4px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 .summary-value {
-  font-weight: 400;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .dot {
@@ -247,13 +252,15 @@
     &.split {
       padding: 0;
       row-gap: 12px;
+      border: 0;
       border-radius: 0;
+      max-width: none;
 
       .summary-card,
       .conditions {
         padding: 16px;
-        border-radius: @border-radius-xl;
-        border: 0;
+        border-radius: 20px;
+        border: 1px solid;
       }
 
       .conditions {
@@ -273,6 +280,8 @@
   .amount {
     font-size: 24px;
     letter-spacing: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 
   .desktop-inline {
@@ -281,6 +290,11 @@
 
   .mobile-stack {
     display: flex;
+  }
+
+  .summary-label,
+  .summary-value {
+    font-size: 12px;
   }
 
   .row {
