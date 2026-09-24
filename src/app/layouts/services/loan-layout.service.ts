@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router, UrlTree } from '@angular/router';
 import { filter, Observable, Subject, tap } from 'rxjs';
-import { getRootSnapshot, getCurrentRouteData } from '@layouts/utils';
+import { getRootSnapshot, getCurrentRouteData, getRouteParam } from '@layouts/utils';
 import { LoanLayoutData } from '@layouts/models';
 import { SplashService } from '@core/services/splash.service';
+import { RouteParam } from '@app/constants/route-param';
 
 @Injectable()
 export class LoanLayoutService {
@@ -69,7 +70,11 @@ export class LoanLayoutService {
   private updateActions(): void {
     const snapshot = getRootSnapshot(this.router);
     const currentSnapshot = getCurrentRouteData<LoanLayoutData>(snapshot);
+    const applicationId = getRouteParam(snapshot, RouteParam.AppId);
 
-    this.routData.set(currentSnapshot);
+    this.routData.set({
+      ...currentSnapshot,
+      ...(applicationId ? { applicationId } : {}),
+    });
   }
 }

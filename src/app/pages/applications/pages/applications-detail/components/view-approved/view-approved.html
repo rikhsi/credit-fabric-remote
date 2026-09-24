@@ -1,8 +1,4 @@
 <ng-container *transloco="let t">
-  @if (!isSingle() && !isMobile()) {
-  <p nz-typography class="hint">{{ t('application.detail.approved_hint') }}</p>
-  }
-
   @if (isOffersLoading()) {
   <div class="offers" [class.single]="true">
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
@@ -45,7 +41,7 @@
           [disabled]="isClaiming()"
           (clicked)="openAcceptConfirm(offer)"
         >
-          {{ t(acceptLabelKey(offer)) }}
+          {{ t('application.detail.accept') }}
         </button>
       </ng-container>
     </cf-application-conditions-card>
@@ -59,6 +55,7 @@
       nz-button
       nzType="default"
       nzSize="large"
+      class="refuse"
       [nzLoading]="isClaiming()"
       [disabled]="isClaiming()"
       (clicked)="openRefuseConfirm()"

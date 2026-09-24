@@ -3,8 +3,9 @@
 
 .themeMixin({
   :host {
-    .hint {
-      color: @text-color-secondary;
+    .refuse {
+      background: @component-background;
+      border-color: @border-color;
     }
   }
 });
@@ -15,19 +16,13 @@
   row-gap: 16px;
 }
 
-.hint {
-  margin: 0;
-  font-size: @font-size-base;
-  line-height: 1.4;
-}
-
 .offers {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
 
   &.single {
-    grid-template-columns: minmax(0, 520px);
+    grid-template-columns: minmax(0, 580px);
   }
 
   .media(@media-sm, {

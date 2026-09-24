@@ -1,19 +1,17 @@
-<ng-container *transloco="let t">
-  <cf-card [topWrap]="false" [showTop]="false" class="bordered bottom header-card">
-    <div class="header" [class.has-back]="!!backConfig()?.link">
-      @if (backConfig()?.link) {
-      <a cfBounce nz-button nzType="link" class="back default" (clicked)="goBack()">
-        <nz-icon nzType="f:backLine" />
-        <h2 nz-typography class="title title--linked">{{ t(title()) }}</h2>
-      </a>
-      <h2 nz-typography class="title title--aside">{{ t(title()) }}</h2>
-      } @else {
-      <h2 nz-typography class="title">{{ t(title()) }}</h2>
-      }
+<cf-card [topWrap]="false" [showTop]="false" class="bordered bottom header-card">
+  <div class="header" [class.has-back]="!!backConfig()?.link">
+    @if (backConfig()?.link) {
+    <a cfBounce nz-button nzType="link" class="back default" (clicked)="goBack()">
+      <nz-icon nzType="f:backLine" />
+      <h2 nz-typography class="title title--linked">{{ title() }}</h2>
+    </a>
+    <h2 nz-typography class="title title--aside">{{ title() }}</h2>
+    } @else {
+    <h2 nz-typography class="title">{{ title() }}</h2>
+    }
 
-      <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="closeClick.emit()">
-        <nz-icon nzType="close" />
-      </button>
-    </div>
-  </cf-card>
-</ng-container>
+    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="closeClick.emit()">
+      <nz-icon nzType="close" />
+    </button>
+  </div>
+</cf-card>

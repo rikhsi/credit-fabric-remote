@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
@@ -10,7 +9,7 @@ import { BounceDirective } from '@shared/directives';
 
 @Component({
   selector: 'cf-layout-header',
-  imports: [Card, TranslocoDirective, NzIconDirective, NzButtonComponent, NzTypographyComponent, BounceDirective],
+  imports: [Card, NzIconDirective, NzButtonComponent, NzTypographyComponent, BounceDirective],
   templateUrl: './layout-header.html',
   styleUrl: './layout-header.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

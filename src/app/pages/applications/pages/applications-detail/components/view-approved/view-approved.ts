@@ -5,7 +5,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { filter, finalize, map, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
 import { ApplicationsDetailService } from '../../../../services';
@@ -21,7 +20,6 @@ import { Breakpoint } from '@app/constants/breakpoint';
     TranslocoDirective,
     ApplicationConditionsCard,
     NzButtonComponent,
-    NzTypographyComponent,
     NzSkeletonModule,
     BounceDirective,
   ],
@@ -75,15 +73,7 @@ export class ViewApproved implements OnInit {
   }
 
   isHighlighted(offer: OnlineOffer): boolean {
-    return offer.loanAmount > this.requestedAmount();
-  }
-
-  acceptLabelKey(offer: OnlineOffer): string {
-    if (this.isSingle()) {
-      return 'application.detail.accept';
-    }
-
-    return this.isHighlighted(offer) ? 'application.detail.accept_more' : 'application.detail.accept_offer';
+    return offer.loanAmount === this.requestedAmount();
   }
 
   openAcceptConfirm(offer: OnlineOffer): void {
@@ -95,7 +85,7 @@ export class ViewApproved implements OnInit {
           danger: false,
         },
         submit: {
-          title: this.acceptLabelKey(offer),
+          title: 'application.detail.accept',
           danger: false,
         },
       },

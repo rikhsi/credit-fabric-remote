@@ -153,7 +153,7 @@ export const MOCK_APPLICATIONS_BY_ID: Record<number, OnlineApplication> = {
     offerId: 'offer-1',
   }),
   [MockApplicationId.OnDecisionThree]: application(ApplicationStatus.OnDecision, {
-    product: { ...baseProduct, loanAmount: 40_000_000 },
+    product: { ...baseProduct, loanAmount: 50_000_000 },
     offerId: 'offer-1',
   }),
   [MockApplicationId.Signed]: application(ApplicationStatus.Signed, { docs: docsSigned }),

@@ -40,7 +40,10 @@ export class LoanLayout implements OnInit {
     }
 
     if (title === 'application.number') {
-      const id = this.data()?.applicationId ?? getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ?? '';
+      const id =
+        getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ??
+        this.data()?.applicationId ??
+        '';
 
       return this.transloco.translate('application.number', { id });
     }
