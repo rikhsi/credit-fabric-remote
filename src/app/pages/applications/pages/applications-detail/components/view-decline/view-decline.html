@@ -1,8 +1,1 @@
-<ng-container *transloco="let t">
-  <div class="icon decline">
-    <nz-icon nzType="close" />
-  </div>
-
-  <h4 nz-typography>{{ t('application.detail.decline.title') }}</h4>
-  <p nz-typography>{{ t('application.detail.decline.description') }}</p>
-</ng-container>
+<cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" />

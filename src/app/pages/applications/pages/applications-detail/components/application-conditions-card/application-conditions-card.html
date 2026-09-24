@@ -1,0 +1,76 @@
+<ng-container *transloco="let t">
+  @if (showStatus() && status(); as statusValue) {
+  <div
+    class="status"
+    [class.warning]="statusTone() === 'warning'"
+    [class.success]="statusTone() === 'success'"
+    [class.decline]="statusTone() === 'decline'"
+    [class.info]="statusTone() === 'info'"
+  >
+    <cf-status-application [status]="statusValue" />
+  </div>
+  }
+
+  <h3 class="amount">{{ source().loanAmount | number }} {{ currency() }}</h3>
+
+  <p class="summary">
+    @if (isDifferential()) {
+    <span>{{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
+    } @else {
+    <span>{{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}</span>
+    }
+    <span class="dot" aria-hidden="true">•</span>
+    <span>{{ source().loanTerm | pluralize: 'month' }}</span>
+  </p>
+
+  <div class="conditions">
+    <h5 nz-typography class="conditions-title">{{ t('application.detail.loan_conditions') }}</h5>
+
+    <div class="rows">
+      <div class="row">
+        <span class="label">{{ t('prop.product') }}</span>
+        <span class="value">{{ source().product }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">{{ t('prop.loan_amount_full') }}</span>
+        <span class="value">{{ source().loanAmount | number }} {{ currency() }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">{{ t('prop.loan_monthly_payment') }}</span>
+        <span class="value">
+          @if (isDifferential()) {
+          {{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+          } @else {
+          {{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+          }
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="label">{{ t('prop.loan_term_full') }}</span>
+        <span class="value">{{ source().loanTerm | pluralize: 'month' }}</span>
+      </div>
+
+      @if (showRate()) {
+      <div class="row">
+        <span class="label">{{ t('prop.loan_percent_full') }}</span>
+        <span class="value">{{ source().loanRate | number }}%</span>
+      </div>
+      }
+
+      <div class="row">
+        <span class="label">{{ t('prop.loan_calculation_type') }}</span>
+        <span class="value">{{ t('prop.' + source().paymentType | lowercase) }}</span>
+      </div>
+
+      @if (showOverpayment()) {
+      <div class="row">
+        <span class="label">{{ t('prop.overpayment') }}</span>
+        <span class="value">{{ overpayment() | number }} {{ currency() }}</span>
+      </div>
+      }
+    </div>
+  </div>
+</ng-container>

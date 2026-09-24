@@ -1,41 +1,35 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzTagComponent } from 'ng-zorro-antd/tag';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { filter, finalize, take } from 'rxjs';
-import { ApplicationProductInfo } from '../application-product-info/application-product-info';
-import { CommentApplication, StatusApplication } from '../../../../components';
+import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
 import { ApplicationsDetailService } from '../../../../services';
-import { Card, ModalConfirmComponent, SelectBill } from '@shared/components';
-import { OnlineApplication } from '@api/models/los/application';
+import { ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
-import { toReadonlyAccountItems } from '@shared/utils/account';
+import { EmptyListPipe } from '@shared/pipes';
+import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { ConfirmModal } from '@app/typings/modal';
 
 @Component({
   selector: 'cf-view-approved',
   imports: [
     TranslocoDirective,
-    Card,
-    StatusApplication,
-    CommentApplication,
-    ApplicationProductInfo,
-    SelectBill,
-    NzTagComponent,
-    NzIconDirective,
-    NzTypographyComponent,
+    ApplicationConditionsCard,
     NzButtonComponent,
+    NzTypographyComponent,
+    NzSkeletonModule,
+    EmptyListPipe,
     BounceDirective,
   ],
   templateUrl: './view-approved.html',
   styleUrl: './view-approved.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ViewApproved {
+export class ViewApproved implements OnInit {
   private readonly applicationsDetailService = inject(ApplicationsDetailService);
   private readonly nzModalService = inject(NzModalService);
   private readonly destroyRef = inject(DestroyRef);
@@ -44,9 +38,23 @@ export class ViewApproved {
   applicationId = input.required<number>();
 
   readonly isClaiming = signal(false);
-  readonly accountItems = computed(() => toReadonlyAccountItems(this.application().accountNo));
+  readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
+  readonly offers = computed(() => this.applicationsDetailService.offers());
+  readonly requestedAmount = computed(() => this.application().product.loanAmount);
 
-  openApproveConfirm(): void {
+  ngOnInit(): void {
+    this.applicationsDetailService.getOffers$(this.applicationId()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+  }
+
+  isHighlighted(offer: OnlineOffer): boolean {
+    return offer.loanAmount > this.requestedAmount();
+  }
+
+  acceptLabelKey(offer: OnlineOffer): string {
+    return this.isHighlighted(offer) ? 'application.detail.accept_more' : 'application.detail.accept_offer';
+  }
+
+  openAcceptConfirm(offer: OnlineOffer): void {
     this.openConfirmModal(
       {
         title: 'modal.application_confirm.title',
@@ -55,15 +63,22 @@ export class ViewApproved {
           danger: false,
         },
         submit: {
-          title: 'action.approve',
+          title: this.acceptLabelKey(offer),
           danger: false,
         },
       },
+      offer.offerId,
       true,
     );
   }
 
   openRefuseConfirm(): void {
+    const offerId = this.offers()[0]?.offerId;
+
+    if (!offerId) {
+      return;
+    }
+
     this.openConfirmModal(
       {
         title: 'modal.application_decline.title',
@@ -77,11 +92,12 @@ export class ViewApproved {
           danger: true,
         },
       },
+      offerId,
       false,
     );
   }
 
-  private openConfirmModal(config: ConfirmModal, isAccepted: boolean): void {
+  private openConfirmModal(config: ConfirmModal, offerId: string, isAccepted: boolean): void {
     if (this.isClaiming()) {
       return;
     }
@@ -97,10 +113,12 @@ export class ViewApproved {
       nzWidth: 'auto',
     });
 
-    modalRef.afterClose.pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef)).subscribe(() => this.claimLoan(isAccepted));
+    modalRef.afterClose
+      .pipe(filter(Boolean), take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.claimLoan(offerId, isAccepted));
   }
 
-  private claimLoan(isAccepted: boolean): void {
+  private claimLoan(offerId: string, isAccepted: boolean): void {
     if (this.isClaiming()) {
       return;
     }
@@ -108,7 +126,7 @@ export class ViewApproved {
     this.isClaiming.set(true);
 
     this.applicationsDetailService
-      .claimLoan$(this.applicationId(), this.application().accountNo, isAccepted)
+      .claimLoan$(this.applicationId(), offerId, isAccepted)
       .pipe(
         finalize(() => this.isClaiming.set(false)),
         takeUntilDestroyed(this.destroyRef),

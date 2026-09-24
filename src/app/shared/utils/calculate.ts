@@ -37,3 +37,34 @@ export function calculateDifferential(input: CreditInput): CreditOutput {
     annualRate,
   };
 }
+
+export function isDifferentialPaymentType(paymentType: string | null | undefined): boolean {
+  return (paymentType ?? '').toLowerCase() === 'standart';
+}
+
+export function calculateMonthlyPayment(amount: number, term: number, annualRate: number, paymentType: string): number {
+  const input: CreditInput = { amount, term, annualRate };
+
+  return isDifferentialPaymentType(paymentType) ? calculateDifferential(input).monthlyPayment : calculateAnnuity(input).monthlyPayment;
+}
+
+export function calculateOverpayment(amount: number, term: number, annualRate: number, paymentType: string): number {
+  const input: CreditInput = { amount, term, annualRate };
+
+  if (isDifferentialPaymentType(paymentType)) {
+    const r = annualRate / 100 / 12;
+    const principalPart = amount / term;
+    let total = 0;
+
+    for (let k = 1; k <= term; k++) {
+      const remaining = amount - principalPart * (k - 1);
+      total += principalPart + remaining * r;
+    }
+
+    return Math.round(total - amount);
+  }
+
+  const { monthlyPayment } = calculateAnnuity(input);
+
+  return monthlyPayment * term - amount;
+}

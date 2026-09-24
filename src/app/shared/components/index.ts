@@ -12,7 +12,6 @@ export * from './card/card';
 export * from './form-box/form-box';
 export * from './input-slider/input-slider';
 export * from './label-control-secondary/label-control-secondary';
-export * from './select-bill/select-bill';
 export * from './input-password/input-password';
 export * from './input-otp/input-otp';
 export * from './empty/empty';

@@ -1,53 +1,54 @@
 <ng-container *transloco="let t">
-  <cf-card [showSpace]="false" [titleRef]="headerRef" class="bordered card">
-    <div actions>
-      <cf-comment-application [status]="application().sysStatusId" class="borderless" />
-    </div>
+  <p nz-typography class="hint">{{ t('application.detail.approved_hint') }}</p>
 
-    <nz-tag class="tag warning validity">{{ t('application.detail.decision_validity') }}</nz-tag>
+  @if (isOffersLoading()) {
+  <div class="offers">
+    @for (item of [] | emptyList:2; track $index) {
+    <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
+    }
+  </div>
+  } @else {
+  <div class="offers" [class.single]="offers().length === 1">
+    @for (offer of offers(); track offer.offerId) {
+    <div class="offer">
+      <cf-application-conditions-card
+        [source]="offer"
+        [showStatus]="false"
+        [showRate]="true"
+        [showOverpayment]="true"
+        [highlighted]="isHighlighted(offer)"
+      />
 
-    <cf-application-product-info [product]="application().product" />
-
-    <div class="section">
-      <h5 nz-typography class="section-title">{{ t('prop.debit_account') }}</h5>
-
-      <cf-select-bill [readonly]="true" [accounts]="accountItems()" />
-
-      <div class="notice">
-        <nz-icon nzType="info-circle" />
-        <p nz-typography>{{ t('application.detail.account_notice') }}</p>
-      </div>
-    </div>
-
-    <div class="footer">
       <button
         cfBounce
         nz-button
-        nzType="default"
+        [nzType]="isHighlighted(offer) ? 'primary' : 'default'"
         nzSize="large"
+        class="accept"
         [nzLoading]="isClaiming()"
         [disabled]="isClaiming()"
-        (clicked)="openRefuseConfirm()"
+        (clicked)="openAcceptConfirm(offer)"
       >
-        {{ t('application.detail.refuse') }}
-      </button>
-      <button
-        cfBounce
-        nz-button
-        nzType="primary"
-        nzSize="large"
-        [nzLoading]="isClaiming()"
-        [disabled]="isClaiming()"
-        (clicked)="openApproveConfirm()"
-      >
-        {{ t('action.approve') }}
+        {{ t(acceptLabelKey(offer)) }}
       </button>
     </div>
-  </cf-card>
+    }
+  </div>
 
-  <ng-template #headerRef>
-    <div class="base">
-      <cf-status-application [status]="application().sysStatusId" />
-    </div>
-  </ng-template>
+  @if (offers().length) {
+  <div class="footer">
+    <button
+      cfBounce
+      nz-button
+      nzType="default"
+      nzSize="large"
+      [nzLoading]="isClaiming()"
+      [disabled]="isClaiming()"
+      (clicked)="openRefuseConfirm()"
+    >
+      {{ t('application.detail.refuse') }}
+    </button>
+  </div>
+  }
+  }
 </ng-container>

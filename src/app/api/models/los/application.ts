@@ -94,8 +94,18 @@ export interface OnlineApplicationProduct {
   product: string;
 }
 
+export interface OnlineOffer {
+  offerId: string;
+  product: string;
+  loanAmount: number;
+  loanRate: number;
+  loanTerm: number;
+  paymentType: string;
+}
+
 export interface OnlineApplication {
   accountNo: string;
+  offerId: string;
   borrower: OnlineBorrower;
   docs?: DocumentItem[];
   finData: OnlineApplicationFinData[];
@@ -104,9 +114,9 @@ export interface OnlineApplication {
 }
 
 export interface ClaimLoanPayload {
-  accountNo: string;
   applicationId: number;
   isAccepted: boolean;
+  offerId: string;
 }
 
 export interface ClaimLoanResult {

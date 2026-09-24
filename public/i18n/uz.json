@@ -16,7 +16,6 @@
     "confirm": "Tasdiqlash",
     "finish": "Yakunlash",
     "find_place": "Filialni topish",
-    "go": "O‘tish",
     "go_to_application": "Arizaga o‘tish",
     "go_my_applications": "Mening arizalarimga o‘tish",
     "continue": "Davom etish",
@@ -86,10 +85,6 @@
     }
   },
   "modal": {
-    "application_approved": {
-      "title": "Shartlar qabul qilindi",
-      "description": "Imzolash uchun hujjatlarni tayyorlamoqdamiz. Bu biroz vaqt oladi"
-    },
     "application_decline": {
       "title": "Rad etishni tasdiqlang",
       "description": "Agar rad etsangiz, ariza yopiladi. Keyinroq yangi ariza yuborishingiz mumkin bo‘ladi."
@@ -97,29 +92,9 @@
     "application_confirm": {
       "title": "Arizani yakunlashni tasdiqlang"
     },
-    "application_success": {
-      "description": "Ariza",
-      "title": "Ariza yuborildi"
-    },
-    "error_application": {
-      "description": "Iltimos, keyinroq urinib ko‘ring. Server vaqtincha ishlamayapti.",
-      "title": "Ariza yaratib bo‘lmadi"
-    },
-    "error_bank_office_application": {
-      "description": "Sizning kompaniyangiz uchun individual rasmiylashtirish talab qilinadi. Bank filialiga murojaat qiling.",
-      "title": "Bank filialiga tashrif buyurish kerak"
-    },
-    "error_exist_application": {
-      "description": "Sizda allaqachon tasdiqlangan ariza mavjud. U bo‘yicha qaror qabul qiling",
-      "title": "Sizda allaqachon tasdiqlangan ariza bor"
-    },
     "error_not_finished_application": {
       "description": "Davom ettirish yoki yakunlash uchun «Mening arizalarim» bo‘limiga o‘ting.",
       "title": "Yakunlanmagan ariza topildi"
-    },
-    "error_unknown": {
-      "description": "Noma'lum xatolik",
-      "title": "Xatolik"
     },
     "calculation_type": {
       "annuity": "Annuitet (teng to‘lovlar): kredit to‘lovlari teng miqdorlarda va teng vaqt oralig‘ida amalga oshiriladi",
@@ -212,7 +187,6 @@
     "annuity": "Teng to‘lovlar",
     "loan_application_submit": "Kredit arizasini topshirish",
     "credits": "Kreditlar",
-    "debit_account": "Hisob raqami",
     "finances": "Moliya",
     "financial_activity_over": "So‘nggi 3 to‘liq oy faoliyati haqida ma’lumot",
     "loan_amount": "{{amount}} mln {{prefix}} gacha",
@@ -240,6 +214,7 @@
     "term": "Muddat",
     "standart": "Kamayib boruvchi",
     "from": "{{amount}} dan",
+    "overpayment": "Ortiqcha to‘lov summasi",
     "city": "Shahar",
     "country": "O'zbekiston Respublikasi"
   },
@@ -249,7 +224,6 @@
     "submitted_date": "Topshirilgan sana: {{date}}",
     "docs": {
       "sign": "Hujjatlarni imzolang",
-      "valid_until": "{{date}} gacha amal qiladi",
       "get_in": "Hujjat {{date}} da olindi",
       "sign_until": "{{date}} ga qadar imzolang",
       "type": {
@@ -257,9 +231,7 @@
         "desicion_protocol": "Qaror bayonnomasi № {{id}}"
       },
       "status": {
-        "pending": "Imzo kutilmoqda",
-        "signed": "Imzolangan",
-        "expired": "Muddati tugagan"
+        "signed": "Imzolangan"
       }
     },
     "status": {
@@ -276,42 +248,14 @@
       "unknown": "Noma'lum holat"
     },
     "tag": {
-      "in_progress": "Arizangiz ko‘rib chiqilmoqda",
-      "on_design": "Hujjatlarni bank filiallarida imzolang",
-      "on_form_fill": "Formani to‘ldiring va yuboring",
-      "on_decision": "Kredit tasdiqlandi",
-      "approved": "Kredit tasdiqlandi",
-      "signed": "Barcha hujjatlar imzolandi",
-      "decline": "Afsuski, kreditni tasdiqlay olmaymiz",
-      "decline_client": "Siz tomonidan rad etildi",
-      "issued": "Kredit olindi",
-      "error": "Arizani qayta ishlashda xatolik yuz berdi"
-    },
-    "comment": {
-      "on_decision": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling",
-      "approved": "Tabriklaymiz! Kredit tasdiqlandi. Shartlarni ko‘rib chiqing va qabul qiling"
+      "signed": "Barcha hujjatlar imzolandi"
     },
     "detail": {
       "loan_conditions": "Kredit shartlari",
-      "decision_validity": "Bank qarori 23.01.2026 yilgacha 5 kalendar kuni amal qiladi",
-      "account_notice": "Mablag‘lar tanlangan hisob raqamiga o‘tkaziladi. Keyingi rasmiylashtirish uchun hisob ochilgan bank filialiga murojaat qiling.",
-      "account_notice_issued": "Mablag‘lar tanlangan hisob raqamiga o‘tkazildi. Kreditni keyingi xizmat ko‘rsatish uchun hisob ochilgan bank filialiga murojaat qiling.",
       "refuse": "Rad etish",
-      "decline_client_message": "Siz kredit shartlaridan voz kechdingiz",
-      "signed_message": "Hujjatlar imzolangan",
-      "issued_message": "Kredit berildi",
-      "in_progress": {
-        "title": "Arizangiz ko‘rib chiqilmoqda",
-        "description": "Hozir ma’lumotlaringizni tekshiryapmiz va qaror tayyorlayapmiz. Bu bir necha daqiqa vaqt olishi mumkin."
-      },
-      "decline": {
-        "title": "Afsuski, kredit arizasi tasdiqlanmadi",
-        "description": "Keyinroq yangi ariza topshirishingiz mumkin"
-      },
-      "error": {
-        "title": "Arizani qayta ishlashda xatolik yuz berdi",
-        "description": "Keyinroq urinib ko‘ring yoki bank qo‘llab-quvvatlash xizmatiga murojaat qiling"
-      }
+      "accept_offer": "Tasdiqlangan summani olish",
+      "accept_more": "Ko‘proq olish",
+      "approved_hint": "Ariza tasdiqlandi. Qaror qabul qilish qoldi"
     }
   },
   "question": {

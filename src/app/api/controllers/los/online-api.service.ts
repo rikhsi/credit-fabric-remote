@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication } from '@api/models/los/application';
+import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { EligibilityResult, OnlineBranchesResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { StartProcessingPayload, StartProcessingResult } from '@api/models/los/start-processing';
@@ -30,6 +30,10 @@ export class OnlineApiService {
 
   public getApplication$(applicationId: number) {
     return this.http.get<OnlineApplication>(`online/application/${applicationId}`);
+  }
+
+  public getOffers$(applicationId: number) {
+    return this.http.get<OnlineOffer[]>(`online/application/${applicationId}/offers`);
   }
 
   public claimLoan$(payload: ClaimLoanPayload) {

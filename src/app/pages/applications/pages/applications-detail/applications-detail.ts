@@ -10,7 +10,6 @@ import {
   ViewError,
   ViewInProgress,
   ViewIssued,
-  ViewOnDecision,
   ViewOnDesign,
   ViewSigned,
 } from './components';
@@ -26,7 +25,6 @@ import { RouteParam } from '@app/constants/route-param';
     ViewDecline,
     ViewError,
     ViewOnDesign,
-    ViewOnDecision,
     ViewApproved,
     ViewSigned,
     ViewIssued,

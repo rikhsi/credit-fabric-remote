@@ -1,0 +1,163 @@
+@import 'mixins';
+@import 'colors';
+@import 'custom';
+
+.themeMixin({
+  :host {
+    background: @component-background;
+    box-shadow:
+      0 2px 8px fade(#6b5240, 6%),
+      0 10px 28px fade(#6b5240, 10%);
+    border-color: transparent;
+
+    &.highlighted {
+      border-color: @primary-color;
+    }
+
+    .status {
+      &.warning {
+        background: @warning-color;
+      }
+
+      &.success {
+        background: @success-bg-color;
+      }
+
+      &.decline {
+        background: @error-bg-color;
+      }
+
+      &.info {
+        background: @component-background-light;
+      }
+    }
+
+    .summary,
+    .label {
+      color: @text-color-secondary;
+    }
+
+    .dot {
+      color: @text-color-tertiary;
+    }
+
+    .value,
+    .amount,
+    .conditions-title {
+      color: @heading-color;
+    }
+
+    .conditions {
+      border-color: @border-color;
+    }
+  }
+});
+
+:host {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding: 20px;
+  border-radius: @border-radius-xl;
+  border: 1px solid transparent;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 10px 4px 4px;
+  border-radius: 8px;
+
+  ::ng-deep cf-status-application {
+    column-gap: 6px;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      background: transparent;
+    }
+
+    b {
+      color: inherit;
+      font-size: @font-size-sm;
+      font-weight: 500;
+    }
+  }
+}
+
+.amount {
+  margin: 4px 0 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: @font-size-base;
+  line-height: 1.4;
+}
+
+.dot {
+  line-height: 1;
+}
+
+.conditions {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  margin-top: 8px;
+  padding: 16px;
+  border: 1px solid;
+  border-radius: 16px;
+}
+
+.conditions-title {
+  margin: 0;
+  font-size: @font-size-base;
+  font-weight: 600;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 16px;
+}
+
+.label {
+  flex-shrink: 0;
+  font-size: @font-size-sm;
+  line-height: 1.4;
+}
+
+.value {
+  text-align: right;
+  font-size: @font-size-base;
+  font-weight: 600;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.media(@media-sm, {
+  :host {
+    padding: 16px;
+  }
+
+  .amount {
+    font-size: 24px;
+    letter-spacing: 0;
+  }
+});
