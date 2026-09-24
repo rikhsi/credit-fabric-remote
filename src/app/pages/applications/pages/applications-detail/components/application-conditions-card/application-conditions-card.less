@@ -32,8 +32,11 @@
 
     .summary,
     .summary-label,
-    .summary-value,
     .label {
+      color: @text-color-secondary;
+    }
+
+    .summary-value {
       color: @text-color-secondary;
     }
 
@@ -66,6 +69,10 @@
     }
 
     .media(@media-sm, {
+      .summary-value {
+        color: @text-color;
+      }
+
       &.split {
         background: transparent;
         border-color: transparent;

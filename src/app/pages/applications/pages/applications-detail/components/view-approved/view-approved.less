@@ -83,6 +83,22 @@
   border-radius: 16px;
 }
 
+/* In-card accept: 32px on desktop and mobile (multi). */
+.btn-accept {
+  height: 32px;
+  min-height: 32px;
+  padding-block: 0;
+  line-height: 30px;
+}
+
+/* Desktop refuse: always 40px. */
+.btn-refuse {
+  height: 40px;
+  min-height: 40px;
+  padding-block: 0;
+  line-height: 38px;
+}
+
 .footer {
   display: flex;
   justify-content: flex-end;
@@ -90,10 +106,14 @@
   .media(@media-sm, {
     [nz-button] {
       width: 100%;
-      height: 32px;
-      min-height: 32px;
-      padding-block: 0;
-      line-height: 30px;
+    }
+
+    /* Multi-offer mobile refuse uses nzSize=large. */
+    &:not(.footer--fixed) .btn-refuse {
+      height: auto;
+      min-height: 0;
+      padding-block: 12px;
+      line-height: inherit;
     }
   });
 
@@ -111,10 +131,15 @@
 
     [nz-button] {
       width: 100%;
-      height: 32px;
-      min-height: 32px;
-      padding-block: 0;
-      line-height: 30px;
+    }
+
+    /* Single-offer mobile: both actions are large. */
+    .btn-accept,
+    .btn-refuse {
+      height: auto;
+      min-height: 0;
+      padding-block: 12px;
+      line-height: inherit;
     }
   }
 }

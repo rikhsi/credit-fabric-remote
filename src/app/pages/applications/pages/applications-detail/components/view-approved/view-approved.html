@@ -26,22 +26,12 @@
     >
       @if (!(isSingle() && isMobile())) {
       <ng-container cardActions>
-        <button
-          cfBounce="300"
-          nz-button
-          [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
-          [nzLoading]="isClaiming()"
-          [disabled]="isClaiming()"
-          (clicked)="openAcceptConfirm(offer)"
-        >
-          {{ t('application.detail.accept') }}
-        </button>
-
         @if (isSingle()) {
         <button
           cfBounce="300"
           nz-button
           nzType="default"
+          class="btn-refuse refuse"
           [nzLoading]="isClaiming()"
           [disabled]="isClaiming()"
           (clicked)="openRefuseConfirm()"
@@ -49,6 +39,18 @@
           {{ t('application.detail.refuse') }}
         </button>
         }
+
+        <button
+          cfBounce="300"
+          nz-button
+          class="btn-accept"
+          [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
+          [nzLoading]="isClaiming()"
+          [disabled]="isClaiming()"
+          (clicked)="openAcceptConfirm(offer)"
+        >
+          {{ t('application.detail.accept') }}
+        </button>
       </ng-container>
       }
     </cf-application-conditions-card>
@@ -61,6 +63,8 @@
       cfBounce="300"
       nz-button
       nzType="primary"
+      nzSize="large"
+      class="btn-accept"
       [nzLoading]="isClaiming()"
       [disabled]="isClaiming()"
       (clicked)="openAcceptConfirm(offer)"
@@ -72,7 +76,8 @@
       cfBounce="300"
       nz-button
       nzType="default"
-      class="refuse"
+      nzSize="large"
+      class="btn-refuse refuse"
       [nzLoading]="isClaiming()"
       [disabled]="isClaiming()"
       (clicked)="openRefuseConfirm()"
@@ -89,7 +94,7 @@
       nz-button
       nzType="default"
       nzSize="large"
-      class="refuse"
+      class="btn-refuse refuse"
       [nzLoading]="isClaiming()"
       [disabled]="isClaiming()"
       (clicked)="openRefuseConfirm()"

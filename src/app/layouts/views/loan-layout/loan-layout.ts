@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnIni
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { ActivationEnd, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
-import { filter, map, startWith } from 'rxjs';
+import { filter, map, merge, startWith } from 'rxjs';
 import { BridgeService } from '@core/services/bridge.service';
 import { LayoutHeader } from '@layouts/components';
 import { LoanLayoutService } from '@layouts/services';
@@ -44,7 +44,24 @@ export class LoanLayout implements OnInit {
     { initialValue: this.router.url },
   );
 
+  /**
+   * Recompute titles after i18n JSON loads — sync `translate()` returns the key
+   * until `translationLoadSuccess`, which previously stuck the header on "application.number".
+   */
+  private readonly i18nTick = toSignal(
+    merge(
+      this.transloco.langChanges$,
+      this.transloco.events$.pipe(
+        filter((event) => event.type === 'translationLoadSuccess' || event.type === 'langChanged'),
+        map(() => this.transloco.getActiveLang()),
+      ),
+    ).pipe(startWith(this.transloco.getActiveLang())),
+    { initialValue: this.transloco.getActiveLang() },
+  );
+
   public pageTitle = computed(() => {
+    this.i18nTick();
+
     const data = this.data();
     const url = this.currentUrl();
     // URL first — on hard reload child route data/params often lag behind the address bar.
