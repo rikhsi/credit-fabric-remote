@@ -61,6 +61,14 @@
       border-color: @border-color;
     }
 
+    .summary-line {
+      color: @text-color;
+    }
+
+    .summary-card {
+      border-color: @border-color;
+    }
+
     .media(@media-sm, {
       &.split {
         background: transparent;
@@ -69,7 +77,6 @@
         .summary-card,
         .conditions {
           background: @component-background;
-          border-color: @border-color;
         }
       }
     });
@@ -79,10 +86,8 @@
 :host {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
   max-width: 580px;
   width: 100%;
-  padding: 20px;
   border-radius: 20px;
   border: 1px solid;
 }
@@ -90,8 +95,11 @@
 .summary-card {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
+  row-gap: 16px;
   min-width: 0;
+  padding: 20px;
+  border-bottom: 1px solid;
+
 }
 
 .status {
@@ -121,7 +129,6 @@
 }
 
 .amount {
-  margin: 16px 0 0;
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
@@ -141,7 +148,8 @@
   align-items: baseline;
   gap: 6px;
   margin: 0;
-  font-size: @font-size-base;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -167,23 +175,21 @@
 .conditions {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
-  margin-top: 8px;
-  padding: 16px;
-  border: 1px solid;
   border-radius: 16px;
+  padding: 20px;
 }
 
 .conditions-title {
   margin: 0;
-  font-size: @font-size-base;
+  font-size: 18px;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .rows {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 12px;
 }
 
 .row {
@@ -195,14 +201,15 @@
 
 .label {
   flex-shrink: 0;
-  font-size: @font-size-sm;
   line-height: 1.4;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .value {
   text-align: right;
-  font-size: @font-size-base;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.4;
   word-break: break-word;
 }
@@ -212,8 +219,9 @@
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 5%;
+  padding: 20px;
 
   &:has(.card-actions__main > *),
   &.with-toggle {
@@ -224,7 +232,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 8px;
     min-width: 0;
   }
 }

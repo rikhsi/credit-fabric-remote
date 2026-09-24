@@ -23,13 +23,12 @@
       [splitLayout]="isSingle() && !!isMobile()"
       [stackActions]="isSingle() && !!isMobile()"
     >
-      <div cardActions>
+      <ng-container cardActions>
         @if (isSingle()) {
         <button
           cfBounce
           nz-button
           nzType="default"
-          nzSize="large"
           [nzLoading]="isClaiming()"
           [disabled]="isClaiming()"
           (clicked)="openRefuseConfirm()"
@@ -42,14 +41,13 @@
           cfBounce
           nz-button
           [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
-          nzSize="large"
           [nzLoading]="isClaiming()"
           [disabled]="isClaiming()"
           (clicked)="openAcceptConfirm(offer)"
         >
           {{ t(acceptLabelKey(offer)) }}
         </button>
-      </div>
+      </ng-container>
     </cf-application-conditions-card>
     }
   </div>
