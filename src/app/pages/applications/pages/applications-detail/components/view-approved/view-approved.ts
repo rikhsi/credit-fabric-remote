@@ -19,7 +19,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { filter, finalize, fromEvent, map, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
 import { ApplicationsDetailService } from '../../../../services';
-import { ModalConfirmComponent } from '@shared/components';
+import { ApplicationSentModal, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { ConfirmModal } from '@app/typings/modal';
@@ -50,7 +50,8 @@ export class ViewApproved implements OnInit {
 
   readonly isClaiming = signal(false);
   readonly expandedOfferId = signal<string | null>(null);
-  readonly isSingleFooterVisible = signal(false);
+  /** Mobile fixed footer (single accept/refuse or multi refuse). */
+  readonly isFixedFooterVisible = signal(false);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
   readonly requestedAmount = computed(() => this.application().product.loanAmount);
   readonly offers = computed(() => {
@@ -77,10 +78,10 @@ export class ViewApproved implements OnInit {
   );
 
   private lastScrollTop = 0;
-  private singleFooterScrollBound = false;
+  private fixedFooterScrollBound = false;
 
   constructor() {
-    afterNextRender(() => this.bindSingleFooterScroll());
+    afterNextRender(() => this.bindFixedFooterScroll());
 
     this.breakpointObserver
       .observe(Breakpoint.MOBILE)
@@ -88,7 +89,7 @@ export class ViewApproved implements OnInit {
         filter((state) => state.matches),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(() => requestAnimationFrame(() => this.bindSingleFooterScroll()));
+      .subscribe(() => requestAnimationFrame(() => this.bindFixedFooterScroll()));
   }
 
   ngOnInit(): void {
@@ -100,7 +101,7 @@ export class ViewApproved implements OnInit {
         const matched = offers.find((offer) => offer.loanAmount === requested);
 
         this.expandedOfferId.set(matched?.offerId ?? offers[0]?.offerId ?? null);
-        requestAnimationFrame(() => this.bindSingleFooterScroll());
+        requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
   }
 
@@ -118,6 +119,7 @@ export class ViewApproved implements OnInit {
 
   onExpandedChange(offerId: string, expanded: boolean): void {
     this.expandedOfferId.set(expanded ? offerId : null);
+    this.queueFixedFooterSync();
   }
 
   isHighlighted(offer: OnlineOffer): boolean {
@@ -168,43 +170,131 @@ export class ViewApproved implements OnInit {
     );
   }
 
-  private bindSingleFooterScroll(): void {
-    if (this.singleFooterScrollBound || !this.isSingle() || !this.isMobile()) {
+  private bindFixedFooterScroll(): void {
+    if (this.fixedFooterScrollBound || !this.isMobile() || !this.offers().length) {
       return;
     }
 
-    const scrollRoot = this.host.nativeElement.querySelector('.conditions') as HTMLElement | null;
+    const scrollTarget = this.resolveScrollTarget();
 
-    if (!scrollRoot) {
+    if (!scrollTarget) {
       return;
     }
 
-    this.singleFooterScrollBound = true;
-    this.lastScrollTop = scrollRoot.scrollTop;
-    this.isSingleFooterVisible.set(false);
+    this.fixedFooterScrollBound = true;
+    this.lastScrollTop = this.readScrollTop(scrollTarget);
+    this.queueFixedFooterSync();
 
-    // No overflow — otherwise CTA would be unreachable.
-    if (scrollRoot.scrollHeight <= scrollRoot.clientHeight + 1) {
-      this.isSingleFooterVisible.set(true);
-      return;
-    }
-
-    fromEvent(scrollRoot, 'scroll', { passive: true })
+    fromEvent(scrollTarget, 'scroll', { passive: true })
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        const top = scrollRoot.scrollTop;
-        const delta = top - this.lastScrollTop;
+      .subscribe(() => this.onFixedFooterScroll(scrollTarget));
 
-        if (top <= 8) {
-          this.isSingleFooterVisible.set(false);
-        } else if (delta > 4) {
-          this.isSingleFooterVisible.set(true);
-        } else if (delta < -4) {
-          this.isSingleFooterVisible.set(false);
-        }
+    fromEvent(window, 'resize', { passive: true })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.queueFixedFooterSync());
 
-        this.lastScrollTop = top;
-      });
+    const offers = this.host.nativeElement.querySelector('.offers');
+
+    if (offers && typeof ResizeObserver !== 'undefined') {
+      const resizeObserver = new ResizeObserver(() => this.queueFixedFooterSync());
+
+      resizeObserver.observe(offers);
+      this.destroyRef.onDestroy(() => resizeObserver.disconnect());
+    }
+  }
+
+  /** Collapse/expand animates ~350ms — re-check after layout settles. */
+  private queueFixedFooterSync(): void {
+    requestAnimationFrame(() => this.syncFixedFooterForOverflow());
+    setTimeout(() => this.syncFixedFooterForOverflow(), 400);
+  }
+
+  private onFixedFooterScroll(scrollTarget: HTMLElement | Window): void {
+    if (this.isContentFitting(scrollTarget)) {
+      this.isFixedFooterVisible.set(true);
+      this.lastScrollTop = this.readScrollTop(scrollTarget);
+      return;
+    }
+
+    const top = this.readScrollTop(scrollTarget);
+    const delta = top - this.lastScrollTop;
+
+    if (top <= 8) {
+      this.isFixedFooterVisible.set(false);
+    } else if (delta > 4) {
+      this.isFixedFooterVisible.set(true);
+    } else if (delta < -4) {
+      this.isFixedFooterVisible.set(false);
+    }
+
+    this.lastScrollTop = top;
+  }
+
+  private syncFixedFooterForOverflow(): void {
+    if (!this.isMobile() || !this.offers().length) {
+      this.isFixedFooterVisible.set(false);
+      return;
+    }
+
+    const scrollTarget = this.resolveScrollTarget();
+
+    if (!scrollTarget) {
+      this.isFixedFooterVisible.set(true);
+      return;
+    }
+
+    // Cards fit the screen — refuse/accept must stay reachable without scrolling.
+    if (this.isContentFitting(scrollTarget)) {
+      this.isFixedFooterVisible.set(true);
+      return;
+    }
+
+    const top = this.readScrollTop(scrollTarget);
+
+    this.lastScrollTop = top;
+    this.isFixedFooterVisible.set(top > 8);
+  }
+
+  private resolveScrollTarget(): HTMLElement | Window | null {
+    if (this.isSingle()) {
+      return this.host.nativeElement.querySelector('.conditions');
+    }
+
+    // Multi offers: page/window scroll (cards are in normal document flow).
+    return window;
+  }
+
+  private readScrollTop(target: HTMLElement | Window): number {
+    if (target === window) {
+      return window.scrollY || document.documentElement.scrollTop || 0;
+    }
+
+    return (target as HTMLElement).scrollTop;
+  }
+
+  /**
+   * True when real content fits the viewport.
+   * Footer clearance padding alone must not count as "needs scroll".
+   */
+  private isContentFitting(target: HTMLElement | Window): boolean {
+    if (target === window) {
+      const offers = this.host.nativeElement.querySelector('.offers') as HTMLElement | null;
+
+      if (!offers) {
+        return true;
+      }
+
+      const padBottom = Number.parseFloat(getComputedStyle(offers).paddingBottom) || 0;
+      const contentBottom = offers.getBoundingClientRect().bottom - padBottom;
+
+      return contentBottom <= window.innerHeight + 8;
+    }
+
+    const el = target as HTMLElement;
+    const padBottom = Number.parseFloat(getComputedStyle(el).paddingBottom) || 0;
+    const contentHeight = el.scrollHeight - padBottom;
+
+    return contentHeight <= el.clientHeight + 8;
   }
 
   private openConfirmModal(config: ConfirmModal, offerId: string, isAccepted: boolean): void {
@@ -241,6 +331,28 @@ export class ViewApproved implements OnInit {
         finalize(() => this.isClaiming.set(false)),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          if (!isAccepted) {
+            return;
+          }
+
+          // Defer so the modal survives the OnDecision → OnDesign view switch.
+          setTimeout(() => this.openApplicationSentModal());
+        },
+      });
+  }
+
+  private openApplicationSentModal(): void {
+    this.nzModalService.create({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ApplicationSentModal,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzClassName: 'cf-application-sent-modal',
+    });
   }
 }

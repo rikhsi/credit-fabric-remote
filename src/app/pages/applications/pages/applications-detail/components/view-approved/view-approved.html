@@ -61,7 +61,7 @@
   </div>
 
   @if (isSingle() && isMobile() && offers()[0]; as offer) {
-  <div class="footer footer--fixed footer--fixed-single" [class.is-visible]="isSingleFooterVisible()">
+  <div class="footer footer--fixed footer--fixed-single" [class.is-visible]="isFixedFooterVisible()">
     <button
       cfBounce="300"
       nz-button
@@ -91,7 +91,12 @@
   }
 
   @if (!isSingle() && offers().length) {
-  <div class="footer" [class.footer--fixed]="!!isMobile()" [class.footer--fixed-multi]="!!isMobile()">
+  <div
+    class="footer"
+    [class.footer--fixed]="!!isMobile()"
+    [class.footer--fixed-multi]="!!isMobile()"
+    [class.is-visible]="!isMobile() || isFixedFooterVisible()"
+  >
     <button
       cfBounce="300"
       nz-button

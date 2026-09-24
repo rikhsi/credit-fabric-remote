@@ -1,0 +1,157 @@
+@import 'mixins';
+@import 'colors';
+@import 'custom';
+
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 540px;
+  min-height: 350px;
+  padding: 32px;
+  overflow: hidden;
+  border-radius: 42px;
+  background: @cf-green-500;
+  color: @cf-white-0;
+
+  .media(@media-sm, {
+    width: calc(100vw - 32px);
+    max-width: 480px;
+    min-height: 280px;
+    padding: 28px 24px 24px;
+    border-radius: 28px;
+  });
+
+  .media(@media-xs, {
+    width: calc(100vw - 24px);
+    max-width: none;
+    min-height: 260px;
+    padding: 24px 20px 20px;
+    border-radius: 24px;
+  });
+}
+
+.emblem {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  width: 320px;
+  height: 320px;
+  transform: translateY(-50%);
+  opacity: 0.16;
+  pointer-events: none;
+  color: @cf-white-0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .media(@media-sm, {
+    right: -32px;
+    width: 260px;
+    height: 260px;
+  });
+
+  .media(@media-xs, {
+    right: -28px;
+    width: 220px;
+    height: 220px;
+  });
+}
+
+.close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+
+  .media(@media-sm, {
+    top: 20px;
+    right: 20px;
+  });
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  row-gap: 12px;
+  padding-right: 48px;
+  padding-top: 8px;
+
+  .media(@media-sm, {
+    row-gap: 10px;
+    padding-right: 40px;
+    padding-top: 8px;
+  });
+}
+
+.title {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: @cf-white-0;
+
+  .media(@media-sm, {
+    font-size: 28px;
+  });
+
+  .media(@media-xs, {
+    font-size: 24px;
+  });
+}
+
+.description {
+  margin: 0;
+  max-width: 380px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: fade(@cf-white-0, 92%);
+
+  .media(@media-sm, {
+    max-width: none;
+    font-size: 17px;
+  });
+
+  .media(@media-xs, {
+    font-size: 16px;
+  });
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+
+  .media(@media-sm, {
+    margin-top: 28px;
+  });
+}
+
+.action {
+  height: @btn-height-lg;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: @border-radius-base;
+  background: @cf-white-0;
+  color: @cf-black-900;
+  font-size: 16px;
+  font-weight: @btn-font-weight;
+
+  &:hover {
+    background: fade(@cf-white-0, 92%);
+    color: @cf-black-900;
+  }
+}

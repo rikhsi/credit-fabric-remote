@@ -93,6 +93,10 @@
       "title": "Shu shartlar bo‘yicha kreditni olasizmi?",
       "description": "Tasdiqlaganingizdan so‘ng bank tanlangan taklifni rasmiylashtirishni boshlaydi."
     },
+    "application_sent_bank": {
+      "title": "Ariza bankka yuborildi",
+      "description": "Hujjatlarni imzolash uchun bank filialiga murojaat qiling, manzil"
+    },
     "error_not_finished_application": {
       "description": "Davom ettirish yoki yakunlash uchun «Mening arizalarim» bo‘limiga o‘ting.",
       "title": "Yakunlanmagan ariza topildi"

@@ -93,6 +93,10 @@
       "title": "Get the loan on these terms?",
       "description": "After confirmation, the bank will start processing the selected offer."
     },
+    "application_sent_bank": {
+      "title": "Application sent to the bank",
+      "description": "To sign the documents, visit the bank branch at"
+    },
     "error_not_finished_application": {
       "description": "Go to My Applications to continue or finish it.",
       "title": "Unfinished application found"

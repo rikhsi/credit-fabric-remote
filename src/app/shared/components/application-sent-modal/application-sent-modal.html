@@ -1,0 +1,20 @@
+<ng-container *transloco="let t">
+  <div class="emblem" aria-hidden="true">
+    <img [ngSrc]="'logo-mark.svg' | image" width="320" height="320" alt="" />
+  </div>
+
+  <button cfBounce="300" nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+    <nz-icon nzType="close" />
+  </button>
+
+  <div class="body">
+    <h3 class="title">{{ t('modal.application_sent_bank.title') }}</h3>
+    <p class="description">{{ t('modal.application_sent_bank.description') }}</p>
+  </div>
+
+  <div class="footer">
+    <button cfBounce="300" type="button" nz-button nzType="default" nzSize="large" class="action" (clicked)="findBranch()">
+      {{ t('action.find_place') }}
+    </button>
+  </div>
+</ng-container>

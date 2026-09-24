@@ -3,6 +3,7 @@ export * from './select-default-mobile/select-default-mobile';
 export * from './bottom-sheet/bottom-sheet';
 export * from './modal-confirm/modal-confirm.component';
 export * from './info-modal/info-modal';
+export * from './application-sent-modal/application-sent-modal';
 export * from './logo/logo';
 export * from './input-default/input-default';
 export * from './input-number/input-number';
