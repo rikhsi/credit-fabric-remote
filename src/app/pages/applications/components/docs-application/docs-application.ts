@@ -22,6 +22,8 @@ export class DocsApplication {
   status = input<string>();
 
   openDocument(documentId: number): void {
-    void this.router.navigate(['/', 'document', documentId]);
+    void this.router.navigate(['/', 'document', documentId], {
+      queryParams: { backRoute: this.router.url },
+    });
   }
 }

@@ -1,11 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { filter, finalize, map, take } from 'rxjs';
+import { filter, finalize, fromEvent, map, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
 import { ApplicationsDetailService } from '../../../../services';
 import { ModalConfirmComponent } from '@shared/components';
@@ -32,12 +43,14 @@ export class ViewApproved implements OnInit {
   private readonly nzModalService = inject(NzModalService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly host = inject(ElementRef<HTMLElement>);
 
   application = input.required<OnlineApplication>();
   applicationId = input.required<number>();
 
   readonly isClaiming = signal(false);
   readonly expandedOfferId = signal<string | null>(null);
+  readonly isSingleFooterVisible = signal(false);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
   readonly requestedAmount = computed(() => this.application().product.loanAmount);
   readonly offers = computed(() => {
@@ -63,6 +76,21 @@ export class ViewApproved implements OnInit {
     { initialValue: false },
   );
 
+  private lastScrollTop = 0;
+  private singleFooterScrollBound = false;
+
+  constructor() {
+    afterNextRender(() => this.bindSingleFooterScroll());
+
+    this.breakpointObserver
+      .observe(Breakpoint.MOBILE)
+      .pipe(
+        filter((state) => state.matches),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => requestAnimationFrame(() => this.bindSingleFooterScroll()));
+  }
+
   ngOnInit(): void {
     this.applicationsDetailService
       .getOffers$(this.applicationId())
@@ -72,6 +100,7 @@ export class ViewApproved implements OnInit {
         const matched = offers.find((offer) => offer.loanAmount === requested);
 
         this.expandedOfferId.set(matched?.offerId ?? offers[0]?.offerId ?? null);
+        requestAnimationFrame(() => this.bindSingleFooterScroll());
       });
   }
 
@@ -137,6 +166,45 @@ export class ViewApproved implements OnInit {
       offerId,
       false,
     );
+  }
+
+  private bindSingleFooterScroll(): void {
+    if (this.singleFooterScrollBound || !this.isSingle() || !this.isMobile()) {
+      return;
+    }
+
+    const scrollRoot = this.host.nativeElement.querySelector('.conditions') as HTMLElement | null;
+
+    if (!scrollRoot) {
+      return;
+    }
+
+    this.singleFooterScrollBound = true;
+    this.lastScrollTop = scrollRoot.scrollTop;
+    this.isSingleFooterVisible.set(false);
+
+    // No overflow — otherwise CTA would be unreachable.
+    if (scrollRoot.scrollHeight <= scrollRoot.clientHeight + 1) {
+      this.isSingleFooterVisible.set(true);
+      return;
+    }
+
+    fromEvent(scrollRoot, 'scroll', { passive: true })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        const top = scrollRoot.scrollTop;
+        const delta = top - this.lastScrollTop;
+
+        if (top <= 8) {
+          this.isSingleFooterVisible.set(false);
+        } else if (delta > 4) {
+          this.isSingleFooterVisible.set(true);
+        } else if (delta < -4) {
+          this.isSingleFooterVisible.set(false);
+        }
+
+        this.lastScrollTop = top;
+      });
   }
 
   private openConfirmModal(config: ConfirmModal, offerId: string, isAccepted: boolean): void {

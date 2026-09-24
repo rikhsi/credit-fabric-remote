@@ -23,6 +23,7 @@
       [expanded]="isExpanded(offer)"
       (expandedChange)="onExpandedChange(offer.offerId, $event)"
       [splitLayout]="isSingle() && !!isMobile()"
+      [fillViewport]="isSingle() && !!isMobile()"
     >
       @if (!(isSingle() && isMobile())) {
       <ng-container cardActions>
@@ -60,7 +61,7 @@
   </div>
 
   @if (isSingle() && isMobile() && offers()[0]; as offer) {
-  <div class="footer footer--fixed footer--fixed-single">
+  <div class="footer footer--fixed footer--fixed-single" [class.is-visible]="isSingleFooterVisible()">
     <button
       cfBounce="300"
       nz-button

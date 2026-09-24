@@ -230,7 +230,9 @@
       "sign_until": "{{date}} ga qadar imzolang",
       "type": {
         "credit_agreement": "Kredit shartnomasi № {{id}}",
-        "desicion_protocol": "Qaror bayonnomasi № {{id}}"
+        "desicion_protocol": "Qaror bayonnomasi № {{id}}",
+        "loan_decision": "Qaror bayonnomasi № {{id}}",
+        "loan_agreement": "Kredit shartnomasi № {{id}}"
       },
       "status": {
         "signed": "Imzolangan"

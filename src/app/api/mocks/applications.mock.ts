@@ -87,7 +87,7 @@ const docsUnsigned = [
     type: 'LOAN_DECISION',
     isSigned: false,
     createdDate: CREATED_DATE,
-    signedDate: '',
+    signedDate: '2026-09-30',
   },
 ];
 

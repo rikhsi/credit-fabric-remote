@@ -17,17 +17,7 @@ export class ApplicationsDetailService {
     this.application.set(null);
     this.offers.set([]);
 
-    return this.onlineApiService.getApplication$(applicationId).pipe(
-      tap((application) => {
-        this.application.set(application);
-        this.isLoading.set(false);
-      }),
-      catchError((err) => {
-        this.isLoading.set(false);
-
-        return throwError(() => err);
-      }),
-    );
+    return this.fetchApplication$(applicationId);
   }
 
   public getOffers$(applicationId: number) {
@@ -49,7 +39,22 @@ export class ApplicationsDetailService {
 
   public claimLoan$(applicationId: number, offerId: string, isAccepted: boolean) {
     return this.onlineApiService.claimLoan$({ applicationId, offerId, isAccepted }).pipe(
-      switchMap(() => this.getApplication$(applicationId)),
+      // Soft refresh: do not clear `application` — that destroys ViewApproved and cancels this stream.
+      switchMap(() => this.fetchApplication$(applicationId)),
+    );
+  }
+
+  private fetchApplication$(applicationId: number) {
+    return this.onlineApiService.getApplication$(applicationId).pipe(
+      tap((application) => {
+        this.application.set(application);
+        this.isLoading.set(false);
+      }),
+      catchError((err) => {
+        this.isLoading.set(false);
+
+        return throwError(() => err);
+      }),
     );
   }
 }

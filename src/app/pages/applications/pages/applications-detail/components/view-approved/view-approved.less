@@ -116,10 +116,27 @@
     gap: 8px;
     margin: 0;
     border-radius: 0;
-    padding: 12px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+    /* 40px on sides/bottom: 20px cancels the -20px bleed, 20px stays visible */
+    padding: 20px 40px calc(40px + env(safe-area-inset-bottom, 0px));
 
     [nz-button] {
       width: 100%;
+    }
+  }
+
+  &--fixed-single {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.22s ease;
+
+    &.is-visible {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 }

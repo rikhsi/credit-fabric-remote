@@ -230,7 +230,9 @@
       "sign_until": "Sign until {{date}}",
       "type": {
         "credit_agreement": "Credit agreement No. {{id}}",
-        "desicion_protocol": "Decision protocol No. {{id}}"
+        "desicion_protocol": "Decision protocol No. {{id}}",
+        "loan_decision": "Decision protocol No. {{id}}",
+        "loan_agreement": "Credit agreement No. {{id}}"
       },
       "status": {
         "signed": "Signed"

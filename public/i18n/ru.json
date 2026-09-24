@@ -230,7 +230,9 @@
       "sign_until": "подпишите до {{date}}",
       "type": {
         "credit_agreement": "Кредитный договор № {{id}}",
-        "desicion_protocol": "Протокол решения № {{id}}"
+        "desicion_protocol": "Протокол решения № {{id}}",
+        "loan_decision": "Протокол решения № {{id}}",
+        "loan_agreement": "Кредитный договор № {{id}}"
       },
       "status": {
         "signed": "Подписано"

@@ -45,6 +45,7 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   host: {
     '[class.highlighted]': 'highlighted()',
     '[class.split]': 'splitLayout()',
+    '[class.fill]': 'fillViewport()',
     '[class.collapsed]': 'collapsible() && !expanded()',
   },
 })
@@ -62,6 +63,8 @@ export class ApplicationConditionsCard {
   expanded = model(true);
   /** Separate summary + conditions cards (non-approved mobile/desktop shell). */
   splitLayout = input(false);
+  /** Stretch conditions to the fixed footer (single-offer mobile accept flow). */
+  fillViewport = input(false);
 
   readonly statusTone = computed<StatusTone | null>(() => {
     const status = this.status();

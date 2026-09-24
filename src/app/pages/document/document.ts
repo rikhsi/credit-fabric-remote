@@ -69,7 +69,9 @@ export class Document implements OnInit {
   private initDocument(): void {
     this.api.getFile$(this.docId).subscribe({
       next: (result) => {
-        this.file.set(`data:application/pdf;base64,${result}`);
+        const src = result.startsWith('http') || result.startsWith('data:') ? result : `data:application/pdf;base64,${result}`;
+
+        this.file.set(src);
       },
       error: () => {
         this.router.navigate([RootRoute.Applications]);
