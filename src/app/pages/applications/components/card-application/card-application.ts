@@ -14,11 +14,11 @@ import { ApplicationStatus } from '@api/models/los/application';
 import { CreditInput } from '@app/typings/calculator';
 import { Breakpoint } from '@app/constants/breakpoint';
 
-type StatusTone = 'warning' | 'success' | 'decline' | 'info';
+type StatusTone = 'warning' | 'success' | 'decline' | 'info' | 'signing';
 
 const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.InProgress]: 'warning',
-  [ApplicationStatus.OnDesign]: 'info',
+  [ApplicationStatus.OnDesign]: 'signing',
   [ApplicationStatus.OnDecision]: 'success',
   [ApplicationStatus.Approved]: 'success',
   [ApplicationStatus.Signed]: 'success',

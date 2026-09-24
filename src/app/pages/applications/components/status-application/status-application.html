@@ -3,21 +3,21 @@
     @switch (status()) { @case('IN_PROGRESS') {
     <nz-icon nzType="f:clock" class="warning" />
     } @case('ON_DESIGN') {
-    <nz-icon nzType="f:doc" class="design" />
+    <nz-icon nzType="f:zap" class="design" />
     } @case('ON_DECISION') {
-    <nz-icon nzType="f:success" class="success" />
+    <nz-icon nzType="f:checkCircle" class="success" />
     } @case('APPROVED') {
-    <nz-icon nzType="f:success" class="success" />
+    <nz-icon nzType="f:checkCircle" class="success" />
     } @case('SIGNED') {
-    <nz-icon nzType="f:success" class="success" />
+    <nz-icon nzType="f:checkCircle" class="success" />
     } @case('DECLINE') {
-    <nz-icon nzType="f:success" class="decline" />
+    <nz-icon nzType="f:xCircle" class="decline" />
     } @case('DECLINE_CLIENT') {
-    <nz-icon nzType="f:success" class="decline" />
+    <nz-icon nzType="f:xCircle" class="decline" />
     } @case('ISSUED') {
-    <nz-icon nzType="f:success" class="success" />
+    <nz-icon nzType="f:checkCircle" class="success" />
     } @case('ERROR') {
-    <nz-icon nzType="close" class="decline" />
+    <nz-icon nzType="f:xCircle" class="decline" />
     } }
   </div>
 

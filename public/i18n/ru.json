@@ -238,11 +238,11 @@
     "status": {
       "in_progress": "На рассмотрении",
       "on_design": "Ожидаем документ",
-      "on_decision": "Одобрено",
+      "on_decision": "В подписании",
       "approved": "Одобрено",
       "signed": "Подписано",
       "decline": "Отказано",
-      "decline_client": "Отказано",
+      "decline_client": "Отказано вами",
       "issued": "Выдано",
       "error": "Ошибка",
       "unknown": "Неизвестный статус"

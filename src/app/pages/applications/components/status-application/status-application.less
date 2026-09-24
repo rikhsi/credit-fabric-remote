@@ -4,12 +4,12 @@
 
 .themeMixin({
     :host {
-        .icon {
-            background: @body-background;
+        b {
+          color: @text-color;
         }
 
-        b {
-          color: @text-color-secondary;
+        nz-icon {
+          color: @text-color;
         }
     }
 });
@@ -20,35 +20,12 @@
   align-items: center;
 
   .icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
 
     nz-icon {
-      font-size: @font-size-sm;
-
-      &.warning {
-        color: @cf-orange-50;
-      }
-
-      &.success {
-        color: @cf-green-200;
-      }
-
-      &.decline {
-        color: @cf-red-500;
-      }
-
-      &.design {
-        color: @cf-blue-500;
-      }
-
-      &.decision {
-        color: @cf-orange-50;
-      }
+      font-size: 16px;
     }
   }
 }
