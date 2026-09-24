@@ -20,6 +20,17 @@
       [stackActions]="isSingle() && !!isMobile()"
     >
       <ng-container cardActions>
+        <button
+          cfBounce
+          nz-button
+          [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
+          [nzLoading]="isClaiming()"
+          [disabled]="isClaiming()"
+          (clicked)="openAcceptConfirm(offer)"
+        >
+          {{ t('application.detail.accept') }}
+        </button>
+
         @if (isSingle()) {
         <button
           cfBounce
@@ -32,17 +43,6 @@
           {{ t('application.detail.refuse') }}
         </button>
         }
-
-        <button
-          cfBounce
-          nz-button
-          [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
-          [nzLoading]="isClaiming()"
-          [disabled]="isClaiming()"
-          (clicked)="openAcceptConfirm(offer)"
-        >
-          {{ t('application.detail.accept') }}
-        </button>
       </ng-container>
     </cf-application-conditions-card>
     }

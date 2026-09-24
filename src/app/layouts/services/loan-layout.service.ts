@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { NavigationEnd, Router, UrlTree } from '@angular/router';
 import { filter, Observable, Subject, tap } from 'rxjs';
-import { getRootSnapshot, getCurrentRouteData, getRouteParam } from '@layouts/utils';
+import { getApplicationIdFromUrl, getCurrentRouteData, getRootSnapshot, getRouteParam } from '@layouts/utils';
 import { LoanLayoutData } from '@layouts/models';
 import { SplashService } from '@core/services/splash.service';
 import { RouteParam } from '@app/constants/route-param';
@@ -19,10 +19,8 @@ export class LoanLayoutService {
   private backHandled = false;
 
   public initRouterEvents(): Observable<NavigationEnd> {
-    queueMicrotask(() => {
-      this.updateActions();
-      this.router.navigate([], { onSameUrlNavigation: 'reload', queryParamsHandling: 'preserve' });
-    });
+    // Sync once the current navigation tree is available (hard reload safe).
+    queueMicrotask(() => this.updateActions());
 
     return this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -70,11 +68,15 @@ export class LoanLayoutService {
   private updateActions(): void {
     const snapshot = getRootSnapshot(this.router);
     const currentSnapshot = getCurrentRouteData<LoanLayoutData>(snapshot);
-    const applicationId = getRouteParam(snapshot, RouteParam.AppId);
+    const applicationId =
+      getRouteParam(snapshot, RouteParam.AppId) ||
+      currentSnapshot?.applicationId ||
+      getApplicationIdFromUrl(this.router.url) ||
+      undefined;
 
     this.routData.set({
       ...currentSnapshot,
-      ...(applicationId ? { applicationId } : {}),
+      ...(applicationId ? { applicationId: String(applicationId) } : {}),
     });
   }
 }

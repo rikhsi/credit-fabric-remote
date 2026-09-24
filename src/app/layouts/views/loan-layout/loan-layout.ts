@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, viewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
+import { filter, map, startWith } from 'rxjs';
 import { BridgeService } from '@core/services/bridge.service';
 import { LayoutHeader } from '@layouts/components';
 import { LoanLayoutService } from '@layouts/services';
-import { getRouteParam } from '@layouts/utils';
+import { getApplicationIdFromUrl, getRouteParam } from '@layouts/utils';
 import { RouteParam } from '@app/constants/route-param';
 import { SwipeBackDirective } from '@shared/directives';
 
@@ -32,20 +33,34 @@ export class LoanLayout implements OnInit {
 
   public data = computed(() => this.loanLayoutService.routData());
   public readonly canSwipeBack = computed(() => Boolean(this.data()?.backConfig?.link));
+
+  /** Keep title in sync on hard reload when route snapshot lags behind the URL. */
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
   public pageTitle = computed(() => {
     const title = this.data()?.title;
+    const url = this.currentUrl();
+    const idFromUrl = getApplicationIdFromUrl(url);
+    const id =
+      getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ||
+      this.data()?.applicationId ||
+      idFromUrl ||
+      '';
+
+    // Hard reload can briefly expose only parent route data; URL still has the id.
+    if (title === 'application.number' || idFromUrl) {
+      return this.transloco.translate('application.number', { id });
+    }
 
     if (!title) {
       return '';
-    }
-
-    if (title === 'application.number') {
-      const id =
-        getRouteParam(this.router.routerState.snapshot.root, RouteParam.AppId) ??
-        this.data()?.applicationId ??
-        '';
-
-      return this.transloco.translate('application.number', { id });
     }
 
     return isTranslationKey(title) ? this.transloco.translate(title) : title;
