@@ -19,8 +19,12 @@ export class LoanLayoutService {
   private backHandled = false;
 
   public initRouterEvents(): Observable<NavigationEnd> {
-    // Sync once the current navigation tree is available (hard reload safe).
-    queueMicrotask(() => this.updateActions());
+    // Initial NavigationEnd can fire before LoanLayout subscribes (hard reload).
+    // Hide splash here; do not re-navigate — that raced route data / header id.
+    queueMicrotask(() => {
+      this.updateActions();
+      this.splashService.hide = true;
+    });
 
     return this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),

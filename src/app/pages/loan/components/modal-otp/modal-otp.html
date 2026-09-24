@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   @if (!inline()) {
   <div class="header">
-    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+    <button cfBounce="300" nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
       <nz-icon nzType="close" />
     </button>
   </div>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="actions">
-      <button cfBounce nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (clicked)="resendOtp()">
+      <button cfBounce="300" nz-button [disabled]="running() || isLoading()" nzType="default" nzSize="large" (clicked)="resendOtp()">
         <strong>{{ t('action.send_code', { time: running() ? (leftTime() | secondsToTime) : null }) }}</strong>
       </button>
     </div>
@@ -26,7 +26,7 @@
 
   <div class="footer">
     <button
-      cfBounce
+      cfBounce="300"
       nz-button
       [disabled]="form.code().invalid()"
       [nzLoading]="isLoading()"

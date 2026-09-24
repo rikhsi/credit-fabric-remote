@@ -4,7 +4,13 @@
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
   </div>
   } @else {
-  <div class="offers" [class.single]="isSingle()" [class.pair]="isPair()" [class.triple]="isTriple()">
+  <div
+    class="offers"
+    [class.single]="isSingle()"
+    [class.pair]="isPair()"
+    [class.triple]="isTriple()"
+    [class.has-fixed-actions]="isSingle() && !!isMobile()"
+  >
     @for (offer of offers(); track offer.offerId) {
     <cf-application-conditions-card
       [source]="offer"
@@ -17,11 +23,11 @@
       [expanded]="isExpanded(offer)"
       (expandedChange)="onExpandedChange(offer.offerId, $event)"
       [splitLayout]="isSingle() && !!isMobile()"
-      [stackActions]="isSingle() && !!isMobile()"
     >
+      @if (!(isSingle() && isMobile())) {
       <ng-container cardActions>
         <button
-          cfBounce
+          cfBounce="300"
           nz-button
           [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
           [nzLoading]="isClaiming()"
@@ -33,7 +39,7 @@
 
         @if (isSingle()) {
         <button
-          cfBounce
+          cfBounce="300"
           nz-button
           nzType="default"
           [nzLoading]="isClaiming()"
@@ -44,14 +50,44 @@
         </button>
         }
       </ng-container>
+      }
     </cf-application-conditions-card>
     }
   </div>
 
+  @if (isSingle() && isMobile() && offers()[0]; as offer) {
+  <div class="footer footer--fixed">
+    <button
+      cfBounce="300"
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      [nzLoading]="isClaiming()"
+      [disabled]="isClaiming()"
+      (clicked)="openAcceptConfirm(offer)"
+    >
+      {{ t('application.detail.accept') }}
+    </button>
+
+    <button
+      cfBounce="300"
+      nz-button
+      nzType="default"
+      nzSize="large"
+      class="refuse"
+      [nzLoading]="isClaiming()"
+      [disabled]="isClaiming()"
+      (clicked)="openRefuseConfirm()"
+    >
+      {{ t('application.detail.refuse') }}
+    </button>
+  </div>
+  }
+
   @if (!isSingle() && offers().length) {
   <div class="footer">
     <button
-      cfBounce
+      cfBounce="300"
       nz-button
       nzType="default"
       nzSize="large"

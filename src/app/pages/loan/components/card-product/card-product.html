@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <cf-card class="card">
-    <button type="button" class="hitarea" [cfBounce]="160" (clicked)="apply()"></button>
+    <button type="button" class="hitarea" cfBounce="300" (clicked)="apply()"></button>
     <div class="box">
       <div class="content">
         <div class="row">
@@ -51,6 +51,6 @@
   </cf-card>
 
   <ng-template #applyBtnRef>
-    <button [cfBounce]="100" nz-button [nzBlock]="true" nzType="primary" nzSize="small" (clicked)="apply()">{{t('action.fill_application')}}</button>
+    <button cfBounce="300" nz-button [nzBlock]="true" nzType="primary" nzSize="small" (clicked)="apply()">{{t('action.fill_application')}}</button>
   </ng-template>
 </ng-container>

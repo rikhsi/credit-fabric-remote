@@ -28,18 +28,18 @@
       <span>{{ t('flow.one_id.instruction.title') }}</span>
     </div>
 
-    <button cfBounce nz-button nzType="default" nzSize="small" class="guide__action">
+    <button cfBounce="300" nz-button nzType="default" nzSize="small" class="guide__action">
       <strong>{{ t('action.download') }}</strong>
     </button>
   </div>
 
   <div class="actions">
-    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="goToOneId()">
+    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="goToOneId()">
       {{ t('action.go_to_one_id') }}
     </button>
 
     <button
-      cfBounce
+      cfBounce="300"
       nz-button
       nzType="default"
       nzSize="large"

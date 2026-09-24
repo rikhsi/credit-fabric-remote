@@ -10,5 +10,5 @@
   <h4 nz-typography>{{ t('loan.not_eligible.title') }}</h4>
   <p nz-typography [innerHTML]="t('loan.not_eligible.description', {phone})"></p>
 
-  <button cfBounce nz-button nzType="primary" nzSize="large" type="button" (clicked)="findBranch()">{{ t('action.find_place') }}</button>
+  <button cfBounce="300" nz-button nzType="primary" nzSize="large" type="button" (clicked)="findBranch()">{{ t('action.find_place') }}</button>
 </ng-container>

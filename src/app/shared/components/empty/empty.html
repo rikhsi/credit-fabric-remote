@@ -13,5 +13,5 @@
 }
 
 @if (actionLabel(); as label) {
-<button cfBounce nz-button nzType="primary" nzSize="large" type="button" (clicked)="actionClick.emit()">{{ label }}</button>
+<button cfBounce="300" nz-button nzType="primary" nzSize="large" type="button" (clicked)="actionClick.emit()">{{ label }}</button>
 }

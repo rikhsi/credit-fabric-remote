@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <div class="header">
-    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="closeClick.emit()">
+    <button cfBounce="300" nz-button nzShape="round" nzSize="small" class="close" (clicked)="closeClick.emit()">
       <nz-icon nzType="close" />
     </button>
   </div>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="footer">
-    <button cfBounce nz-button nzType="default" nzSize="large" (clicked)="closeClick.emit()">{{t('action.cancel')}}</button>
-    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{t('action.add')}}</button>
+    <button cfBounce="300" nz-button nzType="default" nzSize="large" (clicked)="closeClick.emit()">{{t('action.cancel')}}</button>
+    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{t('action.add')}}</button>
   </div>
 </ng-container>

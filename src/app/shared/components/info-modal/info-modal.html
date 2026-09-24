@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <div class="header">
-    <button cfBounce nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+    <button cfBounce="300" nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
       <nz-icon nzType="close" />
     </button>
   </div>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="footer">
-    <button cfBounce nz-button nzType="primary" nzSize="large" (clicked)="close()">
+    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="close()">
       <strong>{{ t('action.got_it') }}</strong>
     </button>
   </div>

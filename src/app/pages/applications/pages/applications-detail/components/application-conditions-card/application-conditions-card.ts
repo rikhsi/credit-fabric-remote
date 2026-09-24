@@ -1,10 +1,12 @@
 import { DatePipe, DecimalPipe, LowerCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { ApplicationStatus, OnlineApplicationProduct, OnlineOffer } from '@api/models/los/application';
 import { StatusApplication } from '../../../../components';
+import { BounceDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
 import { calculateMonthlyPayment, calculateOverpayment, isDifferentialPaymentType } from '@shared/utils';
 
@@ -30,6 +32,8 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
     StatusApplication,
     NzTypographyComponent,
     NzIconDirective,
+    NzButtonComponent,
+    BounceDirective,
     DecimalPipe,
     DatePipe,
     LowerCasePipe,
@@ -42,7 +46,6 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
     '[class.highlighted]': 'highlighted()',
     '[class.split]': 'splitLayout()',
     '[class.collapsed]': 'collapsible() && !expanded()',
-    '[class.stack-actions]': 'stackActions()',
   },
 })
 export class ApplicationConditionsCard {
@@ -59,8 +62,6 @@ export class ApplicationConditionsCard {
   expanded = model(true);
   /** Separate summary + conditions cards (non-approved mobile/desktop shell). */
   splitLayout = input(false);
-  /** Stack accept/refuse full-width (single offer mobile). */
-  stackActions = input(false);
 
   readonly statusTone = computed<StatusTone | null>(() => {
     const status = this.status();
@@ -81,8 +82,6 @@ export class ApplicationConditionsCard {
 
     return calculateOverpayment(item.loanAmount, item.loanTerm, item.loanRate, item.paymentType);
   });
-
-  readonly showConditions = computed(() => !this.collapsible() || this.expanded());
 
   toggleExpanded(): void {
     if (!this.collapsible()) {

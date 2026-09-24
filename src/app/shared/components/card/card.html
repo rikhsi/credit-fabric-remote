@@ -1,7 +1,7 @@
 @if (showTop()) {
 <div class="top" [ngClass]="{space: showSpace(), noWrap: !topWrap()}">
   @if (link(); as link) {
-  <a cfBounce nz-button nzType="link" class="link default" (clicked)="navigateByLink()">
+  <a cfBounce="300" nz-button nzType="link" class="link default" (clicked)="navigateByLink()">
     <nz-icon nzType="f:backLine" />
     <ng-container [ngTemplateOutlet]="titleRef() ?? titleTmp"></ng-container>
   </a>

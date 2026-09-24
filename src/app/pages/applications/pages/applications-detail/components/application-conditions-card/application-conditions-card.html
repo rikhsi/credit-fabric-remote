@@ -50,76 +50,82 @@
     </div>
   </div>
 
-  @if (showConditions()) {
-  <div class="conditions">
-    <h5 nz-typography class="conditions-title">{{ t('application.detail.loan_conditions') }}</h5>
+  <div
+    class="conditions"
+    [class.is-collapsible]="collapsible()"
+    [class.is-collapsed]="collapsible() && !expanded()"
+    [attr.aria-hidden]="collapsible() && !expanded()"
+  >
+    <div class="conditions-inner">
+      <h5 nz-typography class="conditions-title">{{ t('application.detail.loan_conditions') }}</h5>
 
-    <div class="rows">
-      <div class="row">
-        <span class="label">{{ t('prop.product') }}</span>
-        <span class="value">{{ source().product }}</span>
-      </div>
+      <div class="rows">
+        <div class="row">
+          <span class="label">{{ t('prop.product') }}</span>
+          <span class="value">{{ source().product }}</span>
+        </div>
 
-      <div class="row">
-        <span class="label">{{ t('prop.loan_amount_full') }}</span>
-        <span class="value">{{ source().loanAmount | number }} {{ currency() }}</span>
-      </div>
+        <div class="row">
+          <span class="label">{{ t('prop.loan_amount_full') }}</span>
+          <span class="value">{{ source().loanAmount | number }} {{ currency() }}</span>
+        </div>
 
-      <div class="row">
-        <span class="label">{{ t('prop.loan_monthly_payment') }}</span>
-        <span class="value">
-          @if (isDifferential()) {
-          {{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
-          } @else {
-          {{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
-          }
-        </span>
-      </div>
+        <div class="row">
+          <span class="label">{{ t('prop.loan_monthly_payment') }}</span>
+          <span class="value">
+            @if (isDifferential()) {
+            {{ t('prop.from', { amount: monthlyPayment() | number }) }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+            } @else {
+            {{ monthlyPayment() | number }} {{ currency() }}/{{ t('prefix.month_short.one') }}
+            }
+          </span>
+        </div>
 
-      <div class="row">
-        <span class="label">{{ t('prop.loan_term_full') }}</span>
-        <span class="value">{{ source().loanTerm | pluralize: 'month_short' }}</span>
-      </div>
+        <div class="row">
+          <span class="label">{{ t('prop.loan_term_full') }}</span>
+          <span class="value">{{ source().loanTerm | pluralize: 'month_short' }}</span>
+        </div>
 
-      @if (showRate()) {
-      <div class="row">
-        <span class="label">{{ t('prop.loan_percent_full') }}</span>
-        <span class="value">{{ source().loanRate | number }}%</span>
-      </div>
-      }
+        @if (showRate()) {
+        <div class="row">
+          <span class="label">{{ t('prop.loan_percent_full') }}</span>
+          <span class="value">{{ source().loanRate | number }}%</span>
+        </div>
+        }
 
-      <div class="row">
-        <span class="label">{{ t('prop.loan_calculation_type') }}</span>
-        <span class="value">{{ t('prop.' + source().paymentType | lowercase) }}</span>
-      </div>
+        <div class="row">
+          <span class="label">{{ t('prop.loan_calculation_type') }}</span>
+          <span class="value">{{ t('prop.' + source().paymentType | lowercase) }}</span>
+        </div>
 
-      @if (showOverpayment()) {
-      <div class="row">
-        <span class="label">{{ t('prop.overpayment') }}</span>
-        <span class="value">{{ overpayment() | number }} {{ currency() }}</span>
+        @if (showOverpayment()) {
+        <div class="row">
+          <span class="label">{{ t('prop.overpayment') }}</span>
+          <span class="value">{{ overpayment() | number }} {{ currency() }}</span>
+        </div>
+        }
       </div>
-      }
     </div>
-
-    @if (stackActions()) {
-    <div class="conditions-actions">
-      <ng-content select="[cardActions]"></ng-content>
-    </div>
-    }
   </div>
-  }
 
-  @if (!stackActions()) {
   <div class="card-actions" [class.with-toggle]="collapsible()">
     <div class="card-actions__main">
       <ng-content select="[cardActions]"></ng-content>
     </div>
 
     @if (collapsible()) {
-    <button type="button" class="collapse-toggle" (click)="toggleExpanded()" [attr.aria-expanded]="expanded()">
-      <nz-icon [nzType]="expanded() ? 'up' : 'down'" />
+    <button
+      cfBounce="300"
+      type="button"
+      nz-button
+      nzType="default"
+      class="collapse-toggle"
+      [class.expanded]="expanded()"
+      (clicked)="toggleExpanded()"
+      [attr.aria-expanded]="expanded()"
+    >
+      <nz-icon nzType="right" />
     </button>
     }
   </div>
-  }
 </ng-container>
