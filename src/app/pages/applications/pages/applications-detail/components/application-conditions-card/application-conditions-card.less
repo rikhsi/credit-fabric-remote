@@ -258,24 +258,42 @@
 .media(@media-sm, {
   :host {
     row-gap: 0;
+    flex: 1;
+    min-height: 0;
 
     &.split {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
       padding: 0;
       border: 0;
       border-radius: 0;
       row-gap: 12px;
+      background: transparent;
 
       .summary-card {
+        flex-shrink: 0;
         padding: 16px;
         border-radius: 20px;
         border: 1px solid;
-        border-bottom: 1px solid;
       }
 
       .conditions {
-        padding: 16px;
-        border-radius: 20px;
-        border: 1px solid;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        margin: 0 -20px -20px;
+        padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+        border: 0;
+        border-radius: 20px 20px 0 0;
+        width: auto;
+      }
+
+      .conditions-actions {
+        margin-top: auto;
+        padding-top: 20px;
       }
     }
 

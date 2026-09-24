@@ -15,6 +15,8 @@
   flex-direction: column;
   row-gap: 16px;
   width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .offers {
@@ -42,12 +44,25 @@
     }
   });
 
-  // mobile: always 1 column
+  // mobile: always 1 column; single fills the screen
   .media(@media-sm, {
     grid-template-columns: 1fr;
     gap: 12px;
 
-    &.single,
+    &.single {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      grid-template-columns: none;
+      width: 100%;
+
+      cf-application-conditions-card {
+        flex: 1;
+        min-height: 0;
+      }
+    }
+
     &.pair,
     &.triple {
       grid-template-columns: 1fr;
