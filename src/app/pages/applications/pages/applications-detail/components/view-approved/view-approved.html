@@ -9,7 +9,7 @@
     [class.single]="isSingle()"
     [class.pair]="isPair()"
     [class.triple]="isTriple()"
-    [class.has-fixed-actions]="isSingle() && !!isMobile()"
+    [class.has-fixed-actions]="!!isMobile() && !!offers().length"
   >
     @for (offer of offers(); track offer.offerId) {
     <cf-application-conditions-card
@@ -31,6 +31,7 @@
           cfBounce="300"
           nz-button
           nzType="default"
+          nzSize="default"
           class="btn-refuse refuse"
           [nzLoading]="isClaiming()"
           [disabled]="isClaiming()"
@@ -43,6 +44,7 @@
         <button
           cfBounce="300"
           nz-button
+          nzSize="default"
           class="btn-accept"
           [nzType]="isSingle() || isHighlighted(offer) ? 'primary' : 'default'"
           [nzLoading]="isClaiming()"
@@ -58,7 +60,7 @@
   </div>
 
   @if (isSingle() && isMobile() && offers()[0]; as offer) {
-  <div class="footer footer--fixed">
+  <div class="footer footer--fixed footer--fixed-single">
     <button
       cfBounce="300"
       nz-button
@@ -88,7 +90,7 @@
   }
 
   @if (!isSingle() && offers().length) {
-  <div class="footer">
+  <div class="footer" [class.footer--fixed]="!!isMobile()" [class.footer--fixed-multi]="!!isMobile()">
     <button
       cfBounce="300"
       nz-button

@@ -1,16 +1,3 @@
-@import 'mixins';
-@import 'custom';
-
-.themeMixin({
-  :host {
-    .media(@media-sm, {
-      // Bottom layout padding paints white (fixes gray strip under offers / footer).
-      background:
-        linear-gradient(@component-background, @component-background) no-repeat bottom / 100% 20px;
-    });
-  }
-});
-
 :host {
   display: flex;
   flex-direction: column;
