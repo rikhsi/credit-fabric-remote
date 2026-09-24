@@ -80,6 +80,7 @@ export class ViewApproved implements OnInit {
     this.openConfirmModal(
       {
         title: 'modal.application_confirm.title',
+        description: 'modal.application_confirm.description',
         cancel: {
           title: 'action.cancel',
           danger: false,

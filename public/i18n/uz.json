@@ -90,7 +90,8 @@
       "description": "Agar rad etsangiz, ariza yopiladi. Keyinroq yangi ariza yuborishingiz mumkin bo‘ladi."
     },
     "application_confirm": {
-      "title": "Arizani yakunlashni tasdiqlang"
+      "title": "Shu shartlar bo‘yicha kreditni olasizmi?",
+      "description": "Tasdiqlaganingizdan so‘ng bank tanlangan taklifni rasmiylashtirishni boshlaydi."
     },
     "error_not_finished_application": {
       "description": "Davom ettirish yoki yakunlash uchun «Mening arizalarim» bo‘limiga o‘ting.",
