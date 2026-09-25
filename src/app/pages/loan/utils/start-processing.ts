@@ -9,6 +9,7 @@ export function isStartProcessingPayloadFilled(payload: StartProcessingPayload |
   }
 
   return (
+    Boolean(payload.productId) &&
     payload.loanAmount > 0 &&
     payload.loanTerm > 0 &&
     payload.sysPaymentTypeId != null &&

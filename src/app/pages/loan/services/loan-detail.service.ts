@@ -19,6 +19,7 @@ export class LoanDetailService {
   public readonly isValidated = signal<boolean>(false);
   public readonly isLoading = signal<boolean>(true);
   public readonly isDisabled = signal<boolean>(true);
+  public readonly productId = signal<string>('');
   public readonly productCondition = signal<ProductConditionItem>(null);
 
   public readonly form = form(signal({ ...loanDetailFormModel }), (schemaPath) => {
@@ -68,12 +69,13 @@ export class LoanDetailService {
   }
 
   public buildPayload(): StartProcessingPayload {
-    return buildStartProcessingPayload(this.form().value());
+    return buildStartProcessingPayload(this.form().value(), this.productId());
   }
 
   public applyProduct(product: ProductItem): void {
     const condition = mergeProductConditions(product.conditions);
 
+    this.productId.set(product.id);
     this.productCondition.set(condition);
     this.form().value.update((cur) => ({
       ...cur,

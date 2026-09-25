@@ -77,10 +77,11 @@ function normalizeFinDataForApi(
   };
 }
 
-export function buildStartProcessingPayload(formValue: LoanDetailFormModel): StartProcessingPayload {
+export function buildStartProcessingPayload(formValue: LoanDetailFormModel, productId: string): StartProcessingPayload {
   const financeMonths = resolveFinanceMonthsForSubmit();
 
   return {
+    productId,
     loanAmount: formValue.loanAmount,
     loanTerm: formValue.loanTerm,
     sysPaymentTypeId: formValue.sysPaymentTypeId,

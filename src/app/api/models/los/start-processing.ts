@@ -23,6 +23,7 @@ export interface StartProcessingAddress {
 }
 
 export interface StartProcessingPayload {
+  productId: string;
   loanAmount: number;
   loanTerm: number;
   sysPaymentTypeId: string;
