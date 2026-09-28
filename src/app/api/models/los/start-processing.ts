@@ -16,6 +16,7 @@ export interface StartProcessingFinData {
 }
 
 export interface StartProcessingAddress {
+  dirCountryId: string;
   dirCityId: string;
   dirVillageId: string;
   street: string;

@@ -87,7 +87,10 @@ export function buildStartProcessingPayload(formValue: LoanDetailFormModel, prod
     // LOS expects dictionary codes in uppercase (ANNUITY / STANDART).
     sysPaymentTypeId: formValue.sysPaymentTypeId.toUpperCase(),
     filialCode: formValue.filialCode,
-    addresses: formValue.addresses,
+    addresses: {
+      ...formValue.addresses,
+      dirCountryId: formValue.addresses.dirCountryId ?? 'UZB',
+    },
     finData: normalizeFinDataForApi(formValue.finData, financeMonths),
   };
 }

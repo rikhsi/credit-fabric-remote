@@ -2,6 +2,7 @@ import { StartProcessingAddress } from '@api/models/los/start-processing';
 
 export function createEmptyAddress(): StartProcessingAddress {
   return {
+    dirCountryId: 'UZB',
     dirCityId: null,
     dirVillageId: null,
     street: null,
