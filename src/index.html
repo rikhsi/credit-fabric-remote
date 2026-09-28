@@ -34,38 +34,8 @@
         } catch (e) {}
       })();
     </script>
-
-    <style>
-      .splash {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100vh;
-        height: 100svh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        overflow: hidden;
-        z-index: 2147483647;
-        background: #ffffff;
-      }
-      html.dark .splash {
-        background: #262626;
-      }
-      .splash.none {
-        display: none;
-      }
-      .splash-image {
-        object-fit: contain;
-      }
-    </style>
   </head>
   <body>
     <cf-root></cf-root>
-
-    <div class="splash">
-      <img src="images/logo-full.svg" alt="Hamkorbank" class="splash-image" />
-    </div>
   </body>
 </html>

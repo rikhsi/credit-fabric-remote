@@ -4,10 +4,13 @@ import { APP_BASE_HREF } from '@angular/common';
 import { Router } from '@angular/router';
 import { App } from '@app/app';
 import { appConfig } from '@app/core/configs/app.config';
+import { removeSplash, ensureSplash } from '@core/providers/splash.provider';
 
 let appRef: ApplicationRef | null = null;
 
 export default async function mount(container: HTMLElement, basePath = '/credit-fabric') {
+  ensureSplash(document);
+
   const fullPath = window.location.pathname;
   const baseIndex = fullPath.indexOf(basePath);
   const resolvedBase = baseIndex !== -1 ? fullPath.slice(0, baseIndex + basePath.length) : basePath;
@@ -31,6 +34,7 @@ export default async function mount(container: HTMLElement, basePath = '/credit-
 
 export function unmount() {
   document.getElementById('credit-fabric-light')?.remove();
+  removeSplash();
   appRef?.destroy();
   appRef = null;
 }

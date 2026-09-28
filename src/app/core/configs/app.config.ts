@@ -25,6 +25,7 @@ import {
   provideLang,
   provideLocaleId,
   provideTheme,
+  provideSplash,
   TranslocoProvider,
 } from '@core/providers';
 import { routes } from '@app/app.routes';
@@ -76,6 +77,7 @@ export const appConfig: ApplicationConfig = {
     provideEnvironmentNgxMask(),
     provideNzConfig(ngZorroConfig),
     provideApiMocks(),
+    provideSplash,
     provideTheme,
     provideHostInit,
     provideEligibility,

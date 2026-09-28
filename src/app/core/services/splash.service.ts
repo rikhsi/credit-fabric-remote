@@ -15,7 +15,7 @@ export class SplashService {
   }
 
   set hide(value: boolean) {
-    const splash = this.document.querySelector('.splash');
+    const splash = this.document.getElementById('cf-splash') ?? this.document.querySelector('.splash');
 
     if (!splash) return;
 
