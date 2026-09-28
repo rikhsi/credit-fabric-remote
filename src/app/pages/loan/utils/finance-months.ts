@@ -84,7 +84,8 @@ export function buildStartProcessingPayload(formValue: LoanDetailFormModel, prod
     productId,
     loanAmount: formValue.loanAmount,
     loanTerm: formValue.loanTerm,
-    sysPaymentTypeId: formValue.sysPaymentTypeId,
+    // LOS expects dictionary codes in uppercase (ANNUITY / STANDART).
+    sysPaymentTypeId: formValue.sysPaymentTypeId.toUpperCase(),
     filialCode: formValue.filialCode,
     addresses: formValue.addresses,
     finData: normalizeFinDataForApi(formValue.finData, financeMonths),
