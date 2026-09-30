@@ -22,7 +22,7 @@ export const environment = {
     language: 'RUS',
   },
   mode: 'development',
-  mock: false,
+  mock: true,
   assetsBaseUrl: '',
   oneIdUrl: 'https://id.egov.uz/ru',
 };

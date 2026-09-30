@@ -84,6 +84,23 @@
       "description": "To get a loan, fill out and submit an application."
     }
   },
+  "documents": {
+    "title": "Documents to sign",
+    "empty": {
+      "title": "No documents to sign",
+      "description": "When the bank prepares documents, they will appear here."
+    },
+    "sign": {
+      "success": {
+        "title": "Document signed",
+        "description": "The signed document has been sent to the bank."
+      },
+      "failed": {
+        "title": "Failed to sign the document",
+        "description": "Please try again."
+      }
+    }
+  },
   "modal": {
     "application_decline": {
       "title": "Confirm rejection",
@@ -239,7 +256,8 @@
         "loan_agreement": "Credit agreement No. {{id}}"
       },
       "status": {
-        "signed": "Signed"
+        "signed": "Signed",
+        "need_sign": "Signature required"
       }
     },
     "status": {

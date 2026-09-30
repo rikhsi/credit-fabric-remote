@@ -1,0 +1,28 @@
+<ng-container *transloco="let t">
+  @if (isLoading()) { @for (item of [] | emptyList:4; track $index) {
+  <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
+  } } @else { @for (group of groups(); track group.applicationId) {
+  <section class="group">
+    <div class="group-header">
+      <div class="id-badge">
+        <nz-icon nzType="f:doc" />
+        <span>{{ t('application.number', { id: group.applicationNumber }) }}</span>
+      </div>
+
+      <button cfBounce="300" nz-button nzType="default" nzSize="small" class="action" (clicked)="goToApplication(group.applicationId)">
+        {{ t('action.go_to_application') }}
+        <nz-icon nzType="f:arrowNarrowRight" />
+      </button>
+    </div>
+
+    <cf-docs-application [applicationId]="group.applicationId" [docs]="group.docs" [status]="signingStatus" class="borderless" />
+  </section>
+  } @empty {
+  <cf-empty
+    [title]="t('documents.empty.title')"
+    [description]="t('documents.empty.description')"
+    [actionLabel]="t('action.go_my_applications')"
+    (actionClick)="goToApplications()"
+  />
+  } }
+</ng-container>

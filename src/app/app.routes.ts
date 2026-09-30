@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { RootRoute } from './constants/route-path';
-import { RouteParam } from './constants/route-param';
 import { LoanLayout } from '@layouts/views';
-
 
 export const routes: Routes = [
   {
@@ -25,8 +23,8 @@ export const routes: Routes = [
         loadChildren: () => import('@pages/applications/applications.routes').then((r) => r.routes),
       },
       {
-        path: `${RootRoute.Document}/:${RouteParam.DocId}`,
-        loadComponent: () => import('@pages/document/document').then((c) => c.Document),
+        path: RootRoute.Documents,
+        loadChildren: () => import('@pages/documents/documents.routes').then((r) => r.routes),
       },
       {
         path: '**',

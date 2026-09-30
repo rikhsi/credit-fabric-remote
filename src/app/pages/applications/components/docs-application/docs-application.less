@@ -41,11 +41,15 @@
             background: @component-background;
 
             nz-icon {
-                color: @primary-color;
+                color: @border-color;
             }
 
             &:hover {
                 border-color: @primary-color;
+
+                nz-icon {
+                    color: @primary-color;
+                }
             }
         }
     }

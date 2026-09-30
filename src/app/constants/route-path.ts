@@ -1,7 +1,7 @@
 export enum RootRoute {
   Loan = 'loan',
   Applications = 'applications',
-  Document = 'document',
+  Documents = 'documents',
   OneId = 'oneid',
 }
 

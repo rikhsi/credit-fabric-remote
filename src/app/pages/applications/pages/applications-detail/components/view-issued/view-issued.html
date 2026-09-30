@@ -1,7 +1,3 @@
 <div class="stack">
   <cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
-
-  @if (docs().length) {
-  <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" class="docs" />
-  }
 </div>

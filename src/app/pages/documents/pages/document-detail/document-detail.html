@@ -4,6 +4,10 @@
       <nz-icon nzType="f:arrowBack" />
       {{t('action.back')}}
     </a>
+
+    @if (title(); as docTitle) {
+    <h3 class="title">{{ docTitle }}</h3>
+    }
   </div>
 
   <nz-spin [nzSpinning]="isLoading()" class="spin">
@@ -19,7 +23,16 @@
   </nz-spin>
 
   <div class="footer">
-    <button cfBounce="300" [disabled]="isLoading()" nz-button nzBlock nzSize="large" nzType="primary" (clicked)="onSign()">
+    <button
+      cfBounce="300"
+      nz-button
+      nzBlock
+      nzSize="large"
+      nzType="primary"
+      [disabled]="isLoading() || isSigning()"
+      [nzLoading]="isSigning()"
+      (clicked)="onSign()"
+    >
       {{t('action.sign')}}
     </button>
   </div>

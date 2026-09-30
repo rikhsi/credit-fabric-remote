@@ -21,8 +21,10 @@
         </div>
 
         <div class="text">
-          <p class="title">{{t('application.docs.type.' + item.type | lowercase, {id: item.id})}}</p>
+          <p class="title">{{ item.title || t('application.docs.type.' + item.type | lowercase, {id: item.id}) }}</p>
+          @if (item.createdDate) {
           <p class="info">{{t('application.docs.get_in', {date: item.createdDate| date: 'dd.MM.yyyy'})}}</p>
+          }
         </div>
 
         <div class="box">
@@ -32,8 +34,10 @@
               <nz-icon nzType="check" />
               {{t('application.docs.status.signed')}}
             </nz-tag>
-            } @else {
+            } @else if (item.signedDate) {
             <nz-tag class="tag warning">{{t('application.docs.sign_until', {date: item.signedDate| date: 'dd.MM.yyyy'})}}</nz-tag>
+            } @else {
+            <nz-tag class="tag warning">{{t('application.docs.status.need_sign')}}</nz-tag>
             }
           </div>
 

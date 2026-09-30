@@ -12,6 +12,7 @@ import { OnlineApplication } from '@api/models/los/application';
 })
 export class ViewOnDesign {
   application = input.required<OnlineApplication>();
+  applicationId = input.required<number>();
 
   readonly docs = computed(() => this.application().docs ?? []);
 }

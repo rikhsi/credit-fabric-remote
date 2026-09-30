@@ -1,12 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import {
-  HAddressApiService,
-  HBranchApiService,
-  HCityApiService,
-  HCompanyApiService,
-  HVillageService,
-} from '@api/controllers/handbooks';
+import { HAddressApiService, HBranchApiService, HCityApiService, HCompanyApiService, HVillageService } from '@api/controllers/handbooks';
 import { AddressTypeFilter, BranchFilters, CityFilters, CompanyActivityFilters, VillageFilter } from '@api/models/handbooks';
 import { HandbookItem, HandbookType } from '@app/typings/handbook';
 
@@ -20,10 +14,7 @@ export class HandbookApiService {
   private readonly branchApi = inject(HBranchApiService);
   private readonly addressApi = inject(HAddressApiService);
 
-  public getAll$<T extends HandbookItem = HandbookItem>(
-    type: HandbookType,
-    params: Record<string, unknown> = {},
-  ): Observable<T[]> {
+  public getAll$<T extends HandbookItem = HandbookItem>(type: HandbookType, params: Record<string, unknown> = {}): Observable<T[]> {
     return this.request$(type, params).pipe(map((response) => response.data as T[]));
   }
 

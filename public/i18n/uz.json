@@ -84,6 +84,23 @@
       "description": "Kredit olish uchun arizani to‘ldiring va yuboring."
     }
   },
+  "documents": {
+    "title": "Imzolash uchun hujjatlar",
+    "empty": {
+      "title": "Imzolash uchun hujjatlar yo‘q",
+      "description": "Bank hujjatlarni tayyorlagach, ular shu yerda paydo bo‘ladi."
+    },
+    "sign": {
+      "success": {
+        "title": "Hujjat imzolandi",
+        "description": "Imzolangan hujjat bankka yuborildi."
+      },
+      "failed": {
+        "title": "Hujjatni imzolab bo‘lmadi",
+        "description": "Qayta urinib ko‘ring."
+      }
+    }
+  },
   "modal": {
     "application_decline": {
       "title": "Rad etishni tasdiqlang",
@@ -239,7 +256,8 @@
         "loan_agreement": "Kredit shartnomasi № {{id}}"
       },
       "status": {
-        "signed": "Imzolangan"
+        "signed": "Imzolangan",
+        "need_sign": "Imzo talab qilinadi"
       }
     },
     "status": {

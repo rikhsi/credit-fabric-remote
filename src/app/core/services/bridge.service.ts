@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/development';
 import { UserItem } from '@api/models/base';
-import { NativeEvent } from '@app/typings/bridge';
+import { NativeEvent, NativeEventData, NativeEventName, NativeSignedData } from '@app/typings/bridge';
 import { TokenRefreshService } from '@core/services/token-refresh.service';
 import { ToastService } from '@core/services/toast.service';
 import { normalizePhoneNumber } from '@shared/utils/phone';
@@ -13,6 +14,10 @@ import { normalizePhoneNumber } from '@shared/utils/phone';
 export class BridgeService {
   private readonly toast = inject(ToastService);
   private readonly tokenRefreshService = inject(TokenRefreshService);
+
+  private readonly signedSubject = new Subject<NativeEventData<NativeSignedData>>();
+  /** Emits once native finishes (or fails) signing started by `onSignClick`. */
+  public readonly signed$: Observable<NativeEventData<NativeSignedData>> = this.signedSubject.asObservable();
 
   private listenerInitialized = false;
 
@@ -83,12 +88,17 @@ export class BridgeService {
 
     const eventName = payload.data?.event_name;
 
-    if (eventName === 'onTokenRefresh') {
+    if (eventName === NativeEventName.TokenRefresh) {
       this.tokenRefreshService.completeRefresh(payload.data?.status === 'success');
       return;
     }
 
-    if (eventName === 'onChangeTheme') {
+    if (eventName === NativeEventName.Signed) {
+      this.signedSubject.next(payload.data as NativeEventData<NativeSignedData>);
+      return;
+    }
+
+    if (eventName === NativeEventName.ChangeTheme) {
       this.toast.success(payload.event, payload.data.event_name);
       return;
     }
