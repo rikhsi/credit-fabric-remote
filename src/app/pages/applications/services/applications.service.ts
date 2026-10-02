@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { catchError, of, tap } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
+import { pickApplicationStatus } from '@api/utils';
 import { AuthService } from '@core/services/auth.service';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 
@@ -19,7 +20,9 @@ export class ApplicationsService {
 
     return this.onlineApiService.getApplications$().pipe(
       tap((result) => {
-        this.applicationsList.set(result);
+        const items = Array.isArray(result) ? result : [];
+
+        this.applicationsList.set(items.map((item) => this.normalizeListItem(item)));
         this.isLoading.set(false);
       }),
       catchError(() => {
@@ -29,5 +32,14 @@ export class ApplicationsService {
         return of([]);
       }),
     );
+  }
+
+  private normalizeListItem(item: OnlineGetInfoResult): OnlineGetInfoResult {
+    const raw = item as OnlineGetInfoResult & Record<string, unknown>;
+
+    return {
+      ...item,
+      sysStatusId: pickApplicationStatus(item.sysStatusId, raw['sys_status_id'], raw['status'], raw['statusId']) ?? item.sysStatusId,
+    };
   }
 }

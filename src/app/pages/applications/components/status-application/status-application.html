@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
   <div class="icon">
-    @switch (status()) { @case('IN_PROGRESS') {
+    @switch (normalizedStatus()) { @case('IN_PROGRESS') {
     <nz-icon nzType="f:clock" class="warning" />
     } @case('ON_DESIGN') {
     <nz-icon nzType="f:zap" class="design" />
@@ -16,8 +16,10 @@
     <nz-icon nzType="f:checkCircle" class="success" />
     } @case('ERROR') {
     <nz-icon nzType="f:xCircle" class="decline" />
+    } @default {
+    <nz-icon nzType="f:clock" />
     } }
   </div>
 
-  <b class="sm">{{t(status() | applicationStatus)}}</b>
+  <b class="sm">{{t(normalizedStatus() | applicationStatus)}}</b>
 </ng-container>

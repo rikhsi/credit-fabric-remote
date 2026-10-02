@@ -16,4 +16,6 @@
 <cf-view-signed [application]="app" />
 } @case (status.Issued) {
 <cf-view-issued [application]="app" />
+} @default {
+<cf-view-in-progress [application]="app" />
 } } }

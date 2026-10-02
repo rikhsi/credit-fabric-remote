@@ -27,13 +27,7 @@ import { Breakpoint } from '@app/constants/breakpoint';
 
 @Component({
   selector: 'cf-view-approved',
-  imports: [
-    TranslocoDirective,
-    ApplicationConditionsCard,
-    NzButtonComponent,
-    NzSkeletonModule,
-    BounceDirective,
-  ],
+  imports: [TranslocoDirective, ApplicationConditionsCard, NzButtonComponent, NzSkeletonModule, BounceDirective],
   templateUrl: './view-approved.html',
   styleUrl: './view-approved.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,10 +47,16 @@ export class ViewApproved implements OnInit {
   /** Mobile fixed footer (single accept/refuse or multi refuse). */
   readonly isFixedFooterVisible = signal(false);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
-  readonly requestedAmount = computed(() => this.application().product.loanAmount);
+  readonly requestedAmount = computed(() => this.application()?.product?.loanAmount);
   readonly offers = computed(() => {
     const requested = this.requestedAmount();
     const list = [...this.applicationsDetailService.offers()];
+
+    if (!list.length) {
+      const fallback = this.productAsOffer();
+
+      return fallback ? [fallback] : [];
+    }
 
     return list.sort((left, right) => {
       const leftMatch = left.loanAmount === requested ? 0 : 1;
@@ -65,6 +65,8 @@ export class ViewApproved implements OnInit {
       return leftMatch - rightMatch;
     });
   });
+  /** Accept/refuse need a real offer id from /offers or the application payload. */
+  readonly hasClaimableOffer = computed(() => this.applicationsDetailService.offers().length > 0 || !!this.application()?.offerId);
   readonly isSingle = computed(() => this.offers().length === 1);
   readonly isTriple = computed(() => this.offers().length === 3);
   readonly isPair = computed(() => {
@@ -72,10 +74,9 @@ export class ViewApproved implements OnInit {
 
     return count === 2 || count > 3;
   });
-  readonly isMobile = toSignal(
-    this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)),
-    { initialValue: false },
-  );
+  readonly isMobile = toSignal(this.breakpointObserver.observe(Breakpoint.MOBILE).pipe(map((state) => state.matches)), {
+    initialValue: false,
+  });
 
   private lastScrollTop = 0;
   private fixedFooterScrollBound = false;
@@ -97,12 +98,31 @@ export class ViewApproved implements OnInit {
       .getOffers$(this.applicationId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((offers) => {
+        const list = Array.isArray(offers) ? offers : [];
         const requested = this.requestedAmount();
-        const matched = offers.find((offer) => offer.loanAmount === requested);
+        const matched = requested == null ? undefined : list.find((offer) => offer.loanAmount === requested);
 
-        this.expandedOfferId.set(matched?.offerId ?? offers[0]?.offerId ?? null);
+        this.expandedOfferId.set(matched?.offerId ?? list[0]?.offerId ?? this.productAsOffer()?.offerId ?? null);
         requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
+  }
+
+  private productAsOffer(): OnlineOffer | null {
+    const application = this.application();
+    const product = application?.product;
+
+    if (!product) {
+      return null;
+    }
+
+    return {
+      offerId: application.offerId || '',
+      product: product.product,
+      loanAmount: product.loanAmount,
+      loanRate: product.loanRate,
+      loanTerm: product.loanTerm,
+      paymentType: product.paymentType,
+    };
   }
 
   isCollapsible(): boolean {

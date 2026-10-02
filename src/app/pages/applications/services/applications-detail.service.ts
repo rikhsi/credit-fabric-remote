@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, of, switchMap, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { normalizeOnlineApplication } from '@api/utils';
 
 @Injectable()
 export class ApplicationsDetailService {
@@ -25,7 +26,7 @@ export class ApplicationsDetailService {
 
     return this.onlineApiService.getOffers$(applicationId).pipe(
       tap((offers) => {
-        this.offers.set(offers.slice(0, 3));
+        this.offers.set(Array.isArray(offers) ? offers.slice(0, 3) : []);
         this.isOffersLoading.set(false);
       }),
       catchError(() => {
@@ -47,7 +48,7 @@ export class ApplicationsDetailService {
   private fetchApplication$(applicationId: number) {
     return this.onlineApiService.getApplication$(applicationId).pipe(
       tap((application) => {
-        this.application.set(application);
+        this.application.set(normalizeOnlineApplication(application));
         this.isLoading.set(false);
       }),
       catchError((err) => {

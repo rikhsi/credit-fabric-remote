@@ -30,11 +30,7 @@ const baseBorrower: OnlineApplication['borrower'] = {
   workPhone: null,
 };
 
-function listItem(
-  id: number,
-  status: ApplicationStatus,
-  overrides: Partial<OnlineGetInfoResult> = {},
-): OnlineGetInfoResult {
+function listItem(id: number, status: ApplicationStatus, overrides: Partial<OnlineGetInfoResult> = {}): OnlineGetInfoResult {
   return {
     id,
     creditAgreementId: id,
@@ -52,10 +48,7 @@ function listItem(
   };
 }
 
-function application(
-  status: ApplicationStatus,
-  overrides: Partial<OnlineApplication> = {},
-): OnlineApplication {
+function application(status: ApplicationStatus, overrides: Partial<OnlineApplication> = {}): OnlineApplication {
   return {
     accountNo: '20208000900000001234',
     offerId: '',
@@ -112,6 +105,7 @@ const docsSigned = [
 export const MockApplicationId = {
   InProgress: 845791,
   OnDesign: 845792,
+  OnDecisionNoOffers: 4606,
   OnDecisionOne: 845794,
   OnDecisionTwo: 845795,
   OnDecisionThree: 845796,
@@ -123,6 +117,13 @@ export const MockApplicationId = {
 } as const;
 
 export const MOCK_APPLICATIONS_LIST: OnlineGetInfoResult[] = [
+  listItem(MockApplicationId.OnDecisionNoOffers, ApplicationStatus.OnDecision, {
+    productName: 'Потоковое кредитование',
+    loanAmount: 10_000_000,
+    loanTerm: 12,
+    rate: 27,
+    paymentType: 'ANNUITY',
+  }),
   listItem(MockApplicationId.InProgress, ApplicationStatus.InProgress),
   listItem(MockApplicationId.OnDesign, ApplicationStatus.OnDesign),
   listItem(MockApplicationId.OnDecisionOne, ApplicationStatus.OnDecision, {
@@ -142,6 +143,16 @@ export const MOCK_APPLICATIONS_LIST: OnlineGetInfoResult[] = [
 ];
 
 export const MOCK_APPLICATIONS_BY_ID: Record<number, OnlineApplication> = {
+  [MockApplicationId.OnDecisionNoOffers]: application(ApplicationStatus.OnDecision, {
+    product: {
+      ...baseProduct,
+      product: 'Потоковое кредитование',
+      loanAmount: 10_000_000,
+      loanRate: 27,
+      loanTerm: 12,
+      paymentType: 'ANNUITY',
+    },
+  }),
   [MockApplicationId.InProgress]: application(ApplicationStatus.InProgress),
   [MockApplicationId.OnDesign]: application(ApplicationStatus.OnDesign, { docs: docsUnsigned }),
   [MockApplicationId.OnDecisionOne]: application(ApplicationStatus.OnDecision, {

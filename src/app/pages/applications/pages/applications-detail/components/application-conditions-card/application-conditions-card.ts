@@ -4,8 +4,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
-import { ApplicationStatus, OnlineApplicationProduct, OnlineOffer } from '@api/models/los/application';
 import { StatusApplication } from '../../../../components';
+import { ApplicationStatus, OnlineApplicationProduct, OnlineOffer } from '@api/models/los/application';
 import { BounceDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
 import { calculateMonthlyPayment, calculateOverpayment, isDifferentialPaymentType } from '@shared/utils';
@@ -69,7 +69,7 @@ export class ApplicationConditionsCard {
   readonly statusTone = computed<StatusTone | null>(() => {
     const status = this.status();
 
-    return status ? STATUS_TONE[status] : null;
+    return status ? (STATUS_TONE[status] ?? null) : null;
   });
 
   readonly isDifferential = computed(() => isDifferentialPaymentType(this.source().paymentType));

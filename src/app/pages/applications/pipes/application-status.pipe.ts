@@ -1,10 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ApplicationStatus } from '@api/models/los/application';
+import { normalizeApplicationStatus } from '@api/utils';
 
 @Pipe({ name: 'applicationStatus' })
 export class ApplicationStatusPipe implements PipeTransform {
-  transform(value: string): string {
-    switch (value) {
+  transform(value: unknown): string {
+    switch (normalizeApplicationStatus(value)) {
       case ApplicationStatus.InProgress: {
         return 'application.status.in_progress';
       }

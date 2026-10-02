@@ -1,2 +1,4 @@
-<cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
+@if (application().product; as product) {
+<cf-application-conditions-card [source]="product" [status]="application().sysStatusId" [splitLayout]="true" />
+}
 

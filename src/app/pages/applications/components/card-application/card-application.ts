@@ -66,7 +66,7 @@ export class CardApplication {
 
   readonly statusTone = computed(() => {
     const status = this.status();
-    return status ? STATUS_TONE[status] : 'warning';
+    return status ? (STATUS_TONE[status] ?? 'warning') : 'warning';
   });
 
   readonly isDifferential = computed(() => {

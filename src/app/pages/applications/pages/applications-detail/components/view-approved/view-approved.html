@@ -9,7 +9,7 @@
     [class.single]="isSingle()"
     [class.pair]="isPair()"
     [class.triple]="isTriple()"
-    [class.has-fixed-actions]="!!isMobile() && !!offers().length"
+    [class.has-fixed-actions]="hasClaimableOffer() && !!isMobile() && !!offers().length"
   >
     @for (offer of offers(); track offer.offerId) {
     <cf-application-conditions-card
@@ -25,7 +25,7 @@
       [splitLayout]="isSingle() && !!isMobile()"
       [fillViewport]="isSingle() && !!isMobile()"
     >
-      @if (!(isSingle() && isMobile())) {
+      @if (hasClaimableOffer() && !(isSingle() && isMobile())) {
       <ng-container cardActions>
         @if (isSingle()) {
         <button
@@ -60,7 +60,7 @@
     }
   </div>
 
-  @if (isSingle() && isMobile() && offers()[0]; as offer) {
+  @if (hasClaimableOffer() && isSingle() && isMobile() && offers()[0]; as offer) {
   <div class="footer footer--fixed footer--fixed-single" [class.is-visible]="isFixedFooterVisible()">
     <button
       cfBounce="300"
@@ -90,7 +90,7 @@
   </div>
   }
 
-  @if (!isSingle() && offers().length) {
+  @if (hasClaimableOffer() && !isSingle() && offers().length) {
   <div
     class="footer"
     [class.footer--fixed]="!!isMobile()"
