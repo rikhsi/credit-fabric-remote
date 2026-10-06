@@ -65,8 +65,8 @@ export class ViewApproved implements OnInit {
       return leftMatch - rightMatch;
     });
   });
-  /** Accept/refuse need a real offer id from /offers or the application payload. */
-  readonly hasClaimableOffer = computed(() => this.applicationsDetailService.offers().length > 0 || !!this.application()?.offerId);
+  /** Accept/refuse need a real offer id from /offers. */
+  readonly hasClaimableOffer = computed(() => this.applicationsDetailService.offers().length > 0);
   readonly isSingle = computed(() => this.offers().length === 1);
   readonly isTriple = computed(() => this.offers().length === 3);
   readonly isPair = computed(() => {
@@ -102,21 +102,20 @@ export class ViewApproved implements OnInit {
         const requested = this.requestedAmount();
         const matched = requested == null ? undefined : list.find((offer) => offer.loanAmount === requested);
 
-        this.expandedOfferId.set(matched?.offerId ?? list[0]?.offerId ?? this.productAsOffer()?.offerId ?? null);
+        this.expandedOfferId.set(matched?.offerId ?? list[0]?.offerId ?? null);
         requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
   }
 
   private productAsOffer(): OnlineOffer | null {
-    const application = this.application();
-    const product = application?.product;
+    const product = this.application()?.product;
 
     if (!product) {
       return null;
     }
 
     return {
-      offerId: application.offerId || '',
+      offerId: '',
       product: product.product,
       loanAmount: product.loanAmount,
       loanRate: product.loanRate,

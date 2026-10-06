@@ -123,7 +123,6 @@ export interface OnlineOffersResponse {
 
 export interface OnlineApplication {
   accountNo: string;
-  offerId: string;
   borrower: OnlineBorrower;
   docs?: DocumentItem[];
   finData: OnlineApplicationFinData[];

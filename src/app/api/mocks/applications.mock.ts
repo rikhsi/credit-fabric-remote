@@ -51,7 +51,6 @@ function listItem(id: number, status: ApplicationStatus, overrides: Partial<Onli
 function application(status: ApplicationStatus, overrides: Partial<OnlineApplication> = {}): OnlineApplication {
   return {
     accountNo: '20208000900000001234',
-    offerId: '',
     borrower: baseBorrower,
     docs: [],
     finData: [],
@@ -157,15 +156,12 @@ export const MOCK_APPLICATIONS_BY_ID: Record<number, OnlineApplication> = {
   [MockApplicationId.OnDesign]: application(ApplicationStatus.OnDesign, { docs: docsUnsigned }),
   [MockApplicationId.OnDecisionOne]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 50_000_000 },
-    offerId: 'offer-1',
   }),
   [MockApplicationId.OnDecisionTwo]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 45_000_000 },
-    offerId: 'offer-1',
   }),
   [MockApplicationId.OnDecisionThree]: application(ApplicationStatus.OnDecision, {
     product: { ...baseProduct, loanAmount: 50_000_000 },
-    offerId: 'offer-1',
   }),
   [MockApplicationId.Signed]: application(ApplicationStatus.Signed, { docs: docsSigned }),
   [MockApplicationId.Issued]: application(ApplicationStatus.Issued, { docs: docsSigned }),

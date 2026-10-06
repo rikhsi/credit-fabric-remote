@@ -55,7 +55,6 @@ export class MockOnlineApiService {
           MOCK_OFFERS_BY_ID[payload.applicationId]?.[0];
 
         application.sysStatusId = ApplicationStatus.OnDesign;
-        application.offerId = payload.offerId;
         application.docs = [
           {
             id: 101,
