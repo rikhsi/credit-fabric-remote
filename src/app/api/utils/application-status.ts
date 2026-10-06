@@ -1,4 +1,11 @@
-import { ApplicationStatus, OnlineApplication, OnlineApplicationProduct } from '@api/models/los/application';
+import {
+  ApplicationStatus,
+  OnlineApplication,
+  OnlineApplicationProduct,
+  OnlineOffer,
+  OnlineOfferDto,
+  OnlineOffersResponse,
+} from '@api/models/los/application';
 
 const APPLICATION_STATUSES = new Set<string>(Object.values(ApplicationStatus));
 
@@ -75,4 +82,35 @@ export function normalizeOnlineApplication(application: OnlineApplication): Onli
       pickApplicationStatus(application.sysStatusId, raw['sys_status_id'], raw['status'], raw['statusId']) ?? application.sysStatusId,
     product: resolveApplicationProduct(application) ?? application.product,
   };
+}
+
+export function normalizeOnlineOffer(
+  raw: OnlineOffer | OnlineOfferDto | Record<string, unknown>,
+  defaults?: Pick<OnlineOffer, 'paymentType' | 'loanAmount'>,
+): OnlineOffer {
+  const item = raw as OnlineOfferDto & OnlineOffer & Record<string, unknown>;
+
+  return {
+    offerId: String(item.offerId ?? ''),
+    product: String(item.product ?? item.productId ?? ''),
+    loanAmount: Number(item.loanAmount ?? item.maxLoanAmount ?? defaults?.loanAmount ?? 0),
+    loanRate: Number(item.loanRate ?? item.interestRate ?? 0),
+    loanTerm: Number(item.loanTerm ?? 0),
+    paymentType: String(item.paymentType || defaults?.paymentType || ''),
+    ...(item.issueDate != null ? { issueDate: String(item.issueDate) } : {}),
+  };
+}
+
+/** Accepts either a raw array or `{ offers: [...] }` from the backend. */
+export function normalizeOnlineOffers(
+  response: OnlineOffer[] | OnlineOffersResponse | OnlineOfferDto[] | null | undefined,
+  defaults?: Pick<OnlineOffer, 'paymentType' | 'loanAmount'>,
+): OnlineOffer[] {
+  const list = Array.isArray(response)
+    ? response
+    : Array.isArray(response?.offers)
+      ? response.offers
+      : [];
+
+  return list.map((item) => normalizeOnlineOffer(item, defaults)).filter((offer) => !!offer.offerId);
 }

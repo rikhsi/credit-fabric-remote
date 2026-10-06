@@ -1,10 +1,11 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { map, Observable } from 'rxjs';
+import { ClaimLoanPayload, ClaimLoanResult, OnlineApplication, OnlineOffer, OnlineOffersResponse } from '@api/models/los/application';
 import { EligibilityResult, OnlineBranchesResult, OnlineGetInfoResult } from '@api/models/los/online';
 import { OnlineCheckOtpResponse, OnlineCheckOtpResult, OnlineSendOtpResponse, OnlineSendOtpResult } from '@api/models/los/otp';
 import { StartProcessingPayload, StartProcessingResult } from '@api/models/los/start-processing';
+import { normalizeOnlineOffers } from '@api/utils';
 import { SHOW_ERROR_NOTIFICATION } from '@app/constants/base';
 
 @Injectable({
@@ -34,7 +35,9 @@ export class OnlineApiService {
   }
 
   public getOffers$(applicationId: number): Observable<OnlineOffer[]> {
-    return this.http.get<OnlineOffer[]>(`online/application/${applicationId}/offers`);
+    return this.http
+      .get<OnlineOffersResponse | OnlineOffer[]>(`online/application/${applicationId}/offers`)
+      .pipe(map((response) => normalizeOnlineOffers(response)));
   }
 
   public claimLoan$(payload: ClaimLoanPayload): Observable<ClaimLoanResult> {

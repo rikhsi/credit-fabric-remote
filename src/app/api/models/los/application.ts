@@ -103,6 +103,24 @@ export interface OnlineOffer {
   issueDate?: string;
 }
 
+/** Raw offer item as returned by `GET online/application/:id/offers`. */
+export interface OnlineOfferDto {
+  offerId: string;
+  productId?: string;
+  product?: string;
+  loanTerm: number;
+  maxLoanAmount?: number;
+  loanAmount?: number;
+  interestRate?: number;
+  loanRate?: number;
+  paymentType?: string;
+  issueDate?: string;
+}
+
+export interface OnlineOffersResponse {
+  offers: OnlineOfferDto[];
+}
+
 export interface OnlineApplication {
   accountNo: string;
   offerId: string;

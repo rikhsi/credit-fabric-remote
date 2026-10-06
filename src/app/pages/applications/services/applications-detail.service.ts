@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
-import { normalizeOnlineApplication } from '@api/utils';
+import { normalizeOnlineApplication, normalizeOnlineOffers } from '@api/utils';
 
 @Injectable()
 export class ApplicationsDetailService {
@@ -25,8 +25,16 @@ export class ApplicationsDetailService {
     this.isOffersLoading.set(true);
 
     return this.onlineApiService.getOffers$(applicationId).pipe(
+      map((offers) => {
+        const product = this.application()?.product;
+
+        return normalizeOnlineOffers(offers, {
+          paymentType: product?.paymentType,
+          loanAmount: product?.loanAmount,
+        }).slice(0, 3);
+      }),
       tap((offers) => {
-        this.offers.set(Array.isArray(offers) ? offers.slice(0, 3) : []);
+        this.offers.set(offers);
         this.isOffersLoading.set(false);
       }),
       catchError(() => {
