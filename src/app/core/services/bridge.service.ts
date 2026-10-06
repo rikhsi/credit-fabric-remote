@@ -58,6 +58,8 @@ export class BridgeService {
       try {
         const parsed = JSON.parse(raw) as UserItem;
 
+        console.log(parsed);
+
         return {
           ...parsed,
           phone: normalizePhoneNumber(parsed.phone),
