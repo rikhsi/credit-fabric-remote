@@ -316,7 +316,8 @@
   "validation": {
     "error": {
       "required": "Обязательное поле",
-      "invalidOtp": "Неверный код"
+      "invalidOtp": "Неверный код",
+      "activityTermMin": "Укажите срок работы от 3 месяцев"
     }
   },
   "toast": {

@@ -9,7 +9,7 @@ import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { StartProcessingFinData } from '@api/models/los/start-processing';
 import { FinanceMonthPipe } from '@pages/loan/pipes';
 import { createDefaultFinanceForm, resolveFinanceMonthsForSubmit } from '@pages/loan/utils/finance-months';
-import { validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
+import { validateActivityTermMin, validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
 import { FormBox, InfoModal, InputDefault, LabelControlSecondary, SelectDefault, SelectDefaultMobile } from '@shared/components';
 import { HandbookDirective } from '@shared/directives';
 import { PluralizePipe } from '@shared/pipes';
@@ -57,6 +57,7 @@ export class FinanceForm {
   public readonly localForm = form(signal({ finData: createDefaultFinanceForm(this.nzModalData) }), (schemaPath) => {
     required(schemaPath.finData.dirCompanyActivityId);
     required(schemaPath.finData.activityTerm);
+    validate(schemaPath.finData.activityTerm, ({ value }) => validateActivityTermMin(value()));
     required(schemaPath.finData.month1Revenue);
     required(schemaPath.finData.month1Income);
     required(schemaPath.finData.month2Revenue);

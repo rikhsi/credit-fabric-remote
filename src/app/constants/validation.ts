@@ -8,4 +8,5 @@ export const VALIDATION_ERROR_STATUS: Record<ValidationErrorType, NzValidateStat
   email: 'error',
   invalidOtp: 'error',
   revenueLessThanIncome: 'error',
+  activityTermMin: 'error',
 };

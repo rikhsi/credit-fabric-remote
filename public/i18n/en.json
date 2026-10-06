@@ -316,7 +316,8 @@
   "validation": {
     "error": {
       "required": "Required field",
-      "invalidOtp": "Invalid code"
+      "invalidOtp": "Invalid code",
+      "activityTermMin": "Enter a work duration of at least 3 months"
     }
   },
   "toast": {

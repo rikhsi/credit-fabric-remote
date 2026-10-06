@@ -316,7 +316,8 @@
   "validation": {
     "error": {
       "required": "Majburiy maydon",
-      "invalidOtp": "Noto'g'ri kod"
+      "invalidOtp": "Noto'g'ri kod",
+      "activityTermMin": "Ish muddatini kamida 3 oy qilib kiriting"
     }
   },
   "toast": {

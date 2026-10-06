@@ -5,7 +5,7 @@ import { agreementFormModel, loanDetailFormModel } from '../data';
 import { isFlowAddressFilled } from '../utils/address';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
-import { isFinDataFilled } from '@pages/loan/utils/finance';
+import { isFinDataFilled, validateActivityTermMin } from '@pages/loan/utils/finance';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';
@@ -30,6 +30,7 @@ export class LoanDetailService {
     min(schemaPath.loanTerm, () => this.productCondition()?.minTerm ?? 0);
     max(schemaPath.loanTerm, () => this.productCondition()?.maxTerm ?? 0);
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
+    validate(schemaPath.finData.activityTerm, ({ value }) => validateActivityTermMin(value()));
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
     required(schemaPath.filialCode);
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());
