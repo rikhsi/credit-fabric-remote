@@ -70,7 +70,8 @@
     "address_fill": "Kompaniya manzilini to‘ldiring",
     "branch_fill": "Xizmat ko‘rsatuvchi filialni tanlang",
     "finance_fill": "Moliyaviy ma’lumotlarni, kompaniyaning daromadi va sof foydasini oxirgi 3 oy uchun to‘ldiring",
-    "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak"
+    "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak",
+    "on_design": "Hujjatlarni rasmiylashtirish uchun bank filialiga murojaat qiling. Kredit taklifi 3 kun amal qiladi."
   },
   "loan": {
     "not_eligible": {

@@ -70,7 +70,8 @@
     "address_fill": "Fill in the company address",
     "branch_fill": "Select a service branch",
     "finance_fill": "Fill in the financial data, company income and net profit for the last 3 months",
-    "revenue_less_than_income": "Revenue cannot be less than net profit"
+    "revenue_less_than_income": "Revenue cannot be less than net profit",
+    "on_design": "Visit a bank branch to complete the documents. This loan offer is valid for 3 days."
   },
   "loan": {
     "not_eligible": {

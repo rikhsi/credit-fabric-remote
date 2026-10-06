@@ -22,12 +22,9 @@ export const tokenRefreshInterceptor: HttpInterceptorFn = (req, next) => {
         context: req.context.set(IS_TOKEN_RETRY, true),
       });
 
-      if (!tokenRefreshService.isRefreshing) {
-        tokenRefreshService.startRefresh();
-        bridgeService.refreshToken();
-      }
-
-      return tokenRefreshService.waitForRefresh().pipe(switchMap((success) => (success ? next(retryReq) : throwError(() => error))));
+      return tokenRefreshService.ensureRefresh(() => bridgeService.refreshToken()).pipe(
+        switchMap((success) => (success ? next(retryReq) : throwError(() => error))),
+      );
     }),
   );
 };

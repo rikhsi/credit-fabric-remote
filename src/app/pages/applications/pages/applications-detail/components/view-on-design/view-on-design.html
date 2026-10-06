@@ -1,7 +1,14 @@
-<div class="stack">
-  <cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
+<ng-container *transloco="let t">
+  <div class="stack">
+    <div class="inline-alert">
+      <nz-icon nzType="info-circle" />
+      <span>{{ t('alert.on_design') }}</span>
+    </div>
 
-  @if (docs().length) {
-  <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" [applicationId]="applicationId()" class="docs" />
-  }
-</div>
+    <cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
+
+    @if (docs().length) {
+    <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" [applicationId]="applicationId()" class="docs" />
+    }
+  </div>
+</ng-container>

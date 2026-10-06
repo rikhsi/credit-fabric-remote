@@ -8,7 +8,9 @@
       <cf-label-control-secondary [label]="t('prop.loan_amount_full')">
         {{ loanAmount() | number }} {{loanAmount() | pluralize: 'money' : false | transloco}}
       </cf-label-control-secondary>
-      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{ annualRate() | number }}%</cf-label-control-secondary>
+      <cf-label-control-secondary [label]="t('prop.loan_percent_full')">{{
+        t('prop.loan_percent', { percent: annualRate() | number })
+      }}</cf-label-control-secondary>
     </div>
   </cf-card>
 </ng-container>

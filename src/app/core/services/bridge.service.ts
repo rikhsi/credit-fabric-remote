@@ -91,7 +91,7 @@ export class BridgeService {
     const eventName = payload.data?.event_name;
 
     if (eventName === NativeEventName.TokenRefresh) {
-      this.tokenRefreshService.completeRefresh(payload.data?.status === 'success');
+      this.tokenRefreshService.completeRefresh(isTokenRefreshSuccess(payload.data?.status));
       return;
     }
 
@@ -107,4 +107,18 @@ export class BridgeService {
 
     this.toast.success(payload.event, payload.data.event_name);
   };
+}
+
+function isTokenRefreshSuccess(status: unknown): boolean {
+  if (status == null || status === '') {
+    return true;
+  }
+
+  if (typeof status === 'boolean') {
+    return status;
+  }
+
+  const normalized = String(status).trim().toLowerCase();
+
+  return normalized === 'success' || normalized === 'ok' || normalized === 'true';
 }

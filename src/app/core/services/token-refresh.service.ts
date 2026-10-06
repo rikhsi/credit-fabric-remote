@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, finalize, Observable, of, shareReplay, Subject, Subscription, take, timeout } from 'rxjs';
+import { catchError, finalize, Observable, of, shareReplay, Subject, take, timeout } from 'rxjs';
 
 const TOKEN_REFRESH_TIMEOUT_MS = 30_000;
 
@@ -9,7 +9,6 @@ const TOKEN_REFRESH_TIMEOUT_MS = 30_000;
 export class TokenRefreshService {
   private readonly refreshCompleted$ = new Subject<boolean>();
   private refreshWaiters$: Observable<boolean> | null = null;
-  private waiterConnectSub: Subscription | null = null;
   private refreshFailed = false;
 
   get isRefreshing(): boolean {
@@ -22,15 +21,43 @@ export class TokenRefreshService {
     return failed;
   }
 
-  waitForRefresh(): Observable<boolean> {
-    this.ensureRefreshWaiters();
+  /**
+   * Starts (or joins) a single host token refresh.
+   * Subscribes to the completion signal before invoking `trigger`, so a sync
+   * `onTokenRefresh` callback from the host is not missed.
+   */
+  ensureRefresh(trigger: () => void): Observable<boolean> {
+    if (!this.refreshWaiters$) {
+      this.refreshWaiters$ = new Observable<boolean>((subscriber) => {
+        const inner = this.refreshCompleted$
+          .pipe(
+            take(1),
+            timeout({
+              first: TOKEN_REFRESH_TIMEOUT_MS,
+              with: () => {
+                this.markRefreshFailed();
+                return of(false);
+              },
+            }),
+            catchError(() => {
+              this.markRefreshFailed();
+              return of(false);
+            }),
+          )
+          .subscribe(subscriber);
 
-    return this.refreshWaiters$!;
-  }
+        trigger();
 
-  startRefresh(): void {
-    this.ensureRefreshWaiters();
-    this.connectWaiters();
+        return () => inner.unsubscribe();
+      }).pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+        finalize(() => {
+          this.refreshWaiters$ = null;
+        }),
+      );
+    }
+
+    return this.refreshWaiters$;
   }
 
   completeRefresh(success: boolean): void {
@@ -43,44 +70,5 @@ export class TokenRefreshService {
 
   private markRefreshFailed(): void {
     this.refreshFailed = true;
-  }
-
-  private connectWaiters(): void {
-    if (this.waiterConnectSub || !this.refreshWaiters$) {
-      return;
-    }
-
-    this.waiterConnectSub = this.refreshWaiters$!.subscribe({
-      complete: () => {
-        this.waiterConnectSub = null;
-      },
-    });
-  }
-
-  private ensureRefreshWaiters(): void {
-    if (this.refreshWaiters$) {
-      return;
-    }
-
-    this.refreshWaiters$ = this.refreshCompleted$.pipe(
-      take(1),
-      timeout({
-        first: TOKEN_REFRESH_TIMEOUT_MS,
-        with: () => {
-          this.markRefreshFailed();
-          return of(false);
-        },
-      }),
-      catchError(() => {
-        this.markRefreshFailed();
-        return of(false);
-      }),
-      shareReplay({ bufferSize: 1, refCount: false }),
-      finalize(() => {
-        this.refreshWaiters$ = null;
-        this.waiterConnectSub?.unsubscribe();
-        this.waiterConnectSub = null;
-      }),
-    );
   }
 }

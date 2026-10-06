@@ -8,6 +8,8 @@ export function mergeProductConditions(conditions: ProductConditionItem[]): Prod
   return {
     ...base,
 
+    interestRate: Math.min(...conditions.map((c) => c.interestRate ?? Number.POSITIVE_INFINITY)),
+
     minAmount: Math.min(...conditions.map((c) => c.minAmount ?? 0)),
     maxAmount: Math.max(...conditions.map((c) => c.maxAmount ?? 0)),
 
