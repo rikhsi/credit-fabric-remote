@@ -1,6 +1,7 @@
 import { FinanceMonthPeriod } from '../data/finance';
 import { LoanDetailFormModel } from '../models';
 import { StartProcessingFinData, StartProcessingPayload } from '@api/models/los/start-processing';
+import { toUzFullPhoneDigits } from '@shared/utils/phone';
 
 /** Masked inputs store numeric values as strings (e.g. "4 434 343"). */
 export function parseFinanceAmount(value: unknown): number {
@@ -77,7 +78,11 @@ function normalizeFinDataForApi(
   };
 }
 
-export function buildStartProcessingPayload(formValue: LoanDetailFormModel, productId: string): StartProcessingPayload {
+export function buildStartProcessingPayload(
+  formValue: LoanDetailFormModel,
+  productId: string,
+  mobilePhone?: string | null,
+): StartProcessingPayload {
   const financeMonths = resolveFinanceMonthsForSubmit();
 
   return {
@@ -87,6 +92,7 @@ export function buildStartProcessingPayload(formValue: LoanDetailFormModel, prod
     // LOS expects dictionary codes in uppercase (ANNUITY / STANDART).
     sysPaymentTypeId: formValue.sysPaymentTypeId.toUpperCase(),
     filialCode: formValue.filialCode,
+    mobilePhone: toUzFullPhoneDigits(mobilePhone) ?? '',
     addresses: {
       ...formValue.addresses,
       dirCountryId: formValue.addresses.dirCountryId ?? 'UZB',

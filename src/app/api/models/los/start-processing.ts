@@ -29,6 +29,8 @@ export interface StartProcessingPayload {
   loanTerm: number;
   sysPaymentTypeId: string;
   filialCode: number;
+  /** Digits only, country code included: `998990031497`. */
+  mobilePhone: string;
   addresses: StartProcessingAddress;
   finData: StartProcessingFinData;
 }

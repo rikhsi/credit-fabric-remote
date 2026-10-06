@@ -13,6 +13,7 @@ export function isStartProcessingPayloadFilled(payload: StartProcessingPayload |
     payload.loanAmount > 0 &&
     payload.loanTerm > 0 &&
     payload.sysPaymentTypeId != null &&
+    Boolean(payload.mobilePhone) &&
     isFlowAddressFilled(payload.addresses) &&
     isFinDataFilled(payload.finData)
   );

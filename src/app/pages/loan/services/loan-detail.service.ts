@@ -11,10 +11,12 @@ import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';
 import { StartProcessingPayload } from '@api/models/los/start-processing';
 import { buildStartProcessingPayload } from '@pages/loan/utils/finance-months';
+import { AuthService } from '@core/services/auth.service';
 
 @Injectable()
 export class LoanDetailService {
   private readonly onlineApiService = inject(OnlineApiService);
+  private readonly authService = inject(AuthService);
 
   public readonly isValidated = signal<boolean>(false);
   public readonly isLoading = signal<boolean>(true);
@@ -69,7 +71,7 @@ export class LoanDetailService {
   }
 
   public buildPayload(): StartProcessingPayload {
-    return buildStartProcessingPayload(this.form().value(), this.productId());
+    return buildStartProcessingPayload(this.form().value(), this.productId(), this.authService.user()?.phone);
   }
 
   public applyProduct(product: ProductItem): void {
