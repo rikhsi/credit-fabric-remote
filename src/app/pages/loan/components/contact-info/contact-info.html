@@ -3,12 +3,16 @@
 <ng-container *transloco="let t">
   <cf-card [titleRef]="titleRef" [topWrap]="false" [showSpace]="filled" class="bordered">
     <div actions>
+      @let hasItems = items().length > 0;
+
       <button cfBounce="300" nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onAdd()">
-        <strong>{{ t('action.add') }}</strong>
+        <strong>{{ hasItems ? t('action.add') : t('action.fill') }}</strong>
         @if (isLoading()) {
         <nz-spin nzSimple nzSize="small" />
-        } @else {
+        } @else if (hasItems) {
         <nz-icon nzType="plus" />
+        } @else {
+        <nz-icon nzType="o:pencil" />
         }
       </button>
     </div>
