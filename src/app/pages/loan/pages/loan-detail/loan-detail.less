@@ -50,7 +50,42 @@
 }
 
 .step-card {
-  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+
+  &--scroll-body {
+    overflow: hidden;
+
+    ::ng-deep .content {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    cf-branch-form {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+}
+
+.step-panel--fill > cf-product-acception {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto;
+}
+
+.step-actions {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 12px;
+  margin-top: auto;
+
+  > [nz-button],
+  > cf-product-acception {
+    width: 100%;
+  }
 }
 
 @keyframes loan-step-in {

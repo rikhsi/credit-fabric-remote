@@ -123,7 +123,8 @@ export class FinanceForm {
   }
 
   public validateInline(): boolean {
-    const tree = this.financeForm();
+    // Inline binds the parent loan form — only finData must pass to leave this step.
+    const tree = this.financeForm().finData;
 
     if (tree().valid()) {
       return true;

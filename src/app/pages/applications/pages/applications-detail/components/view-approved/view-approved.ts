@@ -16,31 +16,32 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { catchError, filter, finalize, forkJoin, fromEvent, map, of, take } from 'rxjs';
+import { filter, finalize, fromEvent, map, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
-import { ModalPayDay } from '../modal-pay-day/modal-pay-day';
+import { ModalPayDay, PAY_DAY_MAX } from '../modal-pay-day/modal-pay-day';
 import { ApplicationsDetailService } from '../../../../services';
 import { ApplicationSentModal, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
-import { ProductApiService } from '@api/controllers/los';
+import { LoanLayoutService } from '@layouts/services';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
-import { ProductItem } from '@api/models/los/product';
 import { ConfirmModal } from '@app/typings/modal';
 import { Breakpoint } from '@app/constants/breakpoint';
 
+type MobileApprovedStep = 'offers' | 'payDay';
+
 @Component({
   selector: 'cf-view-approved',
-  imports: [TranslocoDirective, ApplicationConditionsCard, NzButtonComponent, NzSkeletonModule, BounceDirective],
+  imports: [TranslocoDirective, ApplicationConditionsCard, ModalPayDay, NzButtonComponent, NzSkeletonModule, BounceDirective],
   templateUrl: './view-approved.html',
   styleUrl: './view-approved.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewApproved implements OnInit {
   private readonly applicationsDetailService = inject(ApplicationsDetailService);
-  private readonly productApiService = inject(ProductApiService);
   private readonly nzModalService = inject(NzModalService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly loanLayoutService = inject(LoanLayoutService);
   private readonly host = inject(ElementRef<HTMLElement>);
 
   application = input.required<OnlineApplication>();
@@ -50,26 +51,21 @@ export class ViewApproved implements OnInit {
   readonly expandedOfferId = signal<string | null>(null);
   /** Mobile fixed footer (single accept/refuse or multi refuse). */
   readonly isFixedFooterVisible = signal(false);
-  private readonly products = signal<ProductItem[]>([]);
+  readonly mobileStep = signal<MobileApprovedStep>('offers');
+  readonly pendingOfferId = signal<string | null>(null);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
   readonly requestedAmount = computed(() => this.application()?.product?.loanAmount);
   readonly offers = computed(() => {
     const requested = this.requestedAmount();
     const list = [...this.applicationsDetailService.offers()];
 
-    const withNames = (offers: OnlineOffer[]) =>
-      offers.map((offer) => ({
-        ...offer,
-        product: this.resolveProductName(offer.product),
-      }));
-
     if (!list.length) {
       const fallback = this.productAsOffer();
 
-      return fallback ? withNames([fallback]) : [];
+      return fallback ? [fallback] : [];
     }
 
-    return withNames(list).sort((left, right) => {
+    return list.sort((left, right) => {
       const leftMatch = left.loanAmount === requested ? 0 : 1;
       const rightMatch = right.loanAmount === requested ? 0 : 1;
 
@@ -105,14 +101,12 @@ export class ViewApproved implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin({
-      offers: this.applicationsDetailService.getOffers$(this.applicationId()),
-      products: this.productApiService.getOnlineProducts$().pipe(catchError(() => of([] as ProductItem[]))),
-    })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(({ offers, products }) => {
-        this.products.set(Array.isArray(products) ? products : []);
+    this.loanLayoutService.backClick$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.onHeaderBack());
 
+    this.applicationsDetailService
+      .getOffers$(this.applicationId())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((offers) => {
         const list = Array.isArray(offers) ? offers : [];
         const requested = this.requestedAmount();
         const matched = requested == null ? undefined : list.find((offer) => offer.loanAmount === requested);
@@ -122,19 +116,22 @@ export class ViewApproved implements OnInit {
       });
   }
 
-  private resolveProductName(productIdOrName: string): string {
-    const key = productIdOrName?.trim();
+  private onHeaderBack(): void {
+    this.loanLayoutService.handleBackClick();
 
-    if (!key) {
-      return productIdOrName;
+    if (this.isMobile() && this.mobileStep() === 'payDay') {
+      this.closePayDayStep();
+      return;
     }
 
-    const needle = key.toLowerCase();
-    const match = this.products().find((item) => {
-      return item.id?.toLowerCase() === needle || item.code?.toLowerCase() === needle;
-    });
+    this.loanLayoutService.navigateByBackConfig();
+  }
 
-    return match?.name ?? productIdOrName;
+  private closePayDayStep(): void {
+    this.mobileStep.set('offers');
+    this.pendingOfferId.set(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    requestAnimationFrame(() => this.bindFixedFooterScroll());
   }
 
   private productAsOffer(): OnlineOffer | null {
@@ -176,11 +173,18 @@ export class ViewApproved implements OnInit {
   }
 
   openAcceptConfirm(offer: OnlineOffer): void {
-    this.openPayDayModal(offer.offerId);
+    this.openPayDay(offer.offerId);
   }
 
-  private openPayDayModal(offerId: string): void {
+  private openPayDay(offerId: string): void {
     if (this.isClaiming()) {
+      return;
+    }
+
+    if (this.isMobile()) {
+      this.pendingOfferId.set(offerId);
+      this.mobileStep.set('payDay');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -201,6 +205,18 @@ export class ViewApproved implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((payDay) => this.claimLoan(offerId, true, payDay));
+  }
+
+  onPayDayConfirmed(payDay: number | null): void {
+    const offerId = this.pendingOfferId();
+
+    if (payDay == null || !offerId) {
+      this.closePayDayStep();
+      return;
+    }
+
+    this.closePayDayStep();
+    this.claimLoan(offerId, true, payDay);
   }
 
   openRefuseConfirm(): void {
@@ -381,7 +397,7 @@ export class ViewApproved implements OnInit {
       return;
     }
 
-    if (isAccepted && (payDay == null || payDay < 1 || payDay > 20)) {
+    if (isAccepted && (payDay == null || payDay < 1 || payDay > PAY_DAY_MAX)) {
       return;
     }
 

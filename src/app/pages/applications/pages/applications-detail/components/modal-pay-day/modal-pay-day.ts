@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { form, FormField, required, requiredError, validate } from '@angular/forms/signals';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
@@ -10,10 +10,11 @@ import { SelectDefault } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 import { markTreeAsDirty } from '@shared/utils';
 
-export const PAY_DAY_OPTIONS = Array.from({ length: 20 }, (_, index) => index + 1);
+export const PAY_DAY_MAX = 25;
+export const PAY_DAY_OPTIONS = Array.from({ length: PAY_DAY_MAX }, (_, index) => index + 1);
 
 function isPayDaySelected(value: unknown): value is number {
-  return typeof value === 'number' && value >= 1 && value <= 20;
+  return typeof value === 'number' && value >= 1 && value <= PAY_DAY_MAX;
 }
 
 @Component({
@@ -31,9 +32,16 @@ function isPayDaySelected(value: unknown): value is number {
   templateUrl: './modal-pay-day.html',
   styleUrl: './modal-pay-day.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.inline]': 'inline()',
+  },
 })
 export class ModalPayDay {
-  private readonly modalRef = inject(NzModalRef<ModalPayDay, number | null>);
+  private readonly modalRef = inject(NzModalRef<ModalPayDay, number | null>, { optional: true });
+
+  readonly inline = input(false);
+  /** Emitted in inline mode: selected day, or `null` when cancelled. */
+  readonly confirmed = output<number | null>();
 
   readonly options = PAY_DAY_OPTIONS;
 
@@ -42,8 +50,21 @@ export class ModalPayDay {
     validate(schemaPath.payDay, ({ value }) => (isPayDaySelected(value()) ? null : requiredError()));
   });
 
+  currentValue(): number | null {
+    return this.form().value().payDay;
+  }
+
+  selectDay(day: number): void {
+    this.form().value.update((current) => ({ ...current, payDay: day }));
+  }
+
   close(): void {
-    this.modalRef.close(null);
+    if (this.inline()) {
+      this.confirmed.emit(null);
+      return;
+    }
+
+    this.modalRef?.close(null);
   }
 
   submit(): void {
@@ -56,6 +77,11 @@ export class ModalPayDay {
       return;
     }
 
-    this.modalRef.close(payDay);
+    if (this.inline()) {
+      this.confirmed.emit(payDay);
+      return;
+    }
+
+    this.modalRef?.close(payDay);
   }
 }

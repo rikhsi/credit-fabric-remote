@@ -8,6 +8,22 @@
     .text p {
       color: @text-color-tertiary;
     }
+
+    .day-list__option {
+      color: @text-color;
+
+      &:hover {
+        background: @body-background;
+      }
+
+      &--selected {
+        background: @body-background;
+      }
+    }
+
+    .day-list__check {
+      color: @primary-color;
+    }
   }
 });
 
@@ -39,6 +55,54 @@
     max-width: 95vw;
     border-radius: 20px;
   });
+
+  &.inline {
+    /* Keep host within the viewport so the footer stays visible and only days scroll. */
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+    min-height: 0;
+    /* header (~70px) + layout bottom padding (20px) + small gap */
+    height: calc(100svh - 110px);
+    max-height: calc(100svh - 110px);
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 16px;
+
+    .content {
+      flex: 1 1 0;
+      min-height: 0;
+      padding: 0;
+      row-gap: 16px;
+      overflow: hidden;
+
+      .text {
+        flex-shrink: 0;
+        padding: 0;
+        text-align: start;
+      }
+
+      .body {
+        flex: 1 1 0;
+        min-height: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    .footer {
+      flex-shrink: 0;
+      padding: 16px 0 0;
+
+      [nz-button] {
+        width: 100%;
+      }
+    }
+  }
 
   .header {
     display: flex;
@@ -116,4 +180,38 @@
       width: 100%;
     }
   }
+}
+
+.day-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day-list__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  margin: 0;
+  padding: 14px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.4;
+
+  span {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.day-list__check {
+  flex-shrink: 0;
+  font-size: 18px;
 }

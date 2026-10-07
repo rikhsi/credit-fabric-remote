@@ -14,6 +14,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { filter, finalize, forkJoin, map, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,6 +33,7 @@ import {
   ProductAcception,
 } from '@pages/loan/components';
 import { Card } from '@shared/components';
+import { BounceDirective } from '@shared/directives';
 import { LoanDetailService } from '@pages/loan/services';
 import { AuthService } from '@core/services/auth.service';
 import { LoanBranchesService } from '@core/services/loan-branches.service';
@@ -46,7 +48,7 @@ import { Breakpoint } from '@app/constants/breakpoint';
 import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems, markTreeAsDirty } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
-import { isContactsFilled } from '@pages/loan/utils/contacts';
+import { createEmptyContact, isContactFilled, isContactsFilled } from '@pages/loan/utils/contacts';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
 import { BranchFormData, ContactFormData, OtpModalData } from '@pages/loan/models';
@@ -62,12 +64,15 @@ export type MobileLoanStep = 'calc' | 'address' | 'contacts' | 'finance' | 'bran
     BranchInfo,
     CalculatorForm,
     CalculatorResult,
+    ContactForm,
     ContactInfo,
     FinanceForm,
     FinanceInfo,
     ModalOtp,
     ProductAcception,
     Card,
+    NzButtonComponent,
+    BounceDirective,
     TranslocoDirective,
   ],
   templateUrl: './loan-detail.html',
@@ -106,6 +111,8 @@ export class LoanDetail implements OnInit {
   );
 
   readonly mobileStep = signal<MobileLoanStep>('calc');
+  /** Active contact form index within the mobile contacts step. */
+  readonly mobileContactIndex = signal(0);
 
   readonly otpData = computed<OtpModalData | null>(() => {
     const user = this.user();
@@ -122,6 +129,7 @@ export class LoanDetail implements OnInit {
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
   private readonly branchSection = viewChild('branchSection', { read: ElementRef });
   private readonly addressFormRef = viewChild(AddressForm);
+  private readonly contactFormRef = viewChild(ContactForm);
   private readonly financeFormRef = viewChild(FinanceForm);
   private readonly branchFormRef = viewChild(BranchForm);
 
@@ -167,11 +175,14 @@ export class LoanDetail implements OnInit {
         case 'branch':
           this.goToMobileStep('finance');
           return;
-        case 'finance':
+        case 'finance': {
+          const contacts = this.ldService.form().value().contacts;
+          this.mobileContactIndex.set(Math.max(0, contacts.length - 1));
           this.goToMobileStep('contacts');
           return;
+        }
         case 'contacts':
-          this.goToMobileStep('address');
+          this.onMobileContactBack();
           return;
         case 'address':
           this.goToMobileStep('calc');
@@ -266,6 +277,60 @@ export class LoanDetail implements OnInit {
     }));
   }
 
+  addAnotherContact(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    if (!this.contactFormRef()?.validateInline()) {
+      return;
+    }
+
+    this.ldService.form().value.update((cur) => ({
+      ...cur,
+      contacts: [...cur.contacts, createEmptyContact()],
+    }));
+
+    this.mobileContactIndex.set(this.ldService.form().value().contacts.length - 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  private ensureMobileContact(): void {
+    const contacts = this.ldService.form().value().contacts;
+
+    if (contacts.length > 0) {
+      return;
+    }
+
+    this.ldService.form().value.update((cur) => ({
+      ...cur,
+      contacts: [createEmptyContact()],
+    }));
+  }
+
+  private onMobileContactBack(): void {
+    const index = this.mobileContactIndex();
+
+    if (index <= 0) {
+      this.goToMobileStep('address');
+      return;
+    }
+
+    const contacts = this.ldService.form().value().contacts;
+    const current = contacts[index];
+    const isLast = index === contacts.length - 1;
+
+    if (isLast && current && !isContactFilled(current)) {
+      this.ldService.form().value.update((cur) => ({
+        ...cur,
+        contacts: cur.contacts.slice(0, -1),
+      }));
+    }
+
+    this.mobileContactIndex.set(index - 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   openFinanceForm(): void {
     if (this.isLoading()) {
       return;
@@ -336,12 +401,17 @@ export class LoanDetail implements OnInit {
           return;
         }
 
+        this.ensureMobileContact();
+        this.mobileContactIndex.set(0);
         this.goToMobileStep('contacts');
         break;
       case 'contacts':
-        markTreeAsDirty(this.ldService.form.contacts);
+        if (!this.contactFormRef()?.validateInline()) {
+          return;
+        }
 
         if (!isContactsFilled(this.ldService.form().value().contacts)) {
+          markTreeAsDirty(this.ldService.form.contacts);
           return;
         }
 

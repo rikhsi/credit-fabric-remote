@@ -1,5 +1,7 @@
 <ng-container *transloco="let t">
-  @if (isOffersLoading()) {
+  @if (mobileStep() === 'payDay') {
+  <cf-modal-pay-day [inline]="true" (confirmed)="onPayDayConfirmed($event)" />
+  } @else if (isOffersLoading()) {
   <div class="offers" [class.single]="true">
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
   </div>
@@ -16,6 +18,7 @@
       [source]="offer"
       [status]="application().sysStatusId"
       [issueDate]="offer.issueDate ?? null"
+      [showProduct]="false"
       [showRate]="true"
       [showOverpayment]="true"
       [highlighted]="!isSingle() && isHighlighted(offer)"

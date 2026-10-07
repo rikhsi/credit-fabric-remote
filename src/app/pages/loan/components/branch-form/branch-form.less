@@ -37,13 +37,24 @@
   }
 });
 
+:host.inline {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
 .inline {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
   row-gap: 12px;
 }
 
 .inline-title {
+  flex-shrink: 0;
   margin: 0;
   font-size: 28px;
   font-weight: 700;
@@ -52,6 +63,7 @@
 
 .inline-alert {
   display: flex;
+  flex-shrink: 0;
   align-items: flex-start;
   column-gap: 8px;
   padding: 12px;
@@ -70,24 +82,35 @@
 
 .branch-list {
   display: flex;
+  flex: 1;
   flex-direction: column;
+  min-height: 0;
   row-gap: 12px;
+  overflow: hidden;
 }
 
 .branch-list__search {
+  flex-shrink: 0;
   width: 100%;
 }
 
 .branch-list__loading {
   display: flex;
+  flex: 1;
   justify-content: center;
+  align-items: center;
   padding: 24px 0;
 }
 
 .branch-list__items {
+  flex: 1;
+  min-height: 0;
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .branch-list__option {

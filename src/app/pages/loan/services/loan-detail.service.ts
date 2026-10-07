@@ -1,9 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { disabled, form, max, min, required, requiredError, validate } from '@angular/forms/signals';
+import { applyEach, disabled, form, max, min, required, requiredError, validate } from '@angular/forms/signals';
 import { tap } from 'rxjs';
 import { agreementFormModel, loanDetailFormModel } from '../data';
 import { isFlowAddressFilled, validateZipCode } from '../utils/address';
-import { isContactsFilled } from '../utils/contacts';
+import { isContactsFilled, validatePersonName } from '../utils/contacts';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { isFinDataFilled, validateActivityTermMin, validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
@@ -13,6 +13,7 @@ import { ProductConditionItem, ProductItem } from '@api/models/los/product';
 import { StartProcessingPayload } from '@api/models/los/start-processing';
 import { buildStartProcessingPayload } from '@pages/loan/utils/finance-months';
 import { AuthService } from '@core/services/auth.service';
+import { toUzFullPhoneDigits } from '@shared/utils/phone';
 
 @Injectable()
 export class LoanDetailService {
@@ -40,6 +41,14 @@ export class LoanDetailService {
     validate(schemaPath.addresses.zipCode, ({ value }) => validateZipCode(value()));
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
 
+    applyEach(schemaPath.contacts, (contact) => {
+      required(contact.firstName);
+      required(contact.lastName);
+      validate(contact.firstName, ({ value }) => validatePersonName(value()));
+      validate(contact.lastName, ({ value }) => validatePersonName(value()));
+      required(contact.dirFamilyRelationshipId);
+      validate(contact.mobilePhone, ({ value }) => (toUzFullPhoneDigits(value()) ? null : requiredError()));
+    });
     validate(schemaPath.contacts, ({ value }) => (isContactsFilled(value()) ? null : requiredError()));
 
     required(schemaPath.finData.dirCompanyActivityId);

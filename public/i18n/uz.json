@@ -7,6 +7,7 @@
   },
   "action": {
     "add": "Qo‘shish",
+    "add_another": "Yana qo‘shish",
     "add_address": "Manzil qo‘shing",
     "apply": "Ariza yuborish",
     "send_application": "Arizani yuborish",

@@ -7,6 +7,7 @@
   },
   "action": {
     "add": "Добавить",
+    "add_another": "Добавить ещё",
     "add_address": "Добавьте адрес",
     "apply": "Подать заявку",
     "send_application": "Отправить заявку",

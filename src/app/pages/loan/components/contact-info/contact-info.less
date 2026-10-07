@@ -36,6 +36,12 @@
           border-color: @border-color;
         }
 
+        .contact-card__actions [nz-button] {
+          background: @component-background;
+          border-color: @border-color;
+          color: @text-color;
+        }
+
         .contact-meta {
           color: @text-color-secondary;
         }
@@ -69,6 +75,18 @@
   display: flex;
   flex-shrink: 0;
   column-gap: 8px;
+
+  [nz-button] {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 10px;
+
+    nz-icon {
+      font-size: 16px;
+    }
+  }
 }
 
 .contact-name,

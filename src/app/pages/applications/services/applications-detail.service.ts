@@ -47,7 +47,8 @@ export class ApplicationsDetailService {
   }
 
   public claimLoan$(applicationId: number, offerId: string, isAccepted: boolean, payDay?: number) {
-    if (isAccepted && (payDay == null || payDay < 1 || payDay > 20)) {
+    if (isAccepted && (payDay == null || payDay < 1 || payDay > 25)) {
+      // Keep in sync with ModalPayDay PAY_DAY_MAX.
       return throwError(() => new Error('payDay is required'));
     }
 

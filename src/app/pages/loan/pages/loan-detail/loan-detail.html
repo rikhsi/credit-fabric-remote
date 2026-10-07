@@ -42,22 +42,33 @@
     }
     @case ('contacts') {
     <div class="step-panel step-panel--fill">
-      <cf-contact-info
-        class="step-fill"
-        [items]="form().contacts().value()"
-        [isLoading]="isLoading()"
-        (add)="openContactForm()"
-        (edit)="openContactForm($event)"
-        (remove)="removeContact($event)"
-      />
+      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
+        @for (idx of [mobileContactIndex()]; track idx) {
+        <cf-contact-form [inline]="true" [form]="form()" [index]="idx" />
+        }
+      </cf-card>
 
-      <cf-product-acception
-        [form]="agreementForm()"
-        [showOffer]="false"
-        [isSubmitting]="isSubmitting()"
-        [submitLabel]="'action.continue'"
-        (clicked)="onMobileContinue()"
-      />
+      <div class="step-actions">
+        <button
+          cfBounce="300"
+          nz-button
+          nzType="default"
+          nzGhost
+          nzSize="large"
+          [disabled]="isLoading()"
+          (clicked)="addAnotherContact()"
+        >
+          {{ t('action.add_another') }}
+        </button>
+
+        <cf-product-acception
+          [form]="agreementForm()"
+          [showOffer]="false"
+          [isSubmitting]="isSubmitting()"
+          [submitLabel]="'action.continue'"
+          (clicked)="onMobileContinue()"
+        />
+      </div>
     </div>
     }
     @case ('finance') {
@@ -76,8 +87,8 @@
     </div>
     }
     @case ('branch') {
-    <div class="step-panel">
-      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
+    <div class="step-panel step-panel--fill">
+      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card step-card--scroll-body">
         <cf-branch-form [inline]="true" [form]="form()" [options]="branchOptions()" [isLoading]="branchesLoading()" />
       </cf-card>
 
