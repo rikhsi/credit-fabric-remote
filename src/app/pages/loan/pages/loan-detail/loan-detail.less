@@ -2,8 +2,10 @@
 
 :host {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 16px;
+  min-height: 0;
 }
 
 .calculator {
@@ -24,8 +26,10 @@
 
 .mobile-flow {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 16px;
+  min-height: 0;
 }
 
 .step-panel {
@@ -33,6 +37,16 @@
   flex-direction: column;
   gap: 16px;
   animation: loan-step-in 0.35s ease both;
+
+  &--fill {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+.step-fill {
+  flex: 1;
+  min-height: 0;
 }
 
 .step-card {

@@ -8,6 +8,8 @@ import { NzInputDirective, NzInputSuffixDirective, NzInputWrapperComponent } fro
 import { ControlBaseDirective } from '@shared/directives';
 import { ValidationMsgPipe, ValidationStatusPipe } from '@shared/pipes';
 
+export type InputSanitize = 'digits' | 'letters';
+
 @Component({
   selector: 'cf-input-default',
   imports: [
@@ -35,6 +37,8 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   mask = input<string>('');
   maskPrefix = input<string>('');
   thousandSeparator = input<string>('');
+  /** Extra filter on top of mask — e.g. letters-only names (incl. Cyrillic). */
+  sanitize = input<InputSanitize | null>(null);
 
   private focused = false;
 
@@ -49,6 +53,22 @@ export class InputDefault extends ControlBaseDirective<string | null> {
       return;
     }
 
-    this.value.set(next);
+    this.value.set(this.applySanitize(next));
+  }
+
+  private applySanitize(next: string | null): string | null {
+    if (next == null) {
+      return next;
+    }
+
+    switch (this.sanitize()) {
+      case 'digits':
+        return next.replace(/\D/g, '');
+      case 'letters':
+        // Letters (any script), spaces, hyphen and apostrophe — no digits/symbols.
+        return next.replace(/[^\p{L}\s'-]/gu, '');
+      default:
+        return next;
+    }
   }
 }

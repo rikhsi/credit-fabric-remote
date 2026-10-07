@@ -18,6 +18,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { catchError, filter, finalize, forkJoin, fromEvent, map, of, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
+import { ModalPayDay } from '../modal-pay-day/modal-pay-day';
 import { ApplicationsDetailService } from '../../../../services';
 import { ApplicationSentModal, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
@@ -175,22 +176,31 @@ export class ViewApproved implements OnInit {
   }
 
   openAcceptConfirm(offer: OnlineOffer): void {
-    this.openConfirmModal(
-      {
-        title: 'modal.application_confirm.title',
-        description: 'modal.application_confirm.description',
-        cancel: {
-          title: 'action.cancel',
-          danger: false,
-        },
-        submit: {
-          title: 'application.detail.accept',
-          danger: false,
-        },
-      },
-      offer.offerId,
-      true,
-    );
+    this.openPayDayModal(offer.offerId);
+  }
+
+  private openPayDayModal(offerId: string): void {
+    if (this.isClaiming()) {
+      return;
+    }
+
+    const modalRef = this.nzModalService.create<ModalPayDay, void, number | null>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ModalPayDay,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+    });
+
+    modalRef.afterClose
+      .pipe(
+        filter((payDay): payDay is number => payDay != null),
+        take(1),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((payDay) => this.claimLoan(offerId, true, payDay));
   }
 
   openRefuseConfirm(): void {
@@ -366,15 +376,19 @@ export class ViewApproved implements OnInit {
       .subscribe(() => this.claimLoan(offerId, isAccepted));
   }
 
-  private claimLoan(offerId: string, isAccepted: boolean): void {
+  private claimLoan(offerId: string, isAccepted: boolean, payDay?: number): void {
     if (this.isClaiming()) {
+      return;
+    }
+
+    if (isAccepted && (payDay == null || payDay < 1 || payDay > 20)) {
       return;
     }
 
     this.isClaiming.set(true);
 
     this.applicationsDetailService
-      .claimLoan$(this.applicationId(), offerId, isAccepted)
+      .claimLoan$(this.applicationId(), offerId, isAccepted, payDay)
       .pipe(
         finalize(() => this.isClaiming.set(false)),
         takeUntilDestroyed(this.destroyRef),

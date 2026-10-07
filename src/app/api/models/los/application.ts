@@ -134,6 +134,8 @@ export interface ClaimLoanPayload {
   applicationId: number;
   isAccepted: boolean;
   offerId: string;
+  /** Selected monthly payment day (1–20). Sent when the offer is accepted. */
+  payDay?: number;
 }
 
 export interface ClaimLoanResult {

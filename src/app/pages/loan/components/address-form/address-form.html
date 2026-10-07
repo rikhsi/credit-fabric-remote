@@ -75,7 +75,13 @@
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.postal_code')">
-        <cf-input-default [formField]="addressForm().zipCode" [placeholder]="t('control.input.placeholder')" size="large" />
+        <cf-input-default
+          [formField]="addressForm().zipCode"
+          mask="000000"
+          sanitize="digits"
+          [placeholder]="t('control.input.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
     </div>
   </ng-container>

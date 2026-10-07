@@ -1,6 +1,5 @@
 import { AgreementFormModel, CalculatorFormModel, LoanDetailFormModel, OtpFormModel } from '../models';
 import { createEmptyAddress } from '../utils/address';
-import { createEmptyContact } from '../utils/contacts';
 import { createDefaultFinanceForm } from '@pages/loan/utils/finance-months';
 
 export const calculatorFormModel: CalculatorFormModel = {
@@ -17,7 +16,7 @@ export const loanDetailFormModel: LoanDetailFormModel = {
   ...calculatorFormModel,
   filialCode: null,
   addresses: createEmptyAddress(),
-  contacts: createEmptyContact(),
+  contacts: [],
   finData: createDefaultFinanceForm(),
 };
 

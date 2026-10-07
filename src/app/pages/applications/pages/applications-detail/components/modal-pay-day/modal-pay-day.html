@@ -1,0 +1,32 @@
+<ng-container *transloco="let t">
+  <div class="header">
+    <button cfBounce="300" nz-button nzShape="round" nzSize="small" class="close" (clicked)="close()">
+      <nz-icon nzType="close" />
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="text">
+      <h1 nz-typography>{{ t('modal.pay_day.title') }}</h1>
+      <p nz-typography>{{ t('modal.pay_day.description') }}</p>
+    </div>
+
+    <div class="body">
+      <cf-select-default
+        [formField]="form.payDay"
+        [placeholder]="t('modal.pay_day.placeholder')"
+        [showSearch]="false"
+        size="large"
+      >
+        @for (day of options; track day) {
+        <nz-option [nzValue]="day" [nzLabel]="t('modal.pay_day.option', { day })"></nz-option>
+        }
+      </cf-select-default>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button cfBounce="300" nz-button nzType="default" nzSize="large" (clicked)="close()">{{ t('action.cancel') }}</button>
+    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{ t('action.confirm') }}</button>
+  </div>
+</ng-container>

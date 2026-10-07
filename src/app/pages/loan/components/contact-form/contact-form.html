@@ -1,36 +1,30 @@
 <ng-container *transloco="let t">
-  @if (isModal) {
-  <cf-form-box [title]="t('prop.add_additional_contacts')" (closeClick)="close()" (submitClick)="submit()">
-    <ng-container *ngTemplateOutlet="fields" />
-  </cf-form-box>
-  } @else {
-  <div class="inline">
-    <h2 class="inline-title">{{ t('prop.additional_contacts') }}</h2>
-
-    <div class="inline-alert">
-      <nz-icon nzType="info-circle" />
-      <span>{{ t('alert.contacts_fill') }}</span>
-    </div>
-
-    <ng-container *ngTemplateOutlet="fields" />
-  </div>
-  }
-</ng-container>
-
-<ng-template #fields>
-  <ng-container *transloco="let t">
+  <cf-form-box
+    [title]="isEdit() ? t('prop.edit_additional_contact') : t('prop.add_additional_contacts')"
+    [submitLabel]="isEdit() ? t('action.confirm') : t('action.add')"
+    (closeClick)="close()"
+    (submitClick)="submit()"
+  >
     <div class="list">
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.first_name')">
-        <cf-input-default [formField]="contactForm().firstName" [placeholder]="t('control.input.placeholder')" size="large" />
+        <cf-input-default
+          [formField]="contactForm.firstName"
+          [placeholder]="t('control.input.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.last_name')">
-        <cf-input-default [formField]="contactForm().lastName" [placeholder]="t('control.input.placeholder')" size="large" />
+        <cf-input-default
+          [formField]="contactForm.lastName"
+          [placeholder]="t('control.input.placeholder')"
+          size="large"
+        />
       </cf-label-control-secondary>
 
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.phone_number')">
         <cf-input-default
-          [formField]="contactForm().mobilePhone"
+          [formField]="contactForm.mobilePhone"
           mask="00 000 00 00"
           maskPrefix="+998 "
           [placeholder]="t('control.input.placeholder')"
@@ -41,7 +35,7 @@
       <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.relationship')">
         <cf-select-default
           class="cf-hide-xs"
-          [formField]="contactForm().dirFamilyRelationshipId"
+          [formField]="contactForm.dirFamilyRelationshipId"
           [placeholder]="t('control.select.placeholder')"
           size="large"
         >
@@ -54,12 +48,12 @@
 
         <cf-select-default-mobile
           class="cf-show-xs"
-          [formField]="contactForm().dirFamilyRelationshipId"
+          [formField]="contactForm.dirFamilyRelationshipId"
           [handbook]="{ type: 'dir-family-relationship' }"
           [placeholder]="t('control.select.placeholder')"
           size="large"
         />
       </cf-label-control-secondary>
     </div>
-  </ng-container>
-</ng-template>
+  </cf-form-box>
+</ng-container>

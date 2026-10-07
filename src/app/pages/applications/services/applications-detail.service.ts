@@ -46,11 +46,22 @@ export class ApplicationsDetailService {
     );
   }
 
-  public claimLoan$(applicationId: number, offerId: string, isAccepted: boolean) {
-    return this.onlineApiService.claimLoan$({ applicationId, offerId, isAccepted }).pipe(
-      // Soft refresh: do not clear `application` — that destroys ViewApproved and cancels this stream.
-      switchMap(() => this.fetchApplication$(applicationId)),
-    );
+  public claimLoan$(applicationId: number, offerId: string, isAccepted: boolean, payDay?: number) {
+    if (isAccepted && (payDay == null || payDay < 1 || payDay > 20)) {
+      return throwError(() => new Error('payDay is required'));
+    }
+
+    return this.onlineApiService
+      .claimLoan$({
+        applicationId,
+        offerId,
+        isAccepted,
+        ...(isAccepted ? { payDay } : {}),
+      })
+      .pipe(
+        // Soft refresh: do not clear `application` — that destroys ViewApproved and cancels this stream.
+        switchMap(() => this.fetchApplication$(applicationId)),
+      );
   }
 
   private fetchApplication$(applicationId: number) {

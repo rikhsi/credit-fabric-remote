@@ -8,7 +8,7 @@ import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { Card } from '@shared/components';
 import { BounceDirective, HandbookDirective } from '@shared/directives';
 import { HandbookPipe, PhoneNumberPipe } from '@shared/pipes';
-import { isContactFilled } from '@pages/loan/utils/contacts';
+import { contactFullName, isContactsFilled } from '@pages/loan/utils/contacts';
 import { StartProcessingContact } from '@api/models/los/start-processing';
 
 @Component({
@@ -31,32 +31,40 @@ import { StartProcessingContact } from '@api/models/los/start-processing';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactInfo {
-  readonly item = input<StartProcessingContact | null>(null);
+  readonly items = input<StartProcessingContact[]>([]);
   readonly isLoading = input(false);
 
-  readonly isFilled = computed(() => {
-    const item = this.item();
+  readonly isFilled = computed(() => isContactsFilled(this.items()));
 
-    return item != null && isContactFilled(item);
-  });
+  readonly add = output<void>();
+  readonly edit = output<number>();
+  readonly remove = output<number>();
 
-  readonly fullName = computed(() => {
-    const item = this.item();
+  fullName(contact: StartProcessingContact): string {
+    return contactFullName(contact);
+  }
 
-    if (!item) {
-      return '';
-    }
-
-    return [item.firstName, item.lastName].map((part) => part.trim()).filter(Boolean).join(' ');
-  });
-
-  readonly edit = output<void>();
-
-  onFill(): void {
+  onAdd(): void {
     if (this.isLoading()) {
       return;
     }
 
-    this.edit.emit();
+    this.add.emit();
+  }
+
+  onEdit(index: number): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    this.edit.emit(index);
+  }
+
+  onRemove(index: number): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    this.remove.emit(index);
   }
 }

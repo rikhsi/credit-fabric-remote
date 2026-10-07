@@ -113,6 +113,12 @@
       "title": "Get the loan on these terms?",
       "description": "After confirmation, the bank will start processing the selected offer."
     },
+    "pay_day": {
+      "title": "Choose the monthly payment date",
+      "description": "Pick a convenient day for the monthly payment — it will be fixed in the repayment schedule.",
+      "placeholder": "Select a day",
+      "option": "Day {{day}}"
+    },
     "application_sent_bank": {
       "title": "Application sent to the bank",
       "description": "To sign the documents, visit the bank branch at"
@@ -210,6 +216,7 @@
     "address": "Address",
     "additional_contacts": "Additional contacts",
     "add_additional_contacts": "Add additional contacts",
+    "edit_additional_contact": "Edit contact",
     "first_name": "First name",
     "last_name": "Last name",
     "phone_number": "Phone number",
@@ -326,7 +333,9 @@
     "error": {
       "required": "Required field",
       "invalidOtp": "Invalid code",
-      "activityTermMin": "Enter a work duration of at least 3 months"
+      "activityTermMin": "Enter a work duration of at least 3 months",
+      "zipCode": "Enter a 6-digit postal code",
+      "personName": "Numbers and symbols are not allowed"
     }
   },
   "toast": {

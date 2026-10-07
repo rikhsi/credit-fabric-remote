@@ -9,7 +9,18 @@ export abstract class ControlBaseDirective<T> implements FormValueControl<T> {
   abstract readonly value: ModelSignal<T>;
 
   readonly errors = input<readonly WithOptionalField<ValidationError>[] | undefined>();
-  readonly firstError = computed(() => this.errors()?.at(0) as ValidationErrorData);
+  readonly firstError = computed(() => {
+    const errors = this.errors();
+
+    if (!errors?.length) {
+      return undefined;
+    }
+
+    // Prefer field-specific rules (e.g. personName) over generic required.
+    const specific = errors.find((error) => error.kind !== 'required');
+
+    return (specific ?? errors[0]) as ValidationErrorData;
+  });
   readonly errorCount = computed(() => errorCountBuilder(this.firstError()));
 
   readonly disabled = model<boolean>(false);

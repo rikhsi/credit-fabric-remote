@@ -40,7 +40,7 @@ export interface StartProcessingPayload {
   /** Digits only, country code included: `998990031497`. */
   mobilePhone: string;
   addresses: StartProcessingAddress;
-  contacts: StartProcessingContact;
+  contacts: StartProcessingContact[];
   finData: StartProcessingFinData;
 }
 

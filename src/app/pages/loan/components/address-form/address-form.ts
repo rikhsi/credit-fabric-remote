@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { disabled, form, FormField, required } from '@angular/forms/signals';
+import { disabled, form, FormField, required, validate } from '@angular/forms/signals';
 import { NgTemplateOutlet } from '@angular/common';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -10,7 +10,7 @@ import { FormBox, InputDefault, LabelControlSecondary, SelectDefault, SelectDefa
 import { ResetVillageOnCityChangeDirective } from '@pages/loan/directives';
 import { HandbookDirective } from '@shared/directives';
 import { markTreeAsDirty } from '@shared/utils';
-import { createEmptyAddress } from '@pages/loan/utils/address';
+import { createEmptyAddress, validateZipCode } from '@pages/loan/utils/address';
 import { StartProcessingAddress } from '@api/models/los/start-processing';
 import { HandbookRequest } from '@app/typings/handbook';
 
@@ -52,6 +52,8 @@ export class AddressForm {
     required(schemaPath.dirVillageId);
     required(schemaPath.dirCityId);
     required(schemaPath.street);
+    required(schemaPath.zipCode);
+    validate(schemaPath.zipCode, ({ value }) => validateZipCode(value()));
   });
 
   public readonly addressForm = computed(() => this.form()?.addresses ?? this.localForm);

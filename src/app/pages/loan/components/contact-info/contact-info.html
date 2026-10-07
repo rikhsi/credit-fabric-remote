@@ -1,27 +1,42 @@
 @let filled = isFilled();
 
 <ng-container *transloco="let t">
-  <cf-card [titleRef]="titleRef" [showSpace]="filled" class="bordered">
+  <cf-card [titleRef]="titleRef" [topWrap]="false" [showSpace]="filled" class="bordered">
     <div actions>
-      <button cfBounce="300" nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onFill()">
-        <strong>{{ filled ? t('action.edit') : t('action.fill') }}</strong>
+      <button cfBounce="300" nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onAdd()">
+        <strong>{{ t('action.add') }}</strong>
         @if (isLoading()) {
         <nz-spin nzSimple nzSize="small" />
         } @else {
-        <nz-icon nzType="o:pencil" />
+        <nz-icon nzType="plus" />
         }
       </button>
     </div>
 
-    @if (filled && item(); as contactItem) {
+    @if (items().length) {
     <ng-container *cfHandbook="{ type: 'dir-family-relationship' }; let relationships">
-      @let relationship = relationships | handbook: contactItem.dirFamilyRelationshipId;
+      <div class="cards">
+        @for (contact of items(); track $index) {
+        @let relationship = relationships | handbook: contact.dirFamilyRelationshipId;
 
-      <div class="contact">
-        <p nz-typography class="contact-name">{{ fullName() }}</p>
-        <p nz-typography class="contact-meta">{{ contactItem.mobilePhone | phoneNumber }}</p>
-        @if (relationship) {
-        <p nz-typography class="contact-meta">{{ relationship }}</p>
+        <article class="contact-card">
+          <div class="contact-card__body">
+            <p nz-typography class="contact-name">{{ fullName(contact) }}</p>
+            <p nz-typography class="contact-meta">{{ contact.mobilePhone | phoneNumber }}</p>
+            @if (relationship) {
+            <p nz-typography class="contact-meta">{{ relationship }}</p>
+            }
+          </div>
+
+          <div class="contact-card__actions">
+            <button cfBounce="300" nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onEdit($index)">
+              <nz-icon nzType="o:pencil" />
+            </button>
+            <button cfBounce="300" nz-button nzType="default" nzSize="small" [disabled]="isLoading()" (clicked)="onRemove($index)">
+              <nz-icon nzType="o:trash" />
+            </button>
+          </div>
+        </article>
         }
       </div>
     </ng-container>

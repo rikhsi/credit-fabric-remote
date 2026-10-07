@@ -113,6 +113,12 @@
       "title": "Shu shartlar bo‘yicha kreditni olasizmi?",
       "description": "Tasdiqlaganingizdan so‘ng bank tanlangan taklifni rasmiylashtirishni boshlaydi."
     },
+    "pay_day": {
+      "title": "Oylik to‘lov sanasini tanlang",
+      "description": "Oylik to‘lov uchun qulay sanani ko‘rsating — u to‘lov jadvaliga biriktiriladi.",
+      "placeholder": "Sanani tanlang",
+      "option": "{{day}}-sana"
+    },
     "application_sent_bank": {
       "title": "Ariza bankka yuborildi",
       "description": "Hujjatlarni imzolash uchun bank filialiga murojaat qiling, manzil"
@@ -210,6 +216,7 @@
     "address": "Manzil",
     "additional_contacts": "Qo‘shimcha kontaktlar",
     "add_additional_contacts": "Qo‘shimcha kontaktlar qo‘shish",
+    "edit_additional_contact": "Kontaktni tahrirlash",
     "first_name": "Ism",
     "last_name": "Familiya",
     "phone_number": "Telefon raqami",
@@ -326,7 +333,9 @@
     "error": {
       "required": "Majburiy maydon",
       "invalidOtp": "Noto'g'ri kod",
-      "activityTermMin": "Ish muddatini kamida 3 oy qilib kiriting"
+      "activityTermMin": "Ish muddatini kamida 3 oy qilib kiriting",
+      "zipCode": "Pochta indeksining 6 ta raqamini kiriting",
+      "personName": "Raqam va belgilarni kiritib bo‘lmaydi"
     }
   },
   "toast": {

@@ -1,4 +1,5 @@
 export * from './application-conditions-card/application-conditions-card';
+export * from './modal-pay-day/modal-pay-day';
 export * from './view-in-progress/view-in-progress';
 export * from './view-decline/view-decline';
 export * from './view-error/view-error';

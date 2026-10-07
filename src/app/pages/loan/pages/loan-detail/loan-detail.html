@@ -41,10 +41,15 @@
     </div>
     }
     @case ('contacts') {
-    <div class="step-panel">
-      <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
-        <cf-contact-form [inline]="true" [form]="form()" />
-      </cf-card>
+    <div class="step-panel step-panel--fill">
+      <cf-contact-info
+        class="step-fill"
+        [items]="form().contacts().value()"
+        [isLoading]="isLoading()"
+        (add)="openContactForm()"
+        (edit)="openContactForm($event)"
+        (remove)="removeContact($event)"
+      />
 
       <cf-product-acception
         [form]="agreementForm()"
@@ -110,7 +115,14 @@
 
   <cf-address-info #addressSection [item]="form().addresses().value()" [isLoading]="isLoading()" (edit)="openAddressForm()" />
 
-  <cf-contact-info #contactsSection [item]="form().contacts().value()" [isLoading]="isLoading()" (edit)="openContactForm()" />
+  <cf-contact-info
+    #contactsSection
+    [items]="form().contacts().value()"
+    [isLoading]="isLoading()"
+    (add)="openContactForm()"
+    (edit)="openContactForm($event)"
+    (remove)="removeContact($event)"
+  />
 
   <cf-finance-info #financeSection [item]="form().finData().value()" [isLoading]="isLoading()" (edit)="openFinanceForm()" />
 

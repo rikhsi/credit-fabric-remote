@@ -67,9 +67,15 @@
   position: absolute;
   top: 24px;
   right: 24px;
-  z-index: 1;
-  width: 32px;
-  height: 32px;
+  z-index: 2;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  pointer-events: auto;
 
   .media(@media-sm, {
     top: 20px;
@@ -86,6 +92,12 @@
   row-gap: 12px;
   padding-right: 48px;
   padding-top: 8px;
+  // Keep text selectable, but don't steal clicks from the close button above.
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 
   .media(@media-sm, {
     row-gap: 10px;

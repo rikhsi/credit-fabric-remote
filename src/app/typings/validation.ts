@@ -7,6 +7,8 @@ export type ValidationErrorType =
   | 'email'
   | 'invalidOtp'
   | 'revenueLessThanIncome'
-  | 'activityTermMin';
+  | 'activityTermMin'
+  | 'zipCode'
+  | 'personName';
 
 export type ValidationErrorData = ValidationError & { [key in ValidationErrorType]: number };

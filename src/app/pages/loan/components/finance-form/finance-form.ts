@@ -65,17 +65,15 @@ export class FinanceForm {
     required(schemaPath.finData.month3Revenue);
     required(schemaPath.finData.month3Income);
 
-    const validateMonth = (month: MonthSlot) => {
-      validate(schemaPath.finData[`month${month}Income` as const], () => {
-        const finData = this.localForm().value().finData;
-
-        return validateFinanceMonthRevenueIncome(finData[`month${month}Revenue` as const], finData[`month${month}Income` as const]);
-      });
-    };
-
-    validateMonth(1);
-    validateMonth(2);
-    validateMonth(3);
+    validate(schemaPath.finData.month1Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month1Revenue), valueOf(schemaPath.finData.month1Income)),
+    );
+    validate(schemaPath.finData.month2Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month2Revenue), valueOf(schemaPath.finData.month2Income)),
+    );
+    validate(schemaPath.finData.month3Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month3Revenue), valueOf(schemaPath.finData.month3Income)),
+    );
   });
 
   public readonly financeForm = computed(() => this.form() ?? this.localForm);
@@ -132,7 +130,29 @@ export class FinanceForm {
     }
 
     markTreeAsDirty(tree);
+    this.expandInvalidMonths();
     return false;
+  }
+
+  /** Collapsed month cards hide field errors — open any month with invalid income/revenue. */
+  private expandInvalidMonths(): void {
+    if (!this.collapsible()) {
+      return;
+    }
+
+    const finData = this.financeForm().finData;
+    const next = { ...this.expandedMonths() };
+
+    ([1, 2, 3] as MonthSlot[]).forEach((month) => {
+      const income = finData[`month${month}Income` as const];
+      const revenue = finData[`month${month}Revenue` as const];
+
+      if (income?.().invalid() || revenue?.().invalid()) {
+        next[month] = true;
+      }
+    });
+
+    this.expandedMonths.set(next);
   }
 
   private openInfoModal(nzData: InfoModalData): void {

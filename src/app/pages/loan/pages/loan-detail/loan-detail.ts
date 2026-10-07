@@ -43,13 +43,13 @@ import { HandbookApiService } from '@api/controllers/handbooks';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
-import { StartProcessingAddress, StartProcessingContact, StartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems, markTreeAsDirty } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
-import { isContactFilled } from '@pages/loan/utils/contacts';
+import { isContactsFilled } from '@pages/loan/utils/contacts';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
-import { BranchFormData, OtpModalData } from '@pages/loan/models';
+import { BranchFormData, ContactFormData, OtpModalData } from '@pages/loan/models';
 
 export type MobileLoanStep = 'calc' | 'address' | 'contacts' | 'finance' | 'branch' | 'otp';
 
@@ -62,7 +62,6 @@ export type MobileLoanStep = 'calc' | 'address' | 'contacts' | 'finance' | 'bran
     BranchInfo,
     CalculatorForm,
     CalculatorResult,
-    ContactForm,
     ContactInfo,
     FinanceForm,
     FinanceInfo,
@@ -123,7 +122,6 @@ export class LoanDetail implements OnInit {
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
   private readonly branchSection = viewChild('branchSection', { read: ElementRef });
   private readonly addressFormRef = viewChild(AddressForm);
-  private readonly contactFormRef = viewChild(ContactForm);
   private readonly financeFormRef = viewChild(FinanceForm);
   private readonly branchFormRef = viewChild(BranchForm);
 
@@ -213,12 +211,21 @@ export class LoanDetail implements OnInit {
     });
   }
 
-  openContactForm(): void {
+  openContactForm(index?: number): void {
     if (this.isLoading()) {
       return;
     }
 
-    const modalRef = this.nmService.create<ContactForm, StartProcessingContact, StartProcessingContact>({
+    const contacts = this.ldService.form().value().contacts;
+    const nzData: ContactFormData =
+      index == null
+        ? {}
+        : {
+            contact: contacts[index],
+            index,
+          };
+
+    const modalRef = this.nmService.create<ContactForm, ContactFormData, ContactFormData>({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -227,15 +234,36 @@ export class LoanDetail implements OnInit {
       nzFooter: null,
       nzWidth: 'auto',
       nzViewContainerRef: this.vcRef,
-      nzData: this.ldService.form().value().contacts,
+      nzData,
     });
 
-    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
-      this.ldService.form().value.update((cur) => ({
-        ...cur,
-        contacts: value,
-      }));
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((result) => {
+      this.ldService.form().value.update((cur) => {
+        const next = [...cur.contacts];
+
+        if (result.index != null) {
+          next[result.index] = result.contact!;
+        } else {
+          next.push(result.contact!);
+        }
+
+        return {
+          ...cur,
+          contacts: next,
+        };
+      });
     });
+  }
+
+  removeContact(index: number): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    this.ldService.form().value.update((cur) => ({
+      ...cur,
+      contacts: cur.contacts.filter((_, i) => i !== index),
+    }));
   }
 
   openFinanceForm(): void {
@@ -304,30 +332,23 @@ export class LoanDetail implements OnInit {
         this.goToMobileStep('address');
         break;
       case 'address':
-        this.ldService.form().markAsDirty();
-        this.addressFormRef()?.validateInline();
-
-        if (!isFlowAddressFilled(this.ldService.form().value().addresses)) {
+        if (!this.addressFormRef()?.validateInline()) {
           return;
         }
 
         this.goToMobileStep('contacts');
         break;
       case 'contacts':
-        this.ldService.form().markAsDirty();
-        this.contactFormRef()?.validateInline();
+        markTreeAsDirty(this.ldService.form.contacts);
 
-        if (!isContactFilled(this.ldService.form().value().contacts)) {
+        if (!isContactsFilled(this.ldService.form().value().contacts)) {
           return;
         }
 
         this.goToMobileStep('finance');
         break;
       case 'finance':
-        this.ldService.form().markAsDirty();
-        this.financeFormRef()?.validateInline();
-
-        if (!isFinDataFilled(this.ldService.form().value().finData)) {
+        if (!this.financeFormRef()?.validateInline()) {
           return;
         }
 
@@ -369,7 +390,7 @@ export class LoanDetail implements OnInit {
       return;
     }
 
-    if (!isContactFilled(contacts)) {
+    if (!isContactsFilled(contacts)) {
       this.scrollToSection(this.contactsSection());
       return;
     }

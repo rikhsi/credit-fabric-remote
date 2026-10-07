@@ -2,11 +2,11 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { disabled, form, max, min, required, requiredError, validate } from '@angular/forms/signals';
 import { tap } from 'rxjs';
 import { agreementFormModel, loanDetailFormModel } from '../data';
-import { isFlowAddressFilled } from '../utils/address';
-import { isContactFilled } from '../utils/contacts';
+import { isFlowAddressFilled, validateZipCode } from '../utils/address';
+import { isContactsFilled } from '../utils/contacts';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
-import { isFinDataFilled, validateActivityTermMin } from '@pages/loan/utils/finance';
+import { isFinDataFilled, validateActivityTermMin, validateFinanceMonthRevenueIncome } from '@pages/loan/utils/finance';
 import { mergeProductConditions } from '@api/utils';
 import { OnlineApiService } from '@api/controllers/los';
 import { ProductConditionItem, ProductItem } from '@api/models/los/product';
@@ -30,10 +30,38 @@ export class LoanDetailService {
     max(schemaPath.loanAmount, () => this.productCondition()?.maxAmount ?? 0);
     min(schemaPath.loanTerm, () => this.productCondition()?.minTerm ?? 0);
     max(schemaPath.loanTerm, () => this.productCondition()?.maxTerm ?? 0);
+
+    // Field-level rules so mobile inline steps can show required / custom errors.
+    disabled(schemaPath.addresses.dirVillageId, ({ valueOf }) => !valueOf(schemaPath.addresses.dirCityId));
+    required(schemaPath.addresses.dirCityId);
+    required(schemaPath.addresses.dirVillageId);
+    required(schemaPath.addresses.street);
+    required(schemaPath.addresses.zipCode);
+    validate(schemaPath.addresses.zipCode, ({ value }) => validateZipCode(value()));
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
-    validate(schemaPath.contacts, ({ value }) => (isContactFilled(value()) ? null : requiredError()));
+
+    validate(schemaPath.contacts, ({ value }) => (isContactsFilled(value()) ? null : requiredError()));
+
+    required(schemaPath.finData.dirCompanyActivityId);
+    required(schemaPath.finData.activityTerm);
     validate(schemaPath.finData.activityTerm, ({ value }) => validateActivityTermMin(value()));
+    required(schemaPath.finData.month1Revenue);
+    required(schemaPath.finData.month1Income);
+    required(schemaPath.finData.month2Revenue);
+    required(schemaPath.finData.month2Income);
+    required(schemaPath.finData.month3Revenue);
+    required(schemaPath.finData.month3Income);
+    validate(schemaPath.finData.month1Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month1Revenue), valueOf(schemaPath.finData.month1Income)),
+    );
+    validate(schemaPath.finData.month2Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month2Revenue), valueOf(schemaPath.finData.month2Income)),
+    );
+    validate(schemaPath.finData.month3Income, ({ valueOf }) =>
+      validateFinanceMonthRevenueIncome(valueOf(schemaPath.finData.month3Revenue), valueOf(schemaPath.finData.month3Income)),
+    );
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
+
     required(schemaPath.filialCode);
     disabled(schemaPath, () => this.isDisabled() || this.isLoading());
   });
