@@ -20,9 +20,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddressForm,
   AddressInfo,
-  BranchSelect,
+  BranchForm,
+  BranchInfo,
   CalculatorForm,
   CalculatorResult,
+  ContactForm,
+  ContactInfo,
   FinanceForm,
   FinanceInfo,
   ModalOtp,
@@ -40,23 +43,27 @@ import { HandbookApiService } from '@api/controllers/handbooks';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 import { Breakpoint } from '@app/constants/breakpoint';
-import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingAddress, StartProcessingContact, StartProcessingFinData } from '@api/models/los/start-processing';
 import { fetchHandbookItems, markTreeAsDirty } from '@shared/utils';
 import { isFlowAddressFilled } from '@pages/loan/utils/address';
+import { isContactFilled } from '@pages/loan/utils/contacts';
 import { isFinDataFilled } from '@pages/loan/utils/finance';
 import { showApplicationErrorToast, showApplicationSuccessToast } from '@pages/loan/utils/application-toast';
-import { OtpModalData } from '@pages/loan/models';
+import { BranchFormData, OtpModalData } from '@pages/loan/models';
 
-export type MobileLoanStep = 'calc' | 'address' | 'finance' | 'branch' | 'otp';
+export type MobileLoanStep = 'calc' | 'address' | 'contacts' | 'finance' | 'branch' | 'otp';
 
 @Component({
   selector: 'cf-loan-detail',
   imports: [
     AddressForm,
     AddressInfo,
-    BranchSelect,
+    BranchForm,
+    BranchInfo,
     CalculatorForm,
     CalculatorResult,
+    ContactForm,
+    ContactInfo,
     FinanceForm,
     FinanceInfo,
     ModalOtp,
@@ -112,10 +119,13 @@ export class LoanDetail implements OnInit {
   });
 
   private readonly addressSection = viewChild('addressSection', { read: ElementRef });
+  private readonly contactsSection = viewChild('contactsSection', { read: ElementRef });
   private readonly financeSection = viewChild('financeSection', { read: ElementRef });
   private readonly branchSection = viewChild('branchSection', { read: ElementRef });
   private readonly addressFormRef = viewChild(AddressForm);
+  private readonly contactFormRef = viewChild(ContactForm);
   private readonly financeFormRef = viewChild(FinanceForm);
+  private readonly branchFormRef = viewChild(BranchForm);
 
   get loanId(): string {
     return this.route.snapshot.params[RouteParam.LoanId];
@@ -133,6 +143,7 @@ export class LoanDetail implements OnInit {
       validate: this.ldService.checkValidate$(),
       cities: fetchHandbookItems(this.handbookApi, { type: 'dir-city' }),
       activities: fetchHandbookItems(this.handbookApi, { type: 'dir-company-activity' }),
+      relationships: fetchHandbookItems(this.handbookApi, { type: 'dir-family-relationship' }),
     })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -159,6 +170,9 @@ export class LoanDetail implements OnInit {
           this.goToMobileStep('finance');
           return;
         case 'finance':
+          this.goToMobileStep('contacts');
+          return;
+        case 'contacts':
           this.goToMobileStep('address');
           return;
         case 'address':
@@ -199,6 +213,31 @@ export class LoanDetail implements OnInit {
     });
   }
 
+  openContactForm(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
+    const modalRef = this.nmService.create<ContactForm, StartProcessingContact, StartProcessingContact>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: ContactForm,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzViewContainerRef: this.vcRef,
+      nzData: this.ldService.form().value().contacts,
+    });
+
+    modalRef.afterClose.pipe(filter(Boolean), take(1)).subscribe((value) => {
+      this.ldService.form().value.update((cur) => ({
+        ...cur,
+        contacts: value,
+      }));
+    });
+  }
+
   openFinanceForm(): void {
     if (this.isLoading()) {
       return;
@@ -224,6 +263,35 @@ export class LoanDetail implements OnInit {
     });
   }
 
+  openBranchForm(): void {
+    if (this.isLoading() || this.branchesLoading()) {
+      return;
+    }
+
+    const modalRef = this.nmService.create<BranchForm, BranchFormData, number>({
+      nzTitle: null,
+      nzClosable: false,
+      nzCloseIcon: null,
+      nzContent: BranchForm,
+      nzCentered: true,
+      nzFooter: null,
+      nzWidth: 'auto',
+      nzViewContainerRef: this.vcRef,
+      nzData: {
+        filialCode: this.ldService.form().value().filialCode,
+        options: this.branchOptions(),
+        isLoading: this.branchesLoading(),
+      },
+    });
+
+    modalRef.afterClose.pipe(filter((value): value is number => value != null), take(1)).subscribe((value) => {
+      this.ldService.form().value.update((cur) => ({
+        ...cur,
+        filialCode: value,
+      }));
+    });
+  }
+
   onMobileContinue(): void {
     switch (this.mobileStep()) {
       case 'calc':
@@ -243,6 +311,16 @@ export class LoanDetail implements OnInit {
           return;
         }
 
+        this.goToMobileStep('contacts');
+        break;
+      case 'contacts':
+        this.ldService.form().markAsDirty();
+        this.contactFormRef()?.validateInline();
+
+        if (!isContactFilled(this.ldService.form().value().contacts)) {
+          return;
+        }
+
         this.goToMobileStep('finance');
         break;
       case 'finance':
@@ -257,6 +335,7 @@ export class LoanDetail implements OnInit {
         break;
       case 'branch':
         markTreeAsDirty(this.ldService.form.filialCode);
+        this.branchFormRef()?.validateInline();
 
         if (this.ldService.form.filialCode().value() == null) {
           return;
@@ -283,10 +362,15 @@ export class LoanDetail implements OnInit {
   submit(): void {
     markTreeAsDirty(this.ldService.form);
 
-    const { addresses, finData, filialCode } = this.ldService.form().value();
+    const { addresses, contacts, finData, filialCode } = this.ldService.form().value();
 
     if (!isFlowAddressFilled(addresses)) {
       this.scrollToSection(this.addressSection());
+      return;
+    }
+
+    if (!isContactFilled(contacts)) {
+      this.scrollToSection(this.contactsSection());
       return;
     }
 

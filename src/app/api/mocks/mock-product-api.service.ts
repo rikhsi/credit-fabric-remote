@@ -9,4 +9,8 @@ export class MockProductApiService {
   public getProducts$(): Observable<ProductItem[]> {
     return mockOf(MOCK_PRODUCTS);
   }
+
+  public getOnlineProducts$(): Observable<ProductItem[]> {
+    return mockOf(MOCK_PRODUCTS);
+  }
 }

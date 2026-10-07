@@ -1,9 +1,9 @@
 <ng-container *transloco="let t">
   <div class="stack">
-    <div class="inline-alert">
+    <nz-tag class="tag warning">
       <nz-icon nzType="info-circle" />
       <span>{{ t('alert.on_design') }}</span>
-    </div>
+    </nz-tag>
 
     <cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
 

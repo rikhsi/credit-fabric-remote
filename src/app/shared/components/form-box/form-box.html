@@ -17,6 +17,6 @@
 
   <div class="footer">
     <button cfBounce="300" nz-button nzType="default" nzSize="large" (clicked)="closeClick.emit()">{{t('action.cancel')}}</button>
-    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{t('action.add')}}</button>
+    <button cfBounce="300" nz-button nzType="primary" nzSize="large" (clicked)="submit()">{{ submitLabel() ?? t('action.add') }}</button>
   </div>
 </ng-container>

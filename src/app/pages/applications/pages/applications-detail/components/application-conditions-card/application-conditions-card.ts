@@ -12,11 +12,11 @@ import { calculateMonthlyPayment, calculateOverpayment, isDifferentialPaymentTyp
 
 export type ConditionsSource = OnlineApplicationProduct | OnlineOffer;
 
-type StatusTone = 'warning' | 'success' | 'decline' | 'info';
+type StatusTone = 'warning' | 'success' | 'decline' | 'info' | 'signing';
 
 const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.InProgress]: 'warning',
-  [ApplicationStatus.OnDesign]: 'info',
+  [ApplicationStatus.OnDesign]: 'signing',
   [ApplicationStatus.OnDecision]: 'success',
   [ApplicationStatus.Signed]: 'success',
   [ApplicationStatus.Issued]: 'success',

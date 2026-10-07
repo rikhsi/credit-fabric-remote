@@ -14,4 +14,11 @@ export class ProductApiService {
       context: new HttpContext().set(USE_HTTP_CACHE, true),
     });
   }
+
+  /** Full catalog — used to resolve product ids (e.g. offer.product) to display names. */
+  public getOnlineProducts$() {
+    return this.http.get<ProductItem[]>('online/products', {
+      context: new HttpContext().set(USE_HTTP_CACHE, true),
+    });
+  }
 }

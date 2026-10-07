@@ -3,6 +3,7 @@ import { disabled, form, max, min, required, requiredError, validate } from '@an
 import { tap } from 'rxjs';
 import { agreementFormModel, loanDetailFormModel } from '../data';
 import { isFlowAddressFilled } from '../utils/address';
+import { isContactFilled } from '../utils/contacts';
 import { CreditInput, CreditOutput } from '@app/typings/calculator';
 import { calculateAnnuity, calculateDifferential } from '@shared/utils';
 import { isFinDataFilled, validateActivityTermMin } from '@pages/loan/utils/finance';
@@ -30,6 +31,7 @@ export class LoanDetailService {
     min(schemaPath.loanTerm, () => this.productCondition()?.minTerm ?? 0);
     max(schemaPath.loanTerm, () => this.productCondition()?.maxTerm ?? 0);
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
+    validate(schemaPath.contacts, ({ value }) => (isContactFilled(value()) ? null : requiredError()));
     validate(schemaPath.finData.activityTerm, ({ value }) => validateActivityTermMin(value()));
     validate(schemaPath.finData, ({ value }) => (isFinDataFilled(value()) ? null : requiredError()));
     required(schemaPath.filialCode);

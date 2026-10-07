@@ -1,5 +1,5 @@
 import { CreditType } from '@app/typings/calculator';
-import { StartProcessingAddress, StartProcessingFinData } from '@api/models/los/start-processing';
+import { StartProcessingAddress, StartProcessingContact, StartProcessingFinData } from '@api/models/los/start-processing';
 
 export interface CalculatorFormModel {
   loanAmount: number;
@@ -15,6 +15,7 @@ export interface AgreementFormModel {
 export interface LoanDetailFormModel extends CalculatorFormModel {
   filialCode: number | null;
   addresses: StartProcessingAddress;
+  contacts: StartProcessingContact;
   finData: StartProcessingFinData;
 }
 

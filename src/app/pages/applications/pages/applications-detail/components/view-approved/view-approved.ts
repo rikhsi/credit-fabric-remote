@@ -16,12 +16,14 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { filter, finalize, fromEvent, map, take } from 'rxjs';
+import { catchError, filter, finalize, forkJoin, fromEvent, map, of, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
 import { ApplicationsDetailService } from '../../../../services';
 import { ApplicationSentModal, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
+import { ProductApiService } from '@api/controllers/los';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { ProductItem } from '@api/models/los/product';
 import { ConfirmModal } from '@app/typings/modal';
 import { Breakpoint } from '@app/constants/breakpoint';
 
@@ -34,6 +36,7 @@ import { Breakpoint } from '@app/constants/breakpoint';
 })
 export class ViewApproved implements OnInit {
   private readonly applicationsDetailService = inject(ApplicationsDetailService);
+  private readonly productApiService = inject(ProductApiService);
   private readonly nzModalService = inject(NzModalService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
@@ -46,19 +49,26 @@ export class ViewApproved implements OnInit {
   readonly expandedOfferId = signal<string | null>(null);
   /** Mobile fixed footer (single accept/refuse or multi refuse). */
   readonly isFixedFooterVisible = signal(false);
+  private readonly products = signal<ProductItem[]>([]);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
   readonly requestedAmount = computed(() => this.application()?.product?.loanAmount);
   readonly offers = computed(() => {
     const requested = this.requestedAmount();
     const list = [...this.applicationsDetailService.offers()];
 
+    const withNames = (offers: OnlineOffer[]) =>
+      offers.map((offer) => ({
+        ...offer,
+        product: this.resolveProductName(offer.product),
+      }));
+
     if (!list.length) {
       const fallback = this.productAsOffer();
 
-      return fallback ? [fallback] : [];
+      return fallback ? withNames([fallback]) : [];
     }
 
-    return list.sort((left, right) => {
+    return withNames(list).sort((left, right) => {
       const leftMatch = left.loanAmount === requested ? 0 : 1;
       const rightMatch = right.loanAmount === requested ? 0 : 1;
 
@@ -94,10 +104,14 @@ export class ViewApproved implements OnInit {
   }
 
   ngOnInit(): void {
-    this.applicationsDetailService
-      .getOffers$(this.applicationId())
+    forkJoin({
+      offers: this.applicationsDetailService.getOffers$(this.applicationId()),
+      products: this.productApiService.getOnlineProducts$().pipe(catchError(() => of([] as ProductItem[]))),
+    })
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((offers) => {
+      .subscribe(({ offers, products }) => {
+        this.products.set(Array.isArray(products) ? products : []);
+
         const list = Array.isArray(offers) ? offers : [];
         const requested = this.requestedAmount();
         const matched = requested == null ? undefined : list.find((offer) => offer.loanAmount === requested);
@@ -105,6 +119,21 @@ export class ViewApproved implements OnInit {
         this.expandedOfferId.set(matched?.offerId ?? list[0]?.offerId ?? null);
         requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
+  }
+
+  private resolveProductName(productIdOrName: string): string {
+    const key = productIdOrName?.trim();
+
+    if (!key) {
+      return productIdOrName;
+    }
+
+    const needle = key.toLowerCase();
+    const match = this.products().find((item) => {
+      return item.id?.toLowerCase() === needle || item.code?.toLowerCase() === needle;
+    });
+
+    return match?.name ?? productIdOrName;
   }
 
   private productAsOffer(): OnlineOffer | null {

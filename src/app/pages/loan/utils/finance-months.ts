@@ -97,6 +97,12 @@ export function buildStartProcessingPayload(
       ...formValue.addresses,
       dirCountryId: formValue.addresses.dirCountryId ?? 'UZB',
     },
+    contacts: {
+      firstName: formValue.contacts.firstName.trim(),
+      lastName: formValue.contacts.lastName.trim(),
+      mobilePhone: toUzFullPhoneDigits(formValue.contacts.mobilePhone) ?? '',
+      dirFamilyRelationshipId: String(formValue.contacts.dirFamilyRelationshipId ?? ''),
+    },
     finData: normalizeFinDataForApi(formValue.finData, financeMonths),
   };
 }

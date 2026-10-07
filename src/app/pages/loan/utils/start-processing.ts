@@ -1,4 +1,5 @@
 import { isFlowAddressFilled } from './address';
+import { isContactFilled } from './contacts';
 import { isFinDataFilled } from './finance';
 import { StartProcessingPayload } from '@api/models/los/start-processing';
 
@@ -15,6 +16,7 @@ export function isStartProcessingPayloadFilled(payload: StartProcessingPayload |
     payload.sysPaymentTypeId != null &&
     Boolean(payload.mobilePhone) &&
     isFlowAddressFilled(payload.addresses) &&
+    isContactFilled(payload.contacts) &&
     isFinDataFilled(payload.finData)
   );
 }

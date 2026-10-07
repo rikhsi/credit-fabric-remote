@@ -1,5 +1,12 @@
 import { TableOverview } from '@api/models/base';
-import { AddressTypeItem, BranchItem, CityItem, CompanyActivityItem, VillageItem } from '@api/models/handbooks';
+import {
+  AddressTypeItem,
+  BranchItem,
+  CityItem,
+  CompanyActivityItem,
+  FamilyRelationshipItem,
+  VillageItem,
+} from '@api/models/handbooks';
 import { OnlineBranchesResult } from '@api/models/los/online';
 
 /** Codes shared by online served branches and handbook list (initializer filter). */
@@ -100,5 +107,15 @@ export const MOCK_ADDRESS_TYPES: TableOverview<AddressTypeItem> = {
       updated: new Date('2024-01-01'),
       is_active: true,
     },
+  ],
+};
+
+export const MOCK_FAMILY_RELATIONSHIPS: TableOverview<FamilyRelationshipItem> = {
+  data: [
+    { id: 'spouse', name: 'Супруг(а)', is_active: true },
+    { id: 'director', name: 'Директор', is_active: true },
+    { id: 'accountant', name: 'Бухгалтер', is_active: true },
+    { id: 'assistant', name: 'Помощник', is_active: true },
+    { id: 'manager', name: 'Менеджер', is_active: true },
   ],
 };

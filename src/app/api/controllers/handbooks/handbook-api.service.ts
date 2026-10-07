@@ -1,7 +1,21 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { HAddressApiService, HBranchApiService, HCityApiService, HCompanyApiService, HVillageService } from '@api/controllers/handbooks';
-import { AddressTypeFilter, BranchFilters, CityFilters, CompanyActivityFilters, VillageFilter } from '@api/models/handbooks';
+import {
+  HAddressApiService,
+  HBranchApiService,
+  HCityApiService,
+  HCompanyApiService,
+  HFamilyRelationshipApiService,
+  HVillageService,
+} from '@api/controllers/handbooks';
+import {
+  AddressTypeFilter,
+  BranchFilters,
+  CityFilters,
+  CompanyActivityFilters,
+  FamilyRelationshipFilters,
+  VillageFilter,
+} from '@api/models/handbooks';
 import { HandbookItem, HandbookType } from '@app/typings/handbook';
 
 @Injectable({
@@ -13,6 +27,7 @@ export class HandbookApiService {
   private readonly companyApi = inject(HCompanyApiService);
   private readonly branchApi = inject(HBranchApiService);
   private readonly addressApi = inject(HAddressApiService);
+  private readonly familyRelationshipApi = inject(HFamilyRelationshipApiService);
 
   public getAll$<T extends HandbookItem = HandbookItem>(type: HandbookType, params: Record<string, unknown> = {}): Observable<T[]> {
     return this.request$(type, params).pipe(map((response) => response.data as T[]));
@@ -28,6 +43,8 @@ export class HandbookApiService {
         return this.companyApi.getAll$(params as Partial<CompanyActivityFilters>);
       case 'dir-branch':
         return this.branchApi.getAll$(params as Partial<BranchFilters>);
+      case 'dir-family-relationship':
+        return this.familyRelationshipApi.getAll$(params as Partial<FamilyRelationshipFilters>);
       case 'sys-address-type':
         return this.addressApi.getAll$(params as Partial<AddressTypeFilter>);
       default: {

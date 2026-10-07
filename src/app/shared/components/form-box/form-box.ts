@@ -14,6 +14,8 @@ import { BounceDirective } from '@shared/directives';
 })
 export class FormBox {
   public title = input<string>();
+  /** Defaults to `action.add` when omitted. */
+  public submitLabel = input<string | null>(null);
 
   public closeClick = output<void>();
   public submitClick = output<void>();

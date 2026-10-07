@@ -23,6 +23,14 @@ export interface StartProcessingAddress {
   zipCode: string;
 }
 
+export interface StartProcessingContact {
+  firstName: string;
+  lastName: string;
+  /** Digits only, country code included: `998990031497`. */
+  mobilePhone: string;
+  dirFamilyRelationshipId: string;
+}
+
 export interface StartProcessingPayload {
   productId: string;
   loanAmount: number;
@@ -32,6 +40,7 @@ export interface StartProcessingPayload {
   /** Digits only, country code included: `998990031497`. */
   mobilePhone: string;
   addresses: StartProcessingAddress;
+  contacts: StartProcessingContact;
   finData: StartProcessingFinData;
 }
 

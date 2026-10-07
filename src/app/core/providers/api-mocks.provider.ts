@@ -8,8 +8,16 @@ import { MockHCityApiService } from '../../api/mocks/mock-h-city-api.service';
 import { MockHVillageApiService } from '../../api/mocks/mock-h-village-api.service';
 import { MockHCompanyApiService } from '../../api/mocks/mock-h-company-api.service';
 import { MockHAddressApiService } from '../../api/mocks/mock-h-address-api.service';
+import { MockHFamilyRelationshipApiService } from '../../api/mocks/mock-h-family-relationship-api.service';
 import { BridgeService } from '@core/services/bridge.service';
-import { HAddressApiService, HBranchApiService, HCityApiService, HCompanyApiService, HVillageService } from '@api/controllers/handbooks';
+import {
+  HAddressApiService,
+  HBranchApiService,
+  HCityApiService,
+  HCompanyApiService,
+  HFamilyRelationshipApiService,
+  HVillageService,
+} from '@api/controllers/handbooks';
 import { OnlineApiService, ProductApiService, SignedDocumentApiService } from '@api/controllers/los';
 import { environment } from 'src/environments/development';
 
@@ -29,5 +37,6 @@ export function provideApiMocks(): EnvironmentProviders {
     { provide: HVillageService, useClass: MockHVillageApiService },
     { provide: HCompanyApiService, useClass: MockHCompanyApiService },
     { provide: HAddressApiService, useClass: MockHAddressApiService },
+    { provide: HFamilyRelationshipApiService, useClass: MockHFamilyRelationshipApiService },
   ]);
 }

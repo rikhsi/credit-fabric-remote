@@ -10,7 +10,13 @@ export interface HandbookItem {
 }
 
 /** Handbook catalog keys — mapped to API services in HandbookApiService. */
-export type HandbookType = 'dir-city' | 'dir-company-activity' | 'dir-village' | 'dir-branch' | 'sys-address-type';
+export type HandbookType =
+  | 'dir-city'
+  | 'dir-company-activity'
+  | 'dir-village'
+  | 'dir-branch'
+  | 'dir-family-relationship'
+  | 'sys-address-type';
 
 export interface HandbookRequest {
   type: HandbookType;
