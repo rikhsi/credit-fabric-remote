@@ -52,7 +52,6 @@ export class AddressForm {
     required(schemaPath.dirVillageId);
     required(schemaPath.dirCityId);
     required(schemaPath.street);
-    required(schemaPath.zipCode);
     validate(schemaPath.zipCode, ({ value }) => validateZipCode(value()));
   });
 
