@@ -54,9 +54,7 @@ export class ViewApproved implements OnInit {
   readonly mobileStep = signal<MobileApprovedStep>('offers');
   readonly pendingOfferId = signal<string | null>(null);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
-  readonly requestedAmount = computed(() => this.application()?.product?.loanAmount);
   readonly offers = computed(() => {
-    const requested = this.requestedAmount();
     const list = [...this.applicationsDetailService.offers()];
 
     if (!list.length) {
@@ -65,12 +63,7 @@ export class ViewApproved implements OnInit {
       return fallback ? [fallback] : [];
     }
 
-    return list.sort((left, right) => {
-      const leftMatch = left.loanAmount === requested ? 0 : 1;
-      const rightMatch = right.loanAmount === requested ? 0 : 1;
-
-      return leftMatch - rightMatch;
-    });
+    return list.sort((left, right) => left.loanTerm - right.loanTerm);
   });
   /** Accept/refuse need a real offer id from /offers. */
   readonly hasClaimableOffer = computed(() => this.applicationsDetailService.offers().length > 0);
@@ -108,10 +101,9 @@ export class ViewApproved implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((offers) => {
         const list = Array.isArray(offers) ? offers : [];
-        const requested = this.requestedAmount();
-        const matched = requested == null ? undefined : list.find((offer) => offer.loanAmount === requested);
+        const shortest = [...list].sort((left, right) => left.loanTerm - right.loanTerm)[0];
 
-        this.expandedOfferId.set(matched?.offerId ?? list[0]?.offerId ?? null);
+        this.expandedOfferId.set(shortest?.offerId ?? null);
         requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
   }
@@ -166,10 +158,6 @@ export class ViewApproved implements OnInit {
   onExpandedChange(offerId: string, expanded: boolean): void {
     this.expandedOfferId.set(expanded ? offerId : null);
     this.queueFixedFooterSync();
-  }
-
-  isHighlighted(offer: OnlineOffer): boolean {
-    return offer.loanAmount === this.requestedAmount();
   }
 
   openAcceptConfirm(offer: OnlineOffer): void {

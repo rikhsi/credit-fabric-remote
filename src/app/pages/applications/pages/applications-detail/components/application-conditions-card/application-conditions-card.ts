@@ -55,7 +55,6 @@ export class ApplicationConditionsCard {
   currency = input('UZS');
   issueDate = input<string | Date | null>(null);
   showStatus = input(true);
-  showProduct = input(true);
   showRate = input(false);
   showOverpayment = input(false);
   highlighted = input(false);

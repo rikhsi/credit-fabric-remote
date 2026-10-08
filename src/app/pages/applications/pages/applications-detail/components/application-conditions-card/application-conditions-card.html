@@ -61,13 +61,6 @@
       <h5 nz-typography class="conditions-title">{{ t('application.detail.loan_conditions') }}</h5>
 
       <div class="rows">
-        @if (showProduct()) {
-        <div class="row">
-          <span class="label">{{ t('prop.product') }}</span>
-          <span class="value">{{ source().product }}</span>
-        </div>
-        }
-
         <div class="row">
           <span class="label">{{ t('prop.loan_amount_full') }}</span>
           <span class="value">{{ source().loanAmount | number }} {{ currency() }}</span>

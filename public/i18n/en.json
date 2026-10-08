@@ -280,7 +280,7 @@
     },
     "status": {
       "in_progress": "Under review",
-      "on_design": "Awaiting document",
+      "on_design": "Document processing",
       "on_decision": "Approved",
       "signed": "Signed",
       "decline": "Declined",
