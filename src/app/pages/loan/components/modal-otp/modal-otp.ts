@@ -136,7 +136,7 @@ export class ModalOtp implements OnInit {
   submit(): void {
     const data = this.modalData();
 
-    if (!data) {
+    if (!data || this.isLoading()) {
       return;
     }
 
@@ -149,19 +149,24 @@ export class ModalOtp implements OnInit {
         otpCode: this.form.code().value(),
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((state) => {
-        if (state.isOtpValidated) {
+      .subscribe({
+        next: (state) => {
+          if (!state.isOtpValidated) {
+            this.otpError.set(true);
+            this.inputOtp?.touched.set(true);
+            this.isLoading.set(false);
+            return;
+          }
+
+          // Stay disabled until the parent finishes the follow-up requests and leaves this screen.
           if (this.inline()) {
             this.confirmed.emit(true);
-          } else {
-            this.nmRef?.close(true);
+            return;
           }
-        } else {
-          this.otpError.set(true);
-          this.inputOtp?.touched.set(true);
-        }
 
-        this.isLoading.set(false);
+          this.nmRef?.close(true);
+        },
+        error: () => this.isLoading.set(false),
       });
   }
 }

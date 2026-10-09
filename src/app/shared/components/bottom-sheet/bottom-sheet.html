@@ -2,7 +2,7 @@
   <nz-drawer
     nzWrapClassName="cf-bottom-sheet-drawer"
     [nzVisible]="visible()"
-    [nzHeight]="'100svh'"
+    [nzHeight]="'calc(100dvh - max(48px, env(safe-area-inset-top, 0px) + 16px))'"
     [nzClosable]="false"
     nzPlacement="bottom"
     [nzMaskClosable]="true"

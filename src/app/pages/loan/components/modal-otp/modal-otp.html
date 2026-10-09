@@ -28,7 +28,7 @@
     <button
       cfBounce="300"
       nz-button
-      [disabled]="form.code().invalid()"
+      [disabled]="form.code().invalid() || isLoading()"
       [nzLoading]="isLoading()"
       nzType="primary"
       nzSize="large"

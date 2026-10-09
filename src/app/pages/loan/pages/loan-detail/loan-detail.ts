@@ -16,7 +16,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { filter, finalize, forkJoin, map, take } from 'rxjs';
+import { filter, forkJoin, map, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AddressForm,
@@ -546,19 +546,15 @@ export class LoanDetail implements OnInit {
 
   private goToOneId(): void {
     this.loanDraft.save(this.ldService.buildPayload());
-    this.isSubmitting.set(false);
-
     void this.router.navigate(['/', RootRoute.OneId]);
   }
 
   private startProcessing(): void {
+    this.isSubmitting.set(true);
+
     this.ldService
       .startProcessing$()
-      .pipe(
-        take(1),
-        finalize(() => this.isSubmitting.set(false)),
-        takeUntilDestroyed(this.destroyRef),
-      )
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => this.finishWithSuccess(),
         error: (error) => this.finishWithError(error),
