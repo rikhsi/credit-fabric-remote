@@ -20,18 +20,13 @@
 <ng-template #list>
   <ng-container *transloco="let t">
     <div class="branch-list">
-      <nz-input-wrapper class="branch-list__search">
-        <nz-icon nzInputPrefix nzType="search" />
-        <input nz-input [placeholder]="t('control.select.search')" [ngModel]="search()" (ngModelChange)="search.set($event)" />
-      </nz-input-wrapper>
-
       @if (loading()) {
       <div class="branch-list__loading">
         <nz-spin nzSimple />
       </div>
       } @else {
       <ul class="branch-list__items">
-        @for (option of filteredOptions(); track option.value) {
+        @for (option of branchOptions(); track option.value) {
         <li>
           <button
             cfBounce="300"

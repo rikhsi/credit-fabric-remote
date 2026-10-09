@@ -1,11 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { FormBox } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
@@ -16,10 +14,8 @@ import { SelectOption } from '@app/typings/select';
   selector: 'cf-branch-form',
   imports: [
     FormBox,
-    FormsModule,
     NgTemplateOutlet,
     NzIconDirective,
-    NzInputModule,
     NzSpinComponent,
     TranslocoDirective,
     BounceDirective,
@@ -44,22 +40,10 @@ export class BranchForm {
   public readonly isModal = this.modalRef != null;
 
   private readonly selected = signal<number | null>(this.nzModalData?.filialCode ?? null);
-  readonly search = signal('');
 
   readonly branchOptions = computed(() => (this.isModal ? (this.nzModalData?.options ?? []) : this.options()));
 
   readonly loading = computed(() => (this.isModal ? Boolean(this.nzModalData?.isLoading) : this.isLoading()));
-
-  readonly filteredOptions = computed(() => {
-    const query = this.search().trim().toLowerCase();
-    const options = this.branchOptions();
-
-    if (!query) {
-      return options;
-    }
-
-    return options.filter((option) => option.label.toLowerCase().includes(query));
-  });
 
   readonly currentValue = computed(() => {
     if (this.isModal) {
