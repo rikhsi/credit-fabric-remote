@@ -479,6 +479,7 @@ export class LoanDetail implements OnInit {
   }
 
   private submitApplication(): void {
+    console.log('submitApplication', this.ldService.form().invalid(), this.ldService.agreementForm().invalid(), this.isSubmitting());
     if (this.ldService.form().invalid() || this.ldService.agreementForm().invalid() || this.isSubmitting()) {
       return;
     }
