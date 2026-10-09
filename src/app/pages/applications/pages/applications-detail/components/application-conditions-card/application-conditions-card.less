@@ -110,6 +110,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   border-radius: 20px;
   border: 1px solid;
 }
@@ -195,6 +196,7 @@
 
 .conditions {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   padding: 20px;
 
@@ -274,6 +276,8 @@
   justify-content: flex-end;
   flex-wrap: nowrap;
   gap: 8px;
+  /* Desktop grid stretches cards to equal height — keep the action row pinned to the card bottom. */
+  margin-top: auto;
   padding: 20px;
 
   &:has(.card-actions__main > *),

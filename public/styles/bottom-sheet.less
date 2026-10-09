@@ -2,6 +2,11 @@
 
 .themeMixin({
   .cf-bottom-sheet-drawer {
+    .ant-drawer-content,
+    .ant-drawer-body {
+      background: @component-background;
+    }
+
     .cf-bottom-sheet__handle {
       background: @text-color-tertiary;
     }
@@ -12,10 +17,20 @@
 
     .cf-bottom-sheet__option {
       color: @text-color;
+      outline: none;
+      box-shadow: none;
+      -webkit-tap-highlight-color: transparent;
 
+      &:hover,
+      &:focus,
+      &:focus-visible,
       &:active,
-      &.cf-bounce--pressed {
-        background: @component-background-secondary;
+      &.cf-bounce--pressed,
+      &--selected {
+        color: @text-color;
+        background: fade(@heading-color, 8%);
+        outline: none;
+        box-shadow: none;
       }
 
       &--selected {

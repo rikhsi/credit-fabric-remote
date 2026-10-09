@@ -9,7 +9,12 @@
       color: @text-color-tertiary;
     }
 
-    // Inline (mobile step): content is rendered as a bordered card like the other steps.
+    // Inline (mobile step): host is transparent, only .content is a bordered card like the other steps.
+    // Declared here so it outranks the themed `:host { background }` above.
+    &.inline {
+      background: transparent;
+    }
+
     &.inline .content {
       background: @component-background;
       border-color: @border-color;

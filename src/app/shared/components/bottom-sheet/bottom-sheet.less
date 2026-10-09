@@ -66,6 +66,11 @@
   border: 0;
   border-radius: 12px;
   background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
   text-align: left;
   cursor: pointer;
   font-size: 16px;
@@ -73,6 +78,14 @@
   transition:
     background-color 120ms ease,
     transform 100ms ease;
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
 
   span {
     flex: 1;

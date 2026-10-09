@@ -13,6 +13,28 @@
   }
 }
 
+.detail-spin {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+
+  ::ng-deep .ant-spin-nested-loading,
+  ::ng-deep .ant-spin-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+  }
+
+  ::ng-deep .ant-spin-container > * {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
 .skeleton {
   flex: none;
   width: 100%;

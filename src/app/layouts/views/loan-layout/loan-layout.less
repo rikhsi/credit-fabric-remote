@@ -8,9 +8,12 @@
   height: 100%;
   min-height: 100%;
 
-  // Mobile: extra bottom space so the last control doesn't sit on the screen edge / gesture bar.
+  // Mobile: the shell gives this host a fixed height, so overflowing pages scroll past the host box
+  // and its bottom padding is never reached. Let the host grow with content instead (min-height keeps
+  // short pages filling the screen) so the bottom padding always ends up below the last control.
   .media(@media-sm, {
-    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+    height: auto;
+    padding-bottom: 32px;
   });
 }
 

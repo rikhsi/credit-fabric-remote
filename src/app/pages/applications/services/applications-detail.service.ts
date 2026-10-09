@@ -1,8 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { normalizeOnlineApplication, normalizeOnlineOffers } from '@api/utils';
+
+/** Backend needs a moment to persist the new status after claim-loan. */
+const CLAIM_STATUS_REFRESH_DELAY_MS = 5000;
 
 @Injectable()
 export class ApplicationsDetailService {
@@ -10,6 +13,8 @@ export class ApplicationsDetailService {
 
   public readonly isLoading = signal<boolean>(true);
   public readonly isOffersLoading = signal<boolean>(false);
+  /** Overlay spinner after claim-loan while the backend status catches up. */
+  public readonly isRefreshing = signal<boolean>(false);
   public readonly application = signal<OnlineApplication | null>(null);
   public readonly offers = signal<OnlineOffer[]>([]);
 
@@ -52,6 +57,8 @@ export class ApplicationsDetailService {
       return throwError(() => new Error('payDay is required'));
     }
 
+    this.isRefreshing.set(true);
+
     return this.onlineApiService
       .claimLoan$({
         applicationId,
@@ -60,8 +67,15 @@ export class ApplicationsDetailService {
         ...(isAccepted ? { payDay } : {}),
       })
       .pipe(
+        delay(CLAIM_STATUS_REFRESH_DELAY_MS),
         // Soft refresh: do not clear `application` — that destroys ViewApproved and cancels this stream.
         switchMap(() => this.fetchApplication$(applicationId)),
+        tap(() => this.isRefreshing.set(false)),
+        catchError((err) => {
+          this.isRefreshing.set(false);
+
+          return throwError(() => err);
+        }),
       );
   }
 

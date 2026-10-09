@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, OnIni
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { ApplicationsDetailService } from '../../services';
 import {
   ViewApproved,
@@ -21,6 +22,7 @@ import { RouteParam } from '@app/constants/route-param';
   selector: 'cf-applications-detail',
   imports: [
     NzSkeletonModule,
+    NzSpinComponent,
     ViewInProgress,
     ViewDecline,
     ViewError,
@@ -42,6 +44,7 @@ export class ApplicationsDetail implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly isLoading = computed(() => this.applicationsDetailService.isLoading());
+  readonly isRefreshing = computed(() => this.applicationsDetailService.isRefreshing());
   readonly application = computed(() => this.applicationsDetailService.application());
   readonly status = ApplicationStatus;
 

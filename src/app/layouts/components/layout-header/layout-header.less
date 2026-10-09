@@ -3,16 +3,22 @@
 
 .themeMixin({
   :host {
-    // Background lives on the sticky host (not inner .header) so the padding
-    // area is opaque and scrolled content never shows through above the title.
-    .media(@media-xs, {
+    .media(@media-sm, {
       background: @body-background;
     });
 
     .close {
-       .media(@media-xs, {
+      .media(@media-sm, {
+        background: @component-background;
+        border-color: @component-background;
+
+        &:hover,
+        &:focus,
+        &:active {
           background: @component-background;
-        });
+          border-color: @component-background;
+        }
+      });
     }
   }
 });
@@ -33,7 +39,7 @@
 }
 
 .bordered {
-  .media(@media-xs, {
+  .media(@media-sm, {
     border: none !important;
   });
 }
@@ -69,15 +75,21 @@
   height: 32px;
 }
 
-.media(@media-xs, {
+.media(@media-sm, {
   :host {
     top: 0;
-    padding: calc(14px + env(safe-area-inset-top, 0px)) 0 14px;
+    flex-shrink: 0;
+    // Cover loan-layout's 20px side padding so scrolling cards cannot peek around the header.
+    margin: 0 -20px;
+    padding: 14px 20px;
   }
 
   .header-card {
     flex: none;
     padding: 0;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0;
   }
 
   .header {
