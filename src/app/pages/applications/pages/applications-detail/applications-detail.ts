@@ -56,10 +56,13 @@ export class ApplicationsDetail implements OnInit {
   }
 
   onRefresh(event: RefresherEvent): void {
+    this.applicationsDetailService.isRefreshing.set(true);
+    event.complete();
+
     this.applicationsDetailService
       .reload$(this.applicationId)
       .pipe(
-        finalize(() => event.complete()),
+        finalize(() => this.applicationsDetailService.isRefreshing.set(false)),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();

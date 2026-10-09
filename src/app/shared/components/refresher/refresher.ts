@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, NgZone, inject, input, output, signal } from '@angular/core';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 const PULL_THRESHOLD = 72;
 const MAX_PULL = 112;
@@ -9,6 +10,7 @@ export interface RefresherEvent {
 
 @Component({
   selector: 'cf-refresher',
+  imports: [NzIconDirective],
   templateUrl: './refresher.html',
   styleUrl: './refresher.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

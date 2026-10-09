@@ -1,9 +1,13 @@
 @import 'mixins';
 
 .themeMixin({
-  .spinner {
-    border-color: fade(@text-color, 18%);
-    border-top-color: @primary-color;
+  .box {
+    background: @component-background;
+    box-shadow: 0 6px 18px fade(@heading-color, 18%);
+
+    nz-icon {
+      color: @primary-color;
+    }
   }
 });
 
@@ -24,8 +28,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
   pointer-events: none;
   opacity: 0;
   transition:
@@ -42,15 +44,20 @@
   transition: opacity 80ms linear;
 }
 
-.spinner {
-  box-sizing: border-box;
-  width: 22px;
-  height: 22px;
-  border: 2px solid;
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+
+  nz-icon {
+    font-size: 22px;
+  }
 }
 
-:host.is-refreshing .spinner {
+:host.is-refreshing .box nz-icon {
   animation: cf-refresher-spin 0.7s linear infinite;
 }
 

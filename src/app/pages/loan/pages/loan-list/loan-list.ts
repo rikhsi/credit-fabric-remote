@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { finalize, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { CardProduct, NotEligible } from '@pages/loan/components';
 import { EmptyListPipe, MonthsToYearsPipe } from '@shared/pipes';
@@ -36,8 +36,9 @@ export class LoanList {
   public readonly items = computed(() => this.productsService.items());
 
   onRefresh(event: RefresherEvent): void {
-    forkJoin([this.productsService.load$(), this.eligibilityService.refresh$()])
-      .pipe(finalize(() => event.complete()))
-      .subscribe();
+    this.productsService.isLoading.set(true);
+    event.complete();
+
+    forkJoin([this.productsService.load$(), this.eligibilityService.refresh$()]).subscribe();
   }
 }

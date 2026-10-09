@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { Router } from '@angular/router';
@@ -36,13 +35,8 @@ export class ApplicationsList implements OnInit {
   }
 
   onRefresh(event: RefresherEvent): void {
-    this.applicationService
-      .getApplications$({ silent: true })
-      .pipe(
-        finalize(() => event.complete()),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe();
+    event.complete();
+    this.applicationService.getApplications$().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   goToLoan(): void {

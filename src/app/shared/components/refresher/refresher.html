@@ -1,5 +1,7 @@
-<div class="indicator" [style.transform]="'translate(-50%, ' + (refreshing() ? 16 : pull() - 44) + 'px)'">
-  <span class="spinner"></span>
+<div class="indicator" [style.transform]="'translate(-50%, ' + (refreshing() ? 12 : pull() - 48) + 'px)'">
+  <span class="box">
+    <nz-icon nzType="reload" />
+  </span>
 </div>
 
 <ng-content />
