@@ -2,7 +2,7 @@
 @if (isLoading()) {
 <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
 } @else if (application(); as app) {
-<nz-spin class="detail-spin" [nzSpinning]="isRefreshing()">
+<nz-spin class="detail-spin" [nzSpinning]="isRefreshing()" [nzIndicator]="refreshIndicator">
   @switch (app.sysStatusId) { @case (status.InProgress) {
   <cf-view-in-progress [application]="app" />
   } @case (status.OnDecision) {
@@ -24,4 +24,10 @@
   } }
 </nz-spin>
 }
+
+<ng-template #refreshIndicator>
+  <span class="refresh-badge ant-spin-dot">
+    <nz-icon nzType="reload" />
+  </span>
+</ng-template>
 </cf-refresher>

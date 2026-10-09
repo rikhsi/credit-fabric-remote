@@ -1,5 +1,15 @@
 @import 'mixins';
 
+.themeMixin({
+  :host .refresh-badge {
+    background: @body-background;
+
+    nz-icon {
+      color: @primary-color;
+    }
+  }
+});
+
 :host {
   display: flex;
   flex-direction: column;
@@ -37,6 +47,31 @@
   ::ng-deep .ant-spin-container > * {
     flex: 1;
     min-height: 0;
+  }
+
+  ::ng-deep .ant-spin .refresh-badge.ant-spin-dot {
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    animation: none;
+  }
+}
+
+.refresh-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+
+  nz-icon {
+    font-size: 22px;
+    animation: cf-detail-refresh-spin 0.7s linear infinite;
+  }
+}
+
+@keyframes cf-detail-refresh-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

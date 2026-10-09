@@ -14,8 +14,16 @@
   border-radius: 8px;
 }
 
+.media(@media-sm, {
+  .ant-otp {
+    justify-content: center;
+    width: 100%;
+  }
+});
+
 @media (max-width: 400px) {
   .ant-otp {
+    justify-content: center;
     width: 100%;
     column-gap: 6px;
   }

@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { ApplicationsDetailService } from '../../services';
 import {
@@ -23,6 +24,7 @@ import { RouteParam } from '@app/constants/route-param';
 @Component({
   selector: 'cf-applications-detail',
   imports: [
+    NzIconDirective,
     NzSkeletonModule,
     NzSpinComponent,
     ViewInProgress,

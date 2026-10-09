@@ -19,6 +19,21 @@
       background: @component-background;
       border-color: @border-color;
     }
+
+    .actions [nz-button] {
+      background: @body-background;
+      border-color: @body-background;
+      color: @heading-color;
+
+      &:hover,
+      &:focus,
+      &:active,
+      &[disabled] {
+        background: @body-background;
+        border-color: @body-background;
+        color: @heading-color;
+      }
+    }
   }
 });
 

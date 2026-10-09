@@ -1,9 +1,11 @@
+@import 'mixins';
+
 :host {
   display: block;
   width: fit-content;
   max-width: 100%;
 
-  @media (max-width: 400px) {
+  .media(@media-sm, {
     width: 100%;
-  }
+  });
 }
