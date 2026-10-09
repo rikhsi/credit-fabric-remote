@@ -1,3 +1,5 @@
+@import 'mixins';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -5,6 +7,11 @@
   padding: 0 20px 20px;
   height: 100%;
   min-height: 100%;
+
+  // Mobile: extra bottom space so the last control doesn't sit on the screen edge / gesture bar.
+  .media(@media-sm, {
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  });
 }
 
 .layout {

@@ -3,11 +3,11 @@
 
 .themeMixin({
   :host {
-    .header {
-        .media(@media-xs, {
-          background: @body-background;
-        });
-    }
+    // Background lives on the sticky host (not inner .header) so the padding
+    // area is opaque and scrolled content never shows through above the title.
+    .media(@media-xs, {
+      background: @body-background;
+    });
 
     .close {
        .media(@media-xs, {
@@ -71,7 +71,8 @@
 
 .media(@media-xs, {
   :host {
-    padding: 8px 0 12px;
+    top: 0;
+    padding: calc(14px + env(safe-area-inset-top, 0px)) 0 14px;
   }
 
   .header-card {

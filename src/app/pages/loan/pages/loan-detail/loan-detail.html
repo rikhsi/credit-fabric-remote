@@ -102,7 +102,7 @@
     </div>
     }
     @case ('otp') {
-    <div class="step-panel">
+    <div class="step-panel step-panel--fill">
       @if (otpData(); as data) {
       <cf-modal-otp [inline]="true" [data]="data" (confirmed)="onOtpConfirmed($event)" />
       }

@@ -41,6 +41,7 @@ type MonthSlot = 1 | 2 | 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.inline]': 'inline()',
+    '[class.collapsible]': 'collapsible()',
   },
 })
 export class FinanceForm {
