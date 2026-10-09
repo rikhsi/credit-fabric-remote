@@ -93,6 +93,14 @@ export class FinanceForm {
     this.expandedMonths.update((cur) => ({ ...cur, [month]: !cur[month] }));
   }
 
+  expandMonth(month: MonthSlot): void {
+    if (!this.collapsible() || this.expandedMonths()[month]) {
+      return;
+    }
+
+    this.expandedMonths.update((cur) => ({ ...cur, [month]: true }));
+  }
+
   public openBusinessActivityInfo(): void {
     this.openInfoModal({
       title: 'prop.business_activity',

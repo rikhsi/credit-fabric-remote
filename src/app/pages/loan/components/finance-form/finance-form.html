@@ -67,7 +67,13 @@
 
       <div class="finance-form__months">
         <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(1)">
-          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(1)">
+          <button
+            type="button"
+            class="month-card__head"
+            tabindex="-1"
+            [class.month-card__head--static]="!collapsible()"
+            (click)="toggleMonth(1)"
+          >
             <h5 class="month-card__label">
               {{ 1 | financeMonth | date: 'LLLL y' }}
               @if (collapsible()) {
@@ -81,7 +87,6 @@
             }
           </button>
 
-          @if (isMonthExpanded(1)) {
           <div class="month-card__body">
             <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
               <cf-input-default
@@ -91,6 +96,7 @@
                 thousandSeparator=" "
                 suffix="UZS"
                 size="large"
+                (focusChange)="expandMonth(1)"
               />
             </cf-label-control-secondary>
 
@@ -102,14 +108,20 @@
                 mask="separator.0"
                 thousandSeparator=" "
                 size="large"
+                (focusChange)="expandMonth(1)"
               />
             </cf-label-control-secondary>
           </div>
-          }
         </article>
 
         <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(2)">
-          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(2)">
+          <button
+            type="button"
+            class="month-card__head"
+            tabindex="-1"
+            [class.month-card__head--static]="!collapsible()"
+            (click)="toggleMonth(2)"
+          >
             <h5 class="month-card__label">
               {{ 2 | financeMonth | date: 'LLLL y' }}
               @if (collapsible()) {
@@ -123,7 +135,6 @@
             }
           </button>
 
-          @if (isMonthExpanded(2)) {
           <div class="month-card__body">
             <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
               <cf-input-default
@@ -133,6 +144,7 @@
                 mask="separator.0"
                 thousandSeparator=" "
                 size="large"
+                (focusChange)="expandMonth(2)"
               />
             </cf-label-control-secondary>
 
@@ -144,14 +156,20 @@
                 mask="separator.0"
                 thousandSeparator=" "
                 size="large"
+                (focusChange)="expandMonth(2)"
               />
             </cf-label-control-secondary>
           </div>
-          }
         </article>
 
         <article class="month-card" [class.month-card--collapsed]="!isMonthExpanded(3)">
-          <button type="button" class="month-card__head" [class.month-card__head--static]="!collapsible()" (click)="toggleMonth(3)">
+          <button
+            type="button"
+            class="month-card__head"
+            tabindex="-1"
+            [class.month-card__head--static]="!collapsible()"
+            (click)="toggleMonth(3)"
+          >
             <h5 class="month-card__label">
               {{ 3 | financeMonth | date: 'LLLL y' }}
               @if (collapsible()) {
@@ -165,7 +183,6 @@
             }
           </button>
 
-          @if (isMonthExpanded(3)) {
           <div class="month-card__body">
             <cf-label-control-secondary style="align-items: flex-start; width: 100%" [label]="t('prop.income')">
               <cf-input-default
@@ -175,6 +192,7 @@
                 mask="separator.0"
                 thousandSeparator=" "
                 size="large"
+                (focusChange)="expandMonth(3)"
               />
             </cf-label-control-secondary>
 
@@ -186,10 +204,10 @@
                 mask="separator.0"
                 thousandSeparator=" "
                 size="large"
+                (focusChange)="expandMonth(3)"
               />
             </cf-label-control-secondary>
           </div>
-          }
         </article>
       </div>
     </div>

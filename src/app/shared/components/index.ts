@@ -16,4 +16,5 @@ export * from './label-control-secondary/label-control-secondary';
 export * from './input-password/input-password';
 export * from './input-otp/input-otp';
 export * from './empty/empty';
+export * from './refresher/refresher';
 export * from './toast-host/toast-host';

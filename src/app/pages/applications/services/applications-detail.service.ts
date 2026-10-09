@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
-import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { ApplicationStatus, OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { normalizeOnlineApplication, normalizeOnlineOffers } from '@api/utils';
 
 /** Backend needs a moment to persist the new status after claim-loan. */
@@ -26,8 +26,27 @@ export class ApplicationsDetailService {
     return this.fetchApplication$(applicationId);
   }
 
-  public getOffers$(applicationId: number) {
-    this.isOffersLoading.set(true);
+  /** Pull-to-refresh: keep the current screen and reload application (and offers when still approved). */
+  public reload$(applicationId: number) {
+    return this.fetchApplication$(applicationId).pipe(
+      switchMap((application) => {
+        const normalized = normalizeOnlineApplication(application);
+
+        if (normalized.sysStatusId !== ApplicationStatus.OnDecision) {
+          this.offers.set([]);
+
+          return of(normalized);
+        }
+
+        return this.getOffers$(applicationId, { silent: true }).pipe(map(() => normalized));
+      }),
+    );
+  }
+
+  public getOffers$(applicationId: number, options?: { silent?: boolean }) {
+    if (!options?.silent) {
+      this.isOffersLoading.set(true);
+    }
 
     return this.onlineApiService.getOffers$(applicationId).pipe(
       map((offers) => {

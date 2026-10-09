@@ -1,3 +1,4 @@
+<cf-refresher (refresh)="onRefresh($event)">
 <ng-container *transloco="let t">
   @if (isLoading()) { @for (item of [] | emptyList:8; track $index) {
   <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
@@ -22,3 +23,4 @@
   />
   } }
 </ng-container>
+</cf-refresher>

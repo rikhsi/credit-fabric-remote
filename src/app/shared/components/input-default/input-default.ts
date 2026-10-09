@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
@@ -39,6 +39,29 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   thousandSeparator = input<string>('');
   /** Extra filter on top of mask — e.g. letters-only names (incl. Cyrillic). */
   sanitize = input<InputSanitize | null>(null);
+  /** Override mobile keyboard. Numeric is inferred for digit masks. */
+  inputMode = input<string | null>(null);
+
+  readonly resolvedInputMode = computed(() => {
+    const explicit = this.inputMode();
+
+    if (explicit) {
+      return explicit;
+    }
+
+    const mask = this.mask();
+
+    if (
+      this.sanitize() === 'digits' ||
+      this.thousandSeparator() ||
+      mask.startsWith('separator') ||
+      (mask.length > 0 && /^[0\s]+$/.test(mask))
+    ) {
+      return 'numeric';
+    }
+
+    return 'text';
+  });
 
   private focused = false;
 

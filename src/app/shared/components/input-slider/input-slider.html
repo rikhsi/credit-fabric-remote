@@ -1,6 +1,10 @@
 <div class="input-slider">
   <input
     nz-input
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    autocomplete="off"
     mask="separator.0"
     thousandSeparator=" "
     [disabled]="disabled()"

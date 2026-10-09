@@ -1,3 +1,4 @@
+<cf-refresher (refresh)="onRefresh($event)">
 @if (isLoading()) {
 <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
 } @else if (application(); as app) {
@@ -23,3 +24,4 @@
   } }
 </nz-spin>
 }
+</cf-refresher>

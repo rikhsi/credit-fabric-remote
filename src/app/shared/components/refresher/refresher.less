@@ -1,0 +1,61 @@
+@import 'mixins';
+
+.themeMixin({
+  .spinner {
+    border-color: fade(@text-color, 18%);
+    border-top-color: @primary-color;
+  }
+});
+
+:host {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+:host.is-pulling .indicator,
+:host.is-refreshing .indicator {
+  opacity: 1;
+}
+
+:host.is-pulling .indicator {
+  transition: opacity 80ms linear;
+}
+
+.spinner {
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  border-radius: 50%;
+}
+
+:host.is-refreshing .spinner {
+  animation: cf-refresher-spin 0.7s linear infinite;
+}
+
+@keyframes cf-refresher-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

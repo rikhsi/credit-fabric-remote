@@ -9,6 +9,12 @@ export class EligibilityService {
 
   public readonly isEligible = signal<boolean>(false);
 
+  public refresh$() {
+    this.initResult$ = null;
+
+    return this.init$();
+  }
+
   public init$() {
     this.initResult$ ??= this.onlineApiService.checkEligibility$().pipe(
       map(({ eligible }) => eligible),

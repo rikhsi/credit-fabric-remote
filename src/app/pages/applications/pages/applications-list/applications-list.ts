@@ -1,18 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { Router } from '@angular/router';
 import { CardApplication } from '../../components';
 import { ApplicationsService } from '../../services';
 import { EmptyListPipe } from '@shared/pipes';
-import { Empty } from '@shared/components';
+import { Empty, Refresher, RefresherEvent } from '@shared/components';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { OnlineGetInfoResult } from '@api/models/los/online';
 
 @Component({
   selector: 'cf-applications-list',
-  imports: [CardApplication, NzSkeletonModule, EmptyListPipe, Empty, TranslocoDirective],
+  imports: [CardApplication, NzSkeletonModule, EmptyListPipe, Empty, TranslocoDirective, Refresher],
   templateUrl: './applications-list.html',
   styleUrl: './applications-list.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +33,16 @@ export class ApplicationsList implements OnInit {
 
   goToApplication(item: OnlineGetInfoResult): void {
     void this.router.navigate(['/', RootRoute.Applications, item.id]);
+  }
+
+  onRefresh(event: RefresherEvent): void {
+    this.applicationService
+      .getApplications$({ silent: true })
+      .pipe(
+        finalize(() => event.complete()),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe();
   }
 
   goToLoan(): void {
