@@ -1,6 +1,6 @@
 <div class="indicator" [style.transform]="'translate(-50%, ' + (refreshing() ? 12 : pull() - 48) + 'px)'">
   <span class="box">
-    <nz-icon nzType="reload" />
+    <nz-icon nzType="reload" [style.transform]="'rotate(' + turn() + 'deg)'" />
   </span>
 </div>
 

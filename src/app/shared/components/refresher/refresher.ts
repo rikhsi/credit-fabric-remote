@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, ElementRef, NgZone, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  NgZone,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 
 const PULL_THRESHOLD = 72;
@@ -28,6 +38,8 @@ export class Refresher {
 
   readonly pull = signal(0);
   readonly refreshing = signal(false);
+  /** 0° at rest, a full turn once the pull reaches its limit. */
+  readonly turn = computed(() => (Math.min(this.pull(), MAX_PULL) / MAX_PULL) * 360);
 
   private startY = 0;
   private startX = 0;
