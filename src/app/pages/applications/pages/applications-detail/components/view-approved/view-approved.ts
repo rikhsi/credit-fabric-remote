@@ -54,17 +54,9 @@ export class ViewApproved implements OnInit {
   readonly mobileStep = signal<MobileApprovedStep>('offers');
   readonly pendingOfferId = signal<string | null>(null);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
-  readonly offers = computed(() => {
-    const list = [...this.applicationsDetailService.offers()];
-
-    if (!list.length) {
-      const fallback = this.productAsOffer();
-
-      return fallback ? [fallback] : [];
-    }
-
-    return list.sort((left, right) => left.loanTerm - right.loanTerm);
-  });
+  readonly offers = computed(() =>
+    [...this.applicationsDetailService.offers()].sort((left, right) => left.loanTerm - right.loanTerm),
+  );
   /** Accept/refuse need a real offer id from /offers. */
   readonly hasClaimableOffer = computed(() => this.applicationsDetailService.offers().length > 0);
   readonly isSingle = computed(() => this.offers().length === 1);
@@ -80,13 +72,9 @@ export class ViewApproved implements OnInit {
 
   private lastScrollTop = 0;
   private fixedFooterScrollBound = false;
-  private bindRetriesLeft = 10;
-  private observedFooter: HTMLElement | null = null;
-  private footerResizeObserver: ResizeObserver | null = null;
 
   constructor() {
-    afterNextRender(() => this.scheduleFixedFooterBind());
-    this.destroyRef.onDestroy(() => this.footerResizeObserver?.disconnect());
+    afterNextRender(() => this.bindFixedFooterScroll());
 
     this.breakpointObserver
       .observe(Breakpoint.MOBILE)
@@ -94,7 +82,7 @@ export class ViewApproved implements OnInit {
         filter((state) => state.matches),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(() => this.scheduleFixedFooterBind());
+      .subscribe(() => requestAnimationFrame(() => this.bindFixedFooterScroll()));
   }
 
   ngOnInit(): void {
@@ -108,7 +96,7 @@ export class ViewApproved implements OnInit {
         const shortest = [...list].sort((left, right) => left.loanTerm - right.loanTerm)[0];
 
         this.expandedOfferId.set(shortest?.offerId ?? null);
-        this.scheduleFixedFooterBind();
+        requestAnimationFrame(() => this.bindFixedFooterScroll());
       });
   }
 
@@ -127,24 +115,7 @@ export class ViewApproved implements OnInit {
     this.mobileStep.set('offers');
     this.pendingOfferId.set(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.scheduleFixedFooterBind();
-  }
-
-  private productAsOffer(): OnlineOffer | null {
-    const product = this.application()?.product;
-
-    if (!product) {
-      return null;
-    }
-
-    return {
-      offerId: '',
-      product: product.product,
-      loanAmount: product.loanAmount,
-      loanRate: product.loanRate,
-      loanTerm: product.loanTerm,
-      paymentType: product.paymentType,
-    };
+    requestAnimationFrame(() => this.bindFixedFooterScroll());
   }
 
   isCollapsible(): boolean {
@@ -236,29 +207,14 @@ export class ViewApproved implements OnInit {
     );
   }
 
-  /** Entry point for (re)binding: resets the retry budget and waits a frame for the DOM to settle. */
-  private scheduleFixedFooterBind(): void {
-    this.bindRetriesLeft = 10;
-    requestAnimationFrame(() => this.bindFixedFooterScroll());
-  }
-
   private bindFixedFooterScroll(): void {
-    // The footer is rendered only after /offers resolves, so re-check it on every bind attempt.
-    this.observeFixedFooterHeight();
-
     if (this.fixedFooterScrollBound || !this.isMobile() || !this.offers().length) {
       return;
     }
 
     const scrollTarget = this.resolveScrollTarget();
 
-    // Single offer: `.conditions` may not be rendered yet on the frame right after /offers resolves — retry briefly.
     if (!scrollTarget) {
-      if (this.bindRetriesLeft > 0) {
-        this.bindRetriesLeft--;
-        requestAnimationFrame(() => this.bindFixedFooterScroll());
-      }
-
       return;
     }
 
@@ -282,24 +238,6 @@ export class ViewApproved implements OnInit {
       resizeObserver.observe(offers);
       this.destroyRef.onDestroy(() => resizeObserver.disconnect());
     }
-  }
-
-  /** Expose the real fixed footer height so the offers list can reserve exactly enough scroll space below the last card. */
-  private observeFixedFooterHeight(): void {
-    const footer = this.host.nativeElement.querySelector('.footer--fixed') as HTMLElement | null;
-
-    if (!footer || footer === this.observedFooter || typeof ResizeObserver === 'undefined') {
-      return;
-    }
-
-    this.footerResizeObserver?.disconnect();
-    this.observedFooter = footer;
-
-    const apply = () => this.host.nativeElement.style.setProperty('--fixed-footer-height', `${footer.offsetHeight}px`);
-
-    this.footerResizeObserver = new ResizeObserver(apply);
-    apply();
-    this.footerResizeObserver.observe(footer);
   }
 
   /** Collapse/expand animates ~350ms — re-check after layout settles. */

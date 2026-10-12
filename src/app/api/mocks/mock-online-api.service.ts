@@ -12,7 +12,7 @@ import { MOCK_DELAY_MS, mockOf } from './mock-delay';
 @Injectable()
 export class MockOnlineApiService {
   public checkValidated$(): Observable<OnlineCheckOtpResult> {
-    return mockOf({ errorCode: '0', isOtpValidated: true });
+    return mockOf({ errorCode: '0', isOtpValidated: false });
   }
 
   public sendOtp$(_payload: OnlineSendOtpResponse): Observable<OnlineSendOtpResult> {

@@ -41,7 +41,6 @@ type MonthSlot = 1 | 2 | 3;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.inline]': 'inline()',
-    '[class.collapsible]': 'collapsible()',
   },
 })
 export class FinanceForm {
@@ -91,14 +90,6 @@ export class FinanceForm {
     }
 
     this.expandedMonths.update((cur) => ({ ...cur, [month]: !cur[month] }));
-  }
-
-  expandMonth(month: MonthSlot): void {
-    if (!this.collapsible() || this.expandedMonths()[month]) {
-      return;
-    }
-
-    this.expandedMonths.update((cur) => ({ ...cur, [month]: true }));
   }
 
   public openBusinessActivityInfo(): void {

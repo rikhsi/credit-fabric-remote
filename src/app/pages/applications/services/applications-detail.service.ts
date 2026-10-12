@@ -1,11 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { catchError, delay, map, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { OnlineApiService } from '@api/controllers/los';
-import { ApplicationStatus, OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { normalizeOnlineApplication, normalizeOnlineOffers } from '@api/utils';
-
-/** Backend needs a moment to persist the new status after claim-loan. */
-const CLAIM_STATUS_REFRESH_DELAY_MS = 5000;
 
 @Injectable()
 export class ApplicationsDetailService {
@@ -13,8 +10,6 @@ export class ApplicationsDetailService {
 
   public readonly isLoading = signal<boolean>(true);
   public readonly isOffersLoading = signal<boolean>(false);
-  /** Overlay spinner after claim-loan while the backend status catches up. */
-  public readonly isRefreshing = signal<boolean>(false);
   public readonly application = signal<OnlineApplication | null>(null);
   public readonly offers = signal<OnlineOffer[]>([]);
 
@@ -26,37 +21,11 @@ export class ApplicationsDetailService {
     return this.fetchApplication$(applicationId);
   }
 
-  /** Pull-to-refresh: keep the current screen and reload application (and offers when still approved). */
-  public reload$(applicationId: number) {
-    return this.fetchApplication$(applicationId).pipe(
-      switchMap((application) => {
-        const normalized = normalizeOnlineApplication(application);
-
-        if (normalized.sysStatusId !== ApplicationStatus.OnDecision) {
-          this.offers.set([]);
-
-          return of(normalized);
-        }
-
-        return this.getOffers$(applicationId, { silent: true }).pipe(map(() => normalized));
-      }),
-    );
-  }
-
-  public getOffers$(applicationId: number, options?: { silent?: boolean }) {
-    if (!options?.silent) {
-      this.isOffersLoading.set(true);
-    }
+  public getOffers$(applicationId: number) {
+    this.isOffersLoading.set(true);
 
     return this.onlineApiService.getOffers$(applicationId).pipe(
-      map((offers) => {
-        const product = this.application()?.product;
-
-        return normalizeOnlineOffers(offers, {
-          paymentType: product?.paymentType,
-          loanAmount: product?.loanAmount,
-        }).slice(0, 3);
-      }),
+      map((offers) => normalizeOnlineOffers(offers).slice(0, 3)),
       tap((offers) => {
         this.offers.set(offers);
         this.isOffersLoading.set(false);
@@ -76,8 +45,6 @@ export class ApplicationsDetailService {
       return throwError(() => new Error('payDay is required'));
     }
 
-    this.isRefreshing.set(true);
-
     return this.onlineApiService
       .claimLoan$({
         applicationId,
@@ -86,15 +53,8 @@ export class ApplicationsDetailService {
         ...(isAccepted ? { payDay } : {}),
       })
       .pipe(
-        delay(CLAIM_STATUS_REFRESH_DELAY_MS),
         // Soft refresh: do not clear `application` — that destroys ViewApproved and cancels this stream.
         switchMap(() => this.fetchApplication$(applicationId)),
-        tap(() => this.isRefreshing.set(false)),
-        catchError((err) => {
-          this.isRefreshing.set(false);
-
-          return throwError(() => err);
-        }),
       );
   }
 

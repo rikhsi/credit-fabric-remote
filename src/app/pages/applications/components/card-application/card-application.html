@@ -28,9 +28,11 @@
       </div>
     </div>
 
+    @if (displayDate(); as dateValue) {
     <p class="submitted-date desktop-only">
-      {{ t('application.submitted_date', { date: (displayDate() | date: 'd MMMM y') }) }}
+      {{ t('application.submitted_date', { date: (dateValue | date: 'd MMMM y') }) }}
     </p>
+    }
   </div>
 
   <h3 class="amount">{{ amount() | number }} {{ displayCurrency() }}</h3>
@@ -61,8 +63,10 @@
     <div class="footer">
       <p class="meta mobile-only">
         {{ t('application.number_short', { id: id() }) }}
+        @if (displayDate(); as dateValue) {
         <span class="separator" aria-hidden="true">•</span>
-        {{ displayDate() | date: 'd MMMM y' }}
+        {{ dateValue | date: 'd MMMM y' }}
+        }
       </p>
 
       @if (!actionsDisabled()) {

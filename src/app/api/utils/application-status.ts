@@ -84,19 +84,16 @@ export function normalizeOnlineApplication(application: OnlineApplication): Onli
   };
 }
 
-export function normalizeOnlineOffer(
-  raw: OnlineOffer | OnlineOfferDto | Record<string, unknown>,
-  defaults?: Pick<OnlineOffer, 'paymentType' | 'loanAmount'>,
-): OnlineOffer {
+export function normalizeOnlineOffer(raw: OnlineOffer | OnlineOfferDto | Record<string, unknown>): OnlineOffer {
   const item = raw as OnlineOfferDto & OnlineOffer & Record<string, unknown>;
 
   return {
     offerId: String(item.offerId ?? ''),
     product: String(item.product ?? item.productId ?? ''),
-    loanAmount: Number(item.loanAmount ?? item.maxLoanAmount ?? defaults?.loanAmount ?? 0),
+    loanAmount: Number(item.loanAmount ?? item.maxLoanAmount ?? 0),
     loanRate: Number(item.loanRate ?? item.interestRate ?? 0),
     loanTerm: Number(item.loanTerm ?? 0),
-    paymentType: String(item.paymentType || defaults?.paymentType || ''),
+    paymentType: String(item.paymentType ?? ''),
     ...(item.issueDate != null ? { issueDate: String(item.issueDate) } : {}),
   };
 }
@@ -104,7 +101,6 @@ export function normalizeOnlineOffer(
 /** Accepts either a raw array or `{ offers: [...] }` from the backend. */
 export function normalizeOnlineOffers(
   response: OnlineOffer[] | OnlineOffersResponse | OnlineOfferDto[] | null | undefined,
-  defaults?: Pick<OnlineOffer, 'paymentType' | 'loanAmount'>,
 ): OnlineOffer[] {
   const list = Array.isArray(response)
     ? response
@@ -112,5 +108,5 @@ export function normalizeOnlineOffers(
       ? response.offers
       : [];
 
-  return list.map((item) => normalizeOnlineOffer(item, defaults)).filter((offer) => !!offer.offerId);
+  return list.map((item) => normalizeOnlineOffer(item)).filter((offer) => !!offer.offerId);
 }

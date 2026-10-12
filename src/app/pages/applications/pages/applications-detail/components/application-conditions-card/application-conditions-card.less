@@ -110,7 +110,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   border-radius: 20px;
   border: 1px solid;
 }
@@ -196,7 +195,6 @@
 
 .conditions {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   padding: 20px;
 
@@ -276,8 +274,6 @@
   justify-content: flex-end;
   flex-wrap: nowrap;
   gap: 8px;
-  /* Desktop grid stretches cards to equal height — keep the action row pinned to the card bottom. */
-  margin-top: auto;
   padding: 20px;
 
   &:has(.card-actions__main > *),
@@ -343,7 +339,7 @@
         display: flex;
         flex-direction: column;
         min-height: 0;
-        margin: 0;
+        margin: 0 -20px;
         padding: 20px;
         border: 0;
         border-radius: 20px;
@@ -361,8 +357,6 @@
 
       .conditions {
         flex: 1;
-        /* Only the fill (approved) sheet bleeds to the screen edges over loan-layout's 20px padding. */
-        margin: 0 -20px;
         border-radius: 20px 20px 0 0;
         padding: 20px 20px calc(164px + env(safe-area-inset-bottom, 0px));
         overflow: auto;

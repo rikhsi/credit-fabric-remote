@@ -3,8 +3,8 @@
   <div class="mobile-flow">
     @switch (mobileStep()) {
     @case ('calc') {
-    <div class="step-panel step-panel--fill">
-      <cf-card [title]="t('prop.credit_calc')" [showSpace]="true" class="bordered step-card">
+    <div class="step-panel">
+      <cf-card [title]="t('prop.credit_calc')" [showSpace]="true" class="bordered">
         <div class="calculator">
           <cf-calculator-form [form]="form()" />
 
@@ -26,7 +26,7 @@
     </div>
     }
     @case ('address') {
-    <div class="step-panel step-panel--fill">
+    <div class="step-panel">
       <cf-card [showSpace]="true" [showTop]="false" class="bordered step-card">
         <cf-address-form [inline]="true" [form]="form()" />
       </cf-card>
@@ -102,7 +102,7 @@
     </div>
     }
     @case ('otp') {
-    <div class="step-panel step-panel--fill">
+    <div class="step-panel">
       @if (otpData(); as data) {
       <cf-modal-otp [inline]="true" [data]="data" (confirmed)="onOtpConfirmed($event)" />
       }

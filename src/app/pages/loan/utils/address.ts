@@ -36,6 +36,7 @@ export function isFlowAddressFilled(item: StartProcessingAddress | null | undefi
     item.dirVillageId != null &&
     String(item.dirVillageId).trim() !== '' &&
     item.street != null &&
-    String(item.street).trim() !== ''
+    String(item.street).trim() !== '' &&
+    isZipCodeValid(item.zipCode)
   );
 }

@@ -23,9 +23,6 @@ const STATUS_TONE: Record<ApplicationStatus, StatusTone> = {
   [ApplicationStatus.Error]: 'decline',
 };
 
-/** Temporary placeholder until backend starts returning createdDate. */
-const PLACEHOLDER_CREATED_DATE = new Date(2026, 8, 12);
-
 @Component({
   selector: 'cf-card-application',
   imports: [
@@ -62,7 +59,7 @@ export class CardApplication {
 
   readonly displayCurrency = computed(() => this.currency()?.trim() || 'UZS');
 
-  readonly displayDate = computed(() => this.createdDate() || PLACEHOLDER_CREATED_DATE);
+  readonly displayDate = computed(() => this.createdDate() || null);
 
   readonly statusTone = computed(() => {
     const status = this.status();

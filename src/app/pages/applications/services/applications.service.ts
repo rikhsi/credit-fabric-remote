@@ -15,10 +15,8 @@ export class ApplicationsService {
   public readonly isLoading = signal<boolean>(true);
   public readonly applicationsList = signal<OnlineGetInfoResult[]>([]);
 
-  public getApplications$(options?: { silent?: boolean }) {
-    if (!options?.silent) {
-      this.isLoading.set(true);
-    }
+  public getApplications$() {
+    this.isLoading.set(true);
 
     return this.onlineApiService.getApplications$().pipe(
       tap((result) => {
