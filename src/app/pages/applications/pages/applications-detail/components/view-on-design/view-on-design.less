@@ -1,21 +1,3 @@
-@import 'mixins';
-@import 'custom';
-@import 'colors';
-
-.themeMixin({
-  :host {
-    .tag {
-      &.warning {
-        background: @cf-yellow-100;
-      }
-
-      nz-icon {
-        color: @cf-orange-50;
-      }
-    }
-  }
-});
-
 :host {
   display: block;
 }
@@ -24,25 +6,4 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-}
-
-.tag {
-  width: fit-content;
-  max-width: 100%;
-  height: auto;
-  white-space: normal;
-  padding: 10px 14px;
-  border: none;
-  border-radius: 12px;
-  line-height: 1.4;
-
-  nz-icon {
-    flex-shrink: 0;
-    margin-right: 8px;
-    font-size: 18px;
-  }
-
-  span {
-    .textMixin(@font-weight-medium, @font-size-lg, @line-height-base);
-  }
 }

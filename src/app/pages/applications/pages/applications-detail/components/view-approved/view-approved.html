@@ -6,6 +6,7 @@
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
   </div>
   } @else {
+  <cf-application-branch-alert [application]="application()" />
   <div
     class="offers"
     [class.single]="isSingle()"

@@ -73,6 +73,20 @@ export function resolveApplicationProduct(application: OnlineApplication | null 
   };
 }
 
+function readOptionalString(raw: Record<string, unknown>, key: string): string | null {
+  const value = raw[key];
+
+  if (value == null || value === '') {
+    return null;
+  }
+
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : value.toISOString();
+  }
+
+  return String(value);
+}
+
 export function normalizeOnlineApplication(application: OnlineApplication): OnlineApplication {
   const raw = application as OnlineApplication & Record<string, unknown>;
 
@@ -81,6 +95,11 @@ export function normalizeOnlineApplication(application: OnlineApplication): Onli
     sysStatusId:
       pickApplicationStatus(application.sysStatusId, raw['sys_status_id'], raw['status'], raw['statusId']) ?? application.sysStatusId,
     product: resolveApplicationProduct(application) ?? application.product,
+    filialAddress: readOptionalString(raw, 'filialAddress'),
+    filialPhoneNumber: readOptionalString(raw, 'filialPhoneNumber'),
+    filialOpenHours: readOptionalString(raw, 'filialOpenHours'),
+    updateDate: readOptionalString(raw, 'updateDate'),
+    createDate: readOptionalString(raw, 'createDate'),
   };
 }
 

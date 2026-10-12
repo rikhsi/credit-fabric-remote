@@ -1,0 +1,23 @@
+<ng-container *transloco="let t">
+  <nz-tag class="tag warning">
+    <nz-icon nzType="info-circle" />
+    <div class="copy">
+      @if (branch(); as branch) {
+      <span>{{ t('alert.on_design_branch', { branch }) }}</span>
+      } @else {
+      <span>{{ t('alert.on_design_branch_unknown') }}</span>
+      }
+      @if (validUntilLabel(); as date) {
+      <span>{{ t('alert.on_design_until', { date }) }}</span>
+      } @else {
+      <span>{{ t('alert.on_design_days') }}</span>
+      }
+      @if (phone(); as phone) {
+      <span>{{ t('alert.on_design_phone', { phone }) }}</span>
+      }
+      @if (hours(); as hours) {
+      <span>{{ t('alert.on_design_hours', { hours }) }}</span>
+      }
+    </div>
+  </nz-tag>
+</ng-container>

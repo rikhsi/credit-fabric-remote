@@ -74,7 +74,13 @@
     "branch_fill": "Xizmat ko‘rsatuvchi filialni tanlang",
     "finance_fill": "Moliyaviy ma’lumotlarni, kompaniyaning daromadi va sof foydasini oxirgi 3 oy uchun to‘ldiring",
     "revenue_less_than_income": "Daromad sof foydadan kichik bo‘lmasligi kerak",
-    "on_design": "Hujjatlarni rasmiylashtirish uchun bank filialiga murojaat qiling. Kredit taklifi 3 kun amal qiladi."
+    "on_design": "Hujjatlarni rasmiylashtirish uchun bank filialiga murojaat qiling. Kredit taklifi 3 kun amal qiladi.",
+    "on_design_branch": "Hujjatlarni rasmiylashtirish uchun {{branch}} manzilidagi filialga murojaat qiling.",
+    "on_design_branch_unknown": "Hujjatlarni rasmiylashtirish uchun bank filialiga murojaat qiling.",
+    "on_design_until": "Kredit taklifi {{date}} gacha amal qiladi.",
+    "on_design_days": "Kredit taklifi 3 kun amal qiladi.",
+    "on_design_phone": "Telefon: {{phone}}",
+    "on_design_hours": "Ish vaqti: {{hours}}"
   },
   "loan": {
     "not_eligible": {
@@ -122,7 +128,10 @@
     },
     "application_sent_bank": {
       "title": "Ariza bankka yuborildi",
-      "description": "Hujjatlarni imzolash uchun bank filialiga murojaat qiling, manzil"
+      "description": "Hujjatlarni imzolash uchun {{branch}} manzilidagi filialga murojaat qiling. Taklif {{date}} gacha amal qiladi.",
+      "description_branch": "Hujjatlarni imzolash uchun {{branch}} manzilidagi filialga murojaat qiling.",
+      "description_date": "Hujjatlarni imzolash uchun bank filialiga murojaat qiling. Taklif {{date}} gacha amal qiladi.",
+      "description_plain": "Hujjatlarni imzolash uchun bank filialiga murojaat qiling."
     },
     "error_not_finished_application": {
       "description": "Davom ettirish yoki yakunlash uchun «Mening arizalarim» bo‘limiga o‘ting.",

@@ -56,6 +56,11 @@ function application(status: ApplicationStatus, overrides: Partial<OnlineApplica
     finData: [],
     product: { ...baseProduct },
     sysStatusId: status,
+    filialAddress: 'Яккасарайский филиал, ул. Шота Руставели, 12',
+    filialPhoneNumber: '+998712020202',
+    filialOpenHours: '09:00–18:00',
+    updateDate: '2026-10-09T10:00:00',
+    createDate: CREATED_DATE,
     ...overrides,
   };
 }

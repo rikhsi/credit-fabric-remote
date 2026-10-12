@@ -9,7 +9,25 @@
 
   <div class="body">
     <h3 class="title">{{ t('modal.application_sent_bank.title') }}</h3>
-    <p class="description">{{ t('modal.application_sent_bank.description') }}</p>
+    <p class="description">
+      @if (data?.branch && data?.validUntilLabel) {
+      {{ t('modal.application_sent_bank.description', { branch: data?.branch, date: data?.validUntilLabel }) }}
+      } @else if (data?.branch) {
+      {{ t('modal.application_sent_bank.description_branch', { branch: data?.branch }) }}
+      } @else if (data?.validUntilLabel) {
+      {{ t('modal.application_sent_bank.description_date', { date: data?.validUntilLabel }) }}
+      } @else {
+      {{ t('modal.application_sent_bank.description_plain') }}
+      }
+      @if (data?.phone) {
+      <br />
+      {{ t('alert.on_design_phone', { phone: data?.phone }) }}
+      }
+      @if (data?.hours) {
+      <br />
+      {{ t('alert.on_design_hours', { hours: data?.hours }) }}
+      }
+    </p>
   </div>
 
   <div class="footer">

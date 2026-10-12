@@ -128,6 +128,13 @@ export interface OnlineApplication {
   finData: OnlineApplicationFinData[];
   product: OnlineApplicationProduct;
   sysStatusId: ApplicationStatus;
+  /** Branch the client should visit to sign documents. */
+  filialAddress?: string | null;
+  filialPhoneNumber?: string | null;
+  filialOpenHours?: string | null;
+  /** Last status change. Offer stays valid for 3 days from this date. */
+  updateDate?: string | null;
+  createDate?: string | null;
 }
 
 export interface ClaimLoanPayload {

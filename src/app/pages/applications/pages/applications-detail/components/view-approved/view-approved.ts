@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -7,6 +8,7 @@ import {
   ElementRef,
   inject,
   input,
+  LOCALE_ID,
   OnInit,
   signal,
 } from '@angular/core';
@@ -18,20 +20,30 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { filter, finalize, fromEvent, map, take } from 'rxjs';
 import { ApplicationConditionsCard } from '../application-conditions-card/application-conditions-card';
+import { ApplicationBranchAlert } from '../application-branch-alert/application-branch-alert';
 import { ModalPayDay, PAY_DAY_MAX } from '../modal-pay-day/modal-pay-day';
 import { ApplicationsDetailService } from '../../../../services';
-import { ApplicationSentModal, ModalConfirmComponent } from '@shared/components';
+import { ApplicationSentModal, ApplicationSentModalData, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 import { LoanLayoutService } from '@layouts/services';
 import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { ConfirmModal } from '@app/typings/modal';
 import { Breakpoint } from '@app/constants/breakpoint';
+import { offerValidUntil } from '../../../../utils/offer-valid-until';
 
 type MobileApprovedStep = 'offers' | 'payDay';
 
 @Component({
   selector: 'cf-view-approved',
-  imports: [TranslocoDirective, ApplicationConditionsCard, ModalPayDay, NzButtonComponent, NzSkeletonModule, BounceDirective],
+  imports: [
+    TranslocoDirective,
+    ApplicationConditionsCard,
+    ApplicationBranchAlert,
+    ModalPayDay,
+    NzButtonComponent,
+    NzSkeletonModule,
+    BounceDirective,
+  ],
   templateUrl: './view-approved.html',
   styleUrl: './view-approved.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +55,7 @@ export class ViewApproved implements OnInit {
   private readonly breakpointObserver = inject(BreakpointObserver);
   private readonly loanLayoutService = inject(LoanLayoutService);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly localeId = inject(LOCALE_ID);
 
   application = input.required<OnlineApplication>();
   applicationId = input.required<number>();
@@ -385,11 +398,21 @@ export class ViewApproved implements OnInit {
   }
 
   private openApplicationSentModal(): void {
+    const application = this.applicationsDetailService.application() ?? this.application();
+    const until = offerValidUntil(application.updateDate);
+    const nzData: ApplicationSentModalData = {
+      branch: application.filialAddress?.trim() || null,
+      validUntilLabel: until ? formatDate(until, 'd MMMM y', this.localeId) : null,
+      phone: application.filialPhoneNumber?.trim() || null,
+      hours: application.filialOpenHours?.trim() || null,
+    };
+
     this.nzModalService.create({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
       nzContent: ApplicationSentModal,
+      nzData,
       nzCentered: true,
       nzFooter: null,
       nzWidth: 'auto',

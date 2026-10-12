@@ -1,14 +1,9 @@
-<ng-container *transloco="let t">
-  <div class="stack">
-    <nz-tag class="tag warning">
-      <nz-icon nzType="info-circle" />
-      <span>{{ t('alert.on_design') }}</span>
-    </nz-tag>
+<div class="stack">
+    <cf-application-branch-alert [application]="application()" />
 
     <cf-application-conditions-card [source]="application().product" [status]="application().sysStatusId" [splitLayout]="true" />
 
     @if (docs().length) {
     <cf-docs-application [status]="application().sysStatusId" [docs]="docs()" [applicationId]="applicationId()" class="docs" />
     }
-  </div>
-</ng-container>
+</div>

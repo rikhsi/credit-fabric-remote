@@ -74,7 +74,13 @@
     "branch_fill": "Select a service branch",
     "finance_fill": "Fill in the financial data, company income and net profit for the last 3 months",
     "revenue_less_than_income": "Revenue cannot be less than net profit",
-    "on_design": "Visit a bank branch to complete the documents. This loan offer is valid for 3 days."
+    "on_design": "Visit a bank branch to complete the documents. This loan offer is valid for 3 days.",
+    "on_design_branch": "Visit the branch at {{branch}} to complete the documents.",
+    "on_design_branch_unknown": "Visit a bank branch to complete the documents.",
+    "on_design_until": "This loan offer is valid until {{date}}.",
+    "on_design_days": "This loan offer is valid for 3 days.",
+    "on_design_phone": "Phone: {{phone}}",
+    "on_design_hours": "Opening hours: {{hours}}"
   },
   "loan": {
     "not_eligible": {
@@ -122,7 +128,10 @@
     },
     "application_sent_bank": {
       "title": "Application sent to the bank",
-      "description": "To sign the documents, visit the bank branch at"
+      "description": "To sign the documents, visit the branch at {{branch}}. The offer is valid until {{date}}.",
+      "description_branch": "To sign the documents, visit the branch at {{branch}}.",
+      "description_date": "To sign the documents, visit a bank branch. The offer is valid until {{date}}.",
+      "description_plain": "To sign the documents, visit a bank branch."
     },
     "error_not_finished_application": {
       "description": "Go to My Applications to continue or finish it.",

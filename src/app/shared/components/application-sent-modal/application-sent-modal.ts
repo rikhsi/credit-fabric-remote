@@ -1,12 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NgOptimizedImage } from '@angular/common';
 import { BounceDirective } from '@shared/directives';
 import { ImagePipe } from '@shared/pipes';
 import { BANK_BRANCHES_URL } from '@app/constants/loan';
+
+export interface ApplicationSentModalData {
+  branch: string | null;
+  validUntilLabel: string | null;
+  phone: string | null;
+  hours: string | null;
+}
 
 @Component({
   selector: 'cf-application-sent-modal',
@@ -17,6 +24,7 @@ import { BANK_BRANCHES_URL } from '@app/constants/loan';
 })
 export class ApplicationSentModal {
   private readonly modalRef = inject(NzModalRef);
+  readonly data = inject<ApplicationSentModalData | null>(NZ_MODAL_DATA, { optional: true });
 
   close(): void {
     this.modalRef.close(false);
