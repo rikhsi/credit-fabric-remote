@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
@@ -39,6 +39,11 @@ export class InputDefault extends ControlBaseDirective<string | null> {
   thousandSeparator = input<string>('');
   /** Extra filter on top of mask — e.g. letters-only names (incl. Cyrillic). */
   sanitize = input<InputSanitize | null>(null);
+
+  /** Digits and money masks should open the numeric keypad on mobile. */
+  readonly resolvedInputMode = computed(() =>
+    this.sanitize() === 'digits' || this.type() === 'number' || this.mask().startsWith('separator') ? 'numeric' : null,
+  );
 
   private focused = false;
 

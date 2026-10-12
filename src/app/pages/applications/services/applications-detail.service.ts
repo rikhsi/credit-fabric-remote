@@ -9,6 +9,7 @@ export class ApplicationsDetailService {
   private readonly onlineApiService = inject(OnlineApiService);
 
   public readonly isLoading = signal<boolean>(true);
+  public readonly isRefreshing = signal<boolean>(false);
   public readonly isOffersLoading = signal<boolean>(false);
   public readonly application = signal<OnlineApplication | null>(null);
   public readonly offers = signal<OnlineOffer[]>([]);
@@ -18,6 +19,11 @@ export class ApplicationsDetailService {
     this.application.set(null);
     this.offers.set([]);
 
+    return this.fetchApplication$(applicationId);
+  }
+
+  /** Soft refresh: keep the current application on screen while the spinner runs. */
+  public reload$(applicationId: number) {
     return this.fetchApplication$(applicationId);
   }
 

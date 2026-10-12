@@ -92,6 +92,15 @@ export class FinanceForm {
     this.expandedMonths.update((cur) => ({ ...cur, [month]: !cur[month] }));
   }
 
+  /** Focusing a field inside a collapsed month must open it, otherwise the caret lands in a hidden input. */
+  expandMonth(month: MonthSlot): void {
+    if (!this.collapsible() || this.expandedMonths()[month]) {
+      return;
+    }
+
+    this.expandedMonths.update((cur) => ({ ...cur, [month]: true }));
+  }
+
   public openBusinessActivityInfo(): void {
     this.openInfoModal({
       title: 'prop.business_activity',
