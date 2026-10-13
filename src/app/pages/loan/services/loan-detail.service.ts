@@ -37,7 +37,6 @@ export class LoanDetailService {
     required(schemaPath.addresses.dirCityId);
     required(schemaPath.addresses.dirVillageId);
     required(schemaPath.addresses.street);
-    required(schemaPath.addresses.zipCode);
     validate(schemaPath.addresses.zipCode, ({ value }) => validateZipCode(value()));
     validate(schemaPath.addresses, ({ value }) => (isFlowAddressFilled(value()) ? null : requiredError()));
 
