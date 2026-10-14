@@ -11,6 +11,7 @@ export const environment = {
   mock: false,
   imageUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/images/',
   assetsBaseUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/',
+  i18nUrl: 'https://intcorp-dev.hamkorbank.uz/sme-kk-js/i18n/',
   oneIdUrl: 'https://id.egov.uz/ru',
   user: {
     pinfl: '52001016860016',

@@ -9,7 +9,7 @@ export class TranslocoProvider implements TranslocoLoader {
 
   getTranslation(lang: string) {
     return this.http.get<Translation>(
-      environment.mode !== 'development' ? `https://intcorp-dev.hamkorbank.uz/sme-kk-js/i18n/${lang}.json` : `i18n/${lang}.json`,
+      `${environment.i18nUrl}${lang}.json`,
     );
   }
 }

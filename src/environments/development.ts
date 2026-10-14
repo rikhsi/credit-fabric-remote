@@ -24,5 +24,6 @@ export const environment = {
   mode: 'development',
   mock: false,
   assetsBaseUrl: '',
+  i18nUrl: 'i18n/',
   oneIdUrl: 'https://id.egov.uz/ru',
 };
