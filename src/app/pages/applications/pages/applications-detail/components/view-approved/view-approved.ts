@@ -30,6 +30,7 @@ import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { ConfirmModal } from '@app/typings/modal';
 import { Breakpoint } from '@app/constants/breakpoint';
 import { offerValidUntil } from '../../../../utils/offer-valid-until';
+import { BRANCH_OPEN_HOURS } from '../../../../utils/branch-open-hours';
 
 type MobileApprovedStep = 'offers' | 'payDay';
 
@@ -404,7 +405,7 @@ export class ViewApproved implements OnInit {
       branch: application.filialAddress?.trim() || null,
       validUntilLabel: until ? formatDate(until, 'd MMMM y', this.localeId) : null,
       phone: application.filialPhoneNumber?.trim() || null,
-      hours: application.filialOpenHours?.trim() || null,
+      hours: BRANCH_OPEN_HOURS,
     };
 
     this.nzModalService.create({

@@ -5,6 +5,7 @@ import { NzIconDirective } from 'ng-zorro-antd/icon';
 import { NzTagComponent } from 'ng-zorro-antd/tag';
 import { OnlineApplication } from '@api/models/los/application';
 import { offerValidUntil } from '../../../../utils/offer-valid-until';
+import { BRANCH_OPEN_HOURS } from '../../../../utils/branch-open-hours';
 
 @Component({
   selector: 'cf-application-branch-alert',
@@ -20,7 +21,7 @@ export class ApplicationBranchAlert {
 
   readonly branch = computed(() => this.application().filialAddress?.trim() || null);
   readonly phone = computed(() => this.application().filialPhoneNumber?.trim() || null);
-  readonly hours = computed(() => this.application().filialOpenHours?.trim() || null);
+  readonly hours = BRANCH_OPEN_HOURS;
   readonly validUntilLabel = computed(() => {
     const until = offerValidUntil(this.application().updateDate);
 
