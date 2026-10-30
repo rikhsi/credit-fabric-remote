@@ -11,6 +11,13 @@ import { QUEUE_TYPE, USE_HTTP_CACHE } from '@app/constants/base';
 export class HAddressApiService {
   constructor(private http: HttpClient) {}
 
+  public getPub$(filters: Partial<AddressTypeFilter> = {}) {
+    return this.http.get<TableOverview<AddressTypeItem>>('sys-address-type', {
+      params: buildHttpParams(filters),
+      context: new HttpContext().set(QUEUE_TYPE, 'handbook').set(USE_HTTP_CACHE, true),
+    });
+  }
+
   public getAll$(filters: Partial<AddressTypeFilter> = {}) {
     return this.http.get<TableOverview<AddressTypeItem>>('sys-address-type', {
       params: buildHttpParams(filters),

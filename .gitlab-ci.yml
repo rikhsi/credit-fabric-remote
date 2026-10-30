@@ -7,7 +7,7 @@ variables:
   SERVICE_NAME: "credit-fabric-remote"
   PORT: "80"
   NS_NAME: "sme"
-  TARGET_ENV: "dev"
+  TARGET_ENV: "prod"
   # нестандартный путь образа и раннер (проект вне new_dbo_le)
   IMAGE_REPO_PATH: "loan-processing/credit-fabric-remote"
   RUNNER_TAG: "my-runner"
