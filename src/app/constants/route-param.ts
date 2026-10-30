@@ -3,3 +3,7 @@ export enum RouteParam {
   DocId = 'docId',
   AppId = 'applicationId',
 }
+
+export enum QueryParam {
+  Status = 'status',
+}

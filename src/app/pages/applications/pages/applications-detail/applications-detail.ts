@@ -19,7 +19,7 @@ import {
 import { Refresher, RefresherEvent } from '@shared/components';
 import { ApplicationStatus } from '@api/models/los/application';
 import { RootRoute } from '@app/constants/route-path';
-import { RouteParam } from '@app/constants/route-param';
+import { QueryParam, RouteParam } from '@app/constants/route-param';
 
 @Component({
   selector: 'cf-applications-detail',
@@ -51,6 +51,7 @@ export class ApplicationsDetail implements OnInit {
   readonly isLoading = computed(() => this.applicationsDetailService.isLoading());
   readonly isRefreshing = computed(() => this.applicationsDetailService.isRefreshing());
   readonly application = computed(() => this.applicationsDetailService.application());
+  readonly isOffersOnly = computed(() => this.applicationsDetailService.isOffersOnly());
   readonly status = ApplicationStatus;
 
   get applicationId(): number {
@@ -72,7 +73,7 @@ export class ApplicationsDetail implements OnInit {
 
   ngOnInit(): void {
     this.applicationsDetailService
-      .getApplication$(this.applicationId)
+      .getApplication$(this.applicationId, this.route.snapshot.queryParamMap.get(QueryParam.Status))
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         error: () => {

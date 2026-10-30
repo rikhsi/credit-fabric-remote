@@ -6,7 +6,9 @@
     <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
   </div>
   } @else {
-  <cf-application-branch-alert [application]="application()" />
+  @if (application(); as application) {
+  <cf-application-branch-alert [application]="application" />
+  }
   <div
     class="offers"
     [class.single]="isSingle()"
@@ -17,7 +19,7 @@
     @for (offer of offers(); track offer.offerId) {
     <cf-application-conditions-card
       [source]="offer"
-      [status]="application().sysStatusId"
+      [status]="status()"
       [issueDate]="offer.issueDate ?? null"
       [showRate]="true"
       [showOverpayment]="true"

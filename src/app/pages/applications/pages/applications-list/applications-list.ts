@@ -9,6 +9,7 @@ import { EmptyListPipe } from '@shared/pipes';
 import { Empty, Refresher, RefresherEvent } from '@shared/components';
 import { LoanRoute, RootRoute } from '@app/constants/route-path';
 import { OnlineGetInfoResult } from '@api/models/los/online';
+import { QueryParam } from '@app/constants/route-param';
 
 @Component({
   selector: 'cf-applications-list',
@@ -31,7 +32,9 @@ export class ApplicationsList implements OnInit {
   }
 
   goToApplication(item: OnlineGetInfoResult): void {
-    void this.router.navigate(['/', RootRoute.Applications, item.id]);
+    void this.router.navigate(['/', RootRoute.Applications, item.id], {
+      queryParams: { [QueryParam.Status]: item.sysStatusId },
+    });
   }
 
   onRefresh(event: RefresherEvent): void {

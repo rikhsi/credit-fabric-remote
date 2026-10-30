@@ -1,6 +1,10 @@
 <cf-refresher (refresh)="onRefresh($event)">
 @if (isLoading()) {
 <nz-skeleton-element [nzActive]="true" nzType="button" [nzSize]="'large'" class="skeleton" />
+} @else if (isOffersOnly()) {
+<nz-spin class="detail-spin" [nzSpinning]="isRefreshing()" [nzIndicator]="refreshIndicator">
+  <cf-view-approved [application]="null" [applicationId]="applicationId" />
+</nz-spin>
 } @else if (application(); as app) {
 <nz-spin class="detail-spin" [nzSpinning]="isRefreshing()" [nzIndicator]="refreshIndicator">
   @switch (app.sysStatusId) { @case (status.InProgress) {

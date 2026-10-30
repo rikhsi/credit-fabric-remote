@@ -31,12 +31,16 @@ export class OnlineApiService {
   }
 
   public getApplication$(applicationId: number): Observable<OnlineApplication> {
-    return this.http.get<OnlineApplication>(`online/application/${applicationId}`);
+    return this.http.get<OnlineApplication>(`online/application/${applicationId}`, {
+      context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+    });
   }
 
   public getOffers$(applicationId: number): Observable<OnlineOffer[]> {
     return this.http
-      .get<OnlineOffersResponse | OnlineOffer[]>(`online/application/${applicationId}/offers`)
+      .get<OnlineOffersResponse | OnlineOffer[]>(`online/application/${applicationId}/offers`, {
+        context: new HttpContext().set(SHOW_ERROR_NOTIFICATION, false),
+      })
       .pipe(map((response) => normalizeOnlineOffers(response)));
   }
 

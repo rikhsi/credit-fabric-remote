@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -26,9 +27,10 @@ import { ApplicationsDetailService } from '../../../../services';
 import { ApplicationSentModal, ApplicationSentModalData, ModalConfirmComponent } from '@shared/components';
 import { BounceDirective } from '@shared/directives';
 import { LoanLayoutService } from '@layouts/services';
-import { OnlineApplication, OnlineOffer } from '@api/models/los/application';
+import { ApplicationStatus, OnlineApplication, OnlineOffer } from '@api/models/los/application';
 import { ConfirmModal } from '@app/typings/modal';
 import { Breakpoint } from '@app/constants/breakpoint';
+import { RootRoute } from '@app/constants/route-path';
 import { offerValidUntil } from '../../../../utils/offer-valid-until';
 import { BRANCH_OPEN_HOURS } from '../../../../utils/branch-open-hours';
 
@@ -57,8 +59,10 @@ export class ViewApproved implements OnInit {
   private readonly loanLayoutService = inject(LoanLayoutService);
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly localeId = inject(LOCALE_ID);
+  private readonly router = inject(Router);
 
-  application = input.required<OnlineApplication>();
+  /** `null` when only the offers could be loaded (see `ApplicationsDetailService.isOffersOnly`). */
+  application = input.required<OnlineApplication | null>();
   applicationId = input.required<number>();
 
   readonly isClaiming = signal(false);
@@ -67,6 +71,7 @@ export class ViewApproved implements OnInit {
   readonly isFixedFooterVisible = signal(false);
   readonly mobileStep = signal<MobileApprovedStep>('offers');
   readonly pendingOfferId = signal<string | null>(null);
+  readonly status = computed(() => this.application()?.sysStatusId ?? ApplicationStatus.OnDecision);
   readonly isOffersLoading = computed(() => this.applicationsDetailService.isOffersLoading());
   readonly offers = computed(() =>
     [...this.applicationsDetailService.offers()].sort((left, right) => left.loanTerm - right.loanTerm),
@@ -102,16 +107,30 @@ export class ViewApproved implements OnInit {
   ngOnInit(): void {
     this.loanLayoutService.backClick$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.onHeaderBack());
 
+    if (this.applicationsDetailService.isOffersOnly()) {
+      // Offers were already loaded instead of the application.
+      this.onOffersLoaded(this.applicationsDetailService.offers());
+      return;
+    }
+
     this.applicationsDetailService
       .getOffers$(this.applicationId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((offers) => {
-        const list = Array.isArray(offers) ? offers : [];
-        const shortest = [...list].sort((left, right) => left.loanTerm - right.loanTerm)[0];
+        if (offers == null) {
+          this.goToApplications();
+          return;
+        }
 
-        this.expandedOfferId.set(shortest?.offerId ?? null);
-        requestAnimationFrame(() => this.bindFixedFooterScroll());
+        this.onOffersLoaded(offers);
       });
+  }
+
+  private onOffersLoaded(offers: OnlineOffer[]): void {
+    const shortest = [...offers].sort((left, right) => left.loanTerm - right.loanTerm)[0];
+
+    this.expandedOfferId.set(shortest?.offerId ?? null);
+    requestAnimationFrame(() => this.bindFixedFooterScroll());
   }
 
   private onHeaderBack(): void {
@@ -387,28 +406,33 @@ export class ViewApproved implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => {
+        next: (isReloaded) => {
           if (!isAccepted) {
+            if (!isReloaded) {
+              this.goToApplications();
+            }
+
             return;
           }
 
           // Defer so the modal survives the OnDecision → OnDesign view switch.
-          setTimeout(() => this.openApplicationSentModal());
+          setTimeout(() => this.openApplicationSentModal(isReloaded));
         },
       });
   }
 
-  private openApplicationSentModal(): void {
+  /** `isReloaded = false`: the application could not be loaded, so leave the page once the modal closes. */
+  private openApplicationSentModal(isReloaded: boolean): void {
     const application = this.applicationsDetailService.application() ?? this.application();
-    const until = offerValidUntil(application.updateDate);
+    const until = offerValidUntil(application?.updateDate);
     const nzData: ApplicationSentModalData = {
-      branch: application.filialAddress?.trim() || null,
+      branch: application?.filialAddress?.trim() || null,
       validUntilLabel: until ? formatDate(until, 'd MMMM y', this.localeId) : null,
-      phone: application.filialPhoneNumber?.trim() || null,
-      hours: BRANCH_OPEN_HOURS,
+      phone: application?.filialPhoneNumber?.trim() || null,
+      hours: application ? BRANCH_OPEN_HOURS : null,
     };
 
-    this.nzModalService.create({
+    const modalRef = this.nzModalService.create({
       nzTitle: null,
       nzClosable: false,
       nzCloseIcon: null,
@@ -419,5 +443,13 @@ export class ViewApproved implements OnInit {
       nzWidth: 'auto',
       nzClassName: 'cf-application-sent-modal',
     });
+
+    if (!isReloaded) {
+      modalRef.afterClose.pipe(take(1)).subscribe(() => this.goToApplications());
+    }
+  }
+
+  private goToApplications(): void {
+    void this.router.navigate(['/', RootRoute.Applications], { replaceUrl: true });
   }
 }
