@@ -26,4 +26,11 @@ export const environment = {
     lat: 0,
     language: 'RUS',
   },
+  workingHours: {
+    timeZone: 'Asia/Tashkent',
+    openHour: 9,
+    closeHour: 17,
+    workingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    checkIntervalMs: 30_000,
+  },
 };

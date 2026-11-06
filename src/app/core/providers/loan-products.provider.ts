@@ -1,27 +1,4 @@
 import { inject, provideAppInitializer } from '@angular/core';
-import { of, switchMap, tap } from 'rxjs';
-import { EligibilityService } from '@core/services/eligibility.service';
-import { LoanProductsService } from '@core/services/loan-products.service';
+import { LoanDataService } from '@core/services/loan-data.service';
 
-export const provideLoanProducts = provideAppInitializer(() => {
-  const eligibilityService = inject(EligibilityService);
-  const productsService = inject(LoanProductsService);
-
-  return eligibilityService.init$().pipe(
-    switchMap((eligible) => {
-      if (!eligible) {
-        productsService.isLoading.set(false);
-
-        return of([]);
-      }
-
-      return productsService.load$().pipe(
-        tap((items) => {
-          if (items == null) {
-            eligibilityService.isEligible.set(false);
-          }
-        }),
-      );
-    }),
-  );
-});
+export const provideLoanProducts = provideAppInitializer(() => inject(LoanDataService).loadProducts$());

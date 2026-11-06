@@ -8,3 +8,4 @@ export * from './file';
 export * from './handbook-select';
 export * from './phone';
 export * from './assets-base-url';
+export * from './working-hours';

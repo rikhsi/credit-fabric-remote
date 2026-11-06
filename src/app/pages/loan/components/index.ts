@@ -13,3 +13,4 @@ export * from './finance-info/finance-info';
 export * from './branch-form/branch-form';
 export * from './branch-info/branch-info';
 export * from './branch-select/branch-select';
+export * from './out-of-hours/out-of-hours';

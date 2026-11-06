@@ -86,6 +86,10 @@
     "not_eligible": {
       "title": "Online application is unavailable",
       "description": "Visit a bank branch or contact support at {{phone}}"
+    },
+    "out_of_hours": {
+      "title": "Applications are closed",
+      "description": "Applications are accepted Monday to Friday, {{hours}}. Please come back during working hours"
     }
   },
   "applications": {

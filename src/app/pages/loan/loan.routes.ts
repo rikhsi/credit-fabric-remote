@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { checkEligibilityGuard, checkProductGuard } from './guards';
+import { checkEligibilityGuard, checkProductGuard, checkWorkingHoursGuard } from './guards';
 import { LoanRoute } from '@app/constants/route-path';
 import { RouteParam } from '@app/constants/route-param';
 
@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: `${LoanRoute.Details}/:${RouteParam.LoanId}`,
     data: { title: 'prop.loan_application_submit', backConfig: { link: '../list' } },
-    canActivate: [checkEligibilityGuard, checkProductGuard],
+    canActivate: [checkWorkingHoursGuard, checkEligibilityGuard, checkProductGuard],
     loadComponent: () => import('./pages/loan-detail/loan-detail').then((c) => c.LoanDetail),
   },
   {

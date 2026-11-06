@@ -1,0 +1,8 @@
+<ng-container *transloco="let t">
+  <div class="circle">
+    <nz-icon nzType="f:clock" class="icon" />
+  </div>
+
+  <h4 nz-typography>{{ t('loan.out_of_hours.title') }}</h4>
+  <p nz-typography>{{ t('loan.out_of_hours.description', { hours }) }}</p>
+</ng-container>

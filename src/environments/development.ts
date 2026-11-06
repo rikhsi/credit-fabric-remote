@@ -26,4 +26,11 @@ export const environment = {
   assetsBaseUrl: '',
   i18nUrl: 'i18n/',
   oneIdUrl: 'https://id.egov.uz/ru',
+  workingHours: {
+    timeZone: 'Asia/Tashkent',
+    openHour: 9,
+    closeHour: 17,
+    workingDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    checkIntervalMs: 30_000,
+  },
 };

@@ -86,6 +86,10 @@
     "not_eligible": {
       "title": "Onlayn rasmiylashtirish mavjud emas",
       "description": "Bank filialiga murojaat qiling yoki {{phone}} qo‘llab-quvvatlash xizmati bilan bog‘laning"
+    },
+    "out_of_hours": {
+      "title": "Arizalar qabul qilinmayapti",
+      "description": "Arizalar dushanbadan jumagacha {{hours}} qabul qilinadi. Iltimos, ish vaqtida qayting"
     }
   },
   "applications": {
